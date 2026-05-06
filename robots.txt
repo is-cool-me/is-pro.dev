@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://is-pro.dev/sitemap.xml

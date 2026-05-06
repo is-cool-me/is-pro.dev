@@ -1,151 +1,441 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>is-pro.dev | is-cool-me</title>
-    <meta name="description" content="Free subdomains for personal sites, open-source projects, and more.">
-    <meta property="og:title" content="is-pro.dev">
-    <meta property="og:description" content="Free subdomains for personal sites, open-source projects, and more.">
-    <meta property="og:image" content="/dist/images/is-pro.dev.png">
-    <meta property="og:url" content="https://is-pro.dev">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="is-cool.me">
-    <meta name="twitter:description" content="Free subdomains for personal sites, open-source projects, and more.">
-    <meta name="twitter:image" content="/dist/images/is-pro.dev.png">
-    <meta name="apple-mobile-web-app-title" content="is-pro.dev">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#111827">
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>is-pro.dev — Free Subdomains for Everyone</title>
+  <meta name="description" content="Get a free subdomain under is-pro.dev or is-into.tech for your personal site, open-source project, or community. Fast registration via dashboard, powered by Cloudflare DNS." />
+  <link rel="canonical" href="https://is-pro.dev/" />
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://is-pro.dev/" />
+  <meta property="og:title"       content="is-pro.dev — Free Subdomains for Everyone" />
+  <meta property="og:description" content="Free subdomains under is-pro.dev and is-into.tech for personal sites, open-source projects, and communities." />
+  <meta property="og:image"       content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta property="og:site_name"   content="is-pro.dev" />
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="is-pro.dev — Free Subdomains for Everyone" />
+  <meta name="twitter:description" content="Free subdomains under is-pro.dev and is-into.tech. Register via dashboard, backed by Cloudflare." />
+  <meta name="twitter:image"       content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://is-pro.dev/#org",
+        "name": "is-pro.dev",
+        "url": "https://is-pro.dev",
+        "logo": "https://is-pro.dev/dist/images/logo.png",
+        "sameAs": ["https://discord.gg/N8YzrkJxYy"],
+        "contactPoint": { "@type": "ContactPoint", "email": "fd@lighthosting.eu.org", "contactType": "customer support" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://is-pro.dev/#website",
+        "url": "https://is-pro.dev",
+        "name": "is-pro.dev",
+        "description": "Free subdomains for personal sites, open-source projects, and more.",
+        "publisher": { "@id": "https://is-pro.dev/#org" },
+        "inLanguage": "en"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/dist/images/logo.png" type="image/x-icon">
-    <link
-      href="https://fonts.googleapis.com/css?family=Heebo:400,700|IBM+Plex+Sans:600"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="dist/css/style.css" />
-    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
-  </head>
-  <body class="is-boxed has-animations">
-    <div class="body-wrap boxed-container">
-      <header class="site-header">
-        <div class="container">
-          <div class="site-header-inner">
-            <div class="brand header-brand">
-              <h1 class="m-0">
-                <a href="#">
-                  <img
-                    class="header-logo-image asset-light"
-                    src="dist/images/logo-light.png"
-                    alt="Logo"
-                    width="32" height="32"
-                  />
-                  <img
-                    class="header-logo-image asset-dark"
-                    src="dist/images/logo-dark.png"
-                    alt="Logo"
-                    width="32" height="32"
-                  />
-                </a>
-              </h1>
-            </div>
-          </div>
-        </div>
-      </header>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
 
-      <main>
-        <section class="hero">
-          <div class="container">
-            <div class="hero-inner">
-              <div class="hero-copy">
-                <h1 class="hero-title mt-0">
-                  is-pro.dev is a part of is-cool-me
-                </h1>
-                <p class="hero-paragraph">
-                  is-cool-me allows people to use subdomains at no expense for
-                  their projects or community.
-                </p>
-                <div class="hero-cta">
-                  <a
-                    class="button button-primary"
-                    href="https://github.com/is-cool-me/register"
-                    >Get my Subdomain</a
-                  >
-                </div>
-              </div>
-              <div class="hero-media">
-                <div class="header-illustration">
-                  <img
-                    class="header-illustration-image asset-light"
-                    src="dist/images/header-illustration-light.svg"
-                    alt="Header illustration"
-                  />
-                  <img
-                    class="header-illustration-image asset-dark"
-                    src="dist/images/header-illustration-dark.svg"
-                    alt="Header illustration"
-                  />
-                </div>
-                <div class="hero-media-illustration">
-                  <img
-                    class="hero-media-illustration-image asset-light"
-                    src="dist/images/hero-media-illustration-light.svg"
-                    alt="Hero media illustration"
-                  />
-                  <img
-                    class="hero-media-illustration-image asset-dark"
-                    src="dist/images/hero-media-illustration-dark.svg"
-                    alt="Hero media illustration"
-                  />
-                </div>
-                <div class="hero-media-container">
-                  <img
-                    class="hero-media-image asset-light"
-                    src="dist/images/hero-media-light.svg"
-                    alt="Hero media"
-                  />
-                  <img
-                    class="hero-media-image asset-dark"
-                    src="dist/images/hero-media-dark.svg"
-                    alt="Hero media"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer class="site-footer has-top-divider">
-        <div class="container">
-          <div class="site-footer-inner">
-            <div class="brand footer-brand">
-              <a href="#">
-                <img
-                  class="asset-light"
-                  src="dist/images/logo-light.png"
-                  alt="Logo"
-                  width="32" height="32"
-                />
-                <img
-                  class="asset-dark"
-                  src="dist/images/logo-dark.png"
-                  alt="Logo"
-                  width="32" height="32"
-                />
-              </a>
-            </div>
-            <div class="footer-copyright">
-              &copy; 2026 is-pro.dev - All Rights Reserved.
-            </div>
-          </div>
-        </div>
-      </footer>
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-pro.dev home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-pro.dev</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+          Discord
+        </a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
+          Open Dashboard
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </div>
+</header>
 
-    <script src="dist/js/main.min.js"></script>
-  </body>
+<main id="main-content">
+
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-bg" aria-hidden="true"><div class="hero-grid"></div></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="hero-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            100% Free &amp; Open
+          </div>
+          <h1 id="hero-heading">Your Subdomain,<br /><span class="text-gradient">Your Way</span></h1>
+          <p class="hero-subtitle">
+            Claim a free subdomain under <code>*.is-pro.dev</code> or <code>*.is-into.tech</code>
+            for your personal site, open-source project, or community — no credit card, no hassle.
+          </p>
+          <div class="hero-ctas">
+            <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              Open Dashboard
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/domains/" class="btn btn-outline">View Available Domains</a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Cloudflare DNS
+            </div>
+            <div class="trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              DNSSEC Enabled
+            </div>
+            <div class="trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              HTTPS Ready
+            </div>
+            <div class="trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              Fast Setup
+            </div>
+          </div>
+        </div>
+        <div class="hero-media-col">
+          <div class="domain-preview-card">
+            <h3>Try your subdomain</h3>
+            <div class="domain-input-group">
+              <label for="domain-name" class="sr-only">Your subdomain name</label>
+              <input type="text" id="domain-name" class="domain-input" placeholder="yourname" maxlength="63" autocomplete="off" spellcheck="false" aria-describedby="domain-hint" />
+              <label for="domain-zone" class="sr-only">Select zone</label>
+              <select id="domain-zone" class="domain-zone-select">
+                <option value=".is-pro.dev">.is-pro.dev</option>
+                <option value=".is-into.tech">.is-into.tech</option>
+              </select>
+            </div>
+            <div class="domain-preview-display" aria-live="polite">
+              <span id="preview-default" class="preview-label">e.g. <span style="color:var(--color-accent-light)">yourname.is-pro.dev</span></span>
+              <span id="preview-full" style="display:none" class="preview-value"><span id="preview-name" class="preview-name"></span><span id="preview-zone" class="preview-zone"></span></span>
+            </div>
+            <p id="domain-hint" class="domain-disclaimer">Preview only — availability checked on the dashboard.</p>
+            <a id="domain-cta" href="https://dash.is-pro.dev" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.75rem;" target="_blank" rel="noopener noreferrer">
+              Register on Dashboard
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="features-heading">
+    <div class="container">
+      <div class="section-header text-center" data-reveal>
+        <div class="section-tag">Features</div>
+        <h2 id="features-heading">Everything you need, nothing you don&#x27;t</h2>
+        <p style="max-width:540px;margin:1rem auto 0;">A streamlined, community-driven service that gets your subdomain live without the bureaucracy.</p>
+      </div>
+      <div class="features-grid">
+        <article class="card feature-card" data-reveal data-reveal-delay="1">
+          <div class="card-icon" aria-hidden="true">&#x26A1;</div>
+          <h3>Fast Dashboard Registration</h3>
+          <p>Sign in, fill in a short form, submit &mdash; that&#x27;s it. Our dashboard keeps the process simple so you can focus on building.</p>
+        </article>
+        <article class="card feature-card" data-reveal data-reveal-delay="2">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          </div>
+          <h3>GitHub Sign-In</h3>
+          <p>Authenticate securely with your existing GitHub account &mdash; no new passwords to remember or email verification to wait for.</p>
+        </article>
+        <article class="card feature-card" data-reveal data-reveal-delay="3">
+          <div class="card-icon" aria-hidden="true">&#x1F310;</div>
+          <h3>Flexible DNS Records</h3>
+          <p>Configure A, AAAA, CNAME, TXT, MX, and more. Whether you&#x27;re pointing to a server, Vercel, Netlify, or GitHub Pages &mdash; we&#x27;ve got you covered.</p>
+        </article>
+        <article class="card feature-card" data-reveal data-reveal-delay="4">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+          </div>
+          <h3>Community Support</h3>
+          <p>Got a question? Join our Discord community for help, updates, and to connect with other users building cool things.</p>
+        </article>
+        <article class="card feature-card" data-reveal data-reveal-delay="1">
+          <div class="card-icon" aria-hidden="true">&#x1F193;</div>
+          <h3>Completely Free</h3>
+          <p>No hidden fees, no premium tiers for basic features. is-pro.dev is a community project &mdash; keep your money for your actual project.</p>
+        </article>
+        <article class="card feature-card" data-reveal data-reveal-delay="2">
+          <div class="card-icon" aria-hidden="true">&#x1F512;</div>
+          <h3>Cloudflare-Powered</h3>
+          <p>Your subdomain&#x27;s DNS is managed through Cloudflare&#x27;s global network with DNSSEC. We recommend enabling HTTPS on your hosting end too.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="section" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="section-header text-center" data-reveal>
+        <div class="section-tag">Process</div>
+        <h2 id="how-heading">Live in five simple steps</h2>
+        <p style="max-width:480px;margin:0.75rem auto 0;">From zero to a working subdomain &mdash; here&#x27;s how the registration flow works on the dashboard.</p>
+      </div>
+      <div class="steps-grid" data-reveal>
+        <div class="step">
+          <div class="step-number" aria-hidden="true">1</div>
+          <h3>Sign In</h3>
+          <p>Authenticate with your GitHub account on the dashboard.</p>
+        </div>
+        <div class="step">
+          <div class="step-number" aria-hidden="true">2</div>
+          <h3>Choose Zone</h3>
+          <p>Pick <code>.is-pro.dev</code> or <code>.is-into.tech</code>.</p>
+        </div>
+        <div class="step">
+          <div class="step-number" aria-hidden="true">3</div>
+          <h3>Set Your DNS</h3>
+          <p>Enter your subdomain name and configure your DNS target.</p>
+        </div>
+        <div class="step">
+          <div class="step-number" aria-hidden="true">4</div>
+          <h3>Submit</h3>
+          <p>Review your details and submit the registration request.</p>
+        </div>
+        <div class="step">
+          <div class="step-number" aria-hidden="true">5</div>
+          <h3>Go Live</h3>
+          <p>After review and approval, your subdomain is live and propagating.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:3rem;" data-reveal>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          Start Now &mdash; It&#x27;s Free
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="section" aria-labelledby="learn-heading">
+    <div class="container">
+      <div class="section-header text-center" data-reveal>
+        <div class="section-tag">Learn</div>
+        <h2 id="learn-heading">DNS &amp; subdomains explained</h2>
+        <p style="max-width:520px;margin:0.75rem auto 0;">New to subdomains or DNS? Here are the essentials to get you oriented.</p>
+      </div>
+      <div style="max-width:760px;margin:0 auto;">
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="learn-1-body" id="learn-1-btn">
+              What is a subdomain?
+              <span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+            </button>
+            <div class="accordion-body" id="learn-1-body">
+              <div class="accordion-content">
+                <p>A <strong>subdomain</strong> is a prefix attached to a domain name, separated by a dot. For example, in <code>myproject.is-pro.dev</code>, the part <code>myproject</code> is the subdomain and <code>is-pro.dev</code> is the root domain.</p>
+                <p>Subdomains let different services or projects live under the same root domain while maintaining distinct addresses. They&#x27;re used everywhere &mdash; <code>www.example.com</code> is technically a subdomain too!</p>
+                <p>With is-pro.dev, you get to pick the <code>myproject</code> part. The root domain is managed by us, while your DNS records point to wherever you&#x27;re hosting your project.</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="learn-2-body" id="learn-2-btn">
+              How do DNS records work?
+              <span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+            </button>
+            <div class="accordion-body" id="learn-2-body">
+              <div class="accordion-content">
+                <p>The <strong>Domain Name System (DNS)</strong> is the internet&#x27;s address book. When you type a domain into a browser, DNS translates it into an IP address so your computer knows which server to contact.</p>
+                <p>Each DNS record type serves a purpose:</p>
+                <ul>
+                  <li><strong>A record</strong> &mdash; maps a name to an IPv4 address</li>
+                  <li><strong>AAAA record</strong> &mdash; same, but for IPv6 addresses</li>
+                  <li><strong>CNAME record</strong> &mdash; aliases one name to another hostname</li>
+                  <li><strong>TXT record</strong> &mdash; stores arbitrary text (used for verification, SPF, etc.)</li>
+                  <li><strong>MX record</strong> &mdash; directs email for a domain to a mail server</li>
+                </ul>
+                <p>When you register a subdomain on is-pro.dev, you tell us which DNS records to create so your subdomain resolves correctly.</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="learn-3-body" id="learn-3-btn">
+              CNAME vs A record &mdash; which should I use?
+              <span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+            </button>
+            <div class="accordion-body" id="learn-3-body">
+              <div class="accordion-content">
+                <p><strong>Use a CNAME</strong> if your host gives you a hostname (e.g., <code>yoursite.vercel.app</code> or <code>username.github.io</code>). A CNAME makes your subdomain an alias for that hostname, so it always follows if the underlying IP changes.</p>
+                <p><strong>Use an A record</strong> if your host gives you a static IPv4 address (e.g., a VPS or dedicated server). Enter the IP directly and your subdomain resolves to that address.</p>
+                <p>Most modern platforms (Vercel, Netlify, GitHub Pages, Render) prefer CNAME records. Check your hosting provider&#x27;s custom domain docs for the exact value to use.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="section" aria-labelledby="faq-heading">
+    <div class="container">
+      <div class="section-header text-center" data-reveal>
+        <div class="section-tag">FAQ</div>
+        <h2 id="faq-heading">Frequently asked questions</h2>
+      </div>
+      <div class="faq-grid" style="max-width:900px;margin:0 auto;">
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-1-body" id="faq-1-btn">Is this service really free?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+            <div class="accordion-body" id="faq-1-body"><div class="accordion-content"><p>Yes &mdash; completely free. There&#x27;s no paid tier, no premium features behind a paywall, and no credit card required. is-pro.dev is a community-run project.</p></div></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-2-body" id="faq-2-btn">What zones are available?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+            <div class="accordion-body" id="faq-2-body"><div class="accordion-content"><p>We currently offer two zones: <code>*.is-pro.dev</code> and <code>*.is-into.tech</code>. Visit the <a href="/domains/" class="inline-link">Domains page</a> for details on each.</p></div></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-3-body" id="faq-3-btn">What DNS record types are supported?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+            <div class="accordion-body" id="faq-3-body"><div class="accordion-content"><p>Common record types including A, AAAA, CNAME, TXT, and MX are supported. The dashboard shows the current supported types when creating a record.</p></div></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-4-body" id="faq-4-btn">How long does approval take?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+            <div class="accordion-body" id="faq-4-body"><div class="accordion-content"><p>Registrations are reviewed by our team. We aim to process requests quickly, but we cannot guarantee a specific turnaround time. Join our Discord for status updates.</p></div></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-5-body" id="faq-5-btn">Can I use it for commercial projects?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+            <div class="accordion-body" id="faq-5-body"><div class="accordion-content"><p>The service is aimed at personal sites, open-source projects, and communities. Light commercial use may be acceptable, but content prohibited under our <a href="/terms/" class="inline-link">Terms of Service</a> will lead to termination.</p></div></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-6-body" id="faq-6-btn">What content is not allowed?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+            <div class="accordion-body" id="faq-6-body"><div class="accordion-content"><p>Illegal content, hate speech, violent or threatening material, defamation, and discriminatory content are prohibited. See our <a href="/terms/" class="inline-link">Terms of Service</a> for the full list.</p></div></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-7-body" id="faq-7-btn">Where can I get help?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+            <div class="accordion-body" id="faq-7-body"><div class="accordion-content"><p>Join our <a href="https://discord.gg/N8YzrkJxYy" class="inline-link" target="_blank" rel="noopener noreferrer">Discord server</a> for community support, or reach us by email via the <a href="/contact/" class="inline-link">Contact page</a>.</p></div></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-8-body" id="faq-8-btn">What happened to is-cool.me?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+            <div class="accordion-body" id="faq-8-body"><div class="accordion-content"><p>is-pro.dev is the evolution of the original is-cool-me project. <code>is-cool.me</code> migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to <code>is-into.tech</code>. All existing subdomains were preserved during this transition.</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:3rem;" data-reveal>
+        <p style="margin-bottom:1.25rem;">Still have questions?</p>
+        <a href="/contact/" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;" aria-labelledby="cta-heading">
+    <div class="container" data-reveal>
+      <div style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(6,182,212,.08));border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:clamp(2rem,5vw,4rem);text-align:center;">
+        <div class="section-tag" style="display:inline-flex;margin-bottom:1.25rem;">Ready to claim your subdomain?</div>
+        <h2 id="cta-heading" style="margin-bottom:1rem;">Get started in minutes</h2>
+        <p style="max-width:480px;margin:0 auto 2rem;">Sign in with GitHub, pick your name, configure your DNS, and you&#x27;re done. No subscriptions, no limits on creativity.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            Open Dashboard
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Join Discord</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-migration-note">
+      &#x1F504; <strong>Migration note:</strong> is-pro.dev is the successor to the <em>is-cool-me</em> project.
+      <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to <code>is-into.tech</code>.
+    </div>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo-link">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span style="font-family:var(--font-mono)">is-pro.dev</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for personal sites, open-source projects, and communities. Powered by Cloudflare.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer" style="width:fit-content;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+          Join Discord
+        </a>
+      </div>
+      <div class="footer-col">
+        <h4>Service</h4>
+        <nav class="footer-links" aria-label="Service links">
+          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+          <a href="/domains/" class="footer-link">Domains</a>
+          <a href="/contact/" class="footer-link">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <nav class="footer-links" aria-label="Legal links">
+          <a href="/terms/" class="footer-link">Terms of Service</a>
+          <a href="/privacy/" class="footer-link">Privacy Policy</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 is-pro.dev. All rights reserved.</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie consent" aria-live="polite">
+  <p class="cookie-text">We use cookies and similar technologies to improve your experience and for analytics. See our <a href="/privacy/">Privacy Policy</a> for details.</p>
+  <div class="cookie-actions">
+    <button id="cookie-decline" class="btn btn-outline btn-sm">Decline</button>
+    <button id="cookie-accept" class="btn btn-primary btn-sm">Accept</button>
+  </div>
+</div>
+
+<script src="/js/app.js" defer></script>
+</body>
 </html>

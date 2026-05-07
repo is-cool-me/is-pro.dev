@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Available Domains — is-pro.dev</title>
-  <meta name="description" content="Explore the free subdomain zones available on is-pro.dev: *.is-pro.dev and *.is-into.tech. Learn what a subdomain is and how to get yours today." />
+  <meta name="description" content="Explore the free subdomain zones on is-pro.dev, then sign in with GitHub on the dashboard to register and manage DNS records for your subdomain." />
   <link rel="canonical" href="https://is-pro.dev/domains/" />
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://is-pro.dev/domains/" />
   <meta property="og:title"       content="Available Domains — is-pro.dev" />
-  <meta property="og:description" content="Free subdomain zones: *.is-pro.dev and *.is-into.tech. Register yours on the dashboard." />
+  <meta property="og:description" content="Free subdomain zones: *.is-pro.dev and *.is-into.tech. Sign in with GitHub and manage DNS on the dashboard." />
   <meta property="og:image"       content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card"  content="summary_large_image" />
   <meta name="twitter:title" content="Available Domains — is-pro.dev" />
@@ -61,8 +61,8 @@
     <div class="container">
       <div class="page-hero-content" data-reveal>
         <div class="section-tag page-tag">Available Zones</div>
-        <h1>Choose Your Domain</h1>
-        <p>Two zones, one community. Pick the one that fits your project and claim your free subdomain today.</p>
+        <h1>Choose Your Zone</h1>
+        <p>Two zones, one dashboard. Pick the one that fits your project, sign in with GitHub, and configure DNS in minutes.</p>
       </div>
     </div>
   </div>
@@ -120,7 +120,7 @@
       </div>
 
       <div style="text-align:center;margin-top:3rem;" data-reveal>
-        <p style="font-size:1.05rem;margin-bottom:1.5rem;">Both zones are available at no cost. Register on the dashboard to claim yours.</p>
+          <p style="font-size:1.05rem;margin-bottom:1.5rem;">Both zones are available at no cost. Sign in with GitHub on the dashboard, check availability, choose your DNS target, and claim yours.</p>
         <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
           Open Dashboard
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -143,7 +143,7 @@
         <div data-reveal>
           <p>A <strong>subdomain</strong> is a label placed before a root domain, separated by a dot. In <code>myproject.is-pro.dev</code>, the word <code>myproject</code> is the subdomain. You choose that part; we own and manage the root domain.</p>
           <p style="margin-top:1rem;">Subdomains work just like full domain names for most purposes — you can point them at a web server, a CDN, an API, or an email provider using DNS records. They're widely used to separate services (e.g., <code>api.example.com</code> vs <code>docs.example.com</code>) or to give individuals a unique address under a shared domain.</p>
-          <p style="margin-top:1rem;">With is-pro.dev, you get the flexibility of a real domain address without the cost of registering and maintaining your own top-level domain. Just pick a name, point it at your host, and go.</p>
+          <p style="margin-top:1rem;">With is-pro.dev, you can sign in with GitHub, choose a supported zone, register a subdomain, and then keep managing its DNS records from the dashboard whenever your project changes.</p>
         </div>
 
         <div style="margin-top:3rem;" data-reveal>
@@ -183,10 +183,25 @@
                   <td>Mail server routing</td>
                   <td>Custom email for your subdomain</td>
                 </tr>
+                <tr>
+                  <td>CAA</td>
+                  <td>Certificate authority policy</td>
+                  <td>Restrict who can issue SSL certificates</td>
+                </tr>
+                <tr>
+                  <td>SRV</td>
+                  <td>Service discovery routing</td>
+                  <td>Game servers, VoIP, and other service endpoints</td>
+                </tr>
+                <tr>
+                  <td>PTR</td>
+                  <td>Reverse DNS mapping</td>
+                  <td>Advanced infrastructure and reverse lookups</td>
+                </tr>
               </tbody>
             </table>
           </div>
-          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Record type availability is confirmed in the dashboard at registration time.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">The dashboard supports A, AAAA, CNAME, MX, TXT, CAA, SRV, and PTR records. Compatible records can also enable Cloudflare proxying.</p>
         </div>
 
         <div style="margin-top:3rem;" data-reveal>
@@ -199,6 +214,15 @@
             <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Must be unique within the chosen zone.</li>
           </ul>
         </div>
+
+        <div style="margin-top:3rem;" data-reveal>
+          <div class="card" style="background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.18);">
+            <p style="margin:0;">
+              <strong style="color:var(--color-text);">Safety:</strong> Found phishing, malware, impersonation, or spam on a subdomain?
+              Submit a public abuse report at <a href="https://dash.is-pro.dev/report" class="inline-link" target="_blank" rel="noopener noreferrer">dash.is-pro.dev/report</a>.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -208,7 +232,7 @@
     <div class="container" data-reveal>
       <div style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(6,182,212,.08));border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:clamp(2rem,5vw,4rem);text-align:center;">
         <h2 id="domains-cta-heading" style="margin-bottom:1rem;">Ready to register?</h2>
-        <p style="max-width:440px;margin:0 auto 2rem;">Head to the dashboard, sign in with GitHub, and claim your subdomain. It takes just a few minutes.</p>
+        <p style="max-width:560px;margin:0 auto 2rem;">Head to the dashboard, sign in with GitHub, accept the legal terms, choose your zone, and register your subdomain with the DNS record you need.</p>
         <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
           Get Your Subdomain
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -227,7 +251,7 @@
           <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
           <span style="font-family:var(--font-mono)">is-pro.dev</span>
         </a>
-        <p class="footer-tagline">Free subdomains for personal sites, open-source projects, and communities.</p>
+        <p class="footer-tagline">Free subdomains for developers with GitHub sign-in and DNS management.</p>
       </div>
       <div class="footer-col">
         <h4>Service</h4>

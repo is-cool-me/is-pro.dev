@@ -548,6 +548,7 @@ option { background: var(--color-surface); }
   opacity: 0;
   transition: opacity var(--transition-base);
   border-radius: inherit;
+  pointer-events: none;
 }
 
 .feature-card:hover::before { opacity: 1; }

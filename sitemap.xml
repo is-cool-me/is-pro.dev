@@ -11,6 +11,16 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://is-pro.dev/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://is-pro.dev/contact/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -24,5 +34,105 @@
     <loc>https://is-pro.dev/privacy/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/why-subdomain-requests-get-rejected/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/dns-propagation-explained-for-new-users/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/fixing-cname-loop-errors-on-static-hosts/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/how-to-handle-abuse-reports-responsibly/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/cloudflare-proxy-vs-dns-only-for-subdomains/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/preventing-takeovers-after-deploy-deletions/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/how-we-think-about-fair-use-for-free-subdomains/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/using-txt-records-for-domain-verification/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/post-incident-review-template-for-dns-outages/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/connect-vercel-with-is-pro-dev/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/connect-netlify-with-is-pro-dev/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/set-up-github-pages-custom-subdomain/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/create-safe-wildcard-records/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/configure-api-subdomain-with-zero-downtime/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/add-mx-spf-dkim-dmarc-records/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/diagnose-ssl-pending-on-new-subdomain/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/migrate-subdomain-between-hosting-providers/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/lock-down-caa-for-certificate-control/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

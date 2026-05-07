@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Blog — is-cool-me</title>
+  <meta name="description" content="Read practical posts about DNS operations, moderation, abuse handling, and running free developer subdomains." />
+  <link rel="canonical" href="https://is-pro.dev/blog/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/blog/" />
+  <meta property="og:title" content="Blog — is-cool-me" />
+  <meta property="og:description" content="Practical DNS and community operations posts from is-cool-me." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blog — is-cool-me" />
+  <meta name="twitter:description" content="Practical DNS and community operations posts from is-cool-me." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+          Discord
+        </a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
+          Open Dashboard
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-hero-content" data-reveal>
+        <div class="section-tag page-tag">Blog</div>
+        <h1>Real Issues, Real DNS Lessons</h1>
+        <p>These posts cover recurring problems we see in subdomain operations: propagation confusion, takeover risk, abuse reports, bad CNAME setups, and service reliability.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="blog-posts-heading">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <h2 id="blog-posts-heading">Latest posts</h2>
+        <p>Built from practical support and moderation scenarios from free-domain communities.</p>
+      </div>
+      <div class="features-grid">
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Moderation</div>
+          <h3 style="margin-bottom:.5rem;">Why Subdomain Requests Get Rejected (and How to Avoid It)</h3>
+          <p style="margin-bottom:1rem;">Common rejection patterns and a practical checklist before you register.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/why-subdomain-requests-get-rejected/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">DNS Basics</div>
+          <h3 style="margin-bottom:.5rem;">DNS Propagation Explained for New Users</h3>
+          <p style="margin-bottom:1rem;">What propagation really means and how to debug delays without panic.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/dns-propagation-explained-for-new-users/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Troubleshooting</div>
+          <h3 style="margin-bottom:.5rem;">Fixing CNAME Loop Errors on Static Hosts</h3>
+          <p style="margin-bottom:1rem;">How CNAME loops happen on Vercel, Netlify, and similar platforms.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/fixing-cname-loop-errors-on-static-hosts/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Safety</div>
+          <h3 style="margin-bottom:.5rem;">How to Handle Abuse Reports Responsibly</h3>
+          <p style="margin-bottom:1rem;">A response workflow for phishing, impersonation, and spam reports.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/how-to-handle-abuse-reports-responsibly/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Performance</div>
+          <h3 style="margin-bottom:.5rem;">Cloudflare Proxy vs DNS-only for Subdomains</h3>
+          <p style="margin-bottom:1rem;">When to use each mode and what breaks if you pick the wrong one.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/cloudflare-proxy-vs-dns-only-for-subdomains/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Email DNS</div>
+          <h3 style="margin-bottom:.5rem;">Email on Subdomains: MX, SPF, and DKIM Basics</h3>
+          <p style="margin-bottom:1rem;">A practical intro to reliable email delivery on your subdomain.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/email-on-subdomains-mx-spf-dkim-basics/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Security</div>
+          <h3 style="margin-bottom:.5rem;">Preventing Subdomain Takeovers After Deploy Deletions</h3>
+          <p style="margin-bottom:1rem;">Why dangling DNS records are risky and how to clean them safely.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/preventing-takeovers-after-deploy-deletions/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Policy</div>
+          <h3 style="margin-bottom:.5rem;">How We Think About Fair Use for Free Subdomains</h3>
+          <p style="margin-bottom:1rem;">Usage patterns that help keep a free DNS service healthy for everyone.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/how-we-think-about-fair-use-for-free-subdomains/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Integrations</div>
+          <h3 style="margin-bottom:.5rem;">Using TXT Records for Domain Verification</h3>
+          <p style="margin-bottom:1rem;">A no-nonsense guide to verification records for SaaS platforms.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/using-txt-records-for-domain-verification/" class="btn btn-outline">Read post</a>
+        </article>
+        <article class="card feature-card" data-reveal>
+          <div class="section-tag" style="margin-bottom:.75rem;">Reliability</div>
+          <h3 style="margin-bottom:.5rem;">Post-Incident Review Template for DNS Outages</h3>
+          <p style="margin-bottom:1rem;">How to write useful incident reviews after DNS or config failures.</p>
+          <p style="font-size:.8rem;color:var(--color-text-subtle);margin-bottom:1rem;">Published May 2026</p>
+          <a href="/blog/post-incident-review-template-for-dns-outages/" class="btn btn-outline">Read post</a>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo-link">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span style="font-family:var(--font-mono)">is-cool-me</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for developers with GitHub sign-in and DNS management.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Service</h4>
+        <nav class="footer-links" aria-label="Service links">
+          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+          <a href="/domains/" class="footer-link">Domains</a>
+          <a href="/blog/" class="footer-link">Blog</a>
+          <a href="/guides/" class="footer-link">Guides</a>
+          <a href="/contact/" class="footer-link">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <nav class="footer-links" aria-label="Legal links">
+          <a href="/terms/" class="footer-link">Terms of Service</a>
+          <a href="/privacy/" class="footer-link">Privacy Policy</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/blog/">Blog</a>
+        <a href="/guides/">Guides</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Cloudflare Proxy vs DNS-only for Subdomains — is-cool-me Blog</title>
+  <meta name="description" content="When to use each mode and what breaks if you pick the wrong one." />
+  <link rel="canonical" href="https://is-pro.dev/blog/cloudflare-proxy-vs-dns-only-for-subdomains/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/blog/cloudflare-proxy-vs-dns-only-for-subdomains/" />
+  <meta property="og:title" content="Cloudflare Proxy vs DNS-only for Subdomains — is-cool-me Blog" />
+  <meta property="og:description" content="When to use each mode and what breaks if you pick the wrong one." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cloudflare Proxy vs DNS-only for Subdomains — is-cool-me Blog" />
+  <meta name="twitter:description" content="When to use each mode and what breaks if you pick the wrong one." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+          Discord
+        </a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
+          Open Dashboard
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-hero-content" data-reveal>
+        <div class="section-tag page-tag">Performance</div>
+        <h1>Cloudflare Proxy vs DNS-only for Subdomains</h1>
+        <p>When to use each mode and what breaks if you pick the wrong one.</p>
+        <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Published: May 2026</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="prose" data-reveal>
+        <h2>When proxy helps</h2>
+        <p>Proxy mode is useful for hiding origin IP, caching static assets, and applying WAF controls. It is often best for HTTP applications.</p>
+        <h2>When DNS-only is better</h2>
+        <p>DNS-only is safer for non-HTTP protocols, strict origin requirements, and services that fail behind reverse proxies. Mail records should remain unproxied.</p>
+        <h2>Decision framework</h2>
+        <p>Start DNS-only for unknown workloads, then enable proxy when you have validated app behavior and TLS expectations behind Cloudflare.</p>
+        <div class="callout" style="margin-top:2rem;">
+          <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo-link">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span style="font-family:var(--font-mono)">is-cool-me</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for developers with GitHub sign-in and DNS management.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Service</h4>
+        <nav class="footer-links" aria-label="Service links">
+          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+          <a href="/domains/" class="footer-link">Domains</a>
+          <a href="/blog/" class="footer-link">Blog</a>
+          <a href="/guides/" class="footer-link">Guides</a>
+          <a href="/contact/" class="footer-link">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <nav class="footer-links" aria-label="Legal links">
+          <a href="/terms/" class="footer-link">Terms of Service</a>
+          <a href="/privacy/" class="footer-link">Privacy Policy</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/blog/">Blog</a>
+        <a href="/guides/">Guides</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

@@ -544,11 +544,17 @@ option { background: var(--color-surface); }
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 0;
   background: var(--gradient-card);
   opacity: 0;
   transition: opacity var(--transition-base);
   border-radius: inherit;
   pointer-events: none;
+}
+
+.feature-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .feature-card:hover::before { opacity: 1; }

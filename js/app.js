@@ -1,4 +1,4 @@
-/* is-pro.dev — Main JavaScript */
+/* is-cool-me — Main JavaScript */
 (function () {
   'use strict';
 

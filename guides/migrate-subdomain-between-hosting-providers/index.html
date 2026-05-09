@@ -74,25 +74,78 @@
   <section class="section">
     <div class="container">
       <div style="max-width:760px;margin:0 auto;" data-reveal>
-        <h2 style="margin-bottom:1rem;">Implementation steps</h2>
-        <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Prepare new provider configuration fully before cutover.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Run side-by-side validation using temporary hostnames.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Switch DNS with reduced TTL and monitor for traffic split issues.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Remove old endpoints and stale records once new traffic is stable.</li>
+        <h2>What You Will Learn</h2>
+        <p>This guide covers the complete process of migrating a subdomain from one hosting provider to another with zero downtime. You will learn how to use TTL strategy to minimize propagation risk, how to set up and verify the new provider before cutting over DNS, how to monitor traffic during the migration window, how to detect and handle partial propagation scenarios, and how to execute a rollback if the migration encounters problems. The techniques in this guide apply to any hosting provider change, whether moving between cloud platforms, switching from shared hosting to a VPS, or migrating between CDN-backed origins.</p>
+
+        <h2>Requirements</h2>
+        <ul>
+          <li>DNS administrative access to the subdomain you are migrating, through the is-pro.dev dashboard.</li>
+          <li>Administrative access to the old hosting provider to verify current configuration.</li>
+          <li>Administrative access to the new hosting provider to deploy and configure the service.</li>
+          <li>A terminal with dig, curl, and traceroute (or mtr) installed.</li>
+          <li>An SSL/TLS certificate for the subdomain on the new provider, either through the new provider's auto-provisioning or manually installed.</li>
+          <li>A monitoring tool or at least a scripted health check that runs every minute during the migration window.</li>
         </ul>
 
-        <h2 style="margin-top:2rem;margin-bottom:1rem;">Validation checklist</h2>
-        <div class="card" style="padding:1.25rem;">
-          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;">
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Authoritative DNS answers return expected values.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Target platform verifies the custom domain.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">HTTPS is active and redirect behavior is correct.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">No stale records remain from previous setup.</li>
-          </ul>
-        </div>
+        <h2>Background</h2>
+        <p>DNS migrations are one of the most common causes of avoidable downtime. The fundamental challenge is that DNS changes do not take effect instantly. When you update a DNS record, every recursive resolver in the world needs to learn about the change. Until the old cache entry expires, some users will be directed to the old provider while others are directed to the new one. This split-traffic condition can cause all kinds of problems: users see inconsistent behavior, API clients get connection errors, SSL certificate mismatches occur as visitors reach the wrong server, and database-dependent applications may experience data inconsistency if writes go to two different backends. The key to a successful migration is managing this split-traffic window carefully. By lowering TTL in advance, verifying the new provider thoroughly before the cutover, monitoring aggressively during the transition, and having a clear rollback plan, you can reduce the migration risk to near zero. The single most important rule is: never change DNS and deployment simultaneously. Always deploy to the new provider first, verify it works, then change DNS.</p>
 
-        <p style="margin-top:1.5rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+        <h2>Step-by-Step Guide</h2>
+
+        <h3>Step 1: Lower TTL on the Current Record</h3>
+        <p>At least 24 hours before your planned migration, reduce the TTL on the DNS record for the subdomain you are migrating. If your current TTL is 3600 seconds (1 hour) or higher, reduce it to 300 seconds (5 minutes). This is the most critical preparation step. With a 300-second TTL, if something goes wrong during the migration, you only have to wait five minutes for the rollback to take effect. With a 24-hour TTL, a bad migration can cause a full day of downtime. To change the TTL, navigate to the DNS settings for your domain in the is-pro.dev dashboard, locate the record for the subdomain, and edit the TTL field. After saving, verify the change by running <code>dig yourname.is-pro.dev A +short</code> and checking the TTL value in the response. Wait for the original TTL to fully expire before proceeding to the next step. This ensures all resolvers worldwide have picked up the new low TTL.</p>
+
+        <h3>Step 2: Deploy and Verify on the New Provider</h3>
+        <p>Deploy your application or service on the new hosting provider exactly as it will run in production. Configure the SSL/TLS certificate for the subdomain. Most modern hosting platforms can auto-provision certificates through Let's Encrypt. If the new provider uses a different IP address or endpoint, document the exact target value. Before cutting over DNS, you must verify that the new provider works correctly. Use a temporary hostname provided by the new provider, or add a test A record pointing to the new IP on a throwaway subdomain. Run a full verification suite on the new provider: check that the application responds correctly with <code>curl -I https://temp-hostname.new-provider.com</code>, verify the SSL certificate is valid and matches the subdomain, test all API endpoints or page routes that the subdomain serves, and run a load test if the subdomain handles significant traffic. Verify that any required redirects (www to non-www, HTTP to HTTPS) are configured identically on both providers. If the subdomain serves an API, test authentication flows and data integrity.</p>
+
+        <h3>Step 3: Update the DNS Record</h3>
+        <p>Once the new provider is fully verified, it is time to update the DNS record. In the is-pro.dev dashboard, edit the A or CNAME record for your subdomain to point to the new provider's target. If the new provider gave you an IP address, update the A record. If they gave you a hostname, update the CNAME record. Double-check the value before saving. A single mistyped character can redirect traffic to the wrong destination. After saving, immediately verify with dig: <code>dig yourname.is-pro.dev A +short</code>. Query both the authoritative nameserver and a public resolver. The new value should appear in the authoritative response immediately. It will take up to 300 seconds (the TTL you set in step 1) for public resolvers to show the new value.</p>
+
+        <h3>Step 4: Monitor Traffic During Propagation</h3>
+        <p>The next 30 minutes to several hours are the most critical phase of the migration. During this window, some users will reach the old provider while others reach the new one, depending on which resolver they use and when it last refreshed its cache. Monitor both providers simultaneously. On the new provider, watch request logs, error rates, and resource utilization. On the old provider, watch for declining traffic as resolvers switch over. Use a monitoring tool that tracks HTTP status codes, response times, and error rates. If you have an external uptime monitoring service, confirm that it is now checking the new provider's IP address. Pay special attention to 5xx errors from the new provider, which indicate a configuration issue. Also watch for 4xx errors, which may indicate that requests are arriving at the new provider with incorrect host headers or missing paths. If you see elevated error rates on either provider, prepare to initiate the rollback procedure.</p>
+
+        <h3>Step 5: Verify All Traffic at the New Provider</h3>
+        <p>After enough time has passed for the TTL to fully propagate (at least 24 hours for complete global coverage), verify that all traffic is arriving at the new provider. Check the new provider's analytics or access logs to confirm traffic levels match your expected baseline. Compare with the old provider's logs to confirm traffic there has dropped to zero or near-zero. Run curl from multiple geographic locations using a service like Checkly or Pingdom to confirm consistent behavior globally. If the subdomain uses a CDN, check the CDN analytics to confirm edge node traffic is flowing correctly. Run a full HTTPS check from an external SSL tester to confirm the certificate is valid and properly configured. If the subdomain connects to a database or upstream API, verify that the connections are working and data is being served correctly.</p>
+
+        <h3>Step 6: Increase TTL After Stabilization</h3>
+        <p>Once the migration has been stable for at least 24 hours and all traffic is confirmed at the new provider, increase the TTL back to a standard value. A TTL of 3600 seconds (1 hour) is appropriate for most production services. If the subdomain serves critical infrastructure, consider 86400 seconds (24 hours) to reduce load on your authoritative nameservers and improve resolution performance for users. To increase TTL, navigate to the DNS settings in the is-pro.dev dashboard, edit the record, and set the TTL to your desired value. After saving, verify the new TTL is being served with dig. If you added any temporary test records during the migration, remove them now. Update your documentation to reflect the new hosting provider and the new DNS configuration.</p>
+
+        <h2>Verification</h2>
+        <p>After the migration is complete, verify every aspect of the subdomain's configuration. Run dig against the authoritative nameserver and confirm the record points to the new provider's target. Run dig against a public resolver and confirm the same. Curl the subdomain from an external network and confirm the response headers show the new provider's server signature. Verify the SSL certificate matches the subdomain and has not expired. Check that HTTP to HTTPS redirects work correctly. Confirm that any subdomain-specific redirect rules (for example, redirecting old API paths) are in place. Run a functional test of the service served by the subdomain. If possible, have a team member in a different geographic region run the same tests. Document the verification results in your migration ticket. Keep the results accessible in case you need to reference them during a future migration or incident investigation.</p>
+
+        <h2>Troubleshooting</h2>
+        <h3>Partial Propagation</h3>
+        <p>It is normal for DNS propagation to be incomplete for several hours after the cutover. Different resolvers refresh their caches at different times. If a small percentage of users are still hitting the old provider, this is expected and will resolve itself as TTLs expire. However, if the old provider is still receiving significant traffic after 24 hours, check whether there are hardcoded DNS entries or stale resolver caches in your network. Some corporate DNS servers ignore TTL values and cache records for much longer. In that case, you may need to keep the old provider running for an extended period.</p>
+        <h3>SSL Certificate Mismatch</h3>
+        <p>If users report SSL errors during the migration, the cause is likely that their resolver has cached the old IP address but their browser is trying to connect to the new provider using an old SSL configuration. The fix is to ensure both providers have valid certificates for the subdomain during the migration window. If you are using Let's Encrypt, you can get certificates for the subdomain on both providers simultaneously. After the migration is complete, decommission the old provider's certificate.</p>
+        <h3>Mixed Traffic Issues</h3>
+        <p>If your application uses sessions, authentication tokens, or database writes, you may encounter issues when some requests go to the old provider and some to the new one. Users might be logged out or see inconsistent data. To mitigate this, use a shared session store (like Redis) that both providers can access during the migration window. Alternatively, schedule the migration during a maintenance window and communicate the expected disruption to users.</p>
+        <h3>Rollback Procedure</h3>
+        <p>If the migration encounters critical issues such as sustained 5xx errors, data corruption, or inability to serve traffic, execute the rollback immediately. Update the DNS record to point back to the old provider's target value. Wait for the TTL to propagate. Verify traffic is flowing to the old provider again by checking its access logs. Notify all stakeholders that the migration has been rolled back. Do not make additional changes until you have diagnosed the root cause. Keep the new provider's configuration in place so you can retry the migration after fixing the issue.</p>
+
+        <h2>Frequently Asked Questions</h2>
+        <h3>How long should I wait between lowering TTL and making the change?</h3>
+        <p>At minimum, wait for one full cycle of the original TTL. If your original TTL was 86400 seconds (24 hours), wait 24 hours. This ensures every resolver in the world has seen the new low TTL and will refresh within 300 seconds.</p>
+        <h3>Can I migrate without lowering TTL?</h3>
+        <p>Technically yes, but it is not recommended. Without lowering TTL, a rollback takes as long as the original TTL value. A 24-hour TTL means a 24-hour rollback window. Always lower TTL in advance.</p>
+        <h3>What is the best time of day to perform a DNS migration?</h3>
+        <p>Perform migrations during your lowest traffic period. For most services, this is between midnight and 6 AM local time. Avoid Friday or pre-holiday migrations because team availability for incident response is lower.</p>
+        <h3>Do I need to keep the old provider running after migration?</h3>
+        <p>Yes, keep the old provider running for at least one full TTL cycle after the cutover (ideally 24-48 hours). Some resolvers may still serve the old IP address, and those users should still receive a working service. After the stabilization period, you can safely decommission the old provider.</p>
+        <h3>What happens to SSL certificates during the migration?</h3>
+        <p>Both providers should have valid SSL certificates for the subdomain during the migration window. After the cutover, the new provider's certificate handles all traffic. If you use Let's Encrypt, the new provider can automatically obtain a certificate using the HTTP-01 challenge (if DNS already points to it) or the DNS-01 challenge.</p>
+        <h3>Can I use a CNAME instead of an A record for migration?</h3>
+        <p>Yes, if your new provider gives you a target hostname. CNAMEs are common with CDNs, load balancers, and PaaS platforms. Note that CNAMEs cannot be used at the zone apex. If you are migrating the root domain, you must use an A record with the IP address.</p>
+        <h3>How do I verify that all traffic has moved to the new provider?</h3>
+        <p>Compare the access logs of both providers. The old provider's traffic should drop to near zero after 24-48 hours. You can also use a global DNS propagation checker like whatsmydns.net to confirm the new IP is visible worldwide.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/guides/configure-api-subdomain/" class="inline-link">Configure an API Subdomain</a> &mdash; Learn how to set up a subdomain for API traffic after migration.</li>
+          <li><a href="/guides/build-a-dns-change-checklist-for-teams/" class="inline-link">Build a DNS Change Checklist for Teams</a> &mdash; Apply structured change management to ensure your migration follows best practices.</li>
+        </ul>
+
+        <p style="margin-top:2rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
       </div>
     </div>
   </section>

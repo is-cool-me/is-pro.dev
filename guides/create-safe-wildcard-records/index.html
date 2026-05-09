@@ -67,32 +67,182 @@
         <div class="section-tag page-tag">Intermediate</div>
         <h1>Guide: Create Wildcard Records Safely</h1>
         <p>Use wildcard DNS without breaking explicit service records.</p>
+        <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Reading time: 12 minutes</p>
       </div>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
-      <div style="max-width:760px;margin:0 auto;" data-reveal>
-        <h2 style="margin-bottom:1rem;">Implementation steps</h2>
-        <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Define exactly which hostnames should stay explicit before adding wildcard rules.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Create the wildcard record only for the required type and target.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Keep explicit records for critical services like mail and API endpoints.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Test representative hostnames to ensure wildcard behavior matches intent.</li>
+      <div class="prose" style="max-width:760px;margin:0 auto;" data-reveal>
+
+        <h2>What You Will Learn</h2>
+        <ul>
+          <li>What wildcard DNS records are and how they work under the hood</li>
+          <li>When to use wildcards versus explicit records</li>
+          <li>How to avoid breaking existing services when adding a wildcard</li>
+          <li>Best practices for wildcard record safety and maintainability</li>
         </ul>
 
-        <h2 style="margin-top:2rem;margin-bottom:1rem;">Validation checklist</h2>
-        <div class="card" style="padding:1.25rem;">
-          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;">
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Authoritative DNS answers return expected values.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Target platform verifies the custom domain.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">HTTPS is active and redirect behavior is correct.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">No stale records remain from previous setup.</li>
-          </ul>
-        </div>
+        <h2>Requirements</h2>
+        <ul>
+          <li>An is-pro.dev subdomain with DNS management access</li>
+          <li>Understanding of basic DNS record types (A, CNAME)</li>
+          <li>Access to the is-pro.dev dashboard</li>
+          <li><code>dig</code> or <code>nslookup</code> installed on your local machine for verification</li>
+        </ul>
 
-        <p style="margin-top:1.5rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+        <h2>Background Information</h2>
+        <p>Wildcard DNS records use the asterisk (<code>*</code>) as the leftmost label to match any subdomain that does not have an explicit record. When a resolver queries <code>random-name.yourname.is-pro.dev</code> and no explicit A, AAAA, or CNAME record exists for that name, the authoritative nameserver falls back to the wildcard record and returns its value.</p>
+        <p>This mechanism is defined in <a href="https://datatracker.ietf.org/doc/html/rfc4592" class="inline-link" target="_blank" rel="noopener noreferrer">RFC 4592</a>. The wildcard applies only to names that do not exist anywhere in the zone — it does <em>not</em> override existing records. This is the single most important rule to internalise when working with wildcards.</p>
+        <p>Wildcards are commonly used for:</p>
+        <ul>
+          <li><strong>Multi-tenant SaaS applications</strong> where each customer gets a unique subdomain (e.g. <code>acme.app.example.com</code>)</li>
+          <li><strong>Dynamic preview environments</strong> that spin up per-branch or per-PR hostnames</li>
+          <li><strong>Catch-all routing</strong> to a reverse proxy (like Nginx, Traefik, or Caddy) that inspects the Host header to serve the correct application</li>
+          <li><strong>Developer sandboxes</strong> where users can create arbitrary subdomains for testing</li>
+        </ul>
+        <div class="callout"><p><strong>Warning:</strong> A wildcard record can silently expose internal services if you later add a new subdomain that you expected to be private. Always audit which hostnames the wildcard will match before adding it.</p></div>
+        <p>Despite their power, wildcards come with important constraints. They cannot be used at the zone apex (you cannot create a <code>*</code> record for the root domain itself), they do not apply to DNSSEC-signed zones in the same way, and they can interfere with service discovery, email delivery, and certificate validation if not planned carefully.</p>
+
+        <h2>Step-by-Step Setup</h2>
+
+        <h3>Step 1: Audit Existing Records</h3>
+        <p>Before you create a wildcard, you must know exactly which subdomains already have explicit records. The wildcard will not override these, but it will match every <em>other</em> name — including ones you might later want to keep reserved.</p>
+        <ol>
+          <li>Log in to <a href="https://dash.is-pro.dev" class="inline-link">https://dash.is-pro.dev</a>.</li>
+          <li>Select your subdomain and navigate to the DNS records section.</li>
+          <li>Export or screenshot every record. Pay attention to A, AAAA, CNAME, MX, TXT, and SRV records.</li>
+          <li>Make a list of hostnames that <strong>must</strong> always resolve to a specific target — these will need explicit records before the wildcard goes live.</li>
+        </ol>
+        <div class="callout"><p><strong>Tip:</strong> Common subdomains that are easy to forget include <code>www</code>, <code>mail</code>, <code>api</code>, <code>blog</code>, <code>docs</code>, <code>status</code>, <code>admin</code>, <code>app</code>, <code>cdn</code>, <code>m</code> (mobile), and <code>_domainkey</code> (DKIM). If any of these should point somewhere specific, create explicit records first.</p></div>
+
+        <h3>Step 2: Choose the Record Type</h3>
+        <p>Decide what kind of record your wildcard will be. The two most common choices are:</p>
+        <ul>
+          <li><strong>Wildcard CNAME</strong>: <code>* → your-target.com</code> — use when all unmatched subdomains should resolve to a single hostname. This is the typical choice when you control the target server and can configure virtual hosting.</li>
+          <li><strong>Wildcard A</strong>: <code>* → 192.0.2.1</code> — use when you want to point directly to an IP address. This avoids an extra DNS lookup but ties you to a fixed IP.</li>
+        </ul>
+        <div class="callout"><p><strong>Important:</strong> You cannot use a CNAME at the zone apex (the bare subdomain itself). If you need wildcard behaviour for the apex, use an A or AAAA record. On is-pro.dev, the wildcard lives on a subdomain level, so this is less of a concern — but keep it in mind if you are reading DNS documentation meant for root domains.</p></div>
+
+        <h3>Step 3: Add the Wildcard Record</h3>
+        <p>With your audit complete and record type chosen, create the wildcard in the is-pro.dev dashboard:</p>
+        <ol>
+          <li>Click <strong>Add Record</strong>.</li>
+          <li>Fill in the fields:
+            <ul>
+              <li><strong>Type:</strong> <code>CNAME</code> (or <code>A</code>)</li>
+              <li><strong>Name:</strong> <code>*</code></li>
+              <li><strong>Value:</strong> your target hostname or IP</li>
+              <li><strong>TTL:</strong> <code>3600</code> (1 hour)</li>
+            </ul>
+          </li>
+          <li>Click <strong>Create Record</strong>.</li>
+        </ol>
+        <div class="callout"><p><strong>Tip:</strong> A TTL of 3600 seconds balances responsiveness against resolver load. Wildcard records tend to be long-lived infrastructure, so there is rarely a need to use short TTLs. If you are testing, start with 300 and raise it once the wildcard is stable.</p></div>
+
+        <h3>Step 4: Test Explicit Override</h3>
+        <p>Confirm that your existing explicit records still take precedence over the wildcard. Pick a subdomain that has an explicit record — ideally one that points to a different target than the wildcard — and verify it resolves correctly.</p>
+        <pre><code>dig explicit.yourname.is-pro.dev A +short
+# Should return the explicit record's value, NOT the wildcard target</code></pre>
+        <p>If the explicit record was created before the wildcard, this should work automatically. If you created the wildcard first and are adding an explicit record later, the new explicit record will override the wildcard for that name as soon as it propagates.</p>
+
+        <h3>Step 5: Verify Wildcard Fallback</h3>
+        <p>Now test a subdomain that does <em>not</em> have an explicit record. Use a random, unpredictable name to eliminate the risk of false matches from stale cache entries:</p>
+        <pre><code>dig r9372x.yourname.is-pro.dev A +short
+# Should return the wildcard target</code></pre>
+        <p>Repeat this test from multiple networks (or use public resolvers like <code>@8.8.8.8</code> and <code>@1.1.1.1</code>) to confirm the wildcard has propagated globally.</p>
+        <div class="callout"><p><strong>Warning:</strong> Do not use common names like <code>test</code> or <code>random</code> for this verification. If a resolver or intermediate proxy has a cached negative response (NXDOMAIN) for that name, your test may give a false negative. Using a high-entropy name like <code>a7xk9m</code> avoids this problem.</p></div>
+
+        <h2>Verification</h2>
+        <p>Run the following commands to validate every layer of your wildcard setup:</p>
+        <pre><code># Wildcard fallback: a random name should resolve
+dig a7xk9m.yourname.is-pro.dev A +short
+# Expected: the wildcard target (IP or CNAME destination)
+
+# Explicit override: a known name should NOT use the wildcard
+dig www.yourname.is-pro.dev A +short
+# Expected: the explicit record's value (different from wildcard)
+
+# Authoritative check: query the nameserver directly
+dig @ns1.is-pro.dev random-test.yourname.is-pro.dev A +short
+# Expected: same as the wildcard target
+
+# CNAME chaining (if using wildcard CNAME)
+dig a7xk9m.yourname.is-pro.dev CNAME +short
+# Expected: your-target.com.</code></pre>
+        <p>If any of these return unexpected results, proceed to the troubleshooting section below.</p>
+
+        <h2>Troubleshooting</h2>
+
+        <h3>1. Wildcard overriding HTTPS redirects</h3>
+        <p><strong>Cause:</strong> Your web server (Nginx, Apache, Caddy) is configured with a default virtual host that serves a different site than the one expected for specific subdomains. The wildcard DNS correctly resolves to your server IP, but the server cannot distinguish between subdomains without explicit virtual host configuration.</p>
+        <p><strong>Fix:</strong> Ensure your reverse proxy or web server has <code>server_name</code> directives for every subdomain that should behave differently. The wildcard works fine for catch-all traffic, but explicit names need explicit server configuration. On Nginx, a default server block (the one without a <code>server_name</code> match) will handle all wildcard traffic — make sure this is your intended fallback, not a staging site.</p>
+        <div class="callout"><p><strong>Important:</strong> If you are using a platform like Vercel, Netlify, or GitHub Pages, configure your custom domain entries on their side for each explicit subdomain. The wildcard alone will cause those platforms to reject traffic with "domain not configured" errors.</p></div>
+
+        <h3>2. SSL certificate failures with wildcards</h3>
+        <p><strong>Cause:</strong> A wildcard DNS record does not automatically wildcard the SSL certificate. If you use <code>*.yourname.is-pro.dev</code> as a wildcard DNS record, a TLS certificate issued to <code>*.yourname.is-pro.dev</code> will cover <code>foo.yourname.is-pro.dev</code> and <code>bar.yourname.is-pro.dev</code>, but only if it was specifically issued as a wildcard certificate. Many platforms issue single-name certificates by default.</p>
+        <p><strong>Fix:</strong> Either obtain a wildcard TLS certificate (e.g. via Let's Encrypt with DNS-01 challenge) for <code>*.yourname.is-pro.dev</code>, or ensure that every subdomain you intend to serve over HTTPS gets its own certificate. On is-pro.dev, automated HTTPS through platforms like Vercel or Netlify usually handles single-name certificates automatically when you configure the domain on their side — but the wildcard alone is not sufficient to trigger certificate issuance.</p>
+        <div class="callout"><p><strong>Tip:</strong> Let's Encrypt wildcard certificates require the DNS-01 challenge. Make sure your DNS provider supports TXT record creation for <code>_acme-challenge.yourname.is-pro.dev</code>. The wildcard certificate covers <code>*.yourname.is-pro.dev</code> but not <code>yourname.is-pro.dev</code> itself.</p></div>
+
+        <h3>3. Email delivery issues from wildcard MX records</h3>
+        <p><strong>Cause:</strong> If your zone does not have an explicit MX record, some MTAs will fall back to an A record lookup for the domain name. If a wildcard A record exists, mail servers may attempt delivery to the wildcard target instead of your actual mail server, causing bounces or silently dropped mail.</p>
+        <p><strong>Fix:</strong> Always publish explicit MX records for your domain. The DNS specification (<a href="https://datatracker.ietf.org/doc/html/rfc5321" class="inline-link" target="_blank" rel="noopener noreferrer">RFC 5321</a>) states that if no MX record exists, delivery is attempted to the A record — but relying on this with a wildcard in place is a recipe for disaster. Create an explicit MX record pointing to your mail provider, even if the priority is low.</p>
+        <div class="callout"><p><strong>Warning:</strong> Never use a wildcard for MX records. The MX record type itself does not support wildcard semantics the same way A and CNAME records do. Furthermore, a wildcard MX would cause all mail sent to <em>any</em> subdomain (including typos) to route to your mail server, likely resulting in backscatter spam and blacklisting.</p></div>
+
+        <h3>4. Propagation delays</h3>
+        <p><strong>Cause:</strong> DNS resolvers upstream have cached a previous NXDOMAIN (non-existence) response for the subdomain you are testing. Since the wildcard now makes previously non-existent names resolvable, the old negative cache entry must expire first. This can take as long as the previous SOA negative caching TTL (typically 300–3600 seconds).</p>
+        <p><strong>Fix:</strong> Query the authoritative nameserver directly to verify the record is live: <code>dig @ns1.is-pro.dev random-test.yourname.is-pro.dev A +short</code>. If the authoritative server returns the expected value, the record is correct and it is only a matter of waiting for resolver caches to expire. You can also query specific public resolvers to check propagation: <code>dig @8.8.8.8 random-test.yourname.is-pro.dev A</code>.</p>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Always pair wildcards with explicit records for known services.</strong> Before adding <code>*</code>, create explicit A/CNAME records for every subdomain you actively use. Maintain a living inventory of these hostnames in your project documentation.</li>
+          <li><strong>Never use wildcards for MX records.</strong> As discussed in the troubleshooting section, wildcard MX records lead to mail delivery problems and security issues. Always publish explicit MX records.</li>
+          <li><strong>Use a TTL of 3600 or higher for wildcards.</strong> Wildcard records are typically long-term infrastructure. A higher TTL reduces the query load on your authoritative nameserver and speeds up resolution for end users.</li>
+          <li><strong>Document which subdomains have explicit overrides.</strong> Store this list alongside your DNS configuration (a comment in your IaC, a section in your README, or a dedicated <code>DNS.md</code> file). When a team member adds a new service on a new subdomain, they will know to create an explicit record instead of relying on the wildcard.</li>
+          <li><strong>Test wildcard coverage after every DNS change.</strong> Whenever you add or remove an explicit record, re-verify both the explicit override and the wildcard fallback. A deleted explicit record will silently fall through to the wildcard, potentially exposing a different service than intended.</li>
+          <li><strong>Consider the security implications.</strong> A wildcard means that any subdomain — even ones used internally or for staging — will resolve to a public target. If your application relies on hostname-based access control or secret URLs, wildcards bypass those protections. Use explicit records for sensitive endpoints.</li>
+        </ul>
+
+        <h2>FAQ</h2>
+
+        <h3>Can I use wildcards with SSL certificates?</h3>
+        <p>Yes, but the DNS wildcard (<code>*</code> record) and the SSL wildcard (certificate covering <code>*.example.com</code>) are separate concepts. A DNS wildcard makes any subdomain resolve to a target IP. An SSL wildcard certificate secures any subdomain under a given name. You need both working together: the DNS wildcard to route traffic, and a wildcard certificate (or individual certificates) to serve HTTPS without browser warnings. Let's Encrypt issues wildcard certificates via the DNS-01 challenge only.</p>
+
+        <h3>Do wildcards work at the DNS apex (root domain)?</h3>
+        <p>No. DNS wildcards only apply to names with at least one additional label beyond the record owner. You cannot create a <code>*</code> record for the bare domain <code>yourname.is-pro.dev</code> itself — the wildcard only matches names like <code>*.yourname.is-pro.dev</code>. On is-pro.dev, the apex is your subdomain (e.g. <code>yourname.is-pro.dev</code>), and the wildcard applies to <code>*.yourname.is-pro.dev</code>.</p>
+
+        <h3>What about a wildcard CNAME at the root?</h3>
+        <p>A CNAME at the zone apex (the bare domain) is not allowed per the DNS specification. This is why you cannot create a CNAME for <code>yourname.is-pro.dev</code> and a wildcard CNAME for <code>*.yourname.is-pro.dev</code> simultaneously — they would conflict. If you need both, use an A record for the apex and a CNAME wildcard for the subdomains.</p>
+
+        <h3>Do wildcards affect DNSSEC validation?</h3>
+        <p>Wildcards and DNSSEC have a complex relationship. The DNSSEC protocol handles wildcards by generating synthetic responses that include a special NSEC or NSEC3 record proving that no closer match exists. If your zone is DNSSEC-signed, the wildcard still functions, but signature verification requires careful implementation. Most cloud DNS providers (including is-pro.dev) handle this automatically.</p>
+
+        <h3>How many wildcard records can I have in one zone?</h3>
+        <p>You can have one wildcard record per record type. A common setup is a single wildcard CNAME for web traffic, a wildcard A for fallback IP resolution, and no wildcard for other types. Having multiple wildcards of different types for the same name is redundant — the resolver queries by type, so each type's wildcard is independent.</p>
+
+        <h3>Can a wildcard override another wildcard?</h3>
+        <p>No. There is no concept of wildcard precedence beyond "more specific wins." Since a wildcard by definition covers <code>*.zone</code>, all wildcard-matching names share the same specificity. If you need different wildcard behaviour for different subdomain levels (e.g. <code>*.app.example.com</code> vs <code>*.example.com</code>), you need separate zones.</p>
+
+        <h3>What happens to internal split-brain DNS?</h3>
+        <p>If you operate an internal DNS zone (e.g. inside your corporate network) that shadows the public zone, the wildcard in the public zone does not affect internal resolution. However, the inverse is true: an internal wildcard can accidentally match names that you intended to resolve only via explicit records. Apply the same audit discipline to your internal zones.</p>
+
+        <h3>Do wildcards work with SRV or SSHFP records?</h3>
+        <p>Wildcards apply only to the record type that was explicitly created. A wildcard CNAME does not generate wildcard SRV responses, and vice versa. If your application relies on SRV records (common for SIP, XMPP, or LDAP), create explicit SRV records for the hostnames that need them — a wildcard A or CNAME will not satisfy the SRV query.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/guides/configure-api-subdomain-with-zero-downtime/" class="inline-link">Configure an API Subdomain with Zero Downtime</a></li>
+          <li><a href="/guides/build-a-dns-change-checklist-for-teams/" class="inline-link">Build a DNS Change Checklist for Teams</a></li>
+          <li><a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="inline-link">Diagnose SSL Pending on a New Subdomain</a></li>
+        </ul>
+        <p style="margin-top:1rem;">For a deeper look at DNS propagation mechanics, read our blog post <a href="/blog/" class="inline-link">DNS Propagation Explained</a>.</p>
+
+        <h2>Conclusion</h2>
+        <p>Wildcard DNS records are a powerful tool for handling dynamic subdomains, multi-tenant routing, and catch-all traffic patterns. When configured correctly, they reduce the overhead of managing individual records for every hostname while still allowing explicit records to take precedence for known services.</p>
+        <p>The key to safe wildcard usage is a disciplined audit workflow: inventory your existing records, create explicit overrides for every service that needs one, add the wildcard, and then verify both the fallback and the override paths. Without this workflow, wildcards silently subsume hostnames you might have expected to remain independent — leading to broken HTTPS, misrouted traffic, and email delivery failures.</p>
+        <p>Always pair your wildcard with explicit MX records, document your explicit overrides, and test with high-entropy hostnames to avoid false negatives from resolver caches. If you run into issues, the is-pro.dev <a href="https://discord.gg/N8YzrkJxYy" class="inline-link">Discord community</a> is a great place to ask for help.</p>
+
       </div>
     </div>
   </section>

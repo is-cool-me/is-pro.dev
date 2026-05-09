@@ -6,16 +6,16 @@
   <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Guide: Connect Vercel to an is-pro.dev Subdomain — is-cool-me Guides</title>
-  <meta name="description" content="Step-by-step DNS records and verification flow for Vercel deployments." />
+  <meta name="description" content="Step-by-step guide to connect your Vercel project with an is-pro.dev subdomain including DNS setup, SSL configuration, and troubleshooting." />
   <link rel="canonical" href="https://is-pro.dev/guides/connect-vercel-with-is-pro-dev/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/connect-vercel-with-is-pro-dev/" />
   <meta property="og:title" content="Guide: Connect Vercel to an is-pro.dev Subdomain — is-cool-me Guides" />
-  <meta property="og:description" content="Step-by-step DNS records and verification flow for Vercel deployments." />
+  <meta property="og:description" content="Step-by-step guide to connect your Vercel project with an is-pro.dev subdomain including DNS setup, SSL configuration, and troubleshooting." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Guide: Connect Vercel to an is-pro.dev Subdomain — is-cool-me Guides" />
-  <meta name="twitter:description" content="Step-by-step DNS records and verification flow for Vercel deployments." />
+  <meta name="twitter:description" content="Step-by-step guide to connect your Vercel project with an is-pro.dev subdomain including DNS setup, SSL configuration, and troubleshooting." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
@@ -67,32 +67,197 @@
         <div class="section-tag page-tag">Beginner</div>
         <h1>Guide: Connect Vercel to an is-pro.dev Subdomain</h1>
         <p>Step-by-step DNS records and verification flow for Vercel deployments.</p>
+        <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Reading time: 12 minutes</p>
       </div>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
-      <div style="max-width:760px;margin:0 auto;" data-reveal>
-        <h2 style="margin-bottom:1rem;">Implementation steps</h2>
-        <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Create your project in Vercel and note the target hostname shown in domain settings.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">In DNS, create the CNAME record exactly as Vercel requests.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Add the custom domain in Vercel and wait for verification to complete.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Confirm HTTPS is issued and enforce one canonical hostname redirect.</li>
+      <div class="prose" data-reveal>
+        <h2>What You Will Learn</h2>
+        <ul>
+          <li>How to configure DNS records for Vercel deployments</li>
+          <li>Setting up custom domains with SSL certificates</li>
+          <li>Verifying domain ownership with is-pro.dev</li>
+          <li>Common errors and how to fix them</li>
+          <li>Best practices for production deployments</li>
         </ul>
 
-        <h2 style="margin-top:2rem;margin-bottom:1rem;">Validation checklist</h2>
-        <div class="card" style="padding:1.25rem;">
-          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;">
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Authoritative DNS answers return expected values.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Target platform verifies the custom domain.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">HTTPS is active and redirect behavior is correct.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">No stale records remain from previous setup.</li>
-          </ul>
+        <h2>Requirements</h2>
+        <ul>
+          <li>A verified is-pro.dev subdomain</li>
+          <li>A Vercel account (free tier available)</li>
+          <li>Access to your Vercel project settings</li>
+          <li>Basic understanding of DNS concepts</li>
+        </ul>
+
+        <h2>Background Information</h2>
+        <p>When deploying applications on Vercel, you can use a custom domain like <code>myapp.yourname.is-pro.dev</code> instead of the default Vercel subdomain. This guide will walk you through connecting your Vercel project to an is-pro.dev subdomain.</p>
+
+        <div class="callout" style="margin:2rem 0;">
+          <p><strong>Important:</strong> Before starting, ensure you have registered your subdomain on the is-pro.dev dashboard and have access to modify its DNS records.</p>
         </div>
 
-        <p style="margin-top:1.5rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+        <h2>Step-by-Step Setup</h2>
+
+        <h3>Step 1: Prepare Your Vercel Project</h3>
+        <p>Before configuring DNS, ensure your project is ready to receive the custom domain:</p>
+        <ol>
+          <li>Log in to your Vercel account</li>
+          <li>Navigate to your project dashboard</li>
+          <li>Go to the project settings by clicking the "Settings" tab</li>
+          <li>In the left sidebar, click on "Domains"</li>
+        </ol>
+
+        <h3>Step 2: Add Your Custom Domain in Vercel</h3>
+        <p>In the Vercel dashboard:</p>
+        <ol>
+          <li>Click "Add Domain"</li>
+          <li>Enter your full subdomain (e.g., <code>myapp.yourname.is-pro.dev</code>)</li>
+          <li>Click "Add"</li>
+        </ol>
+
+        <div class="callout tip" style="margin:2rem 0;">
+          <p><strong>Tip:</strong> Make sure to use the full subdomain including your username. For example, if your username is "johndoe" and you want "myapp", use "myapp.johndoe.is-pro.dev".</p>
+        </div>
+
+        <h3>Step 3: Configure DNS Records in is-pro.dev Dashboard</h3>
+        <p>Now you need to add the required DNS records:</p>
+        <ol>
+          <li>Log in to the <a href="https://dash.is-pro.dev" target="_blank" rel="noopener">is-pro.dev dashboard</a></li>
+          <li>Select your subdomain from the list</li>
+          <li>Click "Add Record"</li>
+          <li>Add a CNAME record with:
+            <ul>
+              <li>Name: your subdomain prefix (e.g., "myapp")</li>
+              <li>Type: CNAME</li>
+              <li>Value: <code> cname.vercel-dns.com </code></li>
+            </ul>
+          </li>
+        </ol>
+
+        <div class="callout important" style="margin:2rem 0;">
+          <p><strong>Important DNS Configuration:</strong></p>
+          <p>Example of expected DNS record:</p>
+          <pre><code>Name: myapp
+Type: CNAME
+Value: cname.vercel-dns.com
+TTL: 300</code></pre>
+        </div>
+
+        <h3>Step 4: Verify Domain Configuration</h3>
+        <p>Back in the Vercel dashboard:</p>
+        <ol>
+          <li>Check the domain status - it should show "Valid Configuration"</li>
+          <li>If it shows "Verifying", wait a few minutes and refresh</li>
+          <li>If there are errors, check the troubleshooting section below</li>
+        </ol>
+
+        <h3>Step 5: Update Your Project Settings</h3>
+        <p>Ensure your project is configured correctly:</p>
+        <ol>
+          <li>In Vercel, go to your project settings</li>
+          <li>Under "Domains", make sure your custom domain is listed</li>
+          <li>Check that SSL certificates are automatically provisioned</li>
+        </ol>
+
+        <h2>Verification</h2>
+        <p>To verify your setup is working correctly:</p>
+        <ol>
+          <li>Visit your custom domain in a browser (e.g., <code>https://myapp.yourname.is-pro.dev</code>)</li>
+          <li>Check that it loads your Vercel project</li>
+          <li>Verify the SSL certificate is valid</li>
+          <li>Test with different browsers and devices</li>
+        </ol>
+
+        <div class="callout tip" style="margin:2rem 0;">
+          <p><strong>Pro Tip:</strong> Use <code>dig</code> or <code>nslookup</code> to verify DNS propagation:</p>
+          <pre><code>dig myapp.yourname.is-pro.dev</code></pre>
+        </div>
+
+        <h2>Troubleshooting</h2>
+
+        <h3>Common Errors and Fixes</h3>
+
+        <h4>1. Domain Not Found Error</h4>
+        <p><strong>Problem:</strong> Vercel shows "Domain not found"</p>
+        <p><strong>Cause:</strong> DNS records not propagated yet or incorrect CNAME value</p>
+        <p><strong>Solution:</strong></p>
+        <ul>
+          <li>Wait 5-10 minutes for DNS propagation</li>
+          <li>Verify CNAME value is exactly <code>cname.vercel-dns.com</code></li>
+          <li>Check for typos in the subdomain name</li>
+        </ul>
+
+        <h4>2. SSL Certificate Pending</h4>
+        <p><strong>Problem:</strong> SSL certificate shows as "Pending"</p>
+        <p><strong>Cause:</strong> Normal delay in certificate issuance</p>
+        <p><strong>Solution:</strong></p>
+        <ul>
+          <li>Wait up to 24 hours for automatic SSL provisioning</li>
+          <li>Ensure your DNS records are correct</li>
+          <li>Check that you're not using conflicting A records</li>
+        </ul>
+
+        <h4>3. CNAME Loop Error</h4>
+        <p><strong>Problem:</strong> Error about CNAME loops</p>
+        <p><strong>Cause:</strong> Conflicting DNS records</p>
+        <p><strong>Solution:</strong></p>
+        <ul>
+          <li>Remove any A records for the same subdomain</li>
+          <li>Ensure only one CNAME record exists for the subdomain</li>
+          <li>Wait for DNS propagation after making changes</li>
+        </ul>
+
+        <h4>4. DNS Propagation Delays</h4>
+        <p><strong>Problem:</strong> Changes not reflecting immediately</p>
+        <p><strong>Cause:</strong> DNS caching across global servers</p>
+        <p><strong>Solution:</strong></p>
+        <ul>
+          <li>Wait 5-30 minutes for propagation</li>
+          <li>Use <code>dig @8.8.8.8</code> to check Google's DNS</li>
+          <li>Clear your local DNS cache</li>
+        </ul>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Use descriptive subdomain names:</strong> Instead of "app1", use "dashboard" or "api"</li>
+          <li><strong>Set appropriate TTL values:</strong> Use lower TTL (300s) during setup, higher (3600s) for production</li>
+          <li><strong>Monitor certificate expiration:</strong> Although Vercel auto-renews, it's good to be aware</li>
+          <li><strong>Keep DNS records organized:</strong> Add comments to explain each record's purpose</li>
+          <li><strong>Test before production:</strong> Use a staging subdomain first</li>
+        </ul>
+
+        <h2>FAQ</h2>
+
+        <h4>Do I need to pay for Vercel to use custom domains?</h4>
+        <p>No, Vercel's free tier includes custom domains and automatic SSL certificates.</p>
+
+        <h4>How long does DNS propagation take?</h4>
+        <p>Typically 5-30 minutes, but can take up to 24 hours in rare cases.</p>
+
+        <h4>Can I use the same subdomain for multiple Vercel projects?</h4>
+        <p>No, each subdomain can only point to one target. You'll need separate subdomains.</p>
+
+        <h4>What happens if I delete my Vercel project?</h4>
+        <p>Visitors will see a Vercel error page. Remember to remove the DNS record to prevent takeover risks.</p>
+
+        <h4>How do I redirect www to non-www (or vice versa)?</h4>
+        <p>Vercel handles this automatically. Add both versions as custom domains in your project settings.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/guides/connect-netlify-with-is-pro-dev/">Connect Netlify to an is-pro.dev Subdomain</a></li>
+          <li><a href="/guides/set-up-github-pages-custom-subdomain/">Set Up GitHub Pages with a Custom Subdomain</a></li>
+          <li><a href="/guides/diagnose-ssl-pending-on-new-subdomain/">Diagnose SSL Pending on a New Subdomain</a></li>
+          <li><a href="/guides/migrate-subdomain-between-hosting-providers/">Migrate a Subdomain Between Hosting Providers</a></li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Connecting Vercel to your is-pro.dev subdomain is straightforward when you follow these steps. The key is ensuring your DNS records are correctly configured and allowing time for propagation. With automatic SSL certificates and the flexibility of Vercel's platform, you'll have a professional deployment in minutes.</p>
+
+        <p>Remember to monitor your domain's performance and update records as needed. For any issues not covered in this guide, check the <a href="/blog/">blog</a> for more detailed troubleshooting posts or join our <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a> for real-time support.</p>
       </div>
     </div>
   </section>

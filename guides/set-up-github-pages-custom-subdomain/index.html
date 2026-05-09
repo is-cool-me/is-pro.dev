@@ -67,32 +67,184 @@
         <div class="section-tag page-tag">Beginner</div>
         <h1>Guide: Set Up GitHub Pages with a Custom Subdomain</h1>
         <p>Configure apex/host records and keep HTTPS enabled on Pages.</p>
+        <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Reading time: 10 minutes</p>
       </div>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
-      <div style="max-width:760px;margin:0 auto;" data-reveal>
-        <h2 style="margin-bottom:1rem;">Implementation steps</h2>
-        <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Set the custom domain in repository Pages settings.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Add CNAME DNS record to the GitHub Pages target host.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Commit a CNAME file in the Pages source branch when required.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Enable HTTPS in Pages settings once DNS verification finishes.</li>
+      <div class="prose" style="max-width:760px;margin:0 auto;" data-reveal>
+
+        <h2>What You Will Learn</h2>
+        <ul>
+          <li>How to configure DNS for GitHub Pages</li>
+          <li>Setting up a custom subdomain with your GitHub Pages site</li>
+          <li>Enforcing HTTPS on your Pages custom domain</li>
+          <li>Avoiding common pitfalls with apex domains and CNAME records</li>
         </ul>
 
-        <h2 style="margin-top:2rem;margin-bottom:1rem;">Validation checklist</h2>
-        <div class="card" style="padding:1.25rem;">
-          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;">
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Authoritative DNS answers return expected values.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Target platform verifies the custom domain.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">HTTPS is active and redirect behavior is correct.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">No stale records remain from previous setup.</li>
-          </ul>
-        </div>
+        <h2>Requirements</h2>
+        <ul>
+          <li>A verified is-pro.dev subdomain</li>
+          <li>A GitHub repository with GitHub Pages enabled</li>
+          <li>Access to your repository settings</li>
+          <li>Basic understanding of DNS</li>
+        </ul>
 
-        <p style="margin-top:1.5rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+        <h2>Background Information</h2>
+        <p>GitHub Pages is a static site hosting service that takes HTML, CSS, and JavaScript files directly from a repository on GitHub. It is a free and popular choice for project documentation, personal portfolios, and project landing pages. By default, every Pages site is served on a <code>github.io</code> subdomain — for example, <code>yourname.github.io</code> or <code>yourname.github.io/repository</code>.</p>
+        <p>Using a custom subdomain like <code>project.yourname.is-pro.dev</code> makes your site look more professional and reinforces your brand. GitHub Pages supports custom domains through DNS configuration: you point a CNAME record at GitHub's servers, and GitHub handles the rest, including automatic TLS certificate provisioning through Let's Encrypt.</p>
+        <p>This guide walks through the complete process of connecting an is-pro.dev subdomain to a GitHub Pages site, from adding the CNAME record to enforcing HTTPS. DNS changes, TLS certificate issuance, and GitHub's domain verification each have their own timing considerations; we will cover all of them so you can debug issues on your own.</p>
+
+        <h2>Step-by-Step Setup</h2>
+
+        <h3>Step 1: Enable GitHub Pages in Your Repository</h3>
+        <p>Before you can attach a custom domain, the repository itself must be configured to publish via Pages.</p>
+        <ol>
+          <li>Navigate to your repository on GitHub.</li>
+          <li>Click <strong>Settings</strong> &gt; <strong>Pages</strong> in the left sidebar.</li>
+          <li>Under <strong>Branch</strong>, select the branch you want to deploy (commonly <code>main</code> or <code>gh-pages</code>) and optionally set the <code>/root</code> or <code>/docs</code> folder.</li>
+          <li>Click <strong>Save</strong>. GitHub will display a public URL — usually something like <code>https://yourname.github.io/repository/</code>.</li>
+        </ol>
+        <div class="callout"><p><strong>Tip:</strong> If you are deploying a user or organization site (a repository named <code>yourname.github.io</code>), note that the URL will be just <code>https://yourname.github.io/</code> with no path prefix. The setup steps are identical.</p></div>
+        <p>At this point your site is live on the default <code>github.io</code> domain. Verify it works before introducing the custom domain — this isolates DNS issues from build issues.</p>
+
+        <h3>Step 2: Add Your Custom Domain in GitHub Pages</h3>
+        <p>Once Pages is active, tell GitHub which custom domain you intend to use.</p>
+        <ol>
+          <li>In the same <strong>Pages</strong> settings panel, locate the <strong>Custom domain</strong> field.</li>
+          <li>Enter your full subdomain, for example <code>project.yourname.is-pro.dev</code>.</li>
+          <li>Click <strong>Save</strong>.</li>
+        </ol>
+        <p>GitHub immediately performs a DNS check. It will try to resolve a CNAME record at <code>project.yourname.is-pro.dev</code> pointing to <code>yourname.github.io</code>. If the DNS record does not yet exist (we add it in the next step), GitHub will show a warning — this is expected. Proceed anyway.</p>
+        <div class="callout"><p><strong>Important:</strong> When you save the custom domain, GitHub automatically creates a commit that adds a <code>CNAME</code> file to the root of your repository's publishing source. This file contains your custom domain and tells GitHub Pages to serve from that domain on every deployment. Do not delete this file.</p></div>
+
+        <h3>Step 3: Configure DNS in is-pro.dev Dashboard</h3>
+        <p>Now you need to create the DNS record that points your subdomain at GitHub's servers.</p>
+        <ol>
+          <li>Log in to <a href="https://dash.is-pro.dev" class="inline-link">https://dash.is-pro.dev</a>.</li>
+          <li>Select the subdomain you want to use and click <strong>Add Record</strong>.</li>
+          <li>Fill in the fields:
+            <ul>
+              <li><strong>Type:</strong> <code>CNAME</code></li>
+              <li><strong>Name:</strong> your subdomain prefix (e.g., <code>project</code>)</li>
+              <li><strong>Target:</strong> <code>yourname.github.io</code></li>
+              <li><strong>TTL:</strong> <code>300</code> seconds (5 minutes)</li>
+            </ul>
+          </li>
+          <li>Click <strong>Create Record</strong>.</li>
+        </ol>
+        <div class="callout"><p><strong>Tip:</strong> A TTL of 300 seconds is short enough that changes propagate quickly during testing, but not so short that it causes excessive queries. Once everything is stable you can increase it to 3600 (1 hour) or higher.</p></div>
+
+        <h3>Step 4: Enforce HTTPS</h3>
+        <p>With the DNS record in place, GitHub can complete its domain verification and provision a TLS certificate.</p>
+        <ol>
+          <li>Return to your repository's <strong>Pages</strong> settings on GitHub.</li>
+          <li>Check the box labeled <strong>Enforce HTTPS</strong>.</li>
+          <li>Wait. The certificate provisioning typically takes 5–15 minutes but can occasionally take up to an hour if DNS is still propagating across all global resolvers.</li>
+        </ol>
+        <div class="callout"><p><strong>Important:</strong> The <em>Enforce HTTPS</em> checkbox will be greyed out until GitHub's DNS check passes and the Let's Encrypt certificate is issued. If it stays greyed out, the DNS record either has not propagated or is misconfigured. Use the verification steps below to diagnose.</p></div>
+
+        <h3>Step 5: Verify the Setup</h3>
+        <ol>
+          <li>Open your custom subdomain in a browser: <code>https://project.yourname.is-pro.dev</code>.</li>
+          <li>Confirm the page content matches your GitHub Pages site.</li>
+          <li>Click the padlock icon in the address bar and verify that the SSL certificate is valid and issued to your subdomain.</li>
+          <li>Try visiting the <code>http://</code> version — it should redirect to <code>https://</code>.</li>
+        </ol>
+
+        <h2>Verification</h2>
+        <p>Use command-line tools to confirm each layer works independently:</p>
+        <pre><code># Check that the CNAME record resolves
+dig project.yourname.is-pro.dev CNAME +short
+# Expected output: yourname.github.io.
+
+# Verify the A record resolves to GitHub's IPs
+dig yourname.github.io A +short
+# Expected: 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153
+
+# Check HTTPS with curl
+curl -sI https://project.yourname.is-pro.dev | head -n 1
+# Expected: HTTP/2 200</code></pre>
+        <p>If any of these checks return unexpected results, proceed to the troubleshooting section below.</p>
+
+        <h2>Troubleshooting</h2>
+        <p>Here are the most common issues and how to resolve them:</p>
+
+        <h3>1. CNAME record already exists</h3>
+        <p><strong>Cause:</strong> GitHub's automatic CNAME file commit conflicts with an existing file in your repository, or you have previously configured the same domain.</p>
+        <p><strong>Fix:</strong> Pull the latest commit that GitHub created, resolve any merge conflicts, and push. If the CNAME file already exists with the correct domain, no action is needed.</p>
+
+        <h3>2. SSL certificate pending</h3>
+        <p><strong>Cause:</strong> The DNS record has not propagated to all authoritative resolvers, so Let's Encrypt cannot verify domain ownership.</p>
+        <p><strong>Fix:</strong> Wait. Use <code>dig</code> from different networks to confirm the CNAME is visible worldwide. If it has been more than an hour, double-check the record type, name, and target in the is-pro.dev dashboard.</p>
+        <div class="callout"><p><strong>Important:</strong> Pending SSL is the most common support issue. If your <code>dig</code> output looks correct, the certificate usually resolves within 15 minutes. Opening the GitHub Pages settings page and toggling the custom domain off and on can sometimes trigger a re-check.</p></div>
+
+        <h3>3. Domain not found in Pages</h3>
+        <p><strong>Cause:</strong> A typo in the subdomain, or the CNAME file in the repository contains a different value than what you entered in the Pages settings.</p>
+        <p><strong>Fix:</strong> Verify the exact domain string in both places. The CNAME file at the root of your publishing branch must match the custom domain field in Settings &gt; Pages character-for-character.</p>
+
+        <h3>4. DNS propagation delays</h3>
+        <p><strong>Cause:</strong> Your local resolver or upstream DNS servers are caching a stale response based on the previous TTL.</p>
+        <p><strong>Fix:</strong> You can bypass your local cache by querying a public resolver directly: <code>dig @8.8.8.8 project.yourname.is-pro.dev CNAME</code>. Lower the TTL to 60 or 120 seconds while testing.</p>
+
+        <h3>5. Mixed content warnings</h3>
+        <p><strong>Cause:</strong> Your page includes HTTP resources (images, scripts, stylesheets) while the page itself is served over HTTPS. Browsers block or warn about these requests.</p>
+        <p><strong>Fix:</strong> Use protocol-relative URLs (<code>//cdn.example.com/file.js</code>) or ensure all external resources use <code>https://</code>. Check your browser's developer console for blocked requests.</p>
+
+        <h3>6. Redirect loop or wrong site</h3>
+        <p><strong>Cause:</strong> A leftover CNAME record pointing to a different GitHub Pages site, or another service (like a CDN or reverse proxy) intercepting the traffic.</p>
+        <p><strong>Fix:</strong> Remove any stale DNS records in the is-pro.dev dashboard. Check that no other CNAME, A, or AAAA records exist for the same subdomain name.</p>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Keep your CNAME file in the repository root.</strong> This ensures the custom domain survives branch switches, clones, and CI deployments.</li>
+          <li><strong>Do not use A records for the custom domain.</strong> GitHub Pages used to recommend pointing apex domains at their IP addresses via A records, but CNAME records are the modern approach and are required for HTTPS certificate provisioning.</li>
+          <li><strong>Use a separate subdomain for each project.</strong> Each GitHub Pages site in a given account can have at most one custom domain. Using distinct subdomains avoids conflicts and makes DNS management straightforward.</li>
+          <li><strong>Monitor GitHub Pages build status.</strong> If your site stops serving, check the Pages settings for a build error or a red banner. Sometimes a failed build resets the custom domain configuration.</li>
+          <li><strong>Set a reasonable TTL.</strong> Start with 300 seconds during initial setup. After everything is verified, increase to 3600 seconds or higher to reduce DNS query load.</li>
+          <li><strong>Use a <code>.is-pro.dev</code> subdomain rather than a sub-subdomain.</strong> For example, prefer <code>myrepo.username.is-pro.dev</code> over <code>sub.username.is-pro.dev</code>. The latter requires additional CNAME configuration that can introduce unnecessary complexity.</li>
+        </ul>
+
+        <h2>FAQ</h2>
+
+        <h3>Does GitHub Pages support apex domains?</h3>
+        <p>GitHub Pages technically supports apex (bare) domains via A records pointing to their IP addresses. However, apex domains cannot get Let's Encrypt certificates through GitHub's automated process because the CNAME-based verification requires a CNAME at the domain root, which is not allowed by the DNS specification. On is-pro.dev, always use subdomains for automatic HTTPS.</p>
+
+        <h3>How long does SSL take to provision?</h3>
+        <p>Typically 5–15 minutes after the DNS record resolves correctly. In rare cases with slow DNS propagation it can take up to an hour. If the Enforce HTTPS checkbox is still greyed out after an hour, double-check your DNS record and try removing and re-adding the custom domain in GitHub Pages settings.</p>
+
+        <h3>What if I get a 404 error?</h3>
+        <p>A 404 means GitHub Pages is active but cannot find your content. Check that your repository has an <code>index.html</code> in the root of the publishing branch. Also verify the <strong>Source</strong> setting in Pages — if it points to the <code>/docs</code> folder, your index file must live there.</p>
+
+        <h3>Can I use a custom domain with a private repository?</h3>
+        <p>Yes, but GitHub Pages on private repositories requires a GitHub Pro, Team, or Enterprise plan. Free accounts can only use Pages on public repositories. The custom domain setup process is identical regardless of visibility.</p>
+
+        <h3>What happens if I remove the CNAME file?</h3>
+        <p>On the next deployment (or after a few minutes), GitHub Pages resets your custom domain to the default <code>github.io</code> URL. The custom domain field in Settings &gt; Pages will also clear. Your DNS record will still point at GitHub, so visitors will get a 404 until you either restore the CNAME file or the DNS record propagates away.</p>
+
+        <h3>Can I use multiple custom domains for one Pages site?</h3>
+        <p>No. GitHub Pages supports a single custom domain per repository. If you need multiple domains pointing to the same site, you will need to set up an external redirect service or use a reverse proxy — neither of which is covered in this guide.</p>
+
+        <h3>Does GitHub Pages support HTTPS for custom domains?</h3>
+        <p>Yes. GitHub Pages provisions TLS certificates automatically through Let's Encrypt for custom domains that have a correctly configured CNAME record. This is a free, first-class feature — no manual certificate management required.</p>
+
+        <h3>How do I fix a "domain does not resolve to GitHub" error?</h3>
+        <p>This error appears in GitHub Pages settings when the DNS check fails. Run <code>dig yoursubdomain.yourname.is-pro.dev CNAME</code> and confirm the output is exactly <code>yourname.github.io.</code> (with a trailing dot). If the record is missing or incorrect, update it in the is-pro.dev dashboard and wait for propagation. If the record looks correct, GitHub may still be catching up — wait a few minutes and reload the Pages settings page.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/guides/connect-vercel-with-is-pro-dev/" class="inline-link">Connect Vercel with is-pro.dev</a></li>
+          <li><a href="/guides/connect-netlify-with-is-pro-dev/" class="inline-link">Connect Netlify with is-pro.dev</a></li>
+          <li><a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="inline-link">Diagnose SSL Pending on a New Subdomain</a></li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Connecting a custom subdomain to your GitHub Pages site involves three main pieces working together: your repository's Pages configuration, a CNAME DNS record in is-pro.dev, and GitHub's automatic TLS certificate provisioning. Each layer has its own timing and verification steps.</p>
+        <p>When something goes wrong, isolate the problem: use <code>dig</code> to verify DNS, check the Pages settings for error banners, and inspect your browser's SSL certificate details. Most issues are caused by DNS propagation delays or a mismatch between the CNAME file in the repository and the custom domain field in Settings.</p>
+        <p>Once everything is working, your custom subdomain will serve your GitHub Pages site over HTTPS with a valid Let's Encrypt certificate — all managed automatically. If you run into trouble, the is-pro.dev <a href="https://discord.gg/N8YzrkJxYy" class="inline-link">Discord community</a> is a great place to ask for help.</p>
+
       </div>
     </div>
   </section>

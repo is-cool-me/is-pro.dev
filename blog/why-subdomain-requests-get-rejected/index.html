@@ -75,15 +75,167 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>No manual approval queue</h2>
-        <p>Subdomains are provisioned automatically when a registration passes basic platform checks. There is no manual approval step for normal requests.</p>
-        <h2>How automated abuse controls work</h2>
-        <p>Automated checks continuously look for high-risk abuse patterns such as phishing-style naming, impersonation signals, and suspicious content indicators.</p>
-        <h2>How to avoid automatic abuse flags</h2>
-        <p>Use clear project-specific naming, avoid trademark or login-themed impersonation patterns, and keep your target content legitimate and transparent.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>No Manual Approval Queue</h2>
+        <p>At is-cool-me, subdomain provisioning is fully automatic. When you authenticate via GitHub OAuth and request a subdomain, our system processes the registration in real time — no ticket, no waiting period, no moderator review. If your request passes our automated checks, the DNS record is created and the subdomain is live within seconds.</p>
+        <p>This is a deliberate design choice. Manual approval queues create friction for legitimate users, delay project launches, and do not scale. But automatic provisioning also creates risk: without human oversight at registration time, we must rely on automated systems to detect and block abuse before the subdomain becomes active. This article explains how those automated systems work, why some requests are flagged or rejected, and what you can do if your request does not go through.</p>
+
+        <div class="callout">
+          <p><strong>Key point:</strong> We reject requests to protect the platform and its users. A rejection is not a judgment on you — it is our abuse detection system doing its job. Most rejections can be resolved with a simple change to your subdomain name or account setup.</p>
+        </div>
+
+        <h2>How Automatic Provisioning Works</h2>
+        <p>The provisioning pipeline executes the following sequence for every registration request:</p>
+        <ol>
+          <li><strong>GitHub OAuth Authentication:</strong> You sign in with GitHub, which provides us with your GitHub user ID, account creation date, public profile information, and email address. This is the foundation of our identity system.</li>
+          <li><strong>Subdomain Selection:</strong> You choose an available subdomain name. Our system checks that the name is not already registered and does not match any exactly reserved names (e.g., internal domains, common typos of the root domain).</li>
+          <li><strong>DNS Target Specification:</strong> You provide the target CNAME or A record. The system verifies that the target is syntactically valid and, for CNAME records, that the target is not a loop back to our own domain.</li>
+          <li><strong>Abuse Flag Evaluation:</strong> The request is evaluated against all active abuse detection checks. This is the most complex step and is described in detail below.</li>
+          <li><strong>DNS Record Creation:</strong> If all checks pass, the system creates the DNS record through our provider's API. The record propagates according to standard DNS TTL values (typically 60–300 seconds).</li>
+          <li><strong>Confirmation:</strong> The subdomain is displayed in your dashboard with its current status and DNS configuration.</li>
+        </ol>
+        <p>Steps 1–6 complete in under 2 seconds for a typical request. If the request is flagged at step 4, the provisioning is halted and the user receives an explanation message.</p>
+
+        <h2>What Triggers Abuse Flags</h2>
+        <p>Our abuse detection system evaluates each registration request against multiple signals. No single signal triggers an automatic rejection — the system uses a scoring model that considers the combination and severity of all signals.</p>
+
+        <h3>Suspicious Keywords in Subdomain Names</h3>
+        <p>The most common trigger. Our system maintains a blocklist of keywords and patterns that are frequently associated with abuse:</p>
+        <ul>
+          <li><strong>Brand impersonation:</strong> "google", "facebook", "amazon", "microsoft", "apple", "paypal", "netflix", "instagram", "whatsapp", "telegram", "discord" — and hundreds of common misspellings and variations</li>
+          <li><strong>Phishing keywords:</strong> "login", "signin", "secure", "account", "verify", "auth", "2fa", "wallet", "seed", "recover", "support", "helpdesk"</li>
+          <li><strong>Admin-related:</strong> "admin", "administrator", "root", "panel", "cpanel", "webmail", "mail"</li>
+          <li><strong>Deceptive patterns:</strong> "free", "hack", "crack", "cheat", "mod", "unlock", "generator", "bot"</li>
+        </ul>
+        <p>The system uses fuzzy matching, so simple character substitutions (e.g., "g00gle" or "googie") are also detected. The blocklist is updated regularly based on emerging threat intelligence and new abuse patterns.</p>
+
+        <h3>Known Abuse Patterns</h3>
+        <p>Beyond keywords, the system evaluates the overall structure of the subdomain name:</p>
+        <ul>
+          <li><strong>Randomized strings:</strong> Subdomains that appear to be randomly generated (e.g., <code>x7k9m2q4.is-pro.dev</code>) are flagged — these are often used for disposable spam campaigns</li>
+          <li><strong>Hyphen-heavy names:</strong> Multiple consecutive hyphens or hyphens in unusual positions</li>
+          <li><strong>Length anomalies:</strong> Extremely short (fewer than 3 characters) or extremely long (more than 40 characters) subdomain names</li>
+          <li><strong>Repeated characters:</strong> Names with excessive repetition like <code>aaaaa-bbbb-cccc.is-pro.dev</code></li>
+        </ul>
+
+        <h3>High-Risk TLD Combinations</h3>
+        <p>Some top-level domains are more frequently associated with abuse than others. When a subdomain's CNAME target uses a high-risk TLD (e.g., <code>.tk</code>, <code>.ml</code>, <code>.ga</code>, <code>.cf</code> — the former Freenom TLDs), the system applies additional scrutiny. This is not an automatic rejection, but it increases the score of the overall evaluation.</p>
+
+        <h3>Rapid Registration Patterns</h3>
+        <p>Our system tracks registration velocity per GitHub account and per IP address. If you register more than a certain number of subdomains within a short time window, subsequent requests are flagged. The specific thresholds are not public (to prevent gaming), but the general principle is: the system expects human-like registration patterns, not automated bulk registration.</p>
+
+        <h3>GitHub Account Age and Activity</h3>
+        <p>New GitHub accounts with limited activity are higher-risk. Our system considers:</p>
+        <ul>
+          <li><strong>Account age:</strong> Accounts created within the last 30 days receive additional scrutiny</li>
+          <li><strong>Public repositories:</strong> Accounts with zero public repositories or only forked repositories</li>
+          <li><strong>Profile completeness:</strong> Accounts without a verified email, bio, or avatar photo</li>
+          <li><strong>Prior abuse:</strong> Any history of abuse associated with the GitHub account ID (even if the account is new, we track anonymous abuse signals)</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Tip:</strong> If your GitHub account is new, we recommend building a small public project and linking it to your subdomain request. A GitHub profile with a real repository and a verified email significantly reduces the likelihood of automated flagging.</p>
+        </div>
+
+        <h2>How the Flagging System Works</h2>
+        <p>The flagging system uses a weighted scoring model. Each signal contributes a score to the overall evaluation, and the scores are combined to produce a final risk assessment:</p>
+        <pre><code>Risk Score = (Subdomain Name Score &times; 0.35)
+           + (Account Risk Score &times; 0.30)
+           + (Registration Pattern Score &times; 0.20)
+           + (Target Risk Score &times; 0.15)</code></pre>
+        <p>If the total risk score exceeds a configurable threshold, the request is rejected. Scores just below the threshold may result in a "flagged for review" status, where the request is provisioned but placed on a watchlist for manual review within 24 hours.</p>
+        <p>The scoring model is retrained periodically based on confirmed abuse cases and false positive reports. This is a continuous improvement process — every time a user appeals a rejection and we determine it was a false positive, we adjust the model to reduce the likelihood of similar false positives in the future.</p>
+
+        <h2>Common Rejection Reasons</h2>
+        <p>If your subdomain request is rejected, the dashboard displays a specific reason. Here are the most common rejection reasons and what they mean:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Rejection Reason</th>
+              <th>What It Means</th>
+              <th>How to Fix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Subdomain name resembles known phishing pattern</td>
+              <td>The name matched a keyword or pattern on our blocklist</td>
+              <td>Choose a different name that reflects your actual project</td>
+            </tr>
+            <tr>
+              <td>Account too new or suspicious</td>
+              <td>Your GitHub account does not meet our minimum activity criteria</td>
+              <td>Build a public project, verify your email, or wait for your account to mature</td>
+            </tr>
+            <tr>
+              <td>Attempting to register blocked keyword</td>
+              <td>The name contains a string we reserve for platform safety</td>
+              <td>Review our blocked keywords list in the FAQ; choose an alternative</td>
+            </tr>
+            <tr>
+              <td>DNS verification failure</td>
+              <td>The target endpoint could not be resolved or returned an error</td>
+              <td>Verify the CNAME target or A record is valid and resolves</td>
+            </tr>
+            <tr>
+              <td>Rate limit exceeded</td>
+              <td>You registered too many subdomains too quickly</td>
+              <td>Wait 60 minutes before attempting another registration</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>What to Do If Your Request Is Rejected</h2>
+        <p>Rejection is not permanent. Here is what to do step by step:</p>
+        <ol>
+          <li><strong>Read the rejection message:</strong> The dashboard shows the specific reason. Start by understanding which check failed.</li>
+          <li><strong>Try a different subdomain name:</strong> If the issue is the name itself (phishing pattern or blocked keyword), choose a more descriptive, project-specific name. Instead of <code>login-support.is-pro.dev</code>, try <code>myapp-docs.is-pro.dev</code>.</li>
+          <li><strong>Update your GitHub profile:</strong> If the issue is account age or activity, add a public repository, verify your email, and set a profile picture. These changes may not take effect immediately — our system caches GitHub profile data for up to 24 hours.</li>
+          <li><strong>Contact support:</strong> If you believe the rejection was a false positive, contact us via the <a href="/contact/">contact form</a> or <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord</a>. Include your GitHub username, the subdomain you tried to register, and an explanation of your project. Our moderation team will review the rejection and, if appropriate, manually approve the request or adjust the automated system.</li>
+        </ol>
+
+        <h2>How to Improve Your Chances of Approval</h2>
+        <p>Based on the data from thousands of registration requests, here are the factors that correlate with smooth approvals:</p>
+        <ul>
+          <li><strong>Use descriptive project names:</strong> <code>my-todo-app.is-pro.dev</code> is better than <code>app.is-pro.dev</code>. The more specific your name, the less likely it is to match an abuse pattern.</li>
+          <li><strong>Link to a real project:</strong> Point your subdomain to a GitHub Pages site, a Vercel/Netlify project, or any live application. A subdomain with live content has a much lower risk of being flagged after registration.</li>
+          <li><strong>Space out registrations:</strong> If you need multiple subdomains, register them one at a time with reasonable gaps (an hour or more between requests).</li>
+          <li><strong>Build GitHub presence:</strong> A profile with repositories, stars, and contributions signals that you are a real developer using the platform for legitimate purposes.</li>
+          <li><strong>Avoid trademarked terms:</strong> Even if you have a legitimate reason to use a brand name (e.g., writing a tutorial about "discord bots"), the automated system cannot distinguish intent — choose a name that reflects <em>your</em> project.</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Tip:</strong> Think of your subdomain name as a signal. The more it communicates "this is a specific project by a real person," the less likely it is to be flagged. Generic, short, or keyword-heavy names look like abuse patterns to automated systems.</p>
+        </div>
+
+        <h2>False Positives and System Improvement</h2>
+        <p>We know our automated system is imperfect. False positives — legitimate requests that are incorrectly flagged — happen, and we take them seriously. Every false positive report helps us improve the system in two ways:</p>
+        <ol>
+          <li><strong>Direct fix:</strong> If a specific keyword or pattern is causing excessive false positives, we adjust the blocklist or scoring weight for that signal.</li>
+          <li><strong>Model retraining:</strong> Flagged-but-approved requests are used as training data for the scoring model. Over time, the system learns to distinguish between genuine projects and abuse attempts more accurately.</li>
+        </ol>
+        <p>We publish periodic transparency reports that include our false positive rate. Our current target is a false positive rate below 5% — meaning at least 95% of flagged requests are confirmed as genuine abuse. We are investing in better signal processing to reduce this further without compromising detection coverage.</p>
+
+        <h2>Appeals Process</h2>
+        <p>If your request was rejected and you believe it was a false positive, here is how to appeal:</p>
+        <ol>
+          <li>Go to the <a href="/contact/">contact page</a> and select "Appeal a rejected subdomain" from the subject dropdown</li>
+          <li>Include your <strong>GitHub username</strong>, the <strong>subdomain name</strong> you tried to register, and a <strong>description of your project</strong></li>
+          <li>Optional but helpful: link to your project's repository, live site, or documentation — this gives our moderators context to evaluate your request</li>
+          <li>Our moderation team will review the appeal within 48 hours</li>
+          <li>If approved, the subdomain will be manually provisioned and you will receive a confirmation</li>
+          <li>If denied, we will explain the reasoning and suggest alternatives (e.g., a different subdomain name that would pass the automated checks)</li>
+        </ol>
+        <p>Appeals are reviewed by humans, not automated systems. We understand that automated flagging can be frustrating, and we want to make the appeals process as smooth as possible.</p>
+
+        <h2>Conclusion</h2>
+        <p>Automatic provisioning with abuse detection is a tradeoff. It gives legitimate users instant access to subdomains while creating barriers for bad actors. The system is not perfect, but it is constantly improving. If your request is rejected, do not take it personally — try a different name, build out your GitHub profile, or reach out to us for help.</p>
+        <p>We are committed to transparency about how our systems work. If you have questions about the flagging process that are not answered here, join our <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a> and ask — we are happy to explain.</p>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

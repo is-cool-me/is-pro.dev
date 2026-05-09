@@ -67,32 +67,225 @@
         <div class="section-tag page-tag">Intermediate</div>
         <h1>Guide: Configure an API Subdomain with Zero Downtime</h1>
         <p>Migrate API traffic by lowering TTL and swapping targets safely.</p>
+        <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Reading time: 14 minutes</p>
       </div>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
-      <div style="max-width:760px;margin:0 auto;" data-reveal>
-        <h2 style="margin-bottom:1rem;">Implementation steps</h2>
-        <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Lower TTL at least one full cache cycle before migration.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Deploy the new API endpoint and validate health checks.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Switch DNS target during a low-traffic window.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Monitor errors and latency, then restore normal TTL after stability.</li>
+      <div class="prose" style="max-width:760px;margin:0 auto;" data-reveal>
+
+        <h2>What You Will Learn</h2>
+        <ul>
+          <li>How to migrate an API subdomain between targets without downtime</li>
+          <li>DNS TTL strategies for safe cutovers</li>
+          <li>How to verify traffic flows before full migration</li>
+          <li>Rollback procedures if something goes wrong</li>
+          <li>How to monitor propagation across global resolver networks</li>
+          <li>SSL certificate management during a DNS migration</li>
         </ul>
 
-        <h2 style="margin-top:2rem;margin-bottom:1rem;">Validation checklist</h2>
-        <div class="card" style="padding:1.25rem;">
-          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;">
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Authoritative DNS answers return expected values.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Target platform verifies the custom domain.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">HTTPS is active and redirect behavior is correct.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">No stale records remain from previous setup.</li>
-          </ul>
-        </div>
+        <h2>Requirements</h2>
+        <ul>
+          <li>An is-pro.dev subdomain currently pointing to an API endpoint</li>
+          <li>Access to the is-pro.dev dashboard at <a href="https://dash.is-pro.dev" class="inline-link">dash.is-pro.dev</a></li>
+          <li>Ability to monitor API traffic (health check endpoint, logging, or metrics dashboard)</li>
+          <li><code>dig</code> or <code>nslookup</code> installed on your local machine</li>
+          <li>Access to the new target platform to configure custom domain binding</li>
+        </ul>
 
-        <p style="margin-top:1.5rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+        <h2>Background Information</h2>
+        <p>API subdomains like <code>api.yourname.is-pro.dev</code> serve production traffic. Changing DNS records carelessly causes 5XX errors for users, failed authentication flows, and integration timeouts for downstream services that depend on your API. The core challenge is that DNS resolution is cached aggressively at multiple layers — operating system resolvers, recursive resolvers (like those run by ISPs and Google Public DNS), and intermediate proxy caches. When you change a DNS record, it can take up to the old TTL value for every layer to pick up the change, during which traffic splinters between old and new targets.</p>
+        <p>The key to zero-downtime migration is reducing the TTL <em>ahead of time</em> so that changes propagate quickly once you make the switch, then using a careful cutover process that accounts for DNS caching, connection draining, and SSL certificate provisioning. This guide walks you through the precise sequence of steps to move your API subdomain from one target to another without any perceived downtime for your consumers.</p>
+        <p>The strategy applies whether your API subdomain uses an A record (pointing to an IP address), a CNAME record (pointing to another hostname), or an ALIAS/ANAME record at the apex. The same principles of pre-reduced TTL, staged cutover, and observability apply across all record types.</p>
+        <div class="callout"><p><strong>Important:</strong> This guide assumes you already have an API subdomain configured on is-pro.dev that is serving live traffic. If you are setting up a brand new API subdomain for the first time, the process is simpler — you can skip the pre-reduced TTL step because there is no existing traffic relying on the old record.</p></div>
+
+        <h2>Step-by-Step Setup</h2>
+
+        <h3>Step 1: Lower TTL Before Migration</h3>
+        <p>The single most important preparation step is reducing the TTL on your existing DNS record at least one full TTL period before you plan to make the change. This gives all caching resolvers worldwide time to pick up the shorter TTL, so that when you do switch the record value, the new value propagates in minutes instead of hours.</p>
+        <ol>
+          <li>Log in to <a href="https://dash.is-pro.dev" class="inline-link">dash.is-pro.dev</a>.</li>
+          <li>Select your subdomain and navigate to the DNS records section.</li>
+          <li>Find the record for your API subdomain (e.g. the <code>api</code> A or CNAME record).</li>
+          <li>Change the TTL field from its current value (commonly <code>3600</code>, one hour) to <code>300</code> (five minutes).</li>
+          <li>Save the record and note the current time.</li>
+        </ol>
+        <p>After reducing the TTL, you <strong>must wait</strong> for at least the duration of the <em>old</em> TTL before proceeding. If your old TTL was 3600 seconds (1 hour), wait at least one hour. This ensures that every resolver that had cached the old record value with the old (long) TTL has had a chance to re-query and learn the new (short) TTL. If you skip this wait, resolvers that still hold the old TTL will continue to cache the old value for the full original duration, negating the benefit of your TTL reduction.</p>
+        <div class="callout"><p><strong>Tip:</strong> Use <code>dig api.yourname.is-pro.dev SOA</code> to check the SOA minimum TTL, which some resolvers use as a negative caching duration. If you intend to change target IPs, a pre-reduced TTL of 300 is usually sufficient. For critical production APIs, some teams lower the TTL to 60 seconds 24 hours before migration.</p></div>
+
+        <h3>Step 2: Prepare the New Target</h3>
+        <p>While you wait for the TTL reduction to propagate, prepare the new API target. The goal is to have the new environment fully ready and verified so that the only remaining step when you cut over is a DNS change.</p>
+        <ol>
+          <li>Deploy your API application to the new hosting provider or infrastructure.<br/>This could be a new cloud region, a different platform (e.g. migrating from a VPS to a serverless platform), or a different IP address within the same provider.</li>
+          <li>Verify the deployment works at its default URL.<br/>Every hosting platform assigns a temporary hostname — for example, <code>my-app.onrender.com</code>, <code>my-app.vercel.app</code>, <code>my-app.fly.dev</code>, or a direct IP address. Hit this URL with a browser or <code>curl</code> and confirm the API responds correctly.</li>
+          <li>Test every critical endpoint on the new target.<br/>Run your integration test suite against the temporary hostname. Pay special attention to:
+            <ul>
+              <li>Authentication flows (JWT issuance, OAuth callbacks, API key validation)</li>
+              <li>Database connectivity and data consistency</li>
+              <li>File upload and retrieval endpoints</li>
+              <li>WebSocket connections (if applicable)</li>
+              <li>Webhook delivery and callback URLs</li>
+              <li>Rate limiting and throttling behaviour</li>
+            </ul>
+          </li>
+          <li>Configure custom domain binding on the new platform.<br/>Most hosting providers require you to add the custom domain (<code>api.yourname.is-pro.dev</code>) to their dashboard before they will accept traffic for it. This step typically involves adding a CNAME record or a verification TXT record — but on is-pro.dev, you already own the domain, so the new provider will ask you to verify ownership via a TXT record or by creating a CNAME. Complete this step so the provider's edge servers recognise the domain when traffic starts arriving.</li>
+          <li>Request or confirm SSL/TLS certificate issuance for the custom domain on the new provider.<br/>Platforms like Vercel, Netlify, Render, and Fly automate Let's Encrypt certificate provisioning. However, this can take 1–5 minutes and sometimes requires a manual retry. Ensure the certificate is active before the DNS cutover to avoid SSL errors for early adopters.</li>
+        </ol>
+        <div class="callout"><p><strong>Warning:</strong> Many platforms require the DNS record to exist before they can issue an SSL certificate (because they need to verify domain ownership). In that case, perform Step 3 (update the DNS record) <em>before</em> configuring SSL, but do so during a maintenance window, or accept a brief SSL gap. An alternative is to use a proxy or reverse proxy in front of both targets (see the FAQ for details).</p></div>
+
+        <h3>Step 3: Add the New Record</h3>
+        <p>Once the TTL reduction has fully propagated and the new target is verified, you are ready to change the DNS record. This is the actual cutover moment.</p>
+        <ol>
+          <li>Log in to <a href="https://dash.is-pro.dev" class="inline-link">dash.is-pro.dev</a>.</li>
+          <li>Navigate to the DNS records section for your subdomain.</li>
+          <li>Edit the existing API subdomain record.<br/>Change the <strong>Value</strong> field to point to the new target. For a CNAME record, this will be the new provider's hostname (e.g. <code>my-app.onrender.com</code>). For an A record, this will be the new IP address.</li>
+          <li>Keep the <strong>Type</strong> the same as before. Changing the record type (e.g. from A to CNAME) can cause resolution failures during the propagation window because some resolvers may receive a different record type than they expect.</li>
+          <li>Keep the <strong>TTL</strong> at <code>300</code> (the reduced value from Step 1).</li>
+          <li>Save the record and immediately verify.</li>
+        </ol>
+        <p>At this point, the authoritative nameserver (is-pro.dev) is immediately serving the new record. However, recursive resolvers worldwide will only pick up the change as their cached entries expire — which, thanks to the pre-reduced TTL, will happen within 5 minutes for most users.</p>
+        <div class="callout"><p><strong>Important:</strong> Do <em>not</em> delete the old record. Simply edit it in place. If there is any configuration on the old target (e.g. a proxy, load balancer, or CDN) that references your subdomain, leave it running for at least 24–48 hours to serve any traffic that is still resolving to the old IP due to stale DNS caches.</p></div>
+
+        <h3>Step 4: Monitor During Propagation</h3>
+        <p>The 30–60 minutes following the DNS change are the most critical. This is when traffic gradually shifts from the old target to the new target, and any misconfiguration will surface as increased error rates or latency.</p>
+        <ul>
+          <li><strong>Watch your API monitoring dashboards</strong> — error rate, p50/p95/p99 latency, throughput, and 5XX responses. A spike in any of these metrics indicates a problem with the new target.</li>
+          <li><strong>Check both old and new endpoints resolve correctly</strong> by querying multiple public resolvers: <code>dig @8.8.8.8 api.yourname.is-pro.dev</code>, <code>dig @1.1.1.1 api.yourname.is-pro.dev</code>, and <code>dig @208.67.222.222 api.yourname.is-pro.dev</code>. This tells you how far DNS propagation has progressed across different resolver networks.</li>
+          <li><strong>Test the API from different geographic locations</strong> if you have access to a global observability tool (or friendly colleagues in other regions). Cloud providers often have regional load balancers or edge caches, and geography-based DNS behaviour can differ.</li>
+          <li><strong>Check SSL certificate validity</strong> using <code>curl -vI https://api.yourname.is-pro.dev</code>. A certificate mismatch or "SSL: no alternative certificate subject name matches" error means the new provider's certificate is not yet correctly configured.</li>
+          <li><strong>Verify that WebSocket connections (if used) upgrade properly</strong>: <code>curl -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Sec-WebSocket-Version: 13" -H "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==" https://api.yourname.is-pro.dev</code> and check for a <code>101 Switching Protocols</code> response.</li>
+        </ul>
+        <div class="callout"><p><strong>Tip:</strong> If you operate a CI/CD pipeline that pings your API, this is a good time to keep an eye on build logs. Automated deploys that hit the old API may start flaking if they are running during the propagation window.</p></div>
+
+        <h3>Step 5: Verify and Clean Up</h3>
+        <p>Once monitoring confirms that all traffic is stable on the new target — typically after 24–48 hours of observing normal error rates and latency — you can clean up the old infrastructure.</p>
+        <ol>
+          <li>Confirm all traffic is hitting the new target by checking the new provider's access logs or metrics dashboard for your custom domain. If you see zero requests for the old IP in your old provider's logs, the migration is complete.</li>
+          <li>Once stable, optionally increase TTL back to <code>3600</code> (or higher). A longer TTL reduces DNS query load on your authoritative nameserver and improves client-side performance. There is no rush — you can keep TTL at 300 for days or weeks if you prefer.</li>
+          <li>Decommission the old target: shut down the old server, remove the old hosting configuration, and release any old IP addresses. Keep the old target's SSL certificate active for a few more days if possible, to serve any long-tail cached traffic.</li>
+          <li>Update your internal documentation, runbooks, and monitoring dashboards to reflect the new infrastructure.</li>
+        </ol>
+        <div class="callout"><p><strong>Warning:</strong> Do not delete old DNS records that are no longer needed until you are certain no resolvers are still serving the old value. Use <code>dig +trace api.yourname.is-pro.dev</code> to trace the full resolution path and confirm only the new record is being returned.</p></div>
+
+        <h2>Verification</h2>
+        <p>Run the following commands to confirm the DNS migration is working correctly at every layer:</p>
+        <pre><code># Check the live record from your local resolver
+dig api.yourname.is-pro.dev A +short
+# Expected: the new target IP or CNAME
+
+# Check propagation to Google Public DNS
+dig @8.8.8.8 api.yourname.is-pro.dev A +short
+# Expected: same as above
+
+# Check propagation to Cloudflare DNS
+dig @1.1.1.1 api.yourname.is-pro.dev A +short
+# Expected: same as above
+
+# Check the authoritative nameserver directly (bypasses caches)
+dig @ns1.is-pro.dev api.yourname.is-pro.dev A +short
+# Expected: the new target value
+
+# Verify the SSL certificate
+curl -vI https://api.yourname.is-pro.dev 2>&1 | grep -i "SSL connection\|certificate\|subject"
+# Expected: valid certificate, subject matches api.yourname.is-pro.dev
+
+# Check that the API health endpoint responds correctly
+curl -s -o /dev/null -w "%{http_code}" https://api.yourname.is-pro.dev/health
+# Expected: 200
+
+# Monitor for error rate spikes (run continuously during cutover)
+watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.dev/health"</code></pre>
+        <p>If any of these return unexpected results (a different IP, an SSL error, or a non-200 status code), stop and diagnose before proceeding. Refer to the troubleshooting section below.</p>
+
+        <h2>Troubleshooting</h2>
+
+        <h3>1. Partial propagation — some users still hitting the old target</h3>
+        <p><strong>Cause:</strong> DNS resolvers that cached the old value and old (long) TTL before you reduced the TTL will not re-query until their cache expires. This is the most common issue after a DNS change and is usually temporary.</p>
+        <p><strong>Fix:</strong> Check the authoritative nameserver to confirm the new record is live: <code>dig @ns1.is-pro.dev api.yourname.is-pro.dev A +short</code>. If the authoritative server returns the new value, the record is correct. Wait for resolver caches to expire (up to the original TTL duration). You can also ask affected users to flush their local DNS cache. On Windows: <code>ipconfig /flushdns</code>. On macOS: <code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code>. On Linux: <code>sudo systemd-resolve --flush-caches</code>.</p>
+
+        <h3>2. SSL certificate mismatch on the new target</h3>
+        <p><strong>Cause:</strong> The new hosting provider has not finished provisioning an SSL certificate for <code>api.yourname.is-pro.dev</code>. This is especially common with providers that issue certificates lazily when traffic first arrives, or that require manual domain verification via TXT records.</p>
+        <p><strong>Fix:</strong> Log in to the new provider's dashboard and check the custom domain configuration. Look for a "Pending SSL" or "Certificate provisioning" status. Most providers have a "Retry" or "Renew" button. If the provider uses ACME-based certificate issuance (e.g. Let's Encrypt), ensure that the DNS record resolves correctly from the provider's perspective — some providers verify DNS from their own nameservers, which may not have picked up the change yet. Wait for propagation, then retry certificate issuance. As a workaround, you can temporarily route traffic through a reverse proxy that holds a valid certificate (like Cloudflare or a Caddy instance you control).</p>
+        <div class="callout"><p><strong>Tip:</strong> Some providers allow you to upload a custom SSL certificate manually. If you obtained a wildcard certificate for <code>*.yourname.is-pro.dev</code> in advance, you can install it on the new target before the DNS cutover, eliminating the certificate gap entirely.</p></div>
+
+        <h3>3. Rate limiting from the new provider</h3>
+        <p><strong>Cause:</strong> The new target (especially serverless or shared hosting platforms) may have rate limits that are lower than what your API traffic requires. When all traffic shifts over after DNS propagation, the sudden load can trigger rate limiting, causing 429 responses.</p>
+        <p><strong>Fix:</strong> Check the new provider's documentation for concurrent request limits, bandwidth caps, and database connection limits. If possible, start with the DNS pointing to the new target during a low-traffic period and gradually shift traffic using a weighted record strategy (see FAQ). If the new provider supports auto-scaling, ensure it is configured to handle the expected peak load. Contact the provider's support to request a temporary limit increase during the migration window.</p>
+
+        <h3>4. Mixed traffic hitting both old and new targets simultaneously</h3>
+        <p><strong>Cause:</strong> During the DNS propagation window, some resolvers return the old IP while others return the new IP. If your API maintains server-side state (e.g. in-memory session data, local file storage, or unshared caches), requests that land on the old target may behave differently than requests that land on the new target, leading to inconsistent user experiences.</p>
+        <p><strong>Fix:</strong> The best mitigation is to architect your API as stateless from the start — store session data in a shared database or Redis instance that both targets can access. If that is not possible, implement a "sticky" cutover: keep both targets running, use a shared data store, and monitor until one target receives zero traffic before shutting it down. Another option is to use a reverse proxy in front of both targets that can drain connections gracefully.</p>
+
+        <h3>5. Rollback procedure — reverting to the old target</h3>
+        <p>If monitoring reveals a critical issue with the new target after the DNS change, you may need to roll back. Because you kept the old target running, rollback is straightforward:</p>
+        <ol>
+          <li>Edit the API subdomain record in the is-pro.dev dashboard.</li>
+          <li>Change the <strong>Value</strong> back to the <em>old</em> target (the original IP or CNAME).</li>
+          <li>Save the record. Because the TTL is still at 300, the rollback propagates as quickly as the original change — within 5 minutes for most users.</li>
+          <li>Verify that traffic is now hitting the old target by checking the old provider's metrics and access logs.</li>
+          <li>Investigate the root cause of the failure on the new target before attempting the migration again.</li>
+        </ol>
+        <div class="callout"><p><strong>Important:</strong> After rolling back DNS, do <em>not</em> immediately increase the TTL back to 3600. Keep it at 300 until you are ready to attempt the migration again. Also, keep the new target running so you can debug the issue without needing to redeploy.</p></div>
+
+        <h2>DNS Propagation Notes Specific to API Migrations</h2>
+        <p>API migrations have distinct characteristics that affect DNS propagation behaviour:</p>
+        <ul>
+          <li><strong>High request volume.</strong> APIs often receive thousands of requests per minute from a relatively small number of clients (mobile apps, SPAs, server-to-server integrations). These clients typically have aggressive DNS caching, so a pre-reduced TTL is essential — many mobile app DNS libraries respect the TTL from the resolver, but some hard-code a minimum cache duration of 60 seconds regardless of TTL.</li>
+          <li><strong>Persistent connections.</strong> Many API clients use HTTP keep-alive or connection pooling, which means they resolve DNS once and reuse the connection for many requests. Changing DNS alone does not force these clients to reconnect to the new target. You may need to coordinate the cutover with the client team, or gracefully terminate old connections at the infrastructure level.</li>
+          <li><strong>API gateways and reverse proxies.</strong> If you have an API gateway (Kong, Tyk, AWS API Gateway) or reverse proxy (Nginx, Envoy) in front of your backend, the DNS change may need to be made at the gateway level rather than at the is-pro.dev DNS level. In this architecture, the gateway resolves the backend hostname internally, so you would change the backend DNS (or the gateway's upstream configuration) rather than the public-facing DNS.</li>
+          <li><strong>Health check endpoints.</strong> Use a dedicated health check endpoint (<code>/health</code> or <code>/status</code>) that is fast, does not require authentication, and returns immediately. Load balancers, orchestration systems, and monitoring tools rely on this endpoint to determine target health. Ensure the new target's health check returns 200 before you cut over DNS.</li>
+        </ul>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Cut over during low-traffic periods.</strong> Schedule your DNS change for a time when API traffic is at its daily minimum. For consumer-facing APIs, this is typically 2:00–5:00 AM local time. Check your traffic graphs to identify the lowest-usage window.</li>
+          <li><strong>Always have a rollback plan.</strong> Before making the DNS change, write down the exact steps to revert. Keep the old TTL value noted so you know what to restore it to. Document the rollback procedure in a runbook that a teammate could follow without your input.</li>
+          <li><strong>Test production endpoints before switching.</strong> Use the new provider's temporary URL to run your full test suite, including integration tests that exercise database writes, external API calls, and webhook deliveries. A staging environment that mirrors production is ideal, but testing against the actual production deployment (with a staging database) is a close second.</li>
+          <li><strong>Monitor error rates for 24 hours post-migration.</strong> Some issues surface only after users have been interacting with the new target for several hours — for example, memory leaks, connection pool exhaustion, or timezone-dependent bugs. Keep your monitoring dashboards visible and set up alerts for any error rate increase above baseline.</li>
+          <li><strong>Communicate the migration to API consumers.</strong> If your API is consumed by external teams or third-party applications, notify them in advance of the migration window. Provide the new target's temporary URL so they can test their integration ahead of time. After the migration, confirm that all integrations are working.</li>
+          <li><strong>Keep both old and new logging active.</strong> During the propagation window, collect logs from both targets. If a request fails on the new target, you can cross-reference the old target's logs to determine whether the request was handled correctly before the change.</li>
+          <li><strong>Use infrastructure as code for your DNS configuration.</strong> If you manage your DNS records through Terraform, Pulumi, or a similar tool, the migration becomes a simple diff-and-apply workflow. IaC also makes it easier to revert to the previous state if needed.</li>
+        </ul>
+
+        <h2>FAQ</h2>
+
+        <h3>Can I use weighted DNS records for a gradual cutover?</h3>
+        <p>Weighted records (sometimes called traffic steering or split horizon DNS) allow you to send a percentage of queries to one target and the remainder to another. This is useful for gradual rollouts. On is-pro.dev, weighted records are not natively supported in the dashboard, but you can achieve a similar effect by running your own authoritative DNS infrastructure or by using a DNS load-balancing service in front of is-pro.dev. For most users, the simpler approach of pre-reduced TTL followed by a single cutover is sufficient and less error-prone.</p>
+
+        <h3>What if my API uses WebSockets?</h3>
+        <p>WebSocket connections are typically long-lived and use HTTP/1.1 upgrade semantics. After a DNS change, existing WebSocket connections continue to hit the old target until the client disconnects and reconnects. To minimise disruption, configure your old target to send a "graceful shutdown" signal (e.g. a close frame with a reconnect hint) during the migration window. On the new target, ensure WebSocket handshake and upgrade work correctly by testing with tools like <code>websocat</code> or a custom WebSocket client before the DNS cutover.</p>
+
+        <h3>How do I handle SSL during migration?</h3>
+        <p>SSL is often the trickiest part of a DNS migration because certificate issuance and DNS propagation are interdependent. The ideal sequence is: (1) configure the custom domain on the new provider, (2) verify DNS at the provider level (they may test from their own DNS infra), (3) trigger certificate issuance, (4) confirm the certificate is active, and (5) cut over DNS. If the provider requires the DNS record to point to them before issuing a certificate, you have a chicken-and-egg problem — in that case, accept a brief SSL gap during cutover, or use a shared reverse proxy that holds a wildcard certificate for both targets.</p>
+
+        <h3>What happens to cached DNS in mobile apps?</h3>
+        <p>Mobile operating systems and apps often implement custom DNS caching that does not strictly follow TTL values. iOS, for example, caches DNS results for up to 10–15 minutes even when the TTL is lower. Android's DNS behaviour varies by manufacturer and OS version. This means that even with a TTL of 60 seconds, some mobile users may continue hitting the old target for up to 15 minutes after the change. This is normal — just ensure both targets remain operational during this window.</p>
+
+        <h3>Do I need to worry about DNSSEC during migration?</h3>
+        <p>If your subdomain is DNSSEC-signed, changing the DNS record while the DNSSEC signatures remain valid should work transparently — the signatures cover the record set, not the specific value. However, if you change the record type (e.g. from A to CNAME), the DNSSEC chain of trust may break for resolvers that validated the old record type. The safest approach is to change only the value, not the type, and to avoid modifying DNSSEC signing parameters during the migration window.</p>
+
+        <h3>How do I migrate an apex domain (yourname.is-pro.dev) that serves an API?</h3>
+        <p>The apex (bare domain) cannot use a CNAME record. If your API is served from the apex, you must use an A or AAAA record (pointing to an IP address) or an ALIAS/ANAME record if your DNS provider supports it (is-pro.dev does support synthetic ANAME records at the apex). The migration steps are the same, but instead of editing a CNAME value, you change the A record to the new IP. Note that some hosting providers do not support apex custom domains for this reason — check with your new provider before migrating.</p>
+
+        <h3>Can I automate the entire migration with CI/CD?</h3>
+        <p>Yes. The is-pro.dev dashboard does not currently expose a public API, but if you use Terraform or similar IaC tooling, you can script the DNS change as part of a deployment pipeline. For example, you could have a CI/CD job that: (1) deploys the API to the new target, (2) runs integration tests against the temporary URL, (3) updates the DNS record via an IaC apply, (4) runs post-migration smoke tests, and (5) monitors for a configurable cooldown period before declaring success.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/guides/create-safe-wildcard-records/" class="inline-link">Create Wildcard Records Safely</a></li>
+          <li><a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="inline-link">Diagnose SSL Pending on a New Subdomain</a></li>
+          <li><a href="/guides/migrate-subdomain-between-hosting-providers/" class="inline-link">Migrate a Subdomain Between Hosting Providers</a></li>
+          <li><a href="/guides/build-a-dns-change-checklist-for-teams/" class="inline-link">Build a DNS Change Checklist for Teams</a></li>
+        </ul>
+        <p style="margin-top:1rem;">For a deeper look at DNS propagation mechanics, read our blog post <a href="/blog/" class="inline-link">DNS Propagation Explained</a>.</p>
+
+        <h2>Conclusion</h2>
+        <p>Migrating an API subdomain to a new target without downtime comes down to three principles: prepare ahead of time, reduce your TTL before making the change, and keep both targets running until you are certain the migration is complete. The pre-reduced TTL is the single most important step — without it, your DNS change can take hours to propagate, leaving users stranded on a stale endpoint that you may have already decomissioned.</p>
+        <p>By following the step-by-step workflow in this guide — pre-reduce TTL, prepare and verify the new target, update the DNS record, monitor propagation, and clean up only after stability is confirmed — you can move your API subdomain between hosting providers, cloud regions, or IP addresses with zero perceived downtime for your consumers.</p>
+        <p>Remember to always have a rollback plan, communicate with your API consumers about the migration window, and keep your observability tooling active for at least 24 hours after the cutover. The is-pro.dev <a href="https://discord.gg/N8YzrkJxYy" class="inline-link">Discord community</a> is a great place to ask questions if you run into issues during your migration.</p>
+
       </div>
     </div>
   </section>

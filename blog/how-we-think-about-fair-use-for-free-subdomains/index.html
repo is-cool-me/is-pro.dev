@@ -75,15 +75,162 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>Why fair use matters</h2>
-        <p>Free domain services are shared resources. Abuse, spam farms, and disposable campaigns can quickly degrade reputation for everyone.</p>
-        <h2>Healthy usage patterns</h2>
-        <p>Stable project hosting, transparent ownership, and quick response to abuse reports create long-term service reliability.</p>
-        <h2>Red flags for enforcement</h2>
-        <p>Mass-created disposable hostnames, deceptive naming, and repeated policy violations are patterns that usually trigger suspension.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>What "Fair Use" Means for a Free Subdomain Service</h2>
+        <p>When we say "fair use" at is-cool-me, we are describing a shared responsibility model. We provide free subdomains under the <code>is-pro.dev</code> and related domains because we believe developers should have easy access to DNS infrastructure for their projects. In return, we ask that each user consumes these resources in a way that does not degrade the experience for others or create risk for the platform as a whole.</p>
+        <p>Fair use is not a fixed number — it is a principle. It means using the service for its intended purpose (hosting real projects and applications) without abusing the free tier to run industrial-scale operations, host disposable spam domains, or circumvent platform safeguards. Think of it like a community garden: everyone is welcome to plant, but nobody should bring in a tractor and plant fifty acres.</p>
+
+        <div class="callout">
+          <p><strong>Core principle:</strong> Fair use exists to protect service quality for all users. Without it, a small number of abusive users could degrade DNS reliability, burn through rate limits, and trigger IP blacklisting for everyone on the platform.</p>
+        </div>
+
+        <h2>Why Limits Exist</h2>
+        <p>Every free service operates under resource constraints. For a DNS-based platform like is-cool-me, the constraints fall into three categories:</p>
+
+        <h3>DNS Query Volume</h3>
+        <p>Every subdomain we provision generates DNS queries — often hundreds of thousands per day for popular subdomains. Our upstream DNS providers (and our own infrastructure) have capacity limits. A single user registering 10,000 subdomains for a spam campaign could generate millions of queries per hour, degrading resolution latency for every other user. We enforce per-account limits on subdomain registrations to ensure query volume stays within our capacity budget.</p>
+
+        <h3>Abuse Prevention</h3>
+        <p>Free subdomain services are a favorite target for phishers, malware distributors, and spammers. A single phishing site on our platform can get our entire domain — including every legitimate user's subdomain — added to blocklists like Google Safe Browsing, Spamhaus, or SURBL. Once a domain is blacklisted, it can take weeks to get delisted, and some blocklists permanently degrade trust in the domain. Limits on registration patterns, keyword filtering, and content monitoring are all designed to prevent this outcome before it happens.</p>
+
+        <h3>Resource Fairness</h3>
+        <p>Our infrastructure (DNS servers, API gateways, databases, moderation tooling) is shared across all users. Rate limits and usage caps ensure that no single user can monopolize resources. This is standard practice for any multi-tenant service — AWS has service quotas, GitHub has rate limits, and we have fair use boundaries.</p>
+
+        <h2>Common Fair Use Considerations</h2>
+
+        <h3>How Many Subdomains Can One User Register?</h3>
+        <p>Each user authenticated via GitHub OAuth can register a reasonable number of subdomains for personal and project use. Our current policy allows multiple subdomains per user, but we monitor for patterns that indicate bulk registration for non-project purposes. If you are building a platform that needs subdomains for each customer, contact us to discuss a partnership — the free tier is designed for individual developers, not resellers.</p>
+
+        <h3>Traffic and Bandwidth Expectations</h3>
+        <p>is-cool-me provides DNS resolution, not hosting. We do not limit traffic to your hosted content (that is between you and your hosting provider). However, we do limit DNS query volume per subdomain. If your subdomain generates an unusually high volume of DNS queries (tens of thousands per minute), we may reach out to discuss your use case or recommend moving to a dedicated DNS provider. Most personal projects will never approach this threshold.</p>
+
+        <h3>Prohibited Uses</h3>
+        <p>The following uses are categorically prohibited under our fair use policy:</p>
+        <ul>
+          <li><strong>Spam:</strong> Using subdomains to send or advertise unsolicited bulk email</li>
+          <li><strong>Phishing:</strong> Impersonating login pages, financial institutions, or other trusted services to steal credentials</li>
+          <li><strong>Malware distribution:</strong> Hosting or linking to malicious software, exploit kits, or drive-by download pages</li>
+          <li><strong>Disposable domains:</strong> Creating short-lived subdomains for spam campaigns or credential stuffing</li>
+          <li><strong>Reselling:</strong> Offering is-cool-me subdomains as a service to third parties</li>
+          <li><strong>Illegal content:</strong> Any content that violates applicable law in your jurisdiction or ours</li>
+        </ul>
+
+        <h3>Idle and Inactive Subdomains</h3>
+        <p>Subdomains that do not resolve to active content for an extended period may be reclaimed. We define "inactive" as: the DNS record exists but the target endpoint returns a non-200 status (or does not resolve) for 90 consecutive days. Before reclaiming an inactive subdomain, we send a notification to the registered email address with a 14-day grace period to restore the target.</p>
+        <p>This policy prevents subdomain squatting — reserving names without using them — and ensures that the namespace remains available for active projects. If you need to temporarily pause a project, update the DNS record to point to a static maintenance page to keep the subdomain active.</p>
+
+        <h2>How We Enforce Fair Use</h2>
+        <p>Enforcement is layered and proportional. We use automated systems for first-line detection and human review for edge cases and appeals.</p>
+
+        <h3>Automated Monitoring</h3>
+        <p>Our monitoring pipeline tracks several metrics per account and per subdomain:</p>
+        <ul>
+          <li>Registration rate (subdomains created per hour)</li>
+          <li>DNS query volume (queries per minute per subdomain)</li>
+          <li>Content reachability and response status codes</li>
+          <li>Keyword and pattern matching on subdomain names</li>
+          <li>Known blocklist status (Google Safe Browsing, PhishTank, etc.)</li>
+        </ul>
+        <p>When a metric exceeds a threshold, the system automatically flags the account for review. For clear violations (e.g., a subdomain name that matches a known phishing pattern), the system can suspend the subdomain immediately and notify the moderation team.</p>
+
+        <h3>Rate Limiting</h3>
+        <p>API endpoints for subdomain registration, DNS record updates, and account operations are rate-limited per user and per IP address. Rate limits protect our infrastructure from accidental or intentional abuse. If you hit a rate limit, wait for the window to reset — typically 60 seconds for most endpoints. Repeated rate limit violations may trigger a manual review.</p>
+
+        <h3>Abuse Detection</h3>
+        <p>We integrate with multiple threat intelligence feeds and blocklist services. When a subdomain appears on a blocklist, we automatically investigate and, if confirmed, suspend the subdomain and notify the owner. We also accept abuse reports from the community — see our guide on <a href="/blog/how-to-handle-abuse-reports-responsibly/">handling abuse reports</a> for details.</p>
+
+        <h2>What Happens When Limits Are Exceeded</h2>
+        <p>Enforcement actions follow a graduated scale:</p>
+        <ol>
+          <li><strong>Warning:</strong> For first-time or low-severity violations, we send a warning via email and dashboard notification explaining the issue and what needs to change.</li>
+          <li><strong>Temporary suspension:</strong> If the violation continues or is more serious (e.g., a phishing attempt detected early), the subdomain is temporarily suspended. DNS resolution is disabled, and the owner receives instructions for remediation.</li>
+          <li><strong>Account review:</strong> For repeated or severe violations (e.g., malware distribution), the entire account is placed under review. All subdomains are suspended pending investigation.</li>
+          <li><strong>Termination:</strong> In cases of intentional abuse, illegal content, or failure to remediate after multiple warnings, the account is terminated and all subdomains are reclaimed.</li>
+        </ol>
+
+        <div class="callout">
+          <p><strong>Tip:</strong> Most enforcement actions never reach step 2. If you receive a warning, respond promptly — update your subdomain's content, remove prohibited material, or contact us if you believe the warning was issued in error.</p>
+        </div>
+
+        <h2>Examples: Fair vs. Unfair Usage</h2>
+        <p>To make the policy concrete, here are examples of both fair and unfair usage patterns:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Assessment</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hosting a personal blog at <code>blog.is-pro.dev</code></td>
+              <td>Fair</td>
+              <td>Single subdomain, real content, active maintenance</td>
+            </tr>
+            <tr>
+              <td>Registering 3 subdomains for 3 open-source projects</td>
+              <td>Fair</td>
+              <td>Project-linked, transparent ownership via GitHub</td>
+            </tr>
+            <tr>
+              <td>Registering 200 subdomains in one hour via automation</td>
+              <td>Unfair</td>
+              <td>Bulk registration pattern suggests abuse or reselling</td>
+            </tr>
+            <tr>
+              <td>Hosting a SaaS landing page that gets 50k daily visitors</td>
+              <td>Fair</td>
+              <td>Legitimate project with real traffic</td>
+            </tr>
+            <tr>
+              <td>Creating <code>login-google.is-pro.dev</code></td>
+              <td>Unfair</td>
+              <td>Impersonation pattern — likely phishing</td>
+            </tr>
+            <tr>
+              <td>Using a subdomain as a redirect URL for an email campaign</td>
+              <td>Unfair</td>
+              <td>Potentially deceptive, associated with spam infrastructure</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>How to Stay Within Fair Use: Best Practices</h2>
+        <ul>
+          <li><strong>Register only what you need:</strong> Each subdomain should correspond to a real project or application. Avoid registering names "just in case" — you can always add more later.</li>
+          <li><strong>Keep your subdomains active:</strong> Point them to live, accessible content. If a project is deprecated, either redirect it or remove the DNS record.</li>
+          <li><strong>Use descriptive, honest names:</strong> Your subdomain should reflect your project's actual identity. Avoid names that could be confused with well-known brands or services.</li>
+          <li><strong>Respond to notifications:</strong> If we contact you about a subdomain issue, respond promptly. Non-responsive accounts are more likely to face enforcement actions.</li>
+          <li><strong>Secure your GitHub account:</strong> Since authentication is tied to GitHub, a compromised GitHub account could be used to register subdomains maliciously. Enable two-factor authentication on GitHub.</li>
+        </ul>
+
+        <h2>Appeals Process</h2>
+        <p>If your subdomain or account was suspended and you believe it was a mistake, you can appeal through the following process:</p>
+        <ol>
+          <li>Contact us via the <a href="/contact/">contact form</a> or our <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord server</a> with the subject "Appeal: [your subdomain]"</li>
+          <li>Include your GitHub username, the subdomain(s) in question, and an explanation of why you believe the suspension was in error</li>
+          <li>Our moderation team will review the appeal within 48 hours</li>
+          <li>If the appeal is approved, the subdomain will be reinstated immediately</li>
+          <li>If the appeal is denied, we will explain the reasoning and, where applicable, suggest steps to remediate the issue</li>
+        </ol>
+        <p>We take appeals seriously. False positives in our automated systems are inevitable, and we want to correct them quickly. Every appeal helps us improve our detection accuracy.</p>
+
+        <h2>Future Plans: Scaling Fair Use</h2>
+        <p>As is-cool-me grows, we are investing in more sophisticated fair use enforcement that is both more accurate and less burdensome for legitimate users. Our roadmap includes:</p>
+        <ul>
+          <li><strong>Reputation-based scoring:</strong> Accounts with a long history of compliant usage will earn higher rate limits and more lenient automated checks</li>
+          <li><strong>Improved abuse detection ML:</strong> Better classification of phishing and spam patterns to reduce false positives</li>
+          <li><strong>Self-service appeal portal:</strong> A dashboard-based appeals system with faster turnaround times</li>
+          <li><strong>Usage analytics:</strong> Public transparency reports showing enforcement actions, uptime, and abuse trends</li>
+          <li><strong>Premium tier:</strong> For users who need higher limits, we are exploring a paid tier with dedicated support and expanded quotas</li>
+        </ul>
+        <p>Our goal is to keep is-cool-me free and accessible for developers while maintaining the trust of the broader internet community. Fair use is how we balance those two priorities.</p>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

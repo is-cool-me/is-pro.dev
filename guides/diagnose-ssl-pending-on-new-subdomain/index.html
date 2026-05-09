@@ -74,25 +74,147 @@
   <section class="section">
     <div class="container">
       <div style="max-width:760px;margin:0 auto;" data-reveal>
-        <h2 style="margin-bottom:1rem;">Implementation steps</h2>
-        <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Confirm DNS resolves correctly from authoritative nameservers.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Check whether proxy mode or origin certificate config blocks issuance.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Verify the host serves expected responses on HTTP and HTTPS.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Re-run certificate issuance after fixing record or origin mismatches.</li>
+
+        <h2>What You Will Learn</h2>
+        <p>When you add a new subdomain to is-pro.dev and configure it through your hosting provider (Vercel, Netlify, Cloudflare Pages, or a similar platform), the dashboard will typically show the SSL status as <strong>Pending</strong> while the certificate authority (CA) attempts to issue a certificate. This guide covers why certificates get stuck in this pending state, how to methodically diagnose the root cause, what fixes you can apply yourself, and when you should escalate to your provider or our support team.</p>
+        <p>By the end of this guide you will understand the full certificate issuance lifecycle, know the exact diagnostic commands to run, and be able to resolve the majority of pending SSL issues without waiting for support.</p>
+
+        <h2>Requirements</h2>
+        <ul>
+          <li>An is-pro.dev subdomain with DNS records configured in your dashboard</li>
+          <li>SSL status showing <strong>Pending</strong> in the is-pro.dev dashboard</li>
+          <li>Access to a terminal with <code>dig</code> and <code>curl</code> installed (Linux, macOS, or WSL)</li>
+          <li>Access to your hosting provider's dashboard (Vercel, Netlify, Cloudflare, etc.)</li>
+          <li>Basic familiarity with DNS concepts (A records, CNAME records, TTL)</li>
         </ul>
 
-        <h2 style="margin-top:2rem;margin-bottom:1rem;">Validation checklist</h2>
-        <div class="card" style="padding:1.25rem;">
-          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;">
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Authoritative DNS answers return expected values.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Target platform verifies the custom domain.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">HTTPS is active and redirect behavior is correct.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">No stale records remain from previous setup.</li>
-          </ul>
-        </div>
+        <h2>Background</h2>
+        <p>SSL certificate issuance follows a well-defined protocol: the CA must verify that the requester controls the domain for which the certificate is being requested. For is-pro.dev subdomains, the CA used is Let's Encrypt, which performs domain validation via HTTP-01 or DNS-01 challenges. When your dashboard shows <strong>Pending</strong>, it means the CA has initiated the issuance process but has not yet completed validation.</p>
+        <p>The most common reasons for a stuck pending state fall into four categories: DNS resolution problems, CAA record restrictions, hosting provider misconfiguration, and propagation delays. Understanding which category your issue falls into is the first step toward a fix.</p>
+        <p>Let's Encrypt certificates are valid for 90 days, and the issuance process typically completes within seconds once all prerequisites are met. If your certificate has been pending for more than 15 minutes, something in the chain is misconfigured.</p>
 
-        <p style="margin-top:1.5rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+        <h2>Step-by-Step Diagnosis</h2>
+
+        <h3>Step 1: Check Authoritative DNS Resolution</h3>
+        <p>The CA needs to resolve your subdomain to verify it points to the correct server. Start by checking what your authoritative DNS nameservers return for your subdomain:</p>
+        <pre><code>dig yourname.is-pro.dev +short
+dig yourname.is-pro.dev A +short
+dig yourname.is-pro.dev CNAME +short</code></pre>
+        <p>Compare the output against the expected target provided by your hosting provider. For Vercel, the CNAME should look like <code>cname.vercel-dns.com</code>. For Netlify, it should be something like <code>your-site.netlify.app</code>. If the record is missing or points to an old target, update it in the is-pro.dev DNS dashboard and wait 5-10 minutes for propagation.</p>
+        <p>You should also check that the nameservers themselves are responding correctly:</p>
+        <pre><code>dig yourname.is-pro.dev @ns1.is-pro.dev +short</code></pre>
+        <p>This bypasses local caching and queries the authoritative nameserver directly. If this returns the correct record but a standard <code>dig</code> does not, you are likely seeing cached data. Wait for TTL expiry or flush your local DNS resolver.</p>
+
+        <h3>Step 2: Check CAA Records</h3>
+        <p>CAA (Certificate Authority Authorization) records tell the world which CAs are permitted to issue certificates for your domain. If a CAA record exists but does not include Let's Encrypt, issuance will be blocked:</p>
+        <pre><code>dig CAA yourname.is-pro.dev +short</code></pre>
+        <p>If you see output like <code>0 issue "digicert.com"</code> without a corresponding <code>0 issue "letsencrypt.org"</code>, your CAA records are blocking Let's Encrypt. The fix is to add a CAA record that permits Let's Encrypt:</p>
+        <pre><code>yourname.is-pro.dev.  IN  CAA  0  issue  "letsencrypt.org"</code></pre>
+        <p>You can manage CAA records through the is-pro.dev DNS dashboard. Note that CAA records are inherited by subdomains unless explicitly overridden, so a parent domain CAA restriction can block subdomain issuance even if the subdomain itself has no CAA records.</p>
+
+        <h3>Step 3: Check Hosting Provider Configuration</h3>
+        <p>Your hosting provider must be configured to respond to the domain validation challenge. Log into your hosting provider's dashboard and verify:</p>
+        <ul>
+          <li>The custom domain <code>yourname.is-pro.dev</code> is added to your project or site</li>
+          <li>The provider's SSL/TLS settings are enabled (usually automatic)</li>
+          <li>No firewall or proxy rules are blocking Let's Encrypt's validation IPs</li>
+          <li>The provider is not in a "pending" state on their end (some providers have their own verification process)</li>
+        </ul>
+        <p>Providers like Cloudflare may have a proxy (orange cloud) setting that can interfere with certificate issuance if the origin server is not configured correctly. If you use Cloudflare, try setting the DNS record to DNS-only (gray cloud) during issuance, then switch back to proxied after the certificate is active.</p>
+
+        <h3>Step 4: Wait for Propagation</h3>
+        <p>DNS changes are not instantaneous. Even after you update records, the change must propagate across the global DNS network. Typical propagation times:</p>
+        <ul>
+          <li>Default TTL of 3600 seconds (1 hour): full propagation can take up to 1 hour</li>
+          <li>If you lowered TTL to 300 seconds (5 minutes): propagation takes 5-15 minutes</li>
+          <li>Some ISPs and resolvers ignore TTL and cache for longer periods</li>
+        </ul>
+        <p>You can check global propagation using online tools like whatsmydns.net or by querying multiple public resolvers:</p>
+        <pre><code>dig @1.1.1.1 yourname.is-pro.dev +short
+dig @8.8.8.8 yourname.is-pro.dev +short
+dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
+        <p>If Cloudflare's resolver (1.1.1.1) and Google's resolver (8.8.8.8) both return the correct record, the issue is not propagation.</p>
+
+        <h3>Step 5: Force Re-issuance</h3>
+        <p>If your DNS records are correct and the hosting provider is configured properly, you may need to force the CA to retry the issuance. In the is-pro.dev dashboard, you can trigger a re-issuance by navigating to your subdomain's SSL settings and clicking <strong>Re-issue Certificate</strong>. This cancels the pending request and starts a fresh one.</p>
+        <p>Before triggering re-issuance, confirm that:</p>
+        <ul>
+          <li>DNS resolution returns the correct target from all major resolvers</li>
+          <li>CAA records permit Let's Encrypt</li>
+          <li>Your hosting provider accepts requests for your subdomain</li>
+          <li>Your subdomain returns a valid HTTP response (not a 404 or redirect loop)</li>
+        </ul>
+        <p>You can test the HTTP challenge path that Let's Encrypt uses:</p>
+        <pre><code>curl -I http://yourname.is-pro.dev/.well-known/acme-challenge/</code></pre>
+        <p>If this returns anything other than a 200 or 404 (such as a 301/302 redirect or a 5xx error), the validation challenge may fail. The key requirement is that the provider serves the challenge file correctly at the path Let's Encrypt expects.</p>
+
+        <h2>Verification</h2>
+        <p>Once you have resolved the issue and the certificate is issued, verify the following:</p>
+        <ul>
+          <li><strong>SSL Active:</strong> The is-pro.dev dashboard shows "Active" instead of "Pending"</li>
+          <li><strong>Browser Padlock:</strong> Visiting <code>https://yourname.is-pro.dev</code> shows a secure padlock icon in the address bar</li>
+          <li><strong>SSL Labs Rating:</strong> Run an SSL Labs test at <a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener noreferrer">ssllabs.com/ssltest</a> and confirm an A or A+ rating</li>
+          <li><strong>Certificate Details:</strong> The certificate should be issued by Let's Encrypt (or your configured CA) and list your subdomain in the Subject Alternative Name (SAN) field</li>
+        </ul>
+
+        <h2>Troubleshooting</h2>
+        <h3>CAA Blocking Let's Encrypt</h3>
+        <p>If you have existing CAA records that do not include Let's Encrypt, add <code>0 issue "letsencrypt.org"</code> alongside your existing CAA records. Multiple CAA records are OR'd together so each permitted CA needs its own record.</p>
+
+        <h3>Apex CNAME Conflicts</h3>
+        <p>CNAME records cannot coexist with other record types at the same name. If your subdomain has an A record and a CNAME record simultaneously, DNS resolution may be unpredictable. Ensure you have only the record type recommended by your hosting provider.</p>
+
+        <h3>Proxy Interference</h3>
+        <p>If you use Cloudflare or another reverse proxy, the proxy may intercept the HTTP validation challenge before it reaches your origin server. During issuance, set the record to DNS-only (gray cloud). Re-enable proxy after the certificate is active.</p>
+
+        <h3>Rate Limits</h3>
+        <p>Let's Encrypt imposes rate limits: 50 certificates per domain per week, and 5 failed validations per domain per hour. If you trigger re-issuance repeatedly without fixing the underlying issue, you may hit these limits, which will cause a temporary block. Wait an hour or check your current rate limit status at <a href="https://letsencrypt.org/docs/rate-limits/" target="_blank" rel="noopener noreferrer">letsencrypt.org/docs/rate-limits</a>.</p>
+
+        <h3>Mixed Content Warnings</h3>
+        <p>After SSL is active, if your page loads resources (images, scripts, stylesheets) over HTTP, browsers will show mixed content warnings. Use a tool like <a href="https://whynopadlock.com" target="_blank" rel="noopener noreferrer">whynopadlock.com</a> to identify insecure resources. Update all asset URLs to use HTTPS or protocol-relative URLs.</p>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Add CAA records proactively</strong> before you need a certificate. This prevents unexpected CAA-related delays when you first set up a subdomain. See our guide on <a href="/guides/lock-down-caa-for-certificate-control/">locking down CAA</a> for details.</li>
+          <li><strong>Lower TTL during initial setup</strong> to 300 seconds so that DNS changes propagate quickly. Once the certificate is active and everything is stable, increase the TTL back to 3600 or higher to reduce DNS query load.</li>
+          <li><strong>Test before adding DNS records.</strong> Configure your hosting provider first, verify it works with a test domain or their preview URL, then add the DNS record pointing to it.</li>
+          <li><strong>Monitor certificate expiry.</strong> Set up calendar reminders or use monitoring tools to alert you when certificates are approaching their 90-day expiry. Let's Encrypt auto-renewal usually works, but configuration drift can break it.</li>
+          <li><strong>Document your DNS configuration</strong> including all records, their targets, and the purpose of each. This makes future debugging dramatically faster.</li>
+        </ul>
+
+        <h2>FAQ</h2>
+
+        <h3>How long should a certificate stay in "Pending" status?</h3>
+        <p>Normally no more than 5-15 minutes. If it has been longer than 30 minutes and propagation is confirmed, there is likely a configuration issue rather than a delay.</p>
+
+        <h3>Can I use my own certificate instead of Let's Encrypt?</h3>
+        <p>Yes, is-pro.dev supports custom certificates. You can upload your own certificate and private key through the dashboard. The pending status only applies to automatically issued Let's Encrypt certificates.</p>
+
+        <h3>Does the subdomain need to be publicly accessible for issuance?</h3>
+        <p>Yes. Let's Encrypt must be able to reach your subdomain over the public internet to complete the HTTP-01 challenge. If your server is behind a firewall or VPN, the validation will fail.</p>
+
+        <h3>What does "CAA record preventing issuance" mean?</h3>
+        <p>It means your domain's CAA DNS records specify a set of permitted certificate authorities, and Let's Encrypt is not in that set. You need to add a CAA record that explicitly allows Let's Encrypt to issue certificates.</p>
+
+        <h3>What if my hosting provider does not support custom domains?</h3>
+        <p>Most major hosting platforms (Vercel, Netlify, Railway, Render, Fly.io, Cloudflare Pages) support custom domains. If yours does not, you may need to use a reverse proxy like Cloudflare in front of it.</p>
+
+        <h3>Why does the dashboard show "Pending" after a successful re-issuance?</h3>
+        <p>The dashboard may cache the SSL status for a few minutes. Try refreshing the page after 5 minutes. If it still shows pending, the new issuance attempt may have encountered the same issue as the first one.</p>
+
+        <h3>Can DNSSEC affect certificate issuance?</h3>
+        <p>Yes. If DNSSEC is enabled for your domain but the signatures are misconfigured or expired, resolvers may return SERVFAIL, which will block Let's Encrypt from validating your domain. Check DNSSEC status with <code>dig yourname.is-pro.dev +dnssec</code>.</p>
+
+        <h3>What should I do if none of these steps work?</h3>
+        <p>If you have verified DNS resolution, CAA records, hosting configuration, propagation, and re-issued the certificate, and it is still pending, contact is-pro.dev support through Discord or email. Include the output of the dig commands from Step 1 and Step 2 to speed up diagnosis.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/guides/lock-down-caa-for-certificate-control/">Lock Down CAA for Better Certificate Control</a> — Learn how to configure CAA records to restrict which CAs can issue certificates for your domains.</li>
+          <li><a href="/guides/connect-vercel/">Connect Vercel to is-pro.dev</a> — Step-by-step guide for connecting a Vercel deployment to your is-pro.dev subdomain.</li>
+          <li><a href="/guides/connect-netlify/">Connect Netlify to is-pro.dev</a> — Step-by-step guide for connecting a Netlify site to your is-pro.dev subdomain.</li>
+        </ul>
+
       </div>
     </div>
   </section>

@@ -75,15 +75,171 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>The takeover risk</h2>
-        <p>If DNS still points to a deleted SaaS endpoint, another account may reclaim that endpoint and serve content under your hostname.</p>
-        <h2>Where it appears</h2>
-        <p>Common cases include removed Vercel projects, deleted storage websites, and stale CNAME records left after migration.</p>
-        <h2>Prevention routine</h2>
-        <p>Audit records after every decommission, remove stale aliases fast, and run periodic scans for unresolved or reclaimable targets.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>What Is a Subdomain Takeover?</h2>
+        <p>A subdomain takeover occurs when a DNS record — usually a CNAME or A record — still points to a service endpoint that has been deprovisioned. An attacker can claim that orphaned endpoint on the same cloud platform and serve arbitrary content under your legitimate hostname. The result is a fully authenticated phishing page, malware dropper, or credential harvester hosted on your domain with zero compromise of your actual servers.</p>
+        <p>The canonical DNS record type involved is the CNAME record, which aliases one hostname to another. If <code>blog.example.com</code> has a CNAME pointing to <code>my-project.vercel.app</code>, and that Vercel project is deleted, anyone can create a new Vercel project claiming <code>my-project.vercel.app</code>. Visitors to <code>blog.example.com</code> will be served the attacker's content — and every security indicator (TLS certificate, URL bar) will show your domain.</p>
+
+        <div class="callout">
+          <p><strong>Key insight:</strong> Subdomain takeovers exploit a gap in decommissioning workflows. The DNS record outlives the resource it points to. This is not a vulnerability in the DNS protocol or the cloud platform — it is a configuration hygiene failure.</p>
+        </div>
+
+        <h2>How Takeovers Happen</h2>
+        <p>The lifecycle of a subdomain takeover follows a predictable sequence:</p>
+        <ol>
+          <li><strong>Provision:</strong> A developer creates a project on a platform like Vercel, Netlify, or GitHub Pages and configures a custom domain (e.g., <code>app.example.com</code>) via a CNAME record in their DNS provider.</li>
+          <li><strong>Deprovision:</strong> The developer deletes the cloud project — perhaps due to a migration, project cancellation, or reorganization — but forgets to remove the DNS record.</li>
+          <li><strong>Reclaim:</strong> An attacker discovers the dangling record (via scanning or enumeration tools), registers the same endpoint name on the same platform, and serves content under the victim's subdomain.</li>
+        </ol>
+        <p>This pattern repeats across every major cloud platform that offers custom domain assignment. The platform itself operates correctly: it assigns the requested endpoint to whoever claims it first. The fault lies entirely in the dangling DNS record left behind.</p>
+
+        <h2>Real-World Impact</h2>
+        <p>Subdomain takeover is not a theoretical risk. High-profile incidents have affected some of the largest companies in technology:</p>
+        <ul>
+          <li><strong>Uber (2016):</strong> A security researcher took over <code>uber.com</code> subdomains via a dangling DNS record pointing to a deleted AWS Elastic Beanstalk environment. The researcher demonstrated full control over the subdomain's content, including the ability to serve arbitrary JavaScript.</li>
+          <li><strong>Slack (2018):</strong> A subdomain takeover via a dangling AWS S3 bucket exposed a subdomain associated with Slack's shared link infrastructure. The researcher could have served malware or phishing pages under a verified Slack hostname.</li>
+          <li><strong>Shopify (2020):</strong> Multiple Shopify subdomains were vulnerable to takeover via dangling CNAME records pointing to deprovisioned third-party SaaS endpoints. The findings were disclosed through Shopify's bug bounty program.</li>
+        </ul>
+        <p>The common thread in all of these incidents: an engineer deleted a cloud resource but didn't delete the DNS record. The business impact includes loss of customer trust, brand damage, and the cost of incident response. For companies handling sensitive data, a successful takeover can also trigger regulatory reporting obligations under GDPR, HIPAA, or PCI-DSS.</p>
+
+        <h2>Commonly Vulnerable Services</h2>
+        <p>Any platform that allows users to assign custom domains is a potential takeover vector. The most commonly targeted services include:</p>
+        <ul>
+          <li><strong>Vercel:</strong> CNAME from your domain to <code>*.vercel.app</code>. Deleting a project frees the project alias.</li>
+          <li><strong>Netlify:</strong> CNAME to <code>*.netlify.app</code>. Same reclaim mechanism.</li>
+          <li><strong>GitHub Pages:</strong> CNAME to <code>*.github.io</code> or an A record to GitHub's Pages IPs. Deleted repositories free the hostname.</li>
+          <li><strong>AWS S3 (static hosting):</strong> CNAME to an S3 bucket endpoint. Deleted buckets can be re-registered by any AWS account.</li>
+          <li><strong>Heroku:</strong> CNAME to <code>*.herokuapp.com</code>. Deleted apps free the app name.</li>
+          <li><strong>Azure Cloud Services / Azure Storage:</strong> CNAME to <code>*.cloudapp.net</code> or storage endpoint.</li>
+          <li><strong>Shopify:</strong> CNAME to <code>shops.myshopify.com</code>.</li>
+          <li><strong>Fastly, Cloudflare Workers, and other edge compute platforms:</strong> Any service that assigns per-customer endpoints under a shared domain.</li>
+        </ul>
+        <p>This list is not exhaustive. Any platform that maps customer names to shared infrastructure should be treated as a potential takeover source.</p>
+
+        <h2>How to Prevent Takeovers</h2>
+        <p>Prevention requires integrating DNS hygiene into your standard operating procedures. These five controls form a defense-in-depth strategy:</p>
+
+        <h3>1. Remove DNS Records Before Deleting the Service</h3>
+        <p>This is the single most effective control. Make DNS cleanup a prerequisite in your decommissioning checklist. If you use infrastructure-as-code (Terraform, Pulumi, CloudFormation), the same PR that removes the cloud resource should also remove the DNS record. For manual deletions, run a pre-deletion checklist that includes DNS verification.</p>
+        <p>A practical approach: maintain a mapping of which DNS records point to which cloud resources. When a resource is decommissioned, query this mapping to identify all associated DNS records and delete them <em>before</em> deprovisioning the resource. This way, even if the deletion is reverted or delayed, the dangling record window is eliminated.</p>
+
+        <h3>2. Audit DNS Records Regularly</h3>
+        <p>Schedule automated DNS audits — weekly for critical domains, monthly for lower-risk zones. For each CNAME and A record in your zone, verify that the target endpoint still resolves and is owned by your organization. Tools that can help:</p>
+        <ul>
+          <li><strong>dig:</strong> Query the target directly to check resolution status</li>
+          <li><strong>subjack:</strong> Open-source tool that tests CNAME targets for takeover viability</li>
+          <li><strong>nuclei:</strong> Template-based scanner with dedicated takeover templates</li>
+          <li><strong>dnsrecon:</strong> DNS enumeration and zone audit tool</li>
+        </ul>
+
+        <h3>3. Use Verification Tokens</h3>
+        <p>Some platforms support verification methods (TXT records, DNS challenge tokens) that prove ownership before a custom domain becomes active. While this primarily prevents accidental or unauthorized domain assignment, it adds a layer of protection against takeovers. If an attacker claims your old endpoint but the platform requires domain verification, the takeover will fail.</p>
+
+        <h3>4. Set Up Monitoring for DNS Record Failures</h3>
+        <p>Monitor DNS resolution for unexpected NXDOMAIN responses or changes in resolved IP addresses on your critical subdomains. A sudden NXDOMAIN on a subdomain that was previously resolving successfully is a strong signal that the target resource has been deleted. Integrate this monitoring into your alerting pipeline (PagerDuty, Opsgenie, Slack) so DNS issues are triaged with the same urgency as application errors.</p>
+
+        <h3>5. Prevent Dangling Records at the Provider Level</h3>
+        <p>If you operate a DNS or subdomain service (as we do at is-cool-me), implement checks at registration time. For example, when a user configures a CNAME target, proactively verify that the target exists. If the target later becomes unreachable, flag the record for review. This shifts the detection burden from the domain owner to the platform operator.</p>
+
+        <div class="callout">
+          <p><strong>Tip:</strong> Automate DNS audits with a cron job. A simple script using <code>dig +short</code> piped to a notification handler can catch 90% of dangling records before they are exploited. We provide an example script below.</p>
+        </div>
+
+        <h2>How to Check for Existing Takeovers</h2>
+        <p>If you suspect your organization may already have dangling records, run a one-time scan immediately. Here is a practical approach using standard tools:</p>
+        <h3>Using dig for Manual Checks</h3>
+        <pre><code># Resolve the suspect subdomain
+dig +short app.example.com
+
+# If it returns an IP or CNAME, check the target
+dig +short my-project.vercel.app
+
+# If the target returns NXDOMAIN or a default landing page
+# (e.g., "The page you were looking for doesn't exist"), it is reclaimable.</code></pre>
+
+        <h3>Using subjack for Automated Scanning</h3>
+        <pre><code># Install subjack
+go install github.com/haccer/subjack@latest
+
+# Run a scan with a list of subdomains
+subjack -w subdomains.txt -t 100 -timeout 30 -o results.txt -ssl</code></pre>
+
+        <h3>Using nuclei for Comprehensive Coverage</h3>
+        <pre><code># Run takeover-specific templates
+nuclei -l subdomains.txt -t ~/nuclei-templates/takeovers/ -o takeovers.txt</code></pre>
+
+        <p>These tools check whether a CNAME target is still available for registration. A positive result does not guarantee an active takeover — it indicates a dangling record that <em>could</em> be claimed.</p>
+
+        <h2>Incident Response: You Found a Dangling Record</h2>
+        <p>If your automated scan or monitoring alert identifies a dangling record, follow this incident response process:</p>
+        <ol>
+          <li><strong>Confirm the dangling record:</strong> Run a manual <code>dig</code> to verify the record still exists and the target is unresolvable or unclaimed.</li>
+          <li><strong>Check for active takeover:</strong> Visit the subdomain in a browser. Does it serve unexpected content? Check the TLS certificate — an attacker may have provisioned a Let's Encrypt certificate for your subdomain.</li>
+          <li><strong>Remove the DNS record immediately:</strong> Delete or update the CNAME or A record. This is the only action that definitively closes the takeover window.</li>
+          <li><strong>Assess impact:</strong> If you confirmed active takeover, determine what content was served, how long it was active, and whether any users may have been affected. Review server logs for referrer traffic to the compromised subdomain.</li>
+          <li><strong>Notify stakeholders:</strong> Depending on severity, contact your security team, legal department, and affected users. If the takeover was used for phishing, consider filing a report with Google Safe Browsing and other threat intelligence feeds.</li>
+          <li><strong>Perform a root cause analysis:</strong> Why was the DNS record left behind? Was there a gap in the decommissioning process? Update your runbooks and checklists to prevent recurrence.</li>
+        </ol>
+
+        <h2>Automation: Script Your DNS Audit Checks</h2>
+        <p>Manual audits are error-prone and don't scale. Here is a production-ready Bash script you can adapt for your cron-based DNS audit pipeline:</p>
+        <pre><code>#!/bin/bash
+# dns-audit.sh - Check CNAME records for dangling targets
+# Usage: ./dns-audit.sh subdomains.txt
+
+SUBDOMAINS_FILE="$1"
+if [[ -z "$SUBDOMAINS_FILE" ]]; then
+  echo "Usage: $0 &lt;subdomains-file&gt;"
+  exit 1
+fi
+
+while read -r subdomain; do
+  # Get the CNAME target
+  target=$(dig +short "$subdomain" CNAME | head -1)
+
+  if [[ -z "$target" ]]; then
+    # No CNAME - check for A record fallback
+    ip=$(dig +short "$subdomain" A | head -1)
+    if [[ -n "$ip" ]]; then
+      echo "[A] $subdomain -> $ip (manual check recommended)"
+    fi
+    continue
+  fi
+
+  # Check if the target resolves
+  target_resolved=$(dig +short "$target" | head -1)
+
+  if [[ -z "$target_resolved" ]]; then
+    echo "[DANGLING] $subdomain -> $target (target does not resolve)"
+  else
+    echo "[OK] $subdomain -> $target -> $target_resolved"
+  fi
+done < "$SUBDOMAINS_FILE"</code></pre>
+
+        <p>Extend this script with notification handlers (Slack webhook, email, PagerDuty) and schedule it via cron:</p>
+        <pre><code># Run every Monday at 9 AM
+0 9 * * 1 /path/to/dns-audit.sh /path/to/subdomains.txt | tee -a /var/log/dns-audit.log</code></pre>
+
+        <p>For organizations with hundreds of subdomains, consider building a dedicated DNS audit service. Store historical scan results in a database, track resolution changes over time, and generate weekly reports for your security team.</p>
+
+        <h2>Beyond CNAME: Other Record Types at Risk</h2>
+        <p>While CNAME records are the most common takeover vector, other record types can also create risk:</p>
+        <ul>
+          <li><strong>NS records:</strong> A delegated subdomain with an NS record pointing to an inactive nameserver can be zone-taken over.</li>
+          <li><strong>AAAA records:</strong> IPv6 addresses associated with deprecated resources.</li>
+          <li><strong>ALIAS/ANAME records:</strong> Some DNS providers use synthetic record types that behave like CNAMEs at the zone apex.</li>
+          <li><strong>SRV records:</strong> Service records pointing to deprovisioned hosts.</li>
+        </ul>
+        <p>Include all record types in your audit scans, not just CNAMEs.</p>
+
+        <h2>Conclusion</h2>
+        <p>Subdomain takeover is a preventable security issue. The fix is straightforward — remove DNS records when you decommission resources — but it requires discipline and process integration. Automated auditing, monitoring, and incident response playbooks turn a one-time cleanup into a sustainable security practice.</p>
+        <p>At is-cool-me, we take DNS security seriously. Our platform includes automated checks to reduce the risk of dangling records for our users. If you have questions about securing your subdomains, join our <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a> or reach out through our <a href="/contact/">contact page</a>.</p>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

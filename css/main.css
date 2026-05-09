@@ -825,6 +825,47 @@ option { background: var(--color-surface); }
 
 .prose .callout p { margin-bottom: 0; font-size: 0.9rem; }
 
+/* === Callout variants (supports both `callout tip` and `callout-tip`) === */
+.prose .callout.warning, .prose .callout-warning {
+  background: rgba(234, 179, 8, 0.07);
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+.prose .callout.warning p, .prose .callout-warning p { margin-bottom: 0; font-size: 0.9rem; }
+.prose .callout.warning strong, .prose .callout-warning strong { color: #eab308; }
+
+.prose .callout.tip, .prose .callout-tip {
+  background: rgba(6, 182, 212, 0.07);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+.prose .callout.tip p, .prose .callout-tip p { margin-bottom: 0; font-size: 0.9rem; }
+.prose .callout.tip strong, .prose .callout-tip strong { color: #22d3ee; }
+
+.prose .callout.important, .prose .callout-important {
+  background: rgba(236, 72, 153, 0.07);
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+.prose .callout.important p, .prose .callout-important p { margin-bottom: 0; font-size: 0.9rem; }
+.prose .callout.important strong, .prose .callout-important strong { color: #ec4899; }
+
+.prose .callout.best-practice, .prose .callout-best-practice {
+  background: rgba(34, 197, 94, 0.07);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+.prose .callout.best-practice p, .prose .callout-best-practice p { margin-bottom: 0; font-size: 0.9rem; }
+.prose .callout.best-practice strong, .prose .callout-best-practice strong { color: #22c55e; }
+
 /* === Contact Page === */
 .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
 

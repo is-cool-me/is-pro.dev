@@ -73,26 +73,269 @@
 
   <section class="section">
     <div class="container">
-      <div style="max-width:760px;margin:0 auto;" data-reveal>
-        <h2 style="margin-bottom:1rem;">Implementation steps</h2>
-        <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Publish provider MX records with the correct priorities.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Add one SPF policy and avoid duplicate SPF TXT records.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Enable DKIM in your mail provider and publish selector keys.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Add DMARC in monitoring mode first, then tighten policy gradually.</li>
+      <div class="prose" data-reveal>
+
+        <h2>What You Will Learn</h2>
+        <ul>
+          <li>What MX, SPF, DKIM, and DMARC records do and how they work together</li>
+          <li>How to configure each record type for your is-pro.dev subdomain</li>
+          <li>How to verify and test email deliverability after setup</li>
+          <li>How to avoid common email authentication failures and pitfalls</li>
         </ul>
 
-        <h2 style="margin-top:2rem;margin-bottom:1rem;">Validation checklist</h2>
-        <div class="card" style="padding:1.25rem;">
-          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;">
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Authoritative DNS answers return expected values.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Target platform verifies the custom domain.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">HTTPS is active and redirect behavior is correct.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">No stale records remain from previous setup.</li>
-          </ul>
+        <h2>Requirements</h2>
+        <ul>
+          <li>An is-pro.dev subdomain with DNS management access</li>
+          <li>Access to the <a href="https://dash.is-pro.dev" target="_blank" rel="noopener noreferrer">is-pro.dev dashboard</a></li>
+          <li>A working email service provider (Google Workspace, Mailgun, SendGrid, AWS SES, etc.)</li>
+        </ul>
+
+        <h2>Background Information</h2>
+        <p>Email authentication prevents your messages from landing in spam folders and protects your domain against spoofing and phishing attacks. When you send email from a subdomain like <code>mail.yourname.is-pro.dev</code>, receiving mail servers check your DNS records to verify that the message is legitimate and authorized by you.</p>
+        <p>Four DNS record types form the foundation of modern email authentication:</p>
+        <ul>
+          <li><strong>MX records</strong> tell the world which mail servers accept incoming email for your domain.</li>
+          <li><strong>SPF records</strong> publish a list of servers authorized to send email on your behalf.</li>
+          <li><strong>DKIM records</strong> provide a public key that receiving servers use to verify a digital signature attached to each outgoing message.</li>
+          <li><strong>DMARC records</strong> tell receiving servers what to do when SPF and DKIM checks fail, and send you aggregate reports about authentication results.</li>
+        </ul>
+        <p>Without these records, your email is more likely to be rejected, marked as spam, or forged by attackers. Major email providers including Gmail, Outlook, and Yahoo now require DMARC enforcement for bulk senders, making this setup essential for any domain that sends email.</p>
+
+        <div class="callout">
+          <p><strong>Important:</strong> DNS changes made through the is-pro.dev dashboard typically propagate within a few minutes, but some resolvers may cache records for up to the TTL duration you set. Always wait for propagation before running tests.</p>
         </div>
 
-        <p style="margin-top:1.5rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+        <h2>Step-by-Step Setup</h2>
+
+        <h3>Step 1: Find Your Email Provider's DNS Requirements</h3>
+        <p>Every email provider publishes specific DNS values you need to copy into your is-pro.dev DNS dashboard. Before you start adding records, gather the following from your provider:</p>
+        <ul>
+          <li>MX server hostnames and priority values</li>
+          <li>SPF include mechanism (e.g., <code>include:spf.mailgun.org</code>)</li>
+          <li>DKIM selector name and public key</li>
+          <li>Any provider-specific requirements for custom domain verification</li>
+        </ul>
+        <p>Common providers and their documentation:</p>
+        <ul>
+          <li><strong>Google Workspace:</strong> <code>aspmx.l.google.com</code> (MX), <code>include:_spf.google.com</code> (SPF), DKIM key generated in the Google Admin console</li>
+          <li><strong>Mailgun:</strong> MX hostnames and DKIM selector provided in the Domains tab</li>
+          <li><strong>SendGrid:</strong> SPF <code>include:sendgrid.net</code>, DKIM keys under Settings &rarr; Sender Authentication</li>
+          <li><strong>AWS SES:</strong> MX and DKIM values in the Verified Identities section, SPF via Easy DKIM or manual setup</li>
+          <li><strong>Cloudflare Email Routing:</strong> Destination MX provided in the Email &rarr; Routing tab</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Tip:</strong> Save your provider's exact DKIM selector and public key before you leave their setup page. You cannot retrieve the private key later, and losing it means you must generate a new key pair.</p>
+        </div>
+
+        <h3>Step 2: Add MX Records</h3>
+        <p>MX (Mail Exchange) records route incoming email to your provider's mail servers. In the is-pro.dev dashboard, create one MX record per mail server hostname your provider gives you.</p>
+        <ul>
+          <li><strong>Type:</strong> MX</li>
+          <li><strong>Name:</strong> <code>@</code> (for the subdomain itself) or the specific subdomain prefix (e.g., <code>mail</code> if your email address is <code>you@mail.yourname.is-pro.dev</code>)</li>
+          <li><strong>Value:</strong> The provider's mail server hostname, e.g., <code>aspmx.l.google.com</code></li>
+          <li><strong>Priority:</strong> A lower number means higher priority. Typically <code>10</code> for the primary server, <code>20</code>, <code>30</code> for backups</li>
+          <li><strong>TTL:</strong> <code>3600</code> (1 hour) is a good default for MX records</li>
+        </ul>
+        <p>Google Workspace, for example, requires five MX records at different priorities. Add all of them exactly as specified in the provider documentation.</p>
+
+        <div class="callout">
+          <p><strong>Warning:</strong> Only one set of MX records should exist for a given name. Adding MX records for a second provider will split your email traffic unpredictably. If you are migrating providers, lower the TTL beforehand and remove old MX records after the migration completes.</p>
+        </div>
+
+        <h3>Step 3: Add SPF Record</h3>
+        <p>SPF (Sender Policy Framework) is a TXT record that lists every server allowed to send email from your domain. Receiving servers check this record and reject or flag messages from unauthorized senders.</p>
+        <ul>
+          <li><strong>Type:</strong> TXT</li>
+          <li><strong>Name:</strong> <code>@</code></li>
+          <li><strong>Value:</strong> <code>v=spf1 include:your-provider.com ~all</code></li>
+          <li><strong>TTL:</strong> <code>3600</code></li>
+        </ul>
+        <p>The <code>include:</code> mechanism delegates authority to your provider. You can chain multiple includes if you send through more than one service. The <code>~all</code> qualifier means softfail &mdash; messages from unlisted servers are marked as suspicious but not rejected outright. Use <code>-all</code> (hardfail) only after you are certain all legitimate senders are covered.</p>
+
+        <div class="callout">
+          <p><strong>Important:</strong> You must have only one SPF record. Having multiple SPF TXT records causes SPF <em>permerror</em> and all receivers will treat your email as unauthenticated. If you need to authorize multiple providers, combine them into a single record using additional <code>include:</code> statements.</p>
+        </div>
+
+        <h3>Step 4: Add DKIM Record</h3>
+        <p>DKIM (DomainKeys Identified Mail) uses public-key cryptography to sign outgoing messages. Your email provider signs each message with a private key, and receiving servers look up the corresponding public key in your DNS to verify the signature.</p>
+        <ul>
+          <li><strong>Type:</strong> TXT</li>
+          <li><strong>Name:</strong> <code>default._domainkey</code> (or your provider's specific selector, e.g., <code>s1._domainkey</code>, <code>mailgun._domainkey</code>)</li>
+          <li><strong>Value:</strong> The public key provided by your email provider, e.g., <code>v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC...</code></li>
+          <li><strong>TTL:</strong> <code>3600</code></li>
+        </ul>
+        <p>The selector name varies by provider. Google Workspace lets you choose a selector during setup. Mailgun uses the domain name as the selector by default. SendGrid generates a random selector. Your provider's setup wizard will tell you exactly what name and value to use.</p>
+
+        <div class="callout">
+          <p><strong>Tip:</strong> You can have multiple DKIM records with different selectors. This is useful during key rotation &mdash; publish the new key alongside the old one, switch your provider to sign with the new key, then remove the old record after the transition period.</p>
+        </div>
+
+        <h3>Step 5: Add DMARC Record</h3>
+        <p>DMARC (Domain-based Message Authentication, Reporting, and Conformance) ties SPF and DKIM together. It tells receiving servers what policy to apply when authentication checks fail, and it requests feedback reports so you can monitor your email ecosystem.</p>
+        <ul>
+          <li><strong>Type:</strong> TXT</li>
+          <li><strong>Name:</strong> <code>_dmarc</code></li>
+          <li><strong>Value:</strong> <code>v=DMARC1; p=none; rua=mailto:dmarc-reports@yourdomain.com</code></li>
+          <li><strong>TTL:</strong> <code>3600</code></li>
+        </ul>
+        <p>Start with <code>p=none</code> to monitor without affecting delivery. Once you have confirmed legitimate email passes SPF and DKIM, move to <code>p=quarantine</code> (send failures to spam), and eventually <code>p=reject</code> (block failures outright).</p>
+
+        <div class="callout">
+          <p><strong>Important:</strong> Setting DMARC to <code>p=reject</code> prematurely can cause legitimate email to be rejected. Always monitor DMARC reports for at least one week at <code>p=none</code>, then one week at <code>p=quarantine</code>, before enforcing <code>p=reject</code>. The <code>rua</code> address receives XML aggregate reports you can parse with tools like <a href="https://dmarcian.com" target="_blank" rel="noopener noreferrer">dmarcian</a> or <a href="https://dmarc.postmarkapp.com" target="_blank" rel="noopener noreferrer">Postmark DMARC</a>.</p>
+        </div>
+
+        <h2>DNS Configuration Table</h2>
+        <p>Below is a reference table showing what your completed DNS configuration should look like for a typical email-sending subdomain using Google Workspace and a custom DKIM selector:</p>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table class="dns-table" aria-label="Example DNS records for email authentication">
+            <thead>
+              <tr>
+                <th scope="col">Type</th>
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+                <th scope="col">TTL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>MX</td>
+                <td>@</td>
+                <td>aspmx.l.google.com (priority 10)</td>
+                <td>3600</td>
+              </tr>
+              <tr>
+                <td>MX</td>
+                <td>@</td>
+                <td>alt1.aspmx.l.google.com (priority 20)</td>
+                <td>3600</td>
+              </tr>
+              <tr>
+                <td>MX</td>
+                <td>@</td>
+                <td>alt2.aspmx.l.google.com (priority 30)</td>
+                <td>3600</td>
+              </tr>
+              <tr>
+                <td>TXT</td>
+                <td>@</td>
+                <td>v=spf1 include:_spf.google.com ~all</td>
+                <td>3600</td>
+              </tr>
+              <tr>
+                <td>TXT</td>
+                <td>default._domainkey</td>
+                <td>v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC...</td>
+                <td>3600</td>
+              </tr>
+              <tr>
+                <td>TXT</td>
+                <td>_dmarc</td>
+                <td>v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com</td>
+                <td>3600</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Verification</h2>
+        <p>Once your DNS records are published, verify each one using command-line tools or online checkers.</p>
+
+        <h3>Using dig (command line)</h3>
+        <p>Run these commands from your terminal, replacing <code>yourname.is-pro.dev</code> with your actual subdomain:</p>
+        <pre style="background:var(--color-surface);border:1px solid var(--color-border-sub);border-radius:var(--radius-md);padding:1rem;overflow-x:auto;font-family:var(--font-mono);font-size:.85rem;color:var(--color-text-muted);"># Check MX records
+dig yourname.is-pro.dev MX +short
+
+# Check SPF record
+dig yourname.is-pro.dev TXT +short
+
+# Check DKIM record (adjust selector as needed)
+dig default._domainkey.yourname.is-pro.dev TXT +short
+
+# Check DMARC record
+dig _dmarc.yourname.is-pro.dev TXT +short</pre>
+
+        <h3>Using online tools</h3>
+        <ul>
+          <li><a href="https://mxtoolbox.com" target="_blank" rel="noopener noreferrer">MXToolbox</a> &mdash; Comprehensive DNS lookup and email health checks</li>
+          <li><a href="https://dns.google" target="_blank" rel="noopener noreferrer">Google Public DNS</a> &mdash; Quick record inspection</li>
+          <li><a href="https://www.mail-tester.com" target="_blank" rel="noopener noreferrer">Mail-Tester</a> &mdash; Send a test email and get a deliverability score</li>
+        </ul>
+
+        <h3>Send a test email</h3>
+        <p>Send a message to a Gmail or Outlook address and inspect the full headers. Look for these lines:</p>
+        <pre style="background:var(--color-surface);border:1px solid var(--color-border-sub);border-radius:var(--radius-md);padding:1rem;overflow-x:auto;font-family:var(--font-mono);font-size:.85rem;color:var(--color-text-muted);">Authentication-Results: spf=pass smtp.mailfrom=yourname.is-pro.dev
+Authentication-Results: dkim=pass header.i=@yourname.is-pro.dev
+Authentication-Results: dmarc=pass header.from=yourname.is-pro.dev</pre>
+
+        <div class="callout">
+          <p><strong>Tip:</strong> If SPF shows <code>softfail</code> instead of <code>pass</code>, check that your sending server's IP is covered by one of your <code>include:</code> statements. If DKIM shows <code>neutral</code> or <code>fail</code>, verify the selector name matches what your provider configured.</p>
+        </div>
+
+        <h2>Troubleshooting</h2>
+        <ol>
+          <li><strong>SPF permerror (too many DNS lookups).</strong> SPF has a hard limit of 10 DNS lookups including all nested includes. Each <code>include:</code> and <code>redirect:</code> counts. Use <code>dig</code> to count lookups or use an SPF validator. Consolidate includes or switch to a flattened SPF record if you exceed the limit.</li>
+          <li><strong>DKIM signature mismatch.</strong> The public key in your DNS does not match the private key used to sign the message. Regenerate the key pair in your provider, publish the new public key, and wait for propagation before signing again.</li>
+          <li><strong>DMARC policy too strict, blocking legitimate email.</strong> You set <code>p=reject</code> before all legitimate senders were authenticated. Temporarily revert to <code>p=none</code>, add the missing SPF includes or DKIM keys, and monitor reports before tightening again.</li>
+          <li><strong>MX record pointing to wrong host.</strong> A typo in the MX value causes mail to be undeliverable. Double-check the hostname against your provider's documentation. Use <code>dig MX +short</code> to verify the response.</li>
+          <li><strong>DNS propagation delays.</strong> New records may take minutes to hours to propagate depending on TTL and upstream resolver caching. Use <code>dig @8.8.8.8</code> to query Google's resolver directly and bypass local cache.</li>
+          <li><strong>SPF softfail vs. hardfail.</strong> <code>~all</code> (softfail) marks unauthorized mail as suspicious; <code>-all</code> (hardfail) rejects it. Use <code>~all</code> during initial setup and switch to <code>-all</code> only after confirming all legitimate sources are included.</li>
+        </ol>
+
+        <div class="callout">
+          <p><strong>Warning:</strong> If you use a transactional email service alongside your primary inbox provider, both must be included in your SPF record. Forgetting one will cause legitimate email to fail SPF checks, and depending on your DMARC policy, it may be quarantined or rejected.</p>
+        </div>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Gradual DMARC rollout.</strong> Start with <code>p=none</code> and a <code>rua</code> address to collect reports. Analyze the reports for at least one week, then move to <code>p=quarantine</code>, and finally <code>p=reject</code>. This ensures you do not break email delivery for legitimate senders.</li>
+          <li><strong>Keep SPF lookups under 10.</strong> Every <code>include:</code> mechanism counts toward the RFC-specified limit of 10 DNS lookups. If you exceed the limit, receivers return a permanent error and SPF fails for all your email. Use SPF flattening or macro expansion if needed.</li>
+          <li><strong>Rotate DKIM keys periodically.</strong> Most providers let you generate a new DKIM key pair. Rotating keys every 6&ndash;12 months reduces the impact of a key compromise. Publish the new key alongside the old one, switch signing to the new key, then remove the old key after the transition period.</li>
+          <li><strong>Monitor DMARC reports.</strong> Aggregate reports (<code>rua</code>) tell you which sources are sending email from your domain and whether they pass authentication. Forensic reports (<code>ruf</code>) contain copies of failed messages. Set up automated parsing with a service like dmarcian, Postmark DMARC, or URIports.</li>
+          <li><strong>Set appropriate TTLs before changes.</strong> Lower the TTL on your records to 300 (5 minutes) 48 hours before a planned migration or key rotation. This speeds up propagation and reduces the window where old and new records are inconsistent.</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Important:</strong> DMARC policy alignment requires that the domain in the <code>From:</code> header matches the domain used in SPF and DKIM. If you send using a subdomain like <code>mail.yourname.is-pro.dev</code>, your SPF and DKIM must also be set up for that subdomain. DMARC applies to the organizational domain by default unless you configure subdomain policies.</p>
+        </div>
+
+        <h2>FAQ</h2>
+        <h3>What is the difference between SPF and DKIM?</h3>
+        <p>SPF verifies the server that sent the message is authorized by the domain owner. DKIM verifies the message itself has not been tampered with by checking a cryptographic signature. They complement each other, and DMARC uses both to determine authentication status.</p>
+
+        <h3>Can I have multiple DKIM records?</h3>
+        <p>Yes. Each DKIM record uses a unique selector name. You can have as many selectors as you need. This is common during key rotation or when multiple services send email from the same domain.</p>
+
+        <h3>How long does DMARC take to show results?</h3>
+        <p>Aggregate DMARC reports are typically sent once per day by receiving providers, though the schedule varies. You should see your first reports within 24&ndash;48 hours of publishing a DMARC record with a valid <code>rua</code> address.</p>
+
+        <h3>What happens if I have more than one SPF record?</h3>
+        <p>Multiple SPF records cause an SPF <em>permerror</em>. Receiving servers cannot determine which policy to apply and will treat all email from your domain as unauthenticated. Merge all <code>include:</code> statements into a single TXT record.</p>
+
+        <h3>Should I use <code>~all</code> or <code>-all</code>?</h3>
+        <p>Start with <code>~all</code> (softfail) during setup and monitoring. Switch to <code>-all</code> (hardfail) only after you have verified that every legitimate email source is covered by your SPF record. Hardfail causes unauthorized senders to be rejected, which can break delivery if you miss a source.</p>
+
+        <h3>Does DKIM require a specific key size?</h3>
+        <p>RSA keys of 1024 or 2048 bits are most commonly used. Most providers generate 2048-bit keys by default. Some providers support Ed25519 keys, but RSA 2048 remains the safest choice for broad compatibility.</p>
+
+        <h3>Can I use the same records for my apex domain and a subdomain?</h3>
+        <p>Yes, but it is better practice to set up separate records for the subdomain. DMARC on the apex domain does not automatically apply to subdomains unless you use the <code>sp=</code> tag. Explicit subdomain records give you more control and prevent the apex domain's authentication status from affecting subdomain deliverability.</p>
+
+        <h3>What is a DMARC forensic report (ruf)?</h3>
+        <p>The <code>ruf</code> tag specifies an address to receive forensic reports containing copies of messages that failed DMARC authentication. These reports help diagnose spoofing attempts, but they can contain sensitive data. Use <code>ruf</code> only after confirming your report processor handles the data securely.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/blog/">Blog: Email on Subdomains &mdash; MX, SPF, DKIM Basics</a></li>
+          <li><a href="/guides/lock-down-caa-for-certificate-control/">Guide: Lock Down CAA for Better Certificate Control</a></li>
+          <li><a href="/guides/build-a-dns-change-checklist-for-teams/">Guide: Build a DNS Change Checklist for Teams</a></li>
+          <li><a href="/guides/migrate-subdomain-between-hosting-providers/">Guide: Migrate a Subdomain Between Hosting Providers</a></li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Setting up MX, SPF, DKIM, and DMARC records for your is-pro.dev subdomain is a straightforward process that dramatically improves email deliverability and security. Start with the monitoring posture (DMARC <code>p=none</code>), verify that all your legitimate email sources pass authentication, then gradually tighten your DMARC policy to reject unauthorized messages. Regularly review DMARC reports and rotate DKIM keys to maintain a healthy email ecosystem.</p>
+        <p>With your DNS properly configured, receiving mail servers will trust messages from your subdomain, your recipients will see them in their inbox instead of spam, and your domain will be protected against spoofing and phishing abuse.</p>
+
       </div>
     </div>
   </section>

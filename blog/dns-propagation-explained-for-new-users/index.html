@@ -75,15 +75,198 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>What propagation actually is</h2>
-        <p>Propagation is recursive resolvers refreshing cached answers based on TTL. It is not one global switch and it does not happen simultaneously worldwide.</p>
-        <h2>Why one user sees old data</h2>
-        <p>Different networks and ISPs refresh at different times. Mobile network DNS and office DNS can disagree for hours even when your authoritative records are correct.</p>
-        <h2>How to debug sanely</h2>
-        <p>Query authoritative nameservers first, then compare public resolvers. If authoritative answers are correct, the issue is usually cache time, not a broken record.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>What DNS Propagation Actually Is</h2>
+        <p>If you have ever changed a DNS record and heard someone say "wait for propagation," you have encountered one of the most misunderstood concepts in web hosting. The word "propagation" suggests something actively spreading across the internet like a wave, but that is not what happens at all. DNS propagation is not a push mechanism. There is no central switch that flips and instantly updates every DNS resolver on the planet.</p>
+        <p>The reality is far simpler: every DNS resolver caches the answers it receives for a specified duration called the <strong>Time To Live (TTL)</strong>. When you change a record at your authoritative nameserver, you are updating the source of truth. But every resolver that already looked up the old value will keep using it until its cached copy expires. "Propagation" is just the gradual process of those cached entries expiring and being refreshed with the new value.</p>
+
+        <div class="callout">
+          <p><strong>Core concept:</strong> Propagation is not a feature of DNS. It is a side effect of caching. There is no "propagate now" button. You wait for caches to expire.</p>
+        </div>
+
+        <h2>How DNS Caching Works at Every Level</h2>
+        <p>DNS caching happens at multiple independent layers, and each layer has its own cache with its own TTL policy. Understanding these layers explains why propagation appears uneven.</p>
+
+        <h3>Browser-Level Caching</h3>
+        <p>Modern browsers maintain their own internal DNS caches. Chrome typically caches DNS for 60 seconds by default, though this can vary. You can inspect Chrome's DNS cache by navigating to <code>chrome://net-internals/#dns</code>. Firefox stores its cache in <code>about:networking#dns</code>. Browser caching is often the first place stale data gets stuck because users rarely think to clear it.</p>
+
+        <h3>Operating System-Level Caching</h3>
+        <p>Your operating system runs a stub resolver that caches DNS queries system-wide. On Windows, this is the DNS Client service (<code>svchost.exe</code>). On macOS, <code>mDNSResponder</code> handles it. On Linux, it is typically <code>systemd-resolved</code> or <code>dnsmasq</code>. This cache strictly respects TTL values and will not re-query the upstream resolver until the TTL expires. Even if the authoritative record changed seconds ago, your OS will faithfully serve the old cached answer.</p>
+
+        <h3>Router-Level Caching</h3>
+        <p>Many home and office routers run a DNS proxy or forwarding service that caches queries for all devices on the network. A router with DNS caching can serve stale records to every device on your LAN, making it look like the entire network has not propagated. Rebooting the router often clears this cache.</p>
+
+        <h3>ISP-Level Caching</h3>
+        <p>Your Internet Service Provider runs recursive resolvers that serve all their customers. ISPs are often aggressive about caching because sharing cached answers reduces their upstream bandwidth costs and improves perceived performance. Some ISPs ignore short TTLs or enforce a minimum cache time of 30 to 60 minutes. This is why a record change can appear instantaneous on one ISP but take hours on another—they each set their own caching policies.</p>
+
+        <h3>Public Resolver Caching</h3>
+        <p>Services like Google Public DNS (8.8.8.8), Cloudflare (1.1.1.1), Quad9 (9.9.9.9), and OpenDNS (208.67.222.222) each maintain independent caches. Google Public DNS respects TTL but enforces a minimum of 30 seconds for stability. Cloudflare's 1.1.1.1 is known for honoring TTLs strictly. You can query a specific resolver to see what value it currently serves:</p>
+        <pre><code>dig @1.1.1.1 yourname.is-pro.dev A +short
+dig @8.8.8.8 yourname.is-pro.dev A +short</code></pre>
+
+        <h3>Application-Level Caching</h3>
+        <p>Some applications and frameworks maintain their own DNS caches. Java applications have a built-in DNS cache managed by the JVM. Python's <code>requests</code> library uses the OS resolver by default, but libraries like <code>aiohttp</code> or <code>httpx</code> may cache DNS independently. Nginx and HAProxy can cache DNS lookups for upstream servers, which causes surprising delays when backend IPs change.</p>
+
+        <div class="callout">
+          <p><strong>Key insight:</strong> There is no single "DNS cache." There are millions of independent caches across browsers, operating systems, routers, corporate proxies, ISP resolvers, and public resolvers. Each one expires and refreshes on its own schedule.</p>
+        </div>
+
+        <h2>TTL Explained: Time To Live</h2>
+        <p>TTL is the single most important DNS concept that most people overlook. Every DNS record includes a TTL value expressed in seconds. This value tells recursive resolvers how long they are allowed to cache the answer before they must query the authoritative nameserver again. TTL is set by the domain owner at the authoritative nameserver level.</p>
+
+        <h3>How TTL Works in Practice</h3>
+        <p>When a resolver queries <code>yourname.is-pro.dev</code> and receives an answer with TTL 3600, it stores that answer and starts a countdown timer. For the next 3600 seconds (1 hour), it will return the cached answer to any client without re-querying. Only after the timer reaches zero will it perform a fresh query to the authoritative nameserver.</p>
+
+        <h3>Choosing the Right TTL</h3>
+        <p>TTL is a tradeoff between performance and flexibility. There is no single "correct" value—it depends on your use case:</p>
+        <ul>
+          <li><strong>TTL 300 (5 minutes):</strong> Best for environments where records change frequently. Use this during migrations, CDN setup, or A/B testing. The downside is increased query volume to your authoritative nameserver, which can matter at scale or on metered DNS plans.</li>
+          <li><strong>TTL 3600 (1 hour):</strong> A solid default for stable production records. It offers a reasonable balance: changes propagate within an hour, but cache hit rates remain high enough to reduce resolver load.</li>
+          <li><strong>TTL 86400 (24 hours):</strong> Appropriate for records that almost never change, like MX records, static SPF includes, or DKIM public keys. Reduces DNS query volume significantly, but any change takes a full day to propagate everywhere.</li>
+          <li><strong>TTL 604800 (7 days):</strong> Rarely used today. Only suitable for extremely stable records like NS glue records. Changing a 7-day TTL record means waiting a week for full propagation.</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Best practice:</strong> Lower your TTL to 300 seconds at least 48 hours before you plan to make a change. This ensures old cached records expire quickly when you make the actual update. After the change settles, you can raise the TTL back to a higher value.</p>
+        </div>
+
+        <h2>Why Propagation Seems Slow: Common Misconceptions</h2>
+        <p>The most pervasive misconception is that DNS changes propagate like a radio broadcast—that a signal goes out and every resolver receives it simultaneously. DNS does not work this way at all. A resolver will not even know a change exists until its cached TTL expires and it performs a fresh query. It has no mechanism to receive push notifications.</p>
+
+        <p>Here are the most common misconceptions, debunked:</p>
+
+        <p><strong>"I changed the record, why is my site still showing the old version?"</strong> Your browser almost certainly has the old IP cached. Before blaming DNS, try a hard refresh (Ctrl+F5 or Cmd+Shift+R) or clear the browser cache. Chrome's DNS cache lives at <code>chrome://net-internals/#dns</code>.</p>
+
+        <p><strong>"I lowered the TTL but the change is still slow."</strong> TTL only affects future caching decisions. Any record that was already cached before you lowered the TTL will still use the original TTL for expiration. You cannot retroactively shorten the lifetime of an already-cached record. This is why you lower TTL <em>before</em> making the change.</p>
+
+        <p><strong>"My registrar says propagation takes 24-48 hours."</strong> This is a CYA number. It dates from the early days of DNS when caching was far more aggressive and TTLs were routinely set to days. In practice, with reasonable TTLs, most resolvers pick up changes within minutes to an hour. The 48-hour figure is the worst-case scenario that covers every possible caching edge case.</p>
+
+        <p><strong>"I see the old IP from my phone but the new one from my laptop."</strong> Your phone uses the mobile network's DNS resolver while your laptop uses your home ISP's resolver. Each resolver has its own independent cache. They will expire at different times. This is normal and expected behavior.</p>
+
+        <p><strong>"I flushed my DNS cache and it still does not work."</strong> Flushing your local OS cache only affects your machine. It does not flush your ISP's resolver, Google Public DNS, or Cloudflare's resolver. You cannot remotely flush other people's caches.</p>
+
+        <h2>Real Example: Watching Propagation in Action</h2>
+        <p>Let us walk through a concrete scenario. You manage <code>app.yourname.is-pro.dev</code> and want to move it from Netlify to Vercel. You change the CNAME from <code>your-site.netlify.app</code> to <code>your-site.vercel.app</code> and set the TTL to 300 seconds.</p>
+
+        <p>Immediately after saving, check the authoritative nameservers. These should always return the new value because the change was made there:</p>
+        <pre><code>dig @ns1.is-pro.dev app.yourname.is-pro.dev CNAME +short
+your-site.vercel.app.</code></pre>
+
+        <p>Now query Google Public DNS. If Google has cached the old value recently, it will still return the old target:</p>
+        <pre><code>dig @8.8.8.8 app.yourname.is-pro.dev CNAME +short
+your-site.netlify.app.</code></pre>
+
+        <p>Wait 300 seconds (5 minutes) for the old cache to expire, then query again:</p>
+        <pre><code>dig @8.8.8.8 app.yourname.is-pro.dev CNAME +short
+your-site.vercel.app.</code></pre>
+
+        <p>Now Cloudflare's resolver:</p>
+        <pre><code>dig @1.1.1.1 app.yourname.is-pro.dev CNAME +short
+your-site.vercel.app.</code></pre>
+
+        <p>Each resolver will transition from old to new independently as its TTL expires. Some resolvers (like your ISP's) may cache more aggressively and take longer. This staggered expiration across potentially millions of resolvers is what people call "propagation."</p>
+
+        <h2>How to Check Propagation Status</h2>
+
+        <h3>Using dig (Linux/macOS)</h3>
+        <p>The <code>dig</code> command is the most powerful DNS debugging tool available. Query specific nameservers to compare answers:</p>
+        <pre><code># Query authoritative nameserver directly
+dig @ns1.is-pro.dev yourname.is-pro.dev A +short
+
+# Query a public resolver
+dig @8.8.8.8 yourname.is-pro.dev A +short
+
+# Query another public resolver for comparison
+dig @1.1.1.1 yourname.is-pro.dev A +short</code></pre>
+        <p>If the authoritative answer matches the resolver answer, propagation is complete for that resolver. If they differ, the resolver is still serving cached data.</p>
+        <p>To see the TTL remaining on a cached record, omit <code>+short</code>:</p>
+        <pre><code>dig @8.8.8.8 yourname.is-pro.dev A
+
+; <<>> DiG 9.10.6 <<>> @8.8.8.8 yourname.is-pro.dev A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 12345
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; ANSWER SECTION:
+yourname.is-pro.dev. 237 IN A 203.0.113.10</code></pre>
+        <p>The number <code>237</code> is the remaining TTL in seconds. When this reaches 0, the resolver will re-query.</p>
+
+        <h3>Using nslookup (Windows/macOS/Linux)</h3>
+        <p>Windows does not ship with <code>dig</code> by default, but <code>nslookup</code> is available on all platforms:</p>
+        <pre><code># Query the default resolver
+nslookup yourname.is-pro.dev
+
+# Query a specific resolver
+nslookup yourname.is-pro.dev 8.8.8.8</code></pre>
+
+        <h3>Using Online Tools</h3>
+        <p>Websites like <a href="https://whatsmydns.net" target="_blank" rel="noopener noreferrer">whatsmydns.net</a> and <a href="https://dnschecker.org" target="_blank" rel="noopener noreferrer">dnschecker.org</a> query DNS resolvers from multiple geographic locations simultaneously. These are useful for a quick visual check, especially when troubleshooting with less technical stakeholders who want to see a world map of green checkmarks.</p>
+        <p>For more advanced diagnostics, <a href="https://dns.google" target="_blank" rel="noopener noreferrer">dns.google</a> and <a href="https://1.1.1.1/help" target="_blank" rel="noopener noreferrer">Cloudflare's resolver checker</a> provide detailed information about how your DNS is being resolved.</p>
+
+        <h2>How to Flush DNS Cache on Every Platform</h2>
+        <p>When you need to force your local system to re-query, flush the cache at the appropriate level.</p>
+
+        <h3>Windows</h3>
+        <pre><code>ipconfig /flushdns</code></pre>
+        <p>Open Command Prompt as Administrator and run this. The DNS Client service will discard all cached entries. You should see "Successfully flushed the DNS Resolver Cache."</p>
+
+        <h3>macOS</h3>
+        <p>For macOS Ventura and later (Apple Silicon and Intel):</p>
+        <pre><code>sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder</code></pre>
+
+        <h3>Linux</h3>
+        <p>For systems using systemd-resolved (Ubuntu, Fedora, Debian with systemd):</p>
+        <pre><code>sudo resolvectl flush-caches</code></pre>
+        <p>For systems using dnsmasq:</p>
+        <pre><code>sudo systemctl restart dnsmasq</code></pre>
+        <p>For systems using nscd (older Red Hat/CentOS):</p>
+        <pre><code>sudo systemctl restart nscd</code></pre>
+
+        <h3>Browser Cache</h3>
+        <ul>
+          <li><strong>Chrome/Edge:</strong> Navigate to <code>chrome://net-internals/#dns</code> and click "Clear host cache."</li>
+          <li><strong>Firefox:</strong> Navigate to <code>about:networking#dns</code> and click "Clear DNS Cache."</li>
+          <li><strong>Safari:</strong> Restart Safari completely, or use the macOS flush command above since Safari relies on the system resolver.</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Important:</strong> Flushing your local cache only affects your machine. It does not force other resolvers to update. You cannot flush Google's DNS cache or your ISP's resolver remotely. The only way to speed up remote resolver updates is to wait for TTL expiry.</p>
+        </div>
+
+        <h2>Best Practices for Minimizing Propagation Issues</h2>
+        <ul>
+          <li><strong>Plan ahead with TTL reduction:</strong> Reduce TTL to 300 seconds at least 48 hours before a planned change. This ensures old cached records expire quickly when you make the actual update. After the change is verified, you can raise the TTL back to a higher value.</li>
+          <li><strong>Stage changes on subdomains first:</strong> If possible, test your setup on a non-production subdomain before changing production records. Point <code>staging.yourname.is-pro.dev</code> to the new provider and validate everything works before touching <code>www.yourname.is-pro.dev</code>.</li>
+          <li><strong>Always verify authoritative first:</strong> Before assuming propagation is the issue, confirm the record is correct at the authoritative nameserver level. If the authoritative answer is wrong, no amount of waiting will fix it.</li>
+          <li><strong>Document your DNS configuration:</strong> Maintain a record of all DNS entries, their TTLs, and their purpose. Tools like DNSControl or a simple spreadsheet help track what you have and prevent accidental conflicts.</li>
+          <li><strong>Monitor DNS health:</strong> Services like DNS Spy, DNSPerf, or Checkly can alert you when DNS records change unexpectedly or when resolvers return inconsistent answers.</li>
+          <li><strong>Use a TTL calculator:</strong> Before a migration, calculate the worst-case propagation time. If your MX record has TTL 86400 and you lower it to 300 now, it takes up to 24 hours for the lower TTL to be picked up by resolvers that already cached the old TTL.</li>
+        </ul>
+
+        <h2>Common Errors and Fixes</h2>
+
+        <h3>"I changed the record but nothing happens"</h3>
+        <p>Check the authoritative nameservers first: <code>dig @ns1.is-pro.dev yourname.is-pro.dev A</code>. If the authoritative answer is wrong, the change was not saved properly at the DNS provider. If it is correct, check browser cache and OS cache before blaming propagation. If all local caches are clean and you still see the old value, you are waiting for your ISP's resolver or a public resolver to expire its cache.</p>
+
+        <h3>"Some users see the old site, others see the new one"</h3>
+        <p>This is normal during propagation. Each resolver expires its cache independently. Users on ISP A may see the new site while users on ISP B see the old one for another hour. The solution is patience, or better TTL management before the change.</p>
+
+        <h3>"Emails are bouncing after a DNS change"</h3>
+        <p>MX records traditionally have long TTLs (86400 seconds or more). If you changed email providers, the old MX record may still be cached. Sending servers will attempt delivery to the old mail server, which no longer accepts mail for your domain. Always reduce MX TTL well before migrating email, and keep the old mail server running for at least 48 hours during the transition.</p>
+
+        <h3>"dig shows the correct record but the website still fails"</h3>
+        <p>If DNS is correct but the website does not load, the issue is not propagation. Check whether the new server is configured to accept requests for your domain name. Check whether SSL/TLS certificates are valid for the domain. Check whether the web server process is actually running. DNS propagation is often blamed for problems that are actually server configuration issues.</p>
+
+        <h3>"Google Search Console says domain not verified"</h3>
+        <p>Google's verification check queries the DNS and expects an exact match. Make sure the TXT record value is copied precisely with no extra spaces or quotes. Check that the record is on the correct subdomain (e.g., <code>_googleconsole.yourname.is-pro.dev</code>). Use <code>dig yourname.is-pro.dev TXT</code> to verify the record is published correctly before clicking "Verify" in Search Console.</p>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

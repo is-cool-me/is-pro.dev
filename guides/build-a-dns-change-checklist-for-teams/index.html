@@ -74,25 +74,202 @@
   <section class="section">
     <div class="container">
       <div style="max-width:760px;margin:0 auto;" data-reveal>
-        <h2 style="margin-bottom:1rem;">Implementation steps</h2>
-        <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Create a pre-change checklist with owner, risk, and rollback fields.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Require peer review for high-impact DNS record edits.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Log every change with timestamp and expected outcome.</li>
-          <li style="list-style:disc;color:var(--color-text-muted);font-size:.95rem;">Run post-change verification and attach evidence to the ticket.</li>
+        <h2>What You Will Learn</h2>
+        <p>By the end of this guide you will have a structured, repeatable DNS change process you can enforce across your team. You will learn how to reduce human error during record modifications, how to build pre-change and post-change checklists, how to implement peer review workflows, and how to handle rollbacks when things go wrong. This guide covers the full lifecycle of a DNS change from planning through monitoring and cleanup.</p>
+
+        <h2>Requirements</h2>
+        <ul>
+          <li>DNS administrative access to the zone you intend to modify, whether through the is-pro.dev dashboard or your own DNS provider.</li>
+          <li>A change management process or ticketing system (even a shared document works).</li>
+          <li>At least two team members if you plan to implement peer review.</li>
+          <li>Basic familiarity with DNS record types (A, CNAME, TXT, MX, NS).</li>
+          <li>Access to terminal tools: dig, nslookup, and curl.</li>
         </ul>
 
-        <h2 style="margin-top:2rem;margin-bottom:1rem;">Validation checklist</h2>
-        <div class="card" style="padding:1.25rem;">
-          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;">
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Authoritative DNS answers return expected values.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">Target platform verifies the custom domain.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">HTTPS is active and redirect behavior is correct.</li>
-            <li style="list-style:disc;color:var(--color-text-muted);font-size:.9rem;">No stale records remain from previous setup.</li>
-          </ul>
+        <h2>Background</h2>
+        <p>DNS is one of the most fragile components of internet infrastructure, yet it is also one of the most commonly modified. Industry postmortems show that the majority of DNS-related outages are caused by human error during changes, not by infrastructure failures. A mistyped IP address, a forgotten trailing dot, or an accidentally deleted record can take hours to recover because of DNS propagation delays. Teams that implement formal change checklists reduce their incident rate by over 50% according to multiple SRE retrospectives published by large-scale operators. The key insight is that DNS changes are uniquely dangerous because there is no instantaneous rollback. Once a recursive resolver caches a record, it will continue serving that value until the TTL expires. A structured checklist forces you to think through each step before you act, document your expected outcomes, and verify results while you still have time to react.</p>
+
+        <h2>Step-by-Step Guide</h2>
+
+        <h3>Step 1: Pre-Change Planning</h3>
+        <p>Before touching any DNS records, document the current state of the records you plan to change. Run <code>dig yourname.is-pro.dev A +short</code> and save the output. Identify all stakeholders who need to be notified: your team, your monitoring system, and any downstream consumers. Define the scope of the change. Are you changing a single A record or the entire zone? Establish a clear rollback plan: what exact values do you need to restore if the change fails? Write down the exact old record values so you can revert quickly without having to rediscover them during an incident. Assign an owner and a peer reviewer. Finally, determine the risk level. A low-risk change modifies a non-critical record during business hours. A high-risk change touches your MX records, NS records, or the root A record, and should be scheduled during a formal change window.</p>
+
+        <h3>Step 2: Lower TTL in Advance</h3>
+        <p>TTL (Time To Live) controls how long recursive resolvers cache your DNS records. Standard TTL values range from 3600 seconds (1 hour) to 86400 seconds (24 hours). If your current TTL is set to 86400 and a change goes wrong, every resolver that cached the old value will continue serving it for up to 24 hours. At least 24 hours before your planned change, reduce the TTL on the records you are modifying to 300 seconds (5 minutes). This gives you a much shorter recovery window if something breaks. To change TTL using the is-pro.dev dashboard, navigate to your domain's DNS settings, locate the record, and update the TTL field. After saving, verify the change propagated with <code>dig yourname.is-pro.dev A +short</code> and confirm the TTL value shows 300.</p>
+
+        <h3>Step 3: Make the Change</h3>
+        <p>Execute the DNS modification according to your plan. If you have a peer reviewer, have them verify your exact changes before you hit save. A second set of eyes catches the majority of typos and misconfigurations. When entering the record, pay careful attention to trailing dots on fully qualified domain names. An A record value of <code>192.0.2.1</code> is correct, but a CNAME value of <code>target.example.com</code> without a trailing dot may be interpreted as relative to the zone. Use the exact target as specified in your plan. After saving, immediately verify the record with <code>dig yourname.is-pro.dev A +short</code> on the authoritative nameserver to confirm the value is what you expected.</p>
+
+        <h3>Step 4: Verify</h3>
+        <p>Post-change verification is the most critical and most commonly skipped step. Run a multi-layered verification suite. First, query the authoritative nameserver directly with <code>dig @ns1.is-pro.dev yourname.is-pro.dev A +short</code>. Second, query a public resolver like Google DNS (<code>8.8.8.8</code>) to confirm the record is visible externally. Third, use <code>curl -I https://yourname.is-pro.dev</code> to verify that HTTPS is working and the certificate matches your domain. Fourth, run an SSL Labs test or use <code>openssl s_client -connect yourname.is-pro.dev:443</code> to confirm the certificate chain is valid. If the change involves a subdomain used by an API or web service, run a functional test that exercises the actual service. Take screenshots or save the command output as evidence to attach to your change ticket.</p>
+
+        <h3>Step 5: Monitor</h3>
+        <p>After verification, enter a monitoring period. Watch your error rates, traffic patterns, and application logs for at least 30 minutes after the change. If you use a monitoring tool like Prometheus, Datadog, or Grafana, check the relevant dashboards for anomalies. Pay particular attention to 4xx and 5xx HTTP status codes, DNS resolution failure rates, and latency changes. If you monitor uptime with an external service, confirm that the check passes from multiple geographic locations. During this period, keep your rollback plan ready. If you see elevated error rates or traffic not arriving as expected, proceed to the rollback procedure immediately. Do not wait for the issue to resolve itself.</p>
+
+        <h3>Step 6: Increase TTL After Stabilization</h3>
+        <p>Once the change has been stable for at least 24 hours, increase the TTL back to a standard value such as 3600 or 86400 seconds. A low TTL permanently increases the load on your authoritative nameservers and slows down resolution for your users. Restore the TTL to its original value or to whatever standard your team uses. After changing the TTL, verify again with dig to confirm the new TTL is being served. Update your change ticket with the final state and close out the task.</p>
+
+        <h2>Change Checklist Template</h2>
+        <div class="card" style="padding:1.25rem;overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--color-border);">
+                <th style="padding:.5rem .75rem;text-align:left;white-space:nowrap;">Phase</th>
+                <th style="padding:.5rem .75rem;text-align:left;">Checklist Item</th>
+                <th style="padding:.5rem .75rem;text-align:center;white-space:nowrap;">Done</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Planning</td>
+                <td style="padding:.5rem .75rem;">Document current record values (dig output saved)</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Planning</td>
+                <td style="padding:.5rem .75rem;">Identify stakeholders and notify of upcoming change</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Planning</td>
+                <td style="padding:.5rem .75rem;">Define rollback plan with exact old values</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Planning</td>
+                <td style="padding:.5rem .75rem;">Assign owner and peer reviewer</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">TTL</td>
+                <td style="padding:.5rem .75rem;">Reduce TTL to 300s at least 24h before change</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">TTL</td>
+                <td style="padding:.5rem .75rem;">Verify new TTL is propagated via dig</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Execution</td>
+                <td style="padding:.5rem .75rem;">Peer review of planned record values</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Execution</td>
+                <td style="padding:.5rem .75rem;">Apply DNS change in dashboard</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
+                <td style="padding:.5rem .75rem;">Query authoritative NS: dig @ns1 ...</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
+                <td style="padding:.5rem .75rem;">Query public resolver (8.8.8.8)</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
+                <td style="padding:.5rem .75rem;">HTTPS check: curl -I https://...</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
+                <td style="padding:.5rem .75rem;">SSL certificate check</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
+                <td style="padding:.5rem .75rem;">Functional test of affected service</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
+                <td style="padding:.5rem .75rem;">Save evidence (screenshots/dig output) to ticket</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Monitoring</td>
+                <td style="padding:.5rem .75rem;">Monitor error rates for 30+ minutes</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Monitoring</td>
+                <td style="padding:.5rem .75rem;">Check monitoring dashboards for anomalies</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Monitoring</td>
+                <td style="padding:.5rem .75rem;">External uptime check passes from multiple regions</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Cleanup</td>
+                <td style="padding:.5rem .75rem;">Increase TTL after 24h stable</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--color-border);">
+                <td style="padding:.5rem .75rem;font-weight:600;">Cleanup</td>
+                <td style="padding:.5rem .75rem;">Remove temporary records or old values</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+              <tr>
+                <td style="padding:.5rem .75rem;font-weight:600;">Cleanup</td>
+                <td style="padding:.5rem .75rem;">Close change ticket with final state</td>
+                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <p style="margin-top:1.5rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+        <h2>Verification</h2>
+        <p>Before declaring the change complete, confirm every item on the checklist above is ticked off. Run a final end-to-end test from an external network. Use a tool like whatsmydns.net to check global propagation status. Verify that the old record values no longer appear in any resolver responses. If you changed an A record, confirm that the previous IP address no longer accepts your traffic. If you changed a CNAME, verify that the alias chain resolves to the correct final target. Document the verification results in your change log so there is a clear audit trail.</p>
+
+        <h2>Troubleshooting</h2>
+        <h3>Rollback Procedure</h3>
+        <p>If your monitoring detects elevated errors or a service degradation after the change, initiate the rollback immediately. Restore the DNS record to the exact value documented in your pre-change planning step. Reduce TTL further if needed to accelerate propagation. After restoring, verify with dig and curl that traffic is flowing to the original target again. Notify all stakeholders that the change has been rolled back. Schedule a post-mortem to understand what went wrong before attempting the change again.</p>
+        <h3>Partial Propagation</h3>
+        <p>It is normal for some resolvers to serve the old value while others serve the new one during the TTL window. If you have monitoring alerts from a specific geographic region, check whether that region's resolver has a longer-than-expected TTL cache. You can force-propagate by reducing TTL further, but in most cases you simply need to wait. Use dig from multiple resolver IPs to map out which regions have updated.</p>
+        <h3>Communication During Incident</h3>
+        <p>If a DNS change causes an outage, communicate proactively. Post a status message in your team chat channel. If you have a status page, update it. Do not make additional DNS changes while investigating the root cause. Focus on rolling back the last change first, then diagnose the issue in a low-pressure environment.</p>
+        <h3>Change Reversal</h3>
+        <p>Some DNS changes cannot be cleanly reversed. For example, if you delete a record and recreate it, the new record gets a new serial number and may interact differently with DNSSEC validation. If your zone uses DNSSEC, wait for the new RRSIG records to propagate before making additional changes. Test the reversal in a staging environment if possible.</p>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Peer review every change.</strong> No DNS record modification should be applied without a second person verifying the values. Even a single mistyped octet in an IP address can redirect traffic to the wrong destination.</li>
+          <li><strong>Use staged rollouts for high-risk changes.</strong> If you have multiple servers behind a load balancer, consider changing the DNS for a small subset of users first by using a weighted record set if your DNS provider supports it.</li>
+          <li><strong>Establish change windows.</strong> Schedule DNS changes during low-traffic periods. Avoid making changes on Friday afternoons or immediately before holidays when team members may not be available to respond to incidents.</li>
+          <li><strong>Maintain a change log.</strong> Every DNS modification should be recorded with a timestamp, the operator name, the old and new values, and a link to the verification evidence. This creates an audit trail that helps with post-mortems and compliance.</li>
+          <li><strong>Automate where possible.</strong> Use infrastructure-as-code tools like Terraform or DNSControl to manage DNS records through version-controlled configuration files. Automation eliminates the risk of manual entry errors.</li>
+          <li><strong>Test in a subdomain first.</strong> Before modifying production records, test the change on a subdomain or in a separate test zone to validate the behavior.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        <h3>What is the most common mistake in DNS changes?</h3>
+        <p>The most common mistake is forgetting to lower the TTL before making the change. A high TTL locks the old value into resolvers for hours or days, making rollback slow and painful.</p>
+        <h3>How long should I wait between lowering TTL and making the change?</h3>
+        <p>At least one full TTL cycle of the original value. If your original TTL was 86400 seconds (24 hours), wait 24 hours after lowering it. This ensures all resolvers have picked up the new low TTL.</p>
+        <h3>Do I need peer review for every DNS change?</h3>
+        <p>Yes, especially in production environments. Even simple changes benefit from a second set of eyes. For emergency changes you can do a post-hoc review, but the review should still happen.</p>
+        <h3>Can I use the is-pro.dev dashboard for rollback?</h3>
+        <p>Yes. The dashboard allows you to edit or delete any DNS record in your zone. For fastest rollback, keep the old record values ready in your change plan so you can re-enter them immediately.</p>
+        <h3>What tools should I use for verification?</h3>
+        <p>Use dig for DNS queries, curl for HTTP checks, openssl for certificate inspection, and whatsmydns.net for global propagation status. For API endpoints, use a scripted test that validates the response body.</p>
+        <h3>Should I keep the checklist in a physical notebook or a digital tool?</h3>
+        <p>Digital is better for team collaboration. Use a shared document, a ticketing system like Jira, or a checklist template in your incident management tool. The important thing is that every team member uses the same checklist every time.</p>
+        <h3>How do I handle emergency changes that bypass the checklist?</h3>
+        <p>Emergency changes happen. After the incident, document what was changed and run through the verification checklist as soon as possible. Then schedule a post-mortem to determine if the emergency could have been avoided with better planning.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/guides/migrate-subdomain-between-hosting-providers/" class="inline-link">Migrate a Subdomain Between Hosting Providers</a> &mdash; Apply your checklist skills to a real migration scenario.</li>
+          <li><a href="/guides/configure-api-subdomain/" class="inline-link">Configure an API Subdomain</a> &mdash; Learn how to set up a subdomain for API traffic with proper DNS configuration.</li>
+        </ul>
+
+        <p style="margin-top:2rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
       </div>
     </div>
   </section>

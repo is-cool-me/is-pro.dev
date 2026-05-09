@@ -75,15 +75,198 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>Triage model</h2>
-        <p>Classify reports into phishing, malware, impersonation, or spam. Prioritize active credential theft and financial scams for immediate action.</p>
-        <h2>Evidence-first process</h2>
-        <p>Capture URLs, screenshots, and timestamps before disabling. This preserves useful context for appeals and supports consistent enforcement decisions.</p>
-        <h2>After-action communication</h2>
-        <p>Notify reporters of status and provide a route for owner appeals. Clear communication reduces repeated tickets and improves trust in moderation.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>Why Abuse Handling Matters</h2>
+        <p>Every free subdomain service is a potential vector for online abuse. The same infrastructure that lets developers quickly provision subdomains for legitimate projects can be exploited by bad actors to host phishing pages, distribute malware, or conduct spam campaigns. How we handle abuse reports — speed, accuracy, fairness — determines whether our platform remains a trusted part of the internet ecosystem or becomes a haven for malicious activity.</p>
+        <p>At is-cool-me, we treat abuse handling as a core safety function, not an afterthought. A well-designed abuse response process protects our users, preserves our domain reputation, and meets our legal obligations under frameworks like the DMCA, GDPR, and the EU Digital Services Act. This article explains our abuse reporting process in detail, what reporters and subdomain owners can expect, and how we balance enforcement with due process.</p>
+
+        <div class="callout">
+          <p><strong>Safety first:</strong> If you encounter a subdomain on is-cool-me that you believe is being used for phishing, malware, or other illegal activity, report it immediately via our <a href="/contact/">contact form</a> or <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord server</a>. Do not engage with the content yourself.</p>
+        </div>
+
+        <h2>Types of Abuse We Handle</h2>
+        <p>Abuse on a subdomain platform takes many forms. We categorize reports into the following types, each with its own triage priority and response workflow:</p>
+
+        <h3>Phishing &amp; Credential Theft (Critical Priority)</h3>
+        <p>The most severe category. Phishing sites impersonate trusted services — banks, email providers, social media platforms, crypto wallets — to steal login credentials, payment information, or personal data. A phishing page on an is-cool-me subdomain is especially dangerous because the hostname itself looks legitimate. We prioritize these reports for immediate action, often within minutes of confirmation.</p>
+
+        <h3>Impersonation (High Priority)</h3>
+        <p>Subdomains designed to impersonate a specific person, brand, or organization. This includes subdomain names that mimic trademarks (<code>google-login.is-pro.dev</code>), fake customer support pages, or accounts claiming to be official representatives of a company. Impersonation does not always involve credential theft — it can be used for reputation damage, misinformation, or fraud.</p>
+
+        <h3>Malware Distribution (Critical Priority)</h3>
+        <p>Subdomains hosting or linking to malicious software, including trojans, ransomware, spyware, exploit kits, or drive-by download scripts. Malware distribution endangers anyone who visits the subdomain and can trigger immediate blocklisting of our entire domain. Reports of malware are escalated to our infrastructure team for immediate isolation.</p>
+
+        <h3>Spam &amp; SEO Abuse (Medium Priority)</h3>
+        <p>Subdomains used to host spam content, link farms, redirect chains for search engine manipulation, or bulk email campaign landing pages. While less immediately dangerous than phishing or malware, spam degrades the value of our domain namespace and can trigger search engine penalties. We process spam reports within 24 hours.</p>
+
+        <h3>Copyright Infringement (Standard Priority)</h3>
+        <p>Subdomains hosting content that infringes on someone else's copyright — unauthorized copies of software, media, or written works. We handle copyright complaints under the DMCA safe harbor framework. Reports must include sufficient information (identification of the copyrighted work, the specific URL, and a statement of good faith belief). We respond to valid DMCA notices within 72 hours.</p>
+
+        <h2>Our Abuse Reporting Process</h2>
+        <p>When a report is submitted, it passes through the following workflow:</p>
+
+        <h3>Step 1: Report Submission</h3>
+        <p>Reports can be submitted through two channels:</p>
+        <ul>
+          <li><strong>Contact form:</strong> Fill out the form at <a href="/contact/">/contact/</a> with the subject line "[Abuse Report]" and include as much detail as possible.</li>
+          <li><strong>Discord:</strong> Join our <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord server</a> and post in the #abuse-reports channel.</li>
+        </ul>
+        <p>Reports submitted through either channel enter the same processing pipeline. Anonymous reports are accepted, but reports with contact information allow us to follow up with status updates.</p>
+
+        <h3>Step 2: Automated Triage</h3>
+        <p>Upon submission, our automated triage system performs initial checks:</p>
+        <ul>
+          <li>Extracts the reported subdomain and verifies it belongs to our namespace</li>
+          <li>Checks the subdomain's current DNS resolution and HTTP response status</li>
+          <li>Queries blocklist APIs (Google Safe Browsing, PhishTank, VirusTotal) for existing threat intelligence</li>
+          <li>Assigns a priority score based on report type, content analysis, and blocklist matches</li>
+        </ul>
+        <p>Reports scoring above the critical threshold are escalated to the on-call moderator immediately. Lower-priority reports enter a moderation queue for review within the applicable SLA.</p>
+
+        <h3>Step 3: Manual Review</h3>
+        <p>A human moderator reviews the report, the subdomain content, and any associated account information. Our moderators follow a structured review checklist:</p>
+        <ul>
+          <li>Confirm the subdomain exists and resolves</li>
+          <li>Access the subdomain content (without interacting with any forms or downloading files)</li>
+          <li>Compare the content against the reporter's description</li>
+          <li>Check the subdomain owner's history (prior reports, account age, other subdomains)</li>
+          <li>Determine whether the content violates our Terms of Service</li>
+        </ul>
+
+        <h3>Step 4: Action Taken</h3>
+        <p>Based on the review, the moderator takes one of the following actions:</p>
+        <ul>
+          <li><strong>No action:</strong> Content does not violate our policies. Reporter is notified with an explanation.</li>
+          <li><strong>Warning issued:</strong> Minor or ambiguous violation. Subdomain owner is notified and given a timeframe to remediate.</li>
+          <li><strong>Subdomain suspended:</strong> DNS resolution is disabled immediately. Subdomain owner is notified with the reason and appeal instructions.</li>
+          <li><strong>Account terminated:</strong> For severe or repeat violations, the entire account is disabled and all subdomains are reclaimed.</li>
+        </ul>
+
+        <h2>What to Include in an Abuse Report</h2>
+        <p>A well-prepared abuse report accelerates our response time. Please include the following information:</p>
+        <ul>
+          <li><strong>Subdomain URL:</strong> The full is-cool-me subdomain URL (e.g., <code>https://example.is-pro.dev</code>)</li>
+          <li><strong>Screenshots:</strong> Clear screenshots of the offending content, including the URL bar to establish context</li>
+          <li><strong>Description:</strong> A brief description of why you believe this is abusive (e.g., "This page appears to be a phishing clone of the Gmail login page")</li>
+          <li><strong>Timestamps:</strong> When you discovered the content and, if applicable, when it was reported elsewhere</li>
+          <li><strong>Contact information (optional):</strong> Your email address if you want to receive status updates</li>
+          <li><strong>Additional evidence:</strong> Any relevant HTTP headers, DNS records, or network analysis that supports your report</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Tip:</strong> Screenshots are the most valuable evidence you can provide. They capture the content as it appeared at the time of reporting, which is critical if the subdomain owner modifies or removes the content before our moderators review it. Use your browser's built-in screenshot tool or a dedicated capture extension.</p>
+        </div>
+
+        <h2>How We Verify Reports</h2>
+        <p>Verification is the most important step in our process. We need to confirm that the reported content is genuinely abusive and not a false alarm before taking enforcement action. Our verification methodology includes:</p>
+        <ul>
+          <li><strong>DNS record inspection:</strong> We check whether the subdomain's DNS records point to the claimed hosting provider and whether the records appear legitimate</li>
+          <li><strong>Content analysis:</strong> We access the subdomain and analyze the served content. For phishing reports, we check whether the page is replicating a known login interface or brand asset</li>
+          <li><strong>Hosting provider check:</strong> If the abuse involves a downstream hosting provider (e.g., the subdomain points to a Vercel project hosting phishing content), we may coordinate with that provider's abuse team</li>
+          <li><strong>Cross-referencing:</strong> We check threat intelligence feeds and community reports to see if the same subdomain or content has been reported elsewhere</li>
+        </ul>
+
+        <h2>Response Times: Target SLAs</h2>
+        <p>We commit to the following response time targets for abuse reports:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Abuse Type</th>
+              <th>Initial Response</th>
+              <th>Resolution Target</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Phishing / Credential Theft</td>
+              <td>&lt; 1 hour</td>
+              <td>&lt; 4 hours</td>
+            </tr>
+            <tr>
+              <td>Malware Distribution</td>
+              <td>&lt; 1 hour</td>
+              <td>&lt; 4 hours</td>
+            </tr>
+            <tr>
+              <td>Impersonation</td>
+              <td>&lt; 4 hours</td>
+              <td>&lt; 24 hours</td>
+            </tr>
+            <tr>
+              <td>Spam / SEO Abuse</td>
+              <td>&lt; 24 hours</td>
+              <td>&lt; 72 hours</td>
+            </tr>
+            <tr>
+              <td>Copyright Infringement (DMCA)</td>
+              <td>&lt; 72 hours</td>
+              <td>&lt; 7 days</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>These are <em>targets</em>, not guarantees. During weekends, holidays, or periods of high report volume, response times may be longer. We are actively building a larger moderation team to improve coverage.</p>
+
+        <h2>False Positives: Handling Mistaken Reports</h2>
+        <p>False positives — reports that turn out to be unfounded — are an inevitable part of any abuse handling system. We handle them carefully for two reasons: first, to minimize disruption to legitimate subdomain owners, and second, because aggressive false-positive handling encourages good-faith reporting.</p>
+        <p>When a report is determined to be a false positive:</p>
+        <ul>
+          <li>The reporter is notified with an explanation of why the content was not found to be in violation</li>
+          <li>No action is taken against the subdomain or its owner</li>
+          <li>The subdomain owner is not notified that they were reported (to prevent retaliation)</li>
+          <li>The report data is used to improve our automated triage accuracy</li>
+        </ul>
+        <p>If you receive a false positive and want to understand why your subdomain was flagged, contact us — we are happy to explain our analysis and, if appropriate, whitelist your subdomain from future automated checks.</p>
+
+        <h2>What Subdomain Owners Can Do</h2>
+        <p>If you own an is-cool-me subdomain, there are proactive steps you can take to avoid being used for abuse and to respond effectively if abuse is reported on your subdomain:</p>
+
+        <h3>Security Hardening</h3>
+        <ul>
+          <li><strong>Use a secure hosting provider:</strong> Choose a provider with strong abuse response and DDoS protection</li>
+          <li><strong>Enable HTTPS:</strong> Most abuse reports involve non-HTTPS content or invalid certificates</li>
+          <li><strong>Monitor your subdomain:</strong> Set up periodic checks to verify your subdomain resolves to the expected content</li>
+          <li><strong>Remove unused subdomains:</strong> If you no longer need a subdomain, delete the DNS record entirely to prevent repurposing</li>
+        </ul>
+
+        <h3>Responding to a Report</h3>
+        <p>If you receive an abuse notification from us:</p>
+        <ul>
+          <li>Read the notification carefully — we include the specific URL and reason for the report</li>
+          <li>If you believe the report is incorrect, respond with evidence explaining why (screenshots, code, documentation)</li>
+          <li>If the report is correct, remediate the issue immediately and notify us when done</li>
+          <li>Do not retaliate against the reporter — focus on fixing the issue</li>
+        </ul>
+
+        <h2>Case Study: Handling a Phishing Report</h2>
+        <p>To illustrate our process, here is an anonymized case study of a real phishing report we handled:</p>
+        <p><strong>Report Received:</strong> A security researcher reported <code>secure-login.is-pro.dev</code> via our contact form, attaching screenshots showing a page that visually replicated the MetaMask wallet login interface. The subdomain had been registered 6 hours prior by a GitHub account created 2 days earlier.</p>
+        <p><strong>Triage (5 minutes):</strong> Our automated system flagged the subdomain name for containing "login" in a context that matched a known phishing pattern. The report priority was elevated to critical based on the screenshots and the new account flag.</p>
+        <p><strong>Review (10 minutes):</strong> The on-call moderator accessed the subdomain and confirmed it was a near-exact clone of the MetaMask interface. The page included JavaScript that captured wallet seed phrases and exfiltrated them to an external server.</p>
+        <p><strong>Action (immediate):</strong> The subdomain was suspended within 15 minutes of the initial report. The owner's account was placed under review, and all their subdomains were temporarily disabled. The phishing URL was reported to Google Safe Browsing.</p>
+        <p><strong>Follow-up (24 hours):</strong> The reporter was notified of the action taken. The account was terminated after review confirmed the malicious intent. The subdomain name was added to our permanent blocklist.</p>
+
+        <h2>Legal Considerations</h2>
+        <p>Abuse handling operates within a legal framework that varies by jurisdiction. Here are the key legal concepts that shape our policies:</p>
+
+        <h3>DMCA Safe Harbor (United States)</h3>
+        <p>Under the Digital Millennium Copyright Act, online service providers can qualify for safe harbor from copyright infringement liability if they implement a notice-and-takedown system and respond expeditiously to valid takedown notices. We comply with the DMCA by maintaining a designated copyright agent, accepting DMCA notices, and processing takedowns in accordance with the statute. Counter-notices from subdomain owners who believe their content was removed in error are reviewed and processed as required by law.</p>
+
+        <h3>GDPR (European Union)</h3>
+        <p>When processing abuse reports, we may handle personal data belonging to both the reporter and the subdomain owner. Under GDPR, we must have a lawful basis for this processing (legitimate interest in platform safety), provide transparency about our data handling, and respect data subject rights including erasure. Abuse-related data is retained only as long as necessary for enforcement and legal compliance.</p>
+
+        <h3>Safe Harbor for User-Generated Content (EU Digital Services Act)</h3>
+        <p>The EU Digital Services Act (DSA) establishes a framework for intermediary liability and requires platforms to implement notice-and-action mechanisms for illegal content. Our abuse reporting system is designed to meet DSA requirements, including transparency reporting and user redress options.</p>
+
+        <h3>Cross-Border Cooperation</h3>
+        <p>Abuse does not respect borders. A phishing site hosted via is-cool-me may target users in Europe, be reported by a researcher in Asia, and be hosted on infrastructure in North America. We cooperate with law enforcement and abuse teams worldwide, subject to applicable privacy laws and our terms of service.</p>
+
+        <h2>Continuous Improvement</h2>
+        <p>Our abuse handling process is never "finished." Every report — whether confirmed or false positive — provides data that helps us improve. We regularly review our triage accuracy, response times, and moderation decisions to identify areas for improvement. Our transparency reports, published periodically, provide metrics on the volume and disposition of abuse reports.</p>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

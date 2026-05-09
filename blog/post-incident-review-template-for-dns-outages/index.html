@@ -75,15 +75,269 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>What a good PIR includes</h2>
-        <p>A useful review documents impact, timeline, root cause, and concrete follow-up actions with owners and due dates.</p>
-        <h2>Avoiding blame narratives</h2>
-        <p>Focus on system gaps instead of individual mistakes. Better runbooks, guardrails, and peer review prevent repeat incidents.</p>
-        <h2>Turning lessons into controls</h2>
-        <p>Convert action items into checklists, monitoring alerts, and migration templates so improvements are measurable and durable.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>Why Post-Incident Reviews Matter</h2>
+        <p>Every DNS outage contains a lesson. The question is whether you extract it. A post-incident review (PIR) — also called a postmortem — is the structured process of documenting what happened, why it happened, and what you will do to prevent it from happening again. For DNS infrastructure specifically, where a single misconfigured record can take down thousands of subdomains, the PIR is not a bureaucratic formality — it is the primary mechanism for getting better at operating critical infrastructure.</p>
+        <p>At is-cool-me, we treat every DNS incident as an opportunity to strengthen our systems. This article provides a complete PIR template designed for DNS outages, explains how to write each section effectively, includes a worked example based on a real DNS misconfiguration, and discusses the blameless culture that makes PIRs actually useful.</p>
+
+        <div class="callout">
+          <p><strong>Core principle:</strong> The goal of a PIR is not to assign blame — it is to understand the system's failure modes and make them less likely to occur. If your PIR names a person as the "cause," you are doing it wrong.</p>
+        </div>
+
+        <h2>PIR Template Structure</h2>
+        <p>A good PIR follows a consistent structure. Here is the template we use at is-cool-me for DNS-related incidents. Each section is described in detail below.</p>
+
+        <pre><code># Post-Incident Review: [Incident Title]
+
+## 1. Incident Summary
+- **Date:** YYYY-MM-DD
+- **Duration:** HH:MM to HH:MM UTC (X hours, Y minutes)
+- **Severity:** SEV1 / SEV2 / SEV3
+- **Impact:** [Number] subdomains affected, [number]% query failure rate
+- **Detection method:** [Monitoring alert / User report / Manual discovery]
+
+## 2. Timeline
+
+| Time (UTC) | Event |
+|------------|-------|
+| HH:MM      | [Event description] |
+
+## 3. Root Cause Analysis
+
+## 4. Contributing Factors
+
+## 5. Impact Assessment
+
+## 6. What Went Well
+
+## 7. What Went Poorly
+
+## 8. Action Items
+
+| # | Action | Owner | Due Date | Status |
+|---|--------|-------|----------|--------|
+| 1 | [Action] | @person | YYYY-MM-DD | Open/In Progress/Done |</code></pre>
+
+        <h2>How to Write Each Section</h2>
+
+        <h3>1. Incident Summary</h3>
+        <p>The summary is the TL;DR of the incident. It should answer: what broke, how badly, for how long, and how we found out. Keep it to 3–5 sentences. The severity classification helps stakeholders understand urgency at a glance:</p>
+        <ul>
+          <li><strong>SEV1 (Critical):</strong> Complete DNS resolution failure for all subdomains; all users unable to resolve any is-cool-me hostname</li>
+          <li><strong>SEV2 (Major):</strong> Partial resolution failure affecting a subset of subdomains; degraded query performance; increased latency for &gt;10% of queries</li>
+          <li><strong>SEV3 (Minor):</strong> Isolated resolution failure for specific records; brief latency spike under 5 minutes; no user-visible impact</li>
+        </ul>
+
+        <h3>2. Timeline</h3>
+        <p>The timeline is the most objective section of the PIR. It records events in chronological order with timestamps. Do not include analysis or opinion — just what happened and when. Key events to include:</p>
+        <ul>
+          <li><strong>Detection:</strong> When and how the incident was first identified</li>
+          <li><strong>Escalation:</strong> When the on-call engineer was notified</li>
+          <li><strong>Investigation milestones:</strong> When key diagnostic steps were completed</li>
+          <li><strong>Mitigation:</strong> When the fix was applied</li>
+          <li><strong>Resolution:</strong> When full service was restored</li>
+          <li><strong>Communication:</strong> When stakeholders and users were notified</li>
+        </ul>
+        <p>Timestamps should be in UTC to avoid timezone ambiguity. If you use an incident management tool like PagerDuty or Opsgenie, the timeline can often be auto-generated from the incident log.</p>
+
+        <h3>3. Root Cause Analysis</h3>
+        <p>This is where you identify the underlying cause of the incident. For DNS incidents, common root causes include:</p>
+        <ul>
+          <li><strong>Configuration error:</strong> An incorrect DNS record (wrong IP, wrong CNAME target, missing record)</li>
+          <li><strong>Propagation failure:</strong> DNS changes that did not propagate correctly due to TTL caching or provider issues</li>
+          <li><strong>Provider outage:</strong> Upstream DNS provider experienced an outage</li>
+          <li><strong>Certificate issue:</strong> TLS certificate expired or was misconfigured, causing browsers to reject the subdomain</li>
+          <li><strong>Namespace collision:</strong> A DNS record pointed to an endpoint that was reclaimed by another user</li>
+        </ul>
+        <p>Use a "5 Whys" approach: ask "why" repeatedly until you reach a fundamental process or system gap, not a human error. For example:</p>
+        <ul>
+          <li>The CNAME record was wrong → Why? Because the operator entered an incorrect target → Why? Because the target was copied from a Slack message instead of the configuration file → Why? Because the runbook did not specify the authoritative source for target values → <strong>Root cause: The configuration runbook lacked a defined source of truth for DNS targets.</strong></li>
+        </ul>
+
+        <h3>4. Contributing Factors</h3>
+        <p>Root causes are rarely the only problem. Contributing factors are conditions that made the incident worse or delayed its resolution:</p>
+        <ul>
+          <li>No monitoring alert for the specific failure mode</li>
+          <li>Insufficient runbook documentation for the recovery procedure</li>
+          <li>On-call engineer unfamiliar with the DNS provider's API</li>
+          <li>No automated rollback capability for DNS changes</li>
+          <li>Time of day (incident occurred during low-staff hours)</li>
+        </ul>
+        <p>Identifying contributing factors is valuable because they often have cheaper, faster fixes than the root cause. Adding a monitoring alert can be done in an afternoon; redesigning a configuration system may take a quarter.</p>
+
+        <h3>5. Impact Assessment</h3>
+        <p>Quantify the impact of the incident using objective metrics:</p>
+        <ul>
+          <li><strong>Subdomains affected:</strong> Number of unique subdomains that failed to resolve</li>
+          <li><strong>Query failure rate:</strong> Percentage of DNS queries that returned SERVFAIL or NXDOMAIN</li>
+          <li><strong>Latency increase:</strong> Average and P99 DNS resolution time during the incident</li>
+          <li><strong>Affected users:</strong> Estimated number of end users who could not access subdomains</li>
+          <li><strong>Downstream impact:</strong> Any services or users that depend on the affected subdomains</li>
+        </ul>
+        <p>If you do not have precise numbers, provide best estimates and note the uncertainty. Over time, improving your observability will let you generate accurate impact numbers automatically.</p>
+
+        <h3>6. What Went Well</h3>
+        <p>This section is not fluff — it documents what worked so you can reinforce those patterns. Examples:</p>
+        <ul>
+          <li>Monitoring alert fired within 2 minutes of the failure</li>
+          <li>On-call engineer identified the misconfigured record within 10 minutes</li>
+          <li>The rollback script restored the previous configuration in under 30 seconds</li>
+          <li>Communication to users via status page was timely and clear</li>
+        </ul>
+
+        <h3>7. What Went Poorly</h3>
+        <p>Be honest but constructive. Frame issues in terms of system failures, not individual mistakes:</p>
+        <ul>
+          <li>Instead of "Alice typed the wrong IP address," write "The DNS change was deployed without a validation step that compares the new record against the expected value."</li>
+          <li>Instead of "Bob didn't check Slack," write "The escalation policy did not require notifying the secondary on-call when the primary was in a meeting."</li>
+        </ul>
+
+        <h3>8. Action Items</h3>
+        <p>Each action item should be specific, actionable, and assigned to an owner with a due date. Use the SMART framework (Specific, Measurable, Achievable, Relevant, Time-bound). Examples:</p>
+        <ul>
+          <li>"Add a pre-deployment validation step to the DNS change script that compares new records against a known-good manifest."</li>
+          <li>"Create a monitoring alert for SERVFAIL responses on critical subdomains with a threshold of 5% over 2 minutes."</li>
+          <li>"Update the DNS runbook to include the authoritative source for target values (link to configuration repository)."</li>
+        </ul>
+        <p>Track action items to completion in your project management system. Recurring review of open action items should be part of your team's regular operations cadence.</p>
+
+        <h2>Example PIR: DNS Misconfiguration Incident</h2>
+        <p>Here is a worked example based on a real DNS incident pattern we have observed (and learned from):</p>
+
+        <pre><code># Post-Incident Review: Widespread SERVFAIL from Zone File Syntax Error
+
+## 1. Incident Summary
+- **Date:** 2026-03-15
+- **Duration:** 14:22 to 15:04 UTC (42 minutes)
+- **Severity:** SEV2
+- **Impact:** 1,247 subdomains (12% of active subdomains) returned SERVFAIL; 8.3% query failure rate
+- **Detection method:** Automated latency monitor (Datadog) alerted on increase in SERVFAIL rate
+
+## 2. Timeline
+| Time (UTC) | Event |
+|------------|-------|
+| 14:20 | Operator deploys bulk DNS zone update via API script |
+| 14:22 | Datadog monitor triggers: SERVFAIL rate exceeds 5% threshold |
+| 14:23 | On-call engineer paged via PagerDuty |
+| 14:25 | Engineer begins investigation; confirms SERVFAIL on random subdomains |
+| 14:28 | Engineer identifies syntax error in deployed zone file (missing closing parenthesis on SOA record) |
+| 14:30 | Rollback initiated: previous zone file restored from git history |
+| 14:32 | DNS provider begins processing rollback |
+| 14:45 | SERVFAIL rate begins declining |
+| 15:04 | SERVFAIL rate returns to baseline (0.02%) |
+| 15:10 | Status page updated with resolved notice |
+
+## 3. Root Cause Analysis
+The zone file deployed at 14:20 contained a syntax error: the SOA record's multi-line value was missing a closing parenthesis, causing the DNS provider's parser to interpret the next 1,247 resource records as malformed. The syntax error was introduced during a manual edit to update the SOA refresh interval.
+- Why was the zone file edited manually? → Because the automated zone generation script did not support SOA parameter changes.
+- Why did the deployment script accept a syntactically invalid zone file? → Because there was no pre-deployment syntax validation step.
+- <strong>Root cause: The deployment pipeline lacked a zone file syntax validation gate.</strong>
+
+## 4. Contributing Factors
+- No canary deployment: the zone file was applied to all nameservers simultaneously
+- SOA edits required manual zone file modification (no automation)
+- The zone file validation tool was available but not integrated into the deployment script
+- Operator was unfamiliar with SOA record syntax (no runbook reference)
+
+## 5. Impact Assessment
+- 1,247 subdomains affected (12% of active)
+- 8.3% of all DNS queries returned SERVFAIL during the incident window
+- P99 latency increased from 12ms to 340ms (degraded but not failing queries)
+- Approximately 50,000 end users experienced failed lookups
+- No downstream services reported cascading failures
+
+## 6. What Went Well
+- Monitor detected the SERVFAIL spike within 2 minutes
+- Rollback was possible via git-based zone file history
+- The DNS provider processed the rollback within 3 minutes of submission
+- Status page updates were accurate and timely
+
+## 7. What Went Poorly
+- No syntax validation before zone file deployment
+- SOA parameter changes required manual editing with no guardrails
+- The on-call engineer had to discover the syntax error manually (no parser error message in the deployment output)
+- The runbook did not include the zone file syntax validation command
+
+## 8. Action Items
+| # | Action | Owner | Due Date | Status |
+|---|--------|-------|----------|--------|
+| 1 | Add zone file syntax validation step to deployment script | @infra | 2026-03-22 | Done |
+| 2 | Create automated SOA parameter update command in config tool | @infra | 2026-04-05 | In Progress |
+| 3 | Add `named-checkzone` command and expected output to DNS runbook | @docs | 2026-03-18 | Done |
+| 4 | Implement canary deployment for zone files (10% → 100% rollout) | @infra | 2026-04-15 | Open |
+| 5 | Schedule team training on zone file syntax and tools | @lead | 2026-03-25 | Done |</code></pre>
+
+        <h2>Blameless Culture: Why It Matters</h2>
+        <p>A blameless postmortem culture is essential for effective incident analysis. When people fear being blamed for incidents, they hide mistakes, omit details from timelines, and resist documenting "what went poorly." The result is a PIR that misses the real lessons and leaves the system just as fragile as before.</p>
+        <p>Blamelessness does not mean no accountability. It means we recognize that complex systems fail in complex ways, and the person who triggered the incident was almost always acting in good faith with the tools and information available at the time. The question shifts from "who made the mistake?" to "why did the system allow that mistake to cause an incident?"</p>
+        <p>Practical steps for fostering a blameless culture:</p>
+        <ul>
+          <li>Do not use names in the PIR (use roles like "the operator" or "the on-call engineer")</li>
+          <li>Review the PIR draft with everyone involved before publication, allowing them to correct inaccuracies</li>
+          <li>Celebrate thorough PIRs that identify systemic issues — treat them as wins, not admissions of failure</li>
+          <li>Share PIRs broadly within the organization so other teams can learn from your incidents</li>
+        </ul>
+
+        <h2>Tools for Incident Management</h2>
+        <p>Effective PIRs require good data, which requires good tooling. Here are the tools we recommend for DNS incident management:</p>
+        <ul>
+          <li><strong>Incident management:</strong> PagerDuty, Opsgenie, or Grafana On-Call for alerting and escalation</li>
+          <li><strong>Monitoring and observability:</strong> Datadog, Grafana, or Prometheus with DNS-specific metrics (query latency, SERVFAIL rate, NXDOMAIN rate)</li>
+          <li><strong>DNS-specific monitoring:</strong> DNSViz, RIPE Atlas, or自家的 Pingdom DNS checks for external visibility into DNS resolution</li>
+          <li><strong>Collaboration:</strong> Slack or Discord for real-time incident coordination; a dedicated #incidents channel</li>
+          <li><strong>PIR documentation:</strong> Google Docs, Notion, or a Git repository with Markdown files — the key is that PIRs are findable and searchable</li>
+          <li><strong>Action item tracking:</strong> Jira, Linear, GitHub Issues, or Asana — any system your team already uses for tracking work</li>
+        </ul>
+
+        <h2>Follow-Up: Tracking Action Items to Completion</h2>
+        <p>A PIR is only as good as its follow-through. Action items that are assigned and forgotten are worse than no action items at all — they create a false sense of security. Establish a regular review cadence:</p>
+        <ul>
+          <li><strong>Weekly:</strong> Review open action items from recent PIRs during the team's operations standup</li>
+          <li><strong>Monthly:</strong> Review all open action items across all PIRs; identify items that have slipped and escalate if needed</li>
+          <li><strong>Quarterly:</strong> Conduct a "PIR retrospective" — look at the themes across all incidents in the quarter and identify systemic patterns that suggest deeper investment is needed</li>
+        </ul>
+        <p>When an action item is completed, update the PIR with the resolution and close it out. This creates a complete audit trail from incident → analysis → fix → verification.</p>
+
+        <h2>Template Download</h2>
+        <p>You can use the template below for your own PIRs. Copy the Markdown into your documentation system and fill in the sections as you work through the incident.</p>
+
+        <pre><code># Post-Incident Review: [Title]
+
+## 1. Incident Summary
+- **Date:**
+- **Duration:**
+- **Severity:** SEV1 / SEV2 / SEV3
+- **Impact:**
+- **Detection method:**
+
+## 2. Timeline
+
+| Time (UTC) | Event |
+|------------|-------|
+|            |       |
+
+## 3. Root Cause Analysis
+
+## 4. Contributing Factors
+
+## 5. Impact Assessment
+
+## 6. What Went Well
+
+## 7. What Went Poorly
+
+## 8. Action Items
+
+| # | Action | Owner | Due Date | Status |
+|---|--------|-------|----------|--------|
+| 1 |        |       |          |        |</code></pre>
+
+        <p>Save this template in your team's documentation repository so it is ready to use when the next incident strikes. The time to prepare for an incident is before it happens.</p>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

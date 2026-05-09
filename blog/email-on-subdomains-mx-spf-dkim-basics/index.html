@@ -75,15 +75,186 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>Minimum reliable setup</h2>
-        <p>Email needs MX records plus SPF and DKIM alignment. Without authentication records, delivery and inbox placement degrade quickly.</p>
-        <h2>Frequent mistakes</h2>
-        <p>Teams often publish multiple SPF includes incorrectly or forget to rotate DKIM selectors after provider changes. Both create silent failures.</p>
-        <h2>Operational advice</h2>
-        <p>Keep one source of truth for mail DNS and test after every change with provider diagnostics. Add DMARC reporting early for visibility.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>Why Email on Subdomains Matters</h2>
+        <p>Running email on a subdomain (like <code>mail.yourname.is-pro.dev</code> or using a custom subdomain for a transactional email provider) is a best practice that offers several advantages over sending from your root domain.</p>
+        <p><strong>Reputation separation:</strong> Your root domain's email reputation is protected. If your transactional email subdomain gets flagged for spam (e.g., a user marks a password reset email as spam), it does not affect the deliverability of your personal or team emails from the root domain. Each subdomain builds its own sending reputation independently.</p>
+        <p><strong>Easier management:</strong> You can delegate DNS control of a subdomain to a different team or service provider without giving them access to your root domain's DNS. This is common when using services like Mailgun, SendGrid, or Amazon SES.</p>
+        <p><strong>Flexible provider switching:</strong> Switching email providers for a subdomain only requires changing DNS records for that subdomain. Your root domain's MX, SPF, and DKIM records remain untouched, so your main email keeps working during the transition.</p>
+        <p><strong>Targeted authentication:</strong> You can have different SPF, DKIM, and DMARC policies for different subdomains. Marketing emails from <code>newsletter.example.com</code> can have a more permissive SPF policy than transactional emails from <code>billing.example.com</code>.</p>
+
+        <div class="callout">
+          <p><strong>Key insight:</strong> Email authentication (SPF, DKIM, DMARC) works independently on each subdomain. A subdomain with no SPF record will cause receivers to apply a neutral or fail result, which typically leads to spam folder placement. Always configure authentication for every subdomain that sends email.</p>
+        </div>
+
+        <h2>MX Records Explained</h2>
+        <p>Mail Exchange (MX) records tell the internet which servers are responsible for receiving email for your domain. When someone sends an email to <code>user@yourname.is-pro.dev</code>, the sending server queries DNS for MX records at <code>yourname.is-pro.dev</code> and delivers the message to the specified mail servers.</p>
+
+        <h3>MX Record Format</h3>
+        <pre><code>yourname.is-pro.dev.  MX  10  mail1.yourname.is-pro.dev.
+yourname.is-pro.dev.  MX  20  mail2.yourname.is-pro.dev.</code></pre>
+        <p>Each MX record has three components:</p>
+        <ul>
+          <li><strong>Priority (preference):</strong> A number from 0 to 65535. Lower numbers are preferred. The sending server always tries the lowest-priority MX first. If that server is unreachable, it tries the next priority.</li>
+          <li><strong>Mail server hostname:</strong> The fully qualified domain name of the mail server. This must resolve to an A or AAAA record. It cannot be a CNAME alias per RFC 2181 (though many providers allow it in practice).</li>
+          <li><strong>TTL:</strong> Standard DNS TTL controls how long the MX record is cached.</li>
+        </ul>
+
+        <h3>Multiple MX Records and Load Balancing</h3>
+        <p>Multiple MX records with the same priority distribute load across servers. Sending servers randomly choose among equal-priority servers. Different priorities create a failover chain. A common pattern is:</p>
+        <pre><code>yourname.is-pro.dev.  MX  10  primary.yourname.is-pro.dev.
+yourname.is-pro.dev.  MX  20  secondary.yourname.is-pro.dev.
+yourname.is-pro.dev.  MX  30  tertiary.yourname.is-pro.dev.</code></pre>
+        <p>Sending servers attempt delivery to <code>primary</code> first. If it is unavailable, they try <code>secondary</code>, and so on. This provides resilience without complex load balancing.</p>
+
+        <h2>SPF Records Explained</h2>
+        <p>Sender Policy Framework (SPF) is a DNS TXT record that lists the IP addresses and domains authorized to send email on behalf of your domain. Receiving mail servers check SPF to verify that incoming messages claiming to be from your domain actually originated from an authorized source.</p>
+
+        <h3>SPF Record Structure</h3>
+        <pre><code>yourname.is-pro.dev.  TXT  "v=spf1 include:mailgun.org include:_spf.google.com ~all"</code></pre>
+        <p>Key components:</p>
+        <ul>
+          <li><code>v=spf1</code>: Identifies this as SPF version 1.</li>
+          <li><code>include:domain</code>: Authorizes the specified domain's SPF policy. This delegates authorization to another domain's SPF record.</li>
+          <li><code>ip4:1.2.3.4</code>: Authorizes a specific IPv4 address.</li>
+          <li><code>ip6:2001:db8::/32</code>: Authorizes an IPv6 range.</li>
+          <li><code>a</code>: Authorizes the domain's A record IP.</li>
+          <li><code>mx</code>: Authorizes the domain's MX server IPs.</li>
+          <li><code>~all</code> (softfail): Treat unauthorized sources as suspicious but accept the message. <code>-all</code> (hardfail): Reject unauthorized sources. <code>+all</code>: Accept everything (never use this).</li>
+        </ul>
+
+        <h3>The 10-DNS-Lookup Limit</h3>
+        <p>SPF has a hard limit of 10 DNS lookups per evaluation. Each <code>include:</code>, <code>a</code>, <code>mx</code>, <code>ptr</code>, and <code>exists</code> mechanism counts as one lookup. If you exceed 10, SPF returns a permanent error (<code>permerror</code>), and receivers treat the message as if no SPF record exists. This is the most common SPF configuration mistake.</p>
+
+        <div class="callout">
+          <p><strong>Warning:</strong> Each <code>include:</code> can itself trigger multiple lookups. For example, <code>include:_spf.google.com</code> may internally use multiple mechanisms, each counting against your limit. Always test your SPF record with an online checker before deploying.</p>
+        </div>
+
+        <h2>DKIM Records Explained</h2>
+        <p>DomainKeys Identified Mail (DKIM) provides a way for the sending server to cryptographically sign outgoing emails. The signature is verified by the receiving server using a public key published in your DNS. This proves the email was not tampered with in transit and genuinely originated from your domain.</p>
+
+        <h3>DKIM Record Structure</h3>
+        <p>DKIM uses a subdomain format with a <em>selector</em>:</p>
+        <pre><code>mailgun._domainkey.yourname.is-pro.dev.  TXT  "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb4DQEBAQUAA4GNADCBiQKBgQC..."</code></pre>
+        <p>Breaking this down:</p>
+        <ul>
+          <li><code>mailgun</code> is the <strong>selector</strong>, chosen by the email provider. You can have multiple selectors for key rotation.</li>
+          <li><code>_domainkey</code> is a required subdomain label.</li>
+          <li><code>v=DKIM1</code> identifies the DKIM version.</li>
+          <li><code>k=rsa</code> specifies the key type (RSA is standard; ed25519 is newer).</li>
+          <li><code>p=</code> contains the Base64-encoded public key.</li>
+        </ul>
+
+        <h3>Selector Management and Key Rotation</h3>
+        <p>Selectors allow you to publish multiple DKIM keys simultaneously. This is critical for key rotation without downtime:</p>
+        <ol>
+          <li>Publish a new DKIM record with a new selector (e.g., <code>google2026._domainkey</code>).</li>
+          <li>Configure your email provider to sign outgoing mail with the new selector.</li>
+          <li>Wait for all cached DNS records to expire (at least the TTL of the old selector).</li>
+          <li>Remove the old DKIM record.</li>
+        </ol>
+        <p>This zero-downtime rotation ensures that emails signed with the old key are still verifiable until the old record expires, while new emails use the new key.</p>
+
+        <h2>DMARC Records Explained</h2>
+        <p>Domain-based Message Authentication, Reporting, and Conformance (DMARC) builds on SPF and DKIM. It tells receiving mail servers what to do when SPF or DKIM authentication fails and provides reports about authentication results.</p>
+
+        <h3>DMARC Record Structure</h3>
+        <pre><code>_dmarc.yourname.is-pro.dev.  TXT  "v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@yourname.is-pro.dev; ruf=mailto:forensics@yourname.is-pro.dev; pct=100"</code></pre>
+        <p>Key tags:</p>
+        <ul>
+          <li><code>p=</code>: Policy for authentication failures. <code>none</code> (take no action, just report), <code>quarantine</code> (mark as spam), <code>reject</code> (reject the email outright).</li>
+          <li><code>sp=</code>: Policy for subdomains (inherits from <code>p</code> if not set).</li>
+          <li><code>rua=</code>: Address for aggregate reports (XML summaries sent daily).</li>
+          <li><code>ruf=</code>: Address for forensic reports (individual failure details).</li>
+          <li><code>pct=</code>: Percentage of messages to filter (useful for gradual rollout).</li>
+          <li><code>adkim=</code>: DKIM alignment mode. <code>r</code> (relaxed) allows subdomain matches; <code>s</code> (strict) requires exact domain match.</li>
+          <li><code>aspf=</code>: SPF alignment mode, same options.</li>
+        </ul>
+
+        <h3>DMARC Alignment</h3>
+        <p>DMARC requires either SPF or DKIM to "align" with the domain in the From header. Alignment means the domain checked by SPF/DKIM matches the domain the user sees in the email's From address. Without alignment, even a passing SPF check does not satisfy DMARC.</p>
+
+        <h2>Step-by-Step Configuration Example with Mailgun</h2>
+        <p>Here is a complete walkthrough for setting up email on <code>mg.yourname.is-pro.dev</code> using Mailgun:</p>
+
+        <h3>1. Add MX Records</h3>
+        <pre><code>mg.yourname.is-pro.dev.  MX  10  mxa.mailgun.org.
+mg.yourname.is-pro.dev.  MX  10  mxb.mailgun.org.</code></pre>
+
+        <h3>2. Add SPF Record</h3>
+        <pre><code>mg.yourname.is-pro.dev.  TXT  "v=spf1 include:mailgun.org ~all"</code></pre>
+
+        <h3>3. Add DKIM Record</h3>
+        <p>Mailgun provides a DNS hostname and TXT value in their dashboard. Typically:</p>
+        <pre><code>mailgun._domainkey.mg.yourname.is-pro.dev.  TXT  "k=rsa; p=MIGfMA0GCSqGSIb..."</code></pre>
+
+        <h3>4. Add DMARC Record (Optional but Recommended)</h3>
+        <pre><code>_dmarc.mg.yourname.is-pro.dev.  TXT  "v=DMARC1; p=none; rua=mailto:dmarc@yourname.is-pro.dev"</code></pre>
+
+        <h3>5. Verify DNS Propagation</h3>
+        <p>Check each record using dig or nslookup:</p>
+        <pre><code>dig mg.yourname.is-pro.dev MX +short
+dig mg.yourname.is-pro.dev TXT +short
+dig mailgun._domainkey.mg.yourname.is-pro.dev TXT +short
+dig _dmarc.mg.yourname.is-pro.dev TXT +short</code></pre>
+
+        <h3>6. Test Sending</h3>
+        <p>Send a test email from Mailgun and inspect the headers. Look for:</p>
+        <ul>
+          <li><code>Authentication-Results: spf=pass</code></li>
+          <li><code>Authentication-Results: dkim=pass</code></li>
+          <li><code>Authentication-Results: dmarc=pass</code></li>
+        </ul>
+
+        <h2>How to Test Email Authentication</h2>
+        <p>After configuring DNS records, verify everything works:</p>
+        <ul>
+          <li><strong>Send a test email and check headers:</strong> Most email clients allow you to view the full message source. Look for the <code>Authentication-Results</code> header added by the receiving server.</li>
+          <li><strong>Use online tools:</strong> <a href="https://www.mail-tester.com" target="_blank" rel="noopener noreferrer">Mail-Tester</a> gives you a score and highlights issues. <a href="https://dmarcly.com/tools/dmarc-check" target="_blank" rel="noopener noreferrer">DMARCly Checker</a> validates your DMARC configuration. <a href="https://dnsinstitute.com/tools/spf-query" target="_blank" rel="noopener noreferrer">DNS Institute SPF Query</a> checks SPF syntax and lookup count.</li>
+          <li><strong>Google Postmaster Tools:</strong> If you send to Gmail users, <a href="https://postmaster.google.com" target="_blank" rel="noopener noreferrer">Google Postmaster Tools</a> provides delivery and reputation data.</li>
+        </ul>
+
+        <h2>Troubleshooting Common Email DNS Issues</h2>
+
+        <h3>SPF Permerror (Too Many Lookups)</h3>
+        <p>Your SPF record exceeds 10 DNS lookups. This commonly happens with nested <code>include:</code> statements. For example, including both Google Workspace and Mailgun in the same SPF record can quickly exceed the limit if those providers themselves include multiple services.</p>
+        <p><strong>Fix:</strong> Audit your SPF includes. Consolidate IP ranges where possible. Use <code>ip4:</code> and <code>ip6:</code> mechanisms instead of <code>include:</code> when you know the exact IP addresses. Consider splitting email sending across fewer providers, or use a subdomain per provider.</p>
+
+        <h3>DKIM Key Rotation Without Downtime</h3>
+        <p>When rotating DKIM keys, the most common mistake is deleting the old DKIM record before the new one is verified. Emails signed with the old key become unverifiable, causing DMARC failures.</p>
+        <p><strong>Correct procedure:</strong> Add the new DKIM record with a new selector. Wait at least one TTL period. Switch your email provider to sign with the new selector. Wait another TTL period. Then delete the old DKIM record.</p>
+
+        <h3>DMARC Aggregate Report Analysis</h3>
+        <p>DMARC aggregate reports (RUA) are XML files sent daily by receiving mail servers. They contain data about how many messages passed or failed authentication, from which IP addresses, and from which domains.</p>
+        <p>Most people do not want to parse raw XML. Use a DMARC analysis service:</p>
+        <ul>
+          <li><a href="https://dmarcly.com" target="_blank" rel="noopener noreferrer">DMARCly</a></li>
+          <li><a href="https://dmarcian.com" target="_blank" rel="noopener noreferrer">dmarcian</a></li>
+          <li><a href="https://www.uriports.com" target="_blank" rel="noopener noreferrer">URIports</a></li>
+        </ul>
+        <p>These services parse the XML and present a dashboard showing authentication pass rates, top failing IPs, and alignment issues. Start with <code>p=none</code> to collect data for a week, analyze the reports, then move to <code>p=quarantine</code> and eventually <code>p=reject</code>.</p>
+
+        <h3>"My Emails Are Going to Spam" — Real Scenario</h3>
+        <p>You set up <code>mail.yourname.is-pro.dev</code> with Mailgun. You add the MX record but forget the SPF record. You send a test email and it lands in the Gmail spam folder. You check the headers and see:</p>
+        <pre><code>Authentication-Results: mx.google.com;
+       spf=neutral (google.com: 203.0.113.10 is neither permitted nor denied by SPF for domain mail.yourname.is-pro.dev)
+       dkim=pass header.d=mail.yourname.is-pro.dev;
+       dmarc=fail (p=none dis) header.from=mail.yourname.is-pro.dev</code></pre>
+        <p>SPF is neutral because no SPF record exists. DMARC fails because SPF did not pass. The absence of a published SPF policy causes many receiving servers to treat the email as suspicious, even if DKIM passes.</p>
+        <p><strong>Fix:</strong> Add the SPF record <code>"v=spf1 include:mailgun.org ~all"</code> for <code>mail.yourname.is-pro.dev</code>. After DNS propagation, resend the test email. The headers should now show <code>spf=pass</code> and <code>dmarc=pass</code>, and the email should land in the inbox.</p>
+
+        <h2>Recommended Progressive DMARC Rollout</h2>
+        <ol>
+          <li><strong>Monitor:</strong> Publish <code>p=none</code> with an RUA address. Collect reports for 1-2 weeks to understand your email sending patterns.</li>
+          <li><strong>Analyze:</strong> Check the reports for unauthorized sending sources. Update your SPF record to include legitimate sources and exclude unauthorized ones.</li>
+          <li><strong>Quarantine:</strong> Move to <code>p=quarantine</code> for a week. Monitor for false positives—legitimate emails that get quarantined.</li>
+          <li><strong>Reject:</strong> Move to <code>p=reject</code>. This is the strongest protection against email spoofing and domain impersonation.</li>
+        </ol>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

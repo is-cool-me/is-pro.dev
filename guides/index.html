@@ -71,74 +71,215 @@
     </div>
   </div>
 
-  <section class="section" aria-labelledby="guides-list-heading">
+  <section class="section" aria-labelledby="featured-heading">
     <div class="container">
       <div class="section-header" data-reveal>
-        <h2 id="guides-list-heading">All guides</h2>
-        <p>Each guide focuses on realistic deployment and operations problems.
-        </p>
+        <h2 id="featured-heading">Featured Guides</h2>
+        <p>Hand-picked guides for the most common tasks.</p>
       </div>
       <div class="features-grid">
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Beginner</div>
+        <article class="card feature-card" data-reveal data-category="vercel" data-difficulty="beginner">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);color:#4ade80;">Beginner</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 12 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Vercel</span>
+          </div>
           <h3 style="margin-bottom:.5rem;">Guide: Connect Vercel to an is-pro.dev Subdomain</h3>
           <p style="margin-bottom:1rem;">Step-by-step DNS records and verification flow for Vercel deployments.</p>
-          <a href="/guides/connect-vercel-with-is-pro-dev/" class="btn btn-outline">Open guide</a>
+          <a href="/guides/connect-vercel-with-is-pro-dev/" class="btn btn-outline">Read Guide</a>
         </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Beginner</div>
-          <h3 style="margin-bottom:.5rem;">Guide: Connect Netlify to an is-pro.dev Subdomain</h3>
-          <p style="margin-bottom:1rem;">Set CNAME correctly and avoid duplicate host or redirect conflicts.</p>
-          <a href="/guides/connect-netlify-with-is-pro-dev/" class="btn btn-outline">Open guide</a>
-        </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Beginner</div>
-          <h3 style="margin-bottom:.5rem;">Guide: Set Up GitHub Pages with a Custom Subdomain</h3>
-          <p style="margin-bottom:1rem;">Configure apex/host records and keep HTTPS enabled on Pages.</p>
-          <a href="/guides/set-up-github-pages-custom-subdomain/" class="btn btn-outline">Open guide</a>
-        </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Intermediate</div>
-          <h3 style="margin-bottom:.5rem;">Guide: Create Wildcard Records Safely</h3>
-          <p style="margin-bottom:1rem;">Use wildcard DNS without breaking explicit service records.</p>
-          <a href="/guides/create-safe-wildcard-records/" class="btn btn-outline">Open guide</a>
-        </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Intermediate</div>
-          <h3 style="margin-bottom:.5rem;">Guide: Configure an API Subdomain with Zero Downtime</h3>
-          <p style="margin-bottom:1rem;">Migrate API traffic by lowering TTL and swapping targets safely.</p>
-          <a href="/guides/configure-api-subdomain-with-zero-downtime/" class="btn btn-outline">Open guide</a>
-        </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Intermediate</div>
+
+        <article class="card feature-card" data-reveal data-category="email" data-difficulty="intermediate">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 14 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Email</span>
+          </div>
           <h3 style="margin-bottom:.5rem;">Guide: Add MX, SPF, DKIM, and DMARC Records</h3>
           <p style="margin-bottom:1rem;">Production checklist for mail authentication and deliverability.</p>
-          <a href="/guides/add-mx-spf-dkim-dmarc-records/" class="btn btn-outline">Open guide</a>
+          <a href="/guides/add-mx-spf-dkim-dmarc-records/" class="btn btn-outline">Read Guide</a>
         </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Intermediate</div>
+
+        <article class="card feature-card" data-reveal data-category="troubleshooting" data-difficulty="intermediate">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 10 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Troubleshooting</span>
+          </div>
           <h3 style="margin-bottom:.5rem;">Guide: Diagnose SSL Pending on a New Subdomain</h3>
           <p style="margin-bottom:1rem;">Common certificate issuance blockers and quick fixes.</p>
-          <a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="btn btn-outline">Open guide</a>
+          <a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="btn btn-outline">Read Guide</a>
         </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Advanced</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="all-guides-heading">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <h2 id="all-guides-heading">All Guides</h2>
+        <p>Browse every guide by category, difficulty, or search.</p>
+      </div>
+
+      <div data-reveal style="margin-bottom:2rem;">
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="position:relative;max-width:32rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none;" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" id="guide-search" placeholder="Search guides..." aria-label="Search guides" style="width:100%;padding:.75rem 1rem .75rem 2.75rem;background:var(--color-card);border:1px solid var(--color-border-sub);border-radius:var(--radius-md);color:var(--color-text);font-size:.9rem;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--color-accent)'" onblur="this.style.borderColor='var(--color-border-sub)'">
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;" role="group" aria-label="Filter by category">
+            <button data-filter-btn="all" class="btn btn-outline btn-sm" style="background:var(--color-accent);border-color:var(--color-accent);color:#fff;">All</button>
+            <button data-filter-btn="dns" class="btn btn-outline btn-sm">DNS</button>
+            <button data-filter-btn="security" class="btn btn-outline btn-sm">Security</button>
+            <button data-filter-btn="email" class="btn btn-outline btn-sm">Email</button>
+            <button data-filter-btn="vercel" class="btn btn-outline btn-sm">Vercel</button>
+            <button data-filter-btn="deployment" class="btn btn-outline btn-sm">Deployment</button>
+            <button data-filter-btn="api" class="btn btn-outline btn-sm">API</button>
+            <button data-filter-btn="troubleshooting" class="btn btn-outline btn-sm">Troubleshooting</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="features-grid" id="guides-grid">
+        <article class="card feature-card" data-reveal data-category="vercel" data-difficulty="beginner">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);color:#4ade80;">Beginner</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 12 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Vercel</span>
+          </div>
+          <h3 style="margin-bottom:.5rem;">Guide: Connect Vercel to an is-pro.dev Subdomain</h3>
+          <p style="margin-bottom:1rem;">Step-by-step DNS records and verification flow for Vercel deployments.</p>
+          <a href="/guides/connect-vercel-with-is-pro-dev/" class="btn btn-outline">Read Guide</a>
+        </article>
+
+        <article class="card feature-card" data-reveal data-category="deployment" data-difficulty="beginner">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);color:#4ade80;">Beginner</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 10 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Deployment</span>
+          </div>
+          <h3 style="margin-bottom:.5rem;">Guide: Connect Netlify to an is-pro.dev Subdomain</h3>
+          <p style="margin-bottom:1rem;">Set CNAME correctly and avoid duplicate host or redirect conflicts.</p>
+          <a href="/guides/connect-netlify-with-is-pro-dev/" class="btn btn-outline">Read Guide</a>
+        </article>
+
+        <article class="card feature-card" data-reveal data-category="deployment" data-difficulty="beginner">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);color:#4ade80;">Beginner</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 10 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Deployment</span>
+          </div>
+          <h3 style="margin-bottom:.5rem;">Guide: Set Up GitHub Pages with a Custom Subdomain</h3>
+          <p style="margin-bottom:1rem;">Configure apex/host records and keep HTTPS enabled on Pages.</p>
+          <a href="/guides/set-up-github-pages-custom-subdomain/" class="btn btn-outline">Read Guide</a>
+        </article>
+
+        <article class="card feature-card" data-reveal data-category="dns" data-difficulty="intermediate">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 8 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">DNS</span>
+          </div>
+          <h3 style="margin-bottom:.5rem;">Guide: Create Wildcard Records Safely</h3>
+          <p style="margin-bottom:1rem;">Use wildcard DNS without breaking explicit service records.</p>
+          <a href="/guides/create-safe-wildcard-records/" class="btn btn-outline">Read Guide</a>
+        </article>
+
+        <article class="card feature-card" data-reveal data-category="api" data-difficulty="intermediate">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 12 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">API</span>
+          </div>
+          <h3 style="margin-bottom:.5rem;">Guide: Configure an API Subdomain with Zero Downtime</h3>
+          <p style="margin-bottom:1rem;">Migrate API traffic by lowering TTL and swapping targets safely.</p>
+          <a href="/guides/configure-api-subdomain-with-zero-downtime/" class="btn btn-outline">Read Guide</a>
+        </article>
+
+        <article class="card feature-card" data-reveal data-category="email" data-difficulty="intermediate">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 14 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Email</span>
+          </div>
+          <h3 style="margin-bottom:.5rem;">Guide: Add MX, SPF, DKIM, and DMARC Records</h3>
+          <p style="margin-bottom:1rem;">Production checklist for mail authentication and deliverability.</p>
+          <a href="/guides/add-mx-spf-dkim-dmarc-records/" class="btn btn-outline">Read Guide</a>
+        </article>
+
+        <article class="card feature-card" data-reveal data-category="troubleshooting" data-difficulty="intermediate">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 10 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Troubleshooting</span>
+          </div>
+          <h3 style="margin-bottom:.5rem;">Guide: Diagnose SSL Pending on a New Subdomain</h3>
+          <p style="margin-bottom:1rem;">Common certificate issuance blockers and quick fixes.</p>
+          <a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="btn btn-outline">Read Guide</a>
+        </article>
+
+        <article class="card feature-card" data-reveal data-category="dns" data-difficulty="advanced">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#ef4444;">Advanced</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 15 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">DNS</span>
+          </div>
           <h3 style="margin-bottom:.5rem;">Guide: Migrate a Subdomain Between Hosting Providers</h3>
           <p style="margin-bottom:1rem;">Preserve uptime while moving from one platform to another.</p>
-          <a href="/guides/migrate-subdomain-between-hosting-providers/" class="btn btn-outline">Open guide</a>
+          <a href="/guides/migrate-subdomain-between-hosting-providers/" class="btn btn-outline">Read Guide</a>
         </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Advanced</div>
+
+        <article class="card feature-card" data-reveal data-category="security" data-difficulty="advanced">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#ef4444;">Advanced</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 10 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">Security</span>
+          </div>
           <h3 style="margin-bottom:.5rem;">Guide: Lock Down CAA for Better Certificate Control</h3>
           <p style="margin-bottom:1rem;">Restrict certificate authorities and reduce issuance risk.</p>
-          <a href="/guides/lock-down-caa-for-certificate-control/" class="btn btn-outline">Open guide</a>
+          <a href="/guides/lock-down-caa-for-certificate-control/" class="btn btn-outline">Read Guide</a>
         </article>
-        <article class="card feature-card" data-reveal>
-          <div class="section-tag" style="margin-bottom:.75rem;">Advanced</div>
+
+        <article class="card feature-card" data-reveal data-category="dns" data-difficulty="advanced">
+          <div class="section-tag" style="margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#ef4444;">Advanced</span>
+            <span style="opacity:.6;margin-left:.5rem;">· 8 min read</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+            <span class="badge" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--color-cyan-light);">DNS</span>
+          </div>
           <h3 style="margin-bottom:.5rem;">Guide: Build a DNS Change Checklist for Teams</h3>
           <p style="margin-bottom:1rem;">A practical runbook for safer DNS operations in shared projects.</p>
-          <a href="/guides/build-a-dns-change-checklist-for-teams/" class="btn btn-outline">Open guide</a>
+          <a href="/guides/build-a-dns-change-checklist-for-teams/" class="btn btn-outline">Read Guide</a>
         </article>
+      </div>
+
+      <div id="no-results" style="display:none;text-align:center;padding:3rem 0;" data-reveal>
+        <p style="font-size:1.1rem;opacity:.6;">No guides found matching your criteria.</p>
       </div>
     </div>
   </section>
@@ -191,6 +332,64 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function() {
+  var searchInput = document.getElementById('guide-search');
+  var categoryBtns = document.querySelectorAll('[data-filter-btn]');
+  var guideCards = document.querySelectorAll('#guides-grid [data-category]');
+  var noResults = document.getElementById('no-results');
+
+  function filterGuides() {
+    var query = searchInput.value.toLowerCase();
+    var activeCat = 'all';
+    for (var i = 0; i < categoryBtns.length; i++) {
+      if (categoryBtns[i].classList.contains('active')) {
+        activeCat = categoryBtns[i].getAttribute('data-filter-btn');
+        break;
+      }
+    }
+    var visibleCount = 0;
+    for (var j = 0; j < guideCards.length; j++) {
+      var card = guideCards[j];
+      var cat = card.getAttribute('data-category');
+      var title = card.querySelector('h3').textContent.toLowerCase();
+      var desc = card.querySelector('p').textContent.toLowerCase();
+      var matchesCat = activeCat === 'all' || cat === activeCat;
+      var matchesSearch = title.indexOf(query) !== -1 || desc.indexOf(query) !== -1;
+      if (matchesCat && matchesSearch) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    }
+    noResults.style.display = visibleCount === 0 ? '' : 'none';
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', filterGuides);
+  }
+  for (var k = 0; k < categoryBtns.length; k++) {
+    (function(btn) {
+      btn.addEventListener('click', function() {
+        for (var l = 0; l < categoryBtns.length; l++) {
+          categoryBtns[l].classList.remove('active');
+          categoryBtns[l].style.background = '';
+          categoryBtns[l].style.borderColor = '';
+          categoryBtns[l].style.color = '';
+        }
+        btn.classList.add('active');
+        btn.style.background = 'var(--color-accent)';
+        btn.style.borderColor = 'var(--color-accent)';
+        btn.style.color = '#fff';
+        filterGuides();
+      });
+    })(categoryBtns[k]);
+  }
+  document.querySelector('[data-filter-btn="all"]').classList.add('active');
+})();
+</script>
 
 <script src="/js/app.js" defer></script>
 </body>

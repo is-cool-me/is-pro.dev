@@ -75,15 +75,146 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>What TXT verification solves</h2>
-        <p>SaaS platforms use TXT records to prove control before enabling email sending, SSO, API callbacks, or branded links.</p>
-        <h2>Common failure points</h2>
-        <p>Verification fails when values are split incorrectly, quotes are mangled, or the record is published on the wrong host label.</p>
-        <h2>Reliable workflow</h2>
-        <p>Copy the value exactly, verify authoritative DNS response, and only then click retry inside the SaaS dashboard.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>What TXT Records Are Used For</h2>
+        <p>Text (TXT) records are the most versatile DNS record type. Originally created for attaching arbitrary human-readable notes to domain names, they have evolved into the primary mechanism for domain ownership verification, email authentication, and framework policy publication. Unlike A or CNAME records, TXT records do not affect how traffic routes to your server. They are purely informational, which makes them ideal for verification purposes.</p>
+        <p>Common TXT record use cases include:</p>
+        <ul>
+          <li><strong>Domain ownership verification</strong> — Proving to a third-party service that you control a domain</li>
+          <li><strong>SPF records</strong> — Authorizing email senders for your domain</li>
+          <li><strong>DKIM records</strong> — Publishing public keys for email signing verification</li>
+          <li><strong>DMARC records</strong> — Setting email authentication policies</li>
+          <li><strong>Google Site Verification</strong> — Proving ownership to Google Search Console</li>
+          <li><strong>Microsoft 365 verification</strong> — Proving ownership for Exchange Online setup</li>
+          <li><strong>Custom framework policies</strong> — Such as Apple App Site Association or Google Firebase Domain Association</li>
+        </ul>
+
+        <h2>Domain Verification: Common Scenarios</h2>
+        <p>Virtually every major SaaS platform uses DNS TXT records for domain verification. The pattern is always the same: the platform generates a unique string, you publish it as a TXT record on your domain, and the platform queries DNS to confirm the record exists. Here are the most common scenarios:</p>
+
+        <h3>Google Search Console</h3>
+        <p>Verifying your domain in Google Search Console allows you to monitor search performance, submit sitemaps, and identify indexing issues. Google offers multiple verification methods, but the DNS TXT method is the most reliable because it works regardless of your hosting provider and does not require uploading files to your server.</p>
+        <p>Google provides a verification string like <code>google-site-verification=6lN8x2y3Z4aBcDeFgHiJkLmNoPqRsTuVwXyZ012345</code>. You create a TXT record with this exact value, and Google checks for it.</p>
+
+        <h3>AWS SES (Simple Email Service)</h3>
+        <p>To send email through Amazon SES from your domain, you must verify domain ownership. AWS provides a TXT record value that you publish at your domain. Once verified, you can also publish DKIM records (TXT records) provided by AWS to authenticate your emails.</p>
+
+        <h3>GitHub Pages Custom Domain Verification</h3>
+        <p>When adding a custom domain to a GitHub Pages site, GitHub may ask you to verify ownership by adding a TXT record with a value like <code>github-verification-code=abc123def456</code>. This prevents other GitHub users from using your domain on their Pages sites.</p>
+
+        <h3>Spotify, Discord, Stripe, and Others</h3>
+        <p>These platforms use domain verification for various purposes:</p>
+        <ul>
+          <li><strong>Spotify:</strong> Verify a custom domain for artist/profile pages.</li>
+          <li><strong>Discord:</strong> Verify domain ownership for server authentication and branded links.</li>
+          <li><strong>Stripe:</strong> Verify domain for Connect platforms and branded payment links.</li>
+          <li><strong>Microsoft 365:</strong> Verify domain ownership before setting up Exchange, Teams, and other services.</li>
+          <li><strong>Cloudflare:</strong> Verify domain ownership when onboarding a new domain to their dashboard.</li>
+        </ul>
+
+        <h2>How Domain Verification Works</h2>
+        <p>The verification process is a cryptographic proof of control:</p>
+        <ol>
+          <li><strong>Platform generates a token:</strong> The SaaS platform creates a unique, non-guessable string. This token is typically a long alphanumeric string or a formatted code like <code>google-site-verification=6lN8x2y...</code> or <code>github-verification-code=abc123...</code>.</li>
+          <li><strong>You publish the token as a TXT record:</strong> In your DNS management dashboard (like is-cool-me's DNS editor), you create a new TXT record. For domain-level verification, you leave the hostname field empty or set it to <code>@</code>. For subdomain verification, you set it to the subdomain name.</li>
+          <li><strong>Platform queries DNS:</strong> The platform's verification service performs a DNS lookup for TXT records at your domain or at a specific challenge subdomain. It checks whether the returned TXT values match the expected token.</li>
+          <li><strong>Verification confirmed:</strong> If the token matches, the platform considers the domain verified. You gain access to the platform's features for that domain.</li>
+        </ol>
+
+        <div class="callout">
+          <p><strong>Why this works:</strong> Only someone with DNS management access can add or modify TXT records at your domain. By successfully publishing the token, you prove you control the DNS configuration—which implies you control the domain itself.</p>
+        </div>
+
+        <h2>Step-by-Step: Verify a Domain in Google Search Console</h2>
+        <p>This walkthrough uses Google Search Console, but the steps are similar for any platform.</p>
+
+        <h3>1. Get the Verification Token</h3>
+        <p>Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">Google Search Console</a>. Add your property and select "DNS TXT record" as the verification method. Google displays a verification string like:</p>
+        <pre><code>google-site-verification=6lN8x2y3Z4aBcDeFgHiJkLmNoPqRsTuVwXyZ012345</code></pre>
+        <p>Copy the entire string exactly. Do not add quotes, spaces, or extra characters.</p>
+
+        <h3>2. Add the TXT Record in Your DNS Dashboard</h3>
+        <p>In the is-cool-me dashboard (or your DNS provider's dashboard):</p>
+        <ul>
+          <li><strong>Type:</strong> TXT</li>
+          <li><strong>Name/Host:</strong> Leave blank (or <code>@</code>) to verify the root domain. Use a subdomain name if verifying a subdomain.</li>
+          <li><strong>Value:</strong> Paste the exact verification string from Google.</li>
+          <li><strong>TTL:</strong> 300-3600 seconds is fine. Verification records do not need long TTLs.</li>
+        </ul>
+
+        <h3>3. Verify the Record Is Published</h3>
+        <p>Before clicking "Verify" in Google Search Console, confirm the record is publicly visible:</p>
+        <pre><code>dig yourname.is-pro.dev TXT +short</code></pre>
+        <p>You should see the verification string in the output. If it does not appear, wait a few minutes and try again. DNS propagation for new records is usually fast because no resolver has cached a previous value.</p>
+
+        <h3>4. Click Verify in Google Search Console</h3>
+        <p>Once <code>dig</code> confirms the record is live, click the "Verify" button in Google Search Console. Google queries your DNS and confirms the token matches. The verification is instantaneous once the DNS record is visible.</p>
+
+        <h3>5. Keep or Remove the Record</h3>
+        <p>Google periodically re-checks verification. If you remove the TXT record, Google will eventually mark your property as unverified (though it may take weeks or months). For Search Console specifically, you can safely remove the TXT record after verification and use an alternative verification method (like the HTML file or Google Analytics code) for ongoing ownership proof.</p>
+
+        <h2>Why Verification Records Are Safe</h2>
+        <p>A common concern is whether adding a TXT record for verification creates a security risk. The answer is no, and here is why:</p>
+        <ul>
+          <li><strong>TXT records do not affect routing:</strong> Unlike A, CNAME, or MX records, TXT records have no impact on how traffic reaches your server. They are purely informational.</li>
+          <li><strong>Verification tokens are single-purpose:</strong> The token only proves domain ownership to the specific platform. It cannot be reused for authentication, authorization, or access to your systems.</li>
+          <li><strong>No performance impact:</strong> DNS resolvers handle TXT records like any other record. A small TXT record adds negligible overhead to DNS responses.</li>
+          <li><strong>Easy to revoke:</strong> If you are concerned about a verification record, simply delete it from DNS. The platform will eventually lose verification (or you can re-verify with a new token).</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Security note:</strong> While the verification record itself is safe, be cautious about which platforms you grant domain verification to. Verifying a domain on a malicious platform could allow them to send spoofed emails that pass SPF/DKIM checks if they also use subdomain authentication. Stick with reputable, well-known platforms.</p>
+        </div>
+
+        <h2>How to Clean Up Verification Records</h2>
+        <p>Over time, you may accumulate dozens of verification TXT records from various platforms. While they are harmless, they clutter your DNS configuration and make it harder to audit. Here is how to clean them up:</p>
+        <ol>
+          <li><strong>Identify the record:</strong> Look at the TXT record value. Verification tokens usually contain the platform name (<code>google-site-verification</code>, <code>github-verification-code</code>, <code>ms-domain-verification</code>, <code>stripe-verification</code>).</li>
+          <li><strong>Check if still needed:</strong> Log into each platform and check whether the domain is still verified. If you no longer use the platform, the record can be removed.</li>
+          <li><strong>Remove from DNS:</strong> Delete the TXT record from your DNS dashboard.</li>
+          <li><strong>Verify the platform still works:</strong> After removal, check that the platform still functions. Most platforms cache verification status and do not re-check immediately.</li>
+        </ol>
+
+        <h2>Troubleshooting Verification Failures</h2>
+        <p>Verification failures are frustrating but almost always have a simple cause:</p>
+
+        <h3>"TXT Record Not Found"</h3>
+        <ul>
+          <li><strong>Wrong hostname:</strong> Some platforms require the record at a specific subdomain like <code>_googleconsole.yourname.is-pro.dev</code> or <code>_github-challenge-yourname.is-pro.dev</code>. Double-check the exact hostname the platform expects.</li>
+          <li><strong>Propagation delay:</strong> New records propagate quickly, but some resolvers may take a few minutes. Use <code>dig @8.8.8.8 yourname.is-pro.dev TXT</code> to query a resolver that you know should have the latest data.</li>
+          <li><strong>Incorrect TTL:</strong> If you set TTL too low, the resolver may have checked between propagation and verification. Set TTL to at least 300 seconds.</li>
+        </ul>
+
+        <h3>"Verification Value Mismatch"</h3>
+        <ul>
+          <li><strong>Copy-paste errors:</strong> Some platforms include quotes or special characters in the verification string. Copy the value exactly, including hyphens, underscores, and equals signs. Do not add your own quotes unless the platform explicitly says to.</li>
+          <li><strong>Multiple TXT records:</strong> If you already have TXT records at the same hostname (e.g., an SPF record), the platform may find multiple values. Ensure the verification token is present among them. Some platforms only check for an exact match of the entire record.</li>
+          <li><strong>Split values:</strong> Some DNS providers split long TXT values across multiple quoted strings. If your provider does this for very long verification tokens, the platform may not be able to reconstruct the original value. Check with <code>dig</code> to see exactly what the provider is publishing.</li>
+        </ul>
+
+        <h3>"Domain Already Verified by Another User"</h3>
+        <p>This occurs when someone else previously verified the same domain (or subdomain) on the same platform. This is common with shared hosting or subdomain services like is-cool-me. Contact the platform's support to request verification reset, or verify a unique subdomain that only you control.</p>
+
+        <h3>"Verification Passed but Feature Not Working"</h3>
+        <p>The TXT record verified successfully, but the platform's feature (email sending, API keys, etc.) does not work. The verification step only proves domain ownership. You may still need to configure additional DNS records (MX, SPF, DKIM, CNAME) depending on the feature. Check the platform's documentation for the specific feature you are enabling.</p>
+
+        <div class="callout">
+          <p><strong>Pro tip:</strong> Before clicking "Verify" in any SaaS dashboard, use <code>dig yourname.is-pro.dev TXT</code> to confirm the record is live. If it shows up in <code>dig</code> output, the platform will find it too. This eliminates "wait for propagation" uncertainty.</p>
+        </div>
+
+        <h2>Maintaining a Clean TXT Record Inventory</h2>
+        <p>As your domain accumulates TXT records over time, keeping them organized prevents future issues:</p>
+        <ul>
+          <li>Use descriptive record names when possible. Instead of a generic "TXT record," label it in your DNS provider's notes field as "Google Search Console verification" or "Mailgun SPF."</li>
+          <li>Periodically (every 6-12 months), audit your TXT records. Remove entries for platforms you no longer use.</li>
+          <li>Document which records are critical (SPF, DKIM, DMARC) and which are optional (verification tokens). This helps during troubleshooting.</li>
+          <li>Monitor your DNS for unexpected TXT records. A sudden new TXT record could indicate unauthorized access to your DNS provider.</li>
+        </ul>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

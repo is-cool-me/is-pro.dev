@@ -75,15 +75,127 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>How loops happen</h2>
-        <p>Loops happen when two hostnames alias each other or when platform redirects conflict with DNS aliases. Browsers then bounce between targets until requests fail.</p>
-        <h2>Safe CNAME pattern</h2>
-        <p>Use one canonical hostname and point secondary hostnames with explicit redirects at the application layer. Keep DNS aliasing simple and one-directional.</p>
-        <h2>Verification step</h2>
-        <p>After changes, test with curl and inspect redirect chains. If you see repeated 301/302 patterns or alternating hosts, you still have a loop in config.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>What Is a CNAME Loop?</h2>
+        <p>A CNAME loop occurs when DNS resolution enters an infinite chain of aliases. This can happen in two ways. The first is a direct or indirect circular reference: CNAME record A points to B, and B points back to A, or a longer chain like A points to B, B points to C, and C points to A. The second is a conflict between a CNAME record and other record types at the same DNS name, which causes some resolvers to fail or behave unpredictably.</p>
+        <p>When a resolver encounters a CNAME loop, it detects the circular reference after a limited number of follow-redirects (typically 8 to 16 hops) and returns an <code>SERVFAIL</code> or <code>NXDOMAIN</code> response. The result is the same: your domain stops resolving entirely.</p>
+
+        <div class="callout">
+          <p><strong>RFC 2181, Section 10.1:</strong> "A CNAME record is not allowed to coexist with any other record type at the same owner name." This is not a platform quirk—it is a fundamental DNS specification. If you have a CNAME for <code>www.example.com</code>, you cannot also have an A, AAAA, MX, or TXT record for <code>www.example.com</code>.</p>
+        </div>
+
+        <h2>How CNAME Loops Happen on Vercel, Netlify, and GitHub Pages</h2>
+        <p>Static hosting platforms encourage you to point your domain to their infrastructure using a CNAME record. Vercel provides <code>cname.vercel-dns.com</code>, Netlify provides <code>your-site.netlify.app</code>, and GitHub Pages provides <code>your-org.github.io</code>. These are all CNAME targets.</p>
+        <p>The problem arises when a developer configures their DNS incorrectly in one of these ways:</p>
+        <ul>
+          <li><strong>CNAME on the apex domain:</strong> The apex (<code>example.com</code>) cannot use a CNAME per DNS standards. Some providers offer CNAME flattening (ALIAS/ANAME records) but not all. If you create a standard CNAME for the apex, most resolvers will ignore it or fail.</li>
+          <li><strong>CNAME plus A record on the same name:</strong> You set a CNAME pointing to Vercel, but also keep an old A record pointing to your previous host. The CNAME prohibits any other record type at that name, causing a conflict.</li>
+          <li><strong>Proxy/CDN CNAME pointing back to the same domain:</strong> You enable Cloudflare proxy on a CNAME record that points your domain back to itself (e.g., <code>www.example.com CNAME example.com</code>), creating a loop.</li>
+          <li><strong>Platform redirect loops:</strong> Vercel redirects <code>example.com</code> to <code>www.example.com</code>, while GitHub Pages redirects <code>www.example.com</code> back to <code>example.com</code>. The DNS resolves fine, but HTTP requests bounce endlessly.</li>
+        </ul>
+
+        <h2>Example Scenario: CNAME + A Record Conflict</h2>
+        <p>Imagine you are migrating <code>app.yourname.is-pro.dev</code> from a VPS to Vercel. Your DNS currently has:</p>
+        <pre><code>app.yourname.is-pro.dev.  A     203.0.113.10
+app.yourname.is-pro.dev.  AAAA  2001:db8::1</code></pre>
+        <p>You add a new CNAME record pointing to Vercel but forget to remove the existing A and AAAA records:</p>
+        <pre><code>app.yourname.is-pro.dev.  A      203.0.113.10       (old, still present!)
+app.yourname.is-pro.dev.  AAAA   2001:db8::1         (old, still present!)
+app.yourname.is-pro.dev.  CNAME  your-site.vercel.app.</code></pre>
+        <p>This configuration violates RFC 2181. Different resolvers handle this differently:</p>
+        <ul>
+          <li>Some resolvers will return the A records and ignore the CNAME entirely, so traffic still goes to your old VPS.</li>
+          <li>Some resolvers will return an error (<code>SERVFAIL</code>), making your app unreachable.</li>
+          <li>Some resolvers will follow the CNAME but also return the A records, causing unpredictable behavior.</li>
+        </ul>
+        <p>The fix is simple: remove all A and AAAA records before adding a CNAME, or use a CNAME-only configuration.</p>
+
+        <h2>Why CNAME + Other Record Types Conflict</h2>
+        <p>RFC 2181 is explicit: "If a CNAME RR is present at a node, no other data should be present." The rationale is that a CNAME is not just a record—it is an alias that tells the resolver "this name is an alias for another name." If the resolver also finds an A record at the same node, it does not know which to trust. Is the address the one from the A record, or should the resolver follow the alias and use the A record from the target?</p>
+        <p>This ambiguity is resolved by the RFC's prohibition: CNAME wins, and everything else at that name is ignored or causes an error. The practical effect is that you cannot host any other service (email, FTP, etc.) on a hostname that is a CNAME alias. If you need <code>mail.example.com</code> to be a CNAME, you cannot also have an MX record for it.</p>
+
+        <h2>Step-by-Step Debugging</h2>
+
+        <h3>1. Check for CNAME Records</h3>
+        <p>Query the specific CNAME record for your domain:</p>
+        <pre><code>dig yourname.is-pro.dev CNAME +short</code></pre>
+        <p>If this returns a target like <code>your-site.vercel.app.</code>, you have a CNAME configured. If it returns nothing, you do not have a CNAME at that name.</p>
+
+        <h3>2. Check for Conflicting A/AAAA Records</h3>
+        <p>Query A and AAAA records at the same name:</p>
+        <pre><code>dig yourname.is-pro.dev A +short
+dig yourname.is-pro.dev AAAA +short</code></pre>
+        <p>If you have both a CNAME and an A record for the same name, you have a conflict. Remove the A/AAAA records if you want the CNAME to work.</p>
+
+        <h3>3. Check for MX or TXT Records at the CNAME Name</h3>
+        <p>Query other record types that should not coexist with a CNAME:</p>
+        <pre><code>dig yourname.is-pro.dev MX +short
+dig yourname.is-pro.dev TXT +short</code></pre>
+        <p>If you see MX or TXT records alongside a CNAME, remove them or move them to a different subdomain.</p>
+
+        <h3>4. Verify the CNAME Target Resolves</h3>
+        <p>The target of your CNAME must itself resolve. If you CNAME to <code>your-site.vercel.app</code>, verify that target is reachable:</p>
+        <pre><code>dig your-site.vercel.app A +short</code></pre>
+        <p>If the target returns no A records, your CNAME resolves to nowhere, and your domain will not load.</p>
+
+        <h3>5. Trace the Full Resolution Chain</h3>
+        <p>Use <code>dig +trace</code> to see every step of DNS resolution:</p>
+        <pre><code>dig yourname.is-pro.dev +trace</code></pre>
+        <p>This shows each nameserver queried and the response received. Look for repeated CNAME references or unexpected aliases.</p>
+
+        <h3>6. Check for Application-Level Redirect Loops</h3>
+        <p>Even if DNS is correct, your hosting platform may create HTTP-level redirect loops. Test with curl:</p>
+        <pre><code>curl -IL https://yourname.is-pro.dev</code></pre>
+        <p>Inspect the redirect chain. If you see <code>Location: https://www.yourname.is-pro.dev</code> followed by <code>Location: https://yourname.is-pro.dev</code>, you have an application-level loop that must be fixed in your host's redirect settings.</p>
+
+        <h2>Common Scenarios That Cause Loops</h2>
+
+        <h3>Using a CNAME on the Apex Domain</h3>
+        <p>DNS standards do not allow CNAME records at the zone apex (the root domain like <code>example.com</code>). The apex must have NS, SOA, and usually A/AAAA records. If you need the apex to point to a hosting provider, use:</p>
+        <ul>
+          <li><strong>CNAME flattening (ALIAS/ANAME):</strong> Supported by Cloudflare, DNSimple, and some other DNS providers. The provider resolves the target IP at the DNS level and returns an A record, so the apex appears to have a CNAME.</li>
+          <li><strong>Redirect by your hosting provider:</strong> Use a subdomain like <code>www</code> with a CNAME, and configure your hosting platform to redirect the apex to the <code>www</code> subdomain.</li>
+        </ul>
+
+        <h3>Proxy/CDN Records That CNAME Back to the Same Domain</h3>
+        <p>This scenario is subtle but common. You configure Cloudflare (or another reverse proxy) for <code>www.example.com</code>. Cloudflare's proxy looks up the origin IP by resolving your CNAME. If your CNAME points to <code>example.com</code> (the apex), and the apex has an A record pointing to Cloudflare's proxy IP, you create a loop: Cloudflare queries DNS, gets the CNAME, follows it to the apex, gets the A record pointing at Cloudflare, and connects back to itself.</p>
+        <p>Solution: ensure your CNAME target bypasses any proxy. Use the origin IP directly, or configure DNS-only (gray cloud) for the CNAME record and use proxy only on the A record that resolves the CNAME target.</p>
+
+        <h2>Prevention Strategies</h2>
+        <ul>
+          <li><strong>Audit all records before changes:</strong> Before adding a CNAME, list every record at that hostname. Remove A, AAAA, MX, and TXT records that should not coexist with the CNAME.</li>
+          <li><strong>Use a subdomain for the CNAME:</strong> Keep CNAME records on subdomains like <code>www</code>, <code>app</code>, or <code>blog</code>. Use ALIAS/ANAME for the apex if available, or use a redirect service.</li>
+          <li><strong>Test with dig before configuring the host:</strong> Verify that your DNS resolves correctly before telling your hosting provider to look for the domain. This avoids cascading configuration errors.</li>
+          <li><strong>Document your DNS architecture:</strong> Maintain a clear map of which hostnames point where. If <code>www</code> is a CNAME to Vercel and <code>api</code> is an A record to your VPS, document this so future changes do not introduce conflicts.</li>
+          <li><strong>Use monitoring:</strong> DNS monitoring services can alert you when resolution fails, which often indicates a CNAME loop or conflict.</li>
+        </ul>
+
+        <h2>Specific Platform Notes</h2>
+
+        <h3>Vercel</h3>
+        <p>Vercel's custom domains expect a CNAME pointing to <code>cname.vercel-dns.com</code>. For apex domains, Vercel provides nameserver delegation (use their nameservers) or CNAME flattening via their DNS dashboard. If you get a "CNAME loop" error in Vercel's dashboard, check that you have no other records conflicting with the CNAME and that the domain is not already configured on another Vercel project.</p>
+
+        <h3>Netlify</h3>
+        <p>Netlify provides a target like <code>your-site.netlify.app</code>. Netlify's DNS panel shows warnings when conflicting records exist. For apex domains, Netlify recommends using their managed DNS or configuring an ALIAS record with your DNS provider. Netlify also supports <code>_redirects</code> and <code>netlify.toml</code> for application-level redirects, which can create redirect loops if misconfigured between the apex and <code>www</code>.</p>
+
+        <h3>GitHub Pages</h3>
+        <p>GitHub Pages uses <code>your-org.github.io</code> as the CNAME target. GitHub's documentation explicitly warns against using CNAME records for apex domains. For apex, use A records pointing to GitHub's Pages IP addresses (185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153). GitHub Pages also reads a <code>CNAME</code> file in your repository root, which must match the domain you are configuring. Mismatches between the DNS CNAME record and the repository CNAME file cause redirect loops.</p>
+
+        <h2>Quick Reference: CNAME Rules</h2>
+        <ul>
+          <li><code>CNAME + A</code> = conflict. Remove the A record.</li>
+          <li><code>CNAME + AAAA</code> = conflict. Remove the AAAA record.</li>
+          <li><code>CNAME + MX</code> = conflict. Move MX to a different hostname.</li>
+          <li><code>CNAME + TXT</code> = conflict. Move TXT to a different hostname.</li>
+          <li><code>CNAME at apex</code> = not allowed by RFC. Use ALIAS/ANAME or redirect.</li>
+          <li><code>CNAME to self</code> = loop. Check CNAME target is different from source.</li>
+          <li><code>CNAME + proxy (Cloudflare orange cloud)</code> = careful: ensure the CNAME target resolves to a real origin, not back through the proxy.</li>
+        </ul>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

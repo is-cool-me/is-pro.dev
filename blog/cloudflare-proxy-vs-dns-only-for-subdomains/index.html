@@ -75,15 +75,199 @@
   <section class="section">
     <div class="container">
       <div class="prose" data-reveal>
-        <h2>When proxy helps</h2>
-        <p>Proxy mode is useful for hiding origin IP, caching static assets, and applying WAF controls. It is often best for HTTP applications.</p>
-        <h2>When DNS-only is better</h2>
-        <p>DNS-only is safer for non-HTTP protocols, strict origin requirements, and services that fail behind reverse proxies. Mail records should remain unproxied.</p>
-        <h2>Decision framework</h2>
-        <p>Start DNS-only for unknown workloads, then enable proxy when you have validated app behavior and TLS expectations behind Cloudflare.</p>
-        <div class="callout" style="margin-top:2rem;">
+
+        <h2>What Cloudflare Proxy (Orange Cloud) Does</h2>
+        <p>When you enable the orange cloud (proxy) icon next to a DNS record in Cloudflare, you are telling Cloudflare to act as a reverse proxy for all traffic to that hostname. Instead of DNS resolving directly to your origin server's IP address, it resolves to one of Cloudflare's edge IP addresses. Cloudflare then forwards the request to your origin server on your behalf.</p>
+        <p>This proxied mode enables several powerful features:</p>
+        <ul>
+          <li><strong>Content Delivery Network (CDN):</strong> Static assets are cached at Cloudflare's 330+ edge locations worldwide, reducing latency for visitors regardless of their geographic location.</li>
+          <li><strong>DDoS Protection:</strong> Cloudflare absorbs and mitigates distributed denial-of-service attacks at the edge before they reach your origin server.</li>
+          <li><strong>SSL/TLS Termination:</strong> Cloudflare manages SSL certificates for your domain. Visitors connect to Cloudflare over HTTPS, and Cloudflare re-encrypts traffic to your origin (or sends it over plain HTTP depending on your SSL setting).</li>
+          <li><strong>Web Application Firewall (WAF):</strong> Cloudflare can inspect incoming HTTP traffic and block malicious requests based on rulesets, rate limiting, and bot management.</li>
+          <li><strong>IP Obfuscation:</strong> Your origin server's IP address is hidden from direct exposure. Visitors, attackers, and scanning services only see Cloudflare IPs.</li>
+          <li><strong>Argo Smart Routing and Load Balancing:</strong> Cloudflare can route traffic over the fastest available network paths and distribute load across multiple origin servers.</li>
+        </ul>
+
+        <h2>What DNS-Only (Gray Cloud) Does</h2>
+        <p>When you set a record to gray cloud (DNS-only), Cloudflare acts as a plain DNS provider—nothing more. The DNS query returns your origin server's real IP address directly. Traffic flows from the visitor to your origin with no intermediate proxy.</p>
+        <p>DNS-only mode means:</p>
+        <ul>
+          <li>No CDN caching of your content</li>
+          <li>No DDoS protection at the edge</li>
+          <li>No SSL certificate management by Cloudflare</li>
+          <li>The visitor's IP address is visible to your origin server</li>
+          <li>No bandwidth charges from Cloudflare</li>
+          <li>Traffic goes directly to your server with zero added latency</li>
+        </ul>
+
+        <h2>When to Use Proxy Mode</h2>
+        <p>Proxy mode is the right choice for most web applications served over HTTP or HTTPS:</p>
+        <ul>
+          <li><strong>Static sites and JAMstack apps:</strong> Sites built with Hugo, Next.js, Astro, or plain HTML/CSS/JS benefit from Cloudflare's global CDN cache. Visitors get pre-cached responses from the nearest edge, reducing load on your origin.</li>
+          <li><strong>WordPress and CMS sites:</strong> Cloudflare can cache HTML pages and static assets while passing through dynamic requests (checkout, login, admin). The WAF protects against common CMS vulnerabilities.</li>
+          <li><strong>Content-heavy applications:</strong> Video streaming, image galleries, and file downloads benefit from edge caching and reduced origin bandwidth.</li>
+          <li><strong>High-traffic workloads:</strong> If you expect traffic spikes, the proxy absorbs the surge and shields your origin from being overwhelmed.</li>
+        </ul>
+
+        <h2>When to Use DNS-Only Mode</h2>
+        <p>DNS-only is required or strongly recommended for these scenarios:</p>
+        <ul>
+          <li><strong>Non-HTTP protocols:</strong> SSH (port 22), SMTP (port 25), IMAP (port 143), POP3 (port 110), FTP (ports 20/21), SIP (VoIP), and any protocol that is not HTTP or WebSocket. Cloudflare's proxy only handles HTTP, HTTPS, and WebSocket traffic. Everything else will be blocked or fail.</li>
+          <li><strong>Email servers:</strong> MX records must always be DNS-only. Cloudflare cannot proxy SMTP traffic, and proxied MX records will break email delivery entirely.</li>
+          <li><strong>API endpoints that need real client IPs:</strong> If your application relies on the visitor's real IP address for geolocation, rate limiting, or access control, you must use DNS-only or configure Cloudflare to pass the real IP via the <code>CF-Connecting-IP</code> header.</li>
+          <li><strong>Services using client certificates:</strong> Mutual TLS (mTLS) does not work through Cloudflare's proxy in most configurations.</li>
+          <li><strong>WebSockets with strict timeout requirements:</strong> While Cloudflare supports WebSockets in proxied mode, some configurations introduce idle timeouts that can disconnect long-lived WebSocket connections.</li>
+          <li><strong>Custom authentication that checks IP:</strong> If your application validates requests based on source IP (e.g., API key + IP whitelist), proxied traffic will show Cloudflare IPs and break your authentication.</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Rule of thumb:</strong> If it is not HTTP or HTTPS, use DNS-only. If it needs the visitor's real IP, use DNS-only or configure Cloudflare to forward the real IP. When in doubt, start with DNS-only and switch to proxy only after you have verified the service works correctly.</p>
+        </div>
+
+        <h2>What Breaks with Proxy Mode</h2>
+
+        <h3>Non-HTTP Traffic</h3>
+        <p>Cloudflare's proxy only handles HTTP (80), HTTPS (443), and WebSocket traffic. Any other protocol—SSH, SMTP, FTP, RDP, Minecraft, game servers—will fail because Cloudflare does not know how to forward non-HTTP connections. The connection will time out or be rejected at the Cloudflare edge.</p>
+
+        <h3>Real IP Visibility</h3>
+        <p>When proxy is enabled, your origin server sees Cloudflare's IP addresses (from the range 103.21.244.0/22 and others) in the connection, not the visitor's IP. Applications that log visitor IPs, enforce IP-based rate limiting, or use geo-IP services will see all traffic originating from Cloudflare data centers. Cloudflare forwards the real IP via the <code>CF-Connecting-IP</code> header and <code>X-Forwarded-For</code>, but your application must be configured to read these headers.</p>
+
+        <h3>Client Certificates (mTLS)</h3>
+        <p>Mutual TLS authentication requires the server to request and verify a client certificate at the TLS handshake level. Cloudflare terminates TLS at the edge, so the client certificate never reaches your origin server. Cloudflare offers Cloudflare Access as an alternative for client authentication.</p>
+
+        <h3>WebSocket Timeouts</h3>
+        <p>Proxied WebSocket connections have a default idle timeout of 60-120 seconds depending on your Cloudflare plan. If your WebSocket application sends keep-alive pings less frequently than the timeout, connections will be dropped unexpectedly. DNS-only mode bypasses this limitation entirely.</p>
+
+        <h3>Large File Uploads</h3>
+        <p>Cloudflare has default upload limits (100 MB on free plan, 200 MB on Pro, 500 MB on Business). Uploads exceeding these limits will fail when proxied. DNS-only mode sends traffic directly to your origin with no size restrictions.</p>
+
+        <h3>HSTS Preload Conflicts</h3>
+        <p>If your domain has HSTS preload enabled with a <code>max-age</code> directive that includes subdomains, and you later add a DNS-only subdomain that serves plain HTTP, browsers will refuse to connect because the HSTS policy requires HTTPS. This is a browser-level restriction, not a Cloudflare issue, but it often surprises developers who mix proxied and unproxied subdomains.</p>
+
+        <h2>How to Mix Proxy and DNS-Only Records</h2>
+        <p>You can and should mix both modes within the same Cloudflare zone. The orange or gray cloud icon is set per DNS record, so you can have:</p>
+        <ul>
+          <li><code>www.yourname.is-pro.dev</code> — proxied (orange cloud) for the main website</li>
+          <li><code>api.yourname.is-pro.dev</code> — DNS-only (gray cloud) for a REST API that needs real client IPs</li>
+          <li><code>mail.yourname.is-pro.dev</code> — DNS-only (gray cloud) for the email server</li>
+          <li><code>ssh.yourname.is-pro.dev</code> — DNS-only (gray cloud) for SSH access</li>
+          <li><code>blog.yourname.is-pro.dev</code> — proxied (orange cloud) for a static blog</li>
+        </ul>
+        <p>Each subdomain's mode is independent. The flexibility of per-record proxy control is one of Cloudflare's strongest features.</p>
+
+        <h2>SSL/TLS Modes: Flexible vs Full vs Full (Strict)</h2>
+        <p>When proxy is enabled, Cloudflare offers three SSL modes that control how traffic flows between Cloudflare and your origin server:</p>
+
+        <h3>Flexible (Not Recommended)</h3>
+        <p>Visitors connect to Cloudflare over HTTPS, but Cloudflare connects to your origin over plain HTTP. This mode is convenient for origins without SSL certificates, but it exposes traffic between Cloudflare and your origin to interception. Only use this for testing or if your origin cannot support HTTPS.</p>
+
+        <h3>Full</h3>
+        <p>Visitors connect over HTTPS, and Cloudflare connects to your origin over HTTPS using a self-signed or internally trusted certificate. Cloudflare does not verify the certificate's validity. This is better than Flexible but still does not guarantee your origin is who it claims to be.</p>
+
+        <h3>Full (Strict) — Recommended</h3>
+        <p>Visitors connect over HTTPS, Cloudflare connects to your origin over HTTPS, and Cloudflare verifies that the origin's SSL certificate is valid and trusted by a public Certificate Authority. This is the most secure option and should be used for all production workloads. You need a valid SSL certificate on your origin server (Let's Encrypt, ZeroSSL, or a commercial CA).</p>
+
+        <div class="callout">
+          <p><strong>Recommendation:</strong> Always use Full (Strict) for production. Install a free Let's Encrypt certificate on your origin server. Flexible mode leaves traffic between Cloudflare and your origin unencrypted, negating much of the security benefit of HTTPS.</p>
+        </div>
+
+        <h2>Troubleshooting Common Proxy Issues</h2>
+
+        <h3>SSL Certificate Mismatch (ERR_SSL_VERSION_INTERFERENCE)</h3>
+        <p>This error occurs when Cloudflare cannot establish a secure connection to your origin. Check that your origin server has a valid SSL certificate installed and that it matches the domain being served. If you recently switched SSL modes, wait a few minutes for Cloudflare's edge to update, or use the "Purge Everything" option in the Cloudflare dashboard.</p>
+
+        <h3>Redirect Loops (Too Many Redirects)</h3>
+        <p>A common misconfiguration is having both Cloudflare's Universal SSL (automatic HTTPS redirect) and your origin server's HTTPS redirect enabled simultaneously. The visitor connects to Cloudflare over HTTP, Cloudflare redirects to HTTPS via their edge rule, then forwards to your origin over HTTP. Your origin sees HTTP and redirects back to HTTPS, creating a loop.</p>
+        <p><strong>Fix:</strong> In the Cloudflare dashboard, go to SSL/TLS > Edge Certificates and enable "Always Use HTTPS." Then disable any HTTPS redirect in your origin server's configuration (e.g., <code>.htaccess</code>, nginx config, or application-level middleware).</p>
+
+        <h3>521/522/523 Errors</h3>
+        <ul>
+          <li><strong>521 Web Server Is Down:</strong> Cloudflare cannot connect to your origin server. Check that your server is running and reachable. If you are using DNS-only for a subdomain that was previously proxied, ensure your server's firewall allows direct connections from Cloudflare's IP ranges.</li>
+          <li><strong>522 Connection Timed Out:</strong> Your origin server is not responding within Cloudflare's timeout window (usually 30-60 seconds). Check for firewall rules, overloaded servers, or network issues between Cloudflare and your origin.</li>
+          <li><strong>523 Origin Is Unreachable:</strong> Cloudflare cannot establish a TCP connection to your origin IP. Verify that your origin IP address is correct and that your server is online.</li>
+        </ul>
+
+        <h3>Mixed Content Warnings</h3>
+        <p>If your site loads over HTTPS but includes resources (images, scripts, stylesheets) served over HTTP, browsers will block the mixed content. Cloudflare's Automatic HTTPS Rewrites feature attempts to fix this by rewriting <code>http://</code> URLs to <code>https://</code> in proxied responses. If you still see warnings, audit your pages for hardcoded HTTP URLs.</p>
+
+        <h2>Best Practices Table</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>Mode</th>
+              <th>SSL Setting</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Main website (www)</td>
+              <td>Proxied</td>
+              <td>Full (Strict)</td>
+              <td>CDN caching, DDoS protection</td>
+            </tr>
+            <tr>
+              <td>Static blog</td>
+              <td>Proxied</td>
+              <td>Full (Strict)</td>
+              <td>Edge cache for fast global load times</td>
+            </tr>
+            <tr>
+              <td>REST API</td>
+              <td>DNS-only</td>
+              <td>N/A</td>
+              <td>Preserve real client IPs, avoid proxy overhead</td>
+            </tr>
+            <tr>
+              <td>WebSocket server</td>
+              <td>DNS-only</td>
+              <td>N/A</td>
+              <td>Avoid WebSocket timeout issues</td>
+            </tr>
+            <tr>
+              <td>Email (MX records)</td>
+              <td>DNS-only</td>
+              <td>N/A</td>
+              <td>Proxied MX records break email delivery</td>
+            </tr>
+            <tr>
+              <td>SSH/SFTP/FTP</td>
+              <td>DNS-only</td>
+              <td>N/A</td>
+              <td>Non-HTTP protocols cannot be proxied</td>
+            </tr>
+            <tr>
+              <td>WordPress admin</td>
+              <td>Proxied</td>
+              <td>Full (Strict)</td>
+              <td>WAF protects login page; exclude wp-admin from cache</td>
+            </tr>
+            <tr>
+              <td>Video streaming</td>
+              <td>Proxied</td>
+              <td>Full (Strict)</td>
+              <td>Cache video segments at edge; Cloudflare Stream is better</td>
+            </tr>
+            <tr>
+              <td>Redirect service</td>
+              <td>Proxied</td>
+              <td>Full (Strict)</td>
+              <td>Use Cloudflare Page Rules for redirects</td>
+            </tr>
+            <tr>
+              <td>Development/staging</td>
+              <td>DNS-only</td>
+              <td>N/A</td>
+              <td>Avoid SSL and caching complexity during development</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
+
       </div>
     </div>
   </section>

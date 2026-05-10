@@ -3306,3 +3306,282 @@ option { background: var(--color-surface); }
   .hero-bg::before, .hero-bg::after { animation: none; }
   .reading-progress { display: none; }
 }
+
+/* ================================================================
+   FINAL DOCS UI POLISH FIXES
+   ================================================================ */
+:root {
+  --doc-max-w: 1140px;
+  --doc-article-w: 860px;
+}
+
+.article-hero {
+  padding: calc(var(--header-h) + 1.6rem) 0 1rem;
+}
+
+.article-hero-inner {
+  max-width: var(--doc-article-w);
+  padding: 0;
+}
+
+.article-hero-inner h1 {
+  font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+  margin-bottom: 0.65rem;
+}
+
+.article-summary {
+  max-width: 720px;
+  line-height: 1.62;
+}
+
+.article-layout-section {
+  padding: 1.75rem 0 2.5rem;
+}
+
+.article-layout-inner {
+  max-width: calc(var(--doc-article-w) + var(--toc-w) + 2rem);
+  grid-template-columns: minmax(0, var(--doc-article-w)) minmax(220px, var(--toc-w));
+  gap: 2rem;
+  padding: 0;
+}
+
+.article-content {
+  max-width: var(--doc-article-w);
+}
+
+.article-content.prose {
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.article-content.prose h2 {
+  margin-top: 2.15rem;
+  margin-bottom: 0.65rem;
+}
+
+.article-content.prose h3 {
+  margin-top: 1.55rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-content.prose p {
+  margin-bottom: 0.9rem;
+}
+
+.article-content.prose ul,
+.article-content.prose ol {
+  margin-bottom: 1rem;
+}
+
+/* fixed copy button + independent horizontal scroll */
+.prose pre {
+  position: relative;
+  overflow: hidden;
+  margin: 1.25rem 0;
+  padding: 0;
+  border-radius: var(--radius-lg);
+}
+
+.prose pre .code-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  padding: 2.55rem 1.1rem 1.1rem;
+}
+
+.prose pre code {
+  display: block;
+  min-width: max-content;
+  font-size: 0.84rem;
+  line-height: 1.62;
+}
+
+.prose pre .copy-button {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 2;
+  min-height: 2rem;
+  opacity: 0.95;
+}
+
+.prose pre:hover .copy-button {
+  opacity: 1;
+}
+
+.share-section {
+  padding: 1.1rem 0;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.share-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.share-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.25rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-md);
+}
+
+.share-link svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.doc-nav-section {
+  padding-top: 1.4rem;
+  padding-bottom: 2.2rem;
+}
+
+.related-section {
+  padding: 2.2rem 0;
+}
+
+.related-grid,
+.posts-grid {
+  align-items: stretch;
+}
+
+.related-card,
+.post-card,
+.blog-card,
+.guide-card {
+  height: 100%;
+}
+
+.related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.2rem;
+}
+
+.blog-card,
+.guide-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card-body,
+.guide-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  height: 100%;
+}
+
+.blog-card-excerpt,
+.guide-card-excerpt {
+  margin-bottom: auto;
+}
+
+.site-footer {
+  padding: 3rem 0 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .header-inner {
+    min-height: var(--header-h);
+    gap: 0.75rem;
+  }
+
+  .header-logo {
+    min-height: 44px;
+  }
+
+  .nav-toggle {
+    width: 44px;
+    height: 44px;
+    padding: 0.6rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .article-hero {
+    padding: calc(var(--header-h) + 1.2rem) 0 0.85rem;
+  }
+
+  .article-hero-inner h1 {
+    font-size: clamp(1.35rem, 5.2vw, 1.75rem);
+  }
+
+  .article-summary {
+    font-size: 0.95rem;
+    line-height: 1.58;
+  }
+
+  .article-layout-section {
+    padding: 1.25rem 0 2rem;
+  }
+
+  .article-layout-inner {
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+
+  .article-content.prose h2 {
+    margin-top: 1.8rem;
+    font-size: 1.25rem;
+  }
+
+  .article-content.prose h3 {
+    margin-top: 1.35rem;
+    font-size: 1.03rem;
+  }
+
+  .prose pre {
+    margin: 1rem 0;
+  }
+
+  .prose pre .code-scroll {
+    padding: 2.35rem 0.95rem 0.95rem;
+  }
+
+  .prose pre .copy-button {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .share-section {
+    gap: 0.8rem;
+  }
+
+  .share-links {
+    width: 100%;
+  }
+
+  .share-link {
+    min-height: 2.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.875rem;
+  }
+
+  .share-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .share-link {
+    width: 100%;
+  }
+}

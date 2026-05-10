@@ -255,12 +255,31 @@
   document.querySelectorAll('.prose pre').forEach((pre) => {
     const code = pre.querySelector('code');
     if (!code) return;
-    if (pre.querySelector('.copy-button')) return;
 
-    const btn = document.createElement('button');
-    btn.className = 'copy-button';
-    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
-    pre.appendChild(btn);
+    let scroller = pre.querySelector(':scope > .code-scroll');
+    if (!scroller) {
+      scroller = document.createElement('div');
+      scroller.className = 'code-scroll';
+
+      const nodesToWrap = Array.from(pre.childNodes).filter((node) => {
+        return !(node.nodeType === Node.ELEMENT_NODE && node.classList.contains('copy-button'));
+      });
+
+      nodesToWrap.forEach((node) => scroller.appendChild(node));
+      pre.insertBefore(scroller, pre.firstChild);
+    }
+
+    if (!scroller.contains(code)) {
+      scroller.appendChild(code);
+    }
+
+    let btn = pre.querySelector(':scope > .copy-button');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.className = 'copy-button';
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+      pre.appendChild(btn);
+    }
 
     btn.addEventListener('click', async () => {
       const text = code.textContent;

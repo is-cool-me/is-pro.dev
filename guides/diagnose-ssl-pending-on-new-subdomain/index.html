@@ -47,7 +47,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
           Discord
         </a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
+        <a href="https://dash.is-cool-me" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
           Open Dashboard
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -84,12 +84,12 @@
       <div class="prose" data-reveal>
 
         <h2>What You Will Learn</h2>
-        <p>When you add a new subdomain to is-pro.dev and configure it through your hosting provider (Vercel, Netlify, Cloudflare Pages, or a similar platform), the dashboard will typically show the SSL status as <strong>Pending</strong> while the certificate authority (CA) attempts to issue a certificate. This guide covers why certificates get stuck in this pending state, how to methodically diagnose the root cause, what fixes you can apply yourself, and when you should escalate to your provider or our support team.</p>
+        <p>When you add a new subdomain to is-cool-me and configure it through your hosting provider (Vercel, Netlify, Cloudflare Pages, or a similar platform), the dashboard will typically show the SSL status as <strong>Pending</strong> while the certificate authority (CA) attempts to issue a certificate. This guide covers why certificates get stuck in this pending state, how to methodically diagnose the root cause, what fixes you can apply yourself, and when you should escalate to your provider or our support team.</p>
         <p>By the end of this guide you will understand the full certificate issuance lifecycle, know the exact diagnostic commands to run, and be able to resolve the majority of pending SSL issues without waiting for support.</p>
 
         <h2>Requirements</h2>
         <ul>
-          <li>An is-pro.dev subdomain with DNS records configured in your dashboard</li>
+          <li>An is-cool-me subdomain with DNS records configured in your dashboard</li>
           <li>SSL status showing <strong>Pending</strong> in the is-cool-me dashboard</li>
           <li>Access to a terminal with <code>dig</code> and <code>curl</code> installed (Linux, macOS, or WSL)</li>
           <li>Access to your hosting provider's dashboard (Vercel, Netlify, Cloudflare, etc.)</li>
@@ -97,7 +97,7 @@
         </ul>
 
         <h2>Background</h2>
-        <p>SSL certificate issuance follows a well-defined protocol: the CA must verify that the requester controls the domain for which the certificate is being requested. For is-pro.dev subdomains, the issuing CA depends on your active platform configuration (often Let's Encrypt on many providers) and validation is typically done through HTTP-01 or DNS-01 challenges. When your dashboard shows <strong>Pending</strong>, it means the CA has initiated the issuance process but has not yet completed validation.</p>
+        <p>SSL certificate issuance follows a well-defined protocol: the CA must verify that the requester controls the domain for which the certificate is being requested. For is-cool-me subdomains, the issuing CA depends on your active platform configuration (often Let's Encrypt on many providers) and validation is typically done through HTTP-01 or DNS-01 challenges. When your dashboard shows <strong>Pending</strong>, it means the CA has initiated the issuance process but has not yet completed validation.</p>
         <p>The most common reasons for a stuck pending state fall into four categories: DNS resolution problems, CAA record restrictions, hosting provider misconfiguration, and propagation delays. Understanding which category your issue falls into is the first step toward a fix.</p>
         <p>Most automated certificates are short-lived (often around 90 days), and issuance typically completes within seconds once all prerequisites are met. If your certificate has been pending for more than 15 minutes, something in the chain is usually misconfigured.</p>
 
@@ -105,26 +105,26 @@
 
         <h3>Step 1: Check Authoritative DNS Resolution</h3>
         <p>The CA needs to resolve your subdomain to verify it points to the correct server. Start by checking what your authoritative DNS nameservers return for your subdomain:</p>
-        <pre><code>dig yourname.is-pro.dev +short
-dig yourname.is-pro.dev A +short
-dig yourname.is-pro.dev CNAME +short</code></pre>
+        <pre><code>dig yourname.is-cool-me +short
+dig yourname.is-cool-me A +short
+dig yourname.is-cool-me CNAME +short</code></pre>
         <p>Compare the output against the expected target provided by your hosting provider. For Vercel, the CNAME should look like <code>cname.vercel-dns.com</code>. For Netlify, it should be something like <code>your-site.netlify.app</code>. If the record is missing or points to an old target, update it in the is-cool-me DNS dashboard and wait 5-10 minutes for propagation.</p>
         <p>You should also check that the nameservers themselves are responding correctly:</p>
-        <pre><code>dig NS is-pro.dev +short
-dig yourname.is-pro.dev @&lt;authoritative-ns&gt; +short</code></pre>
+        <pre><code>dig NS is-cool-me +short
+dig yourname.is-cool-me @&lt;authoritative-ns&gt; +short</code></pre>
         <p>This bypasses local caching and queries an authoritative nameserver directly. If this returns the correct record but a standard <code>dig</code> does not, you are likely seeing cached data. Wait for TTL expiry or flush your local DNS resolver.</p>
 
         <h3>Step 2: Check CAA Records</h3>
         <p>CAA (Certificate Authority Authorization) records tell the world which CAs are permitted to issue certificates for your domain. If a CAA record exists but does not include Let's Encrypt, issuance will be blocked:</p>
-        <pre><code>dig CAA yourname.is-pro.dev +short</code></pre>
+        <pre><code>dig CAA yourname.is-cool-me +short</code></pre>
         <p>If you see output like <code>0 issue "digicert.com"</code> without a corresponding <code>0 issue "letsencrypt.org"</code>, your CAA records are blocking Let's Encrypt. The fix is to add a CAA record that permits Let's Encrypt:</p>
-        <pre><code>yourname.is-pro.dev.  IN  CAA  0  issue  "letsencrypt.org"</code></pre>
+        <pre><code>yourname.is-cool-me.  IN  CAA  0  issue  "letsencrypt.org"</code></pre>
         <p>You can manage CAA records through the is-cool-me DNS dashboard. Note that CAA records are inherited by subdomains unless explicitly overridden, so a parent domain CAA restriction can block subdomain issuance even if the subdomain itself has no CAA records.</p>
 
         <h3>Step 3: Check Hosting Provider Configuration</h3>
         <p>Your hosting provider must be configured to respond to the domain validation challenge. Log into your hosting provider's dashboard and verify:</p>
         <ul>
-          <li>The custom domain <code>yourname.is-pro.dev</code> is added to your project or site</li>
+          <li>The custom domain <code>yourname.is-cool-me</code> is added to your project or site</li>
           <li>The provider's SSL/TLS settings are enabled (usually automatic)</li>
           <li>No firewall or proxy rules are blocking Let's Encrypt's validation IPs</li>
           <li>The provider is not in a "pending" state on their end (some providers have their own verification process)</li>
@@ -139,9 +139,9 @@ dig yourname.is-pro.dev @&lt;authoritative-ns&gt; +short</code></pre>
           <li>Some ISPs and resolvers ignore TTL and cache for longer periods</li>
         </ul>
         <p>You can check global propagation using online tools like whatsmydns.net or by querying multiple public resolvers:</p>
-        <pre><code>dig @1.1.1.1 yourname.is-pro.dev +short
-dig @8.8.8.8 yourname.is-pro.dev +short
-dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
+        <pre><code>dig @1.1.1.1 yourname.is-cool-me +short
+dig @8.8.8.8 yourname.is-cool-me +short
+dig @9.9.9.9 yourname.is-cool-me +short</code></pre>
         <p>If Cloudflare's resolver (1.1.1.1) and Google's resolver (8.8.8.8) both return the correct record, the issue is not propagation.</p>
 
         <h3>Step 5: Force Re-issuance</h3>
@@ -154,14 +154,14 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
           <li>Your subdomain returns a valid HTTP response (not a 404 or redirect loop)</li>
         </ul>
         <p>You can test the HTTP challenge path commonly used during HTTP-01 validation:</p>
-        <pre><code>curl -I http://yourname.is-pro.dev/.well-known/acme-challenge/</code></pre>
+        <pre><code>curl -I http://yourname.is-cool-me/.well-known/acme-challenge/</code></pre>
         <p>If this returns anything other than a 200 or 404 (such as a 301/302 redirect or a 5xx error), the validation challenge may fail. The key requirement is that the provider serves the challenge file correctly at the path expected by the CA flow in your environment.</p>
 
         <h2>Verification</h2>
         <p>Once you have resolved the issue and the certificate is issued, verify the following:</p>
         <ul>
           <li><strong>SSL Active:</strong> The is-cool-me dashboard shows "Active" instead of "Pending"</li>
-          <li><strong>Browser Padlock:</strong> Visiting <code>https://yourname.is-pro.dev</code> shows a secure padlock icon in the address bar</li>
+          <li><strong>Browser Padlock:</strong> Visiting <code>https://yourname.is-cool-me</code> shows a secure padlock icon in the address bar</li>
           <li><strong>SSL Labs Rating:</strong> Run an SSL Labs test at <a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener noreferrer">ssllabs.com/ssltest</a> and confirm an A or A+ rating</li>
           <li><strong>Certificate Details:</strong> The certificate should be issued by your configured CA and list your subdomain in the Subject Alternative Name (SAN) field</li>
         </ul>
@@ -212,7 +212,7 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
         <p>The dashboard may cache the SSL status for a few minutes. Try refreshing the page after 5 minutes. If it still shows pending, the new issuance attempt may have encountered the same issue as the first one.</p>
 
         <h3>Can DNSSEC affect certificate issuance?</h3>
-        <p>Yes. If DNSSEC is enabled for your domain but the signatures are misconfigured or expired, resolvers may return SERVFAIL, which can block CA validation. Check DNSSEC status with <code>dig yourname.is-pro.dev +dnssec</code>.</p>
+        <p>Yes. If DNSSEC is enabled for your domain but the signatures are misconfigured or expired, resolvers may return SERVFAIL, which can block CA validation. Check DNSSEC status with <code>dig yourname.is-cool-me +dnssec</code>.</p>
 
         <h3>What should I do if none of these steps work?</h3>
         <p>If you have verified DNS resolution, CAA records, hosting configuration, propagation, and re-issued the certificate, and it is still pending, contact is-cool-me support through Discord or email. Include the output of the dig commands from Step 1 and Step 2 to speed up diagnosis.</p>
@@ -220,8 +220,8 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
         <h2>Related Guides</h2>
         <ul>
           <li><a href="/guides/lock-down-caa-for-certificate-control/">Lock Down CAA for Better Certificate Control</a> — Learn how to configure CAA records to restrict which CAs can issue certificates for your domains.</li>
-          <li><a href="/guides/connect-vercel/">Connect Vercel to is-pro.dev</a> — Step-by-step guide for connecting a Vercel deployment to your is-pro.dev subdomain.</li>
-          <li><a href="/guides/connect-netlify/">Connect Netlify to is-pro.dev</a> — Step-by-step guide for connecting a Netlify site to your is-pro.dev subdomain.</li>
+          <li><a href="/guides/connect-vercel/">Connect Vercel to is-cool-me</a> — Step-by-step guide for connecting a Vercel deployment to your is-cool-me subdomain.</li>
+          <li><a href="/guides/connect-netlify/">Connect Netlify to is-cool-me</a> — Step-by-step guide for connecting a Netlify site to your is-cool-me subdomain.</li>
         </ul>
 
       </div>
@@ -261,12 +261,12 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
           <a href="/guides/connect-vercel-with-is-pro-dev/" class="related-card">
             <span class="related-card-tag">Guide</span>
             <span class="related-card-title">Connect Vercel to an is-pro.dev Subdomain</span>
-            <span class="related-card-desc">Step-by-step guide to connect your Vercel project with an is-pro.dev subdomain including DNS setup, SSL configuration, and troubleshooting.</span>
+            <span class="related-card-desc">Step-by-step guide to connect your Vercel project with an is-cool-me subdomain including DNS setup, SSL configuration, and troubleshooting.</span>
           </a>
           <a href="/guides/connect-netlify-with-is-pro-dev/" class="related-card">
             <span class="related-card-tag">Beginner</span>
             <span class="related-card-title">Connect Netlify to an is-pro.dev Subdomain</span>
-            <span class="related-card-desc">Step-by-step guide to connect your Netlify project with an is-pro.dev subdomain including DNS setup, SSL configuration, and troubleshooting.</span>
+            <span class="related-card-desc">Step-by-step guide to connect your Netlify project with an is-cool-me subdomain including DNS setup, SSL configuration, and troubleshooting.</span>
           </a>
           <a href="/guides/set-up-github-pages-custom-subdomain/" class="related-card">
             <span class="related-card-tag">Beginner</span>
@@ -297,7 +297,7 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
       <div class="footer-col">
         <h4>Service</h4>
         <nav class="footer-links" aria-label="Service links">
-          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+          <a href="https://dash.is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
           <a href="/domains/" class="footer-link">Domains</a>
           <a href="/blog/" class="footer-link">Blog</a>
           <a href="/guides/" class="footer-link">Guides</a>

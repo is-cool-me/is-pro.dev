@@ -108,7 +108,7 @@
         <pre><code>dig yourname.is-pro.dev +short
 dig yourname.is-pro.dev A +short
 dig yourname.is-pro.dev CNAME +short</code></pre>
-        <p>Compare the output against the expected target provided by your hosting provider. For Vercel, the CNAME should look like <code>cname.vercel-dns.com</code>. For Netlify, it should be something like <code>your-site.netlify.app</code>. If the record is missing or points to an old target, update it in the is-pro.dev DNS dashboard and wait 5-10 minutes for propagation.</p>
+        <p>Compare the output against the expected target provided by your hosting provider. For Vercel, the CNAME should look like <code>cname.vercel-dns.com</code>. For Netlify, it should be something like <code>your-site.netlify.app</code>. If the record is missing or points to an old target, update it in the is-cool-me DNS dashboard and wait 5-10 minutes for propagation.</p>
         <p>You should also check that the nameservers themselves are responding correctly:</p>
         <pre><code>dig NS is-pro.dev +short
 dig yourname.is-pro.dev @&lt;authoritative-ns&gt; +short</code></pre>
@@ -119,7 +119,7 @@ dig yourname.is-pro.dev @&lt;authoritative-ns&gt; +short</code></pre>
         <pre><code>dig CAA yourname.is-pro.dev +short</code></pre>
         <p>If you see output like <code>0 issue "digicert.com"</code> without a corresponding <code>0 issue "letsencrypt.org"</code>, your CAA records are blocking Let's Encrypt. The fix is to add a CAA record that permits Let's Encrypt:</p>
         <pre><code>yourname.is-pro.dev.  IN  CAA  0  issue  "letsencrypt.org"</code></pre>
-        <p>You can manage CAA records through the is-pro.dev DNS dashboard. Note that CAA records are inherited by subdomains unless explicitly overridden, so a parent domain CAA restriction can block subdomain issuance even if the subdomain itself has no CAA records.</p>
+        <p>You can manage CAA records through the is-cool-me DNS dashboard. Note that CAA records are inherited by subdomains unless explicitly overridden, so a parent domain CAA restriction can block subdomain issuance even if the subdomain itself has no CAA records.</p>
 
         <h3>Step 3: Check Hosting Provider Configuration</h3>
         <p>Your hosting provider must be configured to respond to the domain validation challenge. Log into your hosting provider's dashboard and verify:</p>
@@ -215,7 +215,7 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
         <p>Yes. If DNSSEC is enabled for your domain but the signatures are misconfigured or expired, resolvers may return SERVFAIL, which can block CA validation. Check DNSSEC status with <code>dig yourname.is-pro.dev +dnssec</code>.</p>
 
         <h3>What should I do if none of these steps work?</h3>
-        <p>If you have verified DNS resolution, CAA records, hosting configuration, propagation, and re-issued the certificate, and it is still pending, contact is-pro.dev support through Discord or email. Include the output of the dig commands from Step 1 and Step 2 to speed up diagnosis.</p>
+        <p>If you have verified DNS resolution, CAA records, hosting configuration, propagation, and re-issued the certificate, and it is still pending, contact is-cool-me support through Discord or email. Include the output of the dig commands from Step 1 and Step 2 to speed up diagnosis.</p>
 
         <h2>Related Guides</h2>
         <ul>

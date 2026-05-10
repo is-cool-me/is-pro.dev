@@ -100,12 +100,12 @@
         <ul>
           <li>An is-pro.dev subdomain with DNS management access</li>
           <li>Understanding of basic DNS record types (A, CNAME)</li>
-          <li>Access to the is-pro.dev dashboard</li>
+          <li>Access to the is-cool-me dashboard</li>
           <li><code>dig</code> or <code>nslookup</code> installed on your local machine for verification</li>
         </ul>
 
         <h2>Background Information</h2>
-        <p>Wildcard DNS records use the asterisk (<code>*</code>) as the leftmost label to match any subdomain that does not have an explicit record. When a resolver queries <code>random-name.yourname.is-pro.dev</code> and no explicit A, AAAA, or CNAME record exists for that name, the authoritative nameserver falls back to the wildcard record and returns its value.</p>
+        <p>Wildcard DNS records use the asterisk (<code>*</code>) as the leftmost label to match any subdomain that does not have an explicit record. When a resolver queries <code>random-name.yourname.is-pro.dev</code> and no explicit A, AAAA, or CNAME record exists for that name, the zone's authoritative DNS falls back to the wildcard record and returns its value.</p>
         <p>This mechanism is defined in <a href="https://datatracker.ietf.org/doc/html/rfc4592" class="inline-link" target="_blank" rel="noopener noreferrer">RFC 4592</a>. The wildcard applies only to names that do not exist anywhere in the zone — it does <em>not</em> override existing records. This is the single most important rule to internalise when working with wildcards.</p>
         <p>Wildcards are commonly used for:</p>
         <ul>
@@ -138,7 +138,7 @@
         <div class="callout"><p><strong>Important:</strong> You cannot use a CNAME at the zone apex (the bare subdomain itself). If you need wildcard behaviour for the apex, use an A or AAAA record. On is-pro.dev, the wildcard lives on a subdomain level, so this is less of a concern — but keep it in mind if you are reading DNS documentation meant for root domains.</p></div>
 
         <h3>Step 3: Add the Wildcard Record</h3>
-        <p>With your audit complete and record type chosen, create the wildcard in the is-pro.dev dashboard:</p>
+        <p>With your audit complete and record type chosen, create the wildcard in the is-cool-me dashboard:</p>
         <ol>
           <li>Click <strong>Add Record</strong>.</li>
           <li>Fill in the fields:
@@ -176,8 +176,9 @@ dig a7xk9m.yourname.is-pro.dev A +short
 dig www.yourname.is-pro.dev A +short
 # Expected: the explicit record's value (different from wildcard)
 
-# Authoritative check: query the nameserver directly
-dig @ns1.is-pro.dev random-test.yourname.is-pro.dev A +short
+# Authoritative check: find and query an authoritative nameserver directly
+dig NS is-pro.dev +short
+dig @&lt;authoritative-ns&gt; random-test.yourname.is-pro.dev A +short
 # Expected: same as the wildcard target
 
 # CNAME chaining (if using wildcard CNAME)
@@ -204,13 +205,13 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
 
         <h3>4. Propagation delays</h3>
         <p><strong>Cause:</strong> DNS resolvers upstream have cached a previous NXDOMAIN (non-existence) response for the subdomain you are testing. Since the wildcard now makes previously non-existent names resolvable, the old negative cache entry must expire first. This can take as long as the previous SOA negative caching TTL (typically 300–3600 seconds).</p>
-        <p><strong>Fix:</strong> Query the authoritative nameserver directly to verify the record is live: <code>dig @ns1.is-pro.dev random-test.yourname.is-pro.dev A +short</code>. If the authoritative server returns the expected value, the record is correct and it is only a matter of waiting for resolver caches to expire. You can also query specific public resolvers to check propagation: <code>dig @8.8.8.8 random-test.yourname.is-pro.dev A</code>.</p>
+        <p><strong>Fix:</strong> Query an authoritative nameserver directly to verify the record is live: <code>dig NS is-pro.dev +short</code> then <code>dig @&lt;authoritative-ns&gt; random-test.yourname.is-pro.dev A +short</code>. If the authoritative server returns the expected value, the record is correct and it is only a matter of waiting for resolver caches to expire. You can also query specific public resolvers to check propagation: <code>dig @8.8.8.8 random-test.yourname.is-pro.dev A</code>.</p>
 
         <h2>Best Practices</h2>
         <ul>
           <li><strong>Always pair wildcards with explicit records for known services.</strong> Before adding <code>*</code>, create explicit A/CNAME records for every subdomain you actively use. Maintain a living inventory of these hostnames in your project documentation.</li>
           <li><strong>Never use wildcards for MX records.</strong> As discussed in the troubleshooting section, wildcard MX records lead to mail delivery problems and security issues. Always publish explicit MX records.</li>
-          <li><strong>Use a TTL of 3600 or higher for wildcards.</strong> Wildcard records are typically long-term infrastructure. A higher TTL reduces the query load on your authoritative nameserver and speeds up resolution for end users.</li>
+          <li><strong>Use a TTL of 3600 or higher for wildcards.</strong> Wildcard records are typically long-term infrastructure. A higher TTL reduces the query load on your DNS provider's authoritative infrastructure and speeds up resolution for end users.</li>
           <li><strong>Document which subdomains have explicit overrides.</strong> Store this list alongside your DNS configuration (a comment in your IaC, a section in your README, or a dedicated <code>DNS.md</code> file). When a team member adds a new service on a new subdomain, they will know to create an explicit record instead of relying on the wildcard.</li>
           <li><strong>Test wildcard coverage after every DNS change.</strong> Whenever you add or remove an explicit record, re-verify both the explicit override and the wildcard fallback. A deleted explicit record will silently fall through to the wildcard, potentially exposing a different service than intended.</li>
           <li><strong>Consider the security implications.</strong> A wildcard means that any subdomain — even ones used internally or for staging — will resolve to a public target. If your application relies on hostname-based access control or secret URLs, wildcards bypass those protections. Use explicit records for sensitive endpoints.</li>

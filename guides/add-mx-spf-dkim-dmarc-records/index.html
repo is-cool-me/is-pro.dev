@@ -99,7 +99,7 @@
         <h2>Requirements</h2>
         <ul>
           <li>An is-pro.dev subdomain with DNS management access</li>
-          <li>Access to the <a href="https://dash.is-pro.dev" target="_blank" rel="noopener noreferrer">is-pro.dev dashboard</a></li>
+          <li>Access to the <a href="https://dash.is-pro.dev" target="_blank" rel="noopener noreferrer">is-cool-me dashboard</a></li>
           <li>A working email service provider (Google Workspace, Mailgun, SendGrid, AWS SES, etc.)</li>
         </ul>
 
@@ -115,7 +115,7 @@
         <p>Without these records, your email is more likely to be rejected, marked as spam, or forged by attackers. Major email providers including Gmail, Outlook, and Yahoo now require DMARC enforcement for bulk senders, making this setup essential for any domain that sends email.</p>
 
         <div class="callout">
-          <p><strong>Important:</strong> DNS changes made through the is-pro.dev dashboard typically propagate within a few minutes, but some resolvers may cache records for up to the TTL duration you set. Always wait for propagation before running tests.</p>
+          <p><strong>Important:</strong> DNS changes made through the is-cool-me dashboard typically propagate within a few minutes, but some resolvers may cache records for up to the TTL duration you set. Always wait for propagation before running tests.</p>
         </div>
 
         <h2>Step-by-Step Setup</h2>
@@ -142,7 +142,7 @@
         </div>
 
         <h3>Step 2: Add MX Records</h3>
-        <p>MX (Mail Exchange) records route incoming email to your provider's mail servers. In the is-pro.dev dashboard, create one MX record per mail server hostname your provider gives you.</p>
+        <p>MX (Mail Exchange) records route incoming email to your provider's mail servers. In the is-cool-me dashboard, create one MX record per mail server hostname your provider gives you.</p>
         <ul>
           <li><strong>Type:</strong> MX</li>
           <li><strong>Name:</strong> <code>@</code> (for the subdomain itself) or the specific subdomain prefix (e.g., <code>mail</code> if your email address is <code>you@mail.yourname.is-pro.dev</code>)</li>

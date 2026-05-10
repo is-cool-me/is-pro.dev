@@ -2,22 +2,30 @@
 (function () {
   'use strict';
 
-  /* ── Scroll-reveal ── */
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12 }
-  );
+  document.documentElement.classList.add('js');
 
-  document.querySelectorAll('[data-reveal]').forEach((el) => {
-    revealObserver.observe(el);
-  });
+  /* ── Scroll-reveal ── */
+  const revealElements = document.querySelectorAll('[data-reveal]');
+
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    revealElements.forEach((el) => {
+      revealObserver.observe(el);
+    });
+  } else {
+    revealElements.forEach((el) => el.classList.add('revealed'));
+  }
 
   /* ── Sticky header ── */
   const header = document.querySelector('.site-header');

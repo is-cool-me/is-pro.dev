@@ -1,6 +1,6 @@
 # is-pro.dev Website
 
-Official static website for **is-cool-me / is-pro.dev**.
+Official static website for **is-pro.dev**, operated by **is-cool-me**.
 
 This repository hosts the public marketing pages, blog posts, and operational guides for the `is-pro.dev` free subdomain service.
 

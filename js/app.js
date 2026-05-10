@@ -262,7 +262,7 @@
       scroller.className = 'code-scroll';
 
       const nodesToWrap = Array.from(pre.childNodes).filter((node) => {
-        return !(node.nodeType === Node.ELEMENT_NODE && node.classList.contains('copy-button'));
+        return !(node instanceof Element && node.classList.contains('copy-button'));
       });
 
       nodesToWrap.forEach((node) => scroller.appendChild(node));

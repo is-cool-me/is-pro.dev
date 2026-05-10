@@ -84,12 +84,12 @@
       <div class="prose" data-reveal>
 
         <h2>What You Will Learn</h2>
-        <p>When you add a new subdomain to is-pro.dev and configure it through your hosting provider (Vercel, Netlify, Cloudflare Pages, or a similar platform), the dashboard will typically show the SSL status as <strong>Pending</strong> while the certificate authority (CA) attempts to issue a certificate. This guide covers why certificates get stuck in this pending state, how to methodically diagnose the root cause, what fixes you can apply yourself, and when you should escalate to your provider or our support team.</p>
+        <p>When you add a new subdomain to is-cool-me and configure it through your hosting provider (Vercel, Netlify, Cloudflare Pages, or a similar platform), the dashboard will typically show the SSL status as <strong>Pending</strong> while the certificate authority (CA) attempts to issue a certificate. This guide covers why certificates get stuck in this pending state, how to methodically diagnose the root cause, what fixes you can apply yourself, and when you should escalate to your provider or our support team.</p>
         <p>By the end of this guide you will understand the full certificate issuance lifecycle, know the exact diagnostic commands to run, and be able to resolve the majority of pending SSL issues without waiting for support.</p>
 
         <h2>Requirements</h2>
         <ul>
-          <li>An is-pro.dev subdomain with DNS records configured in your dashboard</li>
+          <li>An is-cool-me subdomain with DNS records configured in your dashboard</li>
           <li>SSL status showing <strong>Pending</strong> in the is-cool-me dashboard</li>
           <li>Access to a terminal with <code>dig</code> and <code>curl</code> installed (Linux, macOS, or WSL)</li>
           <li>Access to your hosting provider's dashboard (Vercel, Netlify, Cloudflare, etc.)</li>
@@ -97,7 +97,7 @@
         </ul>
 
         <h2>Background</h2>
-        <p>SSL certificate issuance follows a well-defined protocol: the CA must verify that the requester controls the domain for which the certificate is being requested. For is-pro.dev subdomains, the issuing CA depends on your active platform configuration (often Let's Encrypt on many providers) and validation is typically done through HTTP-01 or DNS-01 challenges. When your dashboard shows <strong>Pending</strong>, it means the CA has initiated the issuance process but has not yet completed validation.</p>
+        <p>SSL certificate issuance follows a well-defined protocol: the CA must verify that the requester controls the domain for which the certificate is being requested. For is-cool-me subdomains, the issuing CA depends on your active platform configuration (often Let's Encrypt on many providers) and validation is typically done through HTTP-01 or DNS-01 challenges. When your dashboard shows <strong>Pending</strong>, it means the CA has initiated the issuance process but has not yet completed validation.</p>
         <p>The most common reasons for a stuck pending state fall into four categories: DNS resolution problems, CAA record restrictions, hosting provider misconfiguration, and propagation delays. Understanding which category your issue falls into is the first step toward a fix.</p>
         <p>Most automated certificates are short-lived (often around 90 days), and issuance typically completes within seconds once all prerequisites are met. If your certificate has been pending for more than 15 minutes, something in the chain is usually misconfigured.</p>
 
@@ -220,8 +220,8 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
         <h2>Related Guides</h2>
         <ul>
           <li><a href="/guides/lock-down-caa-for-certificate-control/">Lock Down CAA for Better Certificate Control</a> — Learn how to configure CAA records to restrict which CAs can issue certificates for your domains.</li>
-          <li><a href="/guides/connect-vercel/">Connect Vercel to is-pro.dev</a> — Step-by-step guide for connecting a Vercel deployment to your is-pro.dev subdomain.</li>
-          <li><a href="/guides/connect-netlify/">Connect Netlify to is-pro.dev</a> — Step-by-step guide for connecting a Netlify site to your is-pro.dev subdomain.</li>
+          <li><a href="/guides/connect-vercel/">Connect Vercel to is-cool-me</a> — Step-by-step guide for connecting a Vercel deployment to your is-cool-me subdomain.</li>
+          <li><a href="/guides/connect-netlify/">Connect Netlify to is-cool-me</a> — Step-by-step guide for connecting a Netlify site to your is-cool-me subdomain.</li>
         </ul>
 
       </div>
@@ -261,12 +261,12 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
           <a href="/guides/connect-vercel-with-is-pro-dev/" class="related-card">
             <span class="related-card-tag">Guide</span>
             <span class="related-card-title">Connect Vercel to an is-pro.dev Subdomain</span>
-            <span class="related-card-desc">Step-by-step guide to connect your Vercel project with an is-pro.dev subdomain including DNS setup, SSL configuration, and troubleshooting.</span>
+            <span class="related-card-desc">Step-by-step guide to connect your Vercel project with an is-cool-me subdomain including DNS setup, SSL configuration, and troubleshooting.</span>
           </a>
           <a href="/guides/connect-netlify-with-is-pro-dev/" class="related-card">
             <span class="related-card-tag">Beginner</span>
             <span class="related-card-title">Connect Netlify to an is-pro.dev Subdomain</span>
-            <span class="related-card-desc">Step-by-step guide to connect your Netlify project with an is-pro.dev subdomain including DNS setup, SSL configuration, and troubleshooting.</span>
+            <span class="related-card-desc">Step-by-step guide to connect your Netlify project with an is-cool-me subdomain including DNS setup, SSL configuration, and troubleshooting.</span>
           </a>
           <a href="/guides/set-up-github-pages-custom-subdomain/" class="related-card">
             <span class="related-card-tag">Beginner</span>

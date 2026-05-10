@@ -157,7 +157,7 @@
           <li>Keep the <strong>TTL</strong> at <code>300</code> (the reduced value from Step 1).</li>
           <li>Save the record and immediately verify.</li>
         </ol>
-        <p>At this point, the authoritative nameserver (is-pro.dev) is immediately serving the new record. However, recursive resolvers worldwide will only pick up the change as their cached entries expire — which, thanks to the pre-reduced TTL, will happen within 5 minutes for most users.</p>
+        <p>At this point, the DNS provider's authoritative layer is immediately serving the new record. However, recursive resolvers worldwide will only pick up the change as their cached entries expire — which, thanks to the pre-reduced TTL, will happen within 5 minutes for most users.</p>
         <div class="callout"><p><strong>Important:</strong> Do <em>not</em> delete the old record. Simply edit it in place. If there is any configuration on the old target (e.g. a proxy, load balancer, or CDN) that references your subdomain, leave it running for at least 24–48 hours to serve any traffic that is still resolving to the old IP due to stale DNS caches.</p></div>
 
         <h3>Step 4: Monitor During Propagation</h3>
@@ -175,7 +175,7 @@
         <p>Once monitoring confirms that all traffic is stable on the new target — typically after 24–48 hours of observing normal error rates and latency — you can clean up the old infrastructure.</p>
         <ol>
           <li>Confirm all traffic is hitting the new target by checking the new provider's access logs or metrics dashboard for your custom domain. If you see zero requests for the old IP in your old provider's logs, the migration is complete.</li>
-          <li>Once stable, optionally increase TTL back to <code>3600</code> (or higher). A longer TTL reduces DNS query load on your authoritative nameserver and improves client-side performance. There is no rush — you can keep TTL at 300 for days or weeks if you prefer.</li>
+          <li>Once stable, optionally increase TTL back to <code>3600</code> (or higher). A longer TTL reduces DNS query load on your DNS provider's authoritative infrastructure and improves client-side performance. There is no rush — you can keep TTL at 300 for days or weeks if you prefer.</li>
           <li>Decommission the old target: shut down the old server, remove the old hosting configuration, and release any old IP addresses. Keep the old target's SSL certificate active for a few more days if possible, to serve any long-tail cached traffic.</li>
           <li>Update your internal documentation, runbooks, and monitoring dashboards to reflect the new infrastructure.</li>
         </ol>
@@ -195,8 +195,11 @@ dig @8.8.8.8 api.yourname.is-pro.dev A +short
 dig @1.1.1.1 api.yourname.is-pro.dev A +short
 # Expected: same as above
 
-# Check the authoritative nameserver directly (bypasses caches)
-dig @ns1.is-pro.dev api.yourname.is-pro.dev A +short
+# Find the authoritative nameserver for the zone
+dig NS is-pro.dev +short
+
+# Check one authoritative nameserver directly (bypasses caches)
+dig @&lt;authoritative-ns&gt; api.yourname.is-pro.dev A +short
 # Expected: the new target value
 
 # Verify the SSL certificate
@@ -215,7 +218,7 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
 
         <h3>1. Partial propagation — some users still hitting the old target</h3>
         <p><strong>Cause:</strong> DNS resolvers that cached the old value and old (long) TTL before you reduced the TTL will not re-query until their cache expires. This is the most common issue after a DNS change and is usually temporary.</p>
-        <p><strong>Fix:</strong> Check the authoritative nameserver to confirm the new record is live: <code>dig @ns1.is-pro.dev api.yourname.is-pro.dev A +short</code>. If the authoritative server returns the new value, the record is correct. Wait for resolver caches to expire (up to the original TTL duration). You can also ask affected users to flush their local DNS cache. On Windows: <code>ipconfig /flushdns</code>. On macOS: <code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code>. On Linux: <code>sudo systemd-resolve --flush-caches</code>.</p>
+        <p><strong>Fix:</strong> Check an authoritative nameserver to confirm the new record is live: <code>dig NS is-pro.dev +short</code> then <code>dig @&lt;authoritative-ns&gt; api.yourname.is-pro.dev A +short</code>. If the authoritative server returns the new value, the record is correct. Wait for resolver caches to expire (up to the original TTL duration). You can also ask affected users to flush their local DNS cache. On Windows: <code>ipconfig /flushdns</code>. On macOS: <code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code>. On Linux: <code>sudo systemd-resolve --flush-caches</code>.</p>
 
         <h3>2. SSL certificate mismatch on the new target</h3>
         <p><strong>Cause:</strong> The new hosting provider has not finished provisioning an SSL certificate for <code>api.yourname.is-pro.dev</code>. This is especially common with providers that issue certificates lazily when traffic first arrives, or that require manual domain verification via TXT records.</p>
@@ -282,7 +285,7 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
         <p>The apex (bare domain) cannot use a CNAME record. If your API is served from the apex, you must use an A or AAAA record (pointing to an IP address) or an ALIAS/ANAME record if your DNS provider supports it (is-pro.dev does support synthetic ANAME records at the apex). The migration steps are the same, but instead of editing a CNAME value, you change the A record to the new IP. Note that some hosting providers do not support apex custom domains for this reason — check with your new provider before migrating.</p>
 
         <h3>Can I automate the entire migration with CI/CD?</h3>
-        <p>Yes. The is-pro.dev dashboard does not currently expose a public API, but if you use Terraform or similar IaC tooling, you can script the DNS change as part of a deployment pipeline. For example, you could have a CI/CD job that: (1) deploys the API to the new target, (2) runs integration tests against the temporary URL, (3) updates the DNS record via an IaC apply, (4) runs post-migration smoke tests, and (5) monitors for a configurable cooldown period before declaring success.</p>
+        <p>Yes. You can automate most or all of this workflow through your DNS provider's API or IaC tooling (such as Terraform) if your environment exposes those capabilities. For example, you could have a CI/CD job that: (1) deploys the API to the new target, (2) runs integration tests against the temporary URL, (3) updates the DNS record via an automated apply step, (4) runs post-migration smoke tests, and (5) monitors for a configurable cooldown period before declaring success.</p>
 
         <h2>Related Guides</h2>
         <ul>

@@ -90,7 +90,7 @@
 
         <h2>What DNS Propagation Actually Is</h2>
         <p>If you have ever changed a DNS record and heard someone say "wait for propagation," you have encountered one of the most misunderstood concepts in web hosting. The word "propagation" suggests something actively spreading across the internet like a wave, but that is not what happens at all. DNS propagation is not a push mechanism. There is no central switch that flips and instantly updates every DNS resolver on the planet.</p>
-        <p>The reality is far simpler: every DNS resolver caches the answers it receives for a specified duration called the <strong>Time To Live (TTL)</strong>. When you change a record at your authoritative nameserver, you are updating the source of truth. But every resolver that already looked up the old value will keep using it until its cached copy expires. "Propagation" is just the gradual process of those cached entries expiring and being refreshed with the new value.</p>
+        <p>The reality is far simpler: every DNS resolver caches the answers it receives for a specified duration called the <strong>Time To Live (TTL)</strong>. When you change a record at your DNS provider's authoritative layer, you are updating the source of truth. But every resolver that already looked up the old value will keep using it until its cached copy expires. "Propagation" is just the gradual process of those cached entries expiring and being refreshed with the new value.</p>
 
         <div class="callout">
           <p><strong>Core concept:</strong> Propagation is not a feature of DNS. It is a side effect of caching. There is no "propagate now" button. You wait for caches to expire.</p>
@@ -124,15 +124,15 @@ dig @8.8.8.8 yourname.is-pro.dev A +short</code></pre>
         </div>
 
         <h2>TTL Explained: Time To Live</h2>
-        <p>TTL is the single most important DNS concept that most people overlook. Every DNS record includes a TTL value expressed in seconds. This value tells recursive resolvers how long they are allowed to cache the answer before they must query the authoritative nameserver again. TTL is set by the domain owner at the authoritative nameserver level.</p>
+        <p>TTL is the single most important DNS concept that most people overlook. Every DNS record includes a TTL value expressed in seconds. This value tells recursive resolvers how long they are allowed to cache the answer before they must query authoritative DNS again. TTL is set by the domain owner at the DNS provider level.</p>
 
         <h3>How TTL Works in Practice</h3>
-        <p>When a resolver queries <code>yourname.is-pro.dev</code> and receives an answer with TTL 3600, it stores that answer and starts a countdown timer. For the next 3600 seconds (1 hour), it will return the cached answer to any client without re-querying. Only after the timer reaches zero will it perform a fresh query to the authoritative nameserver.</p>
+        <p>When a resolver queries <code>yourname.is-pro.dev</code> and receives an answer with TTL 3600, it stores that answer and starts a countdown timer. For the next 3600 seconds (1 hour), it will return the cached answer to any client without re-querying. Only after the timer reaches zero will it perform a fresh query to authoritative DNS.</p>
 
         <h3>Choosing the Right TTL</h3>
         <p>TTL is a tradeoff between performance and flexibility. There is no single "correct" value—it depends on your use case:</p>
         <ul>
-          <li><strong>TTL 300 (5 minutes):</strong> Best for environments where records change frequently. Use this during migrations, CDN setup, or A/B testing. The downside is increased query volume to your authoritative nameserver, which can matter at scale or on metered DNS plans.</li>
+          <li><strong>TTL 300 (5 minutes):</strong> Best for environments where records change frequently. Use this during migrations, CDN setup, or A/B testing. The downside is increased query volume to your DNS provider's authoritative infrastructure, which can matter at scale or on metered DNS plans.</li>
           <li><strong>TTL 3600 (1 hour):</strong> A solid default for stable production records. It offers a reasonable balance: changes propagate within an hour, but cache hit rates remain high enough to reduce resolver load.</li>
           <li><strong>TTL 86400 (24 hours):</strong> Appropriate for records that almost never change, like MX records, static SPF includes, or DKIM public keys. Reduces DNS query volume significantly, but any change takes a full day to propagate everywhere.</li>
           <li><strong>TTL 604800 (7 days):</strong> Rarely used today. Only suitable for extremely stable records like NS glue records. Changing a 7-day TTL record means waiting a week for full propagation.</li>
@@ -160,8 +160,9 @@ dig @8.8.8.8 yourname.is-pro.dev A +short</code></pre>
         <h2>Real Example: Watching Propagation in Action</h2>
         <p>Let us walk through a concrete scenario. You manage <code>app.yourname.is-pro.dev</code> and want to move it from Netlify to Vercel. You change the CNAME from <code>your-site.netlify.app</code> to <code>your-site.vercel.app</code> and set the TTL to 300 seconds.</p>
 
-        <p>Immediately after saving, check the authoritative nameservers. These should always return the new value because the change was made there:</p>
-        <pre><code>dig @ns1.is-pro.dev app.yourname.is-pro.dev CNAME +short
+        <p>Immediately after saving, check an authoritative nameserver. Find one first, then query it directly. It should return the new value because the change was made there:</p>
+        <pre><code>dig NS is-pro.dev +short
+dig @&lt;authoritative-ns&gt; app.yourname.is-pro.dev CNAME +short
 your-site.vercel.app.</code></pre>
 
         <p>Now query Google Public DNS. If Google has cached the old value recently, it will still return the old target:</p>
@@ -182,8 +183,11 @@ your-site.vercel.app.</code></pre>
 
         <h3>Using dig (Linux/macOS)</h3>
         <p>The <code>dig</code> command is the most powerful DNS debugging tool available. Query specific nameservers to compare answers:</p>
-        <pre><code># Query authoritative nameserver directly
-dig @ns1.is-pro.dev yourname.is-pro.dev A +short
+        <pre><code># Find authoritative nameservers for the zone
+dig NS is-pro.dev +short
+
+# Query an authoritative nameserver directly
+dig @&lt;authoritative-ns&gt; yourname.is-pro.dev A +short
 
 # Query a public resolver
 dig @8.8.8.8 yourname.is-pro.dev A +short
@@ -252,7 +256,7 @@ sudo killall -HUP mDNSResponder</code></pre>
         <ul>
           <li><strong>Plan ahead with TTL reduction:</strong> Reduce TTL to 300 seconds at least 48 hours before a planned change. This ensures old cached records expire quickly when you make the actual update. After the change is verified, you can raise the TTL back to a higher value.</li>
           <li><strong>Stage changes on subdomains first:</strong> If possible, test your setup on a non-production subdomain before changing production records. Point <code>staging.yourname.is-pro.dev</code> to the new provider and validate everything works before touching <code>www.yourname.is-pro.dev</code>.</li>
-          <li><strong>Always verify authoritative first:</strong> Before assuming propagation is the issue, confirm the record is correct at the authoritative nameserver level. If the authoritative answer is wrong, no amount of waiting will fix it.</li>
+          <li><strong>Always verify authoritative first:</strong> Before assuming propagation is the issue, confirm the record is correct at the authoritative DNS level. If the authoritative answer is wrong, no amount of waiting will fix it.</li>
           <li><strong>Document your DNS configuration:</strong> Maintain a record of all DNS entries, their TTLs, and their purpose. Tools like DNSControl or a simple spreadsheet help track what you have and prevent accidental conflicts.</li>
           <li><strong>Monitor DNS health:</strong> Services like DNS Spy, DNSPerf, or Checkly can alert you when DNS records change unexpectedly or when resolvers return inconsistent answers.</li>
           <li><strong>Use a TTL calculator:</strong> Before a migration, calculate the worst-case propagation time. If your MX record has TTL 86400 and you lower it to 300 now, it takes up to 24 hours for the lower TTL to be picked up by resolvers that already cached the old TTL.</li>
@@ -261,7 +265,7 @@ sudo killall -HUP mDNSResponder</code></pre>
         <h2>Common Errors and Fixes</h2>
 
         <h3>"I changed the record but nothing happens"</h3>
-        <p>Check the authoritative nameservers first: <code>dig @ns1.is-pro.dev yourname.is-pro.dev A</code>. If the authoritative answer is wrong, the change was not saved properly at the DNS provider. If it is correct, check browser cache and OS cache before blaming propagation. If all local caches are clean and you still see the old value, you are waiting for your ISP's resolver or a public resolver to expire its cache.</p>
+        <p>Check authoritative DNS first: <code>dig NS is-pro.dev +short</code> then <code>dig @&lt;authoritative-ns&gt; yourname.is-pro.dev A</code>. If the authoritative answer is wrong, the change was not saved properly at the DNS provider. If it is correct, check browser cache and OS cache before blaming propagation. If all local caches are clean and you still see the old value, you are waiting for your ISP's resolver or a public resolver to expire its cache.</p>
 
         <h3>"Some users see the old site, others see the new one"</h3>
         <p>This is normal during propagation. Each resolver expires its cache independently. Users on ISP A may see the new site while users on ISP B see the old one for another hour. The solution is patience, or better TTL management before the change.</p>

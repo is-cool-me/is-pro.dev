@@ -48,7 +48,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
           Discord
         </a>
-        <a href="https://dash.is-cool-me" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
           Open Dashboard
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -107,13 +107,13 @@
         </ul>
 
         <h2>Example Scenario: CNAME + A Record Conflict</h2>
-        <p>Imagine you are migrating <code>app.yourname.is-cool-me</code> from a VPS to Vercel. Your DNS currently has:</p>
-        <pre><code>app.yourname.is-cool-me.  A     203.0.113.10
-app.yourname.is-cool-me.  AAAA  2001:db8::1</code></pre>
+        <p>Imagine you are migrating <code>app.yourname.is-pro.dev</code> from a VPS to Vercel. Your DNS currently has:</p>
+        <pre><code>app.yourname.is-pro.dev.  A     203.0.113.10
+app.yourname.is-pro.dev.  AAAA  2001:db8::1</code></pre>
         <p>You add a new CNAME record pointing to Vercel but forget to remove the existing A and AAAA records:</p>
-        <pre><code>app.yourname.is-cool-me.  A      203.0.113.10       (old, still present!)
-app.yourname.is-cool-me.  AAAA   2001:db8::1         (old, still present!)
-app.yourname.is-cool-me.  CNAME  your-site.vercel.app.</code></pre>
+        <pre><code>app.yourname.is-pro.dev.  A      203.0.113.10       (old, still present!)
+app.yourname.is-pro.dev.  AAAA   2001:db8::1         (old, still present!)
+app.yourname.is-pro.dev.  CNAME  your-site.vercel.app.</code></pre>
         <p>This configuration violates RFC 2181. Different resolvers handle this differently:</p>
         <ul>
           <li>Some resolvers will return the A records and ignore the CNAME entirely, so traffic still goes to your old VPS.</li>
@@ -130,19 +130,19 @@ app.yourname.is-cool-me.  CNAME  your-site.vercel.app.</code></pre>
 
         <h3>1. Check for CNAME Records</h3>
         <p>Query the specific CNAME record for your domain:</p>
-        <pre><code>dig yourname.is-cool-me CNAME +short</code></pre>
+        <pre><code>dig yourname.is-pro.dev CNAME +short</code></pre>
         <p>If this returns a target like <code>your-site.vercel.app.</code>, you have a CNAME configured. If it returns nothing, you do not have a CNAME at that name.</p>
 
         <h3>2. Check for Conflicting A/AAAA Records</h3>
         <p>Query A and AAAA records at the same name:</p>
-        <pre><code>dig yourname.is-cool-me A +short
-dig yourname.is-cool-me AAAA +short</code></pre>
+        <pre><code>dig yourname.is-pro.dev A +short
+dig yourname.is-pro.dev AAAA +short</code></pre>
         <p>If you have both a CNAME and an A record for the same name, you have a conflict. Remove the A/AAAA records if you want the CNAME to work.</p>
 
         <h3>3. Check for MX or TXT Records at the CNAME Name</h3>
         <p>Query other record types that should not coexist with a CNAME:</p>
-        <pre><code>dig yourname.is-cool-me MX +short
-dig yourname.is-cool-me TXT +short</code></pre>
+        <pre><code>dig yourname.is-pro.dev MX +short
+dig yourname.is-pro.dev TXT +short</code></pre>
         <p>If you see MX or TXT records alongside a CNAME, remove them or move them to a different subdomain.</p>
 
         <h3>4. Verify the CNAME Target Resolves</h3>
@@ -152,13 +152,13 @@ dig yourname.is-cool-me TXT +short</code></pre>
 
         <h3>5. Trace the Full Resolution Chain</h3>
         <p>Use <code>dig +trace</code> to see every step of DNS resolution:</p>
-        <pre><code>dig yourname.is-cool-me +trace</code></pre>
+        <pre><code>dig yourname.is-pro.dev +trace</code></pre>
         <p>This shows each nameserver queried and the response received. Look for repeated CNAME references or unexpected aliases.</p>
 
         <h3>6. Check for Application-Level Redirect Loops</h3>
         <p>Even if DNS is correct, your hosting platform may create HTTP-level redirect loops. Test with curl:</p>
-        <pre><code>curl -IL https://yourname.is-cool-me</code></pre>
-        <p>Inspect the redirect chain. If you see <code>Location: https://www.yourname.is-cool-me</code> followed by <code>Location: https://yourname.is-cool-me</code>, you have an application-level loop that must be fixed in your host's redirect settings.</p>
+        <pre><code>curl -IL https://yourname.is-pro.dev</code></pre>
+        <p>Inspect the redirect chain. If you see <code>Location: https://www.yourname.is-pro.dev</code> followed by <code>Location: https://yourname.is-pro.dev</code>, you have an application-level loop that must be fixed in your host's redirect settings.</p>
 
         <h2>Common Scenarios That Cause Loops</h2>
 
@@ -281,7 +281,7 @@ dig yourname.is-cool-me TXT +short</code></pre>
       <div class="footer-col">
         <h4>Service</h4>
         <nav class="footer-links" aria-label="Service links">
-          <a href="https://dash.is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
           <a href="/domains/" class="footer-link">Domains</a>
           <a href="/blog/" class="footer-link">Blog</a>
           <a href="/guides/" class="footer-link">Guides</a>

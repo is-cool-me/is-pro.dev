@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Preventing Subdomain Takeovers After Deploy Deletions — is-cool-me Blog</title>
   <meta name="description" content="Why dangling DNS records are risky and how to clean them safely." />
@@ -60,21 +59,34 @@
   </div>
 </header>
 
-<main id="main-content">
-  <div class="page-hero">
-    <div class="container">
-      <div class="page-hero-content" data-reveal>
-        <div class="section-tag page-tag">Security</div>
-        <h1>Preventing Subdomain Takeovers After Deploy Deletions</h1>
-        <p>Why dangling DNS records are risky and how to clean them safely.</p>
-        <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Published: May 2026</p>
-      </div>
-    </div>
-  </div>
+<div class="reading-progress" id="reading-progress"></div>
 
-  <section class="section">
-    <div class="container">
-      <div class="prose" data-reveal>
+<main id="main-content">
+  <article>
+    <header class="article-hero">
+      <div class="container">
+        <div class="article-hero-inner">
+          <div class="article-meta">
+            <span class="article-category">Security</span>
+            <span class="article-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              8 min read
+            </span>
+            <span class="article-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Published May 2026
+            </span>
+          </div>
+          <h1>Preventing Subdomain Takeovers After Deploy Deletions</h1>
+          <p class="article-summary">Why dangling DNS records are risky and how to clean them safely.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-layout-section">
+      <div class="container">
+        <div class="article-layout-inner">
+          <div class="article-content prose">
 
         <h2>What Is a Subdomain Takeover?</h2>
         <p>A subdomain takeover occurs when a DNS record — usually a CNAME or A record — still points to a service endpoint that has been deprovisioned. An attacker can claim that orphaned endpoint on the same cloud platform and serve arbitrary content under your legitimate hostname. The result is a fully authenticated phishing page, malware dropper, or credential harvester hosted on your domain with zero compromise of your actual servers.</p>
@@ -240,9 +252,65 @@ done < "$SUBDOMAINS_FILE"</code></pre>
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
 
+          </div>
+          <aside class="toc-sidebar" id="toc-sidebar">
+            <nav class="toc-nav" aria-label="Table of Contents">
+              <div class="toc-header">On this page</div>
+              <ul class="toc-list" id="toc-list"></ul>
+            </nav>
+          </aside>
+        </div>
       </div>
     </div>
-  </section>
+
+    <div class="container">
+      <div class="share-section">
+        <span class="share-label">Share this article</span>
+        <div class="share-links">
+          <a class="share-link" href="https://twitter.com/intent/tweet?text=Preventing%20Subdomain%20Takeovers%20After%20Deploy%20Deletions&url=https://is-pro.dev/blog/preventing-takeovers-after-deploy-deletions/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Share on X
+          </a>
+          <a class="share-link" href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/blog/preventing-takeovers-after-deploy-deletions/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            Share on LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-nav-section">
+      <div class="container">
+        <nav class="doc-nav" aria-label="Article navigation">
+          <a class="doc-nav-link" href="/blog/cloudflare-proxy-vs-dns-only-for-subdomains/"><span class="doc-nav-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Previous</span><span class="doc-nav-title">Cloudflare Proxy vs DNS-only for Subdomains</span></a>
+          <a class="doc-nav-link next" href="/blog/how-we-think-about-fair-use-for-free-subdomains/"><span class="doc-nav-label">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span><span class="doc-nav-title">How We Think About Fair Use for Free Subdomains</span></a>
+        </nav>
+      </div>
+    </div>
+
+    <section class="related-section">
+      <div class="container">
+        <h2>Related Articles</h2>
+        <div class="related-grid">
+          <a href="/blog/cloudflare-proxy-vs-dns-only-for-subdomains/" class="related-card">
+  <div class="related-card-category">Performance</div>
+  <h3>Cloudflare Proxy vs DNS-only for Subdomains</h3>
+  <p>When to use each mode and what breaks if you pick the wrong one for your use case.</p>
+</a>
+<a href="/blog/using-txt-records-for-domain-verification/" class="related-card">
+  <div class="related-card-category">Integrations</div>
+  <h3>Using TXT Records for Domain Verification</h3>
+  <p>A no-nonsense guide to verification records for SaaS platforms and how to debug verification failures.</p>
+</a>
+<a href="/blog/how-to-handle-abuse-reports-responsibly/" class="related-card">
+  <div class="related-card-category">Safety</div>
+  <h3>How to Handle Abuse Reports Responsibly</h3>
+  <p>A response workflow for phishing, impersonation, and spam reports.</p>
+</a>
+        </div>
+      </div>
+    </section>
+  </article>
 </main>
 
 <footer class="site-footer" role="contentinfo">

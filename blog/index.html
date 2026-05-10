@@ -6,7 +6,7 @@
   <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Blog — is-cool-me</title>
-  <meta name="description" content="Read practical posts about DNS operations, moderation, abuse handling, and running free developer subdomains." />
+  <meta name="description" content="Real-world DNS operations, abuse handling, security, and platform reliability posts from the is-cool-me team." />
   <link rel="canonical" href="https://is-pro.dev/blog/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/blog/" />
@@ -66,54 +66,70 @@
       <div class="page-hero-content" data-reveal>
         <div class="section-tag page-tag">Blog</div>
         <h1>Real Issues, Real DNS Lessons</h1>
-        <p>These posts cover recurring problems we see in subdomain operations: propagation confusion, takeover risk, abuse reports, bad CNAME setups, and service reliability.</p>
+        <p>Production incidents, operational deep-dives, security advisories, and community management — written by the team running is-cool-me.</p>
       </div>
     </div>
   </div>
 
-  <section class="section" aria-labelledby="featured-heading">
+  <section class="section featured-section" aria-labelledby="featured-heading">
     <div class="container">
       <div class="section-header" data-reveal>
         <h2 id="featured-heading">Featured Posts</h2>
-        <p>Hand-picked posts that cover the most common DNS and operations challenges.</p>
+        <p>Hand-picked reads covering the most common DNS and operations challenges.</p>
       </div>
-      <div class="features-grid">
-        <article class="card feature-card" data-reveal data-category="dns-basics">
-          <div class="section-tag" style="margin-bottom:.75rem;">DNS Basics</div>
-          <h3 style="margin-bottom:.5rem;">DNS Propagation Explained for New Users</h3>
-          <p style="margin-bottom:1rem;">What propagation really means and how to debug delays without panic.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>8 min read</span>
+      <div class="featured-grid">
+        <article class="post-card" data-reveal data-category="dns-basics">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.25),rgba(6,182,212,0.15));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--color-accent-light);">&#x1F310;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags">
+              <span class="post-card-tag">DNS Basics</span>
+            </div>
+            <h3 class="post-card-title">DNS Propagation Explained for New Users</h3>
+            <p class="post-card-excerpt">What propagation really means, how DNS caching works at every layer, and how to debug delays without panic.</p>
+            <div class="post-card-meta">
+              <span>&#x1F4C5; May 2026</span>
+              <span>&#x1F552; 8 min read</span>
+            </div>
+            <a href="/blog/dns-propagation-explained-for-new-users/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/dns-propagation-explained-for-new-users/" class="btn btn-outline">Read Post</a>
         </article>
-        <article class="card feature-card" data-reveal data-category="security">
-          <div class="section-tag" style="margin-bottom:.75rem;">Security</div>
-          <h3 style="margin-bottom:.5rem;">Preventing Subdomain Takeovers After Deploy Deletions</h3>
-          <p style="margin-bottom:1rem;">Why dangling DNS records are risky and how to clean them safely.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>8 min read</span>
+
+        <article class="post-card" data-reveal data-category="security">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(139,92,246,0.2));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#ec4899;">&#x1F6E1;&#xFE0F;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags">
+              <span class="post-card-tag">Security</span>
+            </div>
+            <h3 class="post-card-title">Preventing Subdomain Takeovers After Deploy Deletions</h3>
+            <p class="post-card-excerpt">Why dangling DNS records are risky, real-world takeover scenarios, and how to clean them safely.</p>
+            <div class="post-card-meta">
+              <span>&#x1F4C5; May 2026</span>
+              <span>&#x1F552; 8 min read</span>
+            </div>
+            <a href="/blog/preventing-takeovers-after-deploy-deletions/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/preventing-takeovers-after-deploy-deletions/" class="btn btn-outline">Read Post</a>
         </article>
-        <article class="card feature-card" data-reveal data-category="moderation">
-          <div class="section-tag" style="margin-bottom:.75rem;">Moderation</div>
-          <h3 style="margin-bottom:.5rem;">How Automatic Provisioning and Abuse Flags Work</h3>
-          <p style="margin-bottom:1rem;">Subdomains are issued automatically, and high-risk abuse patterns can be flagged automatically.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>9 min read</span>
+
+        <article class="post-card" data-reveal data-category="moderation">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(139,92,246,0.15));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#eab308;">&#x1F6AB;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags">
+              <span class="post-card-tag">Moderation</span>
+            </div>
+            <h3 class="post-card-title">How Automatic Provisioning and Abuse Flags Work</h3>
+            <p class="post-card-excerpt">Subdomains are issued automatically, and high-risk abuse patterns can be flagged automatically — here is how the system works.</p>
+            <div class="post-card-meta">
+              <span>&#x1F4C5; May 2026</span>
+              <span>&#x1F552; 9 min read</span>
+            </div>
+            <a href="/blog/why-subdomain-requests-get-rejected/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/why-subdomain-requests-get-rejected/" class="btn btn-outline">Read Post</a>
         </article>
       </div>
     </div>
   </section>
+
+  <div class="divider"></div>
 
   <section class="section" aria-labelledby="all-posts-heading">
     <div class="container">
@@ -122,152 +138,143 @@
         <p>Browse every post by category or search.</p>
       </div>
 
-      <div data-reveal style="margin-bottom:2rem;">
-        <div style="display:flex;flex-direction:column;gap:1rem;">
-          <div style="position:relative;max-width:32rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none;" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="search" id="blog-search" placeholder="Search blog posts..." aria-label="Search blog posts" style="width:100%;padding:.75rem 1rem .75rem 2.75rem;background:var(--color-card);border:1px solid var(--color-border-sub);border-radius:var(--radius-md);color:var(--color-text);font-size:.9rem;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--color-accent)'" onblur="this.style.borderColor='var(--color-border-sub)'">
+      <div data-reveal>
+        <div class="filter-bar">
+          <div class="filter-search-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" id="post-search" class="filter-search" placeholder="Search blog posts..." aria-label="Search blog posts" />
           </div>
-          <div style="display:flex;gap:.5rem;flex-wrap:wrap;" role="group" aria-label="Filter by category">
-            <button data-filter-btn="all" class="btn btn-outline btn-sm" style="background:var(--color-accent);border-color:var(--color-accent);color:#fff;">All</button>
-            <button data-filter-btn="dns-basics" class="btn btn-outline btn-sm">DNS Basics</button>
-            <button data-filter-btn="troubleshooting" class="btn btn-outline btn-sm">Troubleshooting</button>
-            <button data-filter-btn="security" class="btn btn-outline btn-sm">Security</button>
-            <button data-filter-btn="email-dns" class="btn btn-outline btn-sm">Email DNS</button>
-            <button data-filter-btn="performance" class="btn btn-outline btn-sm">Performance</button>
-            <button data-filter-btn="moderation" class="btn btn-outline btn-sm">Moderation</button>
-            <button data-filter-btn="policy" class="btn btn-outline btn-sm">Policy</button>
-            <button data-filter-btn="safety" class="btn btn-outline btn-sm">Safety</button>
-            <button data-filter-btn="reliability" class="btn btn-outline btn-sm">Reliability</button>
-            <button data-filter-btn="integrations" class="btn btn-outline btn-sm">Integrations</button>
+          <div class="filter-btns" role="group" aria-label="Filter by category">
+            <button data-filter="all" class="filter-btn active">All</button>
+            <button data-filter="dns-basics" class="filter-btn">DNS Basics</button>
+            <button data-filter="troubleshooting" class="filter-btn">Troubleshooting</button>
+            <button data-filter="security" class="filter-btn">Security</button>
+            <button data-filter="email-dns" class="filter-btn">Email DNS</button>
+            <button data-filter="performance" class="filter-btn">Performance</button>
+            <button data-filter="moderation" class="filter-btn">Moderation</button>
+            <button data-filter="policy" class="filter-btn">Policy</button>
+            <button data-filter="safety" class="filter-btn">Safety</button>
+            <button data-filter="reliability" class="filter-btn">Reliability</button>
+            <button data-filter="integrations" class="filter-btn">Integrations</button>
           </div>
         </div>
       </div>
 
-      <div class="features-grid" id="posts-grid">
-        <article class="card feature-card" data-reveal data-category="dns-basics">
-          <div class="section-tag" style="margin-bottom:.75rem;">DNS Basics</div>
-          <h3 style="margin-bottom:.5rem;">DNS Propagation Explained for New Users</h3>
-          <p style="margin-bottom:1rem;">What propagation really means and how to debug delays without panic.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>8 min read</span>
+      <div class="posts-grid" id="posts-grid">
+        <article class="post-card" data-reveal data-category="dns-basics">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">&#x1F310;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">DNS Basics</span></div>
+            <h3 class="post-card-title">DNS Propagation Explained for New Users</h3>
+            <p class="post-card-excerpt">What propagation really means, how DNS caching works at every layer, and how to debug delays without panic.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 8 min read</span></div>
+            <a href="/blog/dns-propagation-explained-for-new-users/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/dns-propagation-explained-for-new-users/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="email-dns">
-          <div class="section-tag" style="margin-bottom:.75rem;">Email DNS</div>
-          <h3 style="margin-bottom:.5rem;">Email on Subdomains: MX, SPF, and DKIM Basics</h3>
-          <p style="margin-bottom:1rem;">A practical intro to reliable email delivery on your subdomain.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>10 min read</span>
+        <article class="post-card" data-reveal data-category="email-dns">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(34,197,94,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-cyan-light);">&#x2709;&#xFE0F;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Email DNS</span></div>
+            <h3 class="post-card-title">Email on Subdomains: MX, SPF, and DKIM Basics</h3>
+            <p class="post-card-excerpt">A practical intro to reliable email delivery on your subdomain, covering MX records, SPF policies, and DKIM signing.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 10 min read</span></div>
+            <a href="/blog/email-on-subdomains-mx-spf-dkim-basics/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/email-on-subdomains-mx-spf-dkim-basics/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="troubleshooting">
-          <div class="section-tag" style="margin-bottom:.75rem;">Troubleshooting</div>
-          <h3 style="margin-bottom:.5rem;">Fixing CNAME Loop Errors on Static Hosts</h3>
-          <p style="margin-bottom:1rem;">How CNAME loops happen on Vercel, Netlify, and similar platforms.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>6 min read</span>
+        <article class="post-card" data-reveal data-category="troubleshooting">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(239,68,68,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#eab308;">&#x1F504;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Troubleshooting</span></div>
+            <h3 class="post-card-title">Fixing CNAME Loop Errors on Static Hosts</h3>
+            <p class="post-card-excerpt">How CNAME loops happen on Vercel, Netlify, and similar platforms, and how to break them without downtime.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 6 min read</span></div>
+            <a href="/blog/fixing-cname-loop-errors-on-static-hosts/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/fixing-cname-loop-errors-on-static-hosts/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="integrations">
-          <div class="section-tag" style="margin-bottom:.75rem;">Integrations</div>
-          <h3 style="margin-bottom:.5rem;">Using TXT Records for Domain Verification</h3>
-          <p style="margin-bottom:1rem;">A no-nonsense guide to verification records for SaaS platforms.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>7 min read</span>
+        <article class="post-card" data-reveal data-category="integrations">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(99,102,241,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">&#x1F4CB;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Integrations</span></div>
+            <h3 class="post-card-title">Using TXT Records for Domain Verification</h3>
+            <p class="post-card-excerpt">A no-nonsense guide to verification records for SaaS platforms and how to debug verification failures.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 7 min read</span></div>
+            <a href="/blog/using-txt-records-for-domain-verification/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/using-txt-records-for-domain-verification/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="performance">
-          <div class="section-tag" style="margin-bottom:.75rem;">Performance</div>
-          <h3 style="margin-bottom:.5rem;">Cloudflare Proxy vs DNS-only for Subdomains</h3>
-          <p style="margin-bottom:1rem;">When to use each mode and what breaks if you pick the wrong one.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>9 min read</span>
+        <article class="post-card" data-reveal data-category="performance">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(139,92,246,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-cyan-light);">&#x26A1;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Performance</span></div>
+            <h3 class="post-card-title">Cloudflare Proxy vs DNS-only for Subdomains</h3>
+            <p class="post-card-excerpt">When to use each mode and what breaks if you pick the wrong one for your use case.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 9 min read</span></div>
+            <a href="/blog/cloudflare-proxy-vs-dns-only-for-subdomains/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/cloudflare-proxy-vs-dns-only-for-subdomains/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="security">
-          <div class="section-tag" style="margin-bottom:.75rem;">Security</div>
-          <h3 style="margin-bottom:.5rem;">Preventing Subdomain Takeovers After Deploy Deletions</h3>
-          <p style="margin-bottom:1rem;">Why dangling DNS records are risky and how to clean them safely.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>8 min read</span>
+        <article class="post-card" data-reveal data-category="security">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(139,92,246,0.15));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#ec4899;">&#x1F6E1;&#xFE0F;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Security</span></div>
+            <h3 class="post-card-title">Preventing Subdomain Takeovers After Deploy Deletions</h3>
+            <p class="post-card-excerpt">Why dangling DNS records are risky and how to clean them safely.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 8 min read</span></div>
+            <a href="/blog/preventing-takeovers-after-deploy-deletions/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/preventing-takeovers-after-deploy-deletions/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="policy">
-          <div class="section-tag" style="margin-bottom:.75rem;">Policy</div>
-          <h3 style="margin-bottom:.5rem;">How We Think About Fair Use for Free Subdomains</h3>
-          <p style="margin-bottom:1rem;">Usage patterns that help keep a free DNS service healthy for everyone.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>7 min read</span>
+        <article class="post-card" data-reveal data-category="policy">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(99,102,241,0.15));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">&#x1F4DC;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Policy</span></div>
+            <h3 class="post-card-title">How We Think About Fair Use for Free Subdomains</h3>
+            <p class="post-card-excerpt">Usage patterns that help keep a free DNS service healthy for everyone.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 7 min read</span></div>
+            <a href="/blog/how-we-think-about-fair-use-for-free-subdomains/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/how-we-think-about-fair-use-for-free-subdomains/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="safety">
-          <div class="section-tag" style="margin-bottom:.75rem;">Safety</div>
-          <h3 style="margin-bottom:.5rem;">How to Handle Abuse Reports Responsibly</h3>
-          <p style="margin-bottom:1rem;">A response workflow for phishing, impersonation, and spam reports.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>8 min read</span>
+        <article class="post-card" data-reveal data-category="safety">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(234,179,8,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#ef4444;">&#x26A0;&#xFE0F;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Safety</span></div>
+            <h3 class="post-card-title">How to Handle Abuse Reports Responsibly</h3>
+            <p class="post-card-excerpt">A response workflow for phishing, impersonation, and spam reports.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 8 min read</span></div>
+            <a href="/blog/how-to-handle-abuse-reports-responsibly/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/how-to-handle-abuse-reports-responsibly/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="moderation">
-          <div class="section-tag" style="margin-bottom:.75rem;">Moderation</div>
-          <h3 style="margin-bottom:.5rem;">How Automatic Provisioning and Abuse Flags Work</h3>
-          <p style="margin-bottom:1rem;">Subdomains are issued automatically, and high-risk abuse patterns can be flagged automatically.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>9 min read</span>
+        <article class="post-card" data-reveal data-category="moderation">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(139,92,246,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#eab308;">&#x1F6AB;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Moderation</span></div>
+            <h3 class="post-card-title">How Automatic Provisioning and Abuse Flags Work</h3>
+            <p class="post-card-excerpt">Subdomains are issued automatically, and high-risk abuse patterns can be flagged automatically.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 9 min read</span></div>
+            <a href="/blog/why-subdomain-requests-get-rejected/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/why-subdomain-requests-get-rejected/" class="btn btn-outline">Read Post</a>
         </article>
 
-        <article class="card feature-card" data-reveal data-category="reliability">
-          <div class="section-tag" style="margin-bottom:.75rem;">Reliability</div>
-          <h3 style="margin-bottom:.5rem;">Post-Incident Review Template for DNS Outages</h3>
-          <p style="margin-bottom:1rem;">How to write useful incident reviews after DNS or config failures.</p>
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.8rem;color:var(--color-text-subtle);">
-            <span>Published May 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>6 min read</span>
+        <article class="post-card" data-reveal data-category="reliability">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#4ade80;">&#x1F4CA;</div>
+          <div class="post-card-body">
+            <div class="post-card-tags"><span class="post-card-tag">Reliability</span></div>
+            <h3 class="post-card-title">Post-Incident Review Template for DNS Outages</h3>
+            <p class="post-card-excerpt">How to write useful incident reviews after DNS or config failures.</p>
+            <div class="post-card-meta"><span>&#x1F4C5; May 2026</span><span>&#x1F552; 6 min read</span></div>
+            <a href="/blog/post-incident-review-template-for-dns-outages/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Post</a>
           </div>
-          <a href="/blog/post-incident-review-template-for-dns-outages/" class="btn btn-outline">Read Post</a>
         </article>
       </div>
 
-      <div id="no-results" style="display:none;text-align:center;padding:3rem 0;" data-reveal>
-        <p style="font-size:1.1rem;opacity:.6;">No posts found matching your criteria.</p>
+      <div id="no-results" class="no-results" data-reveal>
+        <div class="no-results-icon">&#x1F50D;</div>
+        <p class="no-results-text">No posts found matching your criteria.</p>
       </div>
     </div>
   </section>
@@ -323,17 +330,17 @@
 
 <script>
 (function() {
-  var searchInput = document.getElementById('blog-search');
-  var categoryBtns = document.querySelectorAll('[data-filter-btn]');
-  var postCards = document.querySelectorAll('#posts-grid [data-category]');
+  var searchInput = document.getElementById('post-search');
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var postCards = document.querySelectorAll('#posts-grid .post-card');
   var noResults = document.getElementById('no-results');
 
   function filterPosts() {
-    var query = searchInput.value.toLowerCase();
+    var query = searchInput ? searchInput.value.toLowerCase() : '';
     var activeCat = 'all';
-    for (var i = 0; i < categoryBtns.length; i++) {
-      if (categoryBtns[i].classList.contains('active')) {
-        activeCat = categoryBtns[i].getAttribute('data-filter-btn');
+    for (var i = 0; i < filterBtns.length; i++) {
+      if (filterBtns[i].classList.contains('active')) {
+        activeCat = filterBtns[i].getAttribute('data-filter');
         break;
       }
     }
@@ -341,44 +348,33 @@
     for (var j = 0; j < postCards.length; j++) {
       var card = postCards[j];
       var cat = card.getAttribute('data-category');
-      var title = card.querySelector('h3').textContent.toLowerCase();
-      var desc = card.querySelector('p').textContent.toLowerCase();
       var matchesCat = activeCat === 'all' || cat === activeCat;
-      var matchesSearch = title.indexOf(query) !== -1 || desc.indexOf(query) !== -1;
-      if (matchesCat && matchesSearch) {
-        card.style.display = '';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
+      var matchesSearch = true;
+      if (query) {
+        var text = card.textContent.toLowerCase();
+        matchesSearch = text.indexOf(query) !== -1;
       }
+      card.style.display = matchesCat && matchesSearch ? '' : 'none';
+      if (matchesCat && matchesSearch) visibleCount++;
     }
-    noResults.style.display = visibleCount === 0 ? '' : 'none';
+    if (noResults) noResults.style.display = visibleCount === 0 ? '' : 'none';
   }
 
-  if (searchInput) {
-    searchInput.addEventListener('input', filterPosts);
-  }
-  for (var k = 0; k < categoryBtns.length; k++) {
+  if (searchInput) searchInput.addEventListener('input', filterPosts);
+
+  for (var k = 0; k < filterBtns.length; k++) {
     (function(btn) {
       btn.addEventListener('click', function() {
-        for (var l = 0; l < categoryBtns.length; l++) {
-          categoryBtns[l].classList.remove('active');
-          categoryBtns[l].style.background = '';
-          categoryBtns[l].style.borderColor = '';
-          categoryBtns[l].style.color = '';
+        for (var l = 0; l < filterBtns.length; l++) {
+          filterBtns[l].classList.remove('active');
         }
         btn.classList.add('active');
-        btn.style.background = 'var(--color-accent)';
-        btn.style.borderColor = 'var(--color-accent)';
-        btn.style.color = '#fff';
         filterPosts();
       });
-    })(categoryBtns[k]);
+    })(filterBtns[k]);
   }
-  document.querySelector('[data-filter-btn="all"]').classList.add('active');
 })();
 </script>
-
 <script src="/js/app.js" defer></script>
 </body>
 </html>

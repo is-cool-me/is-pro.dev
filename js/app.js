@@ -42,7 +42,6 @@
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
-    // Close nav on outside click
     document.addEventListener('click', (e) => {
       if (!header.contains(e.target) && headerNav.classList.contains('open')) {
         headerNav.classList.remove('open');
@@ -61,7 +60,6 @@
       const content = item.querySelector('.accordion-content');
       const isOpen = item.classList.contains('open');
 
-      // Close all siblings in same accordion group
       const accordion = item.closest('.accordion');
       if (accordion) {
         accordion.querySelectorAll('.accordion-item.open').forEach((openItem) => {
@@ -85,8 +83,6 @@
         trigger.setAttribute('aria-expanded', 'true');
       }
     });
-
-    // Keyboard: Enter / Space already triggers click on buttons
   });
 
   /* ── Domain preview ── */
@@ -116,8 +112,6 @@
 
     nameInput.addEventListener('input', updatePreview);
     zoneSelect.addEventListener('change', updatePreview);
-
-    // Keep CTA pointing to dashboard
     if (domainCta) {
       domainCta.href = 'https://dash.is-pro.dev';
     }
@@ -130,7 +124,6 @@
   if (cookieBanner) {
     const stored = localStorage.getItem(COOKIE_KEY);
     if (!stored) {
-      // Show after a short delay
       setTimeout(() => cookieBanner.classList.add('visible'), 1200);
     }
 
@@ -158,4 +151,134 @@
       link.classList.add('active');
     }
   });
+
+  /* ── Reading Progress Bar ── */
+  const progressBar = document.getElementById('reading-progress');
+  if (progressBar) {
+    const updateProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight > 0) {
+        const progress = Math.min((scrollTop / docHeight) * 100, 100);
+        progressBar.style.width = progress + '%';
+      }
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  /* ── TOC Generation ── */
+  const tocContainer = document.getElementById('toc-container');
+  const tocList = document.getElementById('toc-list');
+  const articleContent = document.querySelector('.doc-content') || document.querySelector('.article-content');
+  const tocTarget = tocList || tocContainer;
+
+  if (tocTarget && articleContent) {
+    const headings = articleContent.querySelectorAll('h2, h3');
+    const tocItems = [];
+    const headingElements = [];
+
+    headings.forEach((heading, index) => {
+      const tag = heading.tagName.toLowerCase();
+      if (!heading.id) {
+        heading.id = 'heading-' + index;
+      }
+
+      let link;
+      if (tocContainer) {
+        link = document.createElement('a');
+        link.href = '#' + heading.id;
+        link.className = 'toc-link' + (tag === 'h3' ? ' toc-h3' : '');
+        link.textContent = heading.textContent;
+        tocContainer.appendChild(link);
+      } else {
+        link = document.createElement('a');
+        link.href = '#' + heading.id;
+        link.className = 'toc-link toc-' + tag;
+        link.textContent = heading.textContent;
+        tocList.appendChild(link);
+      }
+      tocItems.push(link);
+      headingElements.push(heading);
+    });
+
+    if (tocItems.length === 0) {
+      const sidebar = document.getElementById('toc-sidebar');
+      if (sidebar) sidebar.style.display = 'none';
+      const tocWrap = document.querySelector('.toc-sidebar');
+      if (tocWrap) tocWrap.style.display = 'none';
+    }
+
+    let activeIndex = -1;
+    const updateToc = () => {
+      const scrollPos = window.scrollY + 120;
+      let newActive = -1;
+
+      for (let i = headingElements.length - 1; i >= 0; i--) {
+        const rect = headingElements[i].getBoundingClientRect();
+        const offsetTop = rect.top + window.scrollY;
+        if (scrollPos >= offsetTop) {
+          newActive = i;
+          break;
+        }
+      }
+
+      if (newActive !== activeIndex) {
+        tocItems.forEach((item) => item.classList.remove('active'));
+        if (newActive >= 0) {
+          tocItems[newActive].classList.add('active');
+        }
+        activeIndex = newActive;
+      }
+    };
+
+    window.addEventListener('scroll', updateToc, { passive: true });
+    updateToc();
+  }
+
+  /* ── Anchor Links on Headings ── */
+  const contentArea = document.querySelector('.doc-content') || document.querySelector('.article-content');
+  if (contentArea) {
+    const headings = contentArea.querySelectorAll('h2, h3');
+    headings.forEach((heading) => {
+      if (!heading.id) return;
+      const link = document.createElement('a');
+      link.href = '#' + heading.id;
+      link.className = 'anchor-link';
+      link.setAttribute('aria-label', 'Link to this section');
+      link.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+      heading.appendChild(link);
+    });
+  }
+
+  /* ── Copy Buttons on Code Blocks ── */
+  document.querySelectorAll('.prose pre').forEach((pre) => {
+    const code = pre.querySelector('code');
+    if (!code) return;
+    if (pre.querySelector('.copy-button')) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'copy-button';
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+    pre.appendChild(btn);
+
+    btn.addEventListener('click', async () => {
+      const text = code.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      } catch {
+        btn.textContent = 'Failed';
+        setTimeout(() => {
+          btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+        }, 2000);
+      }
+    });
+  });
+
 })();

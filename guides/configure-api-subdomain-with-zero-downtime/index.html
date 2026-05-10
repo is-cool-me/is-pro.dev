@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Guide: Configure an API Subdomain with Zero Downtime — is-cool-me Guides</title>
+  <title>Configure an API Subdomain with Zero Downtime — is-cool-me</title>
   <meta name="description" content="Migrate API traffic by lowering TTL and swapping targets safely." />
   <link rel="canonical" href="https://is-pro.dev/guides/configure-api-subdomain-with-zero-downtime/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/configure-api-subdomain-with-zero-downtime/" />
-  <meta property="og:title" content="Guide: Configure an API Subdomain with Zero Downtime — is-cool-me Guides" />
+  <meta property="og:title" content="Configure an API Subdomain with Zero Downtime — is-cool-me" />
   <meta property="og:description" content="Migrate API traffic by lowering TTL and swapping targets safely." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Guide: Configure an API Subdomain with Zero Downtime — is-cool-me Guides" />
+  <meta name="twitter:title" content="Configure an API Subdomain with Zero Downtime — is-cool-me" />
   <meta name="twitter:description" content="Migrate API traffic by lowering TTL and swapping targets safely." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
@@ -60,21 +59,34 @@
   </div>
 </header>
 
-<main id="main-content">
-  <div class="page-hero">
-    <div class="container">
-      <div class="page-hero-content" data-reveal>
-        <div class="section-tag page-tag">Intermediate</div>
-        <h1>Guide: Configure an API Subdomain with Zero Downtime</h1>
-        <p>Migrate API traffic by lowering TTL and swapping targets safely.</p>
-        <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Reading time: 14 minutes</p>
-      </div>
-    </div>
-  </div>
+<div class="reading-progress" id="reading-progress"></div>
 
-  <section class="section">
-    <div class="container">
-      <div class="prose" style="max-width:760px;margin:0 auto;" data-reveal>
+<main id="main-content">
+  <article>
+    <header class="article-hero">
+      <div class="container">
+        <div class="article-hero-inner">
+          <div class="article-meta">
+            <span class="article-category">API</span>
+            <span class="article-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              12 min read
+            </span>
+            <span class="article-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Intermediate Guide
+            </span>
+          </div>
+          <h1>Configure an API Subdomain with Zero Downtime</h1>
+          <p class="article-summary">Migrate API traffic by lowering TTL and swapping targets safely.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-layout-section">
+      <div class="container">
+        <div class="article-layout-inner">
+          <div class="article-content prose">
 
         <h2>What You Will Learn</h2>
         <ul>
@@ -286,9 +298,53 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
         <p>By following the step-by-step workflow in this guide — pre-reduce TTL, prepare and verify the new target, update the DNS record, monitor propagation, and clean up only after stability is confirmed — you can move your API subdomain between hosting providers, cloud regions, or IP addresses with zero perceived downtime for your consumers.</p>
         <p>Remember to always have a rollback plan, communicate with your API consumers about the migration window, and keep your observability tooling active for at least 24 hours after the cutover. The is-pro.dev <a href="https://discord.gg/N8YzrkJxYy" class="inline-link">Discord community</a> is a great place to ask questions if you run into issues during your migration.</p>
 
+          </div>
+          <aside class="toc-sidebar" id="toc-sidebar">
+            <nav class="toc-nav" aria-label="Table of Contents">
+              <div class="toc-header">On this page</div>
+              <ul class="toc-list" id="toc-list"></ul>
+            </nav>
+          </aside>
+        </div>
       </div>
     </div>
-  </section>
+
+    <div class="container">
+      <div class="share-section">
+        <span class="share-label">Share this guide</span>
+        <div class="share-links">
+          <a class="share-link" href="https://twitter.com/intent/tweet?text=Configure%20an%20API%20Subdomain%20with%20Zero%20Downtime&url=https://is-pro.dev/guides/configure-api-subdomain-with-zero-downtime/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Share on X
+          </a>
+          <a class="share-link" href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/guides/configure-api-subdomain-with-zero-downtime/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            Share on LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-nav-section">
+      <div class="container">
+        <nav class="doc-nav" aria-label="Guide navigation">
+          <a class="doc-nav-link" href="/guides/create-safe-wildcard-records/"><span class="doc-nav-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Previous</span><span class="doc-nav-title">Create Wildcard Records Safely</span></a>
+          <a class="doc-nav-link next" href="/guides/add-mx-spf-dkim-dmarc-records/"><span class="doc-nav-label">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span><span class="doc-nav-title">Add MX, SPF, DKIM, and DMARC Records</span></a>
+        </nav>
+      </div>
+    </div>
+
+    <section class="related-section">
+      <div class="container">
+        <h2>Related Guides</h2>
+        <div class="related-grid">
+          <a href="/guides/create-safe-wildcard-records/" class="related-card"><div class="related-card-category">DNS</div><h3>Create Wildcard Records Safely</h3><p>Use wildcard DNS without breaking explicit service records.</p></a>
+          <a href="/guides/migrate-subdomain-between-hosting-providers/" class="related-card"><div class="related-card-category">DNS</div><h3>Migrate a Subdomain Between Hosting Providers</h3><p>Preserve uptime while moving from one platform to another.</p></a>
+          <a href="/guides/lock-down-caa-for-certificate-control/" class="related-card"><div class="related-card-category">Security</div><h3>Lock Down CAA for Better Certificate Control</h3><p>Restrict certificate authorities and reduce issuance risk.</p></a>
+        </div>
+      </div>
+    </section>
+  </article>
 </main>
 
 <footer class="site-footer" role="contentinfo">

@@ -132,7 +132,7 @@
         <p>GitHub immediately performs a DNS check. It will try to resolve a CNAME record at <code>project.yourname.is-pro.dev</code> pointing to <code>yourname.github.io</code>. If the DNS record does not yet exist (we add it in the next step), GitHub will show a warning — this is expected. Proceed anyway.</p>
         <div class="callout"><p><strong>Important:</strong> When you save the custom domain, GitHub automatically creates a commit that adds a <code>CNAME</code> file to the root of your repository's publishing source. This file contains your custom domain and tells GitHub Pages to serve from that domain on every deployment. Do not delete this file.</p></div>
 
-        <h3>Step 3: Configure DNS in is-pro.dev Dashboard</h3>
+        <h3>Step 3: Configure DNS in is-cool-me Dashboard</h3>
         <p>Now you need to create the DNS record that points your subdomain at GitHub's servers.</p>
         <ol>
           <li>Log in to <a href="https://dash.is-pro.dev" class="inline-link">https://dash.is-pro.dev</a>.</li>
@@ -190,7 +190,7 @@ curl -sI https://project.yourname.is-pro.dev | head -n 1
 
         <h3>2. SSL certificate pending</h3>
         <p><strong>Cause:</strong> The DNS record has not propagated to all authoritative resolvers, so Let's Encrypt cannot verify domain ownership.</p>
-        <p><strong>Fix:</strong> Wait. Use <code>dig</code> from different networks to confirm the CNAME is visible worldwide. If it has been more than an hour, double-check the record type, name, and target in the is-pro.dev dashboard.</p>
+        <p><strong>Fix:</strong> Wait. Use <code>dig</code> from different networks to confirm the CNAME is visible worldwide. If it has been more than an hour, double-check the record type, name, and target in the is-cool-me dashboard.</p>
         <div class="callout"><p><strong>Important:</strong> Pending SSL is the most common support issue. If your <code>dig</code> output looks correct, the certificate usually resolves within 15 minutes. Opening the GitHub Pages settings page and toggling the custom domain off and on can sometimes trigger a re-check.</p></div>
 
         <h3>3. Domain not found in Pages</h3>
@@ -207,7 +207,7 @@ curl -sI https://project.yourname.is-pro.dev | head -n 1
 
         <h3>6. Redirect loop or wrong site</h3>
         <p><strong>Cause:</strong> A leftover CNAME record pointing to a different GitHub Pages site, or another service (like a CDN or reverse proxy) intercepting the traffic.</p>
-        <p><strong>Fix:</strong> Remove any stale DNS records in the is-pro.dev dashboard. Check that no other CNAME, A, or AAAA records exist for the same subdomain name.</p>
+        <p><strong>Fix:</strong> Remove any stale DNS records in the is-cool-me dashboard. Check that no other CNAME, A, or AAAA records exist for the same subdomain name.</p>
 
         <h2>Best Practices</h2>
         <ul>
@@ -243,7 +243,7 @@ curl -sI https://project.yourname.is-pro.dev | head -n 1
         <p>Yes. GitHub Pages provisions TLS certificates automatically through Let's Encrypt for custom domains that have a correctly configured CNAME record. This is a free, first-class feature — no manual certificate management required.</p>
 
         <h3>How do I fix a "domain does not resolve to GitHub" error?</h3>
-        <p>This error appears in GitHub Pages settings when the DNS check fails. Run <code>dig yoursubdomain.yourname.is-pro.dev CNAME</code> and confirm the output is exactly <code>yourname.github.io.</code> (with a trailing dot). If the record is missing or incorrect, update it in the is-pro.dev dashboard and wait for propagation. If the record looks correct, GitHub may still be catching up — wait a few minutes and reload the Pages settings page.</p>
+        <p>This error appears in GitHub Pages settings when the DNS check fails. Run <code>dig yoursubdomain.yourname.is-pro.dev CNAME</code> and confirm the output is exactly <code>yourname.github.io.</code> (with a trailing dot). If the record is missing or incorrect, update it in the is-cool-me dashboard and wait for propagation. If the record looks correct, GitHub may still be catching up — wait a few minutes and reload the Pages settings page.</p>
 
         <h2>Related Guides</h2>
         <ul>

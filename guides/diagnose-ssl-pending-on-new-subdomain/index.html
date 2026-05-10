@@ -90,7 +90,7 @@
         <h2>Requirements</h2>
         <ul>
           <li>An is-pro.dev subdomain with DNS records configured in your dashboard</li>
-          <li>SSL status showing <strong>Pending</strong> in the is-pro.dev dashboard</li>
+          <li>SSL status showing <strong>Pending</strong> in the is-cool-me dashboard</li>
           <li>Access to a terminal with <code>dig</code> and <code>curl</code> installed (Linux, macOS, or WSL)</li>
           <li>Access to your hosting provider's dashboard (Vercel, Netlify, Cloudflare, etc.)</li>
           <li>Basic familiarity with DNS concepts (A records, CNAME records, TTL)</li>
@@ -145,7 +145,7 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
         <p>If Cloudflare's resolver (1.1.1.1) and Google's resolver (8.8.8.8) both return the correct record, the issue is not propagation.</p>
 
         <h3>Step 5: Force Re-issuance</h3>
-        <p>If your DNS records are correct and the hosting provider is configured properly, you may need to force the CA to retry the issuance. In the is-pro.dev dashboard, use the SSL retry/reissue action available in your environment to cancel the pending request and start a fresh one.</p>
+        <p>If your DNS records are correct and the hosting provider is configured properly, you may need to force the CA to retry the issuance. In the is-cool-me dashboard, use the SSL retry/reissue action available in your environment to cancel the pending request and start a fresh one.</p>
         <p>Before triggering re-issuance, confirm that:</p>
         <ul>
           <li>DNS resolution returns the correct target from all major resolvers</li>
@@ -160,7 +160,7 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
         <h2>Verification</h2>
         <p>Once you have resolved the issue and the certificate is issued, verify the following:</p>
         <ul>
-          <li><strong>SSL Active:</strong> The is-pro.dev dashboard shows "Active" instead of "Pending"</li>
+          <li><strong>SSL Active:</strong> The is-cool-me dashboard shows "Active" instead of "Pending"</li>
           <li><strong>Browser Padlock:</strong> Visiting <code>https://yourname.is-pro.dev</code> shows a secure padlock icon in the address bar</li>
           <li><strong>SSL Labs Rating:</strong> Run an SSL Labs test at <a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener noreferrer">ssllabs.com/ssltest</a> and confirm an A or A+ rating</li>
           <li><strong>Certificate Details:</strong> The certificate should be issued by your configured CA and list your subdomain in the Subject Alternative Name (SAN) field</li>

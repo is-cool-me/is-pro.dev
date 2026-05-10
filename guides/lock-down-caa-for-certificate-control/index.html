@@ -87,7 +87,7 @@
 
         <h2>Requirements</h2>
         <ul>
-          <li>DNS administrative access to the zone you want to protect, through the is-pro.dev dashboard or your own DNS provider.</li>
+          <li>DNS administrative access to the zone you want to protect, through the is-cool-me dashboard or your own DNS provider.</li>
           <li>A basic understanding of SSL/TLS certificates and how certificate authorities issue them.</li>
           <li>Access to a terminal with dig installed for testing CAA records.</li>
           <li>A list of the certificate authorities you currently use for certificate issuance across all your services.</li>
@@ -105,7 +105,7 @@
         <h3>Step 2: Understand the CAA Record Format</h3>
         <p>A CAA record has three components: flags, a tag, and a value. The standard format is: <code>@ IN CAA 0 issue "letsencrypt.org"</code>. The flag field is almost always set to 0 for standard records. A flag value of 128 indicates a critical property that must be understood by any CA processing the record. The tag field can be one of three values: <code>issue</code> (authorizes a specific CA to issue certificates for the domain), <code>issuewild</code> (authorizes a CA to issue wildcard certificates for the domain), or <code>iodef</code> (specifies a URL or email address for reporting unauthorized issuance attempts). The value field contains the CA's domain name for issue and issuewild tags, or the reporting destination URL for the iodef tag. Multiple CAA records can exist for the same domain, and a CA is authorized if any record with the matching tag includes that CA. If no CAA records exist, any CA may issue certificates for the domain.</p>
 
-        <h3>Step 3: Add CAA Records Via the is-pro.dev Dashboard</h3>
+        <h3>Step 3: Add CAA Records Via the is-cool-me Dashboard</h3>
         <p>CAA records are added through the is-pro.dev DNS dashboard as native <code>CAA</code> records. Navigate to the DNS settings for your domain in the dashboard, select the <code>CAA</code> record type, and enter the required fields. The zone apex is represented by <code>@</code> for the root domain, or you can specify a subdomain. For each authorized CA, add a separate CAA entry in the proper format (for example, <code>0 issue "letsencrypt.org"</code> and <code>0 issue "pki.goog"</code>). If you also want to restrict wildcard issuance, add an <code>issuewild</code> entry: <code>0 issuewild "letsencrypt.org"</code>. The <code>issuewild</code> tag only affects wildcard certificates. Standard (non-wildcard) certificates are controlled by the <code>issue</code> tag.</p>
 
         <h3>Step 4: Test With dig</h3>
@@ -143,7 +143,7 @@
         <p>CAA checking is mandatory under the CA/Browser Forum Baseline Requirements. Any CA that ignores CAA records is violating the rules that govern trusted certificate issuance. If you suspect a CA issued a certificate in violation of your CAA policy, report the incident to the CA's compliance team and to the CA/Browser Forum.</p>
         <h3>Can CAA records prevent all unauthorized certificate issuance?</h3>
         <p>CAA records significantly reduce the risk of unauthorized issuance, but they are not a complete solution. A compromised CA that ignores CAA could still issue certificates. CAA should be combined with Certificate Transparency monitoring, DNS security measures like DNSSEC, and regular certificate inventory audits.</p>
-        <h3>How do I add CAA records through the is-pro.dev dashboard?</h3>
+        <h3>How do I add CAA records through the is-cool-me dashboard?</h3>
         <p>Navigate to your domain's DNS settings and add a new TXT record. For the value, use the CAA syntax: <code>0 issue "letsencrypt.org"</code>. Replace letsencrypt.org with the CA you want to authorize. Add separate records for each CA.</p>
         <h3>Do CAA records affect existing certificates?</h3>
         <p>No. CAA records only affect new certificate issuance requests and renewal requests. Already-issued certificates remain valid until their expiration date regardless of CAA configuration.</p>

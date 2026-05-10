@@ -101,7 +101,7 @@
         <h2>Requirements</h2>
         <ul>
           <li>An is-pro.dev subdomain currently pointing to an API endpoint</li>
-          <li>Access to the is-pro.dev dashboard at <a href="https://dash.is-pro.dev" class="inline-link">dash.is-pro.dev</a></li>
+          <li>Access to the is-cool-me dashboard at <a href="https://dash.is-pro.dev" class="inline-link">dash.is-pro.dev</a></li>
           <li>Ability to monitor API traffic (health check endpoint, logging, or metrics dashboard)</li>
           <li><code>dig</code> or <code>nslookup</code> installed on your local machine</li>
           <li>Access to the new target platform to configure custom domain binding</li>
@@ -236,7 +236,7 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
         <h3>5. Rollback procedure — reverting to the old target</h3>
         <p>If monitoring reveals a critical issue with the new target after the DNS change, you may need to roll back. Because you kept the old target running, rollback is straightforward:</p>
         <ol>
-          <li>Edit the API subdomain record in the is-pro.dev dashboard.</li>
+          <li>Edit the API subdomain record in the is-cool-me dashboard.</li>
           <li>Change the <strong>Value</strong> back to the <em>old</em> target (the original IP or CNAME).</li>
           <li>Save the record. Because the TTL is still at 300, the rollback propagates as quickly as the original change — within 5 minutes for most users.</li>
           <li>Verify that traffic is now hitting the old target by checking the old provider's metrics and access logs.</li>

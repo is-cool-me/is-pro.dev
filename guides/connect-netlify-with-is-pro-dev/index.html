@@ -22,6 +22,66 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Connect Netlify to an is-pro.dev Subdomain",
+      "description": "Step-by-step guide to connect your Netlify project with an is-pro.dev subdomain including DNS setup, SSL configuration, and troubleshooting.",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
+      },
+      "reviewedBy": {
+        "@type": "Person",
+        "name": "is-cool-me Technical Review"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-11",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/guides/connect-netlify-with-is-pro-dev/"
+      },
+      "url": "https://is-pro.dev/guides/connect-netlify-with-is-pro-dev/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://is-pro.dev/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Connect Netlify to an is-pro.dev Subdomain",
+          "item": "https://is-pro.dev/guides/connect-netlify-with-is-pro-dev/"
+        }
+      ]
+    }
+  ]
+}
+</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
     crossorigin="anonymous"></script>
 </head>
@@ -41,6 +101,7 @@
         <a href="/domains/" class="nav-link">Domains</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
         <a href="/terms/" class="nav-link">Terms</a>
       </nav>
@@ -84,6 +145,26 @@
         </div>
       </div>
     </header>
+
+    <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS &amp; Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="article-layout-section">
       <div class="container">
@@ -272,7 +353,27 @@ TTL: 300</code></pre>
         <p>Connecting Netlify to your is-pro.dev subdomain is straightforward when you follow these steps. The key is ensuring your DNS records are correctly configured and allowing time for propagation. With automatic SSL certificates and the flexibility of Netlify's platform, you'll have a professional deployment in minutes.</p>
 
         <p>Remember to monitor your domain's performance and update records as needed. For any issues not covered in this guide, check the <a href="/blog/">blog</a> for more detailed troubleshooting posts or join our <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a> for real-time support.</p>
-          </div>
+          
+
+        <h2>Deployment scenario from operations</h2>
+        <p>A docs site moved to Netlify but retained an old redirect configuration that bounced users to an outdated host.</p>
+        <div class="utility-block utility-warning"><strong>Platform nuance:</strong> Netlify and DNS changes can succeed independently; validate both DNS and app-level redirect behavior.</div>
+
+        <h2>Common mistakes</h2>
+        <ul>
+          <li>Leaving conflicting redirects active while changing DNS targets.</li>
+          <li>Using an incorrect CNAME target copied from another project.</li>
+          <li>Not checking final host header behavior after deployment.</li>
+        </ul>
+
+        <h2>How to verify it works</h2>
+        <ol>
+          <li>Confirm CNAME target with `dig` against authoritative and public resolvers.</li>
+          <li>Run `curl -I` on final URL and verify single-hop redirect behavior.</li>
+          <li>Confirm Netlify serves the correct deploy preview and production domain.</li>
+        </ol>
+        <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
+</div>
           <aside class="toc-sidebar" id="toc-sidebar">
             <nav class="toc-nav" aria-label="Table of Contents">
               <div class="toc-header">On this page</div>
@@ -338,6 +439,7 @@ TTL: 300</code></pre>
           <a href="/domains/" class="footer-link">Domains</a>
           <a href="/blog/" class="footer-link">Blog</a>
           <a href="/guides/" class="footer-link">Guides</a>
+          <a href="/about/" class="footer-link">About</a>
           <a href="/contact/" class="footer-link">Contact</a>
         </nav>
       </div>
@@ -346,6 +448,8 @@ TTL: 300</code></pre>
         <nav class="footer-links" aria-label="Legal links">
           <a href="/terms/" class="footer-link">Terms of Service</a>
           <a href="/privacy/" class="footer-link">Privacy Policy</a>
+          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
         </nav>
       </div>
       <div class="footer-col">
@@ -359,8 +463,11 @@ TTL: 300</code></pre>
     <div class="footer-bottom">
       <span>&copy; 2026 is-cool-me. All rights reserved.</span>
       <div style="display:flex;gap:1.5rem;">
+        <a href="/about/">About</a>
         <a href="/terms/">Terms</a>
         <a href="/privacy/">Privacy</a>
+        <a href="/editorial-standards/">Editorial Standards</a>
+        <a href="/abuse-report/">Abuse Report</a>
         <a href="/blog/">Blog</a>
         <a href="/guides/">Guides</a>
         <a href="/contact/">Contact</a>

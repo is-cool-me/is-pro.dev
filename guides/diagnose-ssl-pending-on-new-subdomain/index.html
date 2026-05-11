@@ -22,6 +22,66 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Guide: Diagnose SSL Pending on a New Subdomain",
+      "description": "Common certificate issuance blockers and quick fixes.",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
+      },
+      "reviewedBy": {
+        "@type": "Person",
+        "name": "is-cool-me Trust & Safety Review"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-11",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/guides/diagnose-ssl-pending-on-new-subdomain/"
+      },
+      "url": "https://is-pro.dev/guides/diagnose-ssl-pending-on-new-subdomain/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://is-pro.dev/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Guide: Diagnose SSL Pending on a New Subdomain",
+          "item": "https://is-pro.dev/guides/diagnose-ssl-pending-on-new-subdomain/"
+        }
+      ]
+    }
+  ]
+}
+</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
     crossorigin="anonymous"></script>
 </head>
@@ -41,6 +101,7 @@
         <a href="/domains/" class="nav-link">Domains</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
         <a href="/terms/" class="nav-link">Terms</a>
       </nav>
@@ -80,6 +141,26 @@
       </div>
     </div>
   </div>
+
+  <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS &amp; Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Trust & Safety Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
   <div class="doc-layout">
     <div class="doc-content">
@@ -222,8 +303,8 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
         <h2>Related Guides</h2>
         <ul>
           <li><a href="/guides/lock-down-caa-for-certificate-control/">Lock Down CAA for Better Certificate Control</a> — Learn how to configure CAA records to restrict which CAs can issue certificates for your domains.</li>
-          <li><a href="/guides/connect-vercel/">Connect Vercel to is-cool-me</a> — Step-by-step guide for connecting a Vercel deployment to your is-cool-me subdomain.</li>
-          <li><a href="/guides/connect-netlify/">Connect Netlify to is-cool-me</a> — Step-by-step guide for connecting a Netlify site to your is-cool-me subdomain.</li>
+          <li><a href="/guides/connect-vercel-with-is-pro-dev/">Connect Vercel to is-cool-me</a> — Step-by-step guide for connecting a Vercel deployment to your is-cool-me subdomain.</li>
+          <li><a href="/guides/connect-netlify-with-is-pro-dev/">Connect Netlify to is-cool-me</a> — Step-by-step guide for connecting a Netlify site to your is-cool-me subdomain.</li>
         </ul>
 
       </div>
@@ -277,7 +358,27 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
           </a>
         </div>
       </div>
-    </div>
+    
+
+        <h2>Deployment scenario from operations</h2>
+        <p>A newly registered subdomain looked correct in DNS but remained in pending TLS due to residual conflicting records.</p>
+        <div class="utility-block utility-warning"><strong>Platform nuance:</strong> TLS issuance commonly lags DNS updates; avoid unnecessary record churn during issuance windows.</div>
+
+        <h2>Common mistakes</h2>
+        <ul>
+          <li>Leaving conflicting record types on the same hostname.</li>
+          <li>Rotating records repeatedly before allowing cache expiration.</li>
+          <li>Ignoring certificate validation events from the hosting platform.</li>
+        </ul>
+
+        <h2>How to verify it works</h2>
+        <ol>
+          <li>Confirm only expected DNS record types exist for the hostname.</li>
+          <li>Check certificate status in provider dashboard until issuance completes.</li>
+          <li>Run HTTPS checks from multiple networks to confirm stable certificate delivery.</li>
+        </ol>
+        <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
+</div>
 
     <aside class="toc-sidebar" id="toc-sidebar" aria-label="Table of contents">
       <div class="toc-header">On this page</div>
@@ -303,6 +404,7 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
           <a href="/domains/" class="footer-link">Domains</a>
           <a href="/blog/" class="footer-link">Blog</a>
           <a href="/guides/" class="footer-link">Guides</a>
+          <a href="/about/" class="footer-link">About</a>
           <a href="/contact/" class="footer-link">Contact</a>
         </nav>
       </div>
@@ -311,6 +413,8 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
         <nav class="footer-links" aria-label="Legal links">
           <a href="/terms/" class="footer-link">Terms of Service</a>
           <a href="/privacy/" class="footer-link">Privacy Policy</a>
+          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
         </nav>
       </div>
       <div class="footer-col">
@@ -324,8 +428,11 @@ dig @9.9.9.9 yourname.is-pro.dev +short</code></pre>
     <div class="footer-bottom">
       <span>&copy; 2026 is-cool-me. All rights reserved.</span>
       <div style="display:flex;gap:1.5rem;">
+        <a href="/about/">About</a>
         <a href="/terms/">Terms</a>
         <a href="/privacy/">Privacy</a>
+        <a href="/editorial-standards/">Editorial Standards</a>
+        <a href="/abuse-report/">Abuse Report</a>
         <a href="/blog/">Blog</a>
         <a href="/guides/">Guides</a>
         <a href="/contact/">Contact</a>

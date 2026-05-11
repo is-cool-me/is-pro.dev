@@ -22,6 +22,66 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "DNS Propagation Explained for New Users",
+      "description": "What propagation really means and how to debug delays without panic. A complete guide to DNS caching, TTL, and troubleshooting.",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
+      },
+      "reviewedBy": {
+        "@type": "Person",
+        "name": "is-cool-me Technical Review"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-11",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/blog/dns-propagation-explained-for-new-users/"
+      },
+      "url": "https://is-pro.dev/blog/dns-propagation-explained-for-new-users/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://is-pro.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "DNS Propagation Explained for New Users",
+          "item": "https://is-pro.dev/blog/dns-propagation-explained-for-new-users/"
+        }
+      ]
+    }
+  ]
+}
+</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
     crossorigin="anonymous"></script>
 </head>
@@ -41,6 +101,7 @@
         <a href="/domains/" class="nav-link">Domains</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
         <a href="/terms/" class="nav-link">Terms</a>
       </nav>
@@ -84,6 +145,26 @@
         </div>
       </div>
     </header>
+
+    <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS &amp; Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="article-layout-section">
       <div class="container">
@@ -285,7 +366,23 @@ sudo killall -HUP mDNSResponder</code></pre>
           <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
         </div>
 
-          </div>
+          
+
+        <h2>Common mistakes</h2>
+        <ul>
+          <li>Confusing local browser cache behavior with global resolver propagation.</li>
+          <li>Lowering TTL immediately before change and expecting instant effect.</li>
+          <li>Skipping authoritative resolver checks before troubleshooting clients.</li>
+        </ul>
+
+        <h2>How to verify it works</h2>
+        <ol>
+          <li>Compare authoritative DNS vs public resolver answers over time.</li>
+          <li>Measure remaining TTL from resolver responses during transition.</li>
+          <li>Validate final endpoint behavior after resolver values converge.</li>
+        </ol>
+        <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
+</div>
           <aside class="toc-sidebar" id="toc-sidebar">
             <nav class="toc-nav" aria-label="Table of Contents">
               <div class="toc-header">On this page</div>
@@ -350,6 +447,7 @@ sudo killall -HUP mDNSResponder</code></pre>
           <a href="/domains/" class="footer-link">Domains</a>
           <a href="/blog/" class="footer-link">Blog</a>
           <a href="/guides/" class="footer-link">Guides</a>
+          <a href="/about/" class="footer-link">About</a>
           <a href="/contact/" class="footer-link">Contact</a>
         </nav>
       </div>
@@ -358,6 +456,8 @@ sudo killall -HUP mDNSResponder</code></pre>
         <nav class="footer-links" aria-label="Legal links">
           <a href="/terms/" class="footer-link">Terms of Service</a>
           <a href="/privacy/" class="footer-link">Privacy Policy</a>
+          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
         </nav>
       </div>
       <div class="footer-col">
@@ -371,8 +471,11 @@ sudo killall -HUP mDNSResponder</code></pre>
     <div class="footer-bottom">
       <span>&copy; 2026 is-cool-me. All rights reserved.</span>
       <div style="display:flex;gap:1.5rem;">
+        <a href="/about/">About</a>
         <a href="/terms/">Terms</a>
         <a href="/privacy/">Privacy</a>
+        <a href="/editorial-standards/">Editorial Standards</a>
+        <a href="/abuse-report/">Abuse Report</a>
         <a href="/blog/">Blog</a>
         <a href="/guides/">Guides</a>
         <a href="/contact/">Contact</a>

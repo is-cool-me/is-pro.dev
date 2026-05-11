@@ -22,6 +22,66 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Create Wildcard Records Safely",
+      "description": "Use wildcard DNS without breaking explicit service records.",
+      "author": {
+        "@type": "Person",
+        "name": "is-cool-me Engineering Team",
+        "url": "https://github.com/is-cool-me"
+      },
+      "reviewedBy": {
+        "@type": "Person",
+        "name": "is-cool-me Technical Review"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-11",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/guides/create-safe-wildcard-records/"
+      },
+      "url": "https://is-pro.dev/guides/create-safe-wildcard-records/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://is-pro.dev/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Create Wildcard Records Safely",
+          "item": "https://is-pro.dev/guides/create-safe-wildcard-records/"
+        }
+      ]
+    }
+  ]
+}
+</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
     crossorigin="anonymous"></script>
 </head>
@@ -41,6 +101,7 @@
         <a href="/domains/" class="nav-link">Domains</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
         <a href="/terms/" class="nav-link">Terms</a>
       </nav>
@@ -84,6 +145,26 @@
         </div>
       </div>
     </header>
+
+    <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by is-cool-me Engineering Team</h2>
+            <p class="author-card-role">Platform Reliability & DNS Integrations</p>
+            <p class="author-card-bio">Maintainers focused on deployment correctness, DNS safety, and repeatable production setup guides.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/is-cool-me" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="article-layout-section">
       <div class="container">
@@ -258,7 +339,27 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
         <p>The key to safe wildcard usage is a disciplined audit workflow: inventory your existing records, create explicit overrides for every service that needs one, add the wildcard, and then verify both the fallback and the override paths. Without this workflow, wildcards silently subsume hostnames you might have expected to remain independent — leading to broken HTTPS, misrouted traffic, and email delivery failures.</p>
         <p>Always pair your wildcard with explicit MX records, document your explicit overrides, and test with high-entropy hostnames to avoid false negatives from resolver caches. If you run into issues, the is-pro.dev <a href="https://discord.gg/N8YzrkJxYy" class="inline-link">Discord community</a> is a great place to ask for help.</p>
 
-          </div>
+          
+
+        <h2>Deployment scenario from operations</h2>
+        <p>A wildcard record simplified onboarding but unintentionally captured service-specific hostnames expected to resolve differently.</p>
+        <div class="utility-block utility-warning"><strong>Platform nuance:</strong> Wildcard records reduce setup friction but raise risk of accidental host capture when teams scale.</div>
+
+        <h2>Common mistakes</h2>
+        <ul>
+          <li>Adding wildcard records without documenting explicit host overrides.</li>
+          <li>Forgetting that wildcard behavior can mask missing explicit records.</li>
+          <li>Applying wildcard DNS to services that require dedicated host entries.</li>
+        </ul>
+
+        <h2>How to verify it works</h2>
+        <ol>
+          <li>Query both wildcard-covered and explicitly defined hosts and compare expected answers.</li>
+          <li>Check service health for critical hosts after wildcard activation.</li>
+          <li>Review dashboard record precedence and confirm explicit overrides are intact.</li>
+        </ol>
+        <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
+</div>
           <aside class="toc-sidebar" id="toc-sidebar">
             <nav class="toc-nav" aria-label="Table of Contents">
               <div class="toc-header">On this page</div>
@@ -324,6 +425,7 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
           <a href="/domains/" class="footer-link">Domains</a>
           <a href="/blog/" class="footer-link">Blog</a>
           <a href="/guides/" class="footer-link">Guides</a>
+          <a href="/about/" class="footer-link">About</a>
           <a href="/contact/" class="footer-link">Contact</a>
         </nav>
       </div>
@@ -332,6 +434,8 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
         <nav class="footer-links" aria-label="Legal links">
           <a href="/terms/" class="footer-link">Terms of Service</a>
           <a href="/privacy/" class="footer-link">Privacy Policy</a>
+          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
         </nav>
       </div>
       <div class="footer-col">
@@ -345,8 +449,11 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
     <div class="footer-bottom">
       <span>&copy; 2026 is-cool-me. All rights reserved.</span>
       <div style="display:flex;gap:1.5rem;">
+        <a href="/about/">About</a>
         <a href="/terms/">Terms</a>
         <a href="/privacy/">Privacy</a>
+        <a href="/editorial-standards/">Editorial Standards</a>
+        <a href="/abuse-report/">Abuse Report</a>
         <a href="/blog/">Blog</a>
         <a href="/guides/">Guides</a>
         <a href="/contact/">Contact</a>

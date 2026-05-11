@@ -1223,7 +1223,107 @@ option { background: var(--color-surface); }
   .grid-4 { grid-template-columns: 1fr; }
   .domain-input-group { flex-direction: column; }
   .cookie-actions { width: 100%; }
-  .cookie-actions .btn { flex: 1; justify-content: center; }
+.cookie-actions .btn { flex: 1; justify-content: center; }
+}
+
+/* === Phase 1: Trust + Authorship + Utility Blocks === */
+.author-section {
+  padding: 1.25rem 0 0.5rem;
+}
+
+.author-card {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 1rem;
+  align-items: stretch;
+  border: 1px solid var(--color-border-sub);
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+}
+
+.author-card-title {
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.author-card-role {
+  color: var(--color-accent-light);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+
+.author-card-bio {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.author-card-links {
+  display: inline-flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.author-card-links a {
+  color: var(--color-accent-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.author-card-review {
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  background: rgba(139, 92, 246, 0.07);
+  border-radius: var(--radius-md);
+  padding: 0.8rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.author-card-review-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-subtle);
+  margin-bottom: 0.35rem;
+}
+
+.author-card-reviewer {
+  font-size: 0.88rem;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.utility-block {
+  margin: 1rem 0 1.2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-sub);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.85rem 1rem;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+.utility-block strong {
+  color: var(--color-text);
+}
+
+.utility-warning {
+  border-color: rgba(234, 179, 8, 0.3);
+  background: rgba(234, 179, 8, 0.08);
+}
+
+.utility-verification {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+@media (max-width: 768px) {
+  .author-card {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ================================================================

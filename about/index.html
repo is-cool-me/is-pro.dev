@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>About is-cool-me — Mission, Reliability, and Safety</title>
+  <meta name="description" content="Learn why is-cool-me exists, how we approach DNS reliability, and how we handle abuse prevention and moderation for is-pro.dev subdomains." />
+  <link rel="canonical" href="https://is-pro.dev/about/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://is-pro.dev/about/" />
+  <meta property="og:title" content="About is-cool-me — Mission, Reliability, and Safety" />
+  <meta property="og:description" content="How is-cool-me is maintained, why it exists, and how we prioritize reliability and abuse prevention." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About is-cool-me — Mission, Reliability, and Safety" />
+  <meta name="twitter:description" content="How is-cool-me is maintained, why it exists, and how we prioritize reliability and abuse prevention." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About is-cool-me",
+    "url": "https://is-pro.dev/about/",
+    "description": "Project mission, technical philosophy, reliability goals, and security principles for is-cool-me.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "is-cool-me",
+      "url": "https://is-pro.dev"
+    }
+  }
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964" crossorigin="anonymous"></script>
+</head>
+<body>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main id="main-content">
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-hero-content" data-reveal>
+        <div class="section-tag page-tag">About</div>
+        <h1>Why is-cool-me exists</h1>
+        <p>is-cool-me was created to make practical subdomain access available to builders who need reliable DNS controls without unnecessary friction.</p>
+        <p style="font-size:.8rem;color:var(--color-text-subtle);margin-top:.75rem;">Last updated: May 2026</p>
+      </div>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div class="prose" data-reveal>
+        <h2>Project mission</h2>
+        <p>Our mission is to provide dependable, free subdomains under <code>is-pro.dev</code> and <code>is-into.tech</code> for personal projects, open-source work, and community services. We focus on operational clarity: users should understand what records exist, why they exist, and what happens when policy boundaries are crossed.</p>
+        <h2>Why this project exists</h2>
+        <p>Many first-time deployments fail on DNS details, not application code. is-cool-me exists to remove that barrier while keeping enough guardrails to prevent the platform from being abused as a low-cost attack surface.</p>
+        <h2>DNS and subdomain philosophy</h2>
+        <ul>
+          <li><strong>User control:</strong> DNS records should remain explicit and editable.</li>
+          <li><strong>Predictability:</strong> avoid hidden behavior that surprises operators in production.</li>
+          <li><strong>Documentation tied to reality:</strong> guides are based on recurring support and moderation incidents.</li>
+        </ul>
+        <h2>Security and abuse prevention principles</h2>
+        <ul>
+          <li>Evidence-first moderation with clear escalation paths.</li>
+          <li>Rapid containment for active phishing and malware campaigns.</li>
+          <li>Appeal paths for disputed decisions.</li>
+        </ul>
+        <div class="callout warning"><p><strong>Safety principle:</strong> we may suspend active harmful subdomains quickly to reduce user harm while a full review is still in progress.</p></div>
+        <h2>Reliability goals</h2>
+        <p>Reliability includes operational consistency, accurate docs, and incident follow-through. We prioritize DNS correctness, reproducible troubleshooting guidance, and content updates when provider behavior changes.</p>
+        <h2>Maintainer transparency</h2>
+        <p>is-cool-me is maintained by a small operations-focused team and community contributors. We publish legal, policy, and editorial pages so users can evaluate how the service is run.</p>
+        <h2>Community focus</h2>
+        <p>We build for people shipping real projects. Community reports directly shape what we document next and how we improve abuse handling, support quality, and platform safeguards.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="footer-logo-link"><img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" /><span style="font-family:var(--font-mono)">is-cool-me</span></a><p class="footer-tagline">Free subdomains for personal sites, open-source projects, and communities.</p></div>
+      <div class="footer-col"><h4>Service</h4><nav class="footer-links" aria-label="Service links"><a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a><a href="/domains/" class="footer-link">Domains</a><a href="/blog/" class="footer-link">Blog</a><a href="/guides/" class="footer-link">Guides</a><a href="/about/" class="footer-link">About</a></nav></div>
+      <div class="footer-col"><h4>Legal & Trust</h4><nav class="footer-links" aria-label="Legal and trust links"><a href="/terms/" class="footer-link">Terms of Service</a><a href="/privacy/" class="footer-link">Privacy Policy</a><a href="/editorial-standards/" class="footer-link">Editorial Standards</a><a href="/abuse-report/" class="footer-link">Abuse Report</a></nav></div>
+      <div class="footer-col"><h4>Community</h4><nav class="footer-links" aria-label="Community links"><a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a><a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a><a href="/contact/" class="footer-link">Contact</a></nav></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 is-cool-me. All rights reserved.</span><div style="display:flex;gap:1.5rem;flex-wrap:wrap;"><a href="/about/">About</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/editorial-standards/">Editorial Standards</a><a href="/abuse-report/">Abuse Report</a><a href="/contact/">Contact</a></div></div>
+  </div>
+</footer>
+<script src="/js/app.js" defer></script>
+</body>
+</html>

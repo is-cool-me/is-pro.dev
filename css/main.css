@@ -303,6 +303,10 @@ code, .mono {
 /* Mobile nav toggle */
 .nav-toggle {
   display: none;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   flex-direction: column;
   gap: 4px;
   padding: 0.5rem;
@@ -310,6 +314,7 @@ code, .mono {
   cursor: pointer;
   background: transparent;
   border: none;
+  z-index: 1001;
 }
 
 .nav-toggle span {
@@ -319,6 +324,10 @@ code, .mono {
   background: var(--color-text-muted);
   border-radius: 99px;
   transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.nav-toggle:hover span {
+  background: var(--color-text);
 }
 
 /* === Hero Section === */
@@ -3619,11 +3628,15 @@ option { background: var(--color-surface); }
   }
 
   .nav-toggle {
+    display: flex !important;
     width: 44px;
     height: 44px;
     padding: 0.6rem;
     align-items: center;
     justify-content: center;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .article-hero {

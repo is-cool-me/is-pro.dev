@@ -308,6 +308,8 @@ code, .mono {
   padding: 0.5rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
+  background: transparent;
+  border: none;
 }
 
 .nav-toggle span {
@@ -1167,7 +1169,7 @@ option { background: var(--color-surface); }
 @media (max-width: 768px) {
   :root { --header-h: 56px; }
 
-  .nav-toggle { display: flex; }
+  .nav-toggle { display: flex !important; }
 
   .header-nav, .header-actions {
     display: none;

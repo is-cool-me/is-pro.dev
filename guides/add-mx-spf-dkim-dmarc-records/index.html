@@ -444,6 +444,14 @@ Authentication-Results: dmarc=pass header.from=yourname.is-pro.dev</pre>
           <li>Enabling DMARC reject policy before alignment is validated.</li>
           <li>Rotating DKIM selectors without updating all sending services.</li>
         </ul>
+
+        <h2>How to verify it works</h2>
+        <ol>
+          <li>Query MX/SPF/DKIM/DMARC records with <code>dig</code> and verify expected values.</li>
+          <li>Send test mail to external providers and inspect authentication headers.</li>
+          <li>Confirm DMARC aggregate reports reflect pass outcomes before tightening policy.</li>
+        </ol>
+        <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
 </div>
           <aside class="toc-sidebar" id="toc-sidebar">
             <nav class="toc-nav" aria-label="Table of Contents">

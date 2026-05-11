@@ -396,6 +396,14 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
           <li>Changing origin and certificates at the same time without staged checks.</li>
           <li>Not validating health endpoints before and after cutover.</li>
         </ul>
+
+        <h2>How to verify it works</h2>
+        <ol>
+          <li>Probe API health and key endpoints before and after DNS swap.</li>
+          <li>Monitor error rate and latency during TTL transition windows.</li>
+          <li>Confirm TLS and host routing for API clients from at least two networks.</li>
+        </ol>
+        <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
 </div>
           <aside class="toc-sidebar" id="toc-sidebar">
             <nav class="toc-nav" aria-label="Table of Contents">

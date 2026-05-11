@@ -344,6 +344,10 @@ dig yourname.is-pro.dev TXT +short</code></pre>
       </div>
     
 
+        <h2>Deployment scenario from operations</h2>
+        <p>An app became unreachable after a hostname was configured with both CNAME and legacy A records, triggering resolver ambiguity.</p>
+        <div class="utility-block utility-warning"><strong>Platform nuance:</strong> DNS correctness and HTTP redirect correctness are separate checks; both are required for stability.</div>
+
         <h2>Common mistakes</h2>
         <ul>
           <li>Mixing CNAME with other record types on the same host.</li>

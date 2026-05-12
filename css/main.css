@@ -128,6 +128,7 @@ code, .mono {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
+  min-width: 0;
 }
 
 .section { padding: var(--section-py) 0; }
@@ -407,6 +408,14 @@ code, .mono {
   gap: 4rem;
   align-items: center;
   padding: 3rem 0;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Allow hero columns to shrink on mobile */
+.hero-copy,
+.hero-media-col {
+  min-width: 0;
 }
 
 .hero-badge {
@@ -469,6 +478,8 @@ code, .mono {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: var(--shadow-lg), var(--shadow-accent);
+  width: 100%;
+  max-width: 100%;
 }
 
 .domain-preview-card h3 {
@@ -483,6 +494,8 @@ code, .mono {
   gap: 0.5rem;
   margin-bottom: 1.25rem;
   flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
 }
 
 .domain-input {
@@ -497,6 +510,8 @@ code, .mono {
   font-size: 1rem;
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  width: 100%;
+  max-width: 100%;
 }
 
 .domain-input::placeholder { color: var(--color-text-subtle); }
@@ -516,6 +531,8 @@ code, .mono {
   font-size: 0.9rem;
   outline: none;
   cursor: pointer;
+  width: auto;
+  max-width: 100%;
 }
 
 .domain-zone-select:focus {
@@ -1192,6 +1209,15 @@ option { background: var(--color-surface); }
 @media (max-width: 768px) {
   :root { --header-h: 56px; }
 
+  /* Global mobile overflow protection */
+  body {
+    width: 100%;
+  }
+
+  main, section, .container {
+    max-width: 100%;
+  }
+
   /* Mobile header layout fixes */
   .header-inner {
     padding-right: 3rem;
@@ -1219,6 +1245,7 @@ option { background: var(--color-surface); }
     top: var(--header-h);
     left: 0;
     width: 100%;
+    max-width: 100vw;
     background: rgba(8, 8, 15, 0.97);
     border-bottom: 1px solid var(--color-border-sub);
     padding: 1rem;
@@ -1235,6 +1262,7 @@ option { background: var(--color-surface); }
     top: calc(var(--header-h) + 180px);
     left: 0;
     width: 100%;
+    max-width: 100vw;
     padding: 1rem;
     gap: 0.5rem;
     background: rgba(8, 8, 15, 0.97);
@@ -1250,7 +1278,16 @@ option { background: var(--color-surface); }
   }
 
   .hero-inner {
-    min-width: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-copy,
+  .hero-media-col {
+    width: 100%;
   }
 
   .domain-preview-card {
@@ -1260,9 +1297,15 @@ option { background: var(--color-surface); }
 
   .domain-input-group {
     flex-direction: column;
+    width: 100%;
   }
 
-  .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .domain-input,
+  .domain-zone-select {
+    width: 100%;
+  }
+
+  /* (Removed duplicate hero-inner rule to avoid conflicts) */
   .hero-media-col { order: -1; }
 
   .grid-2 { grid-template-columns: 1fr; }

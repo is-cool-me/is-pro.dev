@@ -283,10 +283,6 @@ code, .mono {
 
 .logo-text {
   font-family: var(--font-mono);
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .header-nav {
@@ -1232,6 +1228,14 @@ option { background: var(--color-surface); }
     justify-content: center;
     right: 0.5rem;
     top: 50%;
+  }
+
+  /* Truncate logo text only on mobile */
+  .logo-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .header-nav, .header-actions {

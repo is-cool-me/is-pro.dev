@@ -1,0 +1,113 @@
+/* Ad Container Styles - Shared across all ad placements */
+.ad-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 60px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.ad-container ins {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Social Bar Ad */
+.ad-social-bar {
+  min-height: 100px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-lg);
+}
+
+/* Native Banner Ad */
+.ad-native-banner {
+  min-height: 250px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-lg);
+}
+
+/* 300x250 Banner */
+.ad-banner-300x250 {
+  min-height: 250px;
+}
+
+.ad-banner-300x250 ins,
+.ad-banner-300x250 iframe {
+  max-width: 300px;
+}
+
+/* 320x50 Mobile Banner */
+.ad-banner-320x50 {
+  min-height: 50px;
+  margin: 1rem 0;
+}
+
+.ad-banner-320x50 ins,
+.ad-banner-320x50 iframe {
+  max-width: 320px;
+}
+
+/* 728x90 Desktop Banner */
+.ad-banner-728x90 {
+  min-height: 90px;
+}
+
+.ad-banner-728x90 ins,
+.ad-banner-728x90 iframe {
+  max-width: 728px;
+}
+
+/* Responsive behavior */
+@media (max-width: 640px) {
+  .ad-banner-728x90 {
+    display: none;
+  }
+
+  .ad-banner-300x250 {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .ad-banner-320x50 {
+    display: none;
+  }
+}
+
+/* Dark/Light theme compatibility */
+@media (prefers-color-scheme: dark) {
+  .ad-container {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .ad-container {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Prevent CLS - placeholder sizing */
+.ad-container::before {
+  content: '';
+  display: block;
+  padding-bottom: var(--ad-padding-bottom, 0);
+}
+
+/* Loading state */
+.ad-container.loading {
+  min-height: 90px;
+  background: linear-gradient(90deg, transparent 25%, rgba(128, 128, 128, 0.1) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: ad-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes ad-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

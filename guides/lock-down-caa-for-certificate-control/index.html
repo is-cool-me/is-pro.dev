@@ -138,18 +138,122 @@
         <span class="article-meta-dot"></span>
         <span class="meta-category">Security</span>
         <span class="meta-difficulty advanced">Advanced</span>
-</div>
       </div>
     </div>
+  </div>
 
-    <div class="container" style="margin:2rem auto;">
-      <div class="ad-container ad-native-banner">
+  <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS &amp; Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Trust & Safety Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <!-- Native Banner Ad - After author section -->
+  <div class="container" style="margin:2rem auto;">
+    <div class="ad-container ad-native-banner">
 <script async="async" data-cfasync="false" src="https://pl29499499.effectivecpmnetwork.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"></script>
 <div id="container-4ca1e991eb7b08bcad5807536453d0cd-caa"></div>
-      </div>
     </div>
+  </div>
 
-    <div class="container">
+  <div class="doc-layout">
+    <div class="doc-content">
+      <div class="prose" data-reveal>
+        <h2>What You Will Learn</h2>
+        <p>This guide teaches you how to use DNS Certification Authority Authorization (CAA) records to control which certificate authorities are permitted to issue SSL/TLS certificates for your domain. You will learn the CAA record format, how to publish records that restrict issuance to specific CAs, how to add reporting mechanisms for unauthorized attempts, how to test and verify your CAA configuration, and how to handle emergency scenarios that require temporarily expanding your authorized CA list. By the end, you will have a complete CAA lockdown strategy that prevents rogue certificate issuance against your domains.</p>
+
+        <h2>Requirements</h2>
+        <ul>
+          <li>DNS administrative access to the zone you want to protect, through the is-cool-me dashboard or your own DNS provider.</li>
+          <li>A basic understanding of SSL/TLS certificates and how certificate authorities issue them.</li>
+          <li>Access to a terminal with dig installed for testing CAA records.</li>
+          <li>A list of the certificate authorities you currently use for certificate issuance across all your services.</li>
+          <li>Familiarity with DNS record forms for CAA entries (<code>issue</code>, <code>issuewild</code>, and <code>iodef</code>).</li>
+        </ul>
+
+        <h2>Background</h2>
+        <p>CAA records are a DNS resource record type defined in RFC 6844 that allows domain owners to specify which certificate authorities are permitted to issue certificates for their domain. Before CAA, any CA could theoretically issue a certificate for any domain, subject only to the CA's own domain validation checks. If a CA suffered a security breach or had weak validation processes, an attacker could obtain a valid certificate for a domain they did not control and use it for man-in-the-middle attacks. CAA closes this gap by creating a DNS-based authorization mechanism. When a CA receives a certificate issuance request, it is required by the CA/Browser Forum Baseline Requirements to check the CAA record for the domain. If the requesting CA is not listed in the CAA record, the CA must refuse to issue the certificate. CAA records can also include iodef records that specify a reporting destination where CAs should send notification of unauthorized issuance attempts. CAA is supported by all major CAs including Let's Encrypt, DigiCert, GlobalSign, Sectigo, and Google Trust Services. Browser vendors began enforcing CAA checks in 2017, and it is now a mandatory part of the certificate issuance process.</p>
+
+        <h2>Step-by-Step Guide</h2>
+
+        <h3>Step 1: List Your Authorized Certificate Authorities</h3>
+        <p>Before adding CAA records, audit every certificate authority you currently use. Check all active certificates across your domains and note the issuing CA for each. Typical CAs include Let's Encrypt (letsencrypt.org), Google Trust Services (pki.goog), DigiCert (digicert.com), GlobalSign (globalsign.com), Sectigo (sectigo.com), Amazon (amazon.com), Cloudflare (cloudflare.com), and Microsoft (microsoft.com). Look beyond web server certificates. Include certificates used for API authentication, code signing, email signing, and internal PKI. You should also consider future needs. If you plan to migrate to a different CA, add it to the list now so you do not have to update DNS records during the migration. Document the list in a shared location where your team can review and update it periodically.</p>
+
+        <h3>Step 2: Understand the CAA Record Format</h3>
+        <p>A CAA record has three components: flags, a tag, and a value. The standard format is: <code>@ IN CAA 0 issue "letsencrypt.org"</code>. The flag field is almost always set to 0 for standard records. A flag value of 128 indicates a critical property that must be understood by any CA processing the record. The tag field can be one of three values: <code>issue</code> (authorizes a specific CA to issue certificates for the domain), <code>issuewild</code> (authorizes a CA to issue wildcard certificates for the domain), or <code>iodef</code> (specifies a URL or email address for reporting unauthorized issuance attempts). The value field contains the CA's domain name for issue and issuewild tags, or the reporting destination URL for the iodef tag. Multiple CAA records can exist for the same domain, and a CA is authorized if any record with the matching tag includes that CA. If no CAA records exist, any CA may issue certificates for the domain.</p>
+
+        <h3>Step 3: Add CAA Records Via the is-cool-me Dashboard</h3>
+        <p>CAA records are added through the is-cool-me DNS dashboard as native <code>CAA</code> records. Navigate to the DNS settings for your domain in the dashboard, select the <code>CAA</code> record type, and enter the required fields. The zone apex is represented by <code>@</code> for the root domain, or you can specify a subdomain. For each authorized CA, add a separate CAA entry in the proper format (for example, <code>0 issue "letsencrypt.org"</code> and <code>0 issue "pki.goog"</code>). If you also want to restrict wildcard issuance, add an <code>issuewild</code> entry: <code>0 issuewild "letsencrypt.org"</code>. The <code>issuewild</code> tag only affects wildcard certificates. Standard (non-wildcard) certificates are controlled by the <code>issue</code> tag.</p>
+
+        <h3>Step 4: Test With dig</h3>
+        <p>After adding your CAA records, verify them using dig. Run <code>dig CAA yourname.is-pro.dev +short</code> to query the CAA records directly. The output should list each record in the format: <code>0 issue "letsencrypt.org"</code>. If you also added an iodef record, it will appear as: <code>0 iodef "mailto:security@yourname.is-pro.dev"</code>. Test from an authoritative nameserver (discoverable with <code>dig NS is-pro.dev +short</code>) using <code>dig @&lt;authoritative-ns&gt; CAA yourname.is-pro.dev +short</code> to confirm the records are published at the source. Test from a public resolver like 8.8.8.8 to confirm global visibility. If a CA later rejects a certificate request due to CAA, the error message from the CA will typically indicate which CAA record blocked the issuance.</p>
+
+        <h3>Step 5: Add an iodef Record for Reporting</h3>
+        <p>The iodef tag specifies where CAs should report issuance attempts that violate your CAA policy. An iodef record points to either an email address (using the mailto URI scheme) or a URL endpoint that accepts Incident Object Description Exchange Format (IODEF) reports. To add an iodef record, create a <code>CAA</code> entry with the value: <code>0 iodef "mailto:security@yourname.is-pro.dev"</code>. Replace the email address with your security team's contact address. If you have an automated incident response system that accepts IODEF reports, you can use an HTTPS URL instead: <code>0 iodef "https://yourname.is-pro.dev/iodef"</code>. Note that not all CAs fully implement iodef reporting, but the major CAs do support it. The iodef record does not affect certificate issuance. It is purely a reporting mechanism. You can add or remove it at any time without impacting the behavior of your issue records.</p>
+
+        <h2>Verification</h2>
+        <p>After publishing your CAA records, verify the configuration with a comprehensive test suite. Run <code>dig CAA yourname.is-pro.dev +short</code> and confirm every expected CA appears. Check that no unauthorized CAs are listed. Verify the iodef record is present if you added one. Use an online SSL/TLS tester that includes CAA checking, such as the Qualys SSL Labs test. Try requesting a test certificate from each authorized CA to confirm they can still issue. If you have a staging environment, test the full certificate renewal flow before enforcing CAA in production. Run a negative test by using a CA that is not in your CAA records and confirm the issuance request is rejected. Document the entire verification in your certificate management system.</p>
+
+        <h2>Troubleshooting</h2>
+        <h3>CAA Blocking Legitimate Certificates</h3>
+        <p>The most common CAA issue is accidentally blocking a CA that you need. If a certificate renewal fails with a CAA-related error, check that the CA is listed in your CAA records. Remember that the value must match the CA's domain exactly as the CA publishes it. For example, Let's Encrypt uses <code>letsencrypt.org</code>, not <code>letsencrypt.com</code>. If you are using a CA that operates multiple intermediate certificates under different domains, you may need to authorize multiple domain values. Check the CA documentation for the exact CAA value required.</p>
+        <h3>Emergency CA Expansion</h3>
+        <p>If you need to temporarily authorize an additional CA during an emergency, add the new record and wait for DNS propagation. With a standard TTL of 300 seconds, the new record should be visible to CAs within five minutes. After the emergency is resolved, remove the temporary authorization. Document the emergency procedure in your runbook so team members know how to expand the CAA list under time pressure.</p>
+        <h3>Overlapping Records</h3>
+        <p>CAA records can overlap if you have records at both the zone apex and a subdomain. A subdomain inherits CAA records from its parent domain unless it has its own CAA records. If a subdomain has any CAA record, all CAA records must be defined at that level. The parent's CAA records are not merged. This means you must either define CAA at the root level only (where it applies to all subdomains) or explicitly define CAA for every subdomain that needs certificate issuance.</p>
+        <h3>Propagation Delays</h3>
+        <p>CAA records respect the same TTL as any other DNS record. After modifying CAA records, wait for the TTL to expire before assuming the change is visible to CAs. If a CA check fails immediately after a change, try again after the TTL window has passed.</p>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Authorize multiple CAs.</strong> Always list at least two CAs to avoid a single point of failure. If one CA has an outage, the other can still issue certificates for your domain.</li>
+          <li><strong>Add iodef reporting.</strong> Configure iodef records to receive notifications of unauthorized issuance attempts. This gives you early warning of potential security incidents.</li>
+          <li><strong>Audit CAA records periodically.</strong> Review your CAA records every quarter. Remove CAs you no longer use and add any new CAs your team has adopted.</li>
+          <li><strong>Document emergency procedures.</strong> Write a runbook entry for temporarily expanding CAA authorization. Include the exact dig commands to check current state and the dashboard steps to add a new record.</li>
+          <li><strong>Test certificate renewal after CAA changes.</strong> Whenever you modify CAA records, run a test certificate issuance to confirm everything works before letting production certificates expire.</li>
+          <li><strong>Use issuewild for wildcard control.</strong> If you use wildcard certificates, add issuewild records separately. This lets you restrict wildcard issuance to fewer CAs than standard issuance.</li>
+          <li><strong>Monitor CA transparency logs.</strong> Use Certificate Transparency (CT) log monitoring to detect certificates issued for your domain, regardless of CAA enforcement. This provides a second layer of defense.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        <h3>What happens if a CA ignores my CAA records?</h3>
+        <p>CAA checking is mandatory under the CA/Browser Forum Baseline Requirements. Any CA that ignores CAA records is violating the rules that govern trusted certificate issuance. If you suspect a CA issued a certificate in violation of your CAA policy, report the incident to the CA's compliance team and to the CA/Browser Forum.</p>
+        <h3>Can CAA records prevent all unauthorized certificate issuance?</h3>
+        <p>CAA records significantly reduce the risk of unauthorized issuance, but they are not a complete solution. A compromised CA that ignores CAA could still issue certificates. CAA should be combined with Certificate Transparency monitoring, DNS security measures like DNSSEC, and regular certificate inventory audits.</p>
+        <h3>How do I add CAA records through the is-cool-me dashboard?</h3>
+        <p>Navigate to your domain's DNS settings and add a new TXT record. For the value, use the CAA syntax: <code>0 issue "letsencrypt.org"</code>. Replace letsencrypt.org with the CA you want to authorize. Add separate records for each CA.</p>
+        <h3>Do CAA records affect existing certificates?</h3>
+        <p>No. CAA records only affect new certificate issuance requests and renewal requests. Already-issued certificates remain valid until their expiration date regardless of CAA configuration.</p>
+        <h3>How long does it take for CAA records to be enforced?</h3>
+        <p>CAA records are regular DNS records and are subject to normal DNS propagation delays. Once the TTL expires and the record propagates, CAs will see the new records on the next issuance request. With a TTL of 300 seconds, enforcement typically takes effect within five minutes.</p>
+        <h3>Can I use CAA for subdomains?</h3>
+        <p>Yes. CAA records can be set at any level in your DNS hierarchy. A subdomain inherits CAA from its parent unless it has its own CAA records. If a subdomain has any CAA record, you must define all authorized CAs at that subdomain level.</p>
+        <h3>Should I set CAA on all my domains or just production domains?</h3>
+        <p>Set CAA on all domains that have DNS managed through your account, including staging and development domains. A compromise of a non-production domain can still damage your brand reputation and could potentially be used as a stepping stone for attacks against production systems.</p>
+
+        <h2>Related Guides</h2>
+        <ul>
+          <li><a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="inline-link">Diagnose SSL/TLS Certificate Issues</a> &mdash; Troubleshoot certificate problems that may arise after CAA enforcement.</li>
+          <li><a href="/guides/build-a-dns-change-checklist-for-teams/" class="inline-link">Build a DNS Change Checklist for Teams</a> &mdash; Apply structured change management to your CAA record modifications.</li>
+        </ul>
+
+        <p style="margin-top:2rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
+      </div>
+
       <div class="share-section">
         <span class="share-label">Share this guide</span>
         <div class="share-buttons">
@@ -221,6 +325,7 @@
         <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
 </div>
 
+    <!-- Mobile Banner Ad 320x50 - Article end -->
     <div class="container" style="margin-bottom:1.5rem;display:none;" id="guide-mobile-ad">
       <div class="ad-container ad-banner-320x50">
 <script>

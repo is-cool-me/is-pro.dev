@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>GitHub Pages Custom Domain: Step-by-Step Guide — is-cool-me</title>
+  <meta name="description" content="Set up a custom domain for your GitHub Pages site using a free is-pro.dev subdomain. DNS configuration, repository settings, and SSL setup covered." />
+  <link rel="canonical" href="https://is-pro.dev/guides/github-pages-custom-domain/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/guides/github-pages-custom-domain/" />
+  <meta property="og:title" content="GitHub Pages Custom Domain: Step-by-Step Guide — is-cool-me" />
+  <meta property="og:description" content="Set up a custom domain for your GitHub Pages site using a free is-pro.dev subdomain. DNS configuration, repository settings, and SSL setup covered." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GitHub Pages Custom Domain: Step-by-Step Guide — is-cool-me" />
+  <meta name="twitter:description" content="Set up a custom domain for your GitHub Pages site using a free is-pro.dev subdomain. DNS configuration, repository settings, and SSL setup covered." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "GitHub Pages Custom Domain: Step-by-Step Guide",
+      "description": "Set up a custom domain for your GitHub Pages site using a free is-pro.dev subdomain. DNS configuration, repository settings, and SSL setup covered.",
+      "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": { "@type": "ImageObject", "url": "https://is-pro.dev/dist/images/logo.png" }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-27",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://is-pro.dev/guides/github-pages-custom-domain/" },
+      "url": "https://is-pro.dev/guides/github-pages-custom-domain/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://is-pro.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://is-pro.dev/guides/" },
+        { "@type": "ListItem", "position": 3, "name": "GitHub Pages Custom Domain: Step-by-Step Guide", "item": "https://is-pro.dev/guides/github-pages-custom-domain/" }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<main id="main-content">
+  <article>
+    <header class="article-hero">
+      <div class="container">
+        <div class="article-hero-inner">
+          <div class="article-meta">
+            <span class="article-category">Deployment</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
+          </div>
+          <h1>GitHub Pages Custom Domain: Step-by-Step Guide</h1>
+          <p class="article-summary">Set up a custom domain for your GitHub Pages site using a free is-pro.dev subdomain. DNS configuration, repository settings, and SSL setup covered.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="article-layout-section">
+      <div class="container">
+        <div class="article-layout-inner">
+          <div class="article-content prose">
+<h1>GitHub Pages Custom Domain: Step-by-Step Guide</h1>
+<p>GitHub Pages is one of the most popular ways to host static sites, portfolios, and project documentation. By default, your site lives at <code>username.github.io</code>, but adding a custom domain makes it look professional. With is-pro.dev, you can get a free subdomain and point it to your GitHub Pages site in under ten minutes. This guide covers everything you need to know.</p>
+<h2>Why Use a Custom Domain with GitHub Pages?</h2>
+<p>A custom domain like <code>portfolio.is-pro.dev</code> looks much more professional than <code>username.github.io</code>. It builds trust with visitors, improves your brand, and gives you a consistent URL that you can use on resumes, business cards, and social media profiles. Best of all, is-pro.dev subdomains are completely free.</p>
+<h2>Prerequisites</h2>
+<ul><li>A GitHub account and a GitHub Pages repository (either your username repository or a project page)</li>
+<li>A registered is-pro.dev subdomain</li>
+<li>Your GitHub Pages URL (e.g., <code>username.github.io</code> or <code>username.github.io/repository</code>)</li>
+<p></ul></p>
+<h2>Step 1: Register Your Subdomain</h2>
+<p>Sign in at dash.is-pro.dev with your GitHub account. Choose a subdomain that matches your GitHub Pages site. If you are creating a portfolio, <code>portfolio.is-pro.dev</code> is a great choice. For a project documentation site, use the project name. Complete the registration and your subdomain will be ready in seconds.</p>
+<h2>Step 2: Configure DNS Records</h2>
+<p>GitHub Pages requires specific DNS records depending on whether you are using an apex domain or a subdomain. For an is-pro.dev subdomain, you need to add DNS records in your dashboard:</p>
+<p><strong>For a subdomain (recommended):</strong> Create a CNAME record pointing your subdomain to <code>username.github.io</code>. Replace <code>username</code> with your actual GitHub username.</p>
+<p><strong>For an apex domain (if you have one):</strong> Create A records pointing to GitHub's IP addresses: <code>185.199.108.153</code>, <code>185.199.109.153</code>, <code>185.199.110.153</code>, and <code>185.199.111.153</code>.</p>
+<h2>Step 3: Configure Your GitHub Repository</h2>
+<p>Go to your GitHub repository and navigate to Settings → Pages. Under "Custom domain," enter your full subdomain (e.g., <code>portfolio.is-pro.dev</code>) and click Save. GitHub will automatically create a commit adding a CNAME file to your repository. This file tells GitHub Pages which domain to serve your site on.</p>
+<h2>Step 4: Enable HTTPS</h2>
+<p>After you save your custom domain, GitHub will attempt to provision a Let's Encrypt SSL certificate. This process is automatic and usually takes a few minutes. Check the "Enforce HTTPS" checkbox once the certificate is ready. This ensures all traffic to your site is encrypted.</p>
+<h2>Step 5: Verify Your Setup</h2>
+<p>Visit your new domain in a browser. Your GitHub Pages site should load with a valid HTTPS certificate. Check that all links, images, and resources load correctly. If your site uses relative URLs, they will work automatically with your new domain.</p>
+<h2>Troubleshooting</h2>
+<p><strong>404 error after setup:</strong> If you see a 404, check that your CNAME record is exactly correct. The target should be <code>username.github.io</code> with no trailing slash. Also verify that GitHub Pages is enabled for your repository.</p>
+<p><strong>SSL certificate not ready:</strong> GitHub provisions certificates automatically, but this can take up to 24 hours in rare cases. If it takes longer than an hour, try removing and re-adding your custom domain in the Pages settings.</p>
+<p><strong>Mixed content warnings:</strong> If your site loads over HTTPS but some resources load over HTTP, update all resource URLs to use HTTPS or protocol-relative URLs (starting with <code>//</code>).</p>
+<h2>FAQ</h2>
+<p><strong>Q: Can I use multiple custom domains with one GitHub Pages site?</strong></p>
+<p>A: GitHub Pages supports one custom domain per site. However, you can set up redirects from other domains.</p>
+<p><strong>Q: Will GitHub Pages still work with my existing GitHub Actions deployment?</strong></p>
+<p>A: Yes, custom domains do not affect your deployment workflow. GitHub Actions will continue to deploy as usual.</p>
+<p><strong>Q: Can I use a subdomain for a project page?</strong></p>
+<p>A: Yes. For project pages, create a CNAME pointing to <code>username.github.io</code> and add the CNAME file with your custom domain to your project repository.</p>
+<h2>Conclusion</h2>
+<p>Setting up a custom domain for GitHub Pages with a free is-pro.dev subdomain is straightforward. Register your subdomain, configure DNS, update your repository settings, and enable HTTPS. Your site will be live with a professional, custom URL in just a few minutes.</p>          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="is-cool-me home">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span>is-cool-me</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for developers.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/domains/">Domains</a>
+        <a href="/blog/">Blog</a>
+        <a href="/guides/">Guides</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/abuse-report/">Report Abuse</a>
+      </nav>
+      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

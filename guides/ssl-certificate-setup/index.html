@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>SSL Certificate Setup: Free HTTPS Guide — is-cool-me</title>
+  <meta name="description" content="Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
+  <link rel="canonical" href="https://is-pro.dev/guides/ssl-certificate-setup/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/guides/ssl-certificate-setup/" />
+  <meta property="og:title" content="SSL Certificate Setup: Free HTTPS Guide — is-cool-me" />
+  <meta property="og:description" content="Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SSL Certificate Setup: Free HTTPS Guide — is-cool-me" />
+  <meta name="twitter:description" content="Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "SSL Certificate Setup: Free HTTPS Guide",
+      "description": "Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues.",
+      "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": { "@type": "ImageObject", "url": "https://is-pro.dev/dist/images/logo.png" }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-27",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://is-pro.dev/guides/ssl-certificate-setup/" },
+      "url": "https://is-pro.dev/guides/ssl-certificate-setup/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://is-pro.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://is-pro.dev/guides/" },
+        { "@type": "ListItem", "position": 3, "name": "SSL Certificate Setup: Free HTTPS Guide", "item": "https://is-pro.dev/guides/ssl-certificate-setup/" }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<main id="main-content">
+  <article>
+    <header class="article-hero">
+      <div class="container">
+        <div class="article-hero-inner">
+          <div class="article-meta">
+            <span class="article-category">Deployment</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
+          </div>
+          <h1>SSL Certificate Setup: Free HTTPS Guide</h1>
+          <p class="article-summary">Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="article-layout-section">
+      <div class="container">
+        <div class="article-layout-inner">
+          <div class="article-content prose">
+<h1>SSL Certificate Setup: Free HTTPS Guide</h1>
+<p>HTTPS is no longer optional — it is essential for security, SEO, and user trust. Every website should serve content over an encrypted connection. With is-pro.dev, you get free SSL certificates through Cloudflare, and you can combine them with Let's Encrypt for additional flexibility. This guide covers all the ways to set up SSL for your subdomain.</p>
+<h2>Why SSL Matters</h2>
+<p>SSL (Secure Sockets Layer) encrypts data between your visitors and your website. Without it, anyone on the same network can intercept sensitive information. Beyond security, HTTPS improves your Google search ranking, enables HTTP/2 for faster loading, and is required for many browser features like service workers and geolocation APIs. Modern browsers mark HTTP sites as "Not Secure," which discourages visitors.</p>
+<h2>How SSL Works on is-pro.dev</h2>
+<p>is-pro.dev uses Cloudflare for DNS, which means you have two SSL options:</p>
+<p><strong>Cloudflare's Edge Certificate (free):</strong> Cloudflare provides a shared SSL certificate that covers all proxied domains. When your DNS record has the orange cloud enabled, Cloudflare terminates the SSL connection at its edge and connects to your origin server over a separate connection. This certificate is automatically issued and renewed — no action needed.</p>
+<p><strong>Origin Certificate (free):</strong> If you need end-to-end encryption, Cloudflare also provides a 15-year origin certificate that you install on your server. This works with Full (Strict) SSL mode.</p>
+<h2>Setting Up Cloudflare SSL</h2>
+<p>When you register your is-pro.dev subdomain, SSL is automatically available if your DNS record is proxied through Cloudflare (orange cloud). To verify:</p>
+<li>Go to your DNS settings and ensure the orange cloud is enabled for your subdomain</li>
+<li>Visit your domain with <code>https://</code> in the browser</li>
+<li>Click the padlock icon to view the certificate details</li>
+<p>The certificate will show Cloudflare as the issuer and your subdomain as the subject. It is valid for all is-pro.dev subdomains.</p>
+<h2>Let's Encrypt Certificates</h2>
+<p>If you prefer to use your own certificate or need DNS-only mode (gray cloud), Let's Encrypt provides free, 90-day certificates that auto-renew:</p>
+<p><strong>Using Certbot:</strong></p>
+<p>``<code>bash</p>
+<p>sudo apt install certbot</p>
+<p>sudo certbot certonly --manual --preferred-challenges dns -d your-subdomain.is-pro.dev</p>
+<p></code>`<code></p>
+<p><strong>Using acme.sh:</strong></p>
+<p></code>`<code>bash</p>
+<p>curl https://get.acme.sh | sh</p>
+<p>acme.sh --issue --dns dns_cf -d your-subdomain.is-pro.dev</p>
+<p></code>`<code></p>
+<p><strong>Using Caddy:</strong> Caddy automatically provisions and renews Let's Encrypt certificates for all configured domains with zero configuration.</p>
+<h2>Configuring SSL on Your Server</h2>
+<p><strong>Nginx:</strong></p>
+<p></code>`<code>nginx</p>
+<p>server {</p>
+<p>    listen 443 ssl;</p>
+<p>    server_name your-subdomain.is-pro.dev;</p>
+<p>    ssl_certificate /path/to/cert.pem;</p>
+<p>    ssl_certificate_key /path/to/key.pem;</p>
+<p>    location / {</p>
+<p>        proxy_pass http://localhost:3000;</p>
+<p>    }</p>
+<p>}</p>
+<p></code>`<code></p>
+<p><strong>Node.js (Express):</strong></p>
+<p></code>`<code>javascript</p>
+<p>const https = require('https');</p>
+<p>const fs = require('fs');</p>
+<p>https.createServer({</p>
+<p>    cert: fs.readFileSync('/path/to/cert.pem'),</p>
+<p>    key: fs.readFileSync('/path/to/key.pem')</p>
+<p>}, app).listen(443);</p>
+<p></code>`<code></p>
+<h2>SSL Best Practices</h2>
+<p><strong>Use Full (Strict) mode</strong> in Cloudflare SSL/TLS settings. This ensures both visitor-to-Cloudflare and Cloudflare-to-origin connections are encrypted with valid certificates.</p>
+<p><strong>Set up HSTS</strong> (HTTP Strict Transport Security) to tell browsers to always use HTTPS:</p>
+<p></code>`<code></p>
+<p>Strict-Transport-Security: max-age=31536000; includeSubDomains; preload</p>
+<p></code>`<code></p>
+<p><strong>Redirect HTTP to HTTPS</strong> to ensure all traffic uses encryption:</p>
+<p></code>`<code>nginx</p>
+<p>server {</p>
+<p>    listen 80;</p>
+<p>    server_name your-subdomain.is-pro.dev;</p>
+<p>    return 301 https://$server_name$request_uri;</p>
+<p>}</p>
+<p></code>`<code></p>
+<p><strong>Enable OCSP Stapling</strong> to improve TLS handshake performance:</p>
+<p></code>`<code>nginx</p>
+<p>ssl_stapling on;</p>
+<p>ssl_stapling_verify on;</p>
+<p></code>`<code></p>
+<h2>Troubleshooting SSL Issues</h2>
+<p><strong>Certificate not valid error:</strong> Ensure your system clock is correct and the certificate is not expired. For Let's Encrypt, certificates expire every 90 days.</p>
+<p><strong>Mixed content warnings:</strong> Your page loads over HTTPS but includes HTTP resources (images, scripts, stylesheets). Update all resource URLs to use HTTPS or protocol-relative URLs.</p>
+<p><strong>SSL handshake failed:</strong> This usually indicates a server-side configuration issue. Check that your server is listening on port 443 and the certificate files are accessible.</p>
+<p><strong>ERR_SSL_PROTOCOL_ERROR:</strong> Your server may not be configured to speak SSL. Ensure the SSL module is enabled (Nginx: </code>ssl<code> directive, Apache: </code>mod_ssl.so`).</p>
+<h2>FAQ</h2>
+<p><strong>Q: Are Cloudflare SSL certificates free?</strong></p>
+<p>A: Yes, Cloudflare provides free shared SSL certificates for all proxied domains on all plans.</p>
+<p><strong>Q: How often do certificates renew?</strong></p>
+<p>A: Cloudflare certificates renew automatically. Let's Encrypt certificates are valid for 90 days and auto-renew with tools like Certbot.</p>
+<p><strong>Q: Can I use my own custom certificate?</strong></p>
+<p>A: Yes. Cloudflare supports uploading custom certificates in the SSL/TLS section of the dashboard.</p>
+<h2>Conclusion</h2>
+<p>SSL certificates for your is-pro.dev subdomain are free and easy to set up. Cloudflare provides automatic SSL for proxied domains, and Let's Encrypt offers an alternative for custom setups. Whichever method you choose, encrypting your traffic protects your users and improves your site's credibility.</p>          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="is-cool-me home">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span>is-cool-me</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for developers.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/domains/">Domains</a>
+        <a href="/blog/">Blog</a>
+        <a href="/guides/">Guides</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/abuse-report/">Report Abuse</a>
+      </nav>
+      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

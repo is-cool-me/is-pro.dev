@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>API Endpoint Domain: Setup and Best Practices — is-cool-me</title>
+  <meta name="description" content="Configure a dedicated is-pro.dev subdomain for your API endpoints. DNS setup, SSL, CORS, rate limiting, and best practices for production API hosting." />
+  <link rel="canonical" href="https://is-pro.dev/guides/api-endpoint-domain/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/guides/api-endpoint-domain/" />
+  <meta property="og:title" content="API Endpoint Domain: Setup and Best Practices — is-cool-me" />
+  <meta property="og:description" content="Configure a dedicated is-pro.dev subdomain for your API endpoints. DNS setup, SSL, CORS, rate limiting, and best practices for production API hosting." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="API Endpoint Domain: Setup and Best Practices — is-cool-me" />
+  <meta name="twitter:description" content="Configure a dedicated is-pro.dev subdomain for your API endpoints. DNS setup, SSL, CORS, rate limiting, and best practices for production API hosting." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "API Endpoint Domain: Setup and Best Practices",
+      "description": "Configure a dedicated is-pro.dev subdomain for your API endpoints. DNS setup, SSL, CORS, rate limiting, and best practices for production API hosting.",
+      "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": { "@type": "ImageObject", "url": "https://is-pro.dev/dist/images/logo.png" }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-27",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://is-pro.dev/guides/api-endpoint-domain/" },
+      "url": "https://is-pro.dev/guides/api-endpoint-domain/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://is-pro.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://is-pro.dev/guides/" },
+        { "@type": "ListItem", "position": 3, "name": "API Endpoint Domain: Setup and Best Practices", "item": "https://is-pro.dev/guides/api-endpoint-domain/" }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<main id="main-content">
+  <article>
+    <header class="article-hero">
+      <div class="container">
+        <div class="article-hero-inner">
+          <div class="article-meta">
+            <span class="article-category">Deployment</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
+          </div>
+          <h1>API Endpoint Domain: Setup and Best Practices</h1>
+          <p class="article-summary">Configure a dedicated is-pro.dev subdomain for your API endpoints. DNS setup, SSL, CORS, rate limiting, and best practices for production API hosting.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="article-layout-section">
+      <div class="container">
+        <div class="article-layout-inner">
+          <div class="article-content prose">
+<h1>API Endpoint Domain: Setup and Best Practices</h1>
+<p>Running an API on a dedicated subdomain like <code>api.is-pro.dev</code> is a common pattern for modern web applications. It keeps your API separate from your frontend, simplifies CORS configuration, and allows independent scaling. This guide covers everything you need to set up and secure your API endpoint with a free is-pro.dev subdomain.</p>
+<h2>Why Use a Dedicated API Domain</h2>
+<p>Separating your API onto its own subdomain offers several advantages:</p>
+<ul><li><strong>Clean separation of concerns</strong> between your frontend and backend</li>
+<li><strong>Simplified CORS configuration</strong> since the frontend domain differs from the API domain</li>
+<li><strong>Independent scaling</strong> — your API can be hosted on different infrastructure from your frontend</li>
+<li><strong>Professional URL structure</strong> like <code>api.project.is-pro.dev</code></li>
+<h2>Choosing Your API Subdomain</h2>
+<p>Common naming patterns for API subdomains:</p>
+<li><code>api.is-pro.dev</code> for a general API</li>
+<li><code>api.your-project.is-pro.dev</code> for project-specific APIs</li>
+<li><code>graphql.is-pro.dev</code> for GraphQL endpoints</li>
+<li><code>v1.api.is-pro.dev</code> for versioned APIs</li>
+<p>Register your chosen subdomain at dash.is-pro.dev.</p>
+<h2>DNS Configuration for APIs</h2>
+<p>For API servers, you typically need an A record pointing to your server's IP address:</p>
+<p>``<code></p>
+<p>Type: A</p>
+<p>Name: api</p>
+<p>IPv4: your-server-ip</p>
+<p>Proxy Status: DNS only (gray cloud) for TCP-based APIs, Proxied (orange cloud) for HTTP APIs</p>
+<p></code>`<code></p>
+<p>If your API is hosted on a platform like Railway, Render, or Fly.io, use a CNAME record instead pointing to the platform's provided domain.</p>
+<h2>SSL for API Endpoints</h2>
+<p>HTTPS is essential for APIs to protect data in transit. Configuration options:</p>
+<p><strong>Cloudflare Proxy (orange cloud):</strong> SSL is handled automatically by Cloudflare. Your API is served over HTTPS with Cloudflare's shared certificate. This works well for REST and GraphQL APIs over HTTP/HTTPS.</p>
+<p><strong>Let's Encrypt:</strong> For direct SSL termination on your server, use Certbot:</p>
+<p></code>`<code>bash</p>
+<p>sudo certbot --nginx -d api.is-pro.dev</p>
+<p></code>`<code></p>
+<p><strong>Caddy:</strong> Automatically provisions and renews SSL certificates:</p>
+<p></code>`<code></p>
+<p>api.is-pro.dev {</p>
+<p>    reverse_proxy localhost:3000</p>
+<p>}</p>
+<p></code>`<code></p>
+<h2>CORS Configuration</h2>
+<p>When your frontend is on a different domain than your API, configure CORS headers:</p>
+<p><strong>Node.js (Express):</strong></p>
+<p></code>`<code>javascript</p>
+<p>const cors = require('cors');</p>
+<p>app.use(cors({</p>
+<p>    origin: ['https://app.is-pro.dev', 'https://your-frontend.vercel.app'],</p>
+<p>    methods: ['GET', 'POST', 'PUT', 'DELETE'],</p>
+<p>    credentials: true</p>
+<p>}));</p>
+<p></code>`<code></p>
+<p><strong>Python (FastAPI):</strong></p>
+<p></code>`<code>python</p>
+<p>from fastapi.middleware.cors import CORSMiddleware</p>
+<p>app.add_middleware(CORSMiddleware,</p>
+<p>    allow_origins=["https://app.is-pro.dev"],</p>
+<p>    allow_methods=["*"],</p>
+<p>    allow_headers=["*"])</p>
+<p></code>`<code></p>
+<p><strong>Go (Gin):</strong></p>
+<p></code>`<code>go</p>
+<p>r.Use(cors.New(cors.Config{</p>
+<p>    AllowOrigins: []string{"https://app.is-pro.dev"},</p>
+<p>    AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},</p>
+<p>}))</p>
+<p></code>`<code></p>
+<h2>Rate Limiting</h2>
+<p>Protect your API from abuse with rate limiting:</p>
+<p><strong>Cloudflare Rate Limiting:</strong> Configure in the Cloudflare dashboard under Security → WAF → Rate Limiting. Free plan allows 10 rules. Set thresholds based on your API's expected usage patterns.</p>
+<p><strong>Application-level limiting:</strong> Use middleware in your framework:</p>
+<p></code>`<code>javascript</p>
+<p>const rateLimit = require('express-rate-limit');</p>
+<p>const limiter = rateLimit({</p>
+<p>    windowMs: 15 <em> 60 </em> 1000,</p>
+<p>    max: 100,</p>
+<p>    message: { error: 'Too many requests' }</p>
+<p>});</p>
+<p>app.use('/api/', limiter);</p>
+<p></code>`<code></p>
+<h2>API Documentation</h2>
+<p>Make your API discoverable with documentation:</p>
+<p><strong>OpenAPI/Swagger:</strong> Define your API schema in OpenAPI 3.0 format. Host the documentation on a subpath of your API domain:</p>
+<p></code>`<code></p>
+<p>https://api.is-pro.dev/docs</p>
+<p></code>`<code></p>
+<p><strong>Postman:</strong> Create a public workspace with collection and environment templates. Link to it from your API's root endpoint.</p>
+<p><strong>Response headers:</strong> Include API version, rate limit status, and documentation links in response headers.</p>
+<h2>Monitoring and Logging</h2>
+<p>Set up basic monitoring for your API:</p>
+<li>Health check endpoint at </code>/health<code> returning status and uptime</li>
+<li>Structured logging with correlation IDs for request tracking</li>
+<li>Uptime monitoring with services like UptimeRobot (free tier: 50 monitors)</li>
+<li>Error tracking with Sentry (free tier available)</li>
+<p></ul></p>
+<h2>Troubleshooting</h2>
+<p><strong>CORS errors:</strong> Verify that your CORS configuration includes the exact origin of your frontend (including protocol and port if applicable). Use </code>curl -H "Origin: https://app.is-pro.dev" -I https://api.is-pro.dev/endpoint<code> to test.</p>
+<p><strong>SSL handshake failures for proxied APIs:</strong> If using Cloudflare proxy (orange cloud), ensure your origin server accepts connections from Cloudflare's IP ranges. These are published in Cloudflare's documentation.</p>
+<p><strong>Rate limiting too aggressive:</strong> Monitor your API usage patterns before setting limits. Start with generous limits and tighten based on observed traffic.</p>
+<h2>FAQ</h2>
+<p><strong>Q: Can I use WebSockets with a proxied Cloudflare domain?</strong></p>
+<p>A: Yes, Cloudflare supports WebSocket connections through proxied DNS. Ensure your server supports WebSocket upgrades.</p>
+<p><strong>Q: How do I version my API?</strong></p>
+<p>A: Include the version in the URL path (</code>/v1/users<code>) or use a separate subdomain (</code>v1.api.is-pro.dev`). Path-based versioning is simpler to configure.</p>
+<p><strong>Q: Can I use HTTP/2 for my API?</strong></p>
+<p>A: Yes, Cloudflare supports HTTP/2 automatically for proxied domains. Enable it in the Speed settings.</p>
+<h2>Conclusion</h2>
+<p>Setting up an API endpoint on a dedicated is-pro.dev subdomain gives you a professional, scalable architecture at zero cost. Configure DNS, enable SSL, set up CORS, implement rate limiting, and document your endpoints. Your API will be production-ready and accessible worldwide.</p>          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="is-cool-me home">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span>is-cool-me</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for developers.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/domains/">Domains</a>
+        <a href="/blog/">Blog</a>
+        <a href="/guides/">Guides</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/abuse-report/">Report Abuse</a>
+      </nav>
+      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Free Domain for Vercel: Complete Setup Guide — is-cool-me</title>
+  <meta name="description" content="Learn how to configure your is-pro.dev free subdomain with Vercel deployments. Step-by-step instructions for custom domains, DNS setup, and SSL." />
+  <link rel="canonical" href="https://is-pro.dev/guides/free-domain-for-vercel/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/guides/free-domain-for-vercel/" />
+  <meta property="og:title" content="Free Domain for Vercel: Complete Setup Guide — is-cool-me" />
+  <meta property="og:description" content="Learn how to configure your is-pro.dev free subdomain with Vercel deployments. Step-by-step instructions for custom domains, DNS setup, and SSL." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free Domain for Vercel: Complete Setup Guide — is-cool-me" />
+  <meta name="twitter:description" content="Learn how to configure your is-pro.dev free subdomain with Vercel deployments. Step-by-step instructions for custom domains, DNS setup, and SSL." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Free Domain for Vercel: Complete Setup Guide",
+      "description": "Learn how to configure your is-pro.dev free subdomain with Vercel deployments. Step-by-step instructions for custom domains, DNS setup, and SSL.",
+      "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": { "@type": "ImageObject", "url": "https://is-pro.dev/dist/images/logo.png" }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-27",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://is-pro.dev/guides/free-domain-for-vercel/" },
+      "url": "https://is-pro.dev/guides/free-domain-for-vercel/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://is-pro.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://is-pro.dev/guides/" },
+        { "@type": "ListItem", "position": 3, "name": "Free Domain for Vercel: Complete Setup Guide", "item": "https://is-pro.dev/guides/free-domain-for-vercel/" }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<main id="main-content">
+  <article>
+    <header class="article-hero">
+      <div class="container">
+        <div class="article-hero-inner">
+          <div class="article-meta">
+            <span class="article-category">Deployment</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
+          </div>
+          <h1>Free Domain for Vercel: Complete Setup Guide</h1>
+          <p class="article-summary">Learn how to configure your is-pro.dev free subdomain with Vercel deployments. Step-by-step instructions for custom domains, DNS setup, and SSL.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="article-layout-section">
+      <div class="container">
+        <div class="article-layout-inner">
+          <div class="article-content prose">
+<h1>Free Domain for Vercel: Complete Setup Guide</h1>
+<p>Deploying your project to Vercel is quick, but pointing a custom domain to it can feel daunting — especially when you do not want to pay for a domain name. With is-pro.dev, you get a free subdomain that works perfectly with Vercel. This guide walks you through every step of connecting your free subdomain to your Vercel project.</p>
+<h2>Why Use a Custom Domain with Vercel?</h2>
+<p>Vercel provides a generous free tier and automatic <code>*.vercel.app</code> domains for every deployment. However, custom domains offer several advantages: they look more professional, build trust with your users, and are easier to remember. A subdomain like <code>myproject.is-pro.dev</code> gives you the credibility of a real domain without any cost.</p>
+<h2>Prerequisites</h2>
+<p>Before you start, make sure you have:</p>
+<ul><li>A GitHub account (for signing into is-pro.dev)</li>
+<li>A project deployed on Vercel</li>
+<li>Your Vercel project's target domain (e.g., <code>myproject.vercel.app</code>)</li>
+<li>Basic familiarity with DNS records</li>
+<p></ul></p>
+<h2>Step 1: Register Your Free Subdomain</h2>
+<p>Go to dash.is-pro.dev and sign in with your GitHub account. Once signed in, you will see the registration form. Enter your desired subdomain name and select <code>is-pro.dev</code> as your zone. Choose a name that reflects your project — for example, if your project is called "Weather App," register <code>weather-app.is-pro.dev</code>. Click register and your subdomain will be created within seconds. Cloudflare handles the DNS infrastructure, so propagation is nearly instant.</p>
+<h2>Step 2: Add a CNAME Record</h2>
+<p>Vercel requires a CNAME record pointing <code>www</code> or your root domain to <code>cname.vercel-dns.com</code>. In the DNS management section of your dashboard, add a new CNAME record with your subdomain as the name and <code>cname.vercel-dns.com</code> as the target. If you want both <code>www</code> and the bare subdomain to work, add a second CNAME record for <code>www</code> pointing to the same target.</p>
+<h2>Step 3: Configure Your Vercel Project</h2>
+<p>Open your project dashboard on Vercel and navigate to Settings → Domains. Enter your full subdomain (e.g., <code>myproject.is-pro.dev</code>) and click Add. Vercel will automatically verify the DNS configuration. This usually takes a few seconds, but DNS propagation can occasionally take up to a few minutes. If Vercel shows a "pending" status, wait a moment and refresh.</p>
+<h2>Step 4: Enable SSL</h2>
+<p>Vercel and Cloudflare both provide free SSL certificates. If you are proxying through Cloudflare (orange cloud in DNS settings), Cloudflare handles SSL automatically. If you are using DNS-only mode (gray cloud), Vercel provisions a Let's Encrypt certificate for your domain. In either case, your site will be served over HTTPS with no extra configuration needed.</p>
+<h2>Step 5: Verify Your Setup</h2>
+<p>Visit your new domain in a browser. You should see your Vercel-deployed site loading with a valid SSL certificate. Check that both the bare subdomain and <code>www</code> variants work if you configured them. You can also run <code>curl -I https://your-subdomain.is-pro.dev</code> from the terminal to verify that Vercel's headers are being returned.</p>
+<h2>Common Pitfalls</h2>
+<p><strong>DNS not propagating:</strong> If your domain is not working after 15 minutes, double-check that the CNAME record is correct. The value must be exactly <code>cname.vercel-dns.com</code> with no trailing period or spaces.</p>
+<p><strong>SSL certificate not provisioning:</strong> Vercel issues certificates automatically, but this can take up to 30 minutes in rare cases. If you are proxying through Cloudflare, enable Full (Strict) SSL mode in the Cloudflare dashboard.</p>
+<p><strong>Domain already in use:</strong> Each is-pro.dev subdomain is unique. If your desired name is taken, try a variation like adding "app" or "io" as a prefix or suffix.</p>
+<h2>Pro Tips</h2>
+<p>If you are using Next.js with Vercel, consider enabling Incremental Static Regeneration (ISR) for pages that do not change frequently. This reduces server load and improves response times. For API routes, Vercel Edge Functions are ideal for low-latency global responses. Monitor your deployment in the Vercel dashboard under Analytics to track custom domain traffic separately.</p>
+<h2>FAQ</h2>
+<p><strong>Q: Can I use this with Vercel's team/enterprise plans?</strong></p>
+<p>A: Yes, the same process works for all Vercel plans. Team and enterprise projects may have additional custom domain options.</p>
+<p><strong>Q: Will my SSL certificate be free?</strong></p>
+<p>A: Yes. Both Vercel and Cloudflare provide free, auto-renewing SSL certificates.</p>
+<p><strong>Q: How long does DNS propagation take?</strong></p>
+<p>A: Most changes propagate within minutes. Cloudflare's global anycast network ensures fast propagation worldwide.</p>
+<p><strong>Q: Can I use my own apex domain instead?</strong></p>
+<p>A: If you own a custom domain, you can use it with Vercel too. But is-pro.dev subdomains are free and require no recurring payments.</p>
+<p><strong>Q: Can I use multiple is-pro.dev subdomains with one Vercel project?</strong></p>
+<p>A: Yes, Vercel supports adding multiple domains to a single project. Each domain must have its own CNAME record pointing to cname.vercel-dns.com.</p>
+<p><strong>Q: Does Vercel automatic HTTPS work with Cloudflare proxy?</strong></p>
+<p>A: Yes. When Cloudflare proxy is enabled (orange cloud), Cloudflare handles the SSL certificate. Set SSL/TLS mode to Full (Strict) for end-to-end encryption.</p>
+<h2>Conclusion</h2>
+<p>Connecting your free is-pro.dev subdomain to Vercel takes just a few minutes and costs nothing. You get the benefits of a custom domain — professional appearance, better SEO, and user trust — without the annual renewal fees. Start by registering your subdomain, add a CNAME record, configure it in Vercel, and you are live. Happy shipping!</p>          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="is-cool-me home">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span>is-cool-me</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for developers.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/domains/">Domains</a>
+        <a href="/blog/">Blog</a>
+        <a href="/guides/">Guides</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/abuse-report/">Report Abuse</a>
+      </nav>
+      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

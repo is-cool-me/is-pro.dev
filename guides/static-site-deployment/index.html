@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Static Site Deployment: Free Hosting Guide — is-cool-me</title>
+  <meta name="description" content="Deploy static sites with a free is-pro.dev subdomain. Covers HTML/CSS/JS sites, Hugo, Jekyll, Astro, and 11ty deployment to Cloudflare Pages, Netlify, and GitHub Pages." />
+  <link rel="canonical" href="https://is-pro.dev/guides/static-site-deployment/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/guides/static-site-deployment/" />
+  <meta property="og:title" content="Static Site Deployment: Free Hosting Guide — is-cool-me" />
+  <meta property="og:description" content="Deploy static sites with a free is-pro.dev subdomain. Covers HTML/CSS/JS sites, Hugo, Jekyll, Astro, and 11ty deployment to Cloudflare Pages, Netlify, and GitHub Pages." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Static Site Deployment: Free Hosting Guide — is-cool-me" />
+  <meta name="twitter:description" content="Deploy static sites with a free is-pro.dev subdomain. Covers HTML/CSS/JS sites, Hugo, Jekyll, Astro, and 11ty deployment to Cloudflare Pages, Netlify, and GitHub Pages." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Static Site Deployment: Free Hosting Guide",
+      "description": "Deploy static sites with a free is-pro.dev subdomain. Covers HTML/CSS/JS sites, Hugo, Jekyll, Astro, and 11ty deployment to Cloudflare Pages, Netlify, and GitHub Pages.",
+      "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": { "@type": "ImageObject", "url": "https://is-pro.dev/dist/images/logo.png" }
+      },
+      "datePublished": "2026-05-01",
+      "dateModified": "2026-05-27",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://is-pro.dev/guides/static-site-deployment/" },
+      "url": "https://is-pro.dev/guides/static-site-deployment/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://is-pro.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://is-pro.dev/guides/" },
+        { "@type": "ListItem", "position": 3, "name": "Static Site Deployment: Free Hosting Guide", "item": "https://is-pro.dev/guides/static-site-deployment/" }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<main id="main-content">
+  <article>
+    <header class="article-hero">
+      <div class="container">
+        <div class="article-hero-inner">
+          <div class="article-meta">
+            <span class="article-category">Deployment</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
+            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
+          </div>
+          <h1>Static Site Deployment: Free Hosting Guide</h1>
+          <p class="article-summary">Deploy static sites with a free is-pro.dev subdomain. Covers HTML/CSS/JS sites, Hugo, Jekyll, Astro, and 11ty deployment to Cloudflare Pages, Netlify, and GitHub Pages.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="author-section" aria-label="Article authorship">
+      <div class="container">
+        <div class="author-card" data-reveal>
+          <div class="author-card-main">
+            <h2 class="author-card-title">Written by Mayank Baswal</h2>
+            <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+            <div class="author-card-links">
+              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </div>
+          <div class="author-card-review">
+            <span class="author-card-review-label">Reviewed by</span>
+            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="article-layout-section">
+      <div class="container">
+        <div class="article-layout-inner">
+          <div class="article-content prose">
+<h1>Static Site Deployment: Free Hosting Guide</h1>
+<p>Static sites are making a comeback. They are fast, secure, and inexpensive to host. Whether you are building a personal blog, documentation site, or landing page, deploying a static site with a free is-pro.dev subdomain gives you professional hosting at zero cost. This guide covers deploying static sites built with various frameworks to popular hosting platforms.</p>
+<h2>Why Static Sites?</h2>
+<p>Static sites consist of pre-built HTML, CSS, and JavaScript files that are served directly to visitors. They offer several advantages over dynamic sites:</p>
+<ul><li><strong>Blazing fast load times</strong> — no server-side processing, no database queries</li>
+<li><strong>Excellent security</strong> — no server-side code to exploit, no database to hack</li>
+<li><strong>Simple deployment</strong> — just upload files to a CDN or static host</li>
+<li><strong>Free or cheap hosting</strong> — most platforms offer generous free tiers</li>
+<li><strong>Great SEO</strong> — search engines love fast, simple sites</li>
+<h2>Popular Static Site Generators</h2>
+<p><strong>Astro</strong> is the modern choice for static sites. It supports components from React, Vue, and Svelte while shipping zero JavaScript by default. Build your site with your preferred UI framework and Astro strips away unused JavaScript:</p>
+<p>``<code>bash</p>
+<p>npm create astro@latest</p>
+<p>cd my-site</p>
+<p>npm run build</p>
+<p></code>`<code></p>
+<p><strong>Hugo</strong> is the fastest static site generator, written in Go. It can build thousands of pages in seconds. Hugo uses a template system and supports Markdown content:</p>
+<p></code>`<code>bash</p>
+<p>hugo new site my-site</p>
+<p>cd my-site</p>
+<p>hugo</p>
+<p></code>`<code></p>
+<p><strong>11ty</strong> (Eleventy) is a simpler alternative to Jekyll. It supports multiple template languages (Nunjucks, Liquid, Markdown) and creates zero-client-side JavaScript by default:</p>
+<p></code>`<code>bash</p>
+<p>npm init -y</p>
+<p>npm install @11ty/eleventy</p>
+<p>npx @11ty/eleventy</p>
+<p></code>`<code></p>
+<p><strong>Jekyll</strong> integrates natively with GitHub Pages. Push your Markdown content to a GitHub repository and GitHub Pages builds and deploys automatically.</p>
+<h2>Deployment Options</h2>
+<p><strong>Cloudflare Pages</strong> integrates perfectly with is-pro.dev since both use Cloudflare's network. Connect your GitHub repository, and Cloudflare Pages deploys your site on every push:</p>
+<li>Build command: depends on framework</li>
+<li>Output directory: </code>dist<code> or </code>_site<code></li>
+<li>Automatic HTTPS and global CDN included</li>
+<li>Unlimited bandwidth on the free plan</li>
+<p><strong>Netlify</strong> offers a generous free tier with 100 GB bandwidth and 300 build minutes per month. It supports all major static site generators and provides deploy previews for every pull request.</p>
+<p><strong>GitHub Pages</strong> hosts static sites directly from GitHub repositories. It is completely free and supports Jekyll natively. For other frameworks, commit the built output to a </code>gh-pages<code> branch.</p>
+<h2>Step-by-Step Deployment</h2>
+<li>Build your static site locally: </code>npm run build<code> or your framework's build command</li>
+<li>Create a GitHub repository for your site</li>
+<li>Push your code (including the built output or a deployment workflow)</li>
+<li>Connect the repository to your hosting platform</li>
+<li>Configure your is-pro.dev subdomain in the hosting platform's settings</li>
+<li>Add the DNS CNAME record pointing to your hosting platform</li>
+<li>Wait for DNS propagation and HTTPS certificate provisioning</li>
+<h2>Performance Optimization</h2>
+<p><strong>Image optimization:</strong> Convert images to WebP format, use responsive image sizes with </code>srcset<code>, and lazy load non-critical images.</p>
+<p><strong>CSS and JS:</strong> Minify CSS and JavaScript. Most static site generators have built-in minification or plugins.</p>
+<p><strong>Fonts:</strong> Use system font stacks or subset custom fonts to include only the characters you need.</p>
+<p><strong>Caching:</strong> Configure long cache durations for static assets (CSS, JS, images) with short cache durations for HTML.</p>
+<h2>SEO Best Practices</h2>
+<li>Each page needs a unique title tag and meta description</li>
+<li>Use semantic HTML5 elements (</code><header><code>, </code><main><code>, </code><article><code>, </code><footer><code>)</li>
+<li>Add structured data (JSON-LD) for articles, products, or organization</li>
+<li>Generate a </code>sitemap.xml<code> and </code>robots.txt<code></li>
+<li>Use descriptive, SEO-friendly URLs matching file structure</li>
+<li>Ensure the site is mobile-friendly and passes Core Web Vitals</li>
+<p></ul></p>
+<h2>Troubleshooting</h2>
+<p><strong>Deployment fails:</strong> Check build logs for errors. Common issues include missing dependencies, incorrect output directory configuration, or syntax errors in templates.</p>
+<p><strong>404 errors on page reload:</strong> If using client-side routing, configure your hosting platform to serve </code>index.html<code> for all routes (</code>/* /index.html 200<code>).</p>
+<p><strong>Images not loading:</strong> Ensure image paths are relative to the output directory. Use the </code>url<code> filter in your template engine to generate correct URLs.</p>
+<h2>FAQ</h2>
+<p><strong>Q: Can I use a custom domain with a static site?</strong></p>
+<p>A: Yes, that is the primary benefit of is-pro.dev. Register a subdomain and configure it on your hosting platform.</p>
+<p><strong>Q: How do I add a blog to my static site?</strong></p>
+<p>A: Most static site generators support Markdown-based blogging. Create posts in a </code>posts<code> or </code>blog` directory with frontmatter for metadata.</p>
+<p><strong>Q: Can I use serverless functions with static sites?</strong></p>
+<p>A: Yes, services like Netlify Functions and Cloudflare Pages Functions let you add backend functionality to static sites.</p>
+<h2>Conclusion</h2>
+<p>Static sites and free is-pro.dev subdomains are a perfect match. Choose a static site generator, deploy to a free hosting platform, and configure your domain. The result is a fast, secure, and professional web presence at zero cost. Your site will load quickly, rank well in search, and be easy to maintain.</p>          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="is-cool-me home">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span>is-cool-me</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for developers.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/domains/">Domains</a>
+        <a href="/blog/">Blog</a>
+        <a href="/guides/">Guides</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/abuse-report/">Report Abuse</a>
+      </nav>
+      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

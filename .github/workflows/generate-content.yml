@@ -1,0 +1,78 @@
+name: Generate & Deploy Content
+
+on:
+  workflow_dispatch:
+    inputs:
+      section:
+        description: 'Section to generate (all, guides, blog, showcase, tools, tutorials, compare, profiles)'
+        required: false
+        default: 'all'
+  schedule:
+    # Run weekly on Sunday at 2am UTC for maintenance regeneration
+    - cron: '0 2 * * 0'
+  repository_dispatch:
+    types: [regenerate-content]
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout landing site
+        uses: actions/checkout@v4
+        with:
+          repository: is-cool-me/is-pro.dev
+          path: is-pro.dev
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Checkout dash (for DB access)
+        uses: actions/checkout@v4
+        with:
+          repository: is-cool-me/dash
+          path: dash
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install generator dependencies
+        run: |
+          cd generator
+          npm install --prefer-offline 2>/dev/null || npm install
+
+      - name: Check Ollama availability
+        run: |
+          curl -s --max-time 5 http://localhost:11434/api/tags > /dev/null 2>&1
+          if [ $? -eq 0 ]; then
+            echo "OLLAMA_AVAILABLE=true" >> $GITHUB_ENV
+          else
+            echo "OLLAMA_AVAILABLE=false" >> $GITHUB_ENV
+          fi
+
+      - name: Generate content
+        run: |
+          cd generator
+          SECTION=${{ github.event.inputs.section || 'all' }}
+          if [ "$SECTION" = "all" ]; then
+            OLLAMA_OFFLINE=1 node generate.js --all
+          else
+            OLLAMA_OFFLINE=1 node generate.js --type=$SECTION
+          fi
+        env:
+          OLLAMA_HOST: http://localhost:11434
+          SITE_ROOT: ${{ github.workspace }}/is-pro.dev
+          DB_PATH: ${{ github.workspace }}/dash/data/domains.db
+
+      - name: Commit and push changes
+        run: |
+          cd is-pro.dev
+          git config user.name "is-cool-me Bot"
+          git config user.email "bot@is-cool-me"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to push"
+          else
+            git commit -m "chore: auto-regenerate content [skip ci]"
+            git push origin main
+          fi

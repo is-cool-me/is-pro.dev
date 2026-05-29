@@ -97,17 +97,14 @@
           <p>Validate your XML sitemap for SEO completeness. Check for broken URLs, missing lastmod dates, and proper index structure.</p>
           
           <h2>How to Use</h2>
-          <p>Enter any valid URL or domain name below and click the appropriate button to check its xml sitemap validator. Results update in real-time with detailed information about your domain's configuration.</p>
+          <p>Enter the required information below. Results update in real-time with details about your configuration.</p>
           
-          <div style="background:var(--color-elevated);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:2rem;margin:1.5rem 0;">
-            <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
-              <input type="text" id="tool-input" placeholder="example.is-pro.dev" style="flex:1;min-width:200px;padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.9rem;" />
-              <button onclick="runCheck()" style="padding:.75rem 1.5rem;background:var(--color-accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer;font-weight:600;">Check</button>
-            </div>
-            <div id="tool-result" style="margin-top:1rem;font-family:var(--font-mono);font-size:.85rem;color:var(--color-text-muted);min-height:60px;">
-              Enter a domain above to see results
-            </div>
-          </div>
+          <div style="background:var(--color-elevated);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:2rem;margin:1.5rem 0;"><div style="display:flex;flex-direction:column;gap:.75rem;"><textarea id="sitemap-input" placeholder="Paste your XML sitemap content here..." style="width:100%;min-height:150px;padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.85rem;resize:vertical;"><?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://example.com/</loc>
+            </url>
+          </urlset></textarea><button style="padding:.75rem 1.5rem;background:var(--color-accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer;font-weight:600;" onclick="validateSitemap()" style="align-self:flex-start;"</button></div><div id="tool-result" style="margin-top:1rem;font-family:var(--font-mono);font-size:.85rem;color:var(--color-text-muted);min-height:60px;">Paste your sitemap XML above and click Validate</div></div>
           
           <h2>Example Use Cases</h2>
           <ul>

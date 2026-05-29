@@ -61,6 +61,7 @@
         <a href="/guides/" class="nav-link">Guides</a>
         <a href="/showcase/" class="nav-link">Showcase</a>
         <a href="/trending/" class="nav-link">Trending</a>
+        <a href="/tools/" class="nav-link">Tools</a>
         <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
         <a href="/terms/" class="nav-link">Terms</a>
@@ -99,12 +100,15 @@
           <p>Enter any valid URL or domain name below and click the appropriate button to check its robots.txt generator. Results update in real-time with detailed information about your domain's configuration.</p>
           
           <div style="background:var(--color-elevated);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:2rem;margin:1.5rem 0;">
-            <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
-              <input type="text" id="tool-input" placeholder="example.is-pro.dev" style="flex:1;min-width:200px;padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.9rem;" />
-              <button onclick="runCheck()" style="padding:.75rem 1.5rem;background:var(--color-accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer;font-weight:600;">Check</button>
+            <div style="display:grid;gap:.75rem;">
+              <input type="text" id="rt-user-agent" placeholder="User-agent (e.g. * or Googlebot)" style="padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.9rem;" />
+              <input type="text" id="rt-allow" placeholder="Allow path (e.g. /public/)" style="padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.9rem;" />
+              <input type="text" id="rt-disallow" placeholder="Disallow path (e.g. /admin/)" style="padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.9rem;" />
+              <input type="text" id="rt-sitemap" placeholder="Sitemap URL (e.g. https://example.com/sitemap.xml)" style="padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.9rem;" />
+              <button onclick="generateRobotsTxt()" style="padding:.75rem 1.5rem;background:var(--color-accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer;font-weight:600;">Generate robots.txt</button>
             </div>
             <div id="tool-result" style="margin-top:1rem;font-family:var(--font-mono);font-size:.85rem;color:var(--color-text-muted);min-height:60px;">
-              Enter a domain above to see results
+              Fill in the fields above and click Generate
             </div>
           </div>
           
@@ -173,6 +177,7 @@
         <a href="/domains/">Domains</a>
         <a href="/blog/">Blog</a>
         <a href="/guides/">Guides</a>
+        <a href="/tools/">Tools</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
@@ -181,5 +186,6 @@
   </div>
 </footer>
 <script src="/js/app.js" defer></script>
+<script src="/js/tools.js" defer></script>
 </body>
 </html>

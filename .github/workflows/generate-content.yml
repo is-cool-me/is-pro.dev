@@ -43,11 +43,10 @@ jobs:
 
       - name: Check Ollama availability
         run: |
-          curl -s --max-time 5 http://localhost:11434/api/tags > /dev/null 2>&1
-          if [ $? -eq 0 ]; then
-            echo "OLLAMA_AVAILABLE=true" >> $GITHUB_ENV
+          if curl -s --max-time 5 http://localhost:11434/api/tags > /dev/null 2>&1; then
+            echo "OLLAMA_AVAILABLE=true" >> "$GITHUB_ENV"
           else
-            echo "OLLAMA_AVAILABLE=false" >> $GITHUB_ENV
+            echo "OLLAMA_AVAILABLE=false" >> "$GITHUB_ENV"
           fi
 
       - name: Generate content

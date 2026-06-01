@@ -1,0 +1,25 @@
+{
+  "name": "is-pro-dev-generator",
+  "version": "1.0.0",
+  "description": "AI-powered static content generator for is-pro.dev",
+  "type": "module",
+  "scripts": {
+    "generate": "node generate.js",
+    "generate:all": "node generate.js --all",
+    "generate:guides": "node generate.js --type=guides",
+    "generate:blog": "node generate.js --type=blog",
+    "generate:showcase": "node generate.js --type=showcase",
+    "generate:tools": "node generate.js --type=tools",
+    "generate:tutorials": "node generate.js --type=tutorials",
+    "generate:compare": "node generate.js --type=compare",
+    "generate:profiles": "node generate.js --type=profiles",
+    "generate:showcase-pages": "node generate.js --type=showcase-pages",
+    "generate:sitemap": "node generate.js --sitemap",
+    "preview": "node generate.js --preview",
+    "push": "node generate.js --push"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "node-fetch": "^3.3.2"
+  }
+}

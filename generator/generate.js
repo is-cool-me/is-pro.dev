@@ -31,7 +31,7 @@ function readDb() {
     return [];
   }
   try {
-    const Database = require('/home/ubuntu/dash/node_modules/better-sqlite3');
+    const Database = require('better-sqlite3');
     const db = new Database(path, { readonly: true });
     const rows = db.prepare(`
       SELECT d.subdomain, d.zone, d.owner_username, d.owner_email,

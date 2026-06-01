@@ -38,7 +38,7 @@ jobs:
 
       - name: Install generator dependencies
         run: |
-          cd generator
+          cd is-pro.dev/generator
           npm install --prefer-offline 2>/dev/null || npm install
 
       - name: Check Ollama availability
@@ -52,7 +52,7 @@ jobs:
 
       - name: Generate content
         run: |
-          cd generator
+          cd is-pro.dev/generator
           SECTION=${{ github.event.inputs.section || 'all' }}
           if [ "$SECTION" = "all" ]; then
             OLLAMA_OFFLINE=1 node generate.js --all

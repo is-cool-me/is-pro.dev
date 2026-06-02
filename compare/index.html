@@ -1,202 +1,481 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Compare Hosting & Tools — is-cool-me</title>
-  <meta name="description" content="Compare free hosting platforms, domain providers, DNS services, and developer tools side by side." />
-  <link rel="canonical" href="https://is-pro.dev/compare/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://is-pro.dev/compare/" />
-  <meta property="og:title" content="Compare Hosting & Tools — is-cool-me" />
-  <meta property="og:description" content="Compare free hosting platforms, domain providers, DNS services, and developer tools side by side." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Compare Hosting & Tools — is-cool-me" />
-  <meta name="twitter:description" content="Compare free hosting platforms, domain providers, DNS services, and developer tools side by side." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Compare Hosting & Tools — is-cool-me",
-      "description": "Compare free hosting platforms, domain providers, DNS services, and developer tools side by side.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>Compare Hosting & Tools — is-cool-me</title>
+    <meta
+      name="description"
+      content="Compare free hosting platforms, domain providers, DNS services, and developer tools side by side."
+    />
+    <link rel="canonical" href="https://is-pro.dev/compare/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://is-pro.dev/compare/" />
+    <meta property="og:title" content="Compare Hosting & Tools — is-cool-me" />
+    <meta
+      property="og:description"
+      content="Compare free hosting platforms, domain providers, DNS services, and developer tools side by side."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Compare Hosting & Tools — is-cool-me" />
+    <meta
+      name="twitter:description"
+      content="Compare free hosting platforms, domain providers, DNS services, and developer tools side by side."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Compare Hosting & Tools — is-cool-me",
+            "description": "Compare free hosting platforms, domain providers, DNS services, and developer tools side by side.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          }
+        ]
       }
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only skip-link">Skip to main content</a>
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
       </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<div class="page-hero">
-    <div class="container">
-      <div class="page-hero-content" data-reveal>
-        <div class="section-tag page-tag">Compare</div>
-        <h1>Platform Comparisons</h1>
-        <p>Side-by-side comparisons of hosting platforms, tools, and services for developer projects.</p>
+    </header>
+    <main id="main-content">
+      <div class="page-hero">
+        <div class="container">
+          <div class="page-hero-content" data-reveal>
+            <div class="section-tag page-tag">Compare</div>
+            <h1>Platform Comparisons</h1>
+            <p>
+              Side-by-side comparisons of hosting platforms, tools, and services
+              for developer projects.
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <section class="section" style="padding:var(--space-12) 0;">
-    <div class="container">
-      <div class="posts-grid" style="margin-top:2rem;">
-        <article class="post-card" data-reveal>
-  <div class="post-card-thumb"><div style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(239,68,68,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">⚖️</div></div>
-  <div class="post-card-body">
-    <div class="post-card-tags"><span class="post-card-tag">Comparison</span></div>
-    <h3 class="post-card-title">GitHub Pages vs Vercel vs Netlify: Which is Best for Your Project?</h3>
-    <p class="post-card-excerpt">Side-by-side comparison of the three most popular free static hosting platforms — covering deployment experience, custom domains, SSL, CI/CD, and when to choose each.</p>
-    
-    <a href="/compare/github-pages-vs-vercel-vs-netlify/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
-  </div>
-</article>
-<article class="post-card" data-reveal>
-  <div class="post-card-thumb"><div style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(239,68,68,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">⚖️</div></div>
-  <div class="post-card-body">
-    <div class="post-card-tags"><span class="post-card-tag">Comparison</span></div>
-    <h3 class="post-card-title">GitHub Pages vs Netlify: Free Hosting Face-Off</h3>
-    <p class="post-card-excerpt">Compare GitHub Pages and Netlify for free static site hosting — features, limitations, custom domain support, CI/CD pipelines, and which projects suit each platform.</p>
-    
-    <a href="/compare/github-pages-vs-netlify/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
-  </div>
-</article>
-<article class="post-card" data-reveal>
-  <div class="post-card-thumb"><div style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(239,68,68,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">⚖️</div></div>
-  <div class="post-card-body">
-    <div class="post-card-tags"><span class="post-card-tag">Comparison</span></div>
-    <h3 class="post-card-title">Vercel vs Cloudflare Pages: Edge Deployment Compared</h3>
-    <p class="post-card-excerpt">Compare Vercel and Cloudflare Pages for frontend deployment — edge functions, cold starts, free tier limits, DX, and how each handles custom domains and SSL.</p>
-    
-    <a href="/compare/vercel-vs-cloudflare-pages/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
-  </div>
-</article>
-<article class="post-card" data-reveal>
-  <div class="post-card-thumb"><div style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(239,68,68,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">⚖️</div></div>
-  <div class="post-card-body">
-    <div class="post-card-tags"><span class="post-card-tag">Comparison</span></div>
-    <h3 class="post-card-title">Cloudflare DNS vs Namecheap DNS: Performance and Features Compared</h3>
-    <p class="post-card-excerpt">Compare Cloudflares DNS service against Namecheap for subdomain management — propagation speed, uptime, API access, security features, and cost.</p>
-    
-    <a href="/compare/cloudflare-vs-namecheap-dns/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
-  </div>
-</article>
-<article class="post-card" data-reveal>
-  <div class="post-card-thumb"><div style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(239,68,68,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">⚖️</div></div>
-  <div class="post-card-body">
-    <div class="post-card-tags"><span class="post-card-tag">Comparison</span></div>
-    <h3 class="post-card-title">Free Domain Providers Compared: Freenom, is-pro.dev, and Alternatives</h3>
-    <p class="post-card-excerpt">Review the free subdomain landscape — Freenom, is-pro.dev, and alternatives — comparing reliability, DNS features, SSL support, longevity, and hidden restrictions.</p>
-    
-    <a href="/compare/free-domain-providers-compared/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
-  </div>
-</article>
+      <section class="section section-compact">
+        <div class="container">
+          <div class="posts-grid" style="margin-top: 2rem">
+            <article class="post-card" data-reveal>
+              <div class="post-card-thumb">
+                <div
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      rgba(234, 179, 8, 0.2),
+                      rgba(239, 68, 68, 0.1)
+                    );
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    color: var(--color-accent-light);
+                  "
+                >
+                  ⚖️
+                </div>
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Comparison</span>
+                </div>
+                <h3 class="post-card-title">
+                  GitHub Pages vs Vercel vs Netlify: Which is Best for Your
+                  Project?
+                </h3>
+                <p class="post-card-excerpt">
+                  Side-by-side comparison of the three most popular free static
+                  hosting platforms — covering deployment experience, custom
+                  domains, SSL, CI/CD, and when to choose each.
+                </p>
+
+                <a
+                  href="/compare/github-pages-vs-vercel-vs-netlify/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read More</a
+                >
+              </div>
+            </article>
+            <article class="post-card" data-reveal>
+              <div class="post-card-thumb">
+                <div
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      rgba(234, 179, 8, 0.2),
+                      rgba(239, 68, 68, 0.1)
+                    );
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    color: var(--color-accent-light);
+                  "
+                >
+                  ⚖️
+                </div>
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Comparison</span>
+                </div>
+                <h3 class="post-card-title">
+                  GitHub Pages vs Netlify: Free Hosting Face-Off
+                </h3>
+                <p class="post-card-excerpt">
+                  Compare GitHub Pages and Netlify for free static site hosting
+                  — features, limitations, custom domain support, CI/CD
+                  pipelines, and which projects suit each platform.
+                </p>
+
+                <a
+                  href="/compare/github-pages-vs-netlify/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read More</a
+                >
+              </div>
+            </article>
+            <article class="post-card" data-reveal>
+              <div class="post-card-thumb">
+                <div
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      rgba(234, 179, 8, 0.2),
+                      rgba(239, 68, 68, 0.1)
+                    );
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    color: var(--color-accent-light);
+                  "
+                >
+                  ⚖️
+                </div>
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Comparison</span>
+                </div>
+                <h3 class="post-card-title">
+                  Vercel vs Cloudflare Pages: Edge Deployment Compared
+                </h3>
+                <p class="post-card-excerpt">
+                  Compare Vercel and Cloudflare Pages for frontend deployment —
+                  edge functions, cold starts, free tier limits, DX, and how
+                  each handles custom domains and SSL.
+                </p>
+
+                <a
+                  href="/compare/vercel-vs-cloudflare-pages/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read More</a
+                >
+              </div>
+            </article>
+            <article class="post-card" data-reveal>
+              <div class="post-card-thumb">
+                <div
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      rgba(234, 179, 8, 0.2),
+                      rgba(239, 68, 68, 0.1)
+                    );
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    color: var(--color-accent-light);
+                  "
+                >
+                  ⚖️
+                </div>
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Comparison</span>
+                </div>
+                <h3 class="post-card-title">
+                  Cloudflare DNS vs Namecheap DNS: Performance and Features
+                  Compared
+                </h3>
+                <p class="post-card-excerpt">
+                  Compare Cloudflares DNS service against Namecheap for
+                  subdomain management — propagation speed, uptime, API access,
+                  security features, and cost.
+                </p>
+
+                <a
+                  href="/compare/cloudflare-vs-namecheap-dns/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read More</a
+                >
+              </div>
+            </article>
+            <article class="post-card" data-reveal>
+              <div class="post-card-thumb">
+                <div
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      rgba(234, 179, 8, 0.2),
+                      rgba(239, 68, 68, 0.1)
+                    );
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    color: var(--color-accent-light);
+                  "
+                >
+                  ⚖️
+                </div>
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Comparison</span>
+                </div>
+                <h3 class="post-card-title">
+                  Free Domain Providers Compared: Freenom, is-pro.dev, and
+                  Alternatives
+                </h3>
+                <p class="post-card-excerpt">
+                  Review the free subdomain landscape — Freenom, is-pro.dev, and
+                  alternatives — comparing reliability, DNS features, SSL
+                  support, longevity, and hidden restrictions.
+                </p>
+
+                <a
+                  href="/compare/free-domain-providers-compared/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read More</a
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="explore-more-section">
+        <div class="container">
+          <h2 class="explore-more-title">Explore More</h2>
+          <div class="explore-more-grid">
+            <div class="explore-more-card">
+              <h4 class="explore-more-heading">Deployment Guides</h4>
+              <ul class="explore-more-list">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    class="explore-more-link"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    class="explore-more-link"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    class="explore-more-link"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    class="explore-more-link"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="explore-more-card">
+              <h4 class="explore-more-heading">DNS & Security</h4>
+              <ul class="explore-more-list">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    class="explore-more-link"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    class="explore-more-link"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    class="explore-more-link"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    class="explore-more-link"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="explore-more-card">
+              <h4 class="explore-more-heading">Platform Resources</h4>
+              <ul class="explore-more-list">
+                <li>
+                  <a href="/showcase/" class="explore-more-link"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li><a href="/blog/" class="explore-more-link">Blog</a></li>
+                <li>
+                  <a href="/tools/" class="explore-more-link">Free Tools</a>
+                </li>
+                <li>
+                  <a href="/compare/" class="explore-more-link"
+                    >Compare Hosting</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo" aria-label="is-cool-me home">
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
+              <span>is-cool-me</span>
+            </a>
+            <p class="footer-tagline">Free subdomains for developers.</p>
+          </div>
+          <nav class="footer-nav" aria-label="Footer navigation">
+            <a href="/">Home</a>
+            <a href="/domains/">Domains</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/about/">About</a>
+            <a href="/contact/">Contact</a>
+          </nav>
+          <p class="footer-copyright">
+            &copy; 2026 is-cool-me. All rights reserved.
+          </p>
+        </div>
       </div>
-    </div>
-  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo" aria-label="is-cool-me home">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span>is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers.</p>
-      </div>
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="/">Home</a>
-        <a href="/domains/">Domains</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-      </nav>
-      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
-<script src="/js/app.js" defer></script>
-</body>
+    </footer>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

@@ -1,557 +1,1154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>How Automatic Provisioning and Abuse Flags Work — is-cool-me Blog</title>
-  <meta name="description" content="Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations." />
-  <link rel="canonical" href="https://is-pro.dev/blog/why-subdomain-requests-get-rejected/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/blog/why-subdomain-requests-get-rejected/" />
-  <meta property="og:title" content="How Automatic Provisioning and Abuse Flags Work — is-cool-me Blog" />
-  <meta property="og:description" content="Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How Automatic Provisioning and Abuse Flags Work — is-cool-me Blog" />
-  <meta name="twitter:description" content="Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BlogPosting",
-      "headline": "How Automatic Provisioning and Abuse Flags Work",
-      "description": "Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "reviewedBy": {
-        "@type": "Person",
-        "name": "is-cool-me Trust & Safety Review"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-05-01",
-      "dateModified": "2026-05-11",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
-      },
-      "url": "https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog",
-          "item": "https://is-pro.dev/blog/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "How Automatic Provisioning and Abuse Flags Work",
-          "item": "https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
-        }
-      ]
-    }
-  ]
-}
-</script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
-    crossorigin="anonymous"></script>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      How Automatic Provisioning and Abuse Flags Work — is-cool-me Blog
+    </title>
+    <meta
+      name="description"
+      content="Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
+    />
+    <meta
+      property="og:title"
+      content="How Automatic Provisioning and Abuse Flags Work — is-cool-me Blog"
+    />
+    <meta
+      property="og:description"
+      content="Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="How Automatic Provisioning and Abuse Flags Work — is-cool-me Blog"
+    />
+    <meta
+      name="twitter:description"
+      content="Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "BlogPosting",
+            "headline": "How Automatic Provisioning and Abuse Flags Work",
+            "description": "Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "reviewedBy": {
+              "@type": "Person",
+              "name": "is-cool-me Trust & Safety Review"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-05-01",
+            "dateModified": "2026-05-11",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
+            },
+            "url": "https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://is-pro.dev/blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "How Automatic Provisioning and Abuse Flags Work",
+                "item": "https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only skip-link">Skip to main content</a>
 
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
-
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a><a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
-          Discord
-        </a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
-          Open Dashboard
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<div class="reading-progress" id="reading-progress"></div>
-
-<main id="main-content">
-  <article>
-    <header class="article-hero">
+    <header class="site-header" role="banner">
       <div class="container">
-        <div class="article-hero-inner">
-          <div class="article-meta">
-            <span class="article-category">Moderation</span>
-            <span class="article-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              9 min read
-            </span>
-            <span class="article-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              Published May 2026
-            </span>
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a
+            ><a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+                />
+              </svg>
+              Discord
+            </a>
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
           </div>
-          <h1>How Automatic Provisioning and Abuse Flags Work</h1>
-          <p class="article-summary">Subdomains are issued automatically, and abuse detection can automatically flag high-risk registrations.</p>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </header>
 
-    <section class="author-section" aria-label="Article authorship">
-      <div class="container">
-        <div class="author-card" data-reveal>
-          <div class="author-card-main">
-            <h2 class="author-card-title">Written by Mayank Baswal</h2>
-            <p class="author-card-role">Founder of is-cool-me · DNS &amp; Platform Infrastructure</p>
-            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-            <div class="author-card-links">
-              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-              <a href="/contact/">Contact</a>
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Moderation</span>
+                <span class="article-meta-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  9 min read
+                </span>
+                <span class="article-meta-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  Published May 2026
+                </span>
+              </div>
+              <h1>How Automatic Provisioning and Abuse Flags Work</h1>
+              <p class="article-summary">
+                Subdomains are issued automatically, and abuse detection can
+                automatically flag high-risk registrations.
+              </p>
             </div>
           </div>
-          <div class="author-card-review">
-            <span class="author-card-review-label">Reviewed by</span>
-            <span class="author-card-reviewer">is-cool-me Trust & Safety Review</span>
+        </header>
+
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">Written by Mayank Baswal</h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS &amp; Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows, and
+                  platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Trust & Safety Review</span
+                >
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <div class="article-layout-section">
-      <div class="container">
-        <div class="article-layout-inner">
-          <div class="article-content prose">
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>No Manual Approval Queue</h2>
+                <p>
+                  At is-cool-me, subdomain provisioning is fully automatic. When
+                  you authenticate via GitHub OAuth and request a subdomain, our
+                  system processes the registration in real time — no ticket, no
+                  waiting period, no moderator review. If your request passes
+                  our automated checks, the DNS record is created and the
+                  subdomain is live within seconds.
+                </p>
+                <p>
+                  This is a deliberate design choice. Manual approval queues
+                  create friction for legitimate users, delay project launches,
+                  and do not scale. But automatic provisioning also creates
+                  risk: without human oversight at registration time, we must
+                  rely on automated systems to detect and block abuse before the
+                  subdomain becomes active. This article explains how those
+                  automated systems work, why some requests are flagged or
+                  rejected, and what you can do if your request does not go
+                  through.
+                </p>
 
-        <h2>No Manual Approval Queue</h2>
-        <p>At is-cool-me, subdomain provisioning is fully automatic. When you authenticate via GitHub OAuth and request a subdomain, our system processes the registration in real time — no ticket, no waiting period, no moderator review. If your request passes our automated checks, the DNS record is created and the subdomain is live within seconds.</p>
-        <p>This is a deliberate design choice. Manual approval queues create friction for legitimate users, delay project launches, and do not scale. But automatic provisioning also creates risk: without human oversight at registration time, we must rely on automated systems to detect and block abuse before the subdomain becomes active. This article explains how those automated systems work, why some requests are flagged or rejected, and what you can do if your request does not go through.</p>
+                <div class="callout">
+                  <p>
+                    <strong>Key point:</strong> We reject requests to protect
+                    the platform and its users. A rejection is not a judgment on
+                    you — it is our abuse detection system doing its job. Most
+                    rejections can be resolved with a simple change to your
+                    subdomain name or account setup.
+                  </p>
+                </div>
 
-        <div class="callout">
-          <p><strong>Key point:</strong> We reject requests to protect the platform and its users. A rejection is not a judgment on you — it is our abuse detection system doing its job. Most rejections can be resolved with a simple change to your subdomain name or account setup.</p>
-        </div>
+                <h2>How Automatic Provisioning Works</h2>
+                <p>
+                  The provisioning pipeline executes the following sequence for
+                  every registration request:
+                </p>
+                <ol>
+                  <li>
+                    <strong>GitHub OAuth Authentication:</strong> You sign in
+                    with GitHub, which provides us with your GitHub user ID,
+                    account creation date, public profile information, and email
+                    address. This is the foundation of our identity system.
+                  </li>
+                  <li>
+                    <strong>Subdomain Selection:</strong> You choose an
+                    available subdomain name. Our system checks that the name is
+                    not already registered and does not match any exactly
+                    reserved names (e.g., internal domains, common typos of the
+                    root domain).
+                  </li>
+                  <li>
+                    <strong>DNS Target Specification:</strong> You provide the
+                    target CNAME or A record. The system verifies that the
+                    target is syntactically valid and, for CNAME records, that
+                    the target is not a loop back to our own domain.
+                  </li>
+                  <li>
+                    <strong>Abuse Flag Evaluation:</strong> The request is
+                    evaluated against all active abuse detection checks. This is
+                    the most complex step and is described in detail below.
+                  </li>
+                  <li>
+                    <strong>DNS Record Creation:</strong> If all checks pass,
+                    the system creates the DNS record through our provider's
+                    API. The record propagates according to standard DNS TTL
+                    values (typically 60–300 seconds).
+                  </li>
+                  <li>
+                    <strong>Confirmation:</strong> The subdomain is displayed in
+                    your dashboard with its current status and DNS
+                    configuration.
+                  </li>
+                </ol>
+                <p>
+                  Steps 1–6 complete in under 2 seconds for a typical request.
+                  If the request is flagged at step 4, the provisioning is
+                  halted and the user receives an explanation message.
+                </p>
 
-        <h2>How Automatic Provisioning Works</h2>
-        <p>The provisioning pipeline executes the following sequence for every registration request:</p>
-        <ol>
-          <li><strong>GitHub OAuth Authentication:</strong> You sign in with GitHub, which provides us with your GitHub user ID, account creation date, public profile information, and email address. This is the foundation of our identity system.</li>
-          <li><strong>Subdomain Selection:</strong> You choose an available subdomain name. Our system checks that the name is not already registered and does not match any exactly reserved names (e.g., internal domains, common typos of the root domain).</li>
-          <li><strong>DNS Target Specification:</strong> You provide the target CNAME or A record. The system verifies that the target is syntactically valid and, for CNAME records, that the target is not a loop back to our own domain.</li>
-          <li><strong>Abuse Flag Evaluation:</strong> The request is evaluated against all active abuse detection checks. This is the most complex step and is described in detail below.</li>
-          <li><strong>DNS Record Creation:</strong> If all checks pass, the system creates the DNS record through our provider's API. The record propagates according to standard DNS TTL values (typically 60–300 seconds).</li>
-          <li><strong>Confirmation:</strong> The subdomain is displayed in your dashboard with its current status and DNS configuration.</li>
-        </ol>
-        <p>Steps 1–6 complete in under 2 seconds for a typical request. If the request is flagged at step 4, the provisioning is halted and the user receives an explanation message.</p>
+                <h2>What Triggers Abuse Flags</h2>
+                <p>
+                  Our abuse detection system evaluates each registration request
+                  against multiple signals. No single signal triggers an
+                  automatic rejection — the system uses a scoring model that
+                  considers the combination and severity of all signals.
+                </p>
 
-        <h2>What Triggers Abuse Flags</h2>
-        <p>Our abuse detection system evaluates each registration request against multiple signals. No single signal triggers an automatic rejection — the system uses a scoring model that considers the combination and severity of all signals.</p>
+                <h3>Suspicious Keywords in Subdomain Names</h3>
+                <p>
+                  The most common trigger. Our system maintains a blocklist of
+                  keywords and patterns that are frequently associated with
+                  abuse:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Brand impersonation:</strong> "google", "facebook",
+                    "amazon", "microsoft", "apple", "paypal", "netflix",
+                    "instagram", "whatsapp", "telegram", "discord" — and
+                    hundreds of common misspellings and variations
+                  </li>
+                  <li>
+                    <strong>Phishing keywords:</strong> "login", "signin",
+                    "secure", "account", "verify", "auth", "2fa", "wallet",
+                    "seed", "recover", "support", "helpdesk"
+                  </li>
+                  <li>
+                    <strong>Admin-related:</strong> "admin", "administrator",
+                    "root", "panel", "cpanel", "webmail", "mail"
+                  </li>
+                  <li>
+                    <strong>Deceptive patterns:</strong> "free", "hack",
+                    "crack", "cheat", "mod", "unlock", "generator", "bot"
+                  </li>
+                </ul>
+                <p>
+                  The system uses fuzzy matching, so simple character
+                  substitutions (e.g., "g00gle" or "googie") are also detected.
+                  The blocklist is updated regularly based on emerging threat
+                  intelligence and new abuse patterns.
+                </p>
 
-        <h3>Suspicious Keywords in Subdomain Names</h3>
-        <p>The most common trigger. Our system maintains a blocklist of keywords and patterns that are frequently associated with abuse:</p>
-        <ul>
-          <li><strong>Brand impersonation:</strong> "google", "facebook", "amazon", "microsoft", "apple", "paypal", "netflix", "instagram", "whatsapp", "telegram", "discord" — and hundreds of common misspellings and variations</li>
-          <li><strong>Phishing keywords:</strong> "login", "signin", "secure", "account", "verify", "auth", "2fa", "wallet", "seed", "recover", "support", "helpdesk"</li>
-          <li><strong>Admin-related:</strong> "admin", "administrator", "root", "panel", "cpanel", "webmail", "mail"</li>
-          <li><strong>Deceptive patterns:</strong> "free", "hack", "crack", "cheat", "mod", "unlock", "generator", "bot"</li>
-        </ul>
-        <p>The system uses fuzzy matching, so simple character substitutions (e.g., "g00gle" or "googie") are also detected. The blocklist is updated regularly based on emerging threat intelligence and new abuse patterns.</p>
+                <h3>Known Abuse Patterns</h3>
+                <p>
+                  Beyond keywords, the system evaluates the overall structure of
+                  the subdomain name:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Randomized strings:</strong> Subdomains that appear
+                    to be randomly generated (e.g.,
+                    <code>x7k9m2q4.is-pro.dev</code>) are flagged — these are
+                    often used for disposable spam campaigns
+                  </li>
+                  <li>
+                    <strong>Hyphen-heavy names:</strong> Multiple consecutive
+                    hyphens or hyphens in unusual positions
+                  </li>
+                  <li>
+                    <strong>Length anomalies:</strong> Extremely short (fewer
+                    than 3 characters) or extremely long (more than 40
+                    characters) subdomain names
+                  </li>
+                  <li>
+                    <strong>Repeated characters:</strong> Names with excessive
+                    repetition like <code>aaaaa-bbbb-cccc.is-pro.dev</code>
+                  </li>
+                </ul>
 
-        <h3>Known Abuse Patterns</h3>
-        <p>Beyond keywords, the system evaluates the overall structure of the subdomain name:</p>
-        <ul>
-          <li><strong>Randomized strings:</strong> Subdomains that appear to be randomly generated (e.g., <code>x7k9m2q4.is-pro.dev</code>) are flagged — these are often used for disposable spam campaigns</li>
-          <li><strong>Hyphen-heavy names:</strong> Multiple consecutive hyphens or hyphens in unusual positions</li>
-          <li><strong>Length anomalies:</strong> Extremely short (fewer than 3 characters) or extremely long (more than 40 characters) subdomain names</li>
-          <li><strong>Repeated characters:</strong> Names with excessive repetition like <code>aaaaa-bbbb-cccc.is-pro.dev</code></li>
-        </ul>
+                <h3>High-Risk TLD Combinations</h3>
+                <p>
+                  Some top-level domains are more frequently associated with
+                  abuse than others. When a subdomain's CNAME target uses a
+                  high-risk TLD (e.g., <code>.tk</code>, <code>.ml</code>,
+                  <code>.ga</code>, <code>.cf</code> — the former Freenom TLDs),
+                  the system applies additional scrutiny. This is not an
+                  automatic rejection, but it increases the score of the overall
+                  evaluation.
+                </p>
 
-        <h3>High-Risk TLD Combinations</h3>
-        <p>Some top-level domains are more frequently associated with abuse than others. When a subdomain's CNAME target uses a high-risk TLD (e.g., <code>.tk</code>, <code>.ml</code>, <code>.ga</code>, <code>.cf</code> — the former Freenom TLDs), the system applies additional scrutiny. This is not an automatic rejection, but it increases the score of the overall evaluation.</p>
+                <h3>Rapid Registration Patterns</h3>
+                <p>
+                  Our system tracks registration velocity per GitHub account and
+                  per IP address. If you register more than a certain number of
+                  subdomains within a short time window, subsequent requests are
+                  flagged. The specific thresholds are not public (to prevent
+                  gaming), but the general principle is: the system expects
+                  human-like registration patterns, not automated bulk
+                  registration.
+                </p>
 
-        <h3>Rapid Registration Patterns</h3>
-        <p>Our system tracks registration velocity per GitHub account and per IP address. If you register more than a certain number of subdomains within a short time window, subsequent requests are flagged. The specific thresholds are not public (to prevent gaming), but the general principle is: the system expects human-like registration patterns, not automated bulk registration.</p>
+                <h3>GitHub Account Age and Activity</h3>
+                <p>
+                  New GitHub accounts with limited activity are higher-risk. Our
+                  system considers:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Account age:</strong> Accounts created within the
+                    last 30 days receive additional scrutiny
+                  </li>
+                  <li>
+                    <strong>Public repositories:</strong> Accounts with zero
+                    public repositories or only forked repositories
+                  </li>
+                  <li>
+                    <strong>Profile completeness:</strong> Accounts without a
+                    verified email, bio, or avatar photo
+                  </li>
+                  <li>
+                    <strong>Prior abuse:</strong> Any history of abuse
+                    associated with the GitHub account ID (even if the account
+                    is new, we track anonymous abuse signals)
+                  </li>
+                </ul>
 
-        <h3>GitHub Account Age and Activity</h3>
-        <p>New GitHub accounts with limited activity are higher-risk. Our system considers:</p>
-        <ul>
-          <li><strong>Account age:</strong> Accounts created within the last 30 days receive additional scrutiny</li>
-          <li><strong>Public repositories:</strong> Accounts with zero public repositories or only forked repositories</li>
-          <li><strong>Profile completeness:</strong> Accounts without a verified email, bio, or avatar photo</li>
-          <li><strong>Prior abuse:</strong> Any history of abuse associated with the GitHub account ID (even if the account is new, we track anonymous abuse signals)</li>
-        </ul>
+                <div class="callout">
+                  <p>
+                    <strong>Tip:</strong> If your GitHub account is new, we
+                    recommend building a small public project and linking it to
+                    your subdomain request. A GitHub profile with a real
+                    repository and a verified email significantly reduces the
+                    likelihood of automated flagging.
+                  </p>
+                </div>
 
-        <div class="callout">
-          <p><strong>Tip:</strong> If your GitHub account is new, we recommend building a small public project and linking it to your subdomain request. A GitHub profile with a real repository and a verified email significantly reduces the likelihood of automated flagging.</p>
-        </div>
-
-        <h2>How the Flagging System Works</h2>
-        <p>The flagging system uses a weighted scoring model. Each signal contributes a score to the overall evaluation, and the scores are combined to produce a final risk assessment:</p>
-        <pre><code>Risk Score = (Subdomain Name Score &times; 0.35)
+                <h2>How the Flagging System Works</h2>
+                <p>
+                  The flagging system uses a weighted scoring model. Each signal
+                  contributes a score to the overall evaluation, and the scores
+                  are combined to produce a final risk assessment:
+                </p>
+                <pre><code>Risk Score = (Subdomain Name Score &times; 0.35)
            + (Account Risk Score &times; 0.30)
            + (Registration Pattern Score &times; 0.20)
            + (Target Risk Score &times; 0.15)</code></pre>
-        <p>If the total risk score exceeds a configurable threshold, the request is rejected. Scores just below the threshold may result in a "flagged for review" status, where the request is provisioned but placed on a watchlist for manual review within 24 hours.</p>
-        <p>The scoring model is retrained periodically based on confirmed abuse cases and false positive reports. This is a continuous improvement process — every time a user appeals a rejection and we determine it was a false positive, we adjust the model to reduce the likelihood of similar false positives in the future.</p>
+                <p>
+                  If the total risk score exceeds a configurable threshold, the
+                  request is rejected. Scores just below the threshold may
+                  result in a "flagged for review" status, where the request is
+                  provisioned but placed on a watchlist for manual review within
+                  24 hours.
+                </p>
+                <p>
+                  The scoring model is retrained periodically based on confirmed
+                  abuse cases and false positive reports. This is a continuous
+                  improvement process — every time a user appeals a rejection
+                  and we determine it was a false positive, we adjust the model
+                  to reduce the likelihood of similar false positives in the
+                  future.
+                </p>
 
-        <h2>Common Rejection Reasons</h2>
-        <p>If your subdomain request is rejected, the dashboard displays a specific reason. Here are the most common rejection reasons and what they mean:</p>
-        <table>
-          <thead>
-            <tr>
-              <th>Rejection Reason</th>
-              <th>What It Means</th>
-              <th>How to Fix</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Subdomain name resembles known phishing pattern</td>
-              <td>The name matched a keyword or pattern on our blocklist</td>
-              <td>Choose a different name that reflects your actual project</td>
-            </tr>
-            <tr>
-              <td>Account too new or suspicious</td>
-              <td>Your GitHub account does not meet our minimum activity criteria</td>
-              <td>Build a public project, verify your email, or wait for your account to mature</td>
-            </tr>
-            <tr>
-              <td>Attempting to register blocked keyword</td>
-              <td>The name contains a string we reserve for platform safety</td>
-              <td>Review our blocked keywords list in the FAQ; choose an alternative</td>
-            </tr>
-            <tr>
-              <td>DNS verification failure</td>
-              <td>The target endpoint could not be resolved or returned an error</td>
-              <td>Verify the CNAME target or A record is valid and resolves</td>
-            </tr>
-            <tr>
-              <td>Rate limit exceeded</td>
-              <td>You registered too many subdomains too quickly</td>
-              <td>Wait 60 minutes before attempting another registration</td>
-            </tr>
-          </tbody>
-        </table>
+                <h2>Common Rejection Reasons</h2>
+                <p>
+                  If your subdomain request is rejected, the dashboard displays
+                  a specific reason. Here are the most common rejection reasons
+                  and what they mean:
+                </p>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Rejection Reason</th>
+                      <th>What It Means</th>
+                      <th>How to Fix</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Subdomain name resembles known phishing pattern</td>
+                      <td>
+                        The name matched a keyword or pattern on our blocklist
+                      </td>
+                      <td>
+                        Choose a different name that reflects your actual
+                        project
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Account too new or suspicious</td>
+                      <td>
+                        Your GitHub account does not meet our minimum activity
+                        criteria
+                      </td>
+                      <td>
+                        Build a public project, verify your email, or wait for
+                        your account to mature
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Attempting to register blocked keyword</td>
+                      <td>
+                        The name contains a string we reserve for platform
+                        safety
+                      </td>
+                      <td>
+                        Review our blocked keywords list in the FAQ; choose an
+                        alternative
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DNS verification failure</td>
+                      <td>
+                        The target endpoint could not be resolved or returned an
+                        error
+                      </td>
+                      <td>
+                        Verify the CNAME target or A record is valid and
+                        resolves
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Rate limit exceeded</td>
+                      <td>You registered too many subdomains too quickly</td>
+                      <td>
+                        Wait 60 minutes before attempting another registration
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
 
-        <h2>What to Do If Your Request Is Rejected</h2>
-        <p>Rejection is not permanent. Here is what to do step by step:</p>
-        <ol>
-          <li><strong>Read the rejection message:</strong> The dashboard shows the specific reason. Start by understanding which check failed.</li>
-          <li><strong>Try a different subdomain name:</strong> If the issue is the name itself (phishing pattern or blocked keyword), choose a more descriptive, project-specific name. Instead of <code>login-support.is-pro.dev</code>, try <code>myapp-docs.is-pro.dev</code>.</li>
-          <li><strong>Update your GitHub profile:</strong> If the issue is account age or activity, add a public repository, verify your email, and set a profile picture. These changes may not take effect immediately — our system caches GitHub profile data for up to 24 hours.</li>
-          <li><strong>Contact support:</strong> If you believe the rejection was a false positive, contact us via the <a href="/contact/">contact form</a> or <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord</a>. Include your GitHub username, the subdomain you tried to register, and an explanation of your project. Our moderation team will review the rejection and, if appropriate, manually approve the request or adjust the automated system.</li>
-        </ol>
+                <h2>What to Do If Your Request Is Rejected</h2>
+                <p>
+                  Rejection is not permanent. Here is what to do step by step:
+                </p>
+                <ol>
+                  <li>
+                    <strong>Read the rejection message:</strong> The dashboard
+                    shows the specific reason. Start by understanding which
+                    check failed.
+                  </li>
+                  <li>
+                    <strong>Try a different subdomain name:</strong> If the
+                    issue is the name itself (phishing pattern or blocked
+                    keyword), choose a more descriptive, project-specific name.
+                    Instead of <code>login-support.is-pro.dev</code>, try
+                    <code>myapp-docs.is-pro.dev</code>.
+                  </li>
+                  <li>
+                    <strong>Update your GitHub profile:</strong> If the issue is
+                    account age or activity, add a public repository, verify
+                    your email, and set a profile picture. These changes may not
+                    take effect immediately — our system caches GitHub profile
+                    data for up to 24 hours.
+                  </li>
+                  <li>
+                    <strong>Contact support:</strong> If you believe the
+                    rejection was a false positive, contact us via the
+                    <a href="/contact/">contact form</a> or
+                    <a
+                      href="https://discord.gg/N8YzrkJxYy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Discord</a
+                    >. Include your GitHub username, the subdomain you tried to
+                    register, and an explanation of your project. Our moderation
+                    team will review the rejection and, if appropriate, manually
+                    approve the request or adjust the automated system.
+                  </li>
+                </ol>
 
-        <h2>How to Improve Your Chances of Approval</h2>
-        <p>Based on the data from thousands of registration requests, here are the factors that correlate with smooth approvals:</p>
-        <ul>
-          <li><strong>Use descriptive project names:</strong> <code>my-todo-app.is-pro.dev</code> is better than <code>app.is-pro.dev</code>. The more specific your name, the less likely it is to match an abuse pattern.</li>
-          <li><strong>Link to a real project:</strong> Point your subdomain to a GitHub Pages site, a Vercel/Netlify project, or any live application. A subdomain with live content has a much lower risk of being flagged after registration.</li>
-          <li><strong>Space out registrations:</strong> If you need multiple subdomains, register them one at a time with reasonable gaps (an hour or more between requests).</li>
-          <li><strong>Build GitHub presence:</strong> A profile with repositories, stars, and contributions signals that you are a real developer using the platform for legitimate purposes.</li>
-          <li><strong>Avoid trademarked terms:</strong> Even if you have a legitimate reason to use a brand name (e.g., writing a tutorial about "discord bots"), the automated system cannot distinguish intent — choose a name that reflects <em>your</em> project.</li>
-        </ul>
+                <h2>How to Improve Your Chances of Approval</h2>
+                <p>
+                  Based on the data from thousands of registration requests,
+                  here are the factors that correlate with smooth approvals:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Use descriptive project names:</strong>
+                    <code>my-todo-app.is-pro.dev</code> is better than
+                    <code>app.is-pro.dev</code>. The more specific your name,
+                    the less likely it is to match an abuse pattern.
+                  </li>
+                  <li>
+                    <strong>Link to a real project:</strong> Point your
+                    subdomain to a GitHub Pages site, a Vercel/Netlify project,
+                    or any live application. A subdomain with live content has a
+                    much lower risk of being flagged after registration.
+                  </li>
+                  <li>
+                    <strong>Space out registrations:</strong> If you need
+                    multiple subdomains, register them one at a time with
+                    reasonable gaps (an hour or more between requests).
+                  </li>
+                  <li>
+                    <strong>Build GitHub presence:</strong> A profile with
+                    repositories, stars, and contributions signals that you are
+                    a real developer using the platform for legitimate purposes.
+                  </li>
+                  <li>
+                    <strong>Avoid trademarked terms:</strong> Even if you have a
+                    legitimate reason to use a brand name (e.g., writing a
+                    tutorial about "discord bots"), the automated system cannot
+                    distinguish intent — choose a name that reflects
+                    <em>your</em> project.
+                  </li>
+                </ul>
 
-        <div class="callout">
-          <p><strong>Tip:</strong> Think of your subdomain name as a signal. The more it communicates "this is a specific project by a real person," the less likely it is to be flagged. Generic, short, or keyword-heavy names look like abuse patterns to automated systems.</p>
+                <div class="callout">
+                  <p>
+                    <strong>Tip:</strong> Think of your subdomain name as a
+                    signal. The more it communicates "this is a specific project
+                    by a real person," the less likely it is to be flagged.
+                    Generic, short, or keyword-heavy names look like abuse
+                    patterns to automated systems.
+                  </p>
+                </div>
+
+                <h2>False Positives and System Improvement</h2>
+                <p>
+                  We know our automated system is imperfect. False positives —
+                  legitimate requests that are incorrectly flagged — happen, and
+                  we take them seriously. Every false positive report helps us
+                  improve the system in two ways:
+                </p>
+                <ol>
+                  <li>
+                    <strong>Direct fix:</strong> If a specific keyword or
+                    pattern is causing excessive false positives, we adjust the
+                    blocklist or scoring weight for that signal.
+                  </li>
+                  <li>
+                    <strong>Model retraining:</strong> Flagged-but-approved
+                    requests are used as training data for the scoring model.
+                    Over time, the system learns to distinguish between genuine
+                    projects and abuse attempts more accurately.
+                  </li>
+                </ol>
+                <p>
+                  We publish periodic transparency reports that include our
+                  false positive rate. Our current target is a false positive
+                  rate below 5% — meaning at least 95% of flagged requests are
+                  confirmed as genuine abuse. We are investing in better signal
+                  processing to reduce this further without compromising
+                  detection coverage.
+                </p>
+
+                <h2>Appeals Process</h2>
+                <p>
+                  If your request was rejected and you believe it was a false
+                  positive, here is how to appeal:
+                </p>
+                <ol>
+                  <li>
+                    Go to the <a href="/contact/">contact page</a> and select
+                    "Appeal a rejected subdomain" from the subject dropdown
+                  </li>
+                  <li>
+                    Include your <strong>GitHub username</strong>, the
+                    <strong>subdomain name</strong> you tried to register, and a
+                    <strong>description of your project</strong>
+                  </li>
+                  <li>
+                    Optional but helpful: link to your project's repository,
+                    live site, or documentation — this gives our moderators
+                    context to evaluate your request
+                  </li>
+                  <li>
+                    Our moderation team will review the appeal within 48 hours
+                  </li>
+                  <li>
+                    If approved, the subdomain will be manually provisioned and
+                    you will receive a confirmation
+                  </li>
+                  <li>
+                    If denied, we will explain the reasoning and suggest
+                    alternatives (e.g., a different subdomain name that would
+                    pass the automated checks)
+                  </li>
+                </ol>
+                <p>
+                  Appeals are reviewed by humans, not automated systems. We
+                  understand that automated flagging can be frustrating, and we
+                  want to make the appeals process as smooth as possible.
+                </p>
+
+                <h2>Conclusion</h2>
+                <p>
+                  Automatic provisioning with abuse detection is a tradeoff. It
+                  gives legitimate users instant access to subdomains while
+                  creating barriers for bad actors. The system is not perfect,
+                  but it is constantly improving. If your request is rejected,
+                  do not take it personally — try a different name, build out
+                  your GitHub profile, or reach out to us for help.
+                </p>
+                <p>
+                  We are committed to transparency about how our systems work.
+                  If you have questions about the flagging process that are not
+                  answered here, join our
+                  <a
+                    href="https://discord.gg/N8YzrkJxYy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Discord community</a
+                  >
+                  and ask — we are happy to explain.
+                </p>
+
+                <div class="callout">
+                  <p>
+                    <strong>Need hands-on help?</strong> See
+                    <a href="/guides/">Guides</a>
+                    <a href="/tools/">Tools</a> for step-by-step setup
+                    playbooks, or join the
+                    <a
+                      href="https://discord.gg/N8YzrkJxYy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Discord community</a
+                    >.
+                  </p>
+                </div>
+
+                <h2>Deployment scenario from operations</h2>
+                <p>
+                  Moderation decisions were reviewed with concrete evidence to
+                  separate unsafe behavior from legitimate project activity.
+                </p>
+                <div class="utility-block utility-warning">
+                  <strong>Platform nuance:</strong> Moderation quality improves
+                  when reports are specific, time-stamped, and technically
+                  reproducible.
+                </div>
+
+                <h2>Common mistakes</h2>
+                <ul>
+                  <li>
+                    Treating policy language as vague guidance instead of
+                    enforceable boundaries.
+                  </li>
+                  <li>
+                    Submitting reports without timestamps or reproducible
+                    evidence.
+                  </li>
+                  <li>
+                    Assuming moderation outcomes are random when evidence is
+                    incomplete.
+                  </li>
+                </ul>
+
+                <h2>How to verify it works</h2>
+                <ol>
+                  <li>
+                    Check decision rationale against published policy
+                    categories.
+                  </li>
+                  <li>
+                    Confirm evidence package contains URLs, timing, and impact
+                    details.
+                  </li>
+                  <li>Use appeal path when factual corrections are needed.</li>
+                </ol>
+                <div class="utility-block utility-verification">
+                  Use these checks before finalizing a moderation decision or
+                  communicating a rejection outcome.
+                </div>
+              </div>
+              <aside class="toc-sidebar" id="toc-sidebar">
+                <nav class="toc-nav" aria-label="Table of Contents">
+                  <div class="toc-header">On this page</div>
+                  <ul class="toc-list" id="toc-list"></ul>
+                </nav>
+              </aside>
+            </div>
+          </div>
         </div>
 
-        <h2>False Positives and System Improvement</h2>
-        <p>We know our automated system is imperfect. False positives — legitimate requests that are incorrectly flagged — happen, and we take them seriously. Every false positive report helps us improve the system in two ways:</p>
-        <ol>
-          <li><strong>Direct fix:</strong> If a specific keyword or pattern is causing excessive false positives, we adjust the blocklist or scoring weight for that signal.</li>
-          <li><strong>Model retraining:</strong> Flagged-but-approved requests are used as training data for the scoring model. Over time, the system learns to distinguish between genuine projects and abuse attempts more accurately.</li>
-        </ol>
-        <p>We publish periodic transparency reports that include our false positive rate. Our current target is a false positive rate below 5% — meaning at least 95% of flagged requests are confirmed as genuine abuse. We are investing in better signal processing to reduce this further without compromising detection coverage.</p>
-
-        <h2>Appeals Process</h2>
-        <p>If your request was rejected and you believe it was a false positive, here is how to appeal:</p>
-        <ol>
-          <li>Go to the <a href="/contact/">contact page</a> and select "Appeal a rejected subdomain" from the subject dropdown</li>
-          <li>Include your <strong>GitHub username</strong>, the <strong>subdomain name</strong> you tried to register, and a <strong>description of your project</strong></li>
-          <li>Optional but helpful: link to your project's repository, live site, or documentation — this gives our moderators context to evaluate your request</li>
-          <li>Our moderation team will review the appeal within 48 hours</li>
-          <li>If approved, the subdomain will be manually provisioned and you will receive a confirmation</li>
-          <li>If denied, we will explain the reasoning and suggest alternatives (e.g., a different subdomain name that would pass the automated checks)</li>
-        </ol>
-        <p>Appeals are reviewed by humans, not automated systems. We understand that automated flagging can be frustrating, and we want to make the appeals process as smooth as possible.</p>
-
-        <h2>Conclusion</h2>
-        <p>Automatic provisioning with abuse detection is a tradeoff. It gives legitimate users instant access to subdomains while creating barriers for bad actors. The system is not perfect, but it is constantly improving. If your request is rejected, do not take it personally — try a different name, build out your GitHub profile, or reach out to us for help.</p>
-        <p>We are committed to transparency about how our systems work. If you have questions about the flagging process that are not answered here, join our <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a> and ask — we are happy to explain.</p>
-
-        <div class="callout">
-          <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
+        <div class="container" style="margin: 2rem auto">
+          <div class="ad-container ad-native-banner">
+            <script
+              async="async"
+              data-cfasync="false"
+              src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"
+            ></script>
+            <div id="container-4ca1e991eb7b08bcad5807536453d0cd-mid-1"></div>
+          </div>
         </div>
 
-          
+        <!-- Social Bar Ad -->
+        <div class="container" style="margin: 2rem auto">
+          <div class="ad-container ad-social-bar">
+            <script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
+          </div>
+        </div>
 
-        <h2>Deployment scenario from operations</h2>
-        <p>Moderation decisions were reviewed with concrete evidence to separate unsafe behavior from legitimate project activity.</p>
-        <div class="utility-block utility-warning"><strong>Platform nuance:</strong> Moderation quality improves when reports are specific, time-stamped, and technically reproducible.</div>
+        <!-- 300x250 Banner Ad -->
+        <div
+          class="container"
+          style="margin: 1.5rem auto; display: none"
+          id="ad-300x250-blog-rejected"
+        >
+          <div class="ad-container ad-banner-300x250">
+            <script>
+              atOptions = {
+                key: "b1b36a2819973d652de70000f36fd1f4",
+                format: "iframe",
+                height: 250,
+                width: 300,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
+          </div>
+        </div>
+        <script>
+          if (window.innerWidth > 640) {
+            document.getElementById("ad-300x250-blog-rejected").style.display =
+              "block";
+          }
+        </script>
 
-        <h2>Common mistakes</h2>
-        <ul>
-          <li>Treating policy language as vague guidance instead of enforceable boundaries.</li>
-          <li>Submitting reports without timestamps or reproducible evidence.</li>
-          <li>Assuming moderation outcomes are random when evidence is incomplete.</li>
-        </ul>
+        <!-- 728x90 Desktop Banner Ad -->
+        <div
+          class="container"
+          style="margin: 1.5rem auto; display: none"
+          id="ad-728x90-blog-rejected"
+        >
+          <div class="ad-container ad-banner-728x90">
+            <script>
+              atOptions = {
+                key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                format: "iframe",
+                height: 90,
+                width: 728,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+          </div>
+        </div>
+        <script>
+          if (window.innerWidth > 640) {
+            document.getElementById("ad-728x90-blog-rejected").style.display =
+              "block";
+          }
+        </script>
 
-        <h2>How to verify it works</h2>
-        <ol>
-          <li>Check decision rationale against published policy categories.</li>
-          <li>Confirm evidence package contains URLs, timing, and impact details.</li>
-          <li>Use appeal path when factual corrections are needed.</li>
-        </ol>
-        <div class="utility-block utility-verification">Use these checks before finalizing a moderation decision or communicating a rejection outcome.</div>
-</div>
-          <aside class="toc-sidebar" id="toc-sidebar">
-            <nav class="toc-nav" aria-label="Table of Contents">
-              <div class="toc-header">On this page</div>
-              <ul class="toc-list" id="toc-list"></ul>
+        <div class="container">
+          <div class="share-section">
+            <span class="share-label">Share this article</span>
+            <div class="share-links">
+              <a
+                class="share-link"
+                href="https://twitter.com/intent/tweet?text=How%20Automatic%20Provisioning%20and%20Abuse%20Flags%20Work&url=https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                  />
+                </svg>
+                Share on X
+              </a>
+              <a
+                class="share-link"
+                href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/blog/why-subdomain-requests-get-rejected/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  />
+                </svg>
+                Share on LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-nav-section">
+          <div class="container">
+            <nav class="doc-nav" aria-label="Article navigation">
+              <a
+                class="doc-nav-link"
+                href="/blog/how-to-handle-abuse-reports-responsibly/"
+                ><span class="doc-nav-label"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                  Previous</span
+                ><span class="doc-nav-title"
+                  >How to Handle Abuse Reports Responsibly</span
+                ></a
+              >
+              <a
+                class="doc-nav-link next"
+                href="/blog/post-incident-review-template-for-dns-outages/"
+                ><span class="doc-nav-label"
+                  >Next
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" /></svg></span
+                ><span class="doc-nav-title"
+                  >Post-Incident Review Template for DNS Outages</span
+                ></a
+              >
             </nav>
-          </aside>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="container" style="margin:2rem auto;">
-      <div class="ad-container ad-native-banner">
-<script async="async" data-cfasync="false" src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"></script>
-<div id="container-4ca1e991eb7b08bcad5807536453d0cd-mid-1"></div>
-      </div>
-    </div>
+        <section class="related-section">
+          <div class="container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+              <a
+                href="/blog/how-to-handle-abuse-reports-responsibly/"
+                class="related-card"
+              >
+                <div class="related-card-category">Safety</div>
+                <h3>How to Handle Abuse Reports Responsibly</h3>
+                <p>
+                  A response workflow for phishing, impersonation, and spam
+                  reports.
+                </p>
+              </a>
+              <a
+                href="/blog/how-we-think-about-fair-use-for-free-subdomains/"
+                class="related-card"
+              >
+                <div class="related-card-category">Policy</div>
+                <h3>How We Think About Fair Use for Free Subdomains</h3>
+                <p>
+                  Usage patterns that help keep a free DNS service healthy for
+                  everyone.
+                </p>
+              </a>
+              <a
+                href="/blog/preventing-takeovers-after-deploy-deletions/"
+                class="related-card"
+              >
+                <div class="related-card-category">Security</div>
+                <h3>Preventing Subdomain Takeovers After Deploy Deletions</h3>
+                <p>
+                  Why dangling DNS records are risky and how to clean them
+                  safely.
+                </p>
+              </a>
+            </div>
+          </div>
+        </section>
 
-  <!-- Social Bar Ad -->
-  <div class="container" style="margin:2rem auto;">
-    <div class="ad-container ad-social-bar">
-<script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
-    </div>
-  </div>
-
-  <!-- 300x250 Banner Ad -->
-  <div class="container" style="margin:1.5rem auto;display:none;" id="ad-300x250-blog-rejected">
-    <div class="ad-container ad-banner-300x250">
-<script>
-  atOptions = {
-    'key' : 'b1b36a2819973d652de70000f36fd1f4',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
-    </div>
-  </div>
-  <script>
-    if (window.innerWidth > 640) {
-      document.getElementById('ad-300x250-blog-rejected').style.display = 'block';
-    }
-  </script>
-
-  <!-- 728x90 Desktop Banner Ad -->
-  <div class="container" style="margin:1.5rem auto;display:none;" id="ad-728x90-blog-rejected">
-    <div class="ad-container ad-banner-728x90">
-<script>
-  atOptions = {
-    'key' : '4d2a4eb320f23a0188fc0bafbe9dfe46',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
-    </div>
-  </div>
-  <script>
-    if (window.innerWidth > 640) {
-      document.getElementById('ad-728x90-blog-rejected').style.display = 'block';
-    }
-  </script>
-
-    <div class="container">
-      <div class="share-section">
-        <span class="share-label">Share this article</span>
-        <div class="share-links">
-          <a class="share-link" href="https://twitter.com/intent/tweet?text=How%20Automatic%20Provisioning%20and%20Abuse%20Flags%20Work&url=https://is-pro.dev/blog/why-subdomain-requests-get-rejected/" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Share on X
-          </a>
-          <a class="share-link" href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/blog/why-subdomain-requests-get-rejected/" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            Share on LinkedIn
-          </a>
+        <div
+          class="container"
+          style="margin-bottom: 1.5rem; display: none"
+          id="blog-post-mobile-ad"
+        >
+          <div class="ad-container ad-banner-320x50">
+            <script>
+              atOptions = {
+                key: "d22ebf285f47755fabff0102c2736692",
+                format: "iframe",
+                height: 50,
+                width: 320,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
+          </div>
         </div>
-      </div>
-    </div>
+        <script>
+          if (window.innerWidth <= 640) {
+            document.getElementById("blog-post-mobile-ad").style.display =
+              "block";
+          }
+        </script>
+      </article>
+    </main>
 
-    <div class="doc-nav-section">
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
-        <nav class="doc-nav" aria-label="Article navigation">
-          <a class="doc-nav-link" href="/blog/how-to-handle-abuse-reports-responsibly/"><span class="doc-nav-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Previous</span><span class="doc-nav-title">How to Handle Abuse Reports Responsibly</span></a>
-          <a class="doc-nav-link next" href="/blog/post-incident-review-template-for-dns-outages/"><span class="doc-nav-label">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span><span class="doc-nav-title">Post-Incident Review Template for DNS Outages</span></a>
-        </nav>
-      </div>
-    </div>
-
-    <section class="related-section">
-      <div class="container">
-        <h2>Related Articles</h2>
-        <div class="related-grid">
-          <a href="/blog/how-to-handle-abuse-reports-responsibly/" class="related-card">
-  <div class="related-card-category">Safety</div>
-  <h3>How to Handle Abuse Reports Responsibly</h3>
-  <p>A response workflow for phishing, impersonation, and spam reports.</p>
-</a>
-<a href="/blog/how-we-think-about-fair-use-for-free-subdomains/" class="related-card">
-  <div class="related-card-category">Policy</div>
-  <h3>How We Think About Fair Use for Free Subdomains</h3>
-  <p>Usage patterns that help keep a free DNS service healthy for everyone.</p>
-</a>
-<a href="/blog/preventing-takeovers-after-deploy-deletions/" class="related-card">
-  <div class="related-card-category">Security</div>
-  <h3>Preventing Subdomain Takeovers After Deploy Deletions</h3>
-  <p>Why dangling DNS records are risky and how to clean them safely.</p>
-</a>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in and DNS
+              management.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <nav class="footer-links" aria-label="Community links">
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
+            </nav>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div style="display: flex; gap: 1.5rem">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
         </div>
       </div>
-    </section>
+    </footer>
 
-    <div class="container" style="margin-bottom:1.5rem;display:none;" id="blog-post-mobile-ad">
-      <div class="ad-container ad-banner-320x50">
-<script>
-  atOptions = {
-    'key' : 'd22ebf285f47755fabff0102c2736692',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
-      </div>
-    </div>
+    <script src="/js/app.js" defer></script>
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script
+      async
+      src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"
+    ></script>
     <script>
-      if (window.innerWidth <= 640) {
-        document.getElementById('blog-post-mobile-ad').style.display = 'block';
-      }
+      ((window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {};
+          }));
+      plausible.init();
     </script>
-  </article>
-</main>
-
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo-link">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span style="font-family:var(--font-mono)">is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers with GitHub sign-in and DNS management.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Service</h4>
-        <nav class="footer-links" aria-label="Service links">
-          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
-          <a href="/domains/" class="footer-link">Domains</a>
-          <a href="/blog/" class="footer-link">Blog</a>
-          <a href="/guides/" class="footer-link">Guides</a>
-          <a href="/about/" class="footer-link">About</a>
-          <a href="/contact/" class="footer-link">Contact</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <nav class="footer-links" aria-label="Legal links">
-          <a href="/terms/" class="footer-link">Terms of Service</a>
-          <a href="/privacy/" class="footer-link">Privacy Policy</a>
-          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
-          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Community</h4>
-        <nav class="footer-links" aria-label="Community links">
-          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </nav>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 is-cool-me. All rights reserved.</span>
-      <div style="display:flex;gap:1.5rem;">
-        <a href="/about/">About</a>
-        <a href="/terms/">Terms</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/editorial-standards/">Editorial Standards</a>
-        <a href="/abuse-report/">Abuse Report</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a>
-        <a href="/contact/">Contact</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="/js/app.js" defer></script>
-<!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
-</body>
+  </body>
 </html>

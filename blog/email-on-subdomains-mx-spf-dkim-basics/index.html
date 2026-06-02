@@ -1,559 +1,1162 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Email on Subdomains: MX, SPF, and DKIM Basics — is-cool-me</title>
-  <meta name="description" content="A practical intro to reliable email delivery on your subdomain." />
-  <link rel="canonical" href="https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/" />
-  <meta property="og:title" content="Email on Subdomains: MX, SPF, and DKIM Basics — is-cool-me" />
-  <meta property="og:description" content="A practical intro to reliable email delivery on your subdomain." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Email on Subdomains: MX, SPF, and DKIM Basics — is-cool-me" />
-  <meta name="twitter:description" content="A practical intro to reliable email delivery on your subdomain." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BlogPosting",
-      "headline": "Email on Subdomains: MX, SPF, and DKIM Basics",
-      "description": "A practical intro to reliable email delivery on your subdomain.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "reviewedBy": {
-        "@type": "Person",
-        "name": "is-cool-me Technical Review"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-05-01",
-      "dateModified": "2026-05-11",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
-      },
-      "url": "https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog",
-          "item": "https://is-pro.dev/blog/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Email on Subdomains: MX, SPF, and DKIM Basics",
-          "item": "https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
-        }
-      ]
-    }
-  ]
-}
-</script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
-    crossorigin="anonymous"></script>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>Email on Subdomains: MX, SPF, and DKIM Basics — is-cool-me</title>
+    <meta
+      name="description"
+      content="A practical intro to reliable email delivery on your subdomain."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
+    />
+    <meta
+      property="og:title"
+      content="Email on Subdomains: MX, SPF, and DKIM Basics — is-cool-me"
+    />
+    <meta
+      property="og:description"
+      content="A practical intro to reliable email delivery on your subdomain."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Email on Subdomains: MX, SPF, and DKIM Basics — is-cool-me"
+    />
+    <meta
+      name="twitter:description"
+      content="A practical intro to reliable email delivery on your subdomain."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "BlogPosting",
+            "headline": "Email on Subdomains: MX, SPF, and DKIM Basics",
+            "description": "A practical intro to reliable email delivery on your subdomain.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "reviewedBy": {
+              "@type": "Person",
+              "name": "is-cool-me Technical Review"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-05-01",
+            "dateModified": "2026-05-11",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
+            },
+            "url": "https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://is-pro.dev/blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Email on Subdomains: MX, SPF, and DKIM Basics",
+                "item": "https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only skip-link">Skip to main content</a>
 
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
-
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a><a href="/trending/" class="nav-link">Trending</a>
-        <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
-          Discord
-        </a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
-          Open Dashboard
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<div class="reading-progress" id="reading-progress"></div>
-
-<main id="main-content">
-  <article>
-    <header class="article-hero">
+    <header class="site-header" role="banner">
       <div class="container">
-        <div class="article-hero-inner">
-          <div class="article-meta">
-            <span class="article-category">Email DNS</span>
-            <span class="article-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              10 min read
-            </span>
-            <span class="article-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              Published May 2026
-            </span>
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a
+            ><a href="/trending/" class="nav-link">Trending</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+                />
+              </svg>
+              Discord
+            </a>
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
           </div>
-          <h1>Email on Subdomains: MX, SPF, and DKIM Basics</h1>
-          <p class="article-summary">A practical intro to reliable email delivery on your subdomain, covering MX records, SPF policies, and DKIM signing.</p>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </header>
 
-    <section class="author-section" aria-label="Article authorship">
-      <div class="container">
-        <div class="author-card" data-reveal>
-          <div class="author-card-main">
-            <h2 class="author-card-title">Written by Mayank Baswal</h2>
-            <p class="author-card-role">Founder of is-cool-me · DNS &amp; Platform Infrastructure</p>
-            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-            <div class="author-card-links">
-              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-              <a href="/contact/">Contact</a>
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Email DNS</span>
+                <span class="article-meta-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  10 min read
+                </span>
+                <span class="article-meta-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  Published May 2026
+                </span>
+              </div>
+              <h1>Email on Subdomains: MX, SPF, and DKIM Basics</h1>
+              <p class="article-summary">
+                A practical intro to reliable email delivery on your subdomain,
+                covering MX records, SPF policies, and DKIM signing.
+              </p>
             </div>
           </div>
-          <div class="author-card-review">
-            <span class="author-card-review-label">Reviewed by</span>
-            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+        </header>
+
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">Written by Mayank Baswal</h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS &amp; Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows, and
+                  platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Technical Review</span
+                >
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <div class="article-layout-section">
-      <div class="container">
-        <div class="article-layout-inner">
-          <div class="article-content prose">
-        <h2>Why Email on Subdomains Matters</h2>
-        <p>Running email on a subdomain (like <code>mail.yourname.is-pro.dev</code> or using a custom subdomain for a transactional email provider) is a best practice that offers several advantages over sending from your root domain.</p>
-        <p><strong>Reputation separation:</strong> Your root domain's email reputation is protected. If your transactional email subdomain gets flagged for spam (e.g., a user marks a password reset email as spam), it does not affect the deliverability of your personal or team emails from the root domain. Each subdomain builds its own sending reputation independently.</p>
-        <p><strong>Easier management:</strong> You can delegate DNS control of a subdomain to a different team or service provider without giving them access to your root domain's DNS. This is common when using services like Mailgun, SendGrid, or Amazon SES.</p>
-        <p><strong>Flexible provider switching:</strong> Switching email providers for a subdomain only requires changing DNS records for that subdomain. Your root domain's MX, SPF, and DKIM records remain untouched, so your main email keeps working during the transition.</p>
-        <p><strong>Targeted authentication:</strong> You can have different SPF, DKIM, and DMARC policies for different subdomains. Marketing emails from <code>newsletter.example.com</code> can have a more permissive SPF policy than transactional emails from <code>billing.example.com</code>.</p>
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Why Email on Subdomains Matters</h2>
+                <p>
+                  Running email on a subdomain (like
+                  <code>mail.yourname.is-pro.dev</code> or using a custom
+                  subdomain for a transactional email provider) is a best
+                  practice that offers several advantages over sending from your
+                  root domain.
+                </p>
+                <p>
+                  <strong>Reputation separation:</strong> Your root domain's
+                  email reputation is protected. If your transactional email
+                  subdomain gets flagged for spam (e.g., a user marks a password
+                  reset email as spam), it does not affect the deliverability of
+                  your personal or team emails from the root domain. Each
+                  subdomain builds its own sending reputation independently.
+                </p>
+                <p>
+                  <strong>Easier management:</strong> You can delegate DNS
+                  control of a subdomain to a different team or service provider
+                  without giving them access to your root domain's DNS. This is
+                  common when using services like Mailgun, SendGrid, or Amazon
+                  SES.
+                </p>
+                <p>
+                  <strong>Flexible provider switching:</strong> Switching email
+                  providers for a subdomain only requires changing DNS records
+                  for that subdomain. Your root domain's MX, SPF, and DKIM
+                  records remain untouched, so your main email keeps working
+                  during the transition.
+                </p>
+                <p>
+                  <strong>Targeted authentication:</strong> You can have
+                  different SPF, DKIM, and DMARC policies for different
+                  subdomains. Marketing emails from
+                  <code>newsletter.example.com</code> can have a more permissive
+                  SPF policy than transactional emails from
+                  <code>billing.example.com</code>.
+                </p>
 
-        <div class="callout">
-          <p><strong>Key insight:</strong> Email authentication (SPF, DKIM, DMARC) works independently on each subdomain. A subdomain with no SPF record will cause receivers to apply a neutral or fail result, which typically leads to spam folder placement. Always configure authentication for every subdomain that sends email.</p>
-        </div>
+                <div class="callout">
+                  <p>
+                    <strong>Key insight:</strong> Email authentication (SPF,
+                    DKIM, DMARC) works independently on each subdomain. A
+                    subdomain with no SPF record will cause receivers to apply a
+                    neutral or fail result, which typically leads to spam folder
+                    placement. Always configure authentication for every
+                    subdomain that sends email.
+                  </p>
+                </div>
 
-        <h2>MX Records Explained</h2>
-        <p>Mail Exchange (MX) records tell the internet which servers are responsible for receiving email for your domain. When someone sends an email to <code>user@yourname.is-pro.dev</code>, the sending server queries DNS for MX records at <code>yourname.is-pro.dev</code> and delivers the message to the specified mail servers.</p>
+                <h2>MX Records Explained</h2>
+                <p>
+                  Mail Exchange (MX) records tell the internet which servers are
+                  responsible for receiving email for your domain. When someone
+                  sends an email to <code>user@yourname.is-pro.dev</code>, the
+                  sending server queries DNS for MX records at
+                  <code>yourname.is-pro.dev</code> and delivers the message to
+                  the specified mail servers.
+                </p>
 
-        <h3>MX Record Format</h3>
-        <pre><code>yourname.is-pro.dev.  MX  10  mail1.yourname.is-pro.dev.
+                <h3>MX Record Format</h3>
+                <pre><code>yourname.is-pro.dev.  MX  10  mail1.yourname.is-pro.dev.
 yourname.is-pro.dev.  MX  20  mail2.yourname.is-pro.dev.</code></pre>
-        <p>Each MX record has three components:</p>
-        <ul>
-          <li><strong>Priority (preference):</strong> A number from 0 to 65535. Lower numbers are preferred. The sending server always tries the lowest-priority MX first. If that server is unreachable, it tries the next priority.</li>
-          <li><strong>Mail server hostname:</strong> The fully qualified domain name of the mail server. This must resolve to an A or AAAA record. It cannot be a CNAME alias per RFC 2181 (though many providers allow it in practice).</li>
-          <li><strong>TTL:</strong> Standard DNS TTL controls how long the MX record is cached.</li>
-        </ul>
+                <p>Each MX record has three components:</p>
+                <ul>
+                  <li>
+                    <strong>Priority (preference):</strong> A number from 0 to
+                    65535. Lower numbers are preferred. The sending server
+                    always tries the lowest-priority MX first. If that server is
+                    unreachable, it tries the next priority.
+                  </li>
+                  <li>
+                    <strong>Mail server hostname:</strong> The fully qualified
+                    domain name of the mail server. This must resolve to an A or
+                    AAAA record. It cannot be a CNAME alias per RFC 2181 (though
+                    many providers allow it in practice).
+                  </li>
+                  <li>
+                    <strong>TTL:</strong> Standard DNS TTL controls how long the
+                    MX record is cached.
+                  </li>
+                </ul>
 
-        <h3>Multiple MX Records and Load Balancing</h3>
-        <p>Multiple MX records with the same priority distribute load across servers. Sending servers randomly choose among equal-priority servers. Different priorities create a failover chain. A common pattern is:</p>
-        <pre><code>yourname.is-pro.dev.  MX  10  primary.yourname.is-pro.dev.
+                <h3>Multiple MX Records and Load Balancing</h3>
+                <p>
+                  Multiple MX records with the same priority distribute load
+                  across servers. Sending servers randomly choose among
+                  equal-priority servers. Different priorities create a failover
+                  chain. A common pattern is:
+                </p>
+                <pre><code>yourname.is-pro.dev.  MX  10  primary.yourname.is-pro.dev.
 yourname.is-pro.dev.  MX  20  secondary.yourname.is-pro.dev.
 yourname.is-pro.dev.  MX  30  tertiary.yourname.is-pro.dev.</code></pre>
-        <p>Sending servers attempt delivery to <code>primary</code> first. If it is unavailable, they try <code>secondary</code>, and so on. This provides resilience without complex load balancing.</p>
+                <p>
+                  Sending servers attempt delivery to
+                  <code>primary</code> first. If it is unavailable, they try
+                  <code>secondary</code>, and so on. This provides resilience
+                  without complex load balancing.
+                </p>
 
-        <h2>SPF Records Explained</h2>
-        <p>Sender Policy Framework (SPF) is a DNS TXT record that lists the IP addresses and domains authorized to send email on behalf of your domain. Receiving mail servers check SPF to verify that incoming messages claiming to be from your domain actually originated from an authorized source.</p>
+                <h2>SPF Records Explained</h2>
+                <p>
+                  Sender Policy Framework (SPF) is a DNS TXT record that lists
+                  the IP addresses and domains authorized to send email on
+                  behalf of your domain. Receiving mail servers check SPF to
+                  verify that incoming messages claiming to be from your domain
+                  actually originated from an authorized source.
+                </p>
 
-        <h3>SPF Record Structure</h3>
-        <pre><code>yourname.is-pro.dev.  TXT  "v=spf1 include:mailgun.org include:_spf.google.com ~all"</code></pre>
-        <p>Key components:</p>
-        <ul>
-          <li><code>v=spf1</code>: Identifies this as SPF version 1.</li>
-          <li><code>include:domain</code>: Authorizes the specified domain's SPF policy. This delegates authorization to another domain's SPF record.</li>
-          <li><code>ip4:1.2.3.4</code>: Authorizes a specific IPv4 address.</li>
-          <li><code>ip6:2001:db8::/32</code>: Authorizes an IPv6 range.</li>
-          <li><code>a</code>: Authorizes the domain's A record IP.</li>
-          <li><code>mx</code>: Authorizes the domain's MX server IPs.</li>
-          <li><code>~all</code> (softfail): Treat unauthorized sources as suspicious but accept the message. <code>-all</code> (hardfail): Reject unauthorized sources. <code>+all</code>: Accept everything (never use this).</li>
-        </ul>
+                <h3>SPF Record Structure</h3>
+                <pre><code>yourname.is-pro.dev.  TXT  "v=spf1 include:mailgun.org include:_spf.google.com ~all"</code></pre>
+                <p>Key components:</p>
+                <ul>
+                  <li>
+                    <code>v=spf1</code>: Identifies this as SPF version 1.
+                  </li>
+                  <li>
+                    <code>include:domain</code>: Authorizes the specified
+                    domain's SPF policy. This delegates authorization to another
+                    domain's SPF record.
+                  </li>
+                  <li>
+                    <code>ip4:1.2.3.4</code>: Authorizes a specific IPv4
+                    address.
+                  </li>
+                  <li>
+                    <code>ip6:2001:db8::/32</code>: Authorizes an IPv6 range.
+                  </li>
+                  <li><code>a</code>: Authorizes the domain's A record IP.</li>
+                  <li>
+                    <code>mx</code>: Authorizes the domain's MX server IPs.
+                  </li>
+                  <li>
+                    <code>~all</code> (softfail): Treat unauthorized sources as
+                    suspicious but accept the message.
+                    <code>-all</code> (hardfail): Reject unauthorized sources.
+                    <code>+all</code>: Accept everything (never use this).
+                  </li>
+                </ul>
 
-        <h3>The 10-DNS-Lookup Limit</h3>
-        <p>SPF has a hard limit of 10 DNS lookups per evaluation. Each <code>include:</code>, <code>a</code>, <code>mx</code>, <code>ptr</code>, and <code>exists</code> mechanism counts as one lookup. If you exceed 10, SPF returns a permanent error (<code>permerror</code>), and receivers treat the message as if no SPF record exists. This is the most common SPF configuration mistake.</p>
+                <h3>The 10-DNS-Lookup Limit</h3>
+                <p>
+                  SPF has a hard limit of 10 DNS lookups per evaluation. Each
+                  <code>include:</code>, <code>a</code>, <code>mx</code>,
+                  <code>ptr</code>, and <code>exists</code> mechanism counts as
+                  one lookup. If you exceed 10, SPF returns a permanent error
+                  (<code>permerror</code>), and receivers treat the message as
+                  if no SPF record exists. This is the most common SPF
+                  configuration mistake.
+                </p>
 
-        <div class="callout">
-          <p><strong>Warning:</strong> Each <code>include:</code> can itself trigger multiple lookups. For example, <code>include:_spf.google.com</code> may internally use multiple mechanisms, each counting against your limit. Always test your SPF record with an online checker before deploying.</p>
-        </div>
+                <div class="callout">
+                  <p>
+                    <strong>Warning:</strong> Each <code>include:</code> can
+                    itself trigger multiple lookups. For example,
+                    <code>include:_spf.google.com</code> may internally use
+                    multiple mechanisms, each counting against your limit.
+                    Always test your SPF record with an online checker before
+                    deploying.
+                  </p>
+                </div>
 
-        <h2>DKIM Records Explained</h2>
-        <p>DomainKeys Identified Mail (DKIM) provides a way for the sending server to cryptographically sign outgoing emails. The signature is verified by the receiving server using a public key published in your DNS. This proves the email was not tampered with in transit and genuinely originated from your domain.</p>
+                <h2>DKIM Records Explained</h2>
+                <p>
+                  DomainKeys Identified Mail (DKIM) provides a way for the
+                  sending server to cryptographically sign outgoing emails. The
+                  signature is verified by the receiving server using a public
+                  key published in your DNS. This proves the email was not
+                  tampered with in transit and genuinely originated from your
+                  domain.
+                </p>
 
-        <h3>DKIM Record Structure</h3>
-        <p>DKIM uses a subdomain format with a <em>selector</em>:</p>
-        <pre><code>mailgun._domainkey.yourname.is-pro.dev.  TXT  "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb4DQEBAQUAA4GNADCBiQKBgQC..."</code></pre>
-        <p>Breaking this down:</p>
-        <ul>
-          <li><code>mailgun</code> is the <strong>selector</strong>, chosen by the email provider. You can have multiple selectors for key rotation.</li>
-          <li><code>_domainkey</code> is a required subdomain label.</li>
-          <li><code>v=DKIM1</code> identifies the DKIM version.</li>
-          <li><code>k=rsa</code> specifies the key type (RSA is standard; ed25519 is newer).</li>
-          <li><code>p=</code> contains the Base64-encoded public key.</li>
-        </ul>
+                <h3>DKIM Record Structure</h3>
+                <p>DKIM uses a subdomain format with a <em>selector</em>:</p>
+                <pre><code>mailgun._domainkey.yourname.is-pro.dev.  TXT  "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb4DQEBAQUAA4GNADCBiQKBgQC..."</code></pre>
+                <p>Breaking this down:</p>
+                <ul>
+                  <li>
+                    <code>mailgun</code> is the <strong>selector</strong>,
+                    chosen by the email provider. You can have multiple
+                    selectors for key rotation.
+                  </li>
+                  <li>
+                    <code>_domainkey</code> is a required subdomain label.
+                  </li>
+                  <li><code>v=DKIM1</code> identifies the DKIM version.</li>
+                  <li>
+                    <code>k=rsa</code> specifies the key type (RSA is standard;
+                    ed25519 is newer).
+                  </li>
+                  <li>
+                    <code>p=</code> contains the Base64-encoded public key.
+                  </li>
+                </ul>
 
-        <h3>Selector Management and Key Rotation</h3>
-        <p>Selectors allow you to publish multiple DKIM keys simultaneously. This is critical for key rotation without downtime:</p>
-        <ol>
-          <li>Publish a new DKIM record with a new selector (e.g., <code>google2026._domainkey</code>).</li>
-          <li>Configure your email provider to sign outgoing mail with the new selector.</li>
-          <li>Wait for all cached DNS records to expire (at least the TTL of the old selector).</li>
-          <li>Remove the old DKIM record.</li>
-        </ol>
-        <p>This zero-downtime rotation ensures that emails signed with the old key are still verifiable until the old record expires, while new emails use the new key.</p>
+                <h3>Selector Management and Key Rotation</h3>
+                <p>
+                  Selectors allow you to publish multiple DKIM keys
+                  simultaneously. This is critical for key rotation without
+                  downtime:
+                </p>
+                <ol>
+                  <li>
+                    Publish a new DKIM record with a new selector (e.g.,
+                    <code>google2026._domainkey</code>).
+                  </li>
+                  <li>
+                    Configure your email provider to sign outgoing mail with the
+                    new selector.
+                  </li>
+                  <li>
+                    Wait for all cached DNS records to expire (at least the TTL
+                    of the old selector).
+                  </li>
+                  <li>Remove the old DKIM record.</li>
+                </ol>
+                <p>
+                  This zero-downtime rotation ensures that emails signed with
+                  the old key are still verifiable until the old record expires,
+                  while new emails use the new key.
+                </p>
 
-        <h2>DMARC Records Explained</h2>
-        <p>Domain-based Message Authentication, Reporting, and Conformance (DMARC) builds on SPF and DKIM. It tells receiving mail servers what to do when SPF or DKIM authentication fails and provides reports about authentication results.</p>
+                <h2>DMARC Records Explained</h2>
+                <p>
+                  Domain-based Message Authentication, Reporting, and
+                  Conformance (DMARC) builds on SPF and DKIM. It tells receiving
+                  mail servers what to do when SPF or DKIM authentication fails
+                  and provides reports about authentication results.
+                </p>
 
-        <h3>DMARC Record Structure</h3>
-        <pre><code>_dmarc.yourname.is-pro.dev.  TXT  "v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@yourname.is-pro.dev; ruf=mailto:forensics@yourname.is-pro.dev; pct=100"</code></pre>
-        <p>Key tags:</p>
-        <ul>
-          <li><code>p=</code>: Policy for authentication failures. <code>none</code> (take no action, just report), <code>quarantine</code> (mark as spam), <code>reject</code> (reject the email outright).</li>
-          <li><code>sp=</code>: Policy for subdomains (inherits from <code>p</code> if not set).</li>
-          <li><code>rua=</code>: Address for aggregate reports (XML summaries sent daily).</li>
-          <li><code>ruf=</code>: Address for forensic reports (individual failure details).</li>
-          <li><code>pct=</code>: Percentage of messages to filter (useful for gradual rollout).</li>
-          <li><code>adkim=</code>: DKIM alignment mode. <code>r</code> (relaxed) allows subdomain matches; <code>s</code> (strict) requires exact domain match.</li>
-          <li><code>aspf=</code>: SPF alignment mode, same options.</li>
-        </ul>
+                <h3>DMARC Record Structure</h3>
+                <pre><code>_dmarc.yourname.is-pro.dev.  TXT  "v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@yourname.is-pro.dev; ruf=mailto:forensics@yourname.is-pro.dev; pct=100"</code></pre>
+                <p>Key tags:</p>
+                <ul>
+                  <li>
+                    <code>p=</code>: Policy for authentication failures.
+                    <code>none</code> (take no action, just report),
+                    <code>quarantine</code> (mark as spam),
+                    <code>reject</code> (reject the email outright).
+                  </li>
+                  <li>
+                    <code>sp=</code>: Policy for subdomains (inherits from
+                    <code>p</code> if not set).
+                  </li>
+                  <li>
+                    <code>rua=</code>: Address for aggregate reports (XML
+                    summaries sent daily).
+                  </li>
+                  <li>
+                    <code>ruf=</code>: Address for forensic reports (individual
+                    failure details).
+                  </li>
+                  <li>
+                    <code>pct=</code>: Percentage of messages to filter (useful
+                    for gradual rollout).
+                  </li>
+                  <li>
+                    <code>adkim=</code>: DKIM alignment mode.
+                    <code>r</code> (relaxed) allows subdomain matches;
+                    <code>s</code> (strict) requires exact domain match.
+                  </li>
+                  <li><code>aspf=</code>: SPF alignment mode, same options.</li>
+                </ul>
 
-        <h3>DMARC Alignment</h3>
-        <p>DMARC requires either SPF or DKIM to "align" with the domain in the From header. Alignment means the domain checked by SPF/DKIM matches the domain the user sees in the email's From address. Without alignment, even a passing SPF check does not satisfy DMARC.</p>
+                <h3>DMARC Alignment</h3>
+                <p>
+                  DMARC requires either SPF or DKIM to "align" with the domain
+                  in the From header. Alignment means the domain checked by
+                  SPF/DKIM matches the domain the user sees in the email's From
+                  address. Without alignment, even a passing SPF check does not
+                  satisfy DMARC.
+                </p>
 
-        <h2>Step-by-Step Configuration Example with Mailgun</h2>
-        <p>Here is a complete walkthrough for setting up email on <code>mg.yourname.is-pro.dev</code> using Mailgun:</p>
+                <h2>Step-by-Step Configuration Example with Mailgun</h2>
+                <p>
+                  Here is a complete walkthrough for setting up email on
+                  <code>mg.yourname.is-pro.dev</code> using Mailgun:
+                </p>
 
-        <h3>1. Add MX Records</h3>
-        <pre><code>mg.yourname.is-pro.dev.  MX  10  mxa.mailgun.org.
+                <h3>1. Add MX Records</h3>
+                <pre><code>mg.yourname.is-pro.dev.  MX  10  mxa.mailgun.org.
 mg.yourname.is-pro.dev.  MX  10  mxb.mailgun.org.</code></pre>
 
-        <h3>2. Add SPF Record</h3>
-        <pre><code>mg.yourname.is-pro.dev.  TXT  "v=spf1 include:mailgun.org ~all"</code></pre>
+                <h3>2. Add SPF Record</h3>
+                <pre><code>mg.yourname.is-pro.dev.  TXT  "v=spf1 include:mailgun.org ~all"</code></pre>
 
-        <h3>3. Add DKIM Record</h3>
-        <p>Mailgun provides a DNS hostname and TXT value in their dashboard. Typically:</p>
-        <pre><code>mailgun._domainkey.mg.yourname.is-pro.dev.  TXT  "k=rsa; p=MIGfMA0GCSqGSIb..."</code></pre>
+                <h3>3. Add DKIM Record</h3>
+                <p>
+                  Mailgun provides a DNS hostname and TXT value in their
+                  dashboard. Typically:
+                </p>
+                <pre><code>mailgun._domainkey.mg.yourname.is-pro.dev.  TXT  "k=rsa; p=MIGfMA0GCSqGSIb..."</code></pre>
 
-        <h3>4. Add DMARC Record (Optional but Recommended)</h3>
-        <pre><code>_dmarc.mg.yourname.is-pro.dev.  TXT  "v=DMARC1; p=none; rua=mailto:dmarc@yourname.is-pro.dev"</code></pre>
+                <h3>4. Add DMARC Record (Optional but Recommended)</h3>
+                <pre><code>_dmarc.mg.yourname.is-pro.dev.  TXT  "v=DMARC1; p=none; rua=mailto:dmarc@yourname.is-pro.dev"</code></pre>
 
-        <h3>5. Verify DNS Propagation</h3>
-        <p>Check each record using dig or nslookup:</p>
-        <pre><code>dig mg.yourname.is-pro.dev MX +short
+                <h3>5. Verify DNS Propagation</h3>
+                <p>Check each record using dig or nslookup:</p>
+                <pre><code>dig mg.yourname.is-pro.dev MX +short
 dig mg.yourname.is-pro.dev TXT +short
 dig mailgun._domainkey.mg.yourname.is-pro.dev TXT +short
 dig _dmarc.mg.yourname.is-pro.dev TXT +short</code></pre>
 
-        <h3>6. Test Sending</h3>
-        <p>Send a test email from Mailgun and inspect the headers. Look for:</p>
-        <ul>
-          <li><code>Authentication-Results: spf=pass</code></li>
-          <li><code>Authentication-Results: dkim=pass</code></li>
-          <li><code>Authentication-Results: dmarc=pass</code></li>
-        </ul>
+                <h3>6. Test Sending</h3>
+                <p>
+                  Send a test email from Mailgun and inspect the headers. Look
+                  for:
+                </p>
+                <ul>
+                  <li><code>Authentication-Results: spf=pass</code></li>
+                  <li><code>Authentication-Results: dkim=pass</code></li>
+                  <li><code>Authentication-Results: dmarc=pass</code></li>
+                </ul>
 
-        <h2>How to Test Email Authentication</h2>
-        <p>After configuring DNS records, verify everything works:</p>
-        <ul>
-          <li><strong>Send a test email and check headers:</strong> Most email clients allow you to view the full message source. Look for the <code>Authentication-Results</code> header added by the receiving server.</li>
-          <li><strong>Use online tools:</strong> <a href="https://www.mail-tester.com" target="_blank" rel="noopener noreferrer">Mail-Tester</a> gives you a score and highlights issues. <a href="https://dmarcly.com/tools/dmarc-check" target="_blank" rel="noopener noreferrer">DMARCly Checker</a> validates your DMARC configuration. <a href="https://dnsinstitute.com/tools/spf-query" target="_blank" rel="noopener noreferrer">DNS Institute SPF Query</a> checks SPF syntax and lookup count.</li>
-          <li><strong>Google Postmaster Tools:</strong> If you send to Gmail users, <a href="https://postmaster.google.com" target="_blank" rel="noopener noreferrer">Google Postmaster Tools</a> provides delivery and reputation data.</li>
-        </ul>
+                <h2>How to Test Email Authentication</h2>
+                <p>After configuring DNS records, verify everything works:</p>
+                <ul>
+                  <li>
+                    <strong>Send a test email and check headers:</strong> Most
+                    email clients allow you to view the full message source.
+                    Look for the <code>Authentication-Results</code> header
+                    added by the receiving server.
+                  </li>
+                  <li>
+                    <strong>Use online tools:</strong>
+                    <a
+                      href="https://www.mail-tester.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Mail-Tester</a
+                    >
+                    gives you a score and highlights issues.
+                    <a
+                      href="https://dmarcly.com/tools/dmarc-check"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >DMARCly Checker</a
+                    >
+                    validates your DMARC configuration.
+                    <a
+                      href="https://dnsinstitute.com/tools/spf-query"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >DNS Institute SPF Query</a
+                    >
+                    checks SPF syntax and lookup count.
+                  </li>
+                  <li>
+                    <strong>Google Postmaster Tools:</strong> If you send to
+                    Gmail users,
+                    <a
+                      href="https://postmaster.google.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Google Postmaster Tools</a
+                    >
+                    provides delivery and reputation data.
+                  </li>
+                </ul>
 
-        <h2>Troubleshooting Common Email DNS Issues</h2>
+                <h2>Troubleshooting Common Email DNS Issues</h2>
 
-        <h3>SPF Permerror (Too Many Lookups)</h3>
-        <p>Your SPF record exceeds 10 DNS lookups. This commonly happens with nested <code>include:</code> statements. For example, including both Google Workspace and Mailgun in the same SPF record can quickly exceed the limit if those providers themselves include multiple services.</p>
-        <p><strong>Fix:</strong> Audit your SPF includes. Consolidate IP ranges where possible. Use <code>ip4:</code> and <code>ip6:</code> mechanisms instead of <code>include:</code> when you know the exact IP addresses. Consider splitting email sending across fewer providers, or use a subdomain per provider.</p>
+                <h3>SPF Permerror (Too Many Lookups)</h3>
+                <p>
+                  Your SPF record exceeds 10 DNS lookups. This commonly happens
+                  with nested <code>include:</code> statements. For example,
+                  including both Google Workspace and Mailgun in the same SPF
+                  record can quickly exceed the limit if those providers
+                  themselves include multiple services.
+                </p>
+                <p>
+                  <strong>Fix:</strong> Audit your SPF includes. Consolidate IP
+                  ranges where possible. Use <code>ip4:</code> and
+                  <code>ip6:</code> mechanisms instead of
+                  <code>include:</code> when you know the exact IP addresses.
+                  Consider splitting email sending across fewer providers, or
+                  use a subdomain per provider.
+                </p>
 
-        <h3>DKIM Key Rotation Without Downtime</h3>
-        <p>When rotating DKIM keys, the most common mistake is deleting the old DKIM record before the new one is verified. Emails signed with the old key become unverifiable, causing DMARC failures.</p>
-        <p><strong>Correct procedure:</strong> Add the new DKIM record with a new selector. Wait at least one TTL period. Switch your email provider to sign with the new selector. Wait another TTL period. Then delete the old DKIM record.</p>
+                <h3>DKIM Key Rotation Without Downtime</h3>
+                <p>
+                  When rotating DKIM keys, the most common mistake is deleting
+                  the old DKIM record before the new one is verified. Emails
+                  signed with the old key become unverifiable, causing DMARC
+                  failures.
+                </p>
+                <p>
+                  <strong>Correct procedure:</strong> Add the new DKIM record
+                  with a new selector. Wait at least one TTL period. Switch your
+                  email provider to sign with the new selector. Wait another TTL
+                  period. Then delete the old DKIM record.
+                </p>
 
-        <h3>DMARC Aggregate Report Analysis</h3>
-        <p>DMARC aggregate reports (RUA) are XML files sent daily by receiving mail servers. They contain data about how many messages passed or failed authentication, from which IP addresses, and from which domains.</p>
-        <p>Most people do not want to parse raw XML. Use a DMARC analysis service:</p>
-        <ul>
-          <li><a href="https://dmarcly.com" target="_blank" rel="noopener noreferrer">DMARCly</a></li>
-          <li><a href="https://dmarcian.com" target="_blank" rel="noopener noreferrer">dmarcian</a></li>
-          <li><a href="https://www.uriports.com" target="_blank" rel="noopener noreferrer">URIports</a></li>
-        </ul>
-        <p>These services parse the XML and present a dashboard showing authentication pass rates, top failing IPs, and alignment issues. Start with <code>p=none</code> to collect data for a week, analyze the reports, then move to <code>p=quarantine</code> and eventually <code>p=reject</code>.</p>
+                <h3>DMARC Aggregate Report Analysis</h3>
+                <p>
+                  DMARC aggregate reports (RUA) are XML files sent daily by
+                  receiving mail servers. They contain data about how many
+                  messages passed or failed authentication, from which IP
+                  addresses, and from which domains.
+                </p>
+                <p>
+                  Most people do not want to parse raw XML. Use a DMARC analysis
+                  service:
+                </p>
+                <ul>
+                  <li>
+                    <a
+                      href="https://dmarcly.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >DMARCly</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://dmarcian.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >dmarcian</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.uriports.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >URIports</a
+                    >
+                  </li>
+                </ul>
+                <p>
+                  These services parse the XML and present a dashboard showing
+                  authentication pass rates, top failing IPs, and alignment
+                  issues. Start with <code>p=none</code> to collect data for a
+                  week, analyze the reports, then move to
+                  <code>p=quarantine</code> and eventually
+                  <code>p=reject</code>.
+                </p>
 
-        <h3>"My Emails Are Going to Spam" — Real Scenario</h3>
-        <p>You set up <code>mail.yourname.is-pro.dev</code> with Mailgun. You add the MX record but forget the SPF record. You send a test email and it lands in the Gmail spam folder. You check the headers and see:</p>
-        <pre><code>Authentication-Results: mx.google.com;
+                <h3>"My Emails Are Going to Spam" — Real Scenario</h3>
+                <p>
+                  You set up <code>mail.yourname.is-pro.dev</code> with Mailgun.
+                  You add the MX record but forget the SPF record. You send a
+                  test email and it lands in the Gmail spam folder. You check
+                  the headers and see:
+                </p>
+                <pre><code>Authentication-Results: mx.google.com;
        spf=neutral (google.com: 203.0.113.10 is neither permitted nor denied by SPF for domain mail.yourname.is-pro.dev)
        dkim=pass header.d=mail.yourname.is-pro.dev;
        dmarc=fail (p=none dis) header.from=mail.yourname.is-pro.dev</code></pre>
-        <p>SPF is neutral because no SPF record exists. DMARC fails because SPF did not pass. The absence of a published SPF policy causes many receiving servers to treat the email as suspicious, even if DKIM passes.</p>
-        <p><strong>Fix:</strong> Add the SPF record <code>"v=spf1 include:mailgun.org ~all"</code> for <code>mail.yourname.is-pro.dev</code>. After DNS propagation, resend the test email. The headers should now show <code>spf=pass</code> and <code>dmarc=pass</code>, and the email should land in the inbox.</p>
+                <p>
+                  SPF is neutral because no SPF record exists. DMARC fails
+                  because SPF did not pass. The absence of a published SPF
+                  policy causes many receiving servers to treat the email as
+                  suspicious, even if DKIM passes.
+                </p>
+                <p>
+                  <strong>Fix:</strong> Add the SPF record
+                  <code>"v=spf1 include:mailgun.org ~all"</code> for
+                  <code>mail.yourname.is-pro.dev</code>. After DNS propagation,
+                  resend the test email. The headers should now show
+                  <code>spf=pass</code> and <code>dmarc=pass</code>, and the
+                  email should land in the inbox.
+                </p>
 
-        <h2>Recommended Progressive DMARC Rollout</h2>
-        <ol>
-          <li><strong>Monitor:</strong> Publish <code>p=none</code> with an RUA address. Collect reports for 1-2 weeks to understand your email sending patterns.</li>
-          <li><strong>Analyze:</strong> Check the reports for unauthorized sending sources. Update your SPF record to include legitimate sources and exclude unauthorized ones.</li>
-          <li><strong>Quarantine:</strong> Move to <code>p=quarantine</code> for a week. Monitor for false positives—legitimate emails that get quarantined.</li>
-          <li><strong>Reject:</strong> Move to <code>p=reject</code>. This is the strongest protection against email spoofing and domain impersonation.</li>
-        </ol>
+                <h2>Recommended Progressive DMARC Rollout</h2>
+                <ol>
+                  <li>
+                    <strong>Monitor:</strong> Publish <code>p=none</code> with
+                    an RUA address. Collect reports for 1-2 weeks to understand
+                    your email sending patterns.
+                  </li>
+                  <li>
+                    <strong>Analyze:</strong> Check the reports for unauthorized
+                    sending sources. Update your SPF record to include
+                    legitimate sources and exclude unauthorized ones.
+                  </li>
+                  <li>
+                    <strong>Quarantine:</strong> Move to
+                    <code>p=quarantine</code> for a week. Monitor for false
+                    positives—legitimate emails that get quarantined.
+                  </li>
+                  <li>
+                    <strong>Reject:</strong> Move to <code>p=reject</code>. This
+                    is the strongest protection against email spoofing and
+                    domain impersonation.
+                  </li>
+                </ol>
 
-        <div class="callout">
-          <p><strong>Need hands-on help?</strong> See <a href="/guides/">Guides</a> for step-by-step setup playbooks, or join the <a href="https://discord.gg/N8YzrkJxYy" target="_blank" rel="noopener noreferrer">Discord community</a>.</p>
+                <div class="callout">
+                  <p>
+                    <strong>Need hands-on help?</strong> See
+                    <a href="/guides/">Guides</a> for step-by-step setup
+                    playbooks, or join the
+                    <a
+                      href="https://discord.gg/N8YzrkJxYy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Discord community</a
+                    >.
+                  </p>
+                </div>
+
+                <h2>Deployment scenario from operations</h2>
+                <p>
+                  A small team enabled new mail routing but SPF and DKIM stayed
+                  inconsistent across providers, causing partial delivery
+                  failures.
+                </p>
+                <div class="utility-block utility-warning">
+                  <strong>Platform nuance:</strong> Email auth rollout should be
+                  staged: validate SPF/DKIM pass rates before stricter DMARC
+                  enforcement.
+                </div>
+
+                <h2>Common mistakes</h2>
+                <ul>
+                  <li>
+                    Publishing SPF records with duplicated `v=spf1`
+                    declarations.
+                  </li>
+                  <li>
+                    Enabling DMARC reject policy before alignment is validated.
+                  </li>
+                  <li>
+                    Rotating DKIM selectors without updating all sending
+                    services.
+                  </li>
+                </ul>
+
+                <h2>How to verify it works</h2>
+                <ol>
+                  <li>
+                    Query MX/SPF/DKIM/DMARC records with `dig` and verify
+                    expected values.
+                  </li>
+                  <li>
+                    Send test mail to external providers and inspect
+                    authentication headers.
+                  </li>
+                  <li>
+                    Confirm DMARC aggregate reports reflect pass outcomes before
+                    tightening policy.
+                  </li>
+                </ol>
+                <div class="utility-block utility-verification">
+                  Use these checks before announcing a DNS change as complete to
+                  your team.
+                </div>
+              </div>
+              <aside class="toc-sidebar" id="toc-sidebar">
+                <nav class="toc-nav" aria-label="Table of Contents">
+                  <div class="toc-header">On this page</div>
+                  <ul class="toc-list" id="toc-list"></ul>
+                </nav>
+              </aside>
+            </div>
+          </div>
         </div>
-          
 
-        <h2>Deployment scenario from operations</h2>
-        <p>A small team enabled new mail routing but SPF and DKIM stayed inconsistent across providers, causing partial delivery failures.</p>
-        <div class="utility-block utility-warning"><strong>Platform nuance:</strong> Email auth rollout should be staged: validate SPF/DKIM pass rates before stricter DMARC enforcement.</div>
+        <div class="container" style="margin: 2rem auto">
+          <div class="ad-container ad-native-banner">
+            <script
+              async="async"
+              data-cfasync="false"
+              src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"
+            ></script>
+            <div id="container-4ca1e991eb7b08bcad5807536453d0cd-mid-8"></div>
+          </div>
+        </div>
 
-        <h2>Common mistakes</h2>
-        <ul>
-          <li>Publishing SPF records with duplicated `v=spf1` declarations.</li>
-          <li>Enabling DMARC reject policy before alignment is validated.</li>
-          <li>Rotating DKIM selectors without updating all sending services.</li>
-        </ul>
+        <!-- Social Bar Ad -->
+        <div class="container" style="margin: 2rem auto">
+          <div class="ad-container ad-social-bar">
+            <script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
+          </div>
+        </div>
 
-        <h2>How to verify it works</h2>
-        <ol>
-          <li>Query MX/SPF/DKIM/DMARC records with `dig` and verify expected values.</li>
-          <li>Send test mail to external providers and inspect authentication headers.</li>
-          <li>Confirm DMARC aggregate reports reflect pass outcomes before tightening policy.</li>
-        </ol>
-        <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
-</div>
-          <aside class="toc-sidebar" id="toc-sidebar">
-            <nav class="toc-nav" aria-label="Table of Contents">
-              <div class="toc-header">On this page</div>
-              <ul class="toc-list" id="toc-list"></ul>
+        <!-- 300x250 Banner Ad -->
+        <div
+          class="container"
+          style="margin: 1.5rem auto; display: none"
+          id="ad-300x250-blog-email"
+        >
+          <div class="ad-container ad-banner-300x250">
+            <script>
+              atOptions = {
+                key: "b1b36a2819973d652de70000f36fd1f4",
+                format: "iframe",
+                height: 250,
+                width: 300,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
+          </div>
+        </div>
+        <script>
+          if (window.innerWidth > 640) {
+            document.getElementById("ad-300x250-blog-email").style.display =
+              "block";
+          }
+        </script>
+
+        <!-- 728x90 Desktop Banner Ad -->
+        <div
+          class="container"
+          style="margin: 1.5rem auto; display: none"
+          id="ad-728x90-blog-email"
+        >
+          <div class="ad-container ad-banner-728x90">
+            <script>
+              atOptions = {
+                key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                format: "iframe",
+                height: 90,
+                width: 728,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+          </div>
+        </div>
+        <script>
+          if (window.innerWidth > 640) {
+            document.getElementById("ad-728x90-blog-email").style.display =
+              "block";
+          }
+        </script>
+
+        <div class="container">
+          <div class="share-section">
+            <span class="share-label">Share this article</span>
+            <div class="share-links">
+              <a
+                class="share-link"
+                href="https://twitter.com/intent/tweet?text=Email%20on%20Subdomains%3A%20MX%2C%20SPF%2C%20and%20DKIM%20Basics&url=https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                  />
+                </svg>
+                Share on X
+              </a>
+              <a
+                class="share-link"
+                href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  />
+                </svg>
+                Share on LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-nav-section">
+          <div class="container">
+            <nav class="doc-nav" aria-label="Article navigation">
+              <a
+                class="doc-nav-link"
+                href="/blog/dns-propagation-explained-for-new-users/"
+                ><span class="doc-nav-label"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                  Previous</span
+                ><span class="doc-nav-title"
+                  >DNS Propagation Explained for New Users</span
+                ></a
+              >
+              <a
+                class="doc-nav-link next"
+                href="/blog/fixing-cname-loop-errors-on-static-hosts/"
+                ><span class="doc-nav-label"
+                  >Next
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" /></svg></span
+                ><span class="doc-nav-title"
+                  >Fixing CNAME Loop Errors on Static Hosts</span
+                ></a
+              >
             </nav>
-          </aside>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="container" style="margin:2rem auto;">
-      <div class="ad-container ad-native-banner">
-<script async="async" data-cfasync="false" src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"></script>
-<div id="container-4ca1e991eb7b08bcad5807536453d0cd-mid-8"></div>
-      </div>
-    </div>
+        <section class="related-section">
+          <div class="container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+              <a
+                href="/blog/dns-propagation-explained-for-new-users/"
+                class="related-card"
+                ><div class="related-card-category">DNS Basics</div>
+                <h3>DNS Propagation Explained for New Users</h3>
+                <p>
+                  What propagation really means and how to debug delays without
+                  panic.
+                </p></a
+              >
+              <a
+                href="/blog/fixing-cname-loop-errors-on-static-hosts/"
+                class="related-card"
+                ><div class="related-card-category">Troubleshooting</div>
+                <h3>Fixing CNAME Loop Errors on Static Hosts</h3>
+                <p>
+                  How CNAME loops happen on Vercel, Netlify, and similar
+                  platforms.
+                </p></a
+              >
+              <a
+                href="/blog/preventing-takeovers-after-deploy-deletions/"
+                class="related-card"
+                ><div class="related-card-category">Security</div>
+                <h3>Preventing Subdomain Takeovers After Deploy Deletions</h3>
+                <p>
+                  Why dangling DNS records are risky and how to clean them
+                  safely.
+                </p></a
+              >
+            </div>
+          </div>
+        </section>
 
-  <!-- Social Bar Ad -->
-  <div class="container" style="margin:2rem auto;">
-    <div class="ad-container ad-social-bar">
-<script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
-    </div>
-  </div>
-
-  <!-- 300x250 Banner Ad -->
-  <div class="container" style="margin:1.5rem auto;display:none;" id="ad-300x250-blog-email">
-    <div class="ad-container ad-banner-300x250">
-<script>
-  atOptions = {
-    'key' : 'b1b36a2819973d652de70000f36fd1f4',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
-    </div>
-  </div>
-  <script>
-    if (window.innerWidth > 640) {
-      document.getElementById('ad-300x250-blog-email').style.display = 'block';
-    }
-  </script>
-
-  <!-- 728x90 Desktop Banner Ad -->
-  <div class="container" style="margin:1.5rem auto;display:none;" id="ad-728x90-blog-email">
-    <div class="ad-container ad-banner-728x90">
-<script>
-  atOptions = {
-    'key' : '4d2a4eb320f23a0188fc0bafbe9dfe46',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
-    </div>
-  </div>
-  <script>
-    if (window.innerWidth > 640) {
-      document.getElementById('ad-728x90-blog-email').style.display = 'block';
-    }
-  </script>
-
-    <div class="container">
-      <div class="share-section">
-        <span class="share-label">Share this article</span>
-        <div class="share-links">
-          <a class="share-link" href="https://twitter.com/intent/tweet?text=Email%20on%20Subdomains%3A%20MX%2C%20SPF%2C%20and%20DKIM%20Basics&url=https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Share on X
-          </a>
-          <a class="share-link" href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/blog/email-on-subdomains-mx-spf-dkim-basics/" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            Share on LinkedIn
-          </a>
+        <div
+          class="container"
+          style="margin-bottom: 1.5rem; display: none"
+          id="blog-post-mobile-ad"
+        >
+          <div class="ad-container ad-banner-320x50">
+            <script>
+              atOptions = {
+                key: "d22ebf285f47755fabff0102c2736692",
+                format: "iframe",
+                height: 50,
+                width: 320,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
+          </div>
         </div>
-      </div>
-    </div>
+        <script>
+          if (window.innerWidth <= 640) {
+            document.getElementById("blog-post-mobile-ad").style.display =
+              "block";
+          }
+        </script>
+      </article>
+    </main>
 
-    <div class="doc-nav-section">
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
-        <nav class="doc-nav" aria-label="Article navigation">
-          <a class="doc-nav-link" href="/blog/dns-propagation-explained-for-new-users/"><span class="doc-nav-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Previous</span><span class="doc-nav-title">DNS Propagation Explained for New Users</span></a>
-          <a class="doc-nav-link next" href="/blog/fixing-cname-loop-errors-on-static-hosts/"><span class="doc-nav-label">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span><span class="doc-nav-title">Fixing CNAME Loop Errors on Static Hosts</span></a>
-        </nav>
-      </div>
-    </div>
-
-    <section class="related-section">
-      <div class="container">
-        <h2>Related Articles</h2>
-        <div class="related-grid">
-          <a href="/blog/dns-propagation-explained-for-new-users/" class="related-card"><div class="related-card-category">DNS Basics</div><h3>DNS Propagation Explained for New Users</h3><p>What propagation really means and how to debug delays without panic.</p></a>
-          <a href="/blog/fixing-cname-loop-errors-on-static-hosts/" class="related-card"><div class="related-card-category">Troubleshooting</div><h3>Fixing CNAME Loop Errors on Static Hosts</h3><p>How CNAME loops happen on Vercel, Netlify, and similar platforms.</p></a>
-          <a href="/blog/preventing-takeovers-after-deploy-deletions/" class="related-card"><div class="related-card-category">Security</div><h3>Preventing Subdomain Takeovers After Deploy Deletions</h3><p>Why dangling DNS records are risky and how to clean them safely.</p></a>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in and DNS
+              management.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <nav class="footer-links" aria-label="Community links">
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
+            </nav>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div style="display: flex; gap: 1.5rem">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/contact/">Contact</a>
+          </div>
         </div>
       </div>
-    </section>
+    </footer>
 
-    <div class="container" style="margin-bottom:1.5rem;display:none;" id="blog-post-mobile-ad">
-      <div class="ad-container ad-banner-320x50">
-<script>
-  atOptions = {
-    'key' : 'd22ebf285f47755fabff0102c2736692',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
-      </div>
-    </div>
+    <script src="/js/app.js" defer></script>
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script
+      async
+      src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"
+    ></script>
     <script>
-      if (window.innerWidth <= 640) {
-        document.getElementById('blog-post-mobile-ad').style.display = 'block';
-      }
+      ((window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {};
+          }));
+      plausible.init();
     </script>
-  </article>
-</main>
-
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo-link">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span style="font-family:var(--font-mono)">is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers with GitHub sign-in and DNS management.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Service</h4>
-        <nav class="footer-links" aria-label="Service links">
-          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
-          <a href="/domains/" class="footer-link">Domains</a>
-          <a href="/blog/" class="footer-link">Blog</a>
-          <a href="/guides/" class="footer-link">Guides</a>
-          <a href="/about/" class="footer-link">About</a>
-          <a href="/contact/" class="footer-link">Contact</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <nav class="footer-links" aria-label="Legal links">
-          <a href="/terms/" class="footer-link">Terms of Service</a>
-          <a href="/privacy/" class="footer-link">Privacy Policy</a>
-          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
-          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Community</h4>
-        <nav class="footer-links" aria-label="Community links">
-          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </nav>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 is-cool-me. All rights reserved.</span>
-      <div style="display:flex;gap:1.5rem;">
-        <a href="/about/">About</a>
-        <a href="/terms/">Terms</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/editorial-standards/">Editorial Standards</a>
-        <a href="/abuse-report/">Abuse Report</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/contact/">Contact</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="/js/app.js" defer></script>
-<!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
-</body>
+  </body>
 </html>

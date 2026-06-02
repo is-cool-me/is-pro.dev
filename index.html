@@ -1,511 +1,1206 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>is-cool-me — Free Subdomains for Developers</title>
-  <meta name="description" content="Free subdomains for developers. Grab a free subdomain under is-pro.dev or is-into.tech, sign in with GitHub, and manage DNS records from one dashboard." />
-  <link rel="canonical" href="https://is-pro.dev/" />
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://is-pro.dev/" />
-  <meta property="og:title"       content="is-cool-me — Free Subdomains for Developers" />
-  <meta property="og:description" content="Grab a free subdomain for your project, portfolio, or side hustle. Sign in with GitHub and manage DNS on the dashboard." />
-  <meta property="og:image"       content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta property="og:site_name"   content="is-cool-me" />
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="is-cool-me — Free Subdomains for Developers" />
-  <meta name="twitter:description" content="Free subdomains under is-pro.dev and is-into.tech with GitHub sign-in, DNS management, and Cloudflare-backed records." />
-  <meta name="twitter:image"       content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>is-cool-me — Free Subdomains for Developers</title>
+    <meta
+      name="description"
+      content="Free subdomains for developers. Grab a free subdomain under is-pro.dev or is-into.tech, sign in with GitHub, and manage DNS records from one dashboard."
+    />
+    <link rel="canonical" href="https://is-pro.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://is-pro.dev/" />
+    <meta
+      property="og:title"
+      content="is-cool-me — Free Subdomains for Developers"
+    />
+    <meta
+      property="og:description"
+      content="Grab a free subdomain for your project, portfolio, or side hustle. Sign in with GitHub and manage DNS on the dashboard."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta property="og:site_name" content="is-cool-me" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="is-cool-me — Free Subdomains for Developers"
+    />
+    <meta
+      name="twitter:description"
+      content="Free subdomains under is-pro.dev and is-into.tech with GitHub sign-in, DNS management, and Cloudflare-backed records."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
       {
-        "@type": "Organization",
-        "@id": "https://is-pro.dev/#org",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": "https://is-pro.dev/dist/images/logo.png",
-        "sameAs": ["https://discord.gg/N8YzrkJxYy"],
-        "contactPoint": { "@type": "ContactPoint", "email": "fd@lighthosting.eu.org", "contactType": "customer support" }
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://is-pro.dev/#website",
-        "url": "https://is-pro.dev",
-        "name": "is-cool-me",
-        "description": "Free subdomains for developers with GitHub sign-in and DNS management.",
-        "publisher": { "@id": "https://is-pro.dev/#org" },
-        "inLanguage": "en"
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://is-pro.dev/#org",
+            "name": "is-cool-me",
+            "url": "https://is-pro.dev",
+            "logo": "https://is-pro.dev/dist/images/logo.png",
+            "sameAs": ["https://discord.gg/N8YzrkJxYy"],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "email": "fd@lighthosting.eu.org",
+              "contactType": "customer support"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "is-cool-me",
+            "description": "Free subdomains for developers with GitHub sign-in and DNS management.",
+            "publisher": { "@id": "https://is-pro.dev/#org" },
+            "inLanguage": "en"
+          }
+        ]
       }
-    ]
-  }
-  </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
-    crossorigin="anonymous"></script>
-</head>
-<body>
+    </script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only skip-link">Skip to main content</a>
 
-<a href="#main-content" class="sr-only skip-link">Skip to main content</a>
-
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a><a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
-          Discord
-        </a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
-          Open Dashboard
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<main id="main-content">
-
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="hero-bg" aria-hidden="true"><div class="hero-grid"></div></div>
-    <div class="container">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <div class="hero-badge">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            Free subdomains for developers
-          </div>
-          <h1 id="hero-heading">Free Subdomains<br /><span class="text-gradient">for Developers</span></h1>
-          <p class="hero-subtitle">
-            Grab a free subdomain for your project, portfolio, or side hustle. Sign in with GitHub,
-            choose <code>*.is-pro.dev</code> or <code>*.is-into.tech</code>, and manage DNS from one dashboard.
-          </p>
-          <div class="hero-ctas">
-            <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-              Sign in with GitHub
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a href="/domains/" class="btn btn-outline">Explore Zones</a>
-          </div>
-          <div class="hero-trust">
-            <div class="trust-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Fully operational
-            </div>
-            <div class="trust-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/><path d="M9 9h6v6H9z"/></svg>
-              Open source
-            </div>
-            <div class="trust-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 20h16"/><path d="M8 20V4h5a3 3 0 0 1 3 3v13"/></svg>
-              MIT licensed
-            </div>
-            <div class="trust-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              Secure GitHub login
-            </div>
-          </div>
-        </div>
-        <div class="hero-media-col">
-          <div class="domain-preview-card">
-            <h3>Try your subdomain</h3>
-            <div class="domain-input-group">
-              <label for="domain-name" class="sr-only">Your subdomain name</label>
-              <input type="text" id="domain-name" class="domain-input" placeholder="yourname" maxlength="63" autocomplete="off" spellcheck="false" aria-describedby="domain-hint" />
-              <label for="domain-zone" class="sr-only">Select zone</label>
-              <select id="domain-zone" class="domain-zone-select">
-                <option value=".is-pro.dev">.is-pro.dev</option>
-                <option value=".is-into.tech">.is-into.tech</option>
-              </select>
-            </div>
-            <div class="domain-preview-display" aria-live="polite">
-              <span id="preview-default" class="preview-label">e.g. <span class="text-highlight">yourname.is-pro.dev</span></span>
-              <span id="preview-full" class="preview-value is-hidden"><span id="preview-name" class="preview-name"></span><span id="preview-zone" class="preview-zone"></span></span>
-            </div>
-            <p id="domain-hint" class="domain-disclaimer">Preview only — availability checked on the dashboard.</p>
-            <a id="domain-cta" href="https://dash.is-pro.dev" class="btn btn-primary domain-cta" target="_blank" rel="noopener noreferrer">
-              Register on Dashboard
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-</div>
-  </section>
-
-  <!-- Native Banner Ad - Homepage lower section -->
-  <div class="container">
-    <div class="ad-container ad-native-banner">
-<script async="async" data-cfasync="false" src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"></script>
-<div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <section class="section" aria-labelledby="how-heading">
-    <div class="container">
-      <div class="section-header text-center" data-reveal>
-        <div class="section-tag">Process</div>
-        <h2 id="how-heading">From GitHub sign-in to live DNS in five steps</h2>
-        <p class="max-w-540 mx-auto mt-xs">This mirrors the real dashboard flow for claiming a subdomain and managing it afterward.</p>
-      </div>
-      <div class="steps-grid" data-reveal>
-        <div class="step">
-          <div class="step-number" aria-hidden="true">1</div>
-          <h3>Sign in with GitHub</h3>
-          <p>Authenticate on the dashboard with your GitHub account.</p>
-        </div>
-        <div class="step">
-          <div class="step-number" aria-hidden="true">2</div>
-          <h3>Accept the terms</h3>
-          <p>Review the legal terms and privacy notice before using the dashboard.</p>
-        </div>
-        <div class="step">
-          <div class="step-number" aria-hidden="true">3</div>
-          <h3>Choose your zone</h3>
-          <p>Pick <code>.is-pro.dev</code> or <code>.is-into.tech</code>, then check if your name is available.</p>
-        </div>
-        <div class="step">
-          <div class="step-number" aria-hidden="true">4</div>
-          <h3>Set DNS and proxy</h3>
-          <p>Select a record type, enter its value, and optionally enable the Cloudflare proxy toggle.</p>
-        </div>
-        <div class="step">
-          <div class="step-number" aria-hidden="true">5</div>
-          <h3>Confirm and manage</h3>
-          <p>Register the subdomain, then return anytime to edit DNS records or delete it from the dashboard.</p>
-        </div>
-      </div>
-      <div class="text-center mt-lg" data-reveal>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-          Start with GitHub
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Social Bar Ad - Homepage -->
-  <div class="container ad-container-tight">
-    <div class="ad-container ad-social-bar">
-      <script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <section class="section" aria-labelledby="learn-heading">
-    <div class="container">
-      <div class="section-header text-center" data-reveal>
-        <div class="section-tag">Learn</div>
-        <h2 id="learn-heading">DNS &amp; subdomains explained</h2>
-        <p class="max-w-520 mx-auto mt-xs">New to subdomains or DNS? Here are the essentials to get you oriented.</p>
-      </div>
-      <div class="max-w-760 mx-auto">
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="learn-1-body" id="learn-1-btn">
-              What is a subdomain?
-              <span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
-            </button>
-            <div class="accordion-body" id="learn-1-body">
-              <div class="accordion-content">
-                <p>A <strong>subdomain</strong> is a prefix attached to a domain name, separated by a dot. For example, in <code>myproject.is-pro.dev</code>, the part <code>myproject</code> is the subdomain and <code>is-pro.dev</code> is the root domain.</p>
-                <p>Subdomains let different services or projects live under the same root domain while maintaining distinct addresses. They&#x27;re used everywhere &mdash; <code>www.example.com</code> is technically a subdomain too!</p>
-                <p>With is-cool-me, you get to pick the <code>myproject</code> part. The root domain is managed by us, while your DNS records point to wherever you&#x27;re hosting your project.</p>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="learn-2-body" id="learn-2-btn">
-              How do DNS records work?
-              <span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
-            </button>
-            <div class="accordion-body" id="learn-2-body">
-              <div class="accordion-content">
-                <p>The <strong>Domain Name System (DNS)</strong> is the internet&#x27;s address book. When you type a domain into a browser, DNS translates it into an IP address so your computer knows which server to contact.</p>
-                <p>Each DNS record type serves a purpose:</p>
-                <ul>
-                  <li><strong>A record</strong> &mdash; maps a name to an IPv4 address</li>
-                  <li><strong>AAAA record</strong> &mdash; same, but for IPv6 addresses</li>
-                  <li><strong>CNAME record</strong> &mdash; aliases one name to another hostname</li>
-                  <li><strong>MX record</strong> &mdash; directs email for a domain to a mail server</li>
-                  <li><strong>TXT record</strong> &mdash; stores arbitrary text (used for verification, SPF, etc.)</li>
-                  <li><strong>CAA record</strong> &mdash; controls which certificate authorities can issue SSL certificates</li>
-                  <li><strong>SRV record</strong> &mdash; points clients to a specific service endpoint</li>
-                  <li><strong>PTR record</strong> &mdash; maps an IP address back to a hostname in reverse DNS setups</li>
-                </ul>
-                <p>The dashboard supports A, AAAA, CNAME, MX, TXT, CAA, SRV, and PTR records, plus Cloudflare proxying for compatible records.</p>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="learn-3-body" id="learn-3-btn">
-              CNAME vs A record &mdash; which should I use?
-              <span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
-            </button>
-            <div class="accordion-body" id="learn-3-body">
-              <div class="accordion-content">
-                <p><strong>Use a CNAME</strong> if your host gives you a hostname (e.g., <code>yoursite.vercel.app</code> or <code>username.github.io</code>). A CNAME makes your subdomain an alias for that hostname, so it always follows if the underlying IP changes.</p>
-                <p><strong>Use an A record</strong> if your host gives you a static IPv4 address (e.g., a VPS or dedicated server). Enter the IP directly and your subdomain resolves to that address.</p>
-                <p>Most modern platforms (Vercel, Netlify, GitHub Pages, Render) prefer CNAME records. Check your hosting provider&#x27;s custom domain docs for the exact value to use.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section class="section" aria-labelledby="faq-heading">
-    <div class="container">
-      <div class="section-header text-center" data-reveal>
-        <div class="section-tag">FAQ</div>
-        <h2 id="faq-heading">Frequently asked questions</h2>
-      </div>
-      <div class="faq-grid max-w-900 mx-auto">
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-1-body" id="faq-1-btn">Is this service really free?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-            <div class="accordion-body" id="faq-1-body"><div class="accordion-content"><p>Yes &mdash; completely free. There&#x27;s no paid tier, no premium features behind a paywall, and no credit card required. is-cool-me is a community-run project.</p></div></div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-2-body" id="faq-2-btn">What zones are available?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-            <div class="accordion-body" id="faq-2-body"><div class="accordion-content"><p>We currently offer two zones: <code>*.is-pro.dev</code> and <code>*.is-into.tech</code>. Visit the <a href="/domains/" class="inline-link">Domains page</a> for details on each.</p></div></div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-3-body" id="faq-3-btn">What DNS record types are supported?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-            <div class="accordion-body" id="faq-3-body"><div class="accordion-content"><p>The dashboard currently supports A, AAAA, CNAME, MX, TXT, CAA, SRV, and PTR records. Compatible records can also use the Cloudflare proxy toggle.</p></div></div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-4-body" id="faq-4-btn">Can I edit DNS later?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-            <div class="accordion-body" id="faq-4-body"><div class="accordion-content"><p>Yes. The dashboard lists your subdomains with record counts and proxy status, and you can edit DNS records or delete a registration whenever you need.</p></div></div>
-          </div>
-        </div>
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-5-body" id="faq-5-btn">Can I use it for commercial projects?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-            <div class="accordion-body" id="faq-5-body"><div class="accordion-content"><p>The service is aimed at personal sites, open-source projects, and communities. Light commercial use may be acceptable, but content prohibited under our <a href="/terms/" class="inline-link">Terms of Service</a> will lead to termination.</p></div></div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-6-body" id="faq-6-btn">What content is not allowed?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-            <div class="accordion-body" id="faq-6-body"><div class="accordion-content"><p>Illegal content, hate speech, violent or threatening material, defamation, and discriminatory content are prohibited. See our <a href="/terms/" class="inline-link">Terms of Service</a> for the full list.</p></div></div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-7-body" id="faq-7-btn">Where can I get help?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-            <div class="accordion-body" id="faq-7-body"><div class="accordion-content"><p>Join our <a href="https://discord.gg/N8YzrkJxYy" class="inline-link" target="_blank" rel="noopener noreferrer">Discord server</a> for community support, or reach us by email via the <a href="/contact/" class="inline-link">Contact page</a>.</p></div></div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-8-body" id="faq-8-btn">What happened to is-cool.me?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-            <div class="accordion-body" id="faq-8-body"><div class="accordion-content"><p>The is-cool-me project originally offered subdomains under <code>is-cool.me</code> and <code>is-app.tech</code>, which later migrated to <code>is-pro.dev</code> and <code>is-into.tech</code>. All existing subdomains were preserved during this transition.</p></div></div>
-          </div>
-        </div>
-      </div>
-      <div class="text-center mt-lg" data-reveal>
-        <p class="mb-sm">Still have questions?</p>
-        <a href="/contact/" class="btn btn-outline">Get in Touch</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-tight" aria-labelledby="cta-heading">
-    <div class="container" data-reveal>
-      <div class="cta-panel">
-        <div class="section-tag inline-flex mb-sm">Ready to claim your subdomain?</div>
-        <h2 id="cta-heading" class="mb-xs">Get started in minutes</h2>
-        <p class="max-w-560 mx-auto mb-md">Sign in with GitHub, accept the terms, pick your zone, set your DNS record, and manage everything from the dashboard. No subscriptions, no extra password, no hidden fees.</p>
-        <div class="display-flex gap-md justify-center flex-wrap">
-          <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-            Open Dashboard
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
           </a>
-          <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Join Discord</a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a
+            ><a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+                />
+              </svg>
+              Discord
+            </a>
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
-    </div>
-  </section>
+    </header>
 
-  <div class="divider"></div>
+    <main id="main-content">
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero-bg" aria-hidden="true">
+          <div class="hero-grid"></div>
+        </div>
+        <div class="container">
+          <div class="hero-inner">
+            <div class="hero-copy">
+              <div class="hero-badge">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                  />
+                </svg>
+                Free subdomains for developers
+              </div>
+              <h1 id="hero-heading">
+                Free Subdomains<br /><span class="text-gradient"
+                  >for Developers</span
+                >
+              </h1>
+              <p class="hero-subtitle">
+                Grab a free subdomain for your project, portfolio, or side
+                hustle. Sign in with GitHub, choose <code>*.is-pro.dev</code> or
+                <code>*.is-into.tech</code>, and manage DNS from one dashboard.
+              </p>
+              <div class="hero-ctas">
+                <a
+                  href="https://dash.is-pro.dev"
+                  class="btn btn-primary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Sign in with GitHub
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
+                <a href="/domains/" class="btn btn-outline">Explore Zones</a>
+              </div>
+              <div class="hero-trust">
+                <div class="trust-item">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    aria-hidden="true"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Fully operational
+                </div>
+                <div class="trust-item">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+                    <path d="M16 3h3a2 2 0 0 1 2 2v3" />
+                    <path d="M8 21H5a2 2 0 0 1-2-2v-3" />
+                    <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+                    <path d="M9 9h6v6H9z" />
+                  </svg>
+                  Open source
+                </div>
+                <div class="trust-item">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 20h16" />
+                    <path d="M8 20V4h5a3 3 0 0 1 3 3v13" />
+                  </svg>
+                  MIT licensed
+                </div>
+                <div class="trust-item">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                  Secure GitHub login
+                </div>
+              </div>
+            </div>
+            <div class="hero-media-col">
+              <div class="domain-preview-card">
+                <h3>Try your subdomain</h3>
+                <div class="domain-input-group">
+                  <label for="domain-name" class="sr-only"
+                    >Your subdomain name</label
+                  >
+                  <input
+                    type="text"
+                    id="domain-name"
+                    class="domain-input"
+                    placeholder="yourname"
+                    maxlength="63"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-describedby="domain-hint"
+                  />
+                  <label for="domain-zone" class="sr-only">Select zone</label>
+                  <select id="domain-zone" class="domain-zone-select">
+                    <option value=".is-pro.dev">.is-pro.dev</option>
+                    <option value=".is-into.tech">.is-into.tech</option>
+                  </select>
+                </div>
+                <div class="domain-preview-display" aria-live="polite">
+                  <span id="preview-default" class="preview-label"
+                    >e.g.
+                    <span class="text-highlight"
+                      >yourname.is-pro.dev</span
+                    ></span
+                  >
+                  <span id="preview-full" class="preview-value is-hidden"
+                    ><span id="preview-name" class="preview-name"></span
+                    ><span id="preview-zone" class="preview-zone"></span
+                  ></span>
+                </div>
+                <p id="domain-hint" class="domain-disclaimer">
+                  Preview only — availability checked on the dashboard.
+                </p>
+                <a
+                  id="domain-cta"
+                  href="https://dash.is-pro.dev"
+                  class="btn btn-primary domain-cta"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Register on Dashboard
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <section class="section" aria-labelledby="learning-heading">
-    <div class="container">
-      <div class="section-header text-center" data-reveal>
-        <div class="section-tag">Learn</div>
-        <h2 id="learning-heading">Blog + Guides for real DNS issues</h2>
-        <p class="max-w-640 mx-auto mt-xs">Explore practical content inspired by recurring support and moderation problems: propagation delays, takeover risks, abuse handling, and provider-specific DNS setup mistakes.</p>
+      <!-- Native Banner Ad - Homepage lower section -->
+      <div class="container">
+        <div class="ad-container ad-native-banner">
+          <script
+            async="async"
+            data-cfasync="false"
+            src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"
+          ></script>
+          <div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+        </div>
       </div>
-      <div class="grid-2" data-reveal>
-        <article class="card">
-          <h3 class="mb-xs">Blog</h3>
-          <p class="mb-sm">10 focused posts on operational incidents, policy edge-cases, and real troubleshooting patterns.</p>
-          <a href="/blog/" class="btn btn-outline">Visit Blog</a>
-        </article>
-        <article class="card">
-          <h3 class="mb-xs">Guides</h3>
-          <p class="mb-sm">10 step-by-step guides for DNS setup, migrations, SSL validation, and safer team change workflows.</p>
-          <a href="/guides/" class="btn btn-outline">Open Guides</a>
-        </article>
+
+      <div class="divider"></div>
+
+      <section class="section" aria-labelledby="how-heading">
+        <div class="container">
+          <div class="section-header text-center" data-reveal>
+            <div class="section-tag">Process</div>
+            <h2 id="how-heading">
+              From GitHub sign-in to live DNS in five steps
+            </h2>
+            <p class="max-w-540 mx-auto mt-xs">
+              This mirrors the real dashboard flow for claiming a subdomain and
+              managing it afterward.
+            </p>
+          </div>
+          <div class="steps-grid" data-reveal>
+            <div class="step">
+              <div class="step-number" aria-hidden="true">1</div>
+              <h3>Sign in with GitHub</h3>
+              <p>Authenticate on the dashboard with your GitHub account.</p>
+            </div>
+            <div class="step">
+              <div class="step-number" aria-hidden="true">2</div>
+              <h3>Accept the terms</h3>
+              <p>
+                Review the legal terms and privacy notice before using the
+                dashboard.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number" aria-hidden="true">3</div>
+              <h3>Choose your zone</h3>
+              <p>
+                Pick <code>.is-pro.dev</code> or <code>.is-into.tech</code>,
+                then check if your name is available.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number" aria-hidden="true">4</div>
+              <h3>Set DNS and proxy</h3>
+              <p>
+                Select a record type, enter its value, and optionally enable the
+                Cloudflare proxy toggle.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number" aria-hidden="true">5</div>
+              <h3>Confirm and manage</h3>
+              <p>
+                Register the subdomain, then return anytime to edit DNS records
+                or delete it from the dashboard.
+              </p>
+            </div>
+          </div>
+          <div class="text-center mt-lg" data-reveal>
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Start with GitHub
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Social Bar Ad - Homepage -->
+      <div class="container ad-container-tight">
+        <div class="ad-container ad-social-bar">
+          <script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <section class="section" aria-labelledby="learn-heading">
+        <div class="container">
+          <div class="section-header text-center" data-reveal>
+            <div class="section-tag">Learn</div>
+            <h2 id="learn-heading">DNS &amp; subdomains explained</h2>
+            <p class="max-w-520 mx-auto mt-xs">
+              New to subdomains or DNS? Here are the essentials to get you
+              oriented.
+            </p>
+          </div>
+          <div class="max-w-760 mx-auto">
+            <div class="accordion">
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="learn-1-body"
+                  id="learn-1-btn"
+                >
+                  What is a subdomain?
+                  <span class="accordion-icon" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="learn-1-body">
+                  <div class="accordion-content">
+                    <p>
+                      A <strong>subdomain</strong> is a prefix attached to a
+                      domain name, separated by a dot. For example, in
+                      <code>myproject.is-pro.dev</code>, the part
+                      <code>myproject</code> is the subdomain and
+                      <code>is-pro.dev</code> is the root domain.
+                    </p>
+                    <p>
+                      Subdomains let different services or projects live under
+                      the same root domain while maintaining distinct addresses.
+                      They&#x27;re used everywhere &mdash;
+                      <code>www.example.com</code> is technically a subdomain
+                      too!
+                    </p>
+                    <p>
+                      With is-cool-me, you get to pick the
+                      <code>myproject</code> part. The root domain is managed by
+                      us, while your DNS records point to wherever you&#x27;re
+                      hosting your project.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="learn-2-body"
+                  id="learn-2-btn"
+                >
+                  How do DNS records work?
+                  <span class="accordion-icon" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="learn-2-body">
+                  <div class="accordion-content">
+                    <p>
+                      The <strong>Domain Name System (DNS)</strong> is the
+                      internet&#x27;s address book. When you type a domain into
+                      a browser, DNS translates it into an IP address so your
+                      computer knows which server to contact.
+                    </p>
+                    <p>Each DNS record type serves a purpose:</p>
+                    <ul>
+                      <li>
+                        <strong>A record</strong> &mdash; maps a name to an IPv4
+                        address
+                      </li>
+                      <li>
+                        <strong>AAAA record</strong> &mdash; same, but for IPv6
+                        addresses
+                      </li>
+                      <li>
+                        <strong>CNAME record</strong> &mdash; aliases one name
+                        to another hostname
+                      </li>
+                      <li>
+                        <strong>MX record</strong> &mdash; directs email for a
+                        domain to a mail server
+                      </li>
+                      <li>
+                        <strong>TXT record</strong> &mdash; stores arbitrary
+                        text (used for verification, SPF, etc.)
+                      </li>
+                      <li>
+                        <strong>CAA record</strong> &mdash; controls which
+                        certificate authorities can issue SSL certificates
+                      </li>
+                      <li>
+                        <strong>SRV record</strong> &mdash; points clients to a
+                        specific service endpoint
+                      </li>
+                      <li>
+                        <strong>PTR record</strong> &mdash; maps an IP address
+                        back to a hostname in reverse DNS setups
+                      </li>
+                    </ul>
+                    <p>
+                      The dashboard supports A, AAAA, CNAME, MX, TXT, CAA, SRV,
+                      and PTR records, plus Cloudflare proxying for compatible
+                      records.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="learn-3-body"
+                  id="learn-3-btn"
+                >
+                  CNAME vs A record &mdash; which should I use?
+                  <span class="accordion-icon" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="learn-3-body">
+                  <div class="accordion-content">
+                    <p>
+                      <strong>Use a CNAME</strong> if your host gives you a
+                      hostname (e.g., <code>yoursite.vercel.app</code> or
+                      <code>username.github.io</code>). A CNAME makes your
+                      subdomain an alias for that hostname, so it always follows
+                      if the underlying IP changes.
+                    </p>
+                    <p>
+                      <strong>Use an A record</strong> if your host gives you a
+                      static IPv4 address (e.g., a VPS or dedicated server).
+                      Enter the IP directly and your subdomain resolves to that
+                      address.
+                    </p>
+                    <p>
+                      Most modern platforms (Vercel, Netlify, GitHub Pages,
+                      Render) prefer CNAME records. Check your hosting
+                      provider&#x27;s custom domain docs for the exact value to
+                      use.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section" aria-labelledby="faq-heading">
+        <div class="container">
+          <div class="section-header text-center" data-reveal>
+            <div class="section-tag">FAQ</div>
+            <h2 id="faq-heading">Frequently asked questions</h2>
+          </div>
+          <div class="faq-grid max-w-900 mx-auto">
+            <div class="accordion">
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="faq-1-body"
+                  id="faq-1-btn"
+                >
+                  Is this service really free?<span
+                    class="accordion-icon"
+                    aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="faq-1-body">
+                  <div class="accordion-content">
+                    <p>
+                      Yes &mdash; completely free. There&#x27;s no paid tier, no
+                      premium features behind a paywall, and no credit card
+                      required. is-cool-me is a community-run project.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="faq-2-body"
+                  id="faq-2-btn"
+                >
+                  What zones are available?<span
+                    class="accordion-icon"
+                    aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="faq-2-body">
+                  <div class="accordion-content">
+                    <p>
+                      We currently offer two zones:
+                      <code>*.is-pro.dev</code> and <code>*.is-into.tech</code>.
+                      Visit the
+                      <a href="/domains/" class="inline-link">Domains page</a>
+                      for details on each.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="faq-3-body"
+                  id="faq-3-btn"
+                >
+                  What DNS record types are supported?<span
+                    class="accordion-icon"
+                    aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="faq-3-body">
+                  <div class="accordion-content">
+                    <p>
+                      The dashboard currently supports A, AAAA, CNAME, MX, TXT,
+                      CAA, SRV, and PTR records. Compatible records can also use
+                      the Cloudflare proxy toggle.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="faq-4-body"
+                  id="faq-4-btn"
+                >
+                  Can I edit DNS later?<span
+                    class="accordion-icon"
+                    aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="faq-4-body">
+                  <div class="accordion-content">
+                    <p>
+                      Yes. The dashboard lists your subdomains with record
+                      counts and proxy status, and you can edit DNS records or
+                      delete a registration whenever you need.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion">
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="faq-5-body"
+                  id="faq-5-btn"
+                >
+                  Can I use it for commercial projects?<span
+                    class="accordion-icon"
+                    aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="faq-5-body">
+                  <div class="accordion-content">
+                    <p>
+                      The service is aimed at personal sites, open-source
+                      projects, and communities. Light commercial use may be
+                      acceptable, but content prohibited under our
+                      <a href="/terms/" class="inline-link">Terms of Service</a>
+                      will lead to termination.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="faq-6-body"
+                  id="faq-6-btn"
+                >
+                  What content is not allowed?<span
+                    class="accordion-icon"
+                    aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="faq-6-body">
+                  <div class="accordion-content">
+                    <p>
+                      Illegal content, hate speech, violent or threatening
+                      material, defamation, and discriminatory content are
+                      prohibited. See our
+                      <a href="/terms/" class="inline-link">Terms of Service</a>
+                      for the full list.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="faq-7-body"
+                  id="faq-7-btn"
+                >
+                  Where can I get help?<span
+                    class="accordion-icon"
+                    aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="faq-7-body">
+                  <div class="accordion-content">
+                    <p>
+                      Join our
+                      <a
+                        href="https://discord.gg/N8YzrkJxYy"
+                        class="inline-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Discord server</a
+                      >
+                      for community support, or reach us by email via the
+                      <a href="/contact/" class="inline-link">Contact page</a>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button
+                  class="accordion-trigger"
+                  aria-expanded="false"
+                  aria-controls="faq-8-body"
+                  id="faq-8-btn"
+                >
+                  What happened to is-cool.me?<span
+                    class="accordion-icon"
+                    aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" /></svg
+                  ></span>
+                </button>
+                <div class="accordion-body" id="faq-8-body">
+                  <div class="accordion-content">
+                    <p>
+                      The is-cool-me project originally offered subdomains under
+                      <code>is-cool.me</code> and <code>is-app.tech</code>,
+                      which later migrated to <code>is-pro.dev</code> and
+                      <code>is-into.tech</code>. All existing subdomains were
+                      preserved during this transition.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-lg" data-reveal>
+            <p class="mb-sm">Still have questions?</p>
+            <a href="/contact/" class="btn btn-outline">Get in Touch</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-tight" aria-labelledby="cta-heading">
+        <div class="container" data-reveal>
+          <div class="cta-panel">
+            <div class="section-tag inline-flex mb-sm">
+              Ready to claim your subdomain?
+            </div>
+            <h2 id="cta-heading" class="mb-xs">Get started in minutes</h2>
+            <p class="max-w-560 mx-auto mb-md">
+              Sign in with GitHub, accept the terms, pick your zone, set your
+              DNS record, and manage everything from the dashboard. No
+              subscriptions, no extra password, no hidden fees.
+            </p>
+            <div class="display-flex gap-md justify-center flex-wrap">
+              <a
+                href="https://dash.is-pro.dev"
+                class="btn btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open Dashboard
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="btn btn-outline"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Join Discord</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section" aria-labelledby="learning-heading">
+        <div class="container">
+          <div class="section-header text-center" data-reveal>
+            <div class="section-tag">Learn</div>
+            <h2 id="learning-heading">Blog + Guides for real DNS issues</h2>
+            <p class="max-w-640 mx-auto mt-xs">
+              Explore practical content inspired by recurring support and
+              moderation problems: propagation delays, takeover risks, abuse
+              handling, and provider-specific DNS setup mistakes.
+            </p>
+          </div>
+          <div class="grid-2" data-reveal>
+            <article class="card">
+              <h3 class="mb-xs">Blog</h3>
+              <p class="mb-sm">
+                10 focused posts on operational incidents, policy edge-cases,
+                and real troubleshooting patterns.
+              </p>
+              <a href="/blog/" class="btn btn-outline">Visit Blog</a>
+            </article>
+            <article class="card">
+              <h3 class="mb-xs">Guides</h3>
+              <p class="mb-sm">
+                10 step-by-step guides for DNS setup, migrations, SSL
+                validation, and safer team change workflows.
+              </p>
+              <a href="/guides/" class="btn btn-outline">Open Guides</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 300x250 Banner Ad - Homepage bottom -->
+      <div
+        class="container ad-shell ad-shell-flex"
+        id="home-bottom-sidebar"
+        data-ad="desktop-flex"
+        aria-hidden="true"
+      >
+        <div class="ad-container ad-banner-300x250">
+          <script>
+            atOptions = {
+              key: "b1b36a2819973d652de70000f36fd1f4",
+              format: "iframe",
+              height: 250,
+              width: 300,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
+        </div>
+      </div>
+      <script></script>
+
+      <!-- 728x90 Desktop Banner Ad - Homepage -->
+      <div
+        class="container ad-shell"
+        id="home-desktop-banner"
+        data-ad="desktop"
+        aria-hidden="true"
+      >
+        <div class="ad-container ad-banner-728x90">
+          <script>
+            atOptions = {
+              key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+              format: "iframe",
+              height: 90,
+              width: 728,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+        </div>
+      </div>
+      <script></script>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-migration-note">
+          &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
+          operating subdomains on <code>is-pro.dev</code> and
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>.
+        </div>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Join Discord
+            </a>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <nav class="footer-links" aria-label="Community links">
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
+            </nav>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div class="footer-inline-links">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Banner Ad 320x50 - Mobile footer -->
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
+        <div class="ad-container ad-banner-320x50">
+          <script>
+            atOptions = {
+              key: "d22ebf285f47755fabff0102c2736692",
+              format: "iframe",
+              height: 50,
+              width: 320,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
+        </div>
+      </div>
+      <script></script>
+    </footer>
+
+    <div
+      id="cookie-banner"
+      class="cookie-banner"
+      role="dialog"
+      aria-label="Cookie consent"
+      aria-live="polite"
+    >
+      <p class="cookie-text">
+        We use cookies and similar technologies to improve your experience and
+        for analytics. See our <a href="/privacy/">Privacy Policy</a> for
+        details.
+      </p>
+      <div class="cookie-actions">
+        <button id="cookie-decline" class="btn btn-outline btn-sm">
+          Decline
+        </button>
+        <button id="cookie-accept" class="btn btn-primary btn-sm">
+          Accept
+        </button>
       </div>
     </div>
-  </section>
 
-  <!-- 300x250 Banner Ad - Homepage bottom -->
-  <div class="container ad-shell ad-shell-flex" id="home-bottom-sidebar" data-ad="desktop-flex" aria-hidden="true">
-    <div class="ad-container ad-banner-300x250">
-<script>
-  atOptions = {
-    'key' : 'b1b36a2819973d652de70000f36fd1f4',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
-    </div>
-  </div>
-  <script></script>
-
-  <!-- 728x90 Desktop Banner Ad - Homepage -->
-  <div class="container ad-shell" id="home-desktop-banner" data-ad="desktop" aria-hidden="true">
-    <div class="ad-container ad-banner-728x90">
-<script>
-  atOptions = {
-    'key' : '4d2a4eb320f23a0188fc0bafbe9dfe46',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
-    </div>
-  </div>
-  <script></script>
-
-</main>
-
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-migration-note">
-      &#x1F504; <strong>Migration note:</strong> is-cool-me is the project operating subdomains on <code>is-pro.dev</code> and <code>is-into.tech</code>.
-      <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to <code>is-into.tech</code>.
-    </div>
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo-link">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span class="mono">is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">
-          Join Discord
-        </a>
-      </div>
-      <div class="footer-col">
-        <h4>Service</h4>
-        <nav class="footer-links" aria-label="Service links">
-          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
-          <a href="/domains/" class="footer-link">Domains</a>
-          <a href="/blog/" class="footer-link">Blog</a>
-          <a href="/guides/" class="footer-link">Guides</a>
-          <a href="/about/" class="footer-link">About</a>
-          <a href="/contact/" class="footer-link">Contact</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <nav class="footer-links" aria-label="Legal links">
-          <a href="/terms/" class="footer-link">Terms of Service</a>
-          <a href="/privacy/" class="footer-link">Privacy Policy</a>
-          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
-          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Community</h4>
-        <nav class="footer-links" aria-label="Community links">
-          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </nav>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 is-cool-me. All rights reserved.</span>
-      <div class="footer-inline-links">
-        <a href="/about/">About</a>
-        <a href="/terms/">Terms</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/editorial-standards/">Editorial Standards</a>
-        <a href="/abuse-report/">Abuse Report</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a>
-        <a href="/contact/">Contact</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mobile Banner Ad 320x50 - Mobile footer -->
-  <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
-    <div class="ad-container ad-banner-320x50">
-<script>
-  atOptions = {
-    'key' : 'd22ebf285f47755fabff0102c2736692',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
-    </div>
-  </div>
-  <script></script>
-</footer>
-
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie consent" aria-live="polite">
-  <p class="cookie-text">We use cookies and similar technologies to improve your experience and for analytics. See our <a href="/privacy/">Privacy Policy</a> for details.</p>
-  <div class="cookie-actions">
-    <button id="cookie-decline" class="btn btn-outline btn-sm">Decline</button>
-    <button id="cookie-accept" class="btn btn-primary btn-sm">Accept</button>
-  </div>
-</div>
-
-<script src="/js/app.js" defer></script>
-<!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
-</body>
+    <script src="/js/app.js" defer></script>
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script
+      async
+      src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"
+    ></script>
+    <script>
+      ((window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {};
+          }));
+      plausible.init();
+    </script>
+  </body>
 </html>

@@ -1,544 +1,1416 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Guides — is-cool-me</title>
-  <meta name="description" content="Step-by-step guides for common subdomain setups, DNS migrations, and security hardening." />
-  <link rel="canonical" href="https://is-pro.dev/guides/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/" />
-  <meta property="og:title" content="Guides — is-cool-me" />
-  <meta property="og:description" content="Hands-on setup and troubleshooting guides for is-pro.dev users." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Guides — is-cool-me" />
-  <meta name="twitter:description" content="Hands-on setup and troubleshooting guides for is-pro.dev users." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
-    crossorigin="anonymous"></script>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-8088216451251964" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>Guides — is-cool-me</title>
+    <meta
+      name="description"
+      content="Step-by-step guides for common subdomain setups, DNS migrations, and security hardening."
+    />
+    <link rel="canonical" href="https://is-pro.dev/guides/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://is-pro.dev/guides/" />
+    <meta property="og:title" content="Guides — is-cool-me" />
+    <meta
+      property="og:description"
+      content="Hands-on setup and troubleshooting guides for is-pro.dev users."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Guides — is-cool-me" />
+    <meta
+      name="twitter:description"
+      content="Hands-on setup and troubleshooting guides for is-pro.dev users."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only skip-link">Skip to main content</a>
 
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
-
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a><a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
-          Discord
-        </a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
-          Open Dashboard
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<main id="main-content">
-  <div class="page-hero">
-    <div class="container">
-      <div class="page-hero-content" data-reveal>
-        <div class="section-tag page-tag">Guides</div>
-        <h1>Step-by-Step DNS Playbooks</h1>
-        <p>Hands-on guides for provider-specific setups, DNS migrations, SSL troubleshooting, and security hardening — designed for production subdomains.</p>
-      </div>
-    </div>
-  </div>
-
-  <section class="section featured-section" aria-labelledby="featured-heading">
-    <div class="container">
-      <div class="section-header" data-reveal>
-        <h2 id="featured-heading">Featured Guides</h2>
-        <p>Hand-picked guides for the most common tasks.</p>
-      </div>
-      <div class="featured-grid">
-        <article class="post-card" data-reveal data-category="vercel" data-difficulty="beginner">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.25),rgba(6,182,212,0.15));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--color-accent-light);">&#x25B6;&#xFE0F;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Vercel</span>
-              <span class="post-card-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;">Beginner</span>
-            </div>
-            <h3 class="post-card-title">Connect Vercel to an is-pro.dev Subdomain</h3>
-            <p class="post-card-excerpt">Step-by-step DNS records and verification flow for Vercel deployments. Includes CNAME setup, SSL provisioning, and common error fixes.</p>
-            <div class="post-card-meta"><span>&#x1F552; 12 min read</span></div>
-            <a href="/guides/connect-vercel-with-is-pro-dev/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a
+            ><a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+                />
+              </svg>
+              Discord
+            </a>
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
           </div>
-        </article>
-
-        <article class="post-card" data-reveal data-category="email" data-difficulty="intermediate">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(34,197,94,0.15));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--color-cyan-light);">&#x2709;&#xFE0F;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Email</span>
-              <span class="post-card-tag" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
-            </div>
-            <h3 class="post-card-title">Add MX, SPF, DKIM, and DMARC Records</h3>
-            <p class="post-card-excerpt">Production checklist for mail authentication and deliverability. Covers every DNS record type needed for reliable email.</p>
-            <div class="post-card-meta"><span>&#x1F552; 14 min read</span></div>
-            <a href="/guides/add-mx-spf-dkim-dmarc-records/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
-
-        <article class="post-card" data-reveal data-category="troubleshooting" data-difficulty="intermediate">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(239,68,68,0.1));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#eab308;">&#x1F50D;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Troubleshooting</span>
-              <span class="post-card-tag" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
-            </div>
-            <h3 class="post-card-title">Diagnose SSL Pending on a New Subdomain</h3>
-            <p class="post-card-excerpt">Common certificate issuance blockers and quick fixes. Understand why SSL stays pending and how to resolve it.</p>
-            <div class="post-card-meta"><span>&#x1F552; 10 min read</span></div>
-            <a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
       </div>
-    </div>
-  </section>
+    </header>
 
-  <div class="divider"></div>
-
-  <section class="section" aria-labelledby="all-guides-heading">
-    <div class="container">
-      <div class="section-header" data-reveal>
-        <h2 id="all-guides-heading">All Guides</h2>
-        <p>Browse every guide by category, difficulty, or search.</p>
-      </div>
-
-      <div data-reveal>
-        <div class="filter-bar">
-          <div class="filter-search-wrap">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="search" id="post-search" class="filter-search" placeholder="Search guides..." aria-label="Search guides" />
-          </div>
-          <div class="filter-btns" role="group" aria-label="Filter by category">
-            <button data-filter="all" class="filter-btn active">All</button>
-            <button data-filter="dns" class="filter-btn">DNS</button>
-            <button data-filter="security" class="filter-btn">Security</button>
-            <button data-filter="email" class="filter-btn">Email</button>
-            <button data-filter="vercel" class="filter-btn">Vercel</button>
-            <button data-filter="deployment" class="filter-btn">Deployment</button>
-            <button data-filter="api" class="filter-btn">API</button>
-            <button data-filter="troubleshooting" class="filter-btn">Troubleshooting</button>
+    <main id="main-content">
+      <div class="page-hero">
+        <div class="container">
+          <div class="page-hero-content" data-reveal>
+            <div class="section-tag page-tag">Guides</div>
+            <h1>Step-by-Step DNS Playbooks</h1>
+            <p>
+              Hands-on guides for provider-specific setups, DNS migrations, SSL
+              troubleshooting, and security hardening — designed for production
+              subdomains.
+            </p>
           </div>
         </div>
       </div>
 
-      <div class="posts-grid" id="posts-grid">
-        <article class="post-card" data-reveal data-category="vercel" data-difficulty="beginner">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">&#x25B6;&#xFE0F;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Vercel</span>
-              <span class="post-card-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;">Beginner</span>
+      <section
+        class="section featured-section"
+        aria-labelledby="featured-heading"
+      >
+        <div class="container">
+          <div class="section-header" data-reveal>
+            <h2 id="featured-heading">Featured Guides</h2>
+            <p>Hand-picked guides for the most common tasks.</p>
+          </div>
+          <div class="featured-grid">
+            <article
+              class="post-card"
+              data-reveal
+              data-category="vercel"
+              data-difficulty="beginner"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.25),
+                    rgba(6, 182, 212, 0.15)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2.5rem;
+                  color: var(--color-accent-light);
+                "
+              >
+                &#x25B6;&#xFE0F;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Vercel</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(34, 197, 94, 0.1);
+                      border-color: rgba(34, 197, 94, 0.2);
+                      color: #4ade80;
+                    "
+                    >Beginner</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Connect Vercel to an is-pro.dev Subdomain
+                </h3>
+                <p class="post-card-excerpt">
+                  Step-by-step DNS records and verification flow for Vercel
+                  deployments. Includes CNAME setup, SSL provisioning, and
+                  common error fixes.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 12 min read</span>
+                </div>
+                <a
+                  href="/guides/connect-vercel-with-is-pro-dev/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
+
+            <article
+              class="post-card"
+              data-reveal
+              data-category="email"
+              data-difficulty="intermediate"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(6, 182, 212, 0.2),
+                    rgba(34, 197, 94, 0.15)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2.5rem;
+                  color: var(--color-cyan-light);
+                "
+              >
+                &#x2709;&#xFE0F;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Email</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(234, 179, 8, 0.1);
+                      border-color: rgba(234, 179, 8, 0.2);
+                      color: #eab308;
+                    "
+                    >Intermediate</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Add MX, SPF, DKIM, and DMARC Records
+                </h3>
+                <p class="post-card-excerpt">
+                  Production checklist for mail authentication and
+                  deliverability. Covers every DNS record type needed for
+                  reliable email.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 14 min read</span>
+                </div>
+                <a
+                  href="/guides/add-mx-spf-dkim-dmarc-records/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
+
+            <article
+              class="post-card"
+              data-reveal
+              data-category="troubleshooting"
+              data-difficulty="intermediate"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(234, 179, 8, 0.2),
+                    rgba(239, 68, 68, 0.1)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2.5rem;
+                  color: #eab308;
+                "
+              >
+                &#x1F50D;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Troubleshooting</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(234, 179, 8, 0.1);
+                      border-color: rgba(234, 179, 8, 0.2);
+                      color: #eab308;
+                    "
+                    >Intermediate</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Diagnose SSL Pending on a New Subdomain
+                </h3>
+                <p class="post-card-excerpt">
+                  Common certificate issuance blockers and quick fixes.
+                  Understand why SSL stays pending and how to resolve it.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 10 min read</span>
+                </div>
+                <a
+                  href="/guides/diagnose-ssl-pending-on-new-subdomain/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section" aria-labelledby="all-guides-heading">
+        <div class="container">
+          <div class="section-header" data-reveal>
+            <h2 id="all-guides-heading">All Guides</h2>
+            <p>Browse every guide by category, difficulty, or search.</p>
+          </div>
+
+          <div data-reveal>
+            <div class="filter-bar">
+              <div class="filter-search-wrap">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                </svg>
+                <input
+                  type="search"
+                  id="post-search"
+                  class="filter-search"
+                  placeholder="Search guides..."
+                  aria-label="Search guides"
+                />
+              </div>
+              <div
+                class="filter-btns"
+                role="group"
+                aria-label="Filter by category"
+              >
+                <button data-filter="all" class="filter-btn active">All</button>
+                <button data-filter="dns" class="filter-btn">DNS</button>
+                <button data-filter="security" class="filter-btn">
+                  Security
+                </button>
+                <button data-filter="email" class="filter-btn">Email</button>
+                <button data-filter="vercel" class="filter-btn">Vercel</button>
+                <button data-filter="deployment" class="filter-btn">
+                  Deployment
+                </button>
+                <button data-filter="api" class="filter-btn">API</button>
+                <button data-filter="troubleshooting" class="filter-btn">
+                  Troubleshooting
+                </button>
+              </div>
             </div>
-            <h3 class="post-card-title">Connect Vercel to an is-pro.dev Subdomain</h3>
-            <p class="post-card-excerpt">Step-by-step DNS records and verification flow for Vercel deployments.</p>
-            <div class="post-card-meta"><span>&#x1F552; 12 min read</span></div>
-            <a href="/guides/connect-vercel-with-is-pro-dev/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
           </div>
-        </article>
 
-        <article class="post-card" data-reveal data-category="deployment" data-difficulty="beginner">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#818cf8;">&#x1F4E6;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Deployment</span>
-              <span class="post-card-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;">Beginner</span>
-            </div>
-            <h3 class="post-card-title">Connect Netlify to an is-pro.dev Subdomain</h3>
-            <p class="post-card-excerpt">Set CNAME correctly and avoid duplicate host or redirect conflicts.</p>
-            <div class="post-card-meta"><span>&#x1F552; 10 min read</span></div>
-            <a href="/guides/connect-netlify-with-is-pro-dev/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+          <div class="posts-grid" id="posts-grid">
+            <article
+              class="post-card"
+              data-reveal
+              data-category="vercel"
+              data-difficulty="beginner"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.2),
+                    rgba(6, 182, 212, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: var(--color-accent-light);
+                "
+              >
+                &#x25B6;&#xFE0F;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Vercel</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(34, 197, 94, 0.1);
+                      border-color: rgba(34, 197, 94, 0.2);
+                      color: #4ade80;
+                    "
+                    >Beginner</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Connect Vercel to an is-pro.dev Subdomain
+                </h3>
+                <p class="post-card-excerpt">
+                  Step-by-step DNS records and verification flow for Vercel
+                  deployments.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 12 min read</span>
+                </div>
+                <a
+                  href="/guides/connect-vercel-with-is-pro-dev/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
 
-        <article class="post-card" data-reveal data-category="deployment" data-difficulty="beginner">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#4ade80;">&#x1F4BB;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Deployment</span>
-              <span class="post-card-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;">Beginner</span>
-            </div>
-            <h3 class="post-card-title">Set Up GitHub Pages with a Custom Subdomain</h3>
-            <p class="post-card-excerpt">Configure apex/host records and keep HTTPS enabled on Pages.</p>
-            <div class="post-card-meta"><span>&#x1F552; 10 min read</span></div>
-            <a href="/guides/set-up-github-pages-custom-subdomain/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+            <article
+              class="post-card"
+              data-reveal
+              data-category="deployment"
+              data-difficulty="beginner"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(99, 102, 241, 0.2),
+                    rgba(139, 92, 246, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: #818cf8;
+                "
+              >
+                &#x1F4E6;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Deployment</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(34, 197, 94, 0.1);
+                      border-color: rgba(34, 197, 94, 0.2);
+                      color: #4ade80;
+                    "
+                    >Beginner</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Connect Netlify to an is-pro.dev Subdomain
+                </h3>
+                <p class="post-card-excerpt">
+                  Set CNAME correctly and avoid duplicate host or redirect
+                  conflicts.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 10 min read</span>
+                </div>
+                <a
+                  href="/guides/connect-netlify-with-is-pro-dev/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
 
-        <article class="post-card" data-reveal data-category="dns" data-difficulty="intermediate">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(99,102,241,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-cyan-light);">&#x1F9F0;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">DNS</span>
-              <span class="post-card-tag" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
-            </div>
-            <h3 class="post-card-title">Create Wildcard Records Safely</h3>
-            <p class="post-card-excerpt">Use wildcard DNS without breaking explicit service records.</p>
-            <div class="post-card-meta"><span>&#x1F552; 8 min read</span></div>
-            <a href="/guides/create-safe-wildcard-records/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+            <article
+              class="post-card"
+              data-reveal
+              data-category="deployment"
+              data-difficulty="beginner"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(34, 197, 94, 0.2),
+                    rgba(6, 182, 212, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: #4ade80;
+                "
+              >
+                &#x1F4BB;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Deployment</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(34, 197, 94, 0.1);
+                      border-color: rgba(34, 197, 94, 0.2);
+                      color: #4ade80;
+                    "
+                    >Beginner</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Set Up GitHub Pages with a Custom Subdomain
+                </h3>
+                <p class="post-card-excerpt">
+                  Configure apex/host records and keep HTTPS enabled on Pages.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 10 min read</span>
+                </div>
+                <a
+                  href="/guides/set-up-github-pages-custom-subdomain/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
 
-        <article class="post-card" data-reveal data-category="api" data-difficulty="intermediate">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(236,72,153,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">&#x1F4E1;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">API</span>
-              <span class="post-card-tag" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
-            </div>
-            <h3 class="post-card-title">Configure an API Subdomain with Zero Downtime</h3>
-            <p class="post-card-excerpt">Migrate API traffic by lowering TTL and swapping targets safely.</p>
-            <div class="post-card-meta"><span>&#x1F552; 12 min read</span></div>
-            <a href="/guides/configure-api-subdomain-with-zero-downtime/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+            <article
+              class="post-card"
+              data-reveal
+              data-category="dns"
+              data-difficulty="intermediate"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(6, 182, 212, 0.2),
+                    rgba(99, 102, 241, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: var(--color-cyan-light);
+                "
+              >
+                &#x1F9F0;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">DNS</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(234, 179, 8, 0.1);
+                      border-color: rgba(234, 179, 8, 0.2);
+                      color: #eab308;
+                    "
+                    >Intermediate</span
+                  >
+                </div>
+                <h3 class="post-card-title">Create Wildcard Records Safely</h3>
+                <p class="post-card-excerpt">
+                  Use wildcard DNS without breaking explicit service records.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 8 min read</span>
+                </div>
+                <a
+                  href="/guides/create-safe-wildcard-records/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
 
-        <article class="post-card" data-reveal data-category="email" data-difficulty="intermediate">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(34,197,94,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-cyan-light);">&#x2709;&#xFE0F;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Email</span>
-              <span class="post-card-tag" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
-            </div>
-            <h3 class="post-card-title">Add MX, SPF, DKIM, and DMARC Records</h3>
-            <p class="post-card-excerpt">Production checklist for mail authentication and deliverability.</p>
-            <div class="post-card-meta"><span>&#x1F552; 14 min read</span></div>
-            <a href="/guides/add-mx-spf-dkim-dmarc-records/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+            <article
+              class="post-card"
+              data-reveal
+              data-category="api"
+              data-difficulty="intermediate"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.2),
+                    rgba(236, 72, 153, 0.1)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: var(--color-accent-light);
+                "
+              >
+                &#x1F4E1;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">API</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(234, 179, 8, 0.1);
+                      border-color: rgba(234, 179, 8, 0.2);
+                      color: #eab308;
+                    "
+                    >Intermediate</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Configure an API Subdomain with Zero Downtime
+                </h3>
+                <p class="post-card-excerpt">
+                  Migrate API traffic by lowering TTL and swapping targets
+                  safely.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 12 min read</span>
+                </div>
+                <a
+                  href="/guides/configure-api-subdomain-with-zero-downtime/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
 
-        <article class="post-card" data-reveal data-category="troubleshooting" data-difficulty="intermediate">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(239,68,68,0.1));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#eab308;">&#x1F50D;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Troubleshooting</span>
-              <span class="post-card-tag" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;">Intermediate</span>
-            </div>
-            <h3 class="post-card-title">Diagnose SSL Pending on a New Subdomain</h3>
-            <p class="post-card-excerpt">Common certificate issuance blockers and quick fixes.</p>
-            <div class="post-card-meta"><span>&#x1F552; 10 min read</span></div>
-            <a href="/guides/diagnose-ssl-pending-on-new-subdomain/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+            <article
+              class="post-card"
+              data-reveal
+              data-category="email"
+              data-difficulty="intermediate"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(6, 182, 212, 0.2),
+                    rgba(34, 197, 94, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: var(--color-cyan-light);
+                "
+              >
+                &#x2709;&#xFE0F;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Email</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(234, 179, 8, 0.1);
+                      border-color: rgba(234, 179, 8, 0.2);
+                      color: #eab308;
+                    "
+                    >Intermediate</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Add MX, SPF, DKIM, and DMARC Records
+                </h3>
+                <p class="post-card-excerpt">
+                  Production checklist for mail authentication and
+                  deliverability.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 14 min read</span>
+                </div>
+                <a
+                  href="/guides/add-mx-spf-dkim-dmarc-records/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
 
-        <article class="post-card" data-reveal data-category="dns" data-difficulty="advanced">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(139,92,246,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#ef4444;">&#x1F4E4;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">DNS</span>
-              <span class="post-card-tag" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444;">Advanced</span>
-            </div>
-            <h3 class="post-card-title">Migrate a Subdomain Between Hosting Providers</h3>
-            <p class="post-card-excerpt">Preserve uptime while moving from one platform to another.</p>
-            <div class="post-card-meta"><span>&#x1F552; 15 min read</span></div>
-            <a href="/guides/migrate-subdomain-between-hosting-providers/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+            <article
+              class="post-card"
+              data-reveal
+              data-category="troubleshooting"
+              data-difficulty="intermediate"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(234, 179, 8, 0.2),
+                    rgba(239, 68, 68, 0.1)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: #eab308;
+                "
+              >
+                &#x1F50D;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Troubleshooting</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(234, 179, 8, 0.1);
+                      border-color: rgba(234, 179, 8, 0.2);
+                      color: #eab308;
+                    "
+                    >Intermediate</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Diagnose SSL Pending on a New Subdomain
+                </h3>
+                <p class="post-card-excerpt">
+                  Common certificate issuance blockers and quick fixes.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 10 min read</span>
+                </div>
+                <a
+                  href="/guides/diagnose-ssl-pending-on-new-subdomain/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
 
-        <article class="post-card" data-reveal data-category="security" data-difficulty="advanced">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(139,92,246,0.15));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#ec4899;">&#x1F512;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">Security</span>
-              <span class="post-card-tag" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444;">Advanced</span>
-            </div>
-            <h3 class="post-card-title">Lock Down CAA for Better Certificate Control</h3>
-            <p class="post-card-excerpt">Restrict certificate authorities and reduce issuance risk.</p>
-            <div class="post-card-meta"><span>&#x1F552; 10 min read</span></div>
-            <a href="/guides/lock-down-caa-for-certificate-control/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
+            <article
+              class="post-card"
+              data-reveal
+              data-category="dns"
+              data-difficulty="advanced"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(239, 68, 68, 0.2),
+                    rgba(139, 92, 246, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: #ef4444;
+                "
+              >
+                &#x1F4E4;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">DNS</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(239, 68, 68, 0.1);
+                      border-color: rgba(239, 68, 68, 0.2);
+                      color: #ef4444;
+                    "
+                    >Advanced</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Migrate a Subdomain Between Hosting Providers
+                </h3>
+                <p class="post-card-excerpt">
+                  Preserve uptime while moving from one platform to another.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 15 min read</span>
+                </div>
+                <a
+                  href="/guides/migrate-subdomain-between-hosting-providers/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
 
-        <article class="post-card" data-reveal data-category="dns" data-difficulty="advanced">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#4ade80;">&#x1F4CB;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags">
-              <span class="post-card-tag">DNS</span>
-              <span class="post-card-tag" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444;">Advanced</span>
-            </div>
-            <h3 class="post-card-title">Build a DNS Change Checklist for Teams</h3>
-            <p class="post-card-excerpt">A practical runbook for safer DNS operations in shared projects.</p>
-            <div class="post-card-meta"><span>&#x1F552; 8 min read</span></div>
-            <a href="/guides/build-a-dns-change-checklist-for-teams/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
+            <article
+              class="post-card"
+              data-reveal
+              data-category="security"
+              data-difficulty="advanced"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(236, 72, 153, 0.2),
+                    rgba(139, 92, 246, 0.15)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: #ec4899;
+                "
+              >
+                &#x1F512;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Security</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(239, 68, 68, 0.1);
+                      border-color: rgba(239, 68, 68, 0.2);
+                      color: #ef4444;
+                    "
+                    >Advanced</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Lock Down CAA for Better Certificate Control
+                </h3>
+                <p class="post-card-excerpt">
+                  Restrict certificate authorities and reduce issuance risk.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 10 min read</span>
+                </div>
+                <a
+                  href="/guides/lock-down-caa-for-certificate-control/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
+
+            <article
+              class="post-card"
+              data-reveal
+              data-category="dns"
+              data-difficulty="advanced"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(34, 197, 94, 0.2),
+                    rgba(6, 182, 212, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: #4ade80;
+                "
+              >
+                &#x1F4CB;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">DNS</span>
+                  <span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(239, 68, 68, 0.1);
+                      border-color: rgba(239, 68, 68, 0.2);
+                      color: #ef4444;
+                    "
+                    >Advanced</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Build a DNS Change Checklist for Teams
+                </h3>
+                <p class="post-card-excerpt">
+                  A practical runbook for safer DNS operations in shared
+                  projects.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 8 min read</span>
+                </div>
+                <a
+                  href="/guides/build-a-dns-change-checklist-for-teams/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
           </div>
-        </article>
+
+          <div class="section-header" data-reveal>
+            <h2 id="ai-guides-heading">New Guides</h2>
+            <p>
+              AI-generated guides for modern deployment and hosting workflows.
+            </p>
+          </div>
+          <div class="posts-grid" style="margin-top: 1.5rem" data-reveal>
+            <article
+              class="post-card"
+              data-category="deployment"
+              data-difficulty="beginner"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.2),
+                    rgba(6, 182, 212, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: var(--color-accent-light);
+                "
+              >
+                &#x1F4E6;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Deployment</span
+                  ><span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(34, 197, 94, 0.1);
+                      border-color: rgba(34, 197, 94, 0.2);
+                      color: #4ade80;
+                    "
+                    >Beginner</span
+                  >
+                </div>
+                <h3 class="post-card-title">Free Hosting with GitHub Pages</h3>
+                <p class="post-card-excerpt">
+                  Complete guide to hosting static sites on GitHub Pages with
+                  custom subdomains.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 10 min read</span>
+                </div>
+                <a
+                  href="/guides/free-hosting-with-github-pages/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
+            <article
+              class="post-card"
+              data-category="deployment"
+              data-difficulty="beginner"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(6, 182, 212, 0.2),
+                    rgba(34, 197, 94, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: var(--color-cyan-light);
+                "
+              >
+                &#x25B6;&#xFE0F;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">React</span
+                  ><span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(34, 197, 94, 0.1);
+                      border-color: rgba(34, 197, 94, 0.2);
+                      color: #4ade80;
+                    "
+                    >Beginner</span
+                  >
+                </div>
+                <h3 class="post-card-title">Deploy React App to Vercel</h3>
+                <p class="post-card-excerpt">
+                  Step-by-step React deployment to Vercel with custom subdomain
+                  configuration.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 12 min read</span>
+                </div>
+                <a
+                  href="/guides/deploy-react-app-to-vercel/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
+            <article
+              class="post-card"
+              data-category="dns"
+              data-difficulty="beginner"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.2),
+                    rgba(236, 72, 153, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: var(--color-accent-light);
+                "
+              >
+                &#x1F310;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">DNS</span
+                  ><span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(34, 197, 94, 0.1);
+                      border-color: rgba(34, 197, 94, 0.2);
+                      color: #4ade80;
+                    "
+                    >Beginner</span
+                  >
+                </div>
+                <h3 class="post-card-title">DNS Records Explained A-Z</h3>
+                <p class="post-card-excerpt">
+                  Complete reference for A, CNAME, MX, TXT, SPF, DKIM, DMARC
+                  records.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 15 min read</span>
+                </div>
+                <a
+                  href="/guides/dns-records-explained/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
+            <article
+              class="post-card"
+              data-category="deployment"
+              data-difficulty="intermediate"
+            >
+              <div
+                class="post-card-thumb"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(6, 182, 212, 0.2),
+                    rgba(99, 102, 241, 0.12)
+                  );
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 2rem;
+                  color: var(--color-cyan-light);
+                "
+              >
+                &#x1F4F0;
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-tags">
+                  <span class="post-card-tag">Next.js</span
+                  ><span
+                    class="post-card-tag"
+                    style="
+                      background: rgba(234, 179, 8, 0.1);
+                      border-color: rgba(234, 179, 8, 0.2);
+                      color: #eab308;
+                    "
+                    >Intermediate</span
+                  >
+                </div>
+                <h3 class="post-card-title">
+                  Host Next.js on Cloudflare Pages
+                </h3>
+                <p class="post-card-excerpt">
+                  Deploy Next.js with edge caching and global performance
+                  optimization.
+                </p>
+                <div class="post-card-meta">
+                  <span>&#x1F552; 12 min read</span>
+                </div>
+                <a
+                  href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 0.75rem; align-self: flex-start"
+                  >Read Guide</a
+                >
+              </div>
+            </article>
+          </div>
+          <div style="text-align: center; margin-top: 1.5rem" data-reveal>
+            <a
+              href="/guides/free-hosting-with-github-pages/"
+              class="btn btn-outline"
+              style="display: inline-flex; align-items: center; gap: 0.5rem"
+              >View All 20 New Guides
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+
+          <div id="no-results" class="no-results" data-reveal>
+            <div class="no-results-icon">&#x1F50D;</div>
+            <p class="no-results-text">
+              No guides found matching your criteria.
+            </p>
+          </div>
+        </div>
+
+        <!-- Social Bar Ad -->
+        <div class="container" style="margin: 2rem auto">
+          <div class="ad-container ad-social-bar">
+            <script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
+          </div>
+        </div>
+
+        <!-- 300x250 Banner Ad -->
+        <div
+          class="container"
+          style="margin: 1.5rem auto; display: none"
+          id="ad-300x250-guides-index"
+        >
+          <div class="ad-container ad-banner-300x250">
+            <script>
+              atOptions = {
+                key: "b1b36a2819973d652de70000f36fd1f4",
+                format: "iframe",
+                height: 250,
+                width: 300,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
+          </div>
+        </div>
+        <script>
+          if (window.innerWidth > 640) {
+            document.getElementById("ad-300x250-guides-index").style.display =
+              "block";
+          }
+        </script>
+
+        <!-- 728x90 Desktop Banner Ad -->
+        <div
+          class="container"
+          style="margin: 1.5rem auto; display: none"
+          id="ad-728x90-guides-index"
+        >
+          <div class="ad-container ad-banner-728x90">
+            <script>
+              atOptions = {
+                key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                format: "iframe",
+                height: 90,
+                width: 728,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+          </div>
+        </div>
+        <script>
+          if (window.innerWidth > 640) {
+            document.getElementById("ad-728x90-guides-index").style.display =
+              "block";
+          }
+        </script>
+
+        <!-- Native Banner Ad - Guides index -->
+        <div class="ad-container ad-native-banner">
+          <script
+            async="async"
+            data-cfasync="false"
+            src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"
+          ></script>
+          <div id="container-4ca1e991eb7b08bcad5807536453d0cd-guides"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in and DNS
+              management.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <nav class="footer-links" aria-label="Community links">
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
+            </nav>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div style="display: flex; gap: 1.5rem">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
       </div>
-
-      <div class="section-header" data-reveal>
-        <h2 id="ai-guides-heading">New Guides</h2>
-        <p>AI-generated guides for modern deployment and hosting workflows.</p>
+      <!-- Mobile Banner Ad 320x50 -->
+      <div
+        class="container"
+        style="padding-top: 1rem; display: none"
+        id="ad-320x50-guides-index"
+      >
+        <div class="ad-container ad-banner-320x50">
+          <script>
+            atOptions = {
+              key: "d22ebf285f47755fabff0102c2736692",
+              format: "iframe",
+              height: 50,
+              width: 320,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
+        </div>
       </div>
-      <div class="posts-grid" style="margin-top:1.5rem;" data-reveal>
-        <article class="post-card" data-category="deployment" data-difficulty="beginner">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">&#x1F4E6;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags"><span class="post-card-tag">Deployment</span><span class="post-card-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;">Beginner</span></div>
-            <h3 class="post-card-title">Free Hosting with GitHub Pages</h3>
-            <p class="post-card-excerpt">Complete guide to hosting static sites on GitHub Pages with custom subdomains.</p>
-            <div class="post-card-meta"><span>&#x1F552; 10 min read</span></div>
-            <a href="/guides/free-hosting-with-github-pages/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
-        <article class="post-card" data-category="deployment" data-difficulty="beginner">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(34,197,94,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-cyan-light);">&#x25B6;&#xFE0F;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags"><span class="post-card-tag">React</span><span class="post-card-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;">Beginner</span></div>
-            <h3 class="post-card-title">Deploy React App to Vercel</h3>
-            <p class="post-card-excerpt">Step-by-step React deployment to Vercel with custom subdomain configuration.</p>
-            <div class="post-card-meta"><span>&#x1F552; 12 min read</span></div>
-            <a href="/guides/deploy-react-app-to-vercel/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
-        <article class="post-card" data-category="dns" data-difficulty="beginner">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(236,72,153,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);">&#x1F310;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags"><span class="post-card-tag">DNS</span><span class="post-card-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;">Beginner</span></div>
-            <h3 class="post-card-title">DNS Records Explained A-Z</h3>
-            <p class="post-card-excerpt">Complete reference for A, CNAME, MX, TXT, SPF, DKIM, DMARC records.</p>
-            <div class="post-card-meta"><span>&#x1F552; 15 min read</span></div>
-            <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
-        <article class="post-card" data-category="deployment" data-difficulty="intermediate">
-          <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(99,102,241,0.12));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-cyan-light);">&#x1F4F0;</div>
-          <div class="post-card-body">
-            <div class="post-card-tags"><span class="post-card-tag">Next.js</span><span class="post-card-tag" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;">Intermediate</span></div>
-            <h3 class="post-card-title">Host Next.js on Cloudflare Pages</h3>
-            <p class="post-card-excerpt">Deploy Next.js with edge caching and global performance optimization.</p>
-            <div class="post-card-meta"><span>&#x1F552; 12 min read</span></div>
-            <a href="/guides/nextjs-hosting-on-cloudflare-pages/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read Guide</a>
-          </div>
-        </article>
-      </div>
-      <div style="text-align:center;margin-top:1.5rem;" data-reveal>
-        <a href="/guides/free-hosting-with-github-pages/" class="btn btn-outline" style="display:inline-flex;align-items:center;gap:.5rem;">View All 20 New Guides <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-
-      <div id="no-results" class="no-results" data-reveal>
-        <div class="no-results-icon">&#x1F50D;</div>
-        <p class="no-results-text">No guides found matching your criteria.</p>
-      </div>
-    </div>
-
-  <!-- Social Bar Ad -->
-  <div class="container" style="margin:2rem auto;">
-    <div class="ad-container ad-social-bar">
-<script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
-    </div>
-  </div>
-
-  <!-- 300x250 Banner Ad -->
-  <div class="container" style="margin:1.5rem auto;display:none;" id="ad-300x250-guides-index">
-    <div class="ad-container ad-banner-300x250">
-<script>
-  atOptions = {
-    'key' : 'b1b36a2819973d652de70000f36fd1f4',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
-    </div>
-  </div>
-  <script>
-    if (window.innerWidth > 640) {
-      document.getElementById('ad-300x250-guides-index').style.display = 'block';
-    }
-  </script>
-
-  <!-- 728x90 Desktop Banner Ad -->
-  <div class="container" style="margin:1.5rem auto;display:none;" id="ad-728x90-guides-index">
-    <div class="ad-container ad-banner-728x90">
-<script>
-  atOptions = {
-    'key' : '4d2a4eb320f23a0188fc0bafbe9dfe46',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
-    </div>
-  </div>
-  <script>
-    if (window.innerWidth > 640) {
-      document.getElementById('ad-728x90-guides-index').style.display = 'block';
-    }
-  </script>
-
-    <!-- Native Banner Ad - Guides index -->
-    <div class="ad-container ad-native-banner">
-<script async="async" data-cfasync="false" src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"></script>
-<div id="container-4ca1e991eb7b08bcad5807536453d0cd-guides"></div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo-link">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span style="font-family:var(--font-mono)">is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers with GitHub sign-in and DNS management.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Service</h4>
-        <nav class="footer-links" aria-label="Service links">
-          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
-          <a href="/domains/" class="footer-link">Domains</a>
-          <a href="/blog/" class="footer-link">Blog</a>
-          <a href="/guides/" class="footer-link">Guides</a>
-          <a href="/about/" class="footer-link">About</a>
-          <a href="/contact/" class="footer-link">Contact</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <nav class="footer-links" aria-label="Legal links">
-          <a href="/terms/" class="footer-link">Terms of Service</a>
-          <a href="/privacy/" class="footer-link">Privacy Policy</a>
-          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
-          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Community</h4>
-        <nav class="footer-links" aria-label="Community links">
-          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </nav>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 is-cool-me. All rights reserved.</span>
-      <div style="display:flex;gap:1.5rem;">
-        <a href="/about/">About</a>
-        <a href="/terms/">Terms</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/editorial-standards/">Editorial Standards</a>
-        <a href="/abuse-report/">Abuse Report</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a>
-        <a href="/contact/">Contact</a>
-      </div>
-    </div>
-  </div>
-  <!-- Mobile Banner Ad 320x50 -->
-  <div class="container" style="padding-top:1rem;display:none;" id="ad-320x50-guides-index">
-    <div class="ad-container ad-banner-320x50">
-<script>
-  atOptions = {
-    'key' : 'd22ebf285f47755fabff0102c2736692',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
-    </div>
-  </div>
-  <script>
-    if (window.innerWidth <= 640) {
-      document.getElementById('ad-320x50-guides-index').style.display = 'block';
-    }
-  </script>
-</footer>
-
-<script>
-(function() {
-  var searchInput = document.getElementById('post-search');
-  var filterBtns = document.querySelectorAll('.filter-btn');
-  var guideCards = document.querySelectorAll('#posts-grid .post-card');
-  var noResults = document.getElementById('no-results');
-
-  function filterGuides() {
-    var query = searchInput ? searchInput.value.toLowerCase() : '';
-    var activeCat = 'all';
-    for (var i = 0; i < filterBtns.length; i++) {
-      if (filterBtns[i].classList.contains('active')) {
-        activeCat = filterBtns[i].getAttribute('data-filter');
-        break;
-      }
-    }
-    var visibleCount = 0;
-    for (var j = 0; j < guideCards.length; j++) {
-      var card = guideCards[j];
-      var cat = card.getAttribute('data-category');
-      var matchesCat = activeCat === 'all' || cat === activeCat;
-      var matchesSearch = true;
-      if (query) {
-        var text = card.textContent.toLowerCase();
-        matchesSearch = text.indexOf(query) !== -1;
-      }
-      card.style.display = matchesCat && matchesSearch ? '' : 'none';
-      if (matchesCat && matchesSearch) visibleCount++;
-    }
-    if (noResults) noResults.style.display = visibleCount === 0 ? '' : 'none';
-  }
-
-  if (searchInput) searchInput.addEventListener('input', filterGuides);
-
-  for (var k = 0; k < filterBtns.length; k++) {
-    (function(btn) {
-      btn.addEventListener('click', function() {
-        for (var l = 0; l < filterBtns.length; l++) {
-          filterBtns[l].classList.remove('active');
+      <script>
+        if (window.innerWidth <= 640) {
+          document.getElementById("ad-320x50-guides-index").style.display =
+            "block";
         }
-        btn.classList.add('active');
-        filterGuides();
-      });
-    })(filterBtns[k]);
-  }
-})();
-</script>
-<script src="/js/app.js" defer></script>
-<!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
-</body>
+      </script>
+    </footer>
+
+    <script>
+      (function () {
+        var searchInput = document.getElementById("post-search");
+        var filterBtns = document.querySelectorAll(".filter-btn");
+        var guideCards = document.querySelectorAll("#posts-grid .post-card");
+        var noResults = document.getElementById("no-results");
+
+        function filterGuides() {
+          var query = searchInput ? searchInput.value.toLowerCase() : "";
+          var activeCat = "all";
+          for (var i = 0; i < filterBtns.length; i++) {
+            if (filterBtns[i].classList.contains("active")) {
+              activeCat = filterBtns[i].getAttribute("data-filter");
+              break;
+            }
+          }
+          var visibleCount = 0;
+          for (var j = 0; j < guideCards.length; j++) {
+            var card = guideCards[j];
+            var cat = card.getAttribute("data-category");
+            var matchesCat = activeCat === "all" || cat === activeCat;
+            var matchesSearch = true;
+            if (query) {
+              var text = card.textContent.toLowerCase();
+              matchesSearch = text.indexOf(query) !== -1;
+            }
+            card.style.display = matchesCat && matchesSearch ? "" : "none";
+            if (matchesCat && matchesSearch) visibleCount++;
+          }
+          if (noResults)
+            noResults.style.display = visibleCount === 0 ? "" : "none";
+        }
+
+        if (searchInput) searchInput.addEventListener("input", filterGuides);
+
+        for (var k = 0; k < filterBtns.length; k++) {
+          (function (btn) {
+            btn.addEventListener("click", function () {
+              for (var l = 0; l < filterBtns.length; l++) {
+                filterBtns[l].classList.remove("active");
+              }
+              btn.classList.add("active");
+              filterGuides();
+            });
+          })(filterBtns[k]);
+        }
+      })();
+    </script>
+    <script src="/js/app.js" defer></script>
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script
+      async
+      src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"
+    ></script>
+    <script>
+      ((window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {};
+          }));
+      plausible.init();
+    </script>
+  </body>
 </html>

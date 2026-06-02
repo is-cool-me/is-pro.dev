@@ -1,585 +1,1220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Guide: Build a DNS Change Checklist for Teams — is-cool-me Guides</title>
-  <meta name="description" content="A practical runbook for safer DNS operations in shared projects." />
-  <link rel="canonical" href="https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/" />
-  <meta property="og:title" content="Guide: Build a DNS Change Checklist for Teams — is-cool-me Guides" />
-  <meta property="og:description" content="A practical runbook for safer DNS operations in shared projects." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Guide: Build a DNS Change Checklist for Teams — is-cool-me Guides" />
-  <meta name="twitter:description" content="A practical runbook for safer DNS operations in shared projects." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "TechArticle",
-      "headline": "Guide: Build a DNS Change Checklist for Teams",
-      "description": "A practical runbook for safer DNS operations in shared projects.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "reviewedBy": {
-        "@type": "Person",
-        "name": "is-cool-me Technical Review"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-05-01",
-      "dateModified": "2026-05-11",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
-      },
-      "url": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Guides",
-          "item": "https://is-pro.dev/guides/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Guide: Build a DNS Change Checklist for Teams",
-          "item": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
-        }
-      ]
-    }
-  ]
-}
-</script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
-    crossorigin="anonymous"></script>
-</head>
-<body>
-
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
-
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a><a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
-          Discord
-        </a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
-          Open Dashboard
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<main id="main-content">
-  <div class="progress-bar" id="reading-progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-
-  <div class="article-hero">
-    <div class="article-hero-content" data-reveal>
-      <div class="section-tag page-tag">Guide</div>
-      <h1>Build a DNS Change Checklist for Teams</h1>
-      <p class="hero-summary">A practical runbook for safer DNS operations in shared projects.</p>
-      <div class="article-meta">
-        <span class="article-meta-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>8 min read</span>
-        </span>
-        <span class="article-meta-dot"></span>
-        <span class="meta-category">DNS</span>
-        <span class="meta-difficulty advanced">Advanced</span>
-      </div>
-    </div>
-  </div>
-
-  <section class="author-section" aria-label="Article authorship">
-      <div class="container">
-        <div class="author-card" data-reveal>
-          <div class="author-card-main">
-            <h2 class="author-card-title">Written by Mayank Baswal</h2>
-            <p class="author-card-role">Founder of is-cool-me · DNS &amp; Platform Infrastructure</p>
-            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-            <div class="author-card-links">
-              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-              <a href="/contact/">Contact</a>
-            </div>
-          </div>
-          <div class="author-card-review">
-            <span class="author-card-review-label">Reviewed by</span>
-            <span class="author-card-reviewer">is-cool-me Technical Review</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  <div class="doc-layout">
-    <div class="doc-content">
-      <div class="prose" data-reveal>
-        <h2>What You Will Learn</h2>
-        <p>By the end of this guide you will have a structured, repeatable DNS change process you can enforce across your team. You will learn how to reduce human error during record modifications, how to build pre-change and post-change checklists, how to implement peer review workflows, and how to handle rollbacks when things go wrong. This guide covers the full lifecycle of a DNS change from planning through monitoring and cleanup.</p>
-
-        <h2>Requirements</h2>
-        <ul>
-          <li>DNS administrative access to the zone you intend to modify, whether through the is-cool-me dashboard or your own DNS provider.</li>
-          <li>A change management process or ticketing system (even a shared document works).</li>
-          <li>At least two team members if you plan to implement peer review.</li>
-          <li>Basic familiarity with DNS record types (A, CNAME, TXT, MX, NS).</li>
-          <li>Access to terminal tools: dig, nslookup, and curl.</li>
-        </ul>
-
-        <h2>Background</h2>
-        <p>DNS is one of the most fragile components of internet infrastructure, yet it is also one of the most commonly modified. Industry postmortems show that the majority of DNS-related outages are caused by human error during changes, not by infrastructure failures. A mistyped IP address, a forgotten trailing dot, or an accidentally deleted record can take hours to recover because of DNS propagation delays. Teams that implement formal change checklists reduce their incident rate by over 50% according to multiple SRE retrospectives published by large-scale operators. The key insight is that DNS changes are uniquely dangerous because there is no instantaneous rollback. Once a recursive resolver caches a record, it will continue serving that value until the TTL expires. A structured checklist forces you to think through each step before you act, document your expected outcomes, and verify results while you still have time to react.</p>
-
-        <h2>Step-by-Step Guide</h2>
-
-        <h3>Step 1: Pre-Change Planning</h3>
-        <p>Before touching any DNS records, document the current state of the records you plan to change. Run <code>dig yourname.is-pro.dev A +short</code> and save the output. Identify all stakeholders who need to be notified: your team, your monitoring system, and any downstream consumers. Define the scope of the change. Are you changing a single A record or the entire zone? Establish a clear rollback plan: what exact values do you need to restore if the change fails? Write down the exact old record values so you can revert quickly without having to rediscover them during an incident. Assign an owner and a peer reviewer. Finally, determine the risk level. A low-risk change modifies a non-critical record during business hours. A high-risk change touches your MX records, NS records, or the root A record, and should be scheduled during a formal change window.</p>
-
-        <h3>Step 2: Lower TTL in Advance</h3>
-        <p>TTL (Time To Live) controls how long recursive resolvers cache your DNS records. Standard TTL values range from 3600 seconds (1 hour) to 86400 seconds (24 hours). If your current TTL is set to 86400 and a change goes wrong, every resolver that cached the old value will continue serving it for up to 24 hours. At least 24 hours before your planned change, reduce the TTL on the records you are modifying to 300 seconds (5 minutes). This gives you a much shorter recovery window if something breaks. To change TTL using the is-cool-me dashboard, navigate to your domain's DNS settings, locate the record, and update the TTL field. After saving, verify the change propagated with <code>dig yourname.is-pro.dev A +short</code> and confirm the TTL value shows 300.</p>
-
-        <h3>Step 3: Make the Change</h3>
-        <p>Execute the DNS modification according to your plan. If you have a peer reviewer, have them verify your exact changes before you hit save. A second set of eyes catches the majority of typos and misconfigurations. When entering the record, pay careful attention to trailing dots on fully qualified domain names. An A record value of <code>192.0.2.1</code> is correct, but a CNAME value of <code>target.example.com</code> without a trailing dot may be interpreted as relative to the zone. Use the exact target as specified in your plan. After saving, immediately verify the record with <code>dig yourname.is-pro.dev A +short</code> against one of the zone's authoritative nameservers (discoverable with <code>dig NS is-pro.dev +short</code>) to confirm the value is what you expected.</p>
-
-        <h3>Step 4: Verify</h3>
-        <p>Post-change verification is the most critical and most commonly skipped step. Run a multi-layered verification suite. First, query an authoritative nameserver directly (find one with <code>dig NS is-pro.dev +short</code>) using <code>dig @&lt;authoritative-ns&gt; yourname.is-pro.dev A +short</code>. Second, query a public resolver like Google DNS (<code>8.8.8.8</code>) to confirm the record is visible externally. Third, use <code>curl -I https://yourname.is-pro.dev</code> to verify that HTTPS is working and the certificate matches your domain. Fourth, run an SSL Labs test or use <code>openssl s_client -connect yourname.is-pro.dev:443</code> to confirm the certificate chain is valid. If the change involves a subdomain used by an API or web service, run a functional test that exercises the actual service. Take screenshots or save the command output as evidence to attach to your change ticket.</p>
-
-        <h3>Step 5: Monitor</h3>
-        <p>After verification, enter a monitoring period. Watch your error rates, traffic patterns, and application logs for at least 30 minutes after the change. If you use a monitoring tool like Prometheus, Datadog, or Grafana, check the relevant dashboards for anomalies. Pay particular attention to 4xx and 5xx HTTP status codes, DNS resolution failure rates, and latency changes. If you monitor uptime with an external service, confirm that the check passes from multiple geographic locations. During this period, keep your rollback plan ready. If you see elevated error rates or traffic not arriving as expected, proceed to the rollback procedure immediately. Do not wait for the issue to resolve itself.</p>
-
-        <h3>Step 6: Increase TTL After Stabilization</h3>
-        <p>Once the change has been stable for at least 24 hours, increase the TTL back to a standard value such as 3600 or 86400 seconds. A low TTL permanently increases the load on your DNS provider's authoritative infrastructure and slows down resolution for your users. Restore the TTL to its original value or to whatever standard your team uses. After changing the TTL, verify again with dig to confirm the new TTL is being served. Update your change ticket with the final state and close out the task.</p>
-
-        <h2>Change Checklist Template</h2>
-        <div class="card" style="padding:1.25rem;overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-size:.9rem;">
-            <thead>
-              <tr style="border-bottom:2px solid var(--color-border);">
-                <th style="padding:.5rem .75rem;text-align:left;white-space:nowrap;">Phase</th>
-                <th style="padding:.5rem .75rem;text-align:left;">Checklist Item</th>
-                <th style="padding:.5rem .75rem;text-align:center;white-space:nowrap;">Done</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Planning</td>
-                <td style="padding:.5rem .75rem;">Document current record values (dig output saved)</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Planning</td>
-                <td style="padding:.5rem .75rem;">Identify stakeholders and notify of upcoming change</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Planning</td>
-                <td style="padding:.5rem .75rem;">Define rollback plan with exact old values</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Planning</td>
-                <td style="padding:.5rem .75rem;">Assign owner and peer reviewer</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">TTL</td>
-                <td style="padding:.5rem .75rem;">Reduce TTL to 300s at least 24h before change</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">TTL</td>
-                <td style="padding:.5rem .75rem;">Verify new TTL is propagated via dig</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Execution</td>
-                <td style="padding:.5rem .75rem;">Peer review of planned record values</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Execution</td>
-                <td style="padding:.5rem .75rem;">Apply DNS change in dashboard</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
-                <td style="padding:.5rem .75rem;">Query authoritative NS: dig @ns1 ...</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
-                <td style="padding:.5rem .75rem;">Query public resolver (8.8.8.8)</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
-                <td style="padding:.5rem .75rem;">HTTPS check: curl -I https://...</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
-                <td style="padding:.5rem .75rem;">SSL certificate check</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
-                <td style="padding:.5rem .75rem;">Functional test of affected service</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Verification</td>
-                <td style="padding:.5rem .75rem;">Save evidence (screenshots/dig output) to ticket</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Monitoring</td>
-                <td style="padding:.5rem .75rem;">Monitor error rates for 30+ minutes</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Monitoring</td>
-                <td style="padding:.5rem .75rem;">Check monitoring dashboards for anomalies</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Monitoring</td>
-                <td style="padding:.5rem .75rem;">External uptime check passes from multiple regions</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Cleanup</td>
-                <td style="padding:.5rem .75rem;">Increase TTL after 24h stable</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--color-border);">
-                <td style="padding:.5rem .75rem;font-weight:600;">Cleanup</td>
-                <td style="padding:.5rem .75rem;">Remove temporary records or old values</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-              <tr>
-                <td style="padding:.5rem .75rem;font-weight:600;">Cleanup</td>
-                <td style="padding:.5rem .75rem;">Close change ticket with final state</td>
-                <td style="padding:.5rem .75rem;text-align:center;">&#9744;</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Verification</h2>
-        <p>Before declaring the change complete, confirm every item on the checklist above is ticked off. Run a final end-to-end test from an external network. Use a tool like whatsmydns.net to check global propagation status. Verify that the old record values no longer appear in any resolver responses. If you changed an A record, confirm that the previous IP address no longer accepts your traffic. If you changed a CNAME, verify that the alias chain resolves to the correct final target. Document the verification results in your change log so there is a clear audit trail.</p>
-
-        <h2>Troubleshooting</h2>
-        <h3>Rollback Procedure</h3>
-        <p>If your monitoring detects elevated errors or a service degradation after the change, initiate the rollback immediately. Restore the DNS record to the exact value documented in your pre-change planning step. Reduce TTL further if needed to accelerate propagation. After restoring, verify with dig and curl that traffic is flowing to the original target again. Notify all stakeholders that the change has been rolled back. Schedule a post-mortem to understand what went wrong before attempting the change again.</p>
-        <h3>Partial Propagation</h3>
-        <p>It is normal for some resolvers to serve the old value while others serve the new one during the TTL window. If you have monitoring alerts from a specific geographic region, check whether that region's resolver has a longer-than-expected TTL cache. You can force-propagate by reducing TTL further, but in most cases you simply need to wait. Use dig from multiple resolver IPs to map out which regions have updated.</p>
-        <h3>Communication During Incident</h3>
-        <p>If a DNS change causes an outage, communicate proactively. Post a status message in your team chat channel. If you have a status page, update it. Do not make additional DNS changes while investigating the root cause. Focus on rolling back the last change first, then diagnose the issue in a low-pressure environment.</p>
-        <h3>Change Reversal</h3>
-        <p>Some DNS changes cannot be cleanly reversed. For example, if you delete a record and recreate it, the new record gets a new serial number and may interact differently with DNSSEC validation. If your zone uses DNSSEC, wait for the new RRSIG records to propagate before making additional changes. Test the reversal in a staging environment if possible.</p>
-
-        <h2>Best Practices</h2>
-        <ul>
-          <li><strong>Peer review every change.</strong> No DNS record modification should be applied without a second person verifying the values. Even a single mistyped octet in an IP address can redirect traffic to the wrong destination.</li>
-          <li><strong>Use staged rollouts for high-risk changes.</strong> If you have multiple servers behind a load balancer, consider changing the DNS for a small subset of users first by using a weighted record set if your DNS provider supports it.</li>
-          <li><strong>Establish change windows.</strong> Schedule DNS changes during low-traffic periods. Avoid making changes on Friday afternoons or immediately before holidays when team members may not be available to respond to incidents.</li>
-          <li><strong>Maintain a change log.</strong> Every DNS modification should be recorded with a timestamp, the operator name, the old and new values, and a link to the verification evidence. This creates an audit trail that helps with post-mortems and compliance.</li>
-          <li><strong>Automate where possible.</strong> Use infrastructure-as-code tools like Terraform or DNSControl to manage DNS records through version-controlled configuration files. Automation eliminates the risk of manual entry errors.</li>
-          <li><strong>Test in a subdomain first.</strong> Before modifying production records, test the change on a subdomain or in a separate test zone to validate the behavior.</li>
-        </ul>
-
-        <h2>Frequently Asked Questions</h2>
-        <h3>What is the most common mistake in DNS changes?</h3>
-        <p>The most common mistake is forgetting to lower the TTL before making the change. A high TTL locks the old value into resolvers for hours or days, making rollback slow and painful.</p>
-        <h3>How long should I wait between lowering TTL and making the change?</h3>
-        <p>At least one full TTL cycle of the original value. If your original TTL was 86400 seconds (24 hours), wait 24 hours after lowering it. This ensures all resolvers have picked up the new low TTL.</p>
-        <h3>Do I need peer review for every DNS change?</h3>
-        <p>Yes, especially in production environments. Even simple changes benefit from a second set of eyes. For emergency changes you can do a post-hoc review, but the review should still happen.</p>
-        <h3>Can I use the is-cool-me dashboard for rollback?</h3>
-        <p>Yes. The dashboard allows you to edit or delete any DNS record in your zone. For fastest rollback, keep the old record values ready in your change plan so you can re-enter them immediately.</p>
-        <h3>What tools should I use for verification?</h3>
-        <p>Use dig for DNS queries, curl for HTTP checks, openssl for certificate inspection, and whatsmydns.net for global propagation status. For API endpoints, use a scripted test that validates the response body.</p>
-        <h3>Should I keep the checklist in a physical notebook or a digital tool?</h3>
-        <p>Digital is better for team collaboration. Use a shared document, a ticketing system like Jira, or a checklist template in your incident management tool. The important thing is that every team member uses the same checklist every time.</p>
-        <h3>How do I handle emergency changes that bypass the checklist?</h3>
-        <p>Emergency changes happen. After the incident, document what was changed and run through the verification checklist as soon as possible. Then schedule a post-mortem to determine if the emergency could have been avoided with better planning.</p>
-
-        <h2>Related Guides</h2>
-        <ul>
-          <li><a href="/guides/migrate-subdomain-between-hosting-providers/" class="inline-link">Migrate a Subdomain Between Hosting Providers</a> &mdash; Apply your checklist skills to a real migration scenario.</li>
-          <li><a href="/guides/configure-api-subdomain-with-zero-downtime/" class="inline-link">Configure an API Subdomain</a> &mdash; Learn how to set up a subdomain for API traffic with proper DNS configuration.</li>
-        </ul>
-
-        <p style="margin-top:2rem;">Need broader context? Read related <a href="/blog/" class="inline-link">blog posts</a> on real operational issues and incident patterns.</p>
-      </div>
-
-      <div class="container" style="margin:2rem auto;">
-        <div class="ad-container ad-native-banner">
-<script async="async" data-cfasync="false" src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"></script>
-<div id="container-4ca1e991eb7b08bcad5807536453d0cd-checklist"></div>
-        </div>
-      </div>
-
-      <!-- Social Bar Ad -->
-      <div class="container" style="margin:2rem auto;">
-        <div class="ad-container ad-social-bar">
-<script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
-        </div>
-      </div>
-
-      <!-- 300x250 Banner Ad -->
-      <div class="container" style="margin:1.5rem auto;display:none;" id="ad-300x250-guide-checklist">
-        <div class="ad-container ad-banner-300x250">
-<script>
-  atOptions = {
-    'key' : 'b1b36a2819973d652de70000f36fd1f4',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
-        </div>
-      </div>
-      <script>
-        if (window.innerWidth > 640) {
-          document.getElementById('ad-300x250-guide-checklist').style.display = 'block';
-        }
-      </script>
-
-      <!-- 728x90 Desktop Banner Ad -->
-      <div class="container" style="margin:1.5rem auto;display:none;" id="ad-728x90-guide-checklist">
-        <div class="ad-container ad-banner-728x90">
-<script>
-  atOptions = {
-    'key' : '4d2a4eb320f23a0188fc0bafbe9dfe46',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
-        </div>
-      </div>
-      <script>
-        if (window.innerWidth > 640) {
-          document.getElementById('ad-728x90-guide-checklist').style.display = 'block';
-        }
-      </script>
-
-      <div class="share-section">
-        <span class="share-label">Share this guide</span>
-        <div class="share-buttons">
-          <a href="https://twitter.com/intent/tweet?text=Build%20a%20DNS%20Change%20Checklist%20for%20Teams&url=https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/" target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on X/Twitter">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            X/Twitter
-          </a>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/" target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            LinkedIn
-          </a>
-        </div>
-      </div>
-
-    <div class="doc-nav-section">
-      <div class="container">
-        <nav class="doc-nav" aria-label="Article navigation">
-          <a href="/guides/" class="doc-nav-link prev">
-            <span class="doc-nav-label">&#x2190; Back to Guides</span>
-            <span class="doc-nav-title">All Guides</span>
-          </a>
-          <a href="/guides/" class="doc-nav-link next">
-            <span class="doc-nav-label">Back to Guides &#x2192;</span>
-            <span class="doc-nav-title">All Guides</span>
-          </a>
-        </nav>
-      </div>
-    </div>
-
-      <div class="related-section">
-        <h3 class="related-header">Related Guides</h3>
-        <div class="related-grid">
-          <a href="/guides/migrate-subdomain-between-hosting-providers/" class="related-card">
-            <span class="related-card-tag">Advanced</span>
-            <span class="related-card-title">Migrate a Subdomain Between Hosting Providers</span>
-            <span class="related-card-desc">Preserve uptime while moving from one platform to another.</span>
-          </a>
-          <a href="/guides/create-safe-wildcard-records/" class="related-card">
-            <span class="related-card-tag">Intermediate</span>
-            <span class="related-card-title">Create Wildcard Records Safely</span>
-            <span class="related-card-desc">Use wildcard DNS without breaking explicit service records.</span>
-          </a>
-          <a href="/guides/lock-down-caa-for-certificate-control/" class="related-card">
-            <span class="related-card-tag">Advanced</span>
-            <span class="related-card-title">Lock Down CAA for Better Certificate Control</span>
-            <span class="related-card-desc">Restrict certificate authorities and reduce issuance risk.</span>
-          </a>
-        </div>
-      </div>
-    
-
-        <h2>Deployment scenario from operations</h2>
-        <p>A team used a DNS change checklist to avoid silent misconfigurations during handoffs between engineers.</p>
-        <div class="utility-block utility-warning"><strong>Platform nuance:</strong> Operational checklists improve reliability when they are actually enforced during fast-moving incidents.</div>
-
-        <h2>Common mistakes</h2>
-        <ul>
-          <li>Running DNS changes without explicit pre-change ownership and rollback assignment.</li>
-          <li>Skipping post-change verification ownership.</li>
-          <li>Not recording final state after emergency fixes.</li>
-        </ul>
-
-        <h2>How to verify it works</h2>
-        <ol>
-          <li>Confirm checklist completion with recorded pre/post resolver outputs.</li>
-          <li>Validate service and certificate status after each DNS step.</li>
-          <li>Store incident notes and final records for future maintenance.</li>
-        </ol>
-        <div class="utility-block utility-verification">Use these checks before announcing a DNS change as complete to your team.</div>
-</div>
-
-    <div class="container" style="margin-bottom:1.5rem;display:none;" id="guide-mobile-ad">
-      <div class="ad-container ad-banner-320x50">
-<script>
-  atOptions = {
-    'key' : 'd22ebf285f47755fabff0102c2736692',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
-      </div>
-    </div>
-    <script>
-      if (window.innerWidth <= 640) {
-        document.getElementById('guide-mobile-ad').style.display = 'block';
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      Guide: Build a DNS Change Checklist for Teams — is-cool-me Guides
+    </title>
+    <meta
+      name="description"
+      content="A practical runbook for safer DNS operations in shared projects."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+    />
+    <meta
+      property="og:title"
+      content="Guide: Build a DNS Change Checklist for Teams — is-cool-me Guides"
+    />
+    <meta
+      property="og:description"
+      content="A practical runbook for safer DNS operations in shared projects."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Guide: Build a DNS Change Checklist for Teams — is-cool-me Guides"
+    />
+    <meta
+      name="twitter:description"
+      content="A practical runbook for safer DNS operations in shared projects."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "TechArticle",
+            "headline": "Guide: Build a DNS Change Checklist for Teams",
+            "description": "A practical runbook for safer DNS operations in shared projects.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "reviewedBy": {
+              "@type": "Person",
+              "name": "is-cool-me Technical Review"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-05-01",
+            "dateModified": "2026-05-11",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+            },
+            "url": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://is-pro.dev/guides/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Guide: Build a DNS Change Checklist for Teams",
+                "item": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+              }
+            ]
+          }
+        ]
       }
     </script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only skip-link">Skip to main content</a>
 
-    <aside class="toc-sidebar" id="toc-sidebar" aria-label="Table of contents">
-      <div class="toc-header">On this page</div>
-      <ul id="toc-list"></ul>
-    </aside>
-  </div>
-</main>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a
+            ><a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+                />
+              </svg>
+              Discord
+            </a>
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
 
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo-link">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span style="font-family:var(--font-mono)">is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers with GitHub sign-in and DNS management.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Service</h4>
-        <nav class="footer-links" aria-label="Service links">
-          <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
-          <a href="/domains/" class="footer-link">Domains</a>
-          <a href="/blog/" class="footer-link">Blog</a>
-          <a href="/guides/" class="footer-link">Guides</a>
-          <a href="/about/" class="footer-link">About</a>
-          <a href="/contact/" class="footer-link">Contact</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <nav class="footer-links" aria-label="Legal links">
-          <a href="/terms/" class="footer-link">Terms of Service</a>
-          <a href="/privacy/" class="footer-link">Privacy Policy</a>
-          <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
-          <a href="/abuse-report/" class="footer-link">Abuse Report</a>
-        </nav>
-      </div>
-      <div class="footer-col">
-        <h4>Community</h4>
-        <nav class="footer-links" aria-label="Community links">
-          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </nav>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 is-cool-me. All rights reserved.</span>
-      <div style="display:flex;gap:1.5rem;">
-        <a href="/about/">About</a>
-        <a href="/terms/">Terms</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/editorial-standards/">Editorial Standards</a>
-        <a href="/abuse-report/">Abuse Report</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a>
-        <a href="/contact/">Contact</a>
-      </div>
-    </div>
-  </div>
-</footer>
+    <main id="main-content">
+      <div
+        class="progress-bar"
+        id="reading-progress"
+        role="progressbar"
+        aria-valuenow="0"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
 
-<script src="/js/app.js" defer></script>
-<!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
-</body>
+      <div class="article-hero">
+        <div class="article-hero-content" data-reveal>
+          <div class="section-tag page-tag">Guide</div>
+          <h1>Build a DNS Change Checklist for Teams</h1>
+          <p class="hero-summary">
+            A practical runbook for safer DNS operations in shared projects.
+          </p>
+          <div class="article-meta">
+            <span class="article-meta-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <span>8 min read</span>
+            </span>
+            <span class="article-meta-dot"></span>
+            <span class="meta-category">DNS</span>
+            <span class="meta-difficulty advanced">Advanced</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="author-section" aria-label="Article authorship">
+        <div class="container">
+          <div class="author-card" data-reveal>
+            <div class="author-card-main">
+              <h2 class="author-card-title">Written by Mayank Baswal</h2>
+              <p class="author-card-role">
+                Founder of is-cool-me · DNS &amp; Platform Infrastructure
+              </p>
+              <p class="author-card-bio">
+                Mayank Baswal maintains the is-cool-me platform and writes
+                technical guides focused on DNS configuration, subdomain
+                infrastructure, SSL troubleshooting, deployment workflows, and
+                platform reliability.
+              </p>
+              <div class="author-card-links">
+                <a
+                  href="https://github.com/LightHostingFree"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >GitHub Profile</a
+                >
+                <a href="/contact/">Contact</a>
+              </div>
+            </div>
+            <div class="author-card-review">
+              <span class="author-card-review-label">Reviewed by</span>
+              <span class="author-card-reviewer"
+                >is-cool-me Technical Review</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="doc-layout">
+        <div class="doc-content">
+          <div class="prose" data-reveal>
+            <h2>What You Will Learn</h2>
+            <p>
+              By the end of this guide you will have a structured, repeatable
+              DNS change process you can enforce across your team. You will
+              learn how to reduce human error during record modifications, how
+              to build pre-change and post-change checklists, how to implement
+              peer review workflows, and how to handle rollbacks when things go
+              wrong. This guide covers the full lifecycle of a DNS change from
+              planning through monitoring and cleanup.
+            </p>
+
+            <h2>Requirements</h2>
+            <ul>
+              <li>
+                DNS administrative access to the zone you intend to modify,
+                whether through the is-cool-me dashboard or your own DNS
+                provider.
+              </li>
+              <li>
+                A change management process or ticketing system (even a shared
+                document works).
+              </li>
+              <li>
+                At least two team members if you plan to implement peer review.
+              </li>
+              <li>
+                Basic familiarity with DNS record types (A, CNAME, TXT, MX, NS).
+              </li>
+              <li>Access to terminal tools: dig, nslookup, and curl.</li>
+            </ul>
+
+            <h2>Background</h2>
+            <p>
+              DNS is one of the most fragile components of internet
+              infrastructure, yet it is also one of the most commonly modified.
+              Industry postmortems show that the majority of DNS-related outages
+              are caused by human error during changes, not by infrastructure
+              failures. A mistyped IP address, a forgotten trailing dot, or an
+              accidentally deleted record can take hours to recover because of
+              DNS propagation delays. Teams that implement formal change
+              checklists reduce their incident rate by over 50% according to
+              multiple SRE retrospectives published by large-scale operators.
+              The key insight is that DNS changes are uniquely dangerous because
+              there is no instantaneous rollback. Once a recursive resolver
+              caches a record, it will continue serving that value until the TTL
+              expires. A structured checklist forces you to think through each
+              step before you act, document your expected outcomes, and verify
+              results while you still have time to react.
+            </p>
+
+            <h2>Step-by-Step Guide</h2>
+
+            <h3>Step 1: Pre-Change Planning</h3>
+            <p>
+              Before touching any DNS records, document the current state of the
+              records you plan to change. Run
+              <code>dig yourname.is-pro.dev A +short</code> and save the output.
+              Identify all stakeholders who need to be notified: your team, your
+              monitoring system, and any downstream consumers. Define the scope
+              of the change. Are you changing a single A record or the entire
+              zone? Establish a clear rollback plan: what exact values do you
+              need to restore if the change fails? Write down the exact old
+              record values so you can revert quickly without having to
+              rediscover them during an incident. Assign an owner and a peer
+              reviewer. Finally, determine the risk level. A low-risk change
+              modifies a non-critical record during business hours. A high-risk
+              change touches your MX records, NS records, or the root A record,
+              and should be scheduled during a formal change window.
+            </p>
+
+            <h3>Step 2: Lower TTL in Advance</h3>
+            <p>
+              TTL (Time To Live) controls how long recursive resolvers cache
+              your DNS records. Standard TTL values range from 3600 seconds (1
+              hour) to 86400 seconds (24 hours). If your current TTL is set to
+              86400 and a change goes wrong, every resolver that cached the old
+              value will continue serving it for up to 24 hours. At least 24
+              hours before your planned change, reduce the TTL on the records
+              you are modifying to 300 seconds (5 minutes). This gives you a
+              much shorter recovery window if something breaks. To change TTL
+              using the is-cool-me dashboard, navigate to your domain's DNS
+              settings, locate the record, and update the TTL field. After
+              saving, verify the change propagated with
+              <code>dig yourname.is-pro.dev A +short</code> and confirm the TTL
+              value shows 300.
+            </p>
+
+            <h3>Step 3: Make the Change</h3>
+            <p>
+              Execute the DNS modification according to your plan. If you have a
+              peer reviewer, have them verify your exact changes before you hit
+              save. A second set of eyes catches the majority of typos and
+              misconfigurations. When entering the record, pay careful attention
+              to trailing dots on fully qualified domain names. An A record
+              value of <code>192.0.2.1</code> is correct, but a CNAME value of
+              <code>target.example.com</code> without a trailing dot may be
+              interpreted as relative to the zone. Use the exact target as
+              specified in your plan. After saving, immediately verify the
+              record with <code>dig yourname.is-pro.dev A +short</code> against
+              one of the zone's authoritative nameservers (discoverable with
+              <code>dig NS is-pro.dev +short</code>) to confirm the value is
+              what you expected.
+            </p>
+
+            <h3>Step 4: Verify</h3>
+            <p>
+              Post-change verification is the most critical and most commonly
+              skipped step. Run a multi-layered verification suite. First, query
+              an authoritative nameserver directly (find one with
+              <code>dig NS is-pro.dev +short</code>) using
+              <code
+                >dig @&lt;authoritative-ns&gt; yourname.is-pro.dev A
+                +short</code
+              >. Second, query a public resolver like Google DNS
+              (<code>8.8.8.8</code>) to confirm the record is visible
+              externally. Third, use
+              <code>curl -I https://yourname.is-pro.dev</code> to verify that
+              HTTPS is working and the certificate matches your domain. Fourth,
+              run an SSL Labs test or use
+              <code>openssl s_client -connect yourname.is-pro.dev:443</code> to
+              confirm the certificate chain is valid. If the change involves a
+              subdomain used by an API or web service, run a functional test
+              that exercises the actual service. Take screenshots or save the
+              command output as evidence to attach to your change ticket.
+            </p>
+
+            <h3>Step 5: Monitor</h3>
+            <p>
+              After verification, enter a monitoring period. Watch your error
+              rates, traffic patterns, and application logs for at least 30
+              minutes after the change. If you use a monitoring tool like
+              Prometheus, Datadog, or Grafana, check the relevant dashboards for
+              anomalies. Pay particular attention to 4xx and 5xx HTTP status
+              codes, DNS resolution failure rates, and latency changes. If you
+              monitor uptime with an external service, confirm that the check
+              passes from multiple geographic locations. During this period,
+              keep your rollback plan ready. If you see elevated error rates or
+              traffic not arriving as expected, proceed to the rollback
+              procedure immediately. Do not wait for the issue to resolve
+              itself.
+            </p>
+
+            <h3>Step 6: Increase TTL After Stabilization</h3>
+            <p>
+              Once the change has been stable for at least 24 hours, increase
+              the TTL back to a standard value such as 3600 or 86400 seconds. A
+              low TTL permanently increases the load on your DNS provider's
+              authoritative infrastructure and slows down resolution for your
+              users. Restore the TTL to its original value or to whatever
+              standard your team uses. After changing the TTL, verify again with
+              dig to confirm the new TTL is being served. Update your change
+              ticket with the final state and close out the task.
+            </p>
+
+            <h2>Change Checklist Template</h2>
+            <div class="card" style="padding: 1.25rem; overflow-x: auto">
+              <table
+                style="
+                  width: 100%;
+                  border-collapse: collapse;
+                  font-size: 0.9rem;
+                "
+              >
+                <thead>
+                  <tr style="border-bottom: 2px solid var(--color-border)">
+                    <th
+                      style="
+                        padding: 0.5rem 0.75rem;
+                        text-align: left;
+                        white-space: nowrap;
+                      "
+                    >
+                      Phase
+                    </th>
+                    <th style="padding: 0.5rem 0.75rem; text-align: left">
+                      Checklist Item
+                    </th>
+                    <th
+                      style="
+                        padding: 0.5rem 0.75rem;
+                        text-align: center;
+                        white-space: nowrap;
+                      "
+                    >
+                      Done
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Planning
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Document current record values (dig output saved)
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Planning
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Identify stakeholders and notify of upcoming change
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Planning
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Define rollback plan with exact old values
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Planning
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Assign owner and peer reviewer
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      TTL
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Reduce TTL to 300s at least 24h before change
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      TTL
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Verify new TTL is propagated via dig
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Execution
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Peer review of planned record values
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Execution
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Apply DNS change in dashboard
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Verification
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Query authoritative NS: dig @ns1 ...
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Verification
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Query public resolver (8.8.8.8)
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Verification
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      HTTPS check: curl -I https://...
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Verification
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      SSL certificate check
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Verification
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Functional test of affected service
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Verification
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Save evidence (screenshots/dig output) to ticket
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Monitoring
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Monitor error rates for 30+ minutes
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Monitoring
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Check monitoring dashboards for anomalies
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Monitoring
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      External uptime check passes from multiple regions
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Cleanup
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Increase TTL after 24h stable
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--color-border)">
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Cleanup
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Remove temporary records or old values
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 0.5rem 0.75rem; font-weight: 600">
+                      Cleanup
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem">
+                      Close change ticket with final state
+                    </td>
+                    <td style="padding: 0.5rem 0.75rem; text-align: center">
+                      &#9744;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2>Verification</h2>
+            <p>
+              Before declaring the change complete, confirm every item on the
+              checklist above is ticked off. Run a final end-to-end test from an
+              external network. Use a tool like whatsmydns.net to check global
+              propagation status. Verify that the old record values no longer
+              appear in any resolver responses. If you changed an A record,
+              confirm that the previous IP address no longer accepts your
+              traffic. If you changed a CNAME, verify that the alias chain
+              resolves to the correct final target. Document the verification
+              results in your change log so there is a clear audit trail.
+            </p>
+
+            <h2>Troubleshooting</h2>
+            <h3>Rollback Procedure</h3>
+            <p>
+              If your monitoring detects elevated errors or a service
+              degradation after the change, initiate the rollback immediately.
+              Restore the DNS record to the exact value documented in your
+              pre-change planning step. Reduce TTL further if needed to
+              accelerate propagation. After restoring, verify with dig and curl
+              that traffic is flowing to the original target again. Notify all
+              stakeholders that the change has been rolled back. Schedule a
+              post-mortem to understand what went wrong before attempting the
+              change again.
+            </p>
+            <h3>Partial Propagation</h3>
+            <p>
+              It is normal for some resolvers to serve the old value while
+              others serve the new one during the TTL window. If you have
+              monitoring alerts from a specific geographic region, check whether
+              that region's resolver has a longer-than-expected TTL cache. You
+              can force-propagate by reducing TTL further, but in most cases you
+              simply need to wait. Use dig from multiple resolver IPs to map out
+              which regions have updated.
+            </p>
+            <h3>Communication During Incident</h3>
+            <p>
+              If a DNS change causes an outage, communicate proactively. Post a
+              status message in your team chat channel. If you have a status
+              page, update it. Do not make additional DNS changes while
+              investigating the root cause. Focus on rolling back the last
+              change first, then diagnose the issue in a low-pressure
+              environment.
+            </p>
+            <h3>Change Reversal</h3>
+            <p>
+              Some DNS changes cannot be cleanly reversed. For example, if you
+              delete a record and recreate it, the new record gets a new serial
+              number and may interact differently with DNSSEC validation. If
+              your zone uses DNSSEC, wait for the new RRSIG records to propagate
+              before making additional changes. Test the reversal in a staging
+              environment if possible.
+            </p>
+
+            <h2>Best Practices</h2>
+            <ul>
+              <li>
+                <strong>Peer review every change.</strong> No DNS record
+                modification should be applied without a second person verifying
+                the values. Even a single mistyped octet in an IP address can
+                redirect traffic to the wrong destination.
+              </li>
+              <li>
+                <strong>Use staged rollouts for high-risk changes.</strong> If
+                you have multiple servers behind a load balancer, consider
+                changing the DNS for a small subset of users first by using a
+                weighted record set if your DNS provider supports it.
+              </li>
+              <li>
+                <strong>Establish change windows.</strong> Schedule DNS changes
+                during low-traffic periods. Avoid making changes on Friday
+                afternoons or immediately before holidays when team members may
+                not be available to respond to incidents.
+              </li>
+              <li>
+                <strong>Maintain a change log.</strong> Every DNS modification
+                should be recorded with a timestamp, the operator name, the old
+                and new values, and a link to the verification evidence. This
+                creates an audit trail that helps with post-mortems and
+                compliance.
+              </li>
+              <li>
+                <strong>Automate where possible.</strong> Use
+                infrastructure-as-code tools like Terraform or DNSControl to
+                manage DNS records through version-controlled configuration
+                files. Automation eliminates the risk of manual entry errors.
+              </li>
+              <li>
+                <strong>Test in a subdomain first.</strong> Before modifying
+                production records, test the change on a subdomain or in a
+                separate test zone to validate the behavior.
+              </li>
+            </ul>
+
+            <h2>Frequently Asked Questions</h2>
+            <h3>What is the most common mistake in DNS changes?</h3>
+            <p>
+              The most common mistake is forgetting to lower the TTL before
+              making the change. A high TTL locks the old value into resolvers
+              for hours or days, making rollback slow and painful.
+            </p>
+            <h3>
+              How long should I wait between lowering TTL and making the change?
+            </h3>
+            <p>
+              At least one full TTL cycle of the original value. If your
+              original TTL was 86400 seconds (24 hours), wait 24 hours after
+              lowering it. This ensures all resolvers have picked up the new low
+              TTL.
+            </p>
+            <h3>Do I need peer review for every DNS change?</h3>
+            <p>
+              Yes, especially in production environments. Even simple changes
+              benefit from a second set of eyes. For emergency changes you can
+              do a post-hoc review, but the review should still happen.
+            </p>
+            <h3>Can I use the is-cool-me dashboard for rollback?</h3>
+            <p>
+              Yes. The dashboard allows you to edit or delete any DNS record in
+              your zone. For fastest rollback, keep the old record values ready
+              in your change plan so you can re-enter them immediately.
+            </p>
+            <h3>What tools should I use for verification?</h3>
+            <p>
+              Use dig for DNS queries, curl for HTTP checks, openssl for
+              certificate inspection, and whatsmydns.net for global propagation
+              status. For API endpoints, use a scripted test that validates the
+              response body.
+            </p>
+            <h3>
+              Should I keep the checklist in a physical notebook or a digital
+              tool?
+            </h3>
+            <p>
+              Digital is better for team collaboration. Use a shared document, a
+              ticketing system like Jira, or a checklist template in your
+              incident management tool. The important thing is that every team
+              member uses the same checklist every time.
+            </p>
+            <h3>
+              How do I handle emergency changes that bypass the checklist?
+            </h3>
+            <p>
+              Emergency changes happen. After the incident, document what was
+              changed and run through the verification checklist as soon as
+              possible. Then schedule a post-mortem to determine if the
+              emergency could have been avoided with better planning.
+            </p>
+
+            <h2>Related Guides</h2>
+            <ul>
+              <li>
+                <a
+                  href="/guides/migrate-subdomain-between-hosting-providers/"
+                  class="inline-link"
+                  >Migrate a Subdomain Between Hosting Providers</a
+                >
+                &mdash; Apply your checklist skills to a real migration
+                scenario.
+              </li>
+              <li>
+                <a
+                  href="/guides/configure-api-subdomain-with-zero-downtime/"
+                  class="inline-link"
+                  >Configure an API Subdomain</a
+                >
+                &mdash; Learn how to set up a subdomain for API traffic with
+                proper DNS configuration.
+              </li>
+            </ul>
+
+            <p style="margin-top: 2rem">
+              Need broader context? Read related
+              <a href="/blog/" class="inline-link">blog posts</a> on real
+              operational issues and incident patterns.
+            </p>
+          </div>
+
+          <div class="container" style="margin: 2rem auto">
+            <div class="ad-container ad-native-banner">
+              <script
+                async="async"
+                data-cfasync="false"
+                src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"
+              ></script>
+              <div
+                id="container-4ca1e991eb7b08bcad5807536453d0cd-checklist"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Social Bar Ad -->
+          <div class="container" style="margin: 2rem auto">
+            <div class="ad-container ad-social-bar">
+              <script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
+            </div>
+          </div>
+
+          <!-- 300x250 Banner Ad -->
+          <div
+            class="container"
+            style="margin: 1.5rem auto; display: none"
+            id="ad-300x250-guide-checklist"
+          >
+            <div class="ad-container ad-banner-300x250">
+              <script>
+                atOptions = {
+                  key: "b1b36a2819973d652de70000f36fd1f4",
+                  format: "iframe",
+                  height: 250,
+                  width: 300,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
+            </div>
+          </div>
+          <script>
+            if (window.innerWidth > 640) {
+              document.getElementById(
+                "ad-300x250-guide-checklist",
+              ).style.display = "block";
+            }
+          </script>
+
+          <!-- 728x90 Desktop Banner Ad -->
+          <div
+            class="container"
+            style="margin: 1.5rem auto; display: none"
+            id="ad-728x90-guide-checklist"
+          >
+            <div class="ad-container ad-banner-728x90">
+              <script>
+                atOptions = {
+                  key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                  format: "iframe",
+                  height: 90,
+                  width: 728,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+            </div>
+          </div>
+          <script>
+            if (window.innerWidth > 640) {
+              document.getElementById(
+                "ad-728x90-guide-checklist",
+              ).style.display = "block";
+            }
+          </script>
+
+          <div class="share-section">
+            <span class="share-label">Share this guide</span>
+            <div class="share-buttons">
+              <a
+                href="https://twitter.com/intent/tweet?text=Build%20a%20DNS%20Change%20Checklist%20for%20Teams&url=https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="share-btn"
+                aria-label="Share on X/Twitter"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                  />
+                </svg>
+                X/Twitter
+              </a>
+              <a
+                href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="share-btn"
+                aria-label="Share on LinkedIn"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  />
+                </svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+
+          <div class="doc-nav-section">
+            <div class="container">
+              <nav class="doc-nav" aria-label="Article navigation">
+                <a href="/guides/" class="doc-nav-link prev">
+                  <span class="doc-nav-label">&#x2190; Back to Guides</span>
+                  <span class="doc-nav-title">All Guides</span>
+                </a>
+                <a href="/guides/" class="doc-nav-link next">
+                  <span class="doc-nav-label">Back to Guides &#x2192;</span>
+                  <span class="doc-nav-title">All Guides</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+
+          <div class="related-section">
+            <h3 class="related-header">Related Guides</h3>
+            <div class="related-grid">
+              <a
+                href="/guides/migrate-subdomain-between-hosting-providers/"
+                class="related-card"
+              >
+                <span class="related-card-tag">Advanced</span>
+                <span class="related-card-title"
+                  >Migrate a Subdomain Between Hosting Providers</span
+                >
+                <span class="related-card-desc"
+                  >Preserve uptime while moving from one platform to
+                  another.</span
+                >
+              </a>
+              <a
+                href="/guides/create-safe-wildcard-records/"
+                class="related-card"
+              >
+                <span class="related-card-tag">Intermediate</span>
+                <span class="related-card-title"
+                  >Create Wildcard Records Safely</span
+                >
+                <span class="related-card-desc"
+                  >Use wildcard DNS without breaking explicit service
+                  records.</span
+                >
+              </a>
+              <a
+                href="/guides/lock-down-caa-for-certificate-control/"
+                class="related-card"
+              >
+                <span class="related-card-tag">Advanced</span>
+                <span class="related-card-title"
+                  >Lock Down CAA for Better Certificate Control</span
+                >
+                <span class="related-card-desc"
+                  >Restrict certificate authorities and reduce issuance
+                  risk.</span
+                >
+              </a>
+            </div>
+          </div>
+
+          <h2>Deployment scenario from operations</h2>
+          <p>
+            A team used a DNS change checklist to avoid silent misconfigurations
+            during handoffs between engineers.
+          </p>
+          <div class="utility-block utility-warning">
+            <strong>Platform nuance:</strong> Operational checklists improve
+            reliability when they are actually enforced during fast-moving
+            incidents.
+          </div>
+
+          <h2>Common mistakes</h2>
+          <ul>
+            <li>
+              Running DNS changes without explicit pre-change ownership and
+              rollback assignment.
+            </li>
+            <li>Skipping post-change verification ownership.</li>
+            <li>Not recording final state after emergency fixes.</li>
+          </ul>
+
+          <h2>How to verify it works</h2>
+          <ol>
+            <li>
+              Confirm checklist completion with recorded pre/post resolver
+              outputs.
+            </li>
+            <li>
+              Validate service and certificate status after each DNS step.
+            </li>
+            <li>
+              Store incident notes and final records for future maintenance.
+            </li>
+          </ol>
+          <div class="utility-block utility-verification">
+            Use these checks before announcing a DNS change as complete to your
+            team.
+          </div>
+        </div>
+
+        <div
+          class="container"
+          style="margin-bottom: 1.5rem; display: none"
+          id="guide-mobile-ad"
+        >
+          <div class="ad-container ad-banner-320x50">
+            <script>
+              atOptions = {
+                key: "d22ebf285f47755fabff0102c2736692",
+                format: "iframe",
+                height: 50,
+                width: 320,
+                params: {},
+              };
+            </script>
+            <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
+          </div>
+        </div>
+        <script>
+          if (window.innerWidth <= 640) {
+            document.getElementById("guide-mobile-ad").style.display = "block";
+          }
+        </script>
+
+        <aside
+          class="toc-sidebar"
+          id="toc-sidebar"
+          aria-label="Table of contents"
+        >
+          <div class="toc-header">On this page</div>
+          <ul id="toc-list"></ul>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in and DNS
+              management.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <nav class="footer-links" aria-label="Community links">
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
+            </nav>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div style="display: flex; gap: 1.5rem">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/app.js" defer></script>
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script
+      async
+      src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"
+    ></script>
+    <script>
+      ((window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {};
+          }));
+      plausible.init();
+    </script>
+  </body>
 </html>

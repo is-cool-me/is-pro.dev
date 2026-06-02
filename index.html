@@ -52,7 +52,7 @@
 </head>
 <body>
 
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+<a href="#main-content" class="sr-only skip-link">Skip to main content</a>
 
 <header class="site-header" role="banner">
   <div class="container">
@@ -144,11 +144,11 @@
               </select>
             </div>
             <div class="domain-preview-display" aria-live="polite">
-              <span id="preview-default" class="preview-label">e.g. <span style="color:var(--color-accent-light)">yourname.is-pro.dev</span></span>
-              <span id="preview-full" style="display:none" class="preview-value"><span id="preview-name" class="preview-name"></span><span id="preview-zone" class="preview-zone"></span></span>
+              <span id="preview-default" class="preview-label">e.g. <span class="text-highlight">yourname.is-pro.dev</span></span>
+              <span id="preview-full" class="preview-value is-hidden"><span id="preview-name" class="preview-name"></span><span id="preview-zone" class="preview-zone"></span></span>
             </div>
             <p id="domain-hint" class="domain-disclaimer">Preview only — availability checked on the dashboard.</p>
-            <a id="domain-cta" href="https://dash.is-pro.dev" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.75rem;" target="_blank" rel="noopener noreferrer">
+            <a id="domain-cta" href="https://dash.is-pro.dev" class="btn btn-primary domain-cta" target="_blank" rel="noopener noreferrer">
               Register on Dashboard
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
@@ -173,7 +173,7 @@
       <div class="section-header text-center" data-reveal>
         <div class="section-tag">Process</div>
         <h2 id="how-heading">From GitHub sign-in to live DNS in five steps</h2>
-        <p style="max-width:540px;margin:0.75rem auto 0;">This mirrors the real dashboard flow for claiming a subdomain and managing it afterward.</p>
+        <p class="max-w-540 mx-auto mt-xs">This mirrors the real dashboard flow for claiming a subdomain and managing it afterward.</p>
       </div>
       <div class="steps-grid" data-reveal>
         <div class="step">
@@ -202,7 +202,7 @@
           <p>Register the subdomain, then return anytime to edit DNS records or delete it from the dashboard.</p>
         </div>
       </div>
-      <div style="text-align:center;margin-top:3rem;" data-reveal>
+      <div class="text-center mt-lg" data-reveal>
         <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
           Start with GitHub
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -212,9 +212,9 @@
   </section>
 
   <!-- Social Bar Ad - Homepage -->
-  <div class="container" style="margin:2rem auto;">
+  <div class="container ad-container-tight">
     <div class="ad-container ad-social-bar">
-<script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
+      <script src="https://behavecurlescalator.com/7d/83/1a/7d831a8901fa6c0dc2d71a6af34f607a.js"></script>
     </div>
   </div>
 
@@ -225,9 +225,9 @@
       <div class="section-header text-center" data-reveal>
         <div class="section-tag">Learn</div>
         <h2 id="learn-heading">DNS &amp; subdomains explained</h2>
-        <p style="max-width:520px;margin:0.75rem auto 0;">New to subdomains or DNS? Here are the essentials to get you oriented.</p>
+        <p class="max-w-520 mx-auto mt-xs">New to subdomains or DNS? Here are the essentials to get you oriented.</p>
       </div>
-      <div style="max-width:760px;margin:0 auto;">
+      <div class="max-w-760 mx-auto">
         <div class="accordion">
           <div class="accordion-item">
             <button class="accordion-trigger" aria-expanded="false" aria-controls="learn-1-body" id="learn-1-btn">
@@ -291,7 +291,7 @@
         <div class="section-tag">FAQ</div>
         <h2 id="faq-heading">Frequently asked questions</h2>
       </div>
-      <div class="faq-grid" style="max-width:900px;margin:0 auto;">
+      <div class="faq-grid max-w-900 mx-auto">
         <div class="accordion">
           <div class="accordion-item">
             <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-1-body" id="faq-1-btn">Is this service really free?<span class="accordion-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
@@ -329,20 +329,20 @@
           </div>
         </div>
       </div>
-      <div style="text-align:center;margin-top:3rem;" data-reveal>
-        <p style="margin-bottom:1.25rem;">Still have questions?</p>
+      <div class="text-center mt-lg" data-reveal>
+        <p class="mb-sm">Still have questions?</p>
         <a href="/contact/" class="btn btn-outline">Get in Touch</a>
       </div>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0;" aria-labelledby="cta-heading">
+  <section class="section section-tight" aria-labelledby="cta-heading">
     <div class="container" data-reveal>
-      <div style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(6,182,212,.08));border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:clamp(2rem,5vw,4rem);text-align:center;">
-        <div class="section-tag" style="display:inline-flex;margin-bottom:1.25rem;">Ready to claim your subdomain?</div>
-        <h2 id="cta-heading" style="margin-bottom:1rem;">Get started in minutes</h2>
-        <p style="max-width:560px;margin:0 auto 2rem;">Sign in with GitHub, accept the terms, pick your zone, set your DNS record, and manage everything from the dashboard. No subscriptions, no extra password, no hidden fees.</p>
-        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <div class="cta-panel">
+        <div class="section-tag inline-flex mb-sm">Ready to claim your subdomain?</div>
+        <h2 id="cta-heading" class="mb-xs">Get started in minutes</h2>
+        <p class="max-w-560 mx-auto mb-md">Sign in with GitHub, accept the terms, pick your zone, set your DNS record, and manage everything from the dashboard. No subscriptions, no extra password, no hidden fees.</p>
+        <div class="display-flex gap-md justify-center flex-wrap">
           <a href="https://dash.is-pro.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
             Open Dashboard
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -360,17 +360,17 @@
       <div class="section-header text-center" data-reveal>
         <div class="section-tag">Learn</div>
         <h2 id="learning-heading">Blog + Guides for real DNS issues</h2>
-        <p style="max-width:640px;margin:0.75rem auto 0;">Explore practical content inspired by recurring support and moderation problems: propagation delays, takeover risks, abuse handling, and provider-specific DNS setup mistakes.</p>
+        <p class="max-w-640 mx-auto mt-xs">Explore practical content inspired by recurring support and moderation problems: propagation delays, takeover risks, abuse handling, and provider-specific DNS setup mistakes.</p>
       </div>
       <div class="grid-2" data-reveal>
         <article class="card">
-          <h3 style="margin-bottom:.75rem;">Blog</h3>
-          <p style="margin-bottom:1.25rem;">10 focused posts on operational incidents, policy edge-cases, and real troubleshooting patterns.</p>
+          <h3 class="mb-xs">Blog</h3>
+          <p class="mb-sm">10 focused posts on operational incidents, policy edge-cases, and real troubleshooting patterns.</p>
           <a href="/blog/" class="btn btn-outline">Visit Blog</a>
         </article>
         <article class="card">
-          <h3 style="margin-bottom:.75rem;">Guides</h3>
-          <p style="margin-bottom:1.25rem;">10 step-by-step guides for DNS setup, migrations, SSL validation, and safer team change workflows.</p>
+          <h3 class="mb-xs">Guides</h3>
+          <p class="mb-sm">10 step-by-step guides for DNS setup, migrations, SSL validation, and safer team change workflows.</p>
           <a href="/guides/" class="btn btn-outline">Open Guides</a>
         </article>
       </div>
@@ -378,7 +378,7 @@
   </section>
 
   <!-- 300x250 Banner Ad - Homepage bottom -->
-  <div class="container" style="margin-bottom:1.5rem;display:none;" id="home-bottom-sidebar">
+  <div class="container ad-shell ad-shell-flex" id="home-bottom-sidebar" data-ad="desktop-flex" aria-hidden="true">
     <div class="ad-container ad-banner-300x250">
 <script>
   atOptions = {
@@ -392,14 +392,10 @@
 <script src="https://behavecurlescalator.com/b1b36a2819973d652de70000f36fd1f4/invoke.js"></script>
     </div>
   </div>
-  <script>
-    if (window.innerWidth > 640) {
-      document.getElementById('home-bottom-sidebar').style.display = 'flex';
-    }
-  </script>
+  <script></script>
 
   <!-- 728x90 Desktop Banner Ad - Homepage -->
-  <div class="container" style="margin:1.5rem auto;display:none;" id="home-desktop-banner">
+  <div class="container ad-shell" id="home-desktop-banner" data-ad="desktop" aria-hidden="true">
     <div class="ad-container ad-banner-728x90">
 <script>
   atOptions = {
@@ -413,11 +409,7 @@
 <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
     </div>
   </div>
-  <script>
-    if (window.innerWidth > 640) {
-      document.getElementById('home-desktop-banner').style.display = 'block';
-    }
-  </script>
+  <script></script>
 
 </main>
 
@@ -431,10 +423,10 @@
       <div class="footer-brand">
         <a href="/" class="footer-logo-link">
           <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span style="font-family:var(--font-mono)">is-cool-me</span>
+          <span class="mono">is-cool-me</span>
         </a>
         <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer" style="width:fit-content;">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">
           Join Discord
         </a>
       </div>
@@ -468,7 +460,7 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 is-cool-me. All rights reserved.</span>
-      <div style="display:flex;gap:1.5rem;">
+      <div class="footer-inline-links">
         <a href="/about/">About</a>
         <a href="/terms/">Terms</a>
         <a href="/privacy/">Privacy</a>
@@ -483,7 +475,7 @@
   </div>
 
   <!-- Mobile Banner Ad 320x50 - Mobile footer -->
-  <div class="container" style="padding-top:1rem;display:none;" id="mobile-banner-ad">
+  <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
     <div class="ad-container ad-banner-320x50">
 <script>
   atOptions = {
@@ -497,11 +489,7 @@
 <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
     </div>
   </div>
-  <script>
-    if (window.innerWidth <= 640) {
-      document.getElementById('mobile-banner-ad').style.display = 'block';
-    }
-  </script>
+  <script></script>
 </footer>
 
 <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie consent" aria-live="polite">

@@ -110,12 +110,14 @@
       if (name) {
         previewName.textContent = name;
         previewZone.textContent = zone;
-        if (previewDefault) previewDefault.style.display = 'none';
-        if (previewFull) previewFull.style.display = 'flex';
-      } else {
-        if (previewDefault) previewDefault.style.display = 'flex';
-        if (previewFull) previewFull.style.display = 'none';
-      }
+      if (previewDefault) previewDefault.classList.add('is-hidden');
+      if (previewFull) previewFull.classList.remove('is-hidden');
+      if (previewFull) previewFull.classList.add('is-flex');
+    } else {
+      if (previewDefault) previewDefault.classList.remove('is-hidden');
+      if (previewFull) previewFull.classList.add('is-hidden');
+      if (previewFull) previewFull.classList.remove('is-flex');
+    }
     };
 
     nameInput.addEventListener('input', updatePreview);
@@ -124,6 +126,30 @@
       domainCta.href = 'https://dash.is-pro.dev';
     }
   }
+
+  /* ── Ad display toggles ── */
+  const adVisibility = () => {
+    const isDesktop = window.innerWidth > 640;
+    const desktopAds = document.querySelectorAll('[data-ad="desktop"], [data-ad="desktop-flex"]');
+    const mobileAds = document.querySelectorAll('[data-ad="mobile"]');
+
+    desktopAds.forEach((el) => {
+      const isFlex = el.getAttribute('data-ad') === 'desktop-flex';
+      el.classList.toggle('visible', isDesktop);
+      if (isFlex) {
+        el.classList.toggle('ad-shell-flex', true);
+      }
+      el.setAttribute('aria-hidden', isDesktop ? 'false' : 'true');
+    });
+
+    mobileAds.forEach((el) => {
+      el.classList.toggle('visible', !isDesktop);
+      el.setAttribute('aria-hidden', isDesktop ? 'true' : 'false');
+    });
+  };
+
+  adVisibility();
+  window.addEventListener('resize', adVisibility, { passive: true });
 
   /* ── Cookie consent ── */
   const COOKIE_KEY = 'ispro_cookie_consent';

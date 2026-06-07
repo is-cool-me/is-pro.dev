@@ -360,10 +360,10 @@ Generate ONLY the article body content, no metadata.`;
 function buildToolWidget(tool) {
   const slug = tool.slug;
   const i = (ph) => `style="flex:1;min-width:200px;padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.9rem;" placeholder="${ph}"`;
-  const btn = (fn, label) => `style="padding:.75rem 1.5rem;background:var(--color-accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer;font-weight:600;" onclick="${fn}"`;
+  const btn = (fn, label) => `<button style="padding:.75rem 1.5rem;background:var(--color-accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer;font-weight:600;" onclick="${fn}">${label}</button>`;
   const ta = (id, ph, rows, val) => `<textarea id="${id}" placeholder="${ph}" style="width:100%;min-height:${rows}px;padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-family:var(--font-mono);font-size:.85rem;resize:vertical;">${val || ''}</textarea>`;
   const r = (msg) => `<div id="tool-result" style="margin-top:1rem;font-family:var(--font-mono);font-size:.85rem;color:var(--color-text-muted);min-height:60px;">${msg}</div>`;
-  const copyBtn = '<button onclick="copyTextarea(this)" style="padding:.5rem 1rem;background:var(--color-accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer;font-size:.8rem;">Copy to Clipboard</button>';
+  const copyBtn = () => `<button onclick="copyTextarea(this)" style="padding:.5rem 1rem;background:var(--color-accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer;font-size:.8rem;">Copy to Clipboard</button>`;
 
   const s = (o, v) => `<option value="${o}">${v || o}</option>`;
   const sel = (id, opts) => `<select id="${id}" style="padding:.75rem 1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text);font-size:.9rem;">${opts}</select>`;
@@ -376,37 +376,37 @@ function buildToolWidget(tool) {
   switch (slug) {
     case 'dns-checker':
       return base(
-        row(`${i('example.com')}${sel('dns-record-type', "A AAAA CNAME MX TXT NS ALL".split(' ').map(t => s(t)).join(''))}<button ${btn('runCheck()', 'Lookup')}</button>`),
+        row(`<input ${i('example.com')} />${sel('dns-record-type', "A AAAA CNAME MX TXT NS ALL".split(' ').map(t => s(t)).join(''))}${btn('runCheck()', 'Lookup')}`),
         'Enter a domain above and select record type, then click Lookup'
       );
     case 'ssl-checker':
       return base(
-        row(`${i('https://example.com')}<button ${btn('runCheck()', 'Check SSL')}</button>`),
+        row(`<input ${i('https://example.com')} />${btn('runCheck()', 'Check SSL')}`),
         'Enter an HTTPS URL above and click Check SSL'
       );
     case 'cname-validator':
       return base(
-        row(`${i('subdomain.example.com')}<button ${btn('runCheck()', 'Check CNAME')}</button>`),
+        row(`<input ${i('subdomain.example.com')} />${btn('runCheck()', 'Check CNAME')}`),
         'Enter a domain above and click Check CNAME'
       );
     case 'http-headers-checker':
       return base(
-        row(`${i('https://example.com')}<button ${btn('runCheck()', 'Check Headers')}</button>`),
+        row(`<input ${i('https://example.com')} />${btn('runCheck()', 'Check Headers')}`),
         'Enter a URL above and click Check Headers'
       );
     case 'ip-lookup':
       return base(
-        row(`${i('8.8.8.8 or domain.com')}<button ${btn('runCheck()', 'Lookup IP')}</button>`),
+        row(`<input ${i('8.8.8.8 or domain.com')} />${btn('runCheck()', 'Lookup IP')}`),
         'Enter an IP address or domain above and click Lookup IP'
       );
     case 'subdomain-finder':
       return base(
-        row(`${i('example.com')}<button ${btn('runCheck()', 'Find Subdomains')}</button>`),
+        row(`<input ${i('example.com')} />${btn('runCheck()', 'Find Subdomains')}`),
         'Enter a domain above and click Find Subdomains'
       );
     case 'opengraph-preview':
       return base(
-        row(`${i('https://example.com/page')}<button ${btn('runCheck()', 'Preview OG')}</button>`),
+        row(`<input ${i('https://example.com/page')} />${btn('runCheck()', 'Preview OG')}`),
         'Enter a URL above and click Preview OG'
       );
     case 'robots-txt-generator':
@@ -416,7 +416,7 @@ function buildToolWidget(tool) {
           `<input type="text" id="rt-allow" ${i('Allow path (e.g. /public/)')} />` +
           `<input type="text" id="rt-disallow" ${i('Disallow path (e.g. /admin/)')} />` +
           `<input type="text" id="rt-sitemap" ${i('Sitemap URL')} />` +
-          `<button ${btn('generateRobotsTxt()', 'Generate robots.txt')}</button>`
+          btn('generateRobotsTxt()', 'Generate robots.txt')
         ),
         'Fill in the fields above and click Generate'
       );
@@ -424,7 +424,7 @@ function buildToolWidget(tool) {
       return base(
         col(
           ta('sitemap-input', 'Paste your XML sitemap content here...', 150, '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>https://example.com/</loc>\n  </url>\n</urlset>') +
-          `<button ${btn('validateSitemap()', 'Validate Sitemap')} style="align-self:flex-start;"</button>`
+          btn('validateSitemap()', 'Validate Sitemap')
         ),
         'Paste your sitemap XML above and click Validate'
       );
@@ -436,7 +436,7 @@ function buildToolWidget(tool) {
           `<input type="text" id="meta-url" ${i('Page URL')} />` +
           `<input type="text" id="meta-image" ${i('OG Image URL')} />` +
           `<input type="text" id="meta-sitename" ${i('Site Name')} />` +
-          `<button ${btn('generateMeta()', 'Generate Meta Tags')}</button>`
+          btn('generateMeta()', 'Generate Meta Tags')
         ),
         'Fill in the fields above and click Generate'
       );
@@ -445,8 +445,8 @@ function buildToolWidget(tool) {
         col(
           ta('json-input', 'Paste your JSON here...', 150, '{"name": "is-cool-me", "tools": ["dns", "ssl", "json"]}') +
           `<div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-            <button ${btn('formatJSON()', 'Format / Validate')}</button>
-            <button ${btn('minifyJSON()', 'Minify')} style="padding:.75rem 1.5rem;background:var(--color-card);color:var(--color-text);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;font-weight:600;"</button>
+            ${btn('formatJSON()', 'Format / Validate')}
+            ${btn('minifyJSON()', 'Minify')}
           </div>`
         ),
         'Paste JSON above and click Format / Validate'
@@ -456,15 +456,15 @@ function buildToolWidget(tool) {
         col(
           ta('b64-input', 'Enter text or Base64 string here...', 100, 'Hello, World!') +
           `<div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-            <button ${btn('encodeBase64()', 'Encode → Base64')}</button>
-            <button ${btn('decodeBase64()', 'Decode ← Text')} style="padding:.75rem 1.5rem;background:var(--color-card);color:var(--color-text);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;font-weight:600;"</button>
+            ${btn('encodeBase64()', 'Encode → Base64')}
+            ${btn('decodeBase64()', 'Decode ← Text')}
           </div>`
         ),
         'Enter text above and click Encode or Decode'
       );
     default:
       return base(
-        row(`${i('example.com')}<button ${btn('runCheck()', 'Check')}</button>`),
+        row(`<input ${i('example.com')} />${btn('runCheck()', 'Check')}`),
         'Enter a domain above to see results'
       );
   }

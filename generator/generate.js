@@ -3,6 +3,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import { createRequire } from 'module';
+import { lookup } from 'dns/promises';
 const require = createRequire(import.meta.url);
 import { generateWithOllama, startOllama, stopOllama, isOllamaRunning, ensureModel } from './lib/ollama.js';
 import {
@@ -61,11 +62,20 @@ async function filterOnlineDomains(domains) {
   const concurrency = 20;
   for (let i = 0; i < domains.length; i += concurrency) {
     const batch = domains.slice(i, i + concurrency);
-    const results = await Promise.all(batch.map(d =>
-      fetch(`https://${d.subdomain}.${d.zone}`, { method: 'HEAD', signal: AbortSignal.timeout(5000) })
-        .then(r => r.status === 200 ? d : null)
-        .catch(() => null)
-    ));
+    const results = await Promise.all(batch.map(async d => {
+      const hostname = `${d.subdomain}.${d.zone}`;
+      const ssrf = await checkSsrfTarget(hostname);
+      if (!ssrf.ok) {
+        console.warn(`  [ssrf] Skipping ${hostname}: ${ssrf.reason}`);
+        return null;
+      }
+      try {
+        const r = await fetch(`https://${hostname}`, { method: 'HEAD', signal: AbortSignal.timeout(5000) });
+        return r.status === 200 ? d : null;
+      } catch {
+        return null;
+      }
+    }));
     for (const r of results) {
       if (r) online.push(r);
     }
@@ -129,6 +139,63 @@ function relativeTime(dateStr) {
     return `${Math.floor(diffDays / 365)} years ago`;
   } catch {
     return 'recently';
+  }
+}
+
+const SSRF_DNS_CACHE = new Map();
+const SSRF_CACHE_TTL = 300_000;
+
+function redact(value) {
+  const patterns = [
+    [/(ghp_|gho_|ghu_|ghs_|ghr_)[A-Za-z0-9_]{36,}/g, 'ghp_***redacted***'],
+    [/(bearer|Bearer)\s+[A-Za-z0-9\-._~+/]+/g, 'Bearer ***redacted***'],
+    [/(?:access_token|token|secret|key|password|auth)\s*[:=]\s*['"]?[A-Za-z0-9\-._~+/]{16,}/gi, '$1: ***redacted***'],
+  ];
+  let s = String(value);
+  for (const [re, replacement] of patterns) {
+    s = s.replace(re, replacement);
+  }
+  return s;
+}
+
+function validateEnv() {
+  const required = [];
+  const warnings = [];
+  if (!process.env.GH_PAT) warnings.push('GH_PAT is not set — commits via --push will fail');
+  if (!process.env.DB_PATH && !existsSync(join(__dirname, '..', 'dash', 'data', 'domains.db'))) {
+    warnings.push('DB_PATH is not set and default path dash/data/domains.db does not exist — domain data will be empty');
+  }
+  for (const v of required) {
+    if (!process.env[v]) {
+      console.error(`[env] FATAL: ${v} is required but not set`);
+      process.exit(1);
+    }
+  }
+  for (const w of warnings) {
+    console.warn(`[env] ${w}`);
+  }
+}
+
+const PRIVATE_IP_RANGES = [
+  /^127\./, /^10\./, /^172\.(1[6-9]|2\d|3[01])\./, /^192\.168\./,
+  /^0\./, /^169\.254\./, /^::1$/, /^fc00:/, /^fe80:/,
+  /^100\.(6[4-9]|\d{2,3})\./, /^198\.(1[89]|2[0-4])\./,
+];
+
+async function checkSsrfTarget(hostname) {
+  try {
+    const cached = SSRF_DNS_CACHE.get(hostname);
+    if (cached && Date.now() - cached.ts < SSRF_CACHE_TTL) {
+      return cached.result;
+    }
+    const addresses = await lookup(hostname, { all: true });
+    const ips = addresses.map(a => a.address);
+    const blocked = ips.some(ip => PRIVATE_IP_RANGES.some(r => r.test(ip)));
+    const result = blocked ? { ok: false, reason: 'Blocked private/reserved IP' } : { ok: true };
+    SSRF_DNS_CACHE.set(hostname, { ts: Date.now(), result });
+    return result;
+  } catch (err) {
+    return { ok: false, reason: 'DNS resolution failed' };
   }
 }
 
@@ -952,6 +1019,8 @@ async function main() {
   const doPreview = args.includes('--preview');
   const doPush = args.includes('--push');
 
+  validateEnv();
+
   console.log('🚀 is-pro.dev Content Generator');
   console.log('================================');
 
@@ -1183,6 +1252,6 @@ async function main() {
 }
 
 main().catch(err => {
-  console.error('Fatal error:', err);
+  console.error('Fatal error:', redact(err.message || String(err)));
   process.exit(1);
 });

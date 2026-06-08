@@ -16,6 +16,8 @@ import {
   GUIDE_TOPICS, BLOG_TOPICS, TUTORIAL_TOPICS, COMPARE_TOPICS,
   TOOL_PAGES, SHOWCASE_CATEGORIES, SHOWCASE_TOPICS, INTERNAL_LINK_SECTIONS
 } from './content/topics.js';
+import { GUIDE_BODIES } from './content/guide-bodies.js';
+import { BLOG_BODIES } from './content/blog-bodies.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = process.env.SITE_ROOT || join(__dirname, '..', 'is-pro.dev');
@@ -200,7 +202,7 @@ async function checkSsrfTarget(hostname) {
 }
 
 function buildGuideContent(topic, aiContent) {
-  const content = aiContent || `<h2>Introduction</h2>
+  const content = aiContent || topic.body || `<h2>Introduction</h2>
 <p>${topic.summary}</p>
 <h2>Prerequisites</h2>
 <ul><li>A GitHub account</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Basic familiarity with DNS records</li></ul>
@@ -235,6 +237,7 @@ function buildGuideContent(topic, aiContent) {
 }
 
 async function generateGuide(topic) {
+  topic.body = GUIDE_BODIES[topic.slug] || null;
   console.log(`  Generating guide: ${topic.slug}`);
   const prompt = `Write a comprehensive technical guide (1000-1200 words) about: "${topic.title}".
 Keywords: ${topic.keywords.join(', ')}
@@ -289,6 +292,7 @@ Generate ONLY the article body content, no metadata, no JSON.`;
 }
 
 async function generateBlogPost(topic) {
+  topic.body = BLOG_BODIES[topic.slug] || null;
   console.log(`  Generating blog post: ${topic.slug}`);
   const prompt = `Write a compelling blog post (900-1100 words) about: "${topic.title}".
 Keywords: ${topic.keywords.join(', ')}
@@ -305,7 +309,7 @@ Generate ONLY the article body content, no metadata.`;
     aiContent = await generateContent(prompt, systemPrompt);
   }
 
-  const content = aiContent || `<h2>Introduction</h2>
+  const content = aiContent || topic.body || `<h2>Introduction</h2>
 <p>${topic.summary}</p>
 <h2>The Core Problem</h2>
 <p>Developers face a common challenge when building projects: where to host without spending money on domain registration. For side projects, MVPs, and experiments, every dollar counts. This is where free subdomain providers fill a critical gap in the ecosystem.</p>

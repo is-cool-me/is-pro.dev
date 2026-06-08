@@ -12,22 +12,7 @@
   const setError = (msg) => setResult('<span style="color:#ef4444">' + msg + '</span>');
   const dnsApi = (name, type) => 'https://dns.google/resolve?name=' + encodeURIComponent(name) + '&type=' + encodeURIComponent(type);
 
-  const CORS_PROXIES = [
-    (u) => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
-    (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
-  ];
-
-  function fetchViaCors(url) {
-    return fetch(CORS_PROXIES[0](url)).then(r => {
-      if (!r.ok) throw new Error('Proxy 1 failed');
-      return r;
-    }).catch(() => {
-      return fetch(CORS_PROXIES[1](url)).then(r => {
-        if (!r.ok) throw new Error('All proxies failed');
-        return r;
-      });
-    });
-  }
+  const MICROLINK = 'https://api.microlink.io/?url=';
 
   function escapeHtml(t) {
     var d = document.createElement('div');
@@ -97,33 +82,36 @@
     }
     setLoading('Checking SSL for ' + escapeHtml(url) + '...');
 
-    fetchViaCors(url)
-      .then(function (r) {
-        var headers = {};
-        r.headers.forEach(function (v, k) { headers[k] = v; });
-        return { url: r.url, status: r.status, headers: headers, ok: r.ok, redirected: r.redirected };
-      })
-      .then(function (details) {
+    fetch(MICROLINK + encodeURIComponent(url))
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.status !== 'success') {
+          setResult('<div style="padding:.5rem;border-left:3px solid #f59e0b;"><strong>Could not reach ' + escapeHtml(url) + '</strong><br><span style="font-size:.85rem;color:var(--color-text-muted);">The URL may be down or unreachable.</span></div>');
+          return;
+        }
+        var d = res.data;
+        var h = d.headers || {};
+        var statusCode = d.statusCode || d.httpStatus || 200;
+        var finalUrl = d.url || url;
         var html = '<div style="margin-bottom:.5rem;padding:.5rem;border-left:3px solid var(--color-accent);">';
-        html += '<div><strong>URL:</strong> ' + escapeHtml(details.url) + '</div>';
-        html += '<div><strong>Status:</strong> ' + details.status + ' ' + (details.ok ? '<span style="color:#22c55e">OK</span>' : '<span style="color:#ef4444">Error</span>') + '</div>';
+        html += '<div><strong>URL:</strong> ' + escapeHtml(finalUrl) + '</div>';
+        html += '<div><strong>Status:</strong> ' + statusCode + ' <span style="color:#22c55e">OK</span></div>';
         html += '<div><strong>TLS:</strong> <span style="color:#22c55e">Enabled (HTTPS)</span></div>';
-        if (details.redirected) html += '<div><strong>Redirected:</strong> Yes</div>';
+        if (finalUrl !== url) html += '<div><strong>Redirected:</strong> Yes</div>';
         html += '</div>';
         html += '<details style="margin-top:.5rem;cursor:pointer;font-size:.8rem;"><summary style="color:var(--color-accent-light)">Response Headers</summary><div style="margin-top:.5rem;background:var(--color-bg);padding:.75rem;border-radius:var(--radius-md);font-family:var(--font-mono);font-size:.75rem;word-break:break-all;">';
-        for (var k in details.headers) {
-          if (details.headers.hasOwnProperty(k)) {
-            html += '<span style="color:var(--color-accent-light)">' + escapeHtml(k) + '</span>: ' + escapeHtml(details.headers[k]) + '<br>';
+        for (var k in h) {
+          if (h.hasOwnProperty(k)) {
+            html += '<span style="color:var(--color-accent-light)">' + escapeHtml(k) + '</span>: ' + escapeHtml(h[k]) + '<br>';
           }
         }
         html += '</div></details>';
         setResult(html);
       })
-      .catch(function (e) {
-        var errMsg = e.message || 'Unknown error';
+      .catch(function () {
         var html = '<div style="padding:.5rem;border-left:3px solid #f59e0b;">';
         html += '<strong>Could not verify SSL for ' + escapeHtml(url) + '</strong><br>';
-        html += '<span style="font-size:.85rem;color:var(--color-text-muted);">The CORS proxy may be down or the site blocks it. Try visiting the URL directly in your browser.</span>';
+        html += '<span style="font-size:.85rem;color:var(--color-text-muted);">The URL may be unreachable. Try visiting it directly in your browser.</span>';
         html += '</div>';
         setResult(html);
       });
@@ -221,53 +209,41 @@
     if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
     setLoading('Fetching OG data from ' + escapeHtml(url) + '...');
 
-    fetchViaCors(url)
-      .then(function (r) { return r.text(); })
-      .then(function (html) {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(html, 'text/html');
-        var metas = doc.querySelectorAll('meta[property^="og:"], meta[name^="twitter:"]');
-        var ogData = {};
-
-        metas.forEach(function (m) {
-          var key = m.getAttribute('property') || m.getAttribute('name') || '';
-          var val = m.getAttribute('content') || '';
-          if (key && val) ogData[key] = val;
-        });
-
-        var title = ogData['og:title'] || ogData['twitter:title'] || doc.title || 'No title';
-        var desc = ogData['og:description'] || ogData['twitter:description'] || 'No description';
-        var image = ogData['og:image'] || ogData['twitter:image'] || '';
-        var siteName = ogData['og:site_name'] || '';
-        var type = ogData['og:type'] || 'website';
+    fetch(MICROLINK + encodeURIComponent(url))
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.status !== 'success') {
+          setResult('<div style="padding:.5rem;border-left:3px solid #f59e0b;">Could not fetch OG data for this URL.</div>');
+          return;
+        }
+        var d = res.data;
+        var title = d.title || 'No title';
+        var desc = d.description || 'No description';
+        var image = (d.image && d.image.url) || (d.logo && d.logo.url) || '';
+        var siteName = d.publisher || '';
 
         var resultHtml = '';
-
         if (image) {
           resultHtml += '<div style="margin-bottom:.75rem;border-radius:var(--radius-md);overflow:hidden;max-width:400px;"><img src="' + escapeHtml(image) + '" alt="OG Preview" style="width:100%;display:block;" onerror="this.parentElement.style.display=\'none\'" /></div>';
         }
-
         resultHtml += '<div style="padding:.75rem;background:var(--color-bg);border-radius:var(--radius-md);border:1px solid var(--color-border);margin-bottom:.75rem;">';
-        resultHtml += '<div style="font-size:.7rem;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:.25rem;">' + escapeHtml(siteName || type) + '</div>';
+        resultHtml += '<div style="font-size:.7rem;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:.25rem;">' + escapeHtml(siteName || 'website') + '</div>';
         resultHtml += '<div style="font-weight:600;font-size:1rem;margin-bottom:.25rem;color:var(--color-text);">' + escapeHtml(title) + '</div>';
         resultHtml += '<div style="font-size:.85rem;color:var(--color-text-muted);">' + escapeHtml(desc) + '</div>';
         resultHtml += '</div>';
 
         resultHtml += '<details style="margin-top:.5rem;cursor:pointer;font-size:.8rem;"><summary style="color:var(--color-accent-light)">All Meta Tags</summary><div style="margin-top:.5rem;background:var(--color-bg);padding:.75rem;border-radius:var(--radius-md);font-family:var(--font-mono);font-size:.75rem;word-break:break-all;">';
-        for (var k in ogData) {
-          if (ogData.hasOwnProperty(k)) {
-            resultHtml += '<span style="color:var(--color-accent-light)">' + escapeHtml(k) + '</span>: ' + escapeHtml(ogData[k]) + '<br>';
+        for (var k in d) {
+          if (d.hasOwnProperty(k)) {
+            var v = typeof d[k] === 'object' ? JSON.stringify(d[k]) : d[k];
+            resultHtml += '<span style="color:var(--color-accent-light)">' + escapeHtml(k) + '</span>: ' + escapeHtml(String(v)) + '<br>';
           }
         }
-        if (Object.keys(ogData).length === 0) {
-          resultHtml += '<span style="color:var(--color-text-muted)">No Open Graph tags found on this page.</span>';
-        }
         resultHtml += '</div></details>';
-
         setResult(resultHtml);
       })
       .catch(function () {
-        setError('Could not fetch ' + escapeHtml(url) + '. The CORS proxy may be rate-limited or the site blocks it.');
+        setResult('<div style="padding:.5rem;border-left:3px solid #f59e0b;">Failed to fetch OG data. The URL may be unreachable.</div>');
       });
   };
 
@@ -407,27 +383,26 @@
     if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
     setLoading('Fetching headers for ' + escapeHtml(url) + '...');
 
-    fetchViaCors(url)
-      .then(function (r) {
-        var headers = {};
-        r.headers.forEach(function (v, k) { headers[k] = v; });
-        return { status: r.status, statusText: r.statusText, headers: headers };
-      })
-      .then(function (details) {
-        var html = '<div style="margin-bottom:.5rem;padding:.5rem;border-left:3px solid var(--color-accent);">';
-        html += '<strong>' + details.status + ' ' + escapeHtml(details.statusText) + '</strong>';
-        html += '</div>';
-        html += '<div style="background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:.75rem;font-family:var(--font-mono);font-size:.75rem;word-break:break-all;">';
-        for (var k in details.headers) {
-          if (details.headers.hasOwnProperty(k)) {
-            html += '<span style="color:var(--color-accent-light)">' + escapeHtml(k) + '</span>: ' + escapeHtml(details.headers[k]) + '<br>';
+    fetch('https://api.hackertarget.com/httpheaders/?q=' + encodeURIComponent(url))
+      .then(function (r) { return r.text(); })
+      .then(function (text) {
+        var lines = text.trim().split('\n');
+        var html = '<div style="background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:.75rem;font-family:var(--font-mono);font-size:.75rem;word-break:break-all;">';
+        lines.forEach(function (line) {
+          var idx = line.indexOf(':');
+          if (idx > 0) {
+            var k = line.substring(0, idx);
+            var v = line.substring(idx + 1);
+            html += '<span style="color:var(--color-accent-light)">' + escapeHtml(k.trim()) + '</span>:' + escapeHtml(v) + '<br>';
+          } else {
+            html += escapeHtml(line) + '<br>';
           }
-        }
+        });
         html += '</div>';
         setResult(html);
       })
       .catch(function () {
-        setError('Could not fetch ' + escapeHtml(url) + '. The CORS proxy may be rate-limited or the site blocks it.');
+        setError('Could not fetch headers. The API may be rate-limited.');
       });
   };
 
@@ -458,7 +433,7 @@
         return;
       }
 
-      var apiUrl = 'https://ip-api.com/json/' + ip + '?fields=status,message,country,regionName,city,isp,org,as,lat,lon,query';
+      var apiUrl = 'http://ip-api.com/json/' + ip + '?fields=status,message,country,regionName,city,isp,org,as,lat,lon,query';
 
       fetch(apiUrl)
         .then(function (r) { return r.json(); })

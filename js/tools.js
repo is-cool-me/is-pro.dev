@@ -101,8 +101,7 @@
       var h = d.headers || {};
       var statusCode = d.statusCode || d.httpStatus || 200;
       var finalUrl = d.url || url;
-      var redirects = microlink.redirects || [];
-      var wasRedirected = redirects.length > 0;
+      var wasRedirected = finalUrl.replace(/^https?:\/\//, '').split('/')[0] !== url.replace(/^https?:\/\//, '').split('/')[0];
 
       var html = '<div style="margin-bottom:.5rem;padding:.5rem;border-left:3px solid var(--color-accent);">';
       html += '<div><strong>URL:</strong> ' + escapeHtml(finalUrl) + '</div>';

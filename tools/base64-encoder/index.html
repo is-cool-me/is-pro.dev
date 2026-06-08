@@ -108,15 +108,15 @@
           
           <h2>Example Use Cases</h2>
           <ul>
-          <li>Verify your SSL certificate is working before launching a new project</li>
-          <li>Check DNS propagation after making changes to your subdomain records</li>
-          <li>Debug configuration issues by comparing expected vs actual results</li>
-          <li>Monitor the health of your production subdomains</li>
+          <li>Encode credentials for HTTP Basic Authentication headers</li>
+          <li>Decode Base64 payloads from JWT tokens, API responses, or log files</li>
+          <li>Transfer binary data as text across systems that only support ASCII</li>
+          <li>Store small blobs of data in configuration files or environment variables</li>
           </ul>
           
           <h2>Common Issues</h2>
-          <p><strong>Results not updating:</strong> DNS changes can take up to 5 minutes to propagate globally. If you recently made changes, wait a few minutes and try again.</p>
-          <p><strong>SSL errors:</strong> If you see SSL certificate errors, make sure your DNS is pointing to the correct server and that your hosting provider has provisioned a certificate.</p>
+          <p><strong>Invalid padding:</strong> Base64 strings require proper padding (<code>=</code> characters). Some implementations accept missing padding, but strict decoders will fail.</p>
+          <p><strong>URL-unsafe characters:</strong> Standard Base64 includes <code>+</code> and <code>/</code> which have special meaning in URLs. Use Base64URL encoding for URL-safe transmission.</p>
         </div>
       </div>
     </div>

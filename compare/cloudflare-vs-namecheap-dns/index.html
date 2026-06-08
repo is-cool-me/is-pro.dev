@@ -99,52 +99,72 @@
           <p>Compare Cloudflares DNS service against Namecheap for subdomain management — propagation speed, uptime, API access, security features, and cost.</p>
           
           <h2>Key Differences</h2>
-          <p>Both platforms offer free hosting tiers with generous limits, but they take different approaches to deployment pipelines, edge computing, and developer experience.</p>
+          <p>Cloudflare DNS and Namecheap DNS take different approaches to hosting, each with unique strengths. Below is a detailed feature comparison.</p>
           
           <h2>Feature Comparison</h2>
           <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem;">
           <thead>
           <tr style="border-bottom:2px solid var(--color-border);">
           <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Feature</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 1</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 2</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Cloudflare DNS</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Namecheap DNS</th>
           </tr>
           </thead>
           <tbody>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Free Tier</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
+          <td style="padding:.6rem 0;font-weight:500;">Pricing</td>
+          <td style="padding:.6rem 0;">Free (no paid tier required)</td>
+          <td style="padding:.6rem 0;">Free with domain registration; paid otherwise</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Custom Domain</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
+          <td style="padding:.6rem 0;font-weight:500;">Propagation Speed</td>
+          <td style="padding:.6rem 0;">Near-instant (< 5 seconds)</td>
+          <td style="padding:.6rem 0;">5-30 minutes typical</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">SSL Certificate</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
+          <td style="padding:.6rem 0;font-weight:500;">Global Network</td>
+          <td style="padding:.6rem 0;">330+ POPs (Anycast)</td>
+          <td style="padding:.6rem 0;">15+ locations (Anycast)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">CI/CD Built-in</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
+          <td style="padding:.6rem 0;font-weight:500;">DDoS Protection</td>
+          <td style="padding:.6rem 0;">✅ Built-in (free)</td>
+          <td style="padding:.6rem 0;">❌ Not included</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Edge Functions</td>
-          <td style="padding:.6rem 0;">⚠️ Limited</td>
-          <td style="padding:.6rem 0;">✅ Full</td>
+          <td style="padding:.6rem 0;font-weight:500;">API Access</td>
+          <td style="padding:.6rem 0;">✅ Full REST API (free tier)</td>
+          <td style="padding:.6rem 0;">✅ API (limited on free)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Record Types</td>
+          <td style="padding:.6rem 0;">A, AAAA, CNAME, MX, TXT, NS, SRV, CAA, DS, HTTPS, SVCB</td>
+          <td style="padding:.6rem 0;">A, AAAA, CNAME, MX, TXT, NS, SRV, CAA, DS</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">SSL / TLS</td>
+          <td style="padding:.6rem 0;">✅ Full SSL management + edge certificates</td>
+          <td style="padding:.6rem 0;">❌ No SSL features</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Email Forwarding</td>
+          <td style="padding:.6rem 0;">✅ Free (up to 100 addresses)</td>
+          <td style="padding:.6rem 0;">❌ Not available</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Analytics</td>
+          <td style="padding:.6rem 0;">✅ DNS analytics dashboard</td>
+          <td style="padding:.6rem 0;">❌ Basic only</td>
           </tr>
           </tbody>
           </table>
           
           <h2>When to Choose Each</h2>
-          <p><strong>Choose Option 1</strong> if you need simplicity, fast setup, and basic static site hosting without edge computing requirements.</p>
-          <p><strong>Choose Option 2</strong> if you need edge functions, better global performance, or more advanced serverless capabilities.</p>
+          <p><strong>Choose Cloudflare DNS</strong> if Choose Cloudflare DNS if you want the fastest propagation, DDoS protection, free SSL certificates, email forwarding, and DNS analytics — all for free. Cloudflare is the best choice for most developers hosting projects on is-pro.dev subdomains.</p>
+          <p><strong>Choose Namecheap DNS</strong> if Choose Namecheap DNS if you already manage domains on Namecheap and prefer keeping DNS in the same dashboard. It is reliable for basic DNS management but lacks the security, performance, and free features Cloudflare offers.</p>
           
           <h2>Conclusion</h2>
-          <p>Both platforms are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — for most static sites and simple SPAs, either platform works well.</p>
+          <p>Both Cloudflare DNS and Namecheap DNS are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — review the table above and pick the platform that aligns best with your project requirements and skill set.</p>
 
         </div>
       </div>

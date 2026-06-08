@@ -99,52 +99,72 @@
           <p>Compare GitHub Pages and Netlify for free static site hosting — features, limitations, custom domain support, CI/CD pipelines, and which projects suit each platform.</p>
           
           <h2>Key Differences</h2>
-          <p>Both platforms offer free hosting tiers with generous limits, but they take different approaches to deployment pipelines, edge computing, and developer experience.</p>
+          <p>GitHub Pages and Netlify take different approaches to hosting, each with unique strengths. Below is a detailed feature comparison.</p>
           
           <h2>Feature Comparison</h2>
           <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem;">
           <thead>
           <tr style="border-bottom:2px solid var(--color-border);">
           <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Feature</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 1</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 2</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">GitHub Pages</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Netlify</th>
           </tr>
           </thead>
           <tbody>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Free Tier</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
+          <td style="padding:.6rem 0;font-weight:500;">Free Tier Limits</td>
+          <td style="padding:.6rem 0;">1 GB storage, 100 GB bandwidth/month</td>
+          <td style="padding:.6rem 0;">100 GB bandwidth, 300 build min/month</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Custom Domain</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
+          <td style="padding:.6rem 0;font-weight:500;">Custom Domain</td>
+          <td style="padding:.6rem 0;">✅ Supported with CNAME</td>
+          <td style="padding:.6rem 0;">✅ Supported with CNAME</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">SSL Certificate</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
+          <td style="padding:.6rem 0;font-weight:500;">SSL Certificate</td>
+          <td style="padding:.6rem 0;">✅ Auto-provisioned (Let's Encrypt)</td>
+          <td style="padding:.6rem 0;">✅ Auto-provisioned (Let's Encrypt)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">CI/CD Built-in</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
+          <td style="padding:.6rem 0;font-weight:500;">CI/CD Pipeline</td>
+          <td style="padding:.6rem 0;">✅ From GitHub pushes only</td>
+          <td style="padding:.6rem 0;">✅ From Git pushes + auto-deploy</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Edge Functions</td>
-          <td style="padding:.6rem 0;">⚠️ Limited</td>
-          <td style="padding:.6rem 0;">✅ Full</td>
+          <td style="padding:.6rem 0;font-weight:500;">Serverless Functions</td>
+          <td style="padding:.6rem 0;">❌ Not available</td>
+          <td style="padding:.6rem 0;">✅ 125K requests/month</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Build Framework Support</td>
+          <td style="padding:.6rem 0;">Jekyll only (auto); others need manual config</td>
+          <td style="padding:.6rem 0;">100+ frameworks auto-detected</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Form Handling</td>
+          <td style="padding:.6rem 0;">❌ Not available</td>
+          <td style="padding:.6rem 0;">✅ 100 submissions/month (free)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Preview Deployments</td>
+          <td style="padding:.6rem 0;">❌ Not available</td>
+          <td style="padding:.6rem 0;">✅ Deploy previews for every PR</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Deploy from Private Repos</td>
+          <td style="padding:.6rem 0;">✅ Free (unlimited private repos)</td>
+          <td style="padding:.6rem 0;">✅ Free (unlimited private repos)</td>
           </tr>
           </tbody>
           </table>
           
           <h2>When to Choose Each</h2>
-          <p><strong>Choose Option 1</strong> if you need simplicity, fast setup, and basic static site hosting without edge computing requirements.</p>
-          <p><strong>Choose Option 2</strong> if you need edge functions, better global performance, or more advanced serverless capabilities.</p>
+          <p><strong>Choose GitHub Pages</strong> if Choose GitHub Pages if your project is a simple static site or Jekyll blog hosted on GitHub and you do not need server-side processing. It is the simplest option with zero build configuration for compatible sites.</p>
+          <p><strong>Choose Netlify</strong> if Choose Netlify if you need serverless functions, form handling, deploy previews, or support for any static site generator. Netlify's richer feature set makes it better for dynamic-static hybrid sites.</p>
           
           <h2>Conclusion</h2>
-          <p>Both platforms are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — for most static sites and simple SPAs, either platform works well.</p>
+          <p>Both GitHub Pages and Netlify are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — review the table above and pick the platform that aligns best with your project requirements and skill set.</p>
 
         </div>
       </div>

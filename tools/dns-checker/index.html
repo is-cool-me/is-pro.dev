@@ -105,15 +105,15 @@
           
           <h2>Example Use Cases</h2>
           <ul>
-          <li>Verify your SSL certificate is working before launching a new project</li>
-          <li>Check DNS propagation after making changes to your subdomain records</li>
-          <li>Debug configuration issues by comparing expected vs actual results</li>
-          <li>Monitor the health of your production subdomains</li>
+          <li>Verify DNS records are properly configured after adding a new subdomain</li>
+          <li>Check MX records before switching email providers to avoid mail loss</li>
+          <li>Debug propagation delays by comparing records across multiple nameservers</li>
+          <li>Confirm TXT records (SPF, DKIM, DMARC) are published for email authentication</li>
           </ul>
           
           <h2>Common Issues</h2>
-          <p><strong>Results not updating:</strong> DNS changes can take up to 5 minutes to propagate globally. If you recently made changes, wait a few minutes and try again.</p>
-          <p><strong>SSL errors:</strong> If you see SSL certificate errors, make sure your DNS is pointing to the correct server and that your hosting provider has provisioned a certificate.</p>
+          <p><strong>Propagation delays:</strong> Record changes can take 5 minutes to 48 hours to propagate globally depending on TTL settings. Lower TTL before planned changes.</p>
+          <p><strong>Missing trailing dot:</strong> Some DNS providers require a trailing dot for fully qualified domain names in record values. Always include it (e.g., <code>example.com.</code>).</p>
         </div>
       </div>
     </div>

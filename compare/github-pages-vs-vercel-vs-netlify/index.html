@@ -99,52 +99,77 @@
           <p>Side-by-side comparison of the three most popular free static hosting platforms — covering deployment experience, custom domains, SSL, CI/CD, and when to choose each.</p>
           
           <h2>Key Differences</h2>
-          <p>Both platforms offer free hosting tiers with generous limits, but they take different approaches to deployment pipelines, edge computing, and developer experience.</p>
+          <p>GitHub Pages and Vercel and Netlify take different approaches to hosting, each with unique strengths. Below is a detailed feature comparison.</p>
           
           <h2>Feature Comparison</h2>
           <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem;">
           <thead>
           <tr style="border-bottom:2px solid var(--color-border);">
           <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Feature</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 1</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 2</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">GitHub Pages</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Vercel</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Netlify</th>
           </tr>
           </thead>
           <tbody>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Free Tier</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
+          <td style="padding:.6rem 0;font-weight:500;">Free Tier Limits</td>
+          <td style="padding:.6rem 0;">1 GB storage, 100 GB bandwidth/month</td>
+          <td style="padding:.6rem 0;">100 GB bandwidth, 6000 build min/month</td>
+          <td style="padding:.6rem 0;">100 GB bandwidth, 300 build min/month</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Custom Domain</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
+          <td style="padding:.6rem 0;font-weight:500;">Custom Domain</td>
+          <td style="padding:.6rem 0;">✅ Supported with CNAME</td>
+          <td style="padding:.6rem 0;">✅ Supported with CNAME</td>
+          <td style="padding:.6rem 0;">✅ Supported with CNAME</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">SSL Certificate</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
+          <td style="padding:.6rem 0;font-weight:500;">SSL Certificate</td>
+          <td style="padding:.6rem 0;">✅ Auto-provisioned (Let's Encrypt)</td>
+          <td style="padding:.6rem 0;">✅ Auto-provisioned (Let's Encrypt)</td>
+          <td style="padding:.6rem 0;">✅ Auto-provisioned (Let's Encrypt)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">CI/CD Built-in</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
+          <td style="padding:.6rem 0;font-weight:500;">CI/CD</td>
+          <td style="padding:.6rem 0;">✅ From GitHub only</td>
+          <td style="padding:.6rem 0;">✅ From Git (auto-deploy)</td>
+          <td style="padding:.6rem 0;">✅ From Git (auto-deploy)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Edge Functions</td>
-          <td style="padding:.6rem 0;">⚠️ Limited</td>
-          <td style="padding:.6rem 0;">✅ Full</td>
+          <td style="padding:.6rem 0;font-weight:500;">Serverless Functions</td>
+          <td style="padding:.6rem 0;">❌ Not available</td>
+          <td style="padding:.6rem 0;">✅ Edge + Serverless</td>
+          <td style="padding:.6rem 0;">✅ Serverless functions</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Build Framework Support</td>
+          <td style="padding:.6rem 0;">Jekyll only (auto)</td>
+          <td style="padding:.6rem 0;">100+ frameworks auto-detect</td>
+          <td style="padding:.6rem 0;">100+ frameworks auto-detect</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Global CDN</td>
+          <td style="padding:.6rem 0;">✅ Fastly (limited POPs)</td>
+          <td style="padding:.6rem 0;">✅ Vercel Edge Network</td>
+          <td style="padding:.6rem 0;">✅ Netlify Edge</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Preview Deployments</td>
+          <td style="padding:.6rem 0;">❌ Not available</td>
+          <td style="padding:.6rem 0;">✅ For every PR</td>
+          <td style="padding:.6rem 0;">✅ For every PR</td>
           </tr>
           </tbody>
           </table>
           
           <h2>When to Choose Each</h2>
-          <p><strong>Choose Option 1</strong> if you need simplicity, fast setup, and basic static site hosting without edge computing requirements.</p>
-          <p><strong>Choose Option 2</strong> if you need edge functions, better global performance, or more advanced serverless capabilities.</p>
+          <p><strong>Choose GitHub Pages</strong> if Choose GitHub Pages if you are hosting a simple static site, a Jekyll blog, or a project documentation page. It is ideal if you want zero configuration and already use GitHub for version control. Avoid it if you need serverless functions, framework auto-detection beyond Jekyll, or preview deployments.</p>
+          <p><strong>Choose Vercel</strong> if Choose Vercel if you are deploying a frontend framework like Next.js, React, or Svelte. It excels at SSR, edge functions, and preview deployments for every branch. The generous build minutes make it suitable for active development teams.</p>
+          <p><strong>Choose Netlify</strong> if Choose Netlify if you need serverless functions, form handling, and split testing for static sites. Netlify's developer experience is excellent for SPAs and static sites that need backend-like features without managing servers.</p>
           
           <h2>Conclusion</h2>
-          <p>Both platforms are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — for most static sites and simple SPAs, either platform works well.</p>
+          <p>All of these platforms are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — review the table above and pick the platform that aligns best with your project requirements and skill set.</p>
 
         </div>
       </div>

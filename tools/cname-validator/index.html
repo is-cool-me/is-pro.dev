@@ -105,15 +105,15 @@
           
           <h2>Example Use Cases</h2>
           <ul>
-          <li>Verify your SSL certificate is working before launching a new project</li>
-          <li>Check DNS propagation after making changes to your subdomain records</li>
-          <li>Debug configuration issues by comparing expected vs actual results</li>
-          <li>Monitor the health of your production subdomains</li>
+          <li>Verify a subdomain CNAME points to the correct target after DNS migration</li>
+          <li>Debug CDN or reverse-proxy setup by confirming CNAME resolution works</li>
+          <li>Check custom domain configuration on GitHub Pages, Netlify, or Vercel</li>
+          <li>Validate old CNAME records have been removed after decommissioning services</li>
           </ul>
           
           <h2>Common Issues</h2>
-          <p><strong>Results not updating:</strong> DNS changes can take up to 5 minutes to propagate globally. If you recently made changes, wait a few minutes and try again.</p>
-          <p><strong>SSL errors:</strong> If you see SSL certificate errors, make sure your DNS is pointing to the correct server and that your hosting provider has provisioned a certificate.</p>
+          <p><strong>CNAME at apex:</strong> CNAME records cannot exist at the zone apex (bare domain). Use ALIAS/ANAME records or a CNAME flattening provider instead.</p>
+          <p><strong>CNAME conflicts:</strong> A CNAME record cannot coexist with other record types for the same name. Remove conflicting A/AAAA records before adding a CNAME.</p>
         </div>
       </div>
     </div>

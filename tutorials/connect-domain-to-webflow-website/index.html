@@ -100,26 +100,31 @@
           
           <h2>What You Will Need</h2>
           <ul>
-          <li>A GitHub account</li>
+          <li>A Webflow account (free tier works) with a published site</li>
           <li>An is-pro.dev subdomain (free at dash.is-pro.dev)</li>
-          <li>Your project code ready to deploy</li>
-          <li>10-20 minutes of free time</li>
+          <li>Access to the is-pro.dev DNS dashboard (Cloudflare-powered)</li>
+          <li>10 minutes of free time</li>
           </ul>
           
-          <h2>Step 1: Prepare Your Project</h2>
-          <p>Make sure your project is in a git repository and pushed to GitHub. Most hosting platforms including Vercel, Netlify, and Cloudflare Pages can deploy directly from GitHub repositories.</p>
+          <h2>Step 1: Publish Your Webflow Site</h2>
+          <p>In Webflow, publish your site at least once to the default webflow.io staging domain. This generates a working HTTPS endpoint that we will point your subdomain to. Make sure your site design and content are ready before connecting a custom domain.</p>
           
-          <h2>Step 2: Connect Your Repository</h2>
-          <p>Sign in to your preferred hosting platform and connect your GitHub repository. Configure the build settings for your specific framework — most platforms auto-detect the framework and set appropriate build commands.</p>
+          <h2>Step 2: Add Your Subdomain in Webflow</h2>
+          <p>Go to your Webflow project settings, click the "Publishing" tab, and scroll to "Custom Domains". Click "Add Custom Domain" and enter your is-pro.dev subdomain (e.g., <code>mysite.is-pro.dev</code>). Webflow will display a DNS target — either a CNAME or A record values.</p>
           
-          <h2>Step 3: Configure Custom Domain</h2>
-          <p>In your hosting platform settings, add your is-pro.dev subdomain (e.g., <code>myproject.is-pro.dev</code>) as a custom domain. Then update your DNS records in the is-pro.dev dashboard to point to your hosting provider.</p>
+          <h2>Step 3: Configure DNS in the is-pro.dev Dashboard</h2>
+          <p>In your is-pro.dev DNS dashboard, add a CNAME record pointing to Webflow's target domain (e.g., <code>proxy-ssl.webflow.com</code>). If Webflow provides A records instead, add those pointing to Webflow's IP addresses. Set proxying to DNS-only (gray cloud) for Webflow compatibility.</p>
           
-          <h2>Step 4: Deploy and Verify</h2>
-          <p>Trigger a deployment and wait for it to complete. Once deployed, visit your subdomain to verify everything works correctly. Check for any mixed content warnings and ensure all assets load properly.</p>
+          <h2>Step 4: Enable SSL in Webflow</h2>
+          <p>Back in Webflow, toggle SSL to "Enabled" for your custom domain. Webflow provisions a Let's Encrypt certificate automatically. This process takes 1-5 minutes. Your site will be served over HTTPS once the certificate is active.</p>
+          
+          <h2>Step 5: Publish and Verify</h2>
+          <p>Click "Publish" in Webflow to push the latest changes. Visit your subdomain to confirm the site loads over HTTPS with the correct content. Check that all assets, forms, and interactions work as expected on the custom domain.</p>
           
           <h2>Troubleshooting</h2>
-          <p>If your deployment fails, check the platform build logs for specific error messages. Common issues include missing environment variables, incorrect build commands, or DNS misconfiguration.</p>
+          <p><strong>Webflow shows "Pending SSL":</strong> SSL provisioning can take up to 15 minutes with Webflow. Ensure your DNS is set to DNS-only (gray cloud) — proxied (orange cloud) can interfere with Webflow's certificate validation.</p>
+          <p><strong>Site not loading on custom domain:</strong> Verify the DNS record is saving correctly and pointing to Webflow's target. Use the DNS Checker tool on is-pro.dev to confirm the record resolves.</p>
+          <p><strong>Mixed content warnings:</strong> If your Webflow site loads resources over HTTP, update all asset URLs to use HTTPS or protocol-relative URLs. Webflow usually handles this automatically when SSL is enabled.</p>
 
         </div>
       </div>

@@ -100,26 +100,31 @@
           
           <h2>What You Will Need</h2>
           <ul>
-          <li>A GitHub account</li>
+          <li>A GitHub account with a Create React App project pushed to a repository</li>
           <li>An is-pro.dev subdomain (free at dash.is-pro.dev)</li>
-          <li>Your project code ready to deploy</li>
-          <li>10-20 minutes of free time</li>
+          <li>A Vercel account (free tier, connect with GitHub)</li>
+          <li>10-15 minutes of free time</li>
           </ul>
           
-          <h2>Step 1: Prepare Your Project</h2>
-          <p>Make sure your project is in a git repository and pushed to GitHub. Most hosting platforms including Vercel, Netlify, and Cloudflare Pages can deploy directly from GitHub repositories.</p>
+          <h2>Step 1: Push Your React App to GitHub</h2>
+          <p>Initialize a Git repository in your Create React App project, commit all files, create a repository on GitHub, and push your code using <code>git push origin main</code>. Make sure your app builds locally with <code>npm run build</code> before pushing.</p>
           
-          <h2>Step 2: Connect Your Repository</h2>
-          <p>Sign in to your preferred hosting platform and connect your GitHub repository. Configure the build settings for your specific framework — most platforms auto-detect the framework and set appropriate build commands.</p>
+          <h2>Step 2: Import Your Repository into Vercel</h2>
+          <p>Log in to Vercel and click "Add New &rarr; Project". Select your GitHub repository. Vercel auto-detects Create React App and pre-fills the build command (<code>npm run build</code>) and output directory (<code>build</code>). Click "Deploy" and wait for the initial build to complete.</p>
           
-          <h2>Step 3: Configure Custom Domain</h2>
-          <p>In your hosting platform settings, add your is-pro.dev subdomain (e.g., <code>myproject.is-pro.dev</code>) as a custom domain. Then update your DNS records in the is-pro.dev dashboard to point to your hosting provider.</p>
+          <h2>Step 3: Add Your is-pro.dev Subdomain in Vercel</h2>
+          <p>In your Vercel project dashboard, go to "Settings &rarr; Domains". Enter your is-pro.dev subdomain (e.g., <code>myapp.is-pro.dev</code>). Vercel will display a CNAME target like <code>cname.vercel-dns.com</code>. Copy this value.</p>
           
-          <h2>Step 4: Deploy and Verify</h2>
-          <p>Trigger a deployment and wait for it to complete. Once deployed, visit your subdomain to verify everything works correctly. Check for any mixed content warnings and ensure all assets load properly.</p>
+          <h2>Step 4: Configure DNS in the is-pro.dev Dashboard</h2>
+          <p>Go to your is-pro.dev dashboard, find your subdomain, and add a CNAME record pointing to the Vercel target. Once saved, Cloudflare provisions a free SSL certificate automatically. Propagation is nearly instant through Cloudflare's network.</p>
+          
+          <h2>Step 5: Verify the Deployment</h2>
+          <p>Visit your subdomain in a browser. You should see your React app loading over HTTPS with a valid certificate. Run Vercel's deployment checks to confirm DNS resolution and SSL are working correctly. If you see a Vercel 404, double-check the CNAME target value.</p>
           
           <h2>Troubleshooting</h2>
-          <p>If your deployment fails, check the platform build logs for specific error messages. Common issues include missing environment variables, incorrect build commands, or DNS misconfiguration.</p>
+          <p><strong>Vercel shows a 404:</strong> Your CNAME record may not point to the correct target. Verify the domain settings in Vercel and confirm the DNS record in your is-pro.dev dashboard matches exactly.</p>
+          <p><strong>SSL certificate not provisioning:</strong> Cloudflare provisions certificates automatically but may take up to 5 minutes. Ensure your DNS is set to Proxied (orange cloud) in the is-pro.dev dashboard.</p>
+          <p><strong>Blank page after deploy:</strong> Check the browser console for errors. Create React App needs the <code>homepage</code> field in <code>package.json</code> if you're using client-side routing on a subdomain.</p>
 
         </div>
       </div>

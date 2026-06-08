@@ -105,15 +105,15 @@
           
           <h2>Example Use Cases</h2>
           <ul>
-          <li>Verify your SSL certificate is working before launching a new project</li>
-          <li>Check DNS propagation after making changes to your subdomain records</li>
-          <li>Debug configuration issues by comparing expected vs actual results</li>
-          <li>Monitor the health of your production subdomains</li>
+          <li>Audit security headers (CSP, HSTS, X-Frame-Options) before launching a production site</li>
+          <li>Verify caching headers are set correctly to improve page load performance</li>
+          <li>Debug CORS issues by inspecting Access-Control-Allow-Origin responses</li>
+          <li>Confirm your server is running the expected software version for compliance</li>
           </ul>
           
           <h2>Common Issues</h2>
-          <p><strong>Results not updating:</strong> DNS changes can take up to 5 minutes to propagate globally. If you recently made changes, wait a few minutes and try again.</p>
-          <p><strong>SSL errors:</strong> If you see SSL certificate errors, make sure your DNS is pointing to the correct server and that your hosting provider has provisioned a certificate.</p>
+          <p><strong>Missing security headers:</strong> Without Content-Security-Policy, X-Frame-Options, and HSTS, your site is vulnerable to common attacks. Add them via your server config or CDN.</p>
+          <p><strong>Aggressive caching:</strong> A Cache-Control header with a very long max-age can cause users to see stale content after updates. Use appropriate cache durations for different resource types.</p>
         </div>
       </div>
     </div>

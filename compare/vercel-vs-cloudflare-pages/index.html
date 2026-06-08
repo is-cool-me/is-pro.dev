@@ -99,52 +99,72 @@
           <p>Compare Vercel and Cloudflare Pages for frontend deployment — edge functions, cold starts, free tier limits, DX, and how each handles custom domains and SSL.</p>
           
           <h2>Key Differences</h2>
-          <p>Both platforms offer free hosting tiers with generous limits, but they take different approaches to deployment pipelines, edge computing, and developer experience.</p>
+          <p>Vercel and Cloudflare Pages take different approaches to hosting, each with unique strengths. Below is a detailed feature comparison.</p>
           
           <h2>Feature Comparison</h2>
           <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem;">
           <thead>
           <tr style="border-bottom:2px solid var(--color-border);">
           <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Feature</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 1</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 2</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Vercel</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Cloudflare Pages</th>
           </tr>
           </thead>
           <tbody>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Free Tier</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
+          <td style="padding:.6rem 0;font-weight:500;">Free Tier Limits</td>
+          <td style="padding:.6rem 0;">100 GB bandwidth, 6000 build min/month</td>
+          <td style="padding:.6rem 0;">Unlimited bandwidth, 500 builds/month</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Custom Domain</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
+          <td style="padding:.6rem 0;font-weight:500;">Custom Domain</td>
+          <td style="padding:.6rem 0;">✅ Supported (CNAME)</td>
+          <td style="padding:.6rem 0;">✅ Supported (CNAME)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">SSL Certificate</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
+          <td style="padding:.6rem 0;font-weight:500;">SSL Certificate</td>
+          <td style="padding:.6rem 0;">✅ Auto-provisioned (Let's Encrypt)</td>
+          <td style="padding:.6rem 0;">✅ Auto-provisioned (Cloudflare SSL)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">CI/CD Built-in</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
+          <td style="padding:.6rem 0;font-weight:500;">Edge Functions</td>
+          <td style="padding:.6rem 0;">✅ Vercel Edge Runtime (JavaScript/TypeScript)</td>
+          <td style="padding:.6rem 0;">✅ Cloudflare Workers (100K req/day free)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Edge Functions</td>
-          <td style="padding:.6rem 0;">⚠️ Limited</td>
-          <td style="padding:.6rem 0;">✅ Full</td>
+          <td style="padding:.6rem 0;font-weight:500;">Cold Starts</td>
+          <td style="padding:.6rem 0;">Minimal (Edge Runtime warmed)</td>
+          <td style="padding:.6rem 0;">Near-zero (Workers isolate)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Framework Support</td>
+          <td style="padding:.6rem 0;">100+ frameworks auto-detected</td>
+          <td style="padding:.6rem 0;">35+ frameworks auto-detected</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Analytics</td>
+          <td style="padding:.6rem 0;">✅ Built-in (free tier limited)</td>
+          <td style="padding:.6rem 0;">✅ Web Analytics (free)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Global POPs</td>
+          <td style="padding:.6rem 0;">100+ locations</td>
+          <td style="padding:.6rem 0;">330+ locations (Cloudflare network)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Bandwidth Overages</td>
+          <td style="padding:.6rem 0;">Pay-as-you-go after free tier</td>
+          <td style="padding:.6rem 0;">No overage charges (unlimited)</td>
           </tr>
           </tbody>
           </table>
           
           <h2>When to Choose Each</h2>
-          <p><strong>Choose Option 1</strong> if you need simplicity, fast setup, and basic static site hosting without edge computing requirements.</p>
-          <p><strong>Choose Option 2</strong> if you need edge functions, better global performance, or more advanced serverless capabilities.</p>
+          <p><strong>Choose Vercel</strong> if Choose Vercel if you are building with Next.js, need framework auto-detection for 100+ frameworks, or prefer Vercel's developer experience with built-in analytics and preview deployments.</p>
+          <p><strong>Choose Cloudflare Pages</strong> if Choose Cloudflare Pages if you want unlimited bandwidth, Workers for edge computing, the largest global network (330+ POPs), and integration with other Cloudflare services like D1, R2, and KV.</p>
           
           <h2>Conclusion</h2>
-          <p>Both platforms are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — for most static sites and simple SPAs, either platform works well.</p>
+          <p>Both Vercel and Cloudflare Pages are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — review the table above and pick the platform that aligns best with your project requirements and skill set.</p>
 
         </div>
       </div>

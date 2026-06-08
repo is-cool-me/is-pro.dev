@@ -100,26 +100,32 @@
           
           <h2>What You Will Need</h2>
           <ul>
-          <li>A GitHub account</li>
+          <li>A Discord server with widget settings configured</li>
+          <li>A GitHub account for hosting the widget page</li>
           <li>An is-pro.dev subdomain (free at dash.is-pro.dev)</li>
-          <li>Your project code ready to deploy</li>
-          <li>10-20 minutes of free time</li>
+          <li>Basic HTML/CSS knowledge</li>
+          <li>15-20 minutes of free time</li>
           </ul>
           
-          <h2>Step 1: Prepare Your Project</h2>
-          <p>Make sure your project is in a git repository and pushed to GitHub. Most hosting platforms including Vercel, Netlify, and Cloudflare Pages can deploy directly from GitHub repositories.</p>
+          <h2>Step 1: Enable Discord Server Widget</h2>
+          <p>In your Discord server, go to "Server Settings &rarr; Widget". Enable the server widget and copy the <code>serverId</code> from the widget URL (e.g., <code>https://discord.com/widget?id=123456789</code>). This ID is needed to embed live server data.</p>
           
-          <h2>Step 2: Connect Your Repository</h2>
-          <p>Sign in to your preferred hosting platform and connect your GitHub repository. Configure the build settings for your specific framework — most platforms auto-detect the framework and set appropriate build commands.</p>
+          <h2>Step 2: Create the Widget HTML Page</h2>
+          <p>Create an <code>index.html</code> file with a custom embed layout. Use the Discord Widget API (<code>https://discord.com/api/guilds/{serverId}/widget.json</code>) to fetch live member count, online status, and channel info. Style the page with CSS to match your personal brand or website theme.</p>
           
-          <h2>Step 3: Configure Custom Domain</h2>
-          <p>In your hosting platform settings, add your is-pro.dev subdomain (e.g., <code>myproject.is-pro.dev</code>) as a custom domain. Then update your DNS records in the is-pro.dev dashboard to point to your hosting provider.</p>
+          <h2>Step 3: Deploy to GitHub Pages</h2>
+          <p>Push the HTML page to a GitHub repository. Go to the repository "Settings &rarr; Pages" and enable GitHub Pages from the <code>main</code> branch. Your widget page will be live at <code>https://{username}.github.io/{repository}/</code>. Verify it loads and displays Discord data correctly.</p>
           
-          <h2>Step 4: Deploy and Verify</h2>
-          <p>Trigger a deployment and wait for it to complete. Once deployed, visit your subdomain to verify everything works correctly. Check for any mixed content warnings and ensure all assets load properly.</p>
+          <h2>Step 4: Connect Your is-pro.dev Subdomain</h2>
+          <p>In your is-pro.dev DNS dashboard, create a CNAME record pointing your subdomain (e.g., <code>discord.yourname.is-pro.dev</code>) to <code>{username}.github.io</code>. GitHub Pages will recognize the custom domain and provision a Let's Encrypt certificate automatically.</p>
+          
+          <h2>Step 5: Verify and Embed</h2>
+          <p>Visit your subdomain to confirm the Discord widget loads correctly. Use an <code>&lt;iframe&gt;</code> or <code>&lt;embed&gt;</code> tag on your main website to display the widget page. Test that the member count, online status, and invite button all work from the embedded view.</p>
           
           <h2>Troubleshooting</h2>
-          <p>If your deployment fails, check the platform build logs for specific error messages. Common issues include missing environment variables, incorrect build commands, or DNS misconfiguration.</p>
+          <p><strong>CORS errors fetching widget data:</strong> The Discord Widget API does not require authentication. If you see CORS errors, ensure you are using the correct API endpoint and that your widget is enabled in Discord server settings.</p>
+          <p><strong>GitHub Pages not serving custom domain:</strong> Add your is-pro.dev subdomain to the GitHub Pages custom domain field in the repository settings. Also ensure your DNS CNAME record has the trailing dot (<code>{username}.github.io.</code>).</p>
+          <p><strong>Widget data not updating:</strong> Discord caches widget data for up to 60 seconds. Your page should use JavaScript to poll the API at regular intervals or on page load to display fresh data.</p>
 
         </div>
       </div>

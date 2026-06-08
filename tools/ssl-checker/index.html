@@ -105,15 +105,15 @@
           
           <h2>Example Use Cases</h2>
           <ul>
-          <li>Verify your SSL certificate is working before launching a new project</li>
-          <li>Check DNS propagation after making changes to your subdomain records</li>
-          <li>Debug configuration issues by comparing expected vs actual results</li>
-          <li>Monitor the health of your production subdomains</li>
+          <li>Verify certificate issuer and expiration before a domain goes live</li>
+          <li>Check that HTTPS redirects are properly configured after deploying a new server</li>
+          <li>Monitor certificate expiry across subdomains to prevent renewal failures</li>
+          <li>Validate SAN coverage when adding subdomains behind a shared certificate</li>
           </ul>
           
           <h2>Common Issues</h2>
-          <p><strong>Results not updating:</strong> DNS changes can take up to 5 minutes to propagate globally. If you recently made changes, wait a few minutes and try again.</p>
-          <p><strong>SSL errors:</strong> If you see SSL certificate errors, make sure your DNS is pointing to the correct server and that your hosting provider has provisioned a certificate.</p>
+          <p><strong>Mixed content warnings:</strong> If your page loads over HTTPS but references HTTP resources (images, scripts), browsers block them. Use relative protocol URLs or update all resources to HTTPS.</p>
+          <p><strong>Certificate name mismatch:</strong> If the certificate Common Name or SANs don't match your domain, visitors see a security warning. Ensure your certificate covers all subdomains you use.</p>
         </div>
       </div>
     </div>

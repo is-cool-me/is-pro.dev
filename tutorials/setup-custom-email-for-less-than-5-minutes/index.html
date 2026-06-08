@@ -100,26 +100,32 @@
           
           <h2>What You Will Need</h2>
           <ul>
-          <li>A GitHub account</li>
           <li>An is-pro.dev subdomain (free at dash.is-pro.dev)</li>
-          <li>Your project code ready to deploy</li>
-          <li>10-20 minutes of free time</li>
+          <li>A Cloudflare account (free tier, linked to your is-pro.dev zone)</li>
+          <li>An email forwarding service like Cloudflare Email Routing (free) or Forward Email</li>
+          <li>A personal email inbox to receive forwarded messages</li>
+          <li>5 minutes of free time</li>
           </ul>
           
-          <h2>Step 1: Prepare Your Project</h2>
-          <p>Make sure your project is in a git repository and pushed to GitHub. Most hosting platforms including Vercel, Netlify, and Cloudflare Pages can deploy directly from GitHub repositories.</p>
+          <h2>Step 1: Enable Email Routing in Cloudflare</h2>
+          <p>Log in to your Cloudflare account and select the is-pro.dev zone. Navigate to "Email &rarr; Email Routing" and click "Get started". This feature is free and handles forwarding for up to 100 email addresses per zone.</p>
           
-          <h2>Step 2: Connect Your Repository</h2>
-          <p>Sign in to your preferred hosting platform and connect your GitHub repository. Configure the build settings for your specific framework — most platforms auto-detect the framework and set appropriate build commands.</p>
+          <h2>Step 2: Create a Custom Email Address</h2>
+          <p>Under Email Routing, click "Addresses". Enter your desired email prefix (e.g., <code>hello</code> for <code>hello@yourname.is-pro.dev</code>). Then enter your destination email address where forwarded emails should arrive. Click "Create" to save.</p>
           
-          <h2>Step 3: Configure Custom Domain</h2>
-          <p>In your hosting platform settings, add your is-pro.dev subdomain (e.g., <code>myproject.is-pro.dev</code>) as a custom domain. Then update your DNS records in the is-pro.dev dashboard to point to your hosting provider.</p>
+          <h2>Step 3: Configure MX Records in DNS</h2>
+          <p>Cloudflare Email Routing requires specific MX records. In the DNS section of your is-pro.dev zone, add the MX records provided by Cloudflare (typically <code>route1.mx.cloudflare.net</code>, <code>route2.mx.cloudflare.net</code>). Set the priority to 10 and 20 respectively.</p>
           
-          <h2>Step 4: Deploy and Verify</h2>
-          <p>Trigger a deployment and wait for it to complete. Once deployed, visit your subdomain to verify everything works correctly. Check for any mixed content warnings and ensure all assets load properly.</p>
+          <h2>Step 4: Add SPF Record to Prevent Spoofing</h2>
+          <p>To prevent your emails from being marked as spam, add a TXT record for your subdomain with the SPF value: <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>. This authorizes Cloudflare's mail servers to send on your behalf.</p>
+          
+          <h2>Step 5: Test the Forwarding</h2>
+          <p>Send a test email to your new custom address. It should arrive in your destination inbox within seconds. Check your spam folder if it does not appear. Reply to verify the SPF/DKIM configuration is working correctly.</p>
           
           <h2>Troubleshooting</h2>
-          <p>If your deployment fails, check the platform build logs for specific error messages. Common issues include missing environment variables, incorrect build commands, or DNS misconfiguration.</p>
+          <p><strong>Emails not arriving:</strong> Check your MX records in the DNS dashboard. Cloudflare Email Routing also requires that Proxied (orange cloud) is disabled for the MX records — they must be DNS-only (gray cloud).</p>
+          <p><strong>Emails going to spam:</strong> Verify your SPF record is correct and add DKIM signing in the Email Routing dashboard under "Settings &rarr; DKIM". This cryptographically signs your outgoing messages.</p>
+          <p><strong>Forwarding limit reached:</strong> Cloudflare's free tier forwards up to 100 emails per day. For higher volume, consider using a dedicated email service or upgrading your Cloudflare plan.</p>
 
         </div>
       </div>

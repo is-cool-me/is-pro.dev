@@ -99,52 +99,95 @@
           <p>Review the free subdomain landscape — Freenom, is-pro.dev, and alternatives — comparing reliability, DNS features, SSL support, longevity, and hidden restrictions.</p>
           
           <h2>Key Differences</h2>
-          <p>Both platforms offer free hosting tiers with generous limits, but they take different approaches to deployment pipelines, edge computing, and developer experience.</p>
+          <p>is-pro.dev and Freenom and Duck DNS and afraid.org (FreeDNS) and EU.org take different approaches to hosting, each with unique strengths. Below is a detailed feature comparison.</p>
           
           <h2>Feature Comparison</h2>
           <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem;">
           <thead>
           <tr style="border-bottom:2px solid var(--color-border);">
           <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Feature</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 1</th>
-          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 2</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">is-pro.dev</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Freenom</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Duck DNS</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">afraid.org (FreeDNS)</th>
+          <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">EU.org</th>
           </tr>
           </thead>
           <tbody>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Free Tier</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
-          <td style="padding:.6rem 0;">✅ Generous</td>
+          <td style="padding:.6rem 0;font-weight:500;">Domain Type</td>
+          <td style="padding:.6rem 0;">Subdomain (.is-pro.dev)</td>
+          <td style="padding:.6rem 0;">Free TLD (.tk, .ml, .ga, .cf)</td>
+          <td style="padding:.6rem 0;">Subdomain (duckdns.org)</td>
+          <td style="padding:.6rem 0;">Subdomain (afraid.org subdomain)</td>
+          <td style="padding:.6rem 0;">Subdomain (.eu.org)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Custom Domain</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
-          <td style="padding:.6rem 0;">✅ Included</td>
+          <td style="padding:.6rem 0;font-weight:500;">DNS Management</td>
+          <td style="padding:.6rem 0;">✅ Cloudflare-powered dashboard</td>
+          <td style="padding:.6rem 0;">✅ Basic DNS panel</td>
+          <td style="padding:.6rem 0;">✅ Simple API</td>
+          <td style="padding:.6rem 0;">✅ User-managed NS</td>
+          <td style="padding:.6rem 0;">✅ Basic DNS</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">SSL Certificate</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
-          <td style="padding:.6rem 0;">✅ Auto-provisioned</td>
+          <td style="padding:.6rem 0;font-weight:500;">SSL / HTTPS</td>
+          <td style="padding:.6rem 0;">✅ Free through Cloudflare</td>
+          <td style="padding:.6rem 0;">❌ No built-in SSL</td>
+          <td style="padding:.6rem 0;">❌ No built-in SSL</td>
+          <td style="padding:.6rem 0;">❌ No built-in SSL</td>
+          <td style="padding:.6rem 0;">❌ No built-in SSL</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">CI/CD Built-in</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
-          <td style="padding:.6rem 0;">✅ Yes</td>
+          <td style="padding:.6rem 0;font-weight:500;">Propagation Speed</td>
+          <td style="padding:.6rem 0;">Near-instant (Cloudflare)</td>
+          <td style="padding:.6rem 0;">Minutes to hours</td>
+          <td style="padding:.6rem 0;">Minutes to hours</td>
+          <td style="padding:.6rem 0;">Minutes to hours</td>
+          <td style="padding:.6rem 0;">Hours to days</td>
           </tr>
           <tr style="border-bottom:1px solid var(--color-border-sub);">
-          <td style="padding:.6rem 0;">Edge Functions</td>
-          <td style="padding:.6rem 0;">⚠️ Limited</td>
-          <td style="padding:.6rem 0;">✅ Full</td>
+          <td style="padding:.6rem 0;font-weight:500;">Reliability / Uptime</td>
+          <td style="padding:.6rem 0;">✅ Cloudflare infrastructure</td>
+          <td style="padding:.6rem 0;">⚠️ Frequent downtime reports</td>
+          <td style="padding:.6rem 0;">✅ Reliable</td>
+          <td style="padding:.6rem 0;">⚠️ Community-run</td>
+          <td style="padding:.6rem 0;">✅ Reliable (non-profit)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">API Access</td>
+          <td style="padding:.6rem 0;">✅ REST API</td>
+          <td style="padding:.6rem 0;">✅ API available</td>
+          <td style="padding:.6rem 0;">✅ Simple API</td>
+          <td style="padding:.6rem 0;">✅ API available</td>
+          <td style="padding:.6rem 0;">❌ No API</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Ease of Setup</td>
+          <td style="padding:.6rem 0;">✅ Dashboard + CLI</td>
+          <td style="padding:.6rem 0;">⚠️ Registration friction</td>
+          <td style="padding:.6rem 0;">✅ Simple script</td>
+          <td style="padding:.6rem 0;">⚠️ Manual approval needed</td>
+          <td style="padding:.6rem 0;">⚠️ Long approval (weeks)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--color-border-sub);">
+          <td style="padding:.6rem 0;font-weight:500;">Longevity Risk</td>
+          <td style="padding:.6rem 0;">Low (commercial backing)</td>
+          <td style="padding:.6rem 0;">High (Freenom discontinued)</td>
+          <td style="padding:.6rem 0;">Low (stable service)</td>
+          <td style="padding:.6rem 0;">Medium (community project)</td>
+          <td style="padding:.6rem 0;">Low (established non-profit)</td>
           </tr>
           </tbody>
           </table>
           
           <h2>When to Choose Each</h2>
-          <p><strong>Choose Option 1</strong> if you need simplicity, fast setup, and basic static site hosting without edge computing requirements.</p>
-          <p><strong>Choose Option 2</strong> if you need edge functions, better global performance, or more advanced serverless capabilities.</p>
+          <p><strong>Choose is-pro.dev</strong> if Choose is-pro.dev if you need Cloudflare-powered DNS, free SSL, an easy dashboard, and a reliable subdomain for developer projects. Best for developers who want professional infrastructure without cost.</p>
+          <p><strong>Choose Freenom</strong> if Choose Freenom if you specifically need a full TLD (.tk, .ml) for free. However, Freenom has faced reliability issues and domain seizures, making it less suitable for production projects.</p>
+          <p><strong>Choose Duck DNS or afraid.org</strong> if Choose Duck DNS or afraid.org if you need a simple free subdomain for home server or IoT projects. They lack built-in SSL and advanced DNS features but work well for personal or experimental use.</p>
           
           <h2>Conclusion</h2>
-          <p>Both platforms are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — for most static sites and simple SPAs, either platform works well.</p>
+          <p>All of these platforms are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — review the table above and pick the platform that aligns best with your project requirements and skill set.</p>
 
         </div>
       </div>

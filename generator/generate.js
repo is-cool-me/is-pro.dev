@@ -473,13 +473,13 @@ function buildToolWidget(tool) {
 function buildToolContent(tool) {
   const widget = buildToolWidget(tool);
 
-  const exampleUses = [
+  const exampleUses = tool.exampleUses || [
     'Verify your SSL certificate is working before launching a new project',
     'Check DNS propagation after making changes to your subdomain records',
     'Debug configuration issues by comparing expected vs actual results',
     'Monitor the health of your production subdomains'
   ];
-  const commonIssues = [
+  const commonIssues = tool.commonIssues || [
     '<strong>Results not updating:</strong> DNS changes can take up to 5 minutes to propagate globally. If you recently made changes, wait a few minutes and try again.',
     '<strong>SSL errors:</strong> If you see SSL certificate errors, make sure your DNS is pointing to the correct server and that your hosting provider has provisioned a certificate.'
   ];
@@ -502,84 +502,66 @@ ${commonIssues.map(c => `<p>${c}</p>`).join('\n')}`;
 }
 
 function buildTutorialContent(topic) {
-  return `<h2>Introduction</h2>
-<p>${topic.summary}</p>
+  const st = (step) => `<h2>${step.title}</h2>\n<p>${step.content}</p>`;
+  const li = (item) => `<li>${item}</li>`;
 
-<h2>What You Will Need</h2>
-<ul>
-<li>A GitHub account</li>
-<li>An is-pro.dev subdomain (free at dash.is-pro.dev)</li>
-<li>Your project code ready to deploy</li>
-<li>10-20 minutes of free time</li>
-</ul>
+  const intro = `<h2>Introduction</h2>\n<p>${topic.summary}</p>`;
 
-<h2>Step 1: Prepare Your Project</h2>
-<p>Make sure your project is in a git repository and pushed to GitHub. Most hosting platforms including Vercel, Netlify, and Cloudflare Pages can deploy directly from GitHub repositories.</p>
+  const whatYouNeed = topic.whatYouNeed
+    ? `<h2>What You Will Need</h2>\n<ul>\n${topic.whatYouNeed.map(li).join('\n')}\n</ul>`
+    : '';
 
-<h2>Step 2: Connect Your Repository</h2>
-<p>Sign in to your preferred hosting platform and connect your GitHub repository. Configure the build settings for your specific framework — most platforms auto-detect the framework and set appropriate build commands.</p>
+  const steps = topic.steps
+    ? topic.steps.map((s, i) => st({ title: `Step ${i + 1}: ${s.title}`, content: s.content })).join('\n\n')
+    : '';
 
-<h2>Step 3: Configure Custom Domain</h2>
-<p>In your hosting platform settings, add your is-pro.dev subdomain (e.g., <code>myproject.is-pro.dev</code>) as a custom domain. Then update your DNS records in the is-pro.dev dashboard to point to your hosting provider.</p>
+  const troubleshooting = topic.troubleshooting
+    ? `<h2>Troubleshooting</h2>\n${topic.troubleshooting.map(t => `<p><strong>${t.title}:</strong> ${t.content}</p>`).join('\n')}`
+    : '';
 
-<h2>Step 4: Deploy and Verify</h2>
-<p>Trigger a deployment and wait for it to complete. Once deployed, visit your subdomain to verify everything works correctly. Check for any mixed content warnings and ensure all assets load properly.</p>
-
-<h2>Troubleshooting</h2>
-<p>If your deployment fails, check the platform build logs for specific error messages. Common issues include missing environment variables, incorrect build commands, or DNS misconfiguration.</p>`;
+  return [intro, whatYouNeed, steps, troubleshooting].filter(Boolean).join('\n\n');
 }
 
 function buildCompareContent(topic) {
-  return `<h2>Overview</h2>
-<p>${topic.summary}</p>
+  const tr = (row) => `<tr style="border-bottom:1px solid var(--color-border-sub);">
+<td style="padding:.6rem 0;font-weight:500;">${row.feature}</td>
+${row.values.map(v => `<td style="padding:.6rem 0;">${v}</td>`).join('\n')}
+</tr>`;
 
-<h2>Key Differences</h2>
-<p>Both platforms offer free hosting tiers with generous limits, but they take different approaches to deployment pipelines, edge computing, and developer experience.</p>
+  const intro = `<h2>Overview</h2>
+<p>${topic.summary}</p>`;
 
-<h2>Feature Comparison</h2>
+  const keyDifferences = topic.platforms
+    ? `<h2>Key Differences</h2>
+<p>${topic.platforms.join(' and ')} take different approaches to hosting, each with unique strengths. Below is a detailed feature comparison.</p>`
+    : '';
+
+  const table = topic.featureRows
+    ? `<h2>Feature Comparison</h2>
 <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem;">
 <thead>
 <tr style="border-bottom:2px solid var(--color-border);">
 <th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Feature</th>
-<th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 1</th>
-<th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">Option 2</th>
+${topic.platforms.map(p => `<th style="text-align:left;padding:.75rem 0;color:var(--color-text-muted);">${p}</th>`).join('\n')}
 </tr>
 </thead>
 <tbody>
-<tr style="border-bottom:1px solid var(--color-border-sub);">
-<td style="padding:.6rem 0;">Free Tier</td>
-<td style="padding:.6rem 0;">✅ Generous</td>
-<td style="padding:.6rem 0;">✅ Generous</td>
-</tr>
-<tr style="border-bottom:1px solid var(--color-border-sub);">
-<td style="padding:.6rem 0;">Custom Domain</td>
-<td style="padding:.6rem 0;">✅ Included</td>
-<td style="padding:.6rem 0;">✅ Included</td>
-</tr>
-<tr style="border-bottom:1px solid var(--color-border-sub);">
-<td style="padding:.6rem 0;">SSL Certificate</td>
-<td style="padding:.6rem 0;">✅ Auto-provisioned</td>
-<td style="padding:.6rem 0;">✅ Auto-provisioned</td>
-</tr>
-<tr style="border-bottom:1px solid var(--color-border-sub);">
-<td style="padding:.6rem 0;">CI/CD Built-in</td>
-<td style="padding:.6rem 0;">✅ Yes</td>
-<td style="padding:.6rem 0;">✅ Yes</td>
-</tr>
-<tr style="border-bottom:1px solid var(--color-border-sub);">
-<td style="padding:.6rem 0;">Edge Functions</td>
-<td style="padding:.6rem 0;">⚠️ Limited</td>
-<td style="padding:.6rem 0;">✅ Full</td>
-</tr>
+${topic.featureRows.map(tr).join('\n')}
 </tbody>
-</table>
+</table>`
+    : '';
 
-<h2>When to Choose Each</h2>
-<p><strong>Choose Option 1</strong> if you need simplicity, fast setup, and basic static site hosting without edge computing requirements.</p>
-<p><strong>Choose Option 2</strong> if you need edge functions, better global performance, or more advanced serverless capabilities.</p>
+  const chooseWhen = topic.chooseWhen
+    ? `<h2>When to Choose Each</h2>
+${topic.chooseWhen.map(c => `<p><strong>Choose ${c.platform}</strong> if ${c.text}</p>`).join('\n')}`
+    : '';
 
-<h2>Conclusion</h2>
-<p>Both platforms are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — for most static sites and simple SPAs, either platform works well.</p>`;
+  const conclusion = topic.platforms
+    ? `<h2>Conclusion</h2>
+<p>${topic.platforms.length > 2 ? 'All of these platforms' : `Both ${topic.platforms.join(' and ')}`} are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — review the table above and pick the platform that aligns best with your project requirements and skill set.</p>`
+    : '';
+
+  return [intro, keyDifferences, table, chooseWhen, conclusion].filter(Boolean).join('\n\n');
 }
 
 async function generateShowcaseIndex(domains) {

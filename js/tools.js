@@ -101,12 +101,14 @@
       var h = d.headers || {};
       var statusCode = d.statusCode || d.httpStatus || 200;
       var finalUrl = d.url || url;
+      var redirects = microlink.redirects || [];
+      var wasRedirected = redirects.length > 0;
 
       var html = '<div style="margin-bottom:.5rem;padding:.5rem;border-left:3px solid var(--color-accent);">';
       html += '<div><strong>URL:</strong> ' + escapeHtml(finalUrl) + '</div>';
       html += '<div><strong>Status:</strong> ' + statusCode + ' <span style="color:#22c55e">OK</span></div>';
       html += '<div><strong>TLS:</strong> <span style="color:#22c55e">Enabled (HTTPS)</span></div>';
-      if (finalUrl !== url) html += '<div><strong>Redirected:</strong> Yes</div>';
+      if (wasRedirected) html += '<div><strong>Redirected:</strong> Yes</div>';
       html += '</div>';
 
       if (certData && Array.isArray(certData) && certData.length > 0) {

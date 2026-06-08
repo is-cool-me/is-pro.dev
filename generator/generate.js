@@ -886,7 +886,8 @@ function generateToolPage(tool) {
   }) + internalLinksHTML(INTERNAL_LINK_SECTIONS);
 
   const footerHtml = footerHTML();
-  return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
+  return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml })
+    .replace('</body>', '<script src="/js/tools.js" defer></script>\n</body>');
 }
 
 function generateTutorialsPage() {

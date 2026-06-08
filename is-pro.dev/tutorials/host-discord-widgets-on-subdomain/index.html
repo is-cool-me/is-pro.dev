@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Host Custom Discord Widgets and Embeds on a Subdomain — is-cool-me Tutorials</title>
+  <meta name="description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website." />
+  <link rel="canonical" href="https://is-pro.dev/tutorials/host-discord-widgets-on-subdomain/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://is-pro.dev/tutorials/host-discord-widgets-on-subdomain/" />
+  <meta property="og:title" content="Host Custom Discord Widgets and Embeds on a Subdomain — is-cool-me Tutorials" />
+  <meta property="og:description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Host Custom Discord Widgets and Embeds on a Subdomain — is-cool-me Tutorials" />
+  <meta name="twitter:description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://is-pro.dev/#website",
+      "url": "https://is-pro.dev",
+      "name": "Host Custom Discord Widgets and Embeds on a Subdomain — is-cool-me Tutorials",
+      "description": "Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      }
+    }
+  ]
+}</script>
+</head>
+<body>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/showcase/" class="nav-link">Showcase</a>
+        <a href="/trending/" class="nav-link">Trending</a>
+        <a href="/tools/" class="nav-link">Tools</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main id="main-content">
+<article>
+  <header class="article-hero">
+    <div class="container">
+      <div class="article-hero-inner">
+        <div class="article-meta">
+          <span class="article-category">Tutorial</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>15 min read</span>
+        </div>
+        <h1>Host Custom Discord Widgets and Embeds on a Subdomain</h1>
+        <p class="article-summary">Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-layout-section">
+    <div class="container">
+      <div class="article-layout-inner">
+        <div class="article-content prose">
+          <h2>Introduction</h2>
+          <p>Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website.</p>
+          
+          <h2>What You Will Need</h2>
+          <ul>
+          <li>A Discord server with widget settings configured</li>
+          <li>A GitHub account for hosting the widget page</li>
+          <li>An is-pro.dev subdomain (free at dash.is-pro.dev)</li>
+          <li>Basic HTML/CSS knowledge</li>
+          <li>15-20 minutes of free time</li>
+          </ul>
+          
+          <h2>Step 1: Enable Discord Server Widget</h2>
+          <p>In your Discord server, go to "Server Settings &rarr; Widget". Enable the server widget and copy the <code>serverId</code> from the widget URL (e.g., <code>https://discord.com/widget?id=123456789</code>). This ID is needed to embed live server data.</p>
+          
+          <h2>Step 2: Create the Widget HTML Page</h2>
+          <p>Create an <code>index.html</code> file with a custom embed layout. Use the Discord Widget API (<code>https://discord.com/api/guilds/{serverId}/widget.json</code>) to fetch live member count, online status, and channel info. Style the page with CSS to match your personal brand or website theme.</p>
+          
+          <h2>Step 3: Deploy to GitHub Pages</h2>
+          <p>Push the HTML page to a GitHub repository. Go to the repository "Settings &rarr; Pages" and enable GitHub Pages from the <code>main</code> branch. Your widget page will be live at <code>https://{username}.github.io/{repository}/</code>. Verify it loads and displays Discord data correctly.</p>
+          
+          <h2>Step 4: Connect Your is-pro.dev Subdomain</h2>
+          <p>In your is-pro.dev DNS dashboard, create a CNAME record pointing your subdomain (e.g., <code>discord.yourname.is-pro.dev</code>) to <code>{username}.github.io</code>. GitHub Pages will recognize the custom domain and provision a Let's Encrypt certificate automatically.</p>
+          
+          <h2>Step 5: Verify and Embed</h2>
+          <p>Visit your subdomain to confirm the Discord widget loads correctly. Use an <code>&lt;iframe&gt;</code> or <code>&lt;embed&gt;</code> tag on your main website to display the widget page. Test that the member count, online status, and invite button all work from the embedded view.</p>
+          
+          <h2>Troubleshooting</h2>
+          <p><strong>CORS errors fetching widget data:</strong> The Discord Widget API does not require authentication. If you see CORS errors, ensure you are using the correct API endpoint and that your widget is enabled in Discord server settings.</p>
+          <p><strong>GitHub Pages not serving custom domain:</strong> Add your is-pro.dev subdomain to the GitHub Pages custom domain field in the repository settings. Also ensure your DNS CNAME record has the trailing dot (<code>{username}.github.io.</code>).</p>
+          <p><strong>Widget data not updating:</strong> Discord caches widget data for up to 60 seconds. Your page should use JavaScript to poll the API at regular intervals or on page load to display fresh data.</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
+        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
+        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
+        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
+        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
+        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
+        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
+        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
+        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
+        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
+      </ul>
+    </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="is-cool-me home">
+          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+          <span>is-cool-me</span>
+        </a>
+        <p class="footer-tagline">Free subdomains for developers.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/domains/">Domains</a>
+        <a href="/blog/">Blog</a>
+        <a href="/guides/">Guides</a>
+        <a href="/tools/">Tools</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<script src="/js/app.js" defer></script>
+</body>
+</html>

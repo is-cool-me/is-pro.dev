@@ -82,39 +82,84 @@
     }
     setLoading('Checking SSL for ' + escapeHtml(url) + '...');
 
-    fetch(MICROLINK + encodeURIComponent(url))
-      .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (res.status !== 'success') {
-          setResult('<div style="padding:.5rem;border-left:3px solid #f59e0b;"><strong>Could not reach ' + escapeHtml(url) + '</strong><br><span style="font-size:.85rem;color:var(--color-text-muted);">The URL may be down or unreachable.</span></div>');
-          return;
-        }
-        var d = res.data;
-        var h = d.headers || {};
-        var statusCode = d.statusCode || d.httpStatus || 200;
-        var finalUrl = d.url || url;
-        var html = '<div style="margin-bottom:.5rem;padding:.5rem;border-left:3px solid var(--color-accent);">';
-        html += '<div><strong>URL:</strong> ' + escapeHtml(finalUrl) + '</div>';
-        html += '<div><strong>Status:</strong> ' + statusCode + ' <span style="color:#22c55e">OK</span></div>';
-        html += '<div><strong>TLS:</strong> <span style="color:#22c55e">Enabled (HTTPS)</span></div>';
-        if (finalUrl !== url) html += '<div><strong>Redirected:</strong> Yes</div>';
-        html += '</div>';
-        html += '<details style="margin-top:.5rem;cursor:pointer;font-size:.8rem;"><summary style="color:var(--color-accent-light)">Response Headers</summary><div style="margin-top:.5rem;background:var(--color-bg);padding:.75rem;border-radius:var(--radius-md);font-family:var(--font-mono);font-size:.75rem;word-break:break-all;">';
-        for (var k in h) {
-          if (h.hasOwnProperty(k)) {
-            html += '<span style="color:var(--color-accent-light)">' + escapeHtml(k) + '</span>: ' + escapeHtml(h[k]) + '<br>';
+    var domain = url.replace(/^https?:\/\//, '').split('/')[0].split(':')[0];
+    var certApi = 'https://api.certspotter.com/v1/issuances?domain=' + encodeURIComponent(domain) + '&include_subdomains=true&expand=dns_names&expand=issuer';
+
+    Promise.all([
+      fetch(MICROLINK + encodeURIComponent(url)).then(function (r) { return r.json(); }).catch(function () { return null; }),
+      fetch(certApi).then(function (r) { return r.json(); }).catch(function () { return null; })
+    ]).then(function (responses) {
+      var microlink = responses[0];
+      var certData = responses[1];
+
+      if (!microlink || microlink.status !== 'success') {
+        setResult('<div style="padding:.5rem;border-left:3px solid #f59e0b;"><strong>Could not reach ' + escapeHtml(url) + '</strong><br><span style="font-size:.85rem;color:var(--color-text-muted);">The URL may be down or unreachable.</span></div>');
+        return;
+      }
+
+      var d = microlink.data;
+      var h = d.headers || {};
+      var statusCode = d.statusCode || d.httpStatus || 200;
+      var finalUrl = d.url || url;
+
+      var html = '<div style="margin-bottom:.5rem;padding:.5rem;border-left:3px solid var(--color-accent);">';
+      html += '<div><strong>URL:</strong> ' + escapeHtml(finalUrl) + '</div>';
+      html += '<div><strong>Status:</strong> ' + statusCode + ' <span style="color:#22c55e">OK</span></div>';
+      html += '<div><strong>TLS:</strong> <span style="color:#22c55e">Enabled (HTTPS)</span></div>';
+      if (finalUrl !== url) html += '<div><strong>Redirected:</strong> Yes</div>';
+      html += '</div>';
+
+      if (certData && Array.isArray(certData) && certData.length > 0) {
+        var best = certData[0];
+        for (var i = 0; i < certData.length; i++) {
+          var names = certData[i].dns_names || [];
+          for (var j = 0; j < names.length; j++) {
+            if (names[j] === domain || names[j] === '*.' + domain) {
+              best = certData[i];
+              break;
+            }
           }
         }
-        html += '</div></details>';
-        setResult(html);
-      })
-      .catch(function () {
-        var html = '<div style="padding:.5rem;border-left:3px solid #f59e0b;">';
-        html += '<strong>Could not verify SSL for ' + escapeHtml(url) + '</strong><br>';
-        html += '<span style="font-size:.85rem;color:var(--color-text-muted);">The URL may be unreachable. Try visiting it directly in your browser.</span>';
+        var issuer = best.issuer ? best.issuer.friendly_name || best.issuer.name || 'Unknown' : 'Unknown';
+        var notBefore = best.not_before ? best.not_before.split('T')[0] : 'Unknown';
+        var notAfter = best.not_after ? best.not_after.split('T')[0] : 'Unknown';
+        var sanList = (best.dns_names || []).join(', ');
+        var fingerprint = best.cert_sha256 || '';
+        var revoked = best.revoked ? 'Yes <span style="color:#ef4444">⚠</span>' : 'No <span style="color:#22c55e">✓</span>';
+
+        var daysLeft = '';
+        if (best.not_after) {
+          var expiry = new Date(best.not_after);
+          var now = new Date();
+          var diff = Math.ceil((expiry - now) / (1000 * 60 * 60 * 24));
+          if (diff > 0) daysLeft = ' (' + diff + ' days remaining)';
+          else daysLeft = ' <span style="color:#ef4444">(EXPIRED)</span>';
+        }
+
+        html += '<div style="margin-top:.75rem;padding:.5rem;border-left:3px solid var(--color-accent);">';
+        html += '<strong style="color:var(--color-accent-light);font-size:.9rem;">📜 Certificate Details</strong><br>';
+        html += '<strong>Issuer:</strong> ' + escapeHtml(issuer) + '<br>';
+        html += '<strong>Valid:</strong> ' + escapeHtml(notBefore) + ' → ' + escapeHtml(notAfter) + daysLeft + '<br>';
+        html += '<strong>Revoked:</strong> ' + revoked + '<br>';
+        if (sanList) html += '<strong>SANs:</strong> <span style="font-size:.8rem;">' + escapeHtml(sanList) + '</span><br>';
+        if (fingerprint) html += '<strong>Fingerprint:</strong> <span style="font-size:.7rem;word-break:break-all;color:var(--color-text-muted);">' + escapeHtml(fingerprint) + '</span><br>';
         html += '</div>';
-        setResult(html);
-      });
+      }
+
+      html += '<details style="margin-top:.5rem;cursor:pointer;font-size:.8rem;"><summary style="color:var(--color-accent-light)">Response Headers</summary><div style="margin-top:.5rem;background:var(--color-bg);padding:.75rem;border-radius:var(--radius-md);font-family:var(--font-mono);font-size:.75rem;word-break:break-all;">';
+      for (var k in h) {
+        if (h.hasOwnProperty(k)) {
+          html += '<span style="color:var(--color-accent-light)">' + escapeHtml(k) + '</span>: ' + escapeHtml(h[k]) + '<br>';
+        }
+      }
+      html += '</div></details>';
+
+      if (!certData) {
+        html += '<div style="margin-top:.5rem;font-size:.8rem;color:var(--color-text-muted);">Certificate details unavailable from certificate transparency logs.</div>';
+      }
+
+      setResult(html);
+    });
   };
 
   /* ── Robots.txt Generator ── */

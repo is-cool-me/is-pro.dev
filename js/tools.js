@@ -433,25 +433,24 @@
         return;
       }
 
-      var apiUrl = 'http://ip-api.com/json/' + ip + '?fields=status,message,country,regionName,city,isp,org,as,lat,lon,query';
-
-      fetch(apiUrl)
+      fetch('https://ipinfo.io/' + ip + '/json')
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          if (data.status === 'fail') {
+          if (data.bogon) {
             setResult('<div style="padding:.5rem;border-left:3px solid var(--color-accent);">'
               + '<strong style="color:var(--color-accent-light)">' + escapeHtml(ip) + '</strong><br>'
-              + '<span style="color:var(--color-text-muted);font-size:.85rem;">' + (data.message || 'IP lookup returned no data') + '</span></div>');
+              + '<span style="color:var(--color-text-muted);font-size:.85rem;">Private or reserved IP address</span></div>');
             return;
           }
           var html = '<div style="padding:.5rem;border-left:3px solid var(--color-accent);">';
-          html += '<strong style="color:var(--color-accent-light)">' + escapeHtml(data.query || ip) + '</strong><br>';
+          html += '<strong style="color:var(--color-accent-light)">' + escapeHtml(data.ip || ip) + '</strong><br>';
           if (!isIP) html += '<span style="color:var(--color-text-muted);font-size:.85rem;">Resolved from ' + escapeHtml(input) + '</span><br>';
-          if (data.city) html += '📍 ' + escapeHtml(data.city) + ', ' + escapeHtml(data.regionName || '') + ', ' + escapeHtml(data.country || '') + '<br>';
-          if (data.isp) html += '🏢 ' + escapeHtml(data.isp) + '<br>';
-          if (data.org) html += '📋 ' + escapeHtml(data.org) + '<br>';
-          if (data.as) html += '🔗 ' + escapeHtml(data.as) + '<br>';
-          if (data.lat && data.lon) html += '🌐 ' + data.lat + ', ' + data.lon + '<br>';
+          if (data.city) html += '📍 ' + escapeHtml(data.city) + ', ' + escapeHtml(data.region || '') + ', ' + escapeHtml(data.country || '') + '<br>';
+          if (data.org) html += '🏢 ' + escapeHtml(data.org) + '<br>';
+          if (data.loc) {
+            var parts = data.loc.split(',');
+            if (parts.length === 2) html += '🌐 ' + parts[0].trim() + ', ' + parts[1].trim() + '<br>';
+          }
           html += '</div>';
           setResult(html);
         })

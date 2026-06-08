@@ -466,56 +466,41 @@
   window.findSubdomains = function () {
     var domain = el('tool-input') ? el('tool-input').value.trim() : '';
     if (!domain) { setError('Please enter a domain name.'); return; }
+    setLoading('Enumerating subdomains for ' + escapeHtml(domain) + '...');
 
-    var common = [
-      'www', 'mail', 'ftp', 'admin', 'blog', 'shop', 'api', 'dev', 'test',
-      'staging', 'cdn', 'm', 'app', 'beta', 'demo', 'forum', 'docs', 'wiki',
-      'status', 'support', 'help', 'community', 'portal', 'webmail', 'cpanel',
-      'whm', 'ns1', 'ns2', 'ns3', 'server', 'git', 'jenkins', 'jira', 'confluence',
-      'smtp', 'pop3', 'imap', 'vpn', 'remote', 'dash', 'dashboard', 'monitor',
-      'analytics', 'tracking', 'static', 'assets', 'media', 'images', 'files',
-      'upload', 'download', 'cloud', 'backup', 'proxy', 'gateway', 'auth',
-      'login', 'register', 'signup', 'my', 'account', 'profile', 'user'
-    ];
-
-    setLoading('Checking ' + common.length + ' common subdomains for ' + escapeHtml(domain) + '...');
-
-    var found = [];
-    var checked = 0;
-
-    function checkNext() {
-      if (checked >= common.length) {
-        var html = '';
-        if (found.length === 0) {
-          html = '<div style="padding:.5rem;border-left:3px solid #f59e0b;">No common subdomains found for ' + escapeHtml(domain) + '.</div>';
-        } else {
-          html = '<div style="margin-bottom:.5rem;"><strong style="color:var(--color-accent-light)">Found ' + found.length + ' subdomains</strong></div>';
-          found.forEach(function (sd) {
-            html += '<div style="padding:.35rem .5rem;border-left:3px solid var(--color-accent);margin-bottom:.25rem;font-family:var(--font-mono);font-size:.85rem;">' + escapeHtml(sd.sub) + '.' + escapeHtml(domain) + ' → <span style="color:var(--color-text-muted);font-size:.8rem;">' + escapeHtml(sd.ip || '') + '</span></div>';
-          });
+    fetch('https://api.hackertarget.com/hostsearch/?q=' + encodeURIComponent(domain))
+      .then(function (r) { return r.text(); })
+      .then(function (text) {
+        var lines = text.trim().split('\n');
+        if (lines.length === 0 || (lines.length === 1 && lines[0] === '')) {
+          setResult('<div style="padding:.5rem;border-left:3px solid #f59e0b;">No subdomains found for ' + escapeHtml(domain) + '.<br><span style="font-size:.85rem;color:var(--color-text-muted);">The API may have no data for this domain.</span></div>');
+          return;
         }
-        html += '<div style="margin-top:.5rem;font-size:.8rem;color:var(--color-text-muted);">Checked ' + common.length + ' common subdomain names.</div>';
-        setResult(html);
-        return;
-      }
-
-      var sub = common[checked++];
-      var fqdn = sub + '.' + domain;
-
-      fetch(dnsApi(fqdn, 'A'))
-        .then(function (r) { return r.json(); })
-        .then(function (d) {
-          if (d.Status === 0 && d.Answer && d.Answer.length > 0) {
-            found.push({ sub: sub, ip: d.Answer[0].data });
+        var results = [];
+        lines.forEach(function (line) {
+          var parts = line.split(',');
+          if (parts.length >= 2) {
+            var host = parts[0].trim();
+            var ip = parts[1].trim();
+            if (host !== domain) {
+              results.push({ host: host, ip: ip });
+            }
           }
-        })
-        .catch(function () {})
-        .then(function () {
-          setTimeout(checkNext, 50);
         });
-    }
-
-    checkNext();
+        if (results.length === 0) {
+          setResult('<div style="padding:.5rem;border-left:3px solid #f59e0b;">No subdomains found for ' + escapeHtml(domain) + '.</div>');
+          return;
+        }
+        var html = '<div style="margin-bottom:.5rem;"><strong style="color:var(--color-accent-light)">Found ' + results.length + ' subdomains</strong></div>';
+        results.forEach(function (r) {
+          html += '<div style="padding:.35rem .5rem;border-left:3px solid var(--color-accent);margin-bottom:.25rem;font-family:var(--font-mono);font-size:.85rem;">' + escapeHtml(r.host) + ' → <span style="color:var(--color-text-muted);font-size:.8rem;">' + escapeHtml(r.ip) + '</span></div>';
+        });
+        html += '<div style="margin-top:.5rem;font-size:.8rem;color:var(--color-text-muted);">Source: HackerTarget API</div>';
+        setResult(html);
+      })
+      .catch(function () {
+        setResult('<div style="padding:.5rem;border-left:3px solid #f59e0b;">Subdomain lookup failed. The API may be rate-limited.<br><span style="font-size:.85rem;color:var(--color-text-muted);">Try again in a few minutes.</span></div>');
+      });
   };
 
   /* ── Copy helper (legacy, for backward compat) ── */

@@ -1,244 +1,781 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Configure Subdomains for Game Servers and Multiplayer — is-cool-me</title>
-  <meta name="description" content="Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers." />
-  <link rel="canonical" href="https://is-pro.dev/guides/game-server-subdomain-config/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/game-server-subdomain-config/" />
-  <meta property="og:title" content="Configure Subdomains for Game Servers and Multiplayer — is-cool-me" />
-  <meta property="og:description" content="Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Configure Subdomains for Game Servers and Multiplayer — is-cool-me" />
-  <meta name="twitter:description" content="Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Configure Subdomains for Game Servers and Multiplayer — is-cool-me",
-      "description": "Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      Configure Subdomains for Game Servers and Multiplayer — is-cool-me
+    </title>
+    <meta
+      name="description"
+      content="Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/guides/game-server-subdomain-config/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/guides/game-server-subdomain-config/"
+    />
+    <meta
+      property="og:title"
+      content="Configure Subdomains for Game Servers and Multiplayer — is-cool-me"
+    />
+    <meta
+      property="og:description"
+      content="Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Configure Subdomains for Game Servers and Multiplayer — is-cool-me"
+    />
+    <meta
+      name="twitter:description"
+      content="Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Configure Subdomains for Game Servers and Multiplayer — is-cool-me",
+            "description": "Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "Configure Subdomains for Game Servers and Multiplayer",
+            "description": "Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-11",
+            "dateModified": "2026-06-11",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/guides/game-server-subdomain-config/"
+            },
+            "url": "https://is-pro.dev/guides/game-server-subdomain-config/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://is-pro.dev/guides/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Configure Subdomains for Game Servers and Multiplayer",
+                "item": "https://is-pro.dev/guides/game-server-subdomain-config/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "Configure Subdomains for Game Servers and Multiplayer",
-      "description": "Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/guides/game-server-subdomain-config/"
-      },
-      "url": "https://is-pro.dev/guides/game-server-subdomain-config/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Guides",
-          "item": "https://is-pro.dev/guides/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Configure Subdomains for Game Servers and Multiplayer",
-          "item": "https://is-pro.dev/guides/game-server-subdomain-config/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link active">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Gaming</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
-          <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link active">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
-        <h1>Configure Subdomains for Game Servers and Multiplayer</h1>
-        <p class="article-summary">Use SRV records to point game server subdomains to non-standard ports, configure DNS for Minecraft, Valheim, and other game servers hosted on residential or dedicated servers.</p>
       </div>
-    </div>
-  </header>
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Gaming</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >8 min read</span
+                >
+                <span
+                  class="article-meta-item"
+                  style="
+                    background: rgba(234, 179, 8, 0.1);
+                    border-color: rgba(234, 179, 8, 0.2);
+                    color: #eab308;
+                    padding: 0.2rem 0.6rem;
+                    border-radius: var(--radius-full);
+                    font-size: 0.8rem;
+                  "
+                  >Intermediate</span
+                >
+              </div>
+              <h1>Configure Subdomains for Game Servers and Multiplayer</h1>
+              <p class="article-summary">
+                Use SRV records to point game server subdomains to non-standard
+                ports, configure DNS for Minecraft, Valheim, and other game
+                servers hosted on residential or dedicated servers.
+              </p>
+            </div>
+          </div>
+        </header>
 
-  <section class="author-section" aria-label="Article authorship">
-    <div class="container">
-      <div class="author-card" data-reveal>
-        <div class="author-card-main">
-          <h2 class="author-card-title">Written by Mayank Baswal</h2>
-          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-          <div class="author-card-links">
-            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-            <a href="/contact/">Contact</a>
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">Written by Mayank Baswal</h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS & Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows, and
+                  platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Technical Review</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  Game servers typically run on non-standard ports, making them
+                  incompatible with standard web DNS configurations. SRV records
+                  solve this by allowing you to map a service name and protocol
+                  to a specific hostname and port. With an is-pro.dev subdomain,
+                  you can give your game server a clean, memorable address like
+                  <code>mc.is-pro.dev</code> instead of asking players to
+                  remember <code>203.0.113.5:25565</code>. This guide covers
+                  configuring SRV records for Minecraft, Valheim, and other
+                  popular game servers.
+                </p>
+                <h2>Prerequisites</h2>
+                <ul>
+                  <li>
+                    A game server running and accessible on your network or VPS
+                  </li>
+                  <li>
+                    Your server's public IP address or dynamic DNS hostname
+                  </li>
+                  <li>An is-pro.dev subdomain registered at dash.is-pro.dev</li>
+                  <li>
+                    Knowledge of the port number your game server uses (e.g.,
+                    25565 for Minecraft)
+                  </li>
+                </ul>
+                <h2>Step 1: Understanding SRV Record Structure</h2>
+                <p>
+                  An SRV record has a specific format:
+                  <code
+                    >_service._protocol.name TTL class SRV priority weight port
+                    target</code
+                  >. For Minecraft Java Edition, the service is
+                  <code>_minecraft</code> and the protocol is <code>_tcp</code>.
+                  The name is your subdomain. Priority determines which server
+                  to try first (lower = higher priority). Weight distributes
+                  load among servers with the same priority. Port is the
+                  server's listening port. Target is the hostname (not IP) of
+                  the server. A complete Minecraft SRV record looks like:
+                  <code
+                    >_minecraft._tcp.mc.is-pro.dev 300 IN SRV 0 5 25565
+                    yourserver.example.com</code
+                  >. The TTL can be set to 300-600 seconds for game servers
+                  since IP changes are infrequent. Note that the target must be
+                  a hostname, not an IP address — if your server only has an IP,
+                  use a dynamic DNS service or create an A record pointing a
+                  hostname to the IP, then use that hostname as the SRV target.
+                </p>
+                <h2>Step 2: Configure SRV Records in is-pro.dev Dashboard</h2>
+                <p>
+                  In the is-pro.dev DNS dashboard, click "Add Record" and select
+                  SRV as the record type. The dashboard will show fields for
+                  Service, Protocol, Priority, Weight, Port, and Target. For a
+                  Minecraft Java Edition server: set Service to
+                  <code>minecraft</code>, Protocol to <code>TCP</code>, Priority
+                  to <code>0</code>, Weight to <code>5</code>, Port to
+                  <code>25565</code>, and Target to your server's hostname
+                  (e.g., <code>yourserver.example.com</code>). The system
+                  constructs the full SRV record name automatically. Set the
+                  record to DNS-only (gray cloud) — game server traffic uses
+                  non-HTTP protocols on non-standard ports and cannot be proxied
+                  through Cloudflare. Save the record and verify it appears in
+                  your record list.
+                </p>
+                <h2>Step 3: Minecraft Java Edition Configuration</h2>
+                <p>
+                  Minecraft Java Edition automatically checks for SRV records
+                  when a player connects. If a player types
+                  <code>mc.is-pro.dev</code> into the multiplayer server address
+                  field, Minecraft looks up
+                  <code>_minecraft._tcp.mc.is-pro.dev</code> and redirects to
+                  your server IP and port. The server.properties file on your
+                  Minecraft server must set <code>server-ip=</code> to blank (to
+                  listen on all interfaces) and <code>server-port=25565</code>.
+                  If you change the port from 25565, update the SRV record port
+                  accordingly. For Minecraft Bedrock Edition, the SRV service is
+                  <code>_minecraft</code> but the protocol is
+                  <code>_udp</code> and the default port is 19132. Test the SRV
+                  resolution using an online Minecraft server status checker
+                  that supports SRV lookup.
+                </p>
+                <h2>Step 4: Valheim and Other Game Server Configuration</h2>
+                <p>
+                  Valheim servers use different SRV record values. Service:
+                  <code>_valheim</code>, Protocol: <code>_udp</code>, Port: 2456
+                  (default). Some games use multiple ports — Valheim uses
+                  2456-2458. Configure your server to listen on these ports and
+                  add SRV records for the primary connection port. For other
+                  games, check the game's documentation for the correct service
+                  name, protocol (TCP vs UDP), and default port. Games that
+                  support SRV records include: Counter-Strike (source), Team
+                  Fortress 2, Quake, and many others. Not all games support SRV
+                  lookups — for unsupported games, you can only use an A/AAAA
+                  record pointing to your server IP and direct players to use
+                  <code>yourname.is-pro.dev:port</code> format.
+                </p>
+                <h2>Step 5: Dynamic DNS for Residential Servers</h2>
+                <p>
+                  If you host a game server on your home network with a dynamic
+                  IP address, your SRV record's target hostname needs to update
+                  when your IP changes. Set up a dynamic DNS service: use Duck
+                  DNS (<code>yourserver.duckdns.org</code>) or Cloudflare's API
+                  to update an A record automatically when your IP changes. Your
+                  SRV record then points to the dynamic DNS hostname, and the
+                  dynamic DNS client keeps the A record updated. On the
+                  is-pro.dev side, you only configure the SRV record once — it
+                  always points to your dynamic DNS hostname. Set up a cron job
+                  or use a Docker container that runs a dynamic DNS update
+                  script every 5 minutes.
+                </p>
+                <h2>Step 6: Test SRV Resolution</h2>
+                <p>
+                  Use command-line tools to verify SRV records are configured
+                  correctly. Run
+                  <code>nslookup -type=srv _minecraft._tcp.mc.is-pro.dev</code>
+                  or <code>dig _minecraft._tcp.mc.is-pro.dev SRV</code>. The
+                  response should show your server's target hostname and port.
+                  Test actual game connectivity by launching the game and
+                  connecting using your subdomain. Check server logs to confirm
+                  connections are arriving. If players cannot connect, verify
+                  the SRV record format, ensure your server firewall allows the
+                  game port, and confirm port forwarding is configured on your
+                  router if hosting from home. Use online SRV lookup tools to
+                  double-check your DNS configuration from external networks.
+                </p>
+                <h2>Best Practices</h2>
+                <ul>
+                  <li>
+                    Set up monitoring for your game server using the is-pro.dev
+                    uptime monitoring tools to detect crashes
+                  </li>
+                  <li>
+                    Use multiple SRV records with different priorities for
+                    redundant game servers
+                  </li>
+                  <li>
+                    Keep your server software updated to patch security
+                    vulnerabilities
+                  </li>
+                  <li>
+                    Configure a firewall to allow only the necessary game ports
+                    and block everything else
+                  </li>
+                </ul>
+                <h2>Conclusion</h2>
+                <p>
+                  SRV records transform a complex game server address into a
+                  simple, memorable subdomain. With an is-pro.dev subdomain, you
+                  configure the SRV record once and players connect using an
+                  easy-to-remember address. This setup works for Minecraft,
+                  Valheim, and many other games, making your server more
+                  accessible to players.
+                </p>
+                <h2>FAQ</h2>
+                <p><strong>Do all games support SRV records?</strong></p>
+                <p>
+                  No. SRV record support depends on the game client. Minecraft
+                  Java Edition supports them natively. Many older games and
+                  console games do not. Check your game's documentation for SRV
+                  support.
+                </p>
+                <p>
+                  <strong
+                    >Can I use an SRV record with Cloudflare proxied
+                    mode?</strong
+                  >
+                </p>
+                <p>
+                  No, SRV records must always be DNS-only (gray cloud).
+                  Cloudflare's proxy only handles HTTP/HTTPS and WebSocket
+                  traffic, which game server protocols are not.
+                </p>
+                <p><strong>What if my server IP changes?</strong></p>
+                <p>
+                  Use a dynamic DNS hostname as the SRV target. You only need to
+                  update the A record of the dynamic DNS hostname when your IP
+                  changes, not the SRV record itself.
+                </p>
+                <h2>FAQ</h2>
+                <p><strong>Is Gaming setup free on is-pro.dev?</strong></p>
+                <p>
+                  Yes, all subdomains on is-pro.dev include free DNS management
+                  and SSL certificates.
+                </p>
+                <p><strong>How long does DNS take to propagate?</strong></p>
+                <p>
+                  Cloudflare typically propagates DNS changes within seconds to
+                  a few minutes globally.
+                </p>
+                <p><strong>Can I use this for commercial projects?</strong></p>
+                <p>
+                  Yes, is-pro.dev subdomains can be used for personal and
+                  commercial projects within our fair use policy.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="author-card-review">
-          <span class="author-card-review-label">Reviewed by</span>
-          <span class="author-card-reviewer">is-cool-me Technical Review</span>
+      </article>
+      <div
+        class="container ad-shell"
+        id="mid-content-ad"
+        data-ad="desktop"
+        aria-hidden="true"
+      >
+        <div class="ad-container ad-banner-728x90">
+          <script>
+            atOptions = {
+              key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+              format: "iframe",
+              height: 90,
+              width: 728,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
         </div>
       </div>
-    </div>
-  </section>
-
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Game servers typically run on non-standard ports, making them incompatible with standard web DNS configurations. SRV records solve this by allowing you to map a service name and protocol to a specific hostname and port. With an is-pro.dev subdomain, you can give your game server a clean, memorable address like <code>mc.is-pro.dev</code> instead of asking players to remember <code>203.0.113.5:25565</code>. This guide covers configuring SRV records for Minecraft, Valheim, and other popular game servers.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A game server running and accessible on your network or VPS</li><li>Your server's public IP address or dynamic DNS hostname</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Knowledge of the port number your game server uses (e.g., 25565 for Minecraft)</li></ul>
-          <h2>Step 1: Understanding SRV Record Structure</h2>
-          <p>An SRV record has a specific format: <code>_service._protocol.name TTL class SRV priority weight port target</code>. For Minecraft Java Edition, the service is <code>_minecraft</code> and the protocol is <code>_tcp</code>. The name is your subdomain. Priority determines which server to try first (lower = higher priority). Weight distributes load among servers with the same priority. Port is the server's listening port. Target is the hostname (not IP) of the server. A complete Minecraft SRV record looks like: <code>_minecraft._tcp.mc.is-pro.dev 300 IN SRV 0 5 25565 yourserver.example.com</code>. The TTL can be set to 300-600 seconds for game servers since IP changes are infrequent. Note that the target must be a hostname, not an IP address — if your server only has an IP, use a dynamic DNS service or create an A record pointing a hostname to the IP, then use that hostname as the SRV target.</p>
-          <h2>Step 2: Configure SRV Records in is-pro.dev Dashboard</h2>
-          <p>In the is-pro.dev DNS dashboard, click "Add Record" and select SRV as the record type. The dashboard will show fields for Service, Protocol, Priority, Weight, Port, and Target. For a Minecraft Java Edition server: set Service to <code>minecraft</code>, Protocol to <code>TCP</code>, Priority to <code>0</code>, Weight to <code>5</code>, Port to <code>25565</code>, and Target to your server's hostname (e.g., <code>yourserver.example.com</code>). The system constructs the full SRV record name automatically. Set the record to DNS-only (gray cloud) — game server traffic uses non-HTTP protocols on non-standard ports and cannot be proxied through Cloudflare. Save the record and verify it appears in your record list.</p>
-          <h2>Step 3: Minecraft Java Edition Configuration</h2>
-          <p>Minecraft Java Edition automatically checks for SRV records when a player connects. If a player types <code>mc.is-pro.dev</code> into the multiplayer server address field, Minecraft looks up <code>_minecraft._tcp.mc.is-pro.dev</code> and redirects to your server IP and port. The server.properties file on your Minecraft server must set <code>server-ip=</code> to blank (to listen on all interfaces) and <code>server-port=25565</code>. If you change the port from 25565, update the SRV record port accordingly. For Minecraft Bedrock Edition, the SRV service is <code>_minecraft</code> but the protocol is <code>_udp</code> and the default port is 19132. Test the SRV resolution using an online Minecraft server status checker that supports SRV lookup.</p>
-          <h2>Step 4: Valheim and Other Game Server Configuration</h2>
-          <p>Valheim servers use different SRV record values. Service: <code>_valheim</code>, Protocol: <code>_udp</code>, Port: 2456 (default). Some games use multiple ports — Valheim uses 2456-2458. Configure your server to listen on these ports and add SRV records for the primary connection port. For other games, check the game's documentation for the correct service name, protocol (TCP vs UDP), and default port. Games that support SRV records include: Counter-Strike (source), Team Fortress 2, Quake, and many others. Not all games support SRV lookups — for unsupported games, you can only use an A/AAAA record pointing to your server IP and direct players to use <code>yourname.is-pro.dev:port</code> format.</p>
-          <h2>Step 5: Dynamic DNS for Residential Servers</h2>
-          <p>If you host a game server on your home network with a dynamic IP address, your SRV record's target hostname needs to update when your IP changes. Set up a dynamic DNS service: use Duck DNS (<code>yourserver.duckdns.org</code>) or Cloudflare's API to update an A record automatically when your IP changes. Your SRV record then points to the dynamic DNS hostname, and the dynamic DNS client keeps the A record updated. On the is-pro.dev side, you only configure the SRV record once — it always points to your dynamic DNS hostname. Set up a cron job or use a Docker container that runs a dynamic DNS update script every 5 minutes.</p>
-          <h2>Step 6: Test SRV Resolution</h2>
-          <p>Use command-line tools to verify SRV records are configured correctly. Run <code>nslookup -type=srv _minecraft._tcp.mc.is-pro.dev</code> or <code>dig _minecraft._tcp.mc.is-pro.dev SRV</code>. The response should show your server's target hostname and port. Test actual game connectivity by launching the game and connecting using your subdomain. Check server logs to confirm connections are arriving. If players cannot connect, verify the SRV record format, ensure your server firewall allows the game port, and confirm port forwarding is configured on your router if hosting from home. Use online SRV lookup tools to double-check your DNS configuration from external networks.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Set up monitoring for your game server using the is-pro.dev uptime monitoring tools to detect crashes</li><li>Use multiple SRV records with different priorities for redundant game servers</li><li>Keep your server software updated to patch security vulnerabilities</li><li>Configure a firewall to allow only the necessary game ports and block everything else</li></ul>
-          <h2>Conclusion</h2>
-          <p>SRV records transform a complex game server address into a simple, memorable subdomain. With an is-pro.dev subdomain, you configure the SRV record once and players connect using an easy-to-remember address. This setup works for Minecraft, Valheim, and many other games, making your server more accessible to players.</p>
-          <h2>FAQ</h2>
-          <p><strong>Do all games support SRV records?</strong></p>
-          <p>No. SRV record support depends on the game client. Minecraft Java Edition supports them natively. Many older games and console games do not. Check your game's documentation for SRV support.</p>
-          <p><strong>Can I use an SRV record with Cloudflare proxied mode?</strong></p>
-          <p>No, SRV records must always be DNS-only (gray cloud). Cloudflare's proxy only handles HTTP/HTTPS and WebSocket traffic, which game server protocols are not.</p>
-          <p><strong>What if my server IP changes?</strong></p>
-          <p>Use a dynamic DNS hostname as the SRV target. You only need to update the A record of the dynamic DNS hostname when your IP changes, not the SRV record itself.</p>
-<h2>FAQ</h2><p><strong>Is Gaming setup free on is-pro.dev?</strong></p>
-<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
-<p><strong>How long does DNS take to propagate?</strong></p>
-<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
-<p><strong>Can I use this for commercial projects?</strong></p>
-<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/trending/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Trending</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tutorials/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Tutorials</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -250,16 +787,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -277,15 +835,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -304,7 +876,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -319,6 +896,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

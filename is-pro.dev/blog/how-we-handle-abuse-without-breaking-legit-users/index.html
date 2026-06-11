@@ -1,214 +1,715 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>How We Handle Abuse Reports Without Breaking Legit Users — is-cool-me Blog</title>
-  <meta name="description" content="The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted." />
-  <link rel="canonical" href="https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/" />
-  <meta property="og:title" content="How We Handle Abuse Reports Without Breaking Legit Users — is-cool-me Blog" />
-  <meta property="og:description" content="The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How We Handle Abuse Reports Without Breaking Legit Users — is-cool-me Blog" />
-  <meta name="twitter:description" content="The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "How We Handle Abuse Reports Without Breaking Legit Users — is-cool-me Blog",
-      "description": "The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      How We Handle Abuse Reports Without Breaking Legit Users — is-cool-me Blog
+    </title>
+    <meta
+      name="description"
+      content="The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/"
+    />
+    <meta
+      property="og:title"
+      content="How We Handle Abuse Reports Without Breaking Legit Users — is-cool-me Blog"
+    />
+    <meta
+      property="og:description"
+      content="The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="How We Handle Abuse Reports Without Breaking Legit Users — is-cool-me Blog"
+    />
+    <meta
+      name="twitter:description"
+      content="The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "How We Handle Abuse Reports Without Breaking Legit Users — is-cool-me Blog",
+            "description": "The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "How We Handle Abuse Reports Without Breaking Legit Users",
+            "description": "The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-11",
+            "dateModified": "2026-06-11",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/"
+            },
+            "url": "https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://is-pro.dev/blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "How We Handle Abuse Reports Without Breaking Legit Users",
+                "item": "https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "How We Handle Abuse Reports Without Breaking Legit Users",
-      "description": "The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/"
-      },
-      "url": "https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog",
-          "item": "https://is-pro.dev/blog/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "How We Handle Abuse Reports Without Breaking Legit Users",
-          "item": "https://is-pro.dev/blog/how-we-handle-abuse-without-breaking-legit-users/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link active">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Operations</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
-        </div>
-        <h1>How We Handle Abuse Reports Without Breaking Legit Users</h1>
-        <p class="article-summary">The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted.</p>
-      </div>
-    </div>
-  </header>
-
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Running a free subdomain service comes with a unique set of moderation challenges. On one hand, you want to give everyone the freedom to create and host content without unnecessary gatekeeping. On the other hand, bad actors will inevitably try to abuse the platform for phishing, spam, malware distribution, and impersonation. Balancing these competing priorities — trust and safety versus open access — is the central operational challenge of running is-pro.dev. This post explains how we approach abuse detection, handling, and appeals without breaking the experience for legitimate users.</p>
-          <h2>The Scale of the Challenge</h2>
-          <p>When you offer free subdomains, you become a target for every type of online abuse. Phishers love free subdomains because they can register seemingly legitimate URLs like <code>secure-login.bankname.is-pro.dev</code>. Spammers use them to host redirect pages that bypass URL filters. Malware distributors use them as staging servers. And impersonators register subdomains that mimic popular brands. Against this backdrop, we need systems that detect and stop abuse without requiring manual review of every registration — which would be impossible at scale. Our approach combines automated scanning, community reporting, and a tiered response system that prioritizes speed for abuse takedowns while giving legitimate users due process.</p>
-          <h2>Automated Detection Systems</h2>
-          <p>Every subdomain registered on is-pro.dev passes through automated screening before it becomes active. Our systems check the requested subdomain name against known patterns of abuse: does it contain trademarked brand names? Does it match patterns used in previous phishing campaigns? Is the name randomly generated (a common pattern for throwaway abuse domains)? These checks happen in milliseconds and flag suspicious registrations for manual review without delaying legitimate registrations. After a subdomain is active, periodic scans check the content being served. We look for known phishing page templates, malware signatures, and content that violates our acceptable use policy. Automated scanning is not perfect — it produces false positives and misses sophisticated abuse — but it catches the vast majority of obvious violations before any user encounters them.</p>
-          <h2>The Abuse Reporting Pipeline</h2>
-          <p>When a user or external party reports an abusive subdomain, the report enters our triage pipeline. Each report is assigned a priority based on severity: phishing and malware reports are escalated immediately, spam and impersonation reports are handled within hours, and low-severity violations like trademark disputes are addressed within days. We verify each report by checking the subdomain's content, reviewing DNS records, and cross-referencing against threat intelligence feeds. If the report is confirmed, the subdomain is suspended and the owner receives a notification explaining the reason and providing an appeal process. False reports are tracked — repeated false reporters may lose the ability to submit reports.</p>
-          <h2>Handling False Positives</h2>
-          <p>Automated systems make mistakes. A legitimate developer portfolio might trigger a phishing scanner because it contains a login form demo. A blog post critical of a large corporation might be reported as impersonation. Our approach to false positives is: suspend first, investigate quickly, reinstate immediately if wrong. When we suspend a subdomain based on an automated flag or report, the owner is notified with clear information about why the suspension occurred and what they can do to appeal. Our team aims to review appeals within 2 hours during business hours and within 12 hours overnight. If the suspension was in error, we reinstate the subdomain and add the pattern to our whitelist to prevent recurrence. This approach errs on the side of safety for the broader user base while keeping response times fast for affected users.</p>
-          <h2>The Appeal Process</h2>
-          <p>Every subdomain suspension includes a right to appeal. The appeal process is deliberately low-friction: email us at the address provided in the suspension notice, explain your situation, and provide evidence that your content is legitimate. For false positives, a brief explanation and a link to the content usually suffices. For cases where the content violates our policies but the violation is minor (e.g., a personal site with affiliate links that could be considered spam), we work with the owner to fix the issue rather than maintaining the suspension. Repeat violations or intentional abuse results in permanent suspension. The appeal process is designed to catch our mistakes and give well-meaning users a path to resolution, not to give bad actors second chances.</p>
-          <h2>Balancing Free Speech and Platform Safety</h2>
-          <p>One of the hardest questions we face is where to draw the line between legitimate expression and policy violation. A subdomain hosting a parody of a political figure — is that free expression or impersonation? A site criticizing a company's business practices — is that legitimate commentary or a trademark violation? Our guiding principle is to err on the side of free expression while taking decisive action against content that causes concrete harm: phishing, malware, harassment, and illegal content. For borderline cases, we prefer to explain the issue to the subdomain owner and give them an opportunity to adjust their content rather than imposing an immediate suspension. This approach respects our users' creativity while maintaining a safe platform for everyone.</p>
-          <h2>Transparency and Trust</h2>
-          <p>We publish regular transparency reports summarizing abuse takedowns, appeal outcomes, and policy changes. These reports help our community understand how the platform is being used and what actions we are taking to keep it safe. We also maintain a clear acceptable use policy that explains what is and is not allowed in plain language, with specific examples. Our goal is to build trust through transparency — when users understand how moderation decisions are made, they are more likely to accept them, even when they disagree with a specific outcome.</p>
-          <h2>Conclusion</h2>
-          <p>Running a free subdomain service means constantly balancing the needs of legitimate users against the actions of bad actors. Our approach combines automated detection, community reporting, fast response times, and a fair appeal process. We do not catch every violation, and we occasionally make mistakes, but our commitment to transparency and due process ensures that the platform remains open and useful for the vast majority of developers who use it legitimately.</p>
-          <h2>Key Takeaways</h2>
-          <ul><li>Automated systems catch most abuse at registration time without delaying legitimate signups</li><li>Reports are triaged by severity: phishing/malware get immediate action, lower severity gets faster review</li><li>False positives happen — we suspend first, investigate fast, and reinstate immediately if wrong</li><li>The appeal process is designed to be low-friction for legitimate users</li><li>Transparency reports and clear policies build trust with the community</li></ul>
-<h2>Frequently Asked Questions</h2><p><strong>Is is-pro.dev really free to use?</strong></p>
-<p>Yes, is-pro.dev provides free subdomains for developers with no hidden fees.</p>
-<p><strong>What can I host on an is-pro.dev subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link active">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Operations</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >6 min read</span
+                >
+              </div>
+              <h1>How We Handle Abuse Reports Without Breaking Legit Users</h1>
+              <p class="article-summary">
+                The moderation system behind is-pro.dev — how we detect abuse,
+                handle false positives, balance free speech with platform
+                safety, and keep the majority of users experience uninterrupted.
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  Running a free subdomain service comes with a unique set of
+                  moderation challenges. On one hand, you want to give everyone
+                  the freedom to create and host content without unnecessary
+                  gatekeeping. On the other hand, bad actors will inevitably try
+                  to abuse the platform for phishing, spam, malware
+                  distribution, and impersonation. Balancing these competing
+                  priorities — trust and safety versus open access — is the
+                  central operational challenge of running is-pro.dev. This post
+                  explains how we approach abuse detection, handling, and
+                  appeals without breaking the experience for legitimate users.
+                </p>
+                <h2>The Scale of the Challenge</h2>
+                <p>
+                  When you offer free subdomains, you become a target for every
+                  type of online abuse. Phishers love free subdomains because
+                  they can register seemingly legitimate URLs like
+                  <code>secure-login.bankname.is-pro.dev</code>. Spammers use
+                  them to host redirect pages that bypass URL filters. Malware
+                  distributors use them as staging servers. And impersonators
+                  register subdomains that mimic popular brands. Against this
+                  backdrop, we need systems that detect and stop abuse without
+                  requiring manual review of every registration — which would be
+                  impossible at scale. Our approach combines automated scanning,
+                  community reporting, and a tiered response system that
+                  prioritizes speed for abuse takedowns while giving legitimate
+                  users due process.
+                </p>
+                <h2>Automated Detection Systems</h2>
+                <p>
+                  Every subdomain registered on is-pro.dev passes through
+                  automated screening before it becomes active. Our systems
+                  check the requested subdomain name against known patterns of
+                  abuse: does it contain trademarked brand names? Does it match
+                  patterns used in previous phishing campaigns? Is the name
+                  randomly generated (a common pattern for throwaway abuse
+                  domains)? These checks happen in milliseconds and flag
+                  suspicious registrations for manual review without delaying
+                  legitimate registrations. After a subdomain is active,
+                  periodic scans check the content being served. We look for
+                  known phishing page templates, malware signatures, and content
+                  that violates our acceptable use policy. Automated scanning is
+                  not perfect — it produces false positives and misses
+                  sophisticated abuse — but it catches the vast majority of
+                  obvious violations before any user encounters them.
+                </p>
+                <h2>The Abuse Reporting Pipeline</h2>
+                <p>
+                  When a user or external party reports an abusive subdomain,
+                  the report enters our triage pipeline. Each report is assigned
+                  a priority based on severity: phishing and malware reports are
+                  escalated immediately, spam and impersonation reports are
+                  handled within hours, and low-severity violations like
+                  trademark disputes are addressed within days. We verify each
+                  report by checking the subdomain's content, reviewing DNS
+                  records, and cross-referencing against threat intelligence
+                  feeds. If the report is confirmed, the subdomain is suspended
+                  and the owner receives a notification explaining the reason
+                  and providing an appeal process. False reports are tracked —
+                  repeated false reporters may lose the ability to submit
+                  reports.
+                </p>
+                <h2>Handling False Positives</h2>
+                <p>
+                  Automated systems make mistakes. A legitimate developer
+                  portfolio might trigger a phishing scanner because it contains
+                  a login form demo. A blog post critical of a large corporation
+                  might be reported as impersonation. Our approach to false
+                  positives is: suspend first, investigate quickly, reinstate
+                  immediately if wrong. When we suspend a subdomain based on an
+                  automated flag or report, the owner is notified with clear
+                  information about why the suspension occurred and what they
+                  can do to appeal. Our team aims to review appeals within 2
+                  hours during business hours and within 12 hours overnight. If
+                  the suspension was in error, we reinstate the subdomain and
+                  add the pattern to our whitelist to prevent recurrence. This
+                  approach errs on the side of safety for the broader user base
+                  while keeping response times fast for affected users.
+                </p>
+                <h2>The Appeal Process</h2>
+                <p>
+                  Every subdomain suspension includes a right to appeal. The
+                  appeal process is deliberately low-friction: email us at the
+                  address provided in the suspension notice, explain your
+                  situation, and provide evidence that your content is
+                  legitimate. For false positives, a brief explanation and a
+                  link to the content usually suffices. For cases where the
+                  content violates our policies but the violation is minor
+                  (e.g., a personal site with affiliate links that could be
+                  considered spam), we work with the owner to fix the issue
+                  rather than maintaining the suspension. Repeat violations or
+                  intentional abuse results in permanent suspension. The appeal
+                  process is designed to catch our mistakes and give
+                  well-meaning users a path to resolution, not to give bad
+                  actors second chances.
+                </p>
+                <h2>Balancing Free Speech and Platform Safety</h2>
+                <p>
+                  One of the hardest questions we face is where to draw the line
+                  between legitimate expression and policy violation. A
+                  subdomain hosting a parody of a political figure — is that
+                  free expression or impersonation? A site criticizing a
+                  company's business practices — is that legitimate commentary
+                  or a trademark violation? Our guiding principle is to err on
+                  the side of free expression while taking decisive action
+                  against content that causes concrete harm: phishing, malware,
+                  harassment, and illegal content. For borderline cases, we
+                  prefer to explain the issue to the subdomain owner and give
+                  them an opportunity to adjust their content rather than
+                  imposing an immediate suspension. This approach respects our
+                  users' creativity while maintaining a safe platform for
+                  everyone.
+                </p>
+                <h2>Transparency and Trust</h2>
+                <p>
+                  We publish regular transparency reports summarizing abuse
+                  takedowns, appeal outcomes, and policy changes. These reports
+                  help our community understand how the platform is being used
+                  and what actions we are taking to keep it safe. We also
+                  maintain a clear acceptable use policy that explains what is
+                  and is not allowed in plain language, with specific examples.
+                  Our goal is to build trust through transparency — when users
+                  understand how moderation decisions are made, they are more
+                  likely to accept them, even when they disagree with a specific
+                  outcome.
+                </p>
+                <h2>Conclusion</h2>
+                <p>
+                  Running a free subdomain service means constantly balancing
+                  the needs of legitimate users against the actions of bad
+                  actors. Our approach combines automated detection, community
+                  reporting, fast response times, and a fair appeal process. We
+                  do not catch every violation, and we occasionally make
+                  mistakes, but our commitment to transparency and due process
+                  ensures that the platform remains open and useful for the vast
+                  majority of developers who use it legitimately.
+                </p>
+                <h2>Key Takeaways</h2>
+                <ul>
+                  <li>
+                    Automated systems catch most abuse at registration time
+                    without delaying legitimate signups
+                  </li>
+                  <li>
+                    Reports are triaged by severity: phishing/malware get
+                    immediate action, lower severity gets faster review
+                  </li>
+                  <li>
+                    False positives happen — we suspend first, investigate fast,
+                    and reinstate immediately if wrong
+                  </li>
+                  <li>
+                    The appeal process is designed to be low-friction for
+                    legitimate users
+                  </li>
+                  <li>
+                    Transparency reports and clear policies build trust with the
+                    community
+                  </li>
+                </ul>
+                <h2>Frequently Asked Questions</h2>
+                <p><strong>Is is-pro.dev really free to use?</strong></p>
+                <p>
+                  Yes, is-pro.dev provides free subdomains for developers with
+                  no hidden fees.
+                </p>
+                <p>
+                  <strong>What can I host on an is-pro.dev subdomain?</strong>
+                </p>
+                <p>
+                  Any legitimate project — portfolios, SaaS apps, game servers,
+                  APIs, and more.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <div
+        class="container ad-shell"
+        id="mid-content-ad"
+        data-ad="desktop"
+        aria-hidden="true"
+      >
+        <div class="ad-container ad-banner-728x90">
+          <script>
+            atOptions = {
+              key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+              format: "iframe",
+              height: 90,
+              width: 728,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+        </div>
       </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/trending/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Trending</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tutorials/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Tutorials</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -220,16 +721,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -247,15 +769,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -274,7 +810,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -289,6 +830,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

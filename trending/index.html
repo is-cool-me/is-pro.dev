@@ -1,136 +1,443 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Trending Projects — is-cool-me</title>
-  <meta name="description" content="See what is hot in the is-cool-me community. Trending projects, rising stars, and popular developer builds on free subdomains." />
-  <link rel="canonical" href="https://is-pro.dev/trending/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://is-pro.dev/trending/" />
-  <meta property="og:title" content="Trending Projects — is-cool-me" />
-  <meta property="og:description" content="See what is hot in the is-cool-me community. Trending projects, rising stars, and popular developer builds on free subdomains." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Trending Projects — is-cool-me" />
-  <meta name="twitter:description" content="See what is hot in the is-cool-me community. Trending projects, rising stars, and popular developer builds on free subdomains." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Trending Projects — is-cool-me",
-      "description": "See what is hot in the is-cool-me community. Trending projects, rising stars, and popular developer builds on free subdomains.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>Trending Projects — is-cool-me</title>
+    <meta
+      name="description"
+      content="See what is hot in the is-cool-me community. Trending projects, rising stars, and popular developer builds on free subdomains."
+    />
+    <link rel="canonical" href="https://is-pro.dev/trending/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://is-pro.dev/trending/" />
+    <meta property="og:title" content="Trending Projects — is-cool-me" />
+    <meta
+      property="og:description"
+      content="See what is hot in the is-cool-me community. Trending projects, rising stars, and popular developer builds on free subdomains."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Trending Projects — is-cool-me" />
+    <meta
+      name="twitter:description"
+      content="See what is hot in the is-cool-me community. Trending projects, rising stars, and popular developer builds on free subdomains."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Trending Projects — is-cool-me",
+            "description": "See what is hot in the is-cool-me community. Trending projects, rising stars, and popular developer builds on free subdomains.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          }
+        ]
       }
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link active">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link active">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
       </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
+    </header>
+    <main id="main-content">
+      <section class="hero" style="padding: var(--space-16) 0">
+        <div class="container">
+          <div class="hero-inner text-center">
+            <div class="hero-badge">🔥 Hot</div>
+            <h1>Trending Projects</h1>
+            <p class="hero-subtitle">
+              Discover developers building on is-cool-me. All projects below are
+              online and returning HTTP 200.
+            </p>
+          </div>
+        </div>
+      </section>
 
-  <section class="hero" style="padding:var(--space-16) 0;">
-    <div class="container">
-      <div class="hero-inner text-center">
-        <div class="hero-badge">🔥 Hot</div>
-        <h1>Trending Projects</h1>
-        <p class="hero-subtitle">Discover developers building on is-cool-me. All projects below are online and returning HTTP 200.</p>
-      </div>
-    </div>
-  </section>
+      <section class="section" style="padding: var(--space-12) 0">
+        <div class="container">
+          <div class="posts-grid">
+            <p style="color: var(--color-text-muted); grid-column: 1/-1">
+              No trending projects yet.
+              <a
+                href="https://dash.is-pro.dev"
+                style="color: var(--color-accent)"
+                >Submit your project!</a
+              >
+            </p>
+          </div>
+        </div>
+      </section>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <div
+            class="container ad-shell"
+            id="mid-content-ad"
+            data-ad="desktop"
+            aria-hidden="true"
+          >
+            <div class="ad-container ad-banner-728x90">
+              <script>
+                atOptions = {
+                  key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                  format: "iframe",
+                  height: 90,
+                  width: 728,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+            </div>
+          </div>
 
-  <section class="section" style="padding:var(--space-12) 0;">
-    <div class="container">
-      <div class="posts-grid">
-        <p style="color:var(--color-text-muted);grid-column:1/-1;">No trending projects yet. <a href="https://dash.is-pro.dev" style="color:var(--color-accent);">Submit your project!</a></p>
-      </div>
-    </div>
-  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -142,16 +449,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -169,15 +497,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -196,7 +538,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -211,6 +558,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

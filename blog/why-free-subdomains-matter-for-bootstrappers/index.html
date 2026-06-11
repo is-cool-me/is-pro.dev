@@ -1,212 +1,674 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Why Free Subdomains Matter for Bootstrappers and Indie Hackers — is-cool-me Blog</title>
-  <meta name="description" content="A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs." />
-  <link rel="canonical" href="https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/" />
-  <meta property="og:title" content="Why Free Subdomains Matter for Bootstrappers and Indie Hackers — is-cool-me Blog" />
-  <meta property="og:description" content="A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Why Free Subdomains Matter for Bootstrappers and Indie Hackers — is-cool-me Blog" />
-  <meta name="twitter:description" content="A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Why Free Subdomains Matter for Bootstrappers and Indie Hackers — is-cool-me Blog",
-      "description": "A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      Why Free Subdomains Matter for Bootstrappers and Indie Hackers —
+      is-cool-me Blog
+    </title>
+    <meta
+      name="description"
+      content="A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/"
+    />
+    <meta
+      property="og:title"
+      content="Why Free Subdomains Matter for Bootstrappers and Indie Hackers — is-cool-me Blog"
+    />
+    <meta
+      property="og:description"
+      content="A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Why Free Subdomains Matter for Bootstrappers and Indie Hackers — is-cool-me Blog"
+    />
+    <meta
+      name="twitter:description"
+      content="A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Why Free Subdomains Matter for Bootstrappers and Indie Hackers — is-cool-me Blog",
+            "description": "A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "Why Free Subdomains Matter for Bootstrappers and Indie Hackers",
+            "description": "A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-08",
+            "dateModified": "2026-06-08",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/"
+            },
+            "url": "https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://is-pro.dev/blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Why Free Subdomains Matter for Bootstrappers and Indie Hackers",
+                "item": "https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "Why Free Subdomains Matter for Bootstrappers and Indie Hackers",
-      "description": "A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/"
-      },
-      "url": "https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog",
-          "item": "https://is-pro.dev/blog/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Why Free Subdomains Matter for Bootstrappers and Indie Hackers",
-          "item": "https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link active">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Opinion</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
-        </div>
-        <h1>Why Free Subdomains Matter for Bootstrappers and Indie Hackers</h1>
-        <p class="article-summary">A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs.</p>
-      </div>
-    </div>
-  </header>
-
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Every bootstrapped project starts with a list of costs that seem small individually but add up fast: domain registration ($10-15/year), hosting ($5-10/month), email ($5/month), SSL certificates (often bundled but sometimes separate). Before you have written a line of code or signed your first customer, you are looking at $200-300/year in infrastructure costs. For someone building a side project or validating an idea, that is a significant barrier. Free subdomain providers like is-pro.dev remove this friction, letting developers focus on building rather than budgeting.</p>
-          <h2>Why Infrastructure Costs Matter for Early-Stage Projects</h2>
-          <p>The indie hacker and bootstrapper community has a mantra: "Launch first, monetize later." But launching requires a domain, hosting, and SSL — all of which cost money. When you are building five different side projects to see what sticks, paying $15/year for a domain on each one is not sustainable. This is where free subdomains fill a critical gap. They let you launch a prototype, share it with potential users, and gather feedback — all without committing financially. A project that costs nothing to host is a project you can afford to keep running even if it only gets 50 visitors a month. That longevity matters because many successful projects started as low-traffic side projects that gradually found their audience.</p>
-          <h2>The Hidden Costs of "Free" Domain Registration</h2>
-          <p>Before diving into why is-pro.dev is different, it is worth understanding why so many "free domain" offers come with strings attached. Freenom offered free .tk, .ml, .ga, .cf, and .gq domains, but the service was plagued by reliability issues, domain seizures, and sudden policy changes. Many users reported their domains disappearing without warning. Other free domain providers inject ads, limit DNS control, or require expensive upgrades for basic features like SSL. The catch with most free offerings is that you get just enough functionality to be useful, but not enough to be professional. is-pro.dev takes a different approach: rather than cutting corners, it builds on top of Cloudflare infrastructure — the same DNS, SSL, and CDN services that power millions of paid domains. The result is free subdomains with enterprise-grade infrastructure, no ads, and no hidden limitations.</p>
-          <h2>How Free Subdomains Enable the Indie Hacker Workflow</h2>
-          <p>The typical bootstrapper workflow goes like this: have an idea, build a minimal version over a weekend, deploy it, share it on Hacker News or Reddit, gather feedback, iterate. Repeat. Free subdomains support every stage of this cycle. On day one, you register your subdomain at dash.is-pro.dev — it takes 30 seconds. You deploy a static landing page or a simple web app to any free hosting platform and connect it to your subdomain with a CNAME record. Your project has a real HTTPS URL that looks professional enough to share. No credit card required, no trial period expiring in 30 days. This speed from idea to launch is the superpower of free subdomains.</p>
-          <h2>Real Examples: Projects That Started on Free Subdomains</h2>
-          <p>Many successful developer tools and services started as side projects on free or low-cost infrastructure. Portfolio sites hosted on is-pro.dev subdomains have helped developers land jobs. API endpoints on subdomains power side projects that evolved into full-time products. Discord bot dashboards on subdomains serve thousands of servers. The common thread: these projects would not have launched if the founder had to pay for a domain first. When the cost of launching is zero, the number of experiments you run increases dramatically. And more experiments means a higher chance of finding something that works.</p>
-          <h2>Beyond Cost: The Professional Advantage of a Subdomain</h2>
-          <p>A free subdomain does not look unprofessional — quite the opposite. An is-pro.dev subdomain like <code>myproject.is-pro.dev</code> includes Cloudflare DNS, free SSL, and optional DDoS protection. From a visitor's perspective, it loads over HTTPS, has a valid certificate, and resolves quickly. The URL format is clean and readable. Compare this to hosting on <code>myproject.netlify.app</code> or <code>myproject.github.io</code> — platform subdomains that clearly signal "this is hosted on free infrastructure." An is-pro.dev subdomain with a descriptive project name conveys more ownership and professionalism while costing exactly the same amount: nothing.</p>
-          <h2>The Sustainability Question</h2>
-          <p>How can is-pro.dev offer free subdomains with Cloudflare infrastructure indefinitely? The model relies on the same dynamic that makes other free developer tools sustainable: a small percentage of users upgrade or contribute, bulk infrastructure costs are low, and the service benefits from Cloudflare's generous partner programs. For the vast majority of users — especially bootstrappers and indie hackers — the free tier provides everything they need. The platform is sustainable because the cost per user is near-zero when shared across Cloudflare's global network. This economic reality means free subdomains are not a temporary promotion or a growth hack — they are a genuinely sustainable offering.</p>
-          <h2>Conclusion</h2>
-          <p>Free subdomains matter because they remove a friction point in the bootstrapper's journey. Every cost you eliminate increases the probability that someone will launch their project. And every project that launches — even one that fails — teaches its creator something valuable. Platforms like is-pro.dev that provide free, professional subdomains are not just offering a service; they are investing in the next generation of developers and founders.</p>
-          <h2>Key Takeaways</h2>
-          <ul><li>Free subdomains eliminate the $10-15/year domain cost barrier for side projects</li><li>is-pro.dev provides professional infrastructure (Cloudflare DNS, SSL) at zero cost</li><li>Speed from idea to launch is critical for bootstrappers — free subdomains remove setup friction</li><li>Many successful projects started as side experiments on free infrastructure</li><li>The model is sustainable because infrastructure costs scale efficiently across a global network</li></ul>
-<h2>Frequently Asked Questions</h2><p><strong>Is is-pro.dev really free to use?</strong></p>
-<p>Yes, is-pro.dev provides free subdomains for developers with no hidden fees.</p>
-<p><strong>What can I host on an is-pro.dev subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link active">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Opinion</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >5 min read</span
+                >
+              </div>
+              <h1>
+                Why Free Subdomains Matter for Bootstrappers and Indie Hackers
+              </h1>
+              <p class="article-summary">
+                A personal argument for why free subdomain providers like
+                is-pro.dev are critical infrastructure for the indie hacker
+                ecosystem, enabling anyone to build and ship without upfront
+                costs.
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  Every bootstrapped project starts with a list of costs that
+                  seem small individually but add up fast: domain registration
+                  ($10-15/year), hosting ($5-10/month), email ($5/month), SSL
+                  certificates (often bundled but sometimes separate). Before
+                  you have written a line of code or signed your first customer,
+                  you are looking at $200-300/year in infrastructure costs. For
+                  someone building a side project or validating an idea, that is
+                  a significant barrier. Free subdomain providers like
+                  is-pro.dev remove this friction, letting developers focus on
+                  building rather than budgeting.
+                </p>
+                <h2>
+                  Why Infrastructure Costs Matter for Early-Stage Projects
+                </h2>
+                <p>
+                  The indie hacker and bootstrapper community has a mantra:
+                  "Launch first, monetize later." But launching requires a
+                  domain, hosting, and SSL — all of which cost money. When you
+                  are building five different side projects to see what sticks,
+                  paying $15/year for a domain on each one is not sustainable.
+                  This is where free subdomains fill a critical gap. They let
+                  you launch a prototype, share it with potential users, and
+                  gather feedback — all without committing financially. A
+                  project that costs nothing to host is a project you can afford
+                  to keep running even if it only gets 50 visitors a month. That
+                  longevity matters because many successful projects started as
+                  low-traffic side projects that gradually found their audience.
+                </p>
+                <h2>The Hidden Costs of "Free" Domain Registration</h2>
+                <p>
+                  Before diving into why is-pro.dev is different, it is worth
+                  understanding why so many "free domain" offers come with
+                  strings attached. Freenom offered free .tk, .ml, .ga, .cf, and
+                  .gq domains, but the service was plagued by reliability
+                  issues, domain seizures, and sudden policy changes. Many users
+                  reported their domains disappearing without warning. Other
+                  free domain providers inject ads, limit DNS control, or
+                  require expensive upgrades for basic features like SSL. The
+                  catch with most free offerings is that you get just enough
+                  functionality to be useful, but not enough to be professional.
+                  is-pro.dev takes a different approach: rather than cutting
+                  corners, it builds on top of Cloudflare infrastructure — the
+                  same DNS, SSL, and CDN services that power millions of paid
+                  domains. The result is free subdomains with enterprise-grade
+                  infrastructure, no ads, and no hidden limitations.
+                </p>
+                <h2>How Free Subdomains Enable the Indie Hacker Workflow</h2>
+                <p>
+                  The typical bootstrapper workflow goes like this: have an
+                  idea, build a minimal version over a weekend, deploy it, share
+                  it on Hacker News or Reddit, gather feedback, iterate. Repeat.
+                  Free subdomains support every stage of this cycle. On day one,
+                  you register your subdomain at dash.is-pro.dev — it takes 30
+                  seconds. You deploy a static landing page or a simple web app
+                  to any free hosting platform and connect it to your subdomain
+                  with a CNAME record. Your project has a real HTTPS URL that
+                  looks professional enough to share. No credit card required,
+                  no trial period expiring in 30 days. This speed from idea to
+                  launch is the superpower of free subdomains.
+                </p>
+                <h2>Real Examples: Projects That Started on Free Subdomains</h2>
+                <p>
+                  Many successful developer tools and services started as side
+                  projects on free or low-cost infrastructure. Portfolio sites
+                  hosted on is-pro.dev subdomains have helped developers land
+                  jobs. API endpoints on subdomains power side projects that
+                  evolved into full-time products. Discord bot dashboards on
+                  subdomains serve thousands of servers. The common thread:
+                  these projects would not have launched if the founder had to
+                  pay for a domain first. When the cost of launching is zero,
+                  the number of experiments you run increases dramatically. And
+                  more experiments means a higher chance of finding something
+                  that works.
+                </p>
+                <h2>Beyond Cost: The Professional Advantage of a Subdomain</h2>
+                <p>
+                  A free subdomain does not look unprofessional — quite the
+                  opposite. An is-pro.dev subdomain like
+                  <code>myproject.is-pro.dev</code> includes Cloudflare DNS,
+                  free SSL, and optional DDoS protection. From a visitor's
+                  perspective, it loads over HTTPS, has a valid certificate, and
+                  resolves quickly. The URL format is clean and readable.
+                  Compare this to hosting on
+                  <code>myproject.netlify.app</code> or
+                  <code>myproject.github.io</code> — platform subdomains that
+                  clearly signal "this is hosted on free infrastructure." An
+                  is-pro.dev subdomain with a descriptive project name conveys
+                  more ownership and professionalism while costing exactly the
+                  same amount: nothing.
+                </p>
+                <h2>The Sustainability Question</h2>
+                <p>
+                  How can is-pro.dev offer free subdomains with Cloudflare
+                  infrastructure indefinitely? The model relies on the same
+                  dynamic that makes other free developer tools sustainable: a
+                  small percentage of users upgrade or contribute, bulk
+                  infrastructure costs are low, and the service benefits from
+                  Cloudflare's generous partner programs. For the vast majority
+                  of users — especially bootstrappers and indie hackers — the
+                  free tier provides everything they need. The platform is
+                  sustainable because the cost per user is near-zero when shared
+                  across Cloudflare's global network. This economic reality
+                  means free subdomains are not a temporary promotion or a
+                  growth hack — they are a genuinely sustainable offering.
+                </p>
+                <h2>Conclusion</h2>
+                <p>
+                  Free subdomains matter because they remove a friction point in
+                  the bootstrapper's journey. Every cost you eliminate increases
+                  the probability that someone will launch their project. And
+                  every project that launches — even one that fails — teaches
+                  its creator something valuable. Platforms like is-pro.dev that
+                  provide free, professional subdomains are not just offering a
+                  service; they are investing in the next generation of
+                  developers and founders.
+                </p>
+                <h2>Key Takeaways</h2>
+                <ul>
+                  <li>
+                    Free subdomains eliminate the $10-15/year domain cost
+                    barrier for side projects
+                  </li>
+                  <li>
+                    is-pro.dev provides professional infrastructure (Cloudflare
+                    DNS, SSL) at zero cost
+                  </li>
+                  <li>
+                    Speed from idea to launch is critical for bootstrappers —
+                    free subdomains remove setup friction
+                  </li>
+                  <li>
+                    Many successful projects started as side experiments on free
+                    infrastructure
+                  </li>
+                  <li>
+                    The model is sustainable because infrastructure costs scale
+                    efficiently across a global network
+                  </li>
+                </ul>
+                <h2>Frequently Asked Questions</h2>
+                <p><strong>Is is-pro.dev really free to use?</strong></p>
+                <p>
+                  Yes, is-pro.dev provides free subdomains for developers with
+                  no hidden fees.
+                </p>
+                <p>
+                  <strong>What can I host on an is-pro.dev subdomain?</strong>
+                </p>
+                <p>
+                  Any legitimate project — portfolios, SaaS apps, game servers,
+                  APIs, and more.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <div
+            class="container ad-shell"
+            id="mid-content-ad"
+            data-ad="desktop"
+            aria-hidden="true"
+          >
+            <div class="ad-container ad-banner-728x90">
+              <script>
+                atOptions = {
+                  key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                  format: "iframe",
+                  height: 90,
+                  width: 728,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+            </div>
+          </div>
+
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -218,16 +680,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -245,15 +728,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -272,7 +769,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -287,6 +789,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

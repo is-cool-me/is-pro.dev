@@ -1,246 +1,763 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Deploy a React App to Vercel with Custom Domain — is-cool-me</title>
-  <meta name="description" content="Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production." />
-  <link rel="canonical" href="https://is-pro.dev/guides/deploy-react-app-to-vercel/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/deploy-react-app-to-vercel/" />
-  <meta property="og:title" content="Deploy a React App to Vercel with Custom Domain — is-cool-me" />
-  <meta property="og:description" content="Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Deploy a React App to Vercel with Custom Domain — is-cool-me" />
-  <meta name="twitter:description" content="Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Deploy a React App to Vercel with Custom Domain — is-cool-me",
-      "description": "Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>Deploy a React App to Vercel with Custom Domain — is-cool-me</title>
+    <meta
+      name="description"
+      content="Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/guides/deploy-react-app-to-vercel/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/guides/deploy-react-app-to-vercel/"
+    />
+    <meta
+      property="og:title"
+      content="Deploy a React App to Vercel with Custom Domain — is-cool-me"
+    />
+    <meta
+      property="og:description"
+      content="Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Deploy a React App to Vercel with Custom Domain — is-cool-me"
+    />
+    <meta
+      name="twitter:description"
+      content="Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Deploy a React App to Vercel with Custom Domain — is-cool-me",
+            "description": "Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "Deploy a React App to Vercel with Custom Domain",
+            "description": "Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-08",
+            "dateModified": "2026-06-08",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/guides/deploy-react-app-to-vercel/"
+            },
+            "url": "https://is-pro.dev/guides/deploy-react-app-to-vercel/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://is-pro.dev/guides/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Deploy a React App to Vercel with Custom Domain",
+                "item": "https://is-pro.dev/guides/deploy-react-app-to-vercel/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "Deploy a React App to Vercel with Custom Domain",
-      "description": "Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/guides/deploy-react-app-to-vercel/"
-      },
-      "url": "https://is-pro.dev/guides/deploy-react-app-to-vercel/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Guides",
-          "item": "https://is-pro.dev/guides/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Deploy a React App to Vercel with Custom Domain",
-          "item": "https://is-pro.dev/guides/deploy-react-app-to-vercel/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link active">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Deployment</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
-          <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link active">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
-        <h1>Deploy a React App to Vercel with Custom Domain</h1>
-        <p class="article-summary">Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production.</p>
       </div>
-    </div>
-  </header>
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Deployment</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >8 min read</span
+                >
+                <span
+                  class="article-meta-item"
+                  style="
+                    background: rgba(34, 197, 94, 0.1);
+                    border-color: rgba(34, 197, 94, 0.2);
+                    color: #4ade80;
+                    padding: 0.2rem 0.6rem;
+                    border-radius: var(--radius-full);
+                    font-size: 0.8rem;
+                  "
+                  >Beginner</span
+                >
+              </div>
+              <h1>Deploy a React App to Vercel with Custom Domain</h1>
+              <p class="article-summary">
+                Step-by-step guide to deploying your React application to
+                Vercel, connecting a free is-pro.dev subdomain, and configuring
+                environment variables for production.
+              </p>
+            </div>
+          </div>
+        </header>
 
-  <section class="author-section" aria-label="Article authorship">
-    <div class="container">
-      <div class="author-card" data-reveal>
-        <div class="author-card-main">
-          <h2 class="author-card-title">Written by Mayank Baswal</h2>
-          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-          <div class="author-card-links">
-            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-            <a href="/contact/">Contact</a>
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">Written by Mayank Baswal</h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS & Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows, and
+                  platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Technical Review</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  Vercel is a premier deployment platform for frontend
+                  applications, offering seamless Git integration, automatic
+                  SSL, and a global edge network. When you pair it with a free
+                  is-pro.dev subdomain, you get a production-grade React app
+                  deployment with zero infrastructure management. This guide
+                  covers the complete workflow from a local React project to a
+                  live, HTTPS-enabled site on your custom subdomain.
+                </p>
+                <h2>Prerequisites</h2>
+                <ul>
+                  <li>
+                    A React application built with Create React App, Vite, or
+                    any React framework
+                  </li>
+                  <li>
+                    A GitHub, GitLab, or Bitbucket account for repository
+                    hosting
+                  </li>
+                  <li>
+                    A Vercel account (free tier, connect with your Git provider)
+                  </li>
+                  <li>An is-pro.dev subdomain registered at dash.is-pro.dev</li>
+                </ul>
+                <h2>Step 1: Push Your React App to Git</h2>
+                <p>
+                  Initialize a Git repository in your React project root if you
+                  have not already: <code>git init</code>. Add all files with
+                  <code>git add .</code> and commit with
+                  <code>git commit -m "Initial commit"</code>. Create a
+                  repository on GitHub, GitLab, or Bitbucket, then link your
+                  local repository:
+                  <code
+                    >git remote add origin
+                    https://github.com/username/repository.git</code
+                  >. Push your code with <code>git push -u origin main</code>.
+                  Before pushing, verify your app builds successfully by running
+                  <code>npm run build</code> or <code>yarn build</code> locally
+                  — this catches any compilation errors early.
+                </p>
+                <h2>Step 2: Import Your Repository into Vercel</h2>
+                <p>
+                  Log into your Vercel dashboard at vercel.com. Click "Add New
+                  &rarr; Project". Select your Git provider and authorize Vercel
+                  to access your repositories. Find and select the repository
+                  containing your React app. Vercel automatically detects the
+                  framework (Create React App, Next.js, Vite, etc.) and
+                  pre-fills the build command and output directory. For a Create
+                  React App project, the build command is
+                  <code>npm run build</code> and the output directory is
+                  <code>build</code>. For Vite, the output directory is
+                  <code>dist</code>. Click "Deploy" and wait for the initial
+                  build to finish — typically 1-3 minutes. Vercel assigns a
+                  random <code>.vercel.app</code> domain where your app is
+                  immediately accessible.
+                </p>
+                <h2>Step 3: Add Your is-pro.dev Subdomain in Vercel</h2>
+                <p>
+                  In your Vercel project dashboard, navigate to "Settings &rarr;
+                  Domains". Enter your is-pro.dev subdomain (e.g.,
+                  <code>myapp.is-pro.dev</code>) and click "Add". Vercel will
+                  validate ownership by checking for a specific DNS record. It
+                  displays the required DNS target — usually a CNAME pointing to
+                  <code>cname.vercel-dns.com</code> or an A record pointing to
+                  Vercel's IP addresses. Copy this target value exactly as
+                  shown; you will need it in the next step.
+                </p>
+                <h2>Step 4: Configure DNS in the is-pro.dev Dashboard</h2>
+                <p>
+                  Open the is-pro.dev DNS dashboard for your subdomain. Click
+                  "Add Record". Select CNAME as the record type. In the name
+                  field, enter your subdomain prefix (e.g., <code>myapp</code>).
+                  In the target field, paste the CNAME target from Vercel (e.g.,
+                  <code>cname.vercel-dns.com</code>). Save the record. For the
+                  root domain (<code>is-pro.dev</code>), Vercel requires A
+                  records pointing to specific IPs — but since is-pro.dev
+                  manages the root zone, you only need to configure your
+                  subdomain. Cloudflare proxies the traffic by default (orange
+                  cloud), which provides DDoS protection and SSL termination. If
+                  your Vercel deployment involves WebSockets or serverless
+                  functions that need direct connections, switch to DNS-only
+                  (gray cloud).
+                </p>
+                <h2>
+                  Step 5: Configure Environment Variables and Production
+                  Settings
+                </h2>
+                <p>
+                  In your Vercel project settings, go to "Environment
+                  Variables". Add any variables your React app needs in
+                  production, such as API endpoints or feature flags. You can
+                  set different values for Preview, Production, and Development
+                  environments. Vercel injects these at build time, so you must
+                  redeploy after adding or changing environment variables. If
+                  your app uses client-side routing (React Router, etc.), add a
+                  <code>vercel.json</code> file in your repository root with
+                  rewrites to handle client-side routes:
+                  <code
+                    >{"rewrites": [{"source": "/(.*)", "destination":
+                    "/index.html"}]}</code
+                  >.
+                </p>
+                <h2>Step 6: Verify the Live Deployment</h2>
+                <p>
+                  Visit your is-pro.dev subdomain in a browser. Your React app
+                  should load over HTTPS with a valid certificate issued by
+                  Let's Encrypt or Cloudflare. Test all routes, API calls, and
+                  interactive features. Open the browser's developer tools and
+                  check the Console and Network tabs for errors. Run Vercel's
+                  deployment checks by going to your project dashboard and
+                  selecting "Checks" — this validates DNS resolution, SSL, and
+                  performance. If you see a Vercel-branded 404 page, the CNAME
+                  record may point to the wrong target.
+                </p>
+                <h2>Best Practices</h2>
+                <ul>
+                  <li>
+                    Configure automatic deployments: Vercel deploys every push
+                    to the production branch. Set up preview deployments for
+                    staging branches to test before merging
+                  </li>
+                  <li>
+                    Use Vercel's Analytics to monitor real-user performance
+                    metrics like LCP, CLS, and FID for your React app
+                  </li>
+                  <li>
+                    Set Cache-Control headers via <code>vercel.json</code> or
+                    your hosting configuration to optimize asset delivery
+                  </li>
+                  <li>
+                    Keep your <code>package.json</code> lockfile in version
+                    control for reproducible builds across deployments
+                  </li>
+                </ul>
+                <h2>Conclusion</h2>
+                <p>
+                  Vercel and is-pro.dev form a powerful combination for
+                  deploying React applications. Vercel handles the build
+                  pipeline, global CDN, and automatic HTTPS, while your free
+                  subdomain provides a clean, branded URL. The entire setup
+                  takes under 15 minutes and costs nothing.
+                </p>
+                <h2>FAQ</h2>
+                <p>
+                  <strong
+                    >Does Vercel's free tier support custom domains?</strong
+                  >
+                </p>
+                <p>
+                  Yes, the free Hobby tier supports custom domains with
+                  automatic SSL. There are no additional charges for using your
+                  own domain.
+                </p>
+                <p>
+                  <strong
+                    >Why is my React app showing a blank page after
+                    deployment?</strong
+                  >
+                </p>
+                <p>
+                  This often happens when client-side routing is not configured.
+                  Add a <code>vercel.json</code> with rewrite rules, or check
+                  the browser console for JavaScript errors. Also verify that
+                  your <code>homepage</code> field in
+                  <code>package.json</code> does not interfere with asset paths.
+                </p>
+                <p>
+                  <strong
+                    >Can I use a custom domain with Vercel's free tier?</strong
+                  >
+                </p>
+                <p>
+                  Yes, Vercel's Hobby tier includes custom domain support with
+                  automatic SSL.
+                </p>
+                <p>
+                  <strong
+                    >How do I migrate from Vercel's .vercel.app domain to my
+                    custom subdomain?</strong
+                  >
+                </p>
+                <p>
+                  Simply add your subdomain in Vercel's Domains settings and
+                  configure the DNS CNAME record. Vercel will serve your app
+                  from both domains until you remove the default one.
+                </p>
+                <h2>FAQ</h2>
+                <p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
+                <p>
+                  Yes, all subdomains on is-pro.dev include free DNS management
+                  and SSL certificates.
+                </p>
+                <p><strong>How long does DNS take to propagate?</strong></p>
+                <p>
+                  Cloudflare typically propagates DNS changes within seconds to
+                  a few minutes globally.
+                </p>
+                <p><strong>Can I use this for commercial projects?</strong></p>
+                <p>
+                  Yes, is-pro.dev subdomains can be used for personal and
+                  commercial projects within our fair use policy.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="author-card-review">
-          <span class="author-card-review-label">Reviewed by</span>
-          <span class="author-card-reviewer">is-cool-me Technical Review</span>
-        </div>
-      </div>
-    </div>
-  </section>
+      </article>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <div
+            class="container ad-shell"
+            id="mid-content-ad"
+            data-ad="desktop"
+            aria-hidden="true"
+          >
+            <div class="ad-container ad-banner-728x90">
+              <script>
+                atOptions = {
+                  key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                  format: "iframe",
+                  height: 90,
+                  width: 728,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+            </div>
+          </div>
 
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Vercel is a premier deployment platform for frontend applications, offering seamless Git integration, automatic SSL, and a global edge network. When you pair it with a free is-pro.dev subdomain, you get a production-grade React app deployment with zero infrastructure management. This guide covers the complete workflow from a local React project to a live, HTTPS-enabled site on your custom subdomain.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A React application built with Create React App, Vite, or any React framework</li><li>A GitHub, GitLab, or Bitbucket account for repository hosting</li><li>A Vercel account (free tier, connect with your Git provider)</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li></ul>
-          <h2>Step 1: Push Your React App to Git</h2>
-          <p>Initialize a Git repository in your React project root if you have not already: <code>git init</code>. Add all files with <code>git add .</code> and commit with <code>git commit -m "Initial commit"</code>. Create a repository on GitHub, GitLab, or Bitbucket, then link your local repository: <code>git remote add origin https://github.com/username/repository.git</code>. Push your code with <code>git push -u origin main</code>. Before pushing, verify your app builds successfully by running <code>npm run build</code> or <code>yarn build</code> locally — this catches any compilation errors early.</p>
-          <h2>Step 2: Import Your Repository into Vercel</h2>
-          <p>Log into your Vercel dashboard at vercel.com. Click "Add New &rarr; Project". Select your Git provider and authorize Vercel to access your repositories. Find and select the repository containing your React app. Vercel automatically detects the framework (Create React App, Next.js, Vite, etc.) and pre-fills the build command and output directory. For a Create React App project, the build command is <code>npm run build</code> and the output directory is <code>build</code>. For Vite, the output directory is <code>dist</code>. Click "Deploy" and wait for the initial build to finish — typically 1-3 minutes. Vercel assigns a random <code>.vercel.app</code> domain where your app is immediately accessible.</p>
-          <h2>Step 3: Add Your is-pro.dev Subdomain in Vercel</h2>
-          <p>In your Vercel project dashboard, navigate to "Settings &rarr; Domains". Enter your is-pro.dev subdomain (e.g., <code>myapp.is-pro.dev</code>) and click "Add". Vercel will validate ownership by checking for a specific DNS record. It displays the required DNS target — usually a CNAME pointing to <code>cname.vercel-dns.com</code> or an A record pointing to Vercel's IP addresses. Copy this target value exactly as shown; you will need it in the next step.</p>
-          <h2>Step 4: Configure DNS in the is-pro.dev Dashboard</h2>
-          <p>Open the is-pro.dev DNS dashboard for your subdomain. Click "Add Record". Select CNAME as the record type. In the name field, enter your subdomain prefix (e.g., <code>myapp</code>). In the target field, paste the CNAME target from Vercel (e.g., <code>cname.vercel-dns.com</code>). Save the record. For the root domain (<code>is-pro.dev</code>), Vercel requires A records pointing to specific IPs — but since is-pro.dev manages the root zone, you only need to configure your subdomain. Cloudflare proxies the traffic by default (orange cloud), which provides DDoS protection and SSL termination. If your Vercel deployment involves WebSockets or serverless functions that need direct connections, switch to DNS-only (gray cloud).</p>
-          <h2>Step 5: Configure Environment Variables and Production Settings</h2>
-          <p>In your Vercel project settings, go to "Environment Variables". Add any variables your React app needs in production, such as API endpoints or feature flags. You can set different values for Preview, Production, and Development environments. Vercel injects these at build time, so you must redeploy after adding or changing environment variables. If your app uses client-side routing (React Router, etc.), add a <code>vercel.json</code> file in your repository root with rewrites to handle client-side routes: <code>{"rewrites": [{"source": "/(.*)", "destination": "/index.html"}]}</code>.</p>
-          <h2>Step 6: Verify the Live Deployment</h2>
-          <p>Visit your is-pro.dev subdomain in a browser. Your React app should load over HTTPS with a valid certificate issued by Let's Encrypt or Cloudflare. Test all routes, API calls, and interactive features. Open the browser's developer tools and check the Console and Network tabs for errors. Run Vercel's deployment checks by going to your project dashboard and selecting "Checks" — this validates DNS resolution, SSL, and performance. If you see a Vercel-branded 404 page, the CNAME record may point to the wrong target.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Configure automatic deployments: Vercel deploys every push to the production branch. Set up preview deployments for staging branches to test before merging</li><li>Use Vercel's Analytics to monitor real-user performance metrics like LCP, CLS, and FID for your React app</li><li>Set Cache-Control headers via <code>vercel.json</code> or your hosting configuration to optimize asset delivery</li><li>Keep your <code>package.json</code> lockfile in version control for reproducible builds across deployments</li></ul>
-          <h2>Conclusion</h2>
-          <p>Vercel and is-pro.dev form a powerful combination for deploying React applications. Vercel handles the build pipeline, global CDN, and automatic HTTPS, while your free subdomain provides a clean, branded URL. The entire setup takes under 15 minutes and costs nothing.</p>
-          <h2>FAQ</h2>
-          <p><strong>Does Vercel's free tier support custom domains?</strong></p>
-          <p>Yes, the free Hobby tier supports custom domains with automatic SSL. There are no additional charges for using your own domain.</p>
-          <p><strong>Why is my React app showing a blank page after deployment?</strong></p>
-          <p>This often happens when client-side routing is not configured. Add a <code>vercel.json</code> with rewrite rules, or check the browser console for JavaScript errors. Also verify that your <code>homepage</code> field in <code>package.json</code> does not interfere with asset paths.</p>
-          <p><strong>Can I use a custom domain with Vercel's free tier?</strong></p>
-          <p>Yes, Vercel's Hobby tier includes custom domain support with automatic SSL.</p>
-          <p><strong>How do I migrate from Vercel's .vercel.app domain to my custom subdomain?</strong></p>
-          <p>Simply add your subdomain in Vercel's Domains settings and configure the DNS CNAME record. Vercel will serve your app from both domains until you remove the default one.</p>
-<h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
-<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
-<p><strong>How long does DNS take to propagate?</strong></p>
-<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
-<p><strong>Can I use this for commercial projects?</strong></p>
-<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -252,16 +769,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -279,15 +817,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -306,7 +858,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -321,6 +878,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

@@ -1,214 +1,705 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Reading DNS Logs Like a Pro: Common Patterns and Red Flags — is-cool-me Blog</title>
-  <meta name="description" content="Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation." />
-  <link rel="canonical" href="https://is-pro.dev/blog/readingdnslogs-likeapro/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/blog/readingdnslogs-likeapro/" />
-  <meta property="og:title" content="Reading DNS Logs Like a Pro: Common Patterns and Red Flags — is-cool-me Blog" />
-  <meta property="og:description" content="Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Reading DNS Logs Like a Pro: Common Patterns and Red Flags — is-cool-me Blog" />
-  <meta name="twitter:description" content="Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Reading DNS Logs Like a Pro: Common Patterns and Red Flags — is-cool-me Blog",
-      "description": "Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      Reading DNS Logs Like a Pro: Common Patterns and Red Flags — is-cool-me
+      Blog
+    </title>
+    <meta
+      name="description"
+      content="Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/blog/readingdnslogs-likeapro/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/blog/readingdnslogs-likeapro/"
+    />
+    <meta
+      property="og:title"
+      content="Reading DNS Logs Like a Pro: Common Patterns and Red Flags — is-cool-me Blog"
+    />
+    <meta
+      property="og:description"
+      content="Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Reading DNS Logs Like a Pro: Common Patterns and Red Flags — is-cool-me Blog"
+    />
+    <meta
+      name="twitter:description"
+      content="Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Reading DNS Logs Like a Pro: Common Patterns and Red Flags — is-cool-me Blog",
+            "description": "Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "Reading DNS Logs Like a Pro: Common Patterns and Red Flags",
+            "description": "Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-08",
+            "dateModified": "2026-06-08",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/blog/readingdnslogs-likeapro/"
+            },
+            "url": "https://is-pro.dev/blog/readingdnslogs-likeapro/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://is-pro.dev/blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Reading DNS Logs Like a Pro: Common Patterns and Red Flags",
+                "item": "https://is-pro.dev/blog/readingdnslogs-likeapro/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "Reading DNS Logs Like a Pro: Common Patterns and Red Flags",
-      "description": "Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/blog/readingdnslogs-likeapro/"
-      },
-      "url": "https://is-pro.dev/blog/readingdnslogs-likeapro/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog",
-          "item": "https://is-pro.dev/blog/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Reading DNS Logs Like a Pro: Common Patterns and Red Flags",
-          "item": "https://is-pro.dev/blog/readingdnslogs-likeapro/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link active">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Security</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
-        </div>
-        <h1>Reading DNS Logs Like a Pro: Common Patterns and Red Flags</h1>
-        <p class="article-summary">Learn to identify suspicious DNS activity by understanding common log patterns — from normal CNAME chains to signs of domain takeovers, phishing, and brand impersonation.</p>
-      </div>
-    </div>
-  </header>
-
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>DNS logs are one of the most underutilized security data sources available to anyone running a domain or subdomain. Every DNS query to your nameserver leaves a trail that reveals who is accessing your services, where they are coming from, and — critically — whether someone is trying to abuse your infrastructure. Learning to read DNS logs is like gaining a superpower for threat detection. This post covers the common patterns you will see in DNS logs, what they mean, and how to identify signs of phishing, domain takeovers, and brand impersonation.</p>
-          <h2>What DNS Logs Contain</h2>
-          <p>A typical DNS log entry from Cloudflare (which powers is-pro.dev DNS) contains: timestamp, source IP, query name (the domain or subdomain being looked up), query type (A, CNAME, MX, etc.), response code (NOERROR, NXDOMAIN, SERVFAIL), response size, and edge POP location. Cloudflare provides DNS analytics in the dashboard showing query volume, top queried records, and response codes over time. For more detailed logging, you can enable DNS log push to R2 Storage or a third-party SIEM system. The key fields for security analysis are the query name and source IP — these tell you what someone is looking up and where they are doing it from. Unusual query patterns in these fields are the earliest indicator of potential abuse.</p>
-          <h2>Normal Traffic Patterns</h2>
-          <p>Before you can spot anomalies, you need to understand what normal DNS traffic looks like for your subdomain. For a typical portfolio site or blog, you will see A or AAAA record queries from users around the world, with peak traffic during waking hours in your target audience's time zone. Query volume is relatively stable day over day, with small increases when you share content on social media. MX record queries from email servers checking your mail configuration. TXT record queries from email receivers verifying SPF and DKIM. Occasional PTR record queries from reverse DNS lookups. The response code is almost always NOERROR. CNAME queries are rare after initial resolution (clients cache the result). This baseline varies by service type — an API endpoint will see different patterns than a game server or email server.</p>
-          <h2>Signs of Phishing Activity</h2>
-          <p>Phishing is the most common abuse targeting free subdomains. Early warning signs in DNS logs include: sudden spikes in DNS queries to a subdomain that was previously low-traffic, queries from geographic regions that do not match your typical audience, queries for unusual record types (like SOA or AXFR) that suggest reconnaissance, and a high volume of NXDOMAIN responses indicating someone is scanning for subdomains. If you see a subdomain that you did not create suddenly receiving traffic, someone may have registered a similar-looking subdomain for phishing. Compare query patterns across your subdomains — a subdomain that diverges significantly from the baseline warrants investigation. Check the subdomain's content by visiting it directly, and report any phishing to the abuse team.</p>
-          <h2>Spotting Domain Takeover Attempts</h2>
-          <p>Domain takeover occurs when someone registers a domain or service that a DNS CNAME record points to. For example, if you have a CNAME record pointing <code>blog.is-pro.dev</code> to <code>myblog.netlify.app</code> and you delete your Netlify site without removing the DNS record, someone else can create a Netlify site with the same name and effectively take over your subdomain. Signs of this in DNS logs include: CNAME queries that resolve to unexpected IP addresses, sudden changes in response content or behavior, reports from users that your subdomain is showing unfamiliar content, and certificate transparency log entries for domains you do not recognize. Prevent takeover by always deleting DNS records when you decommission services, setting up monitoring for CNAME resolution targets, and using CNAME validation tools to verify your records point to expected destinations. The is-pro.dev dashboard includes a CNAME validation tool that checks for dangling records.</p>
-          <h2>Brand Impersonation Patterns</h2>
-          <p>Impersonators register subdomains that look like legitimate brands — <code>secure-paypal.is-pro.dev</code>, <code>login-facebook.is-pro.dev</code>, or <code>support-apple.is-pro.dev</code>. These are almost always used for phishing. In DNS logs, these subdomains show distinct patterns: they are typically very new (registered within hours of the first query), they receive traffic from diverse geographic locations (indicating distributed phishing campaigns), and they often have high query volumes for A and AAAA records (visitors loading the phishing page). The source IPs for queries to these subdomains often correlate with known VPN and proxy providers, as attackers hide their registration activity. If you see a subdomain pattern matching a well-known brand being actively queried, it is almost certainly malicious and should be reported immediately.</p>
-          <h2>Reconnaissance and Scanning Activity</h2>
-          <p>Attackers often probe DNS infrastructure before launching an attack. Reconnaissance activities visible in DNS logs include: AXFR queries (zone transfer attempts — these should always be denied), high volumes of NXDOMAIN responses from sequential subdomain guesses (e.g., <code>admin.is-pro.dev</code>, <code>test.is-pro.dev</code>, <code>dev.is-pro.dev</code>), ANY or wildcard queries designed to enumerate records, and queries from IP addresses associated with known scanning services like Shodan or Censys. Blocking these IPs at the firewall level can reduce noise in your logs, but scanning is a fact of life on the internet. The important thing is to not have vulnerable configurations — disable zone transfers, do not use wildcard DNS records that could help attackers discover valid subdomains, and ensure your DNS dashboard credentials are protected with strong passwords and two-factor authentication.</p>
-          <h2>Using DNS Logs for Incident Response</h2>
-          <p>When you suspect a security incident involving your subdomain, DNS logs are a critical forensic resource. They can tell you: when the abusive subdomain was first queried (the earliest timestamp in logs), where queries originated (source IPs and geographic regions), how many potential victims were impacted (unique IPs that resolved the subdomain), and what records were queried (indicating whether visitors loaded a web page, sent email, or connected to a server). This information helps you assess the scope of an incident, notify affected users, and inform law enforcement if needed. Cloudflare's DNS analytics provide dashboards for this analysis, but for long-term retention and advanced querying, export logs to a SIEM or data analysis platform.</p>
-          <h2>Conclusion</h2>
-          <p>DNS logs are a rich source of security intelligence that most domain owners ignore. Learning to recognize normal patterns, phishing indicators, takeover attempts, and reconnaissance activity gives you a significant advantage in protecting your subdomains. With is-pro.dev's Cloudflare-powered DNS analytics, you have access to enterprise-grade logging and analysis tools — use them to keep your digital presence safe.</p>
-          <h2>Key Takeaways</h2>
-          <ul><li>DNS logs reveal who is querying your subdomains and what they are looking up</li><li>Phishing activity shows as sudden traffic spikes from unexpected regions</li><li>Domain takeover signs include unexpected CNAME resolution changes</li><li>Brand impersonation subdomains follow recognizable naming patterns</li><li>Reconnaissance appears as AXFR attempts and sequential subdomain scanning</li><li>DNS logs are critical forensic evidence during security incident response</li></ul>
-<h2>Frequently Asked Questions</h2><p><strong>Is is-pro.dev really free to use?</strong></p>
-<p>Yes, is-pro.dev provides free subdomains for developers with no hidden fees.</p>
-<p><strong>What can I host on an is-pro.dev subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link active">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Security</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >6 min read</span
+                >
+              </div>
+              <h1>
+                Reading DNS Logs Like a Pro: Common Patterns and Red Flags
+              </h1>
+              <p class="article-summary">
+                Learn to identify suspicious DNS activity by understanding
+                common log patterns — from normal CNAME chains to signs of
+                domain takeovers, phishing, and brand impersonation.
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  DNS logs are one of the most underutilized security data
+                  sources available to anyone running a domain or subdomain.
+                  Every DNS query to your nameserver leaves a trail that reveals
+                  who is accessing your services, where they are coming from,
+                  and — critically — whether someone is trying to abuse your
+                  infrastructure. Learning to read DNS logs is like gaining a
+                  superpower for threat detection. This post covers the common
+                  patterns you will see in DNS logs, what they mean, and how to
+                  identify signs of phishing, domain takeovers, and brand
+                  impersonation.
+                </p>
+                <h2>What DNS Logs Contain</h2>
+                <p>
+                  A typical DNS log entry from Cloudflare (which powers
+                  is-pro.dev DNS) contains: timestamp, source IP, query name
+                  (the domain or subdomain being looked up), query type (A,
+                  CNAME, MX, etc.), response code (NOERROR, NXDOMAIN, SERVFAIL),
+                  response size, and edge POP location. Cloudflare provides DNS
+                  analytics in the dashboard showing query volume, top queried
+                  records, and response codes over time. For more detailed
+                  logging, you can enable DNS log push to R2 Storage or a
+                  third-party SIEM system. The key fields for security analysis
+                  are the query name and source IP — these tell you what someone
+                  is looking up and where they are doing it from. Unusual query
+                  patterns in these fields are the earliest indicator of
+                  potential abuse.
+                </p>
+                <h2>Normal Traffic Patterns</h2>
+                <p>
+                  Before you can spot anomalies, you need to understand what
+                  normal DNS traffic looks like for your subdomain. For a
+                  typical portfolio site or blog, you will see A or AAAA record
+                  queries from users around the world, with peak traffic during
+                  waking hours in your target audience's time zone. Query volume
+                  is relatively stable day over day, with small increases when
+                  you share content on social media. MX record queries from
+                  email servers checking your mail configuration. TXT record
+                  queries from email receivers verifying SPF and DKIM.
+                  Occasional PTR record queries from reverse DNS lookups. The
+                  response code is almost always NOERROR. CNAME queries are rare
+                  after initial resolution (clients cache the result). This
+                  baseline varies by service type — an API endpoint will see
+                  different patterns than a game server or email server.
+                </p>
+                <h2>Signs of Phishing Activity</h2>
+                <p>
+                  Phishing is the most common abuse targeting free subdomains.
+                  Early warning signs in DNS logs include: sudden spikes in DNS
+                  queries to a subdomain that was previously low-traffic,
+                  queries from geographic regions that do not match your typical
+                  audience, queries for unusual record types (like SOA or AXFR)
+                  that suggest reconnaissance, and a high volume of NXDOMAIN
+                  responses indicating someone is scanning for subdomains. If
+                  you see a subdomain that you did not create suddenly receiving
+                  traffic, someone may have registered a similar-looking
+                  subdomain for phishing. Compare query patterns across your
+                  subdomains — a subdomain that diverges significantly from the
+                  baseline warrants investigation. Check the subdomain's content
+                  by visiting it directly, and report any phishing to the abuse
+                  team.
+                </p>
+                <h2>Spotting Domain Takeover Attempts</h2>
+                <p>
+                  Domain takeover occurs when someone registers a domain or
+                  service that a DNS CNAME record points to. For example, if you
+                  have a CNAME record pointing <code>blog.is-pro.dev</code> to
+                  <code>myblog.netlify.app</code> and you delete your Netlify
+                  site without removing the DNS record, someone else can create
+                  a Netlify site with the same name and effectively take over
+                  your subdomain. Signs of this in DNS logs include: CNAME
+                  queries that resolve to unexpected IP addresses, sudden
+                  changes in response content or behavior, reports from users
+                  that your subdomain is showing unfamiliar content, and
+                  certificate transparency log entries for domains you do not
+                  recognize. Prevent takeover by always deleting DNS records
+                  when you decommission services, setting up monitoring for
+                  CNAME resolution targets, and using CNAME validation tools to
+                  verify your records point to expected destinations. The
+                  is-pro.dev dashboard includes a CNAME validation tool that
+                  checks for dangling records.
+                </p>
+                <h2>Brand Impersonation Patterns</h2>
+                <p>
+                  Impersonators register subdomains that look like legitimate
+                  brands — <code>secure-paypal.is-pro.dev</code>,
+                  <code>login-facebook.is-pro.dev</code>, or
+                  <code>support-apple.is-pro.dev</code>. These are almost always
+                  used for phishing. In DNS logs, these subdomains show distinct
+                  patterns: they are typically very new (registered within hours
+                  of the first query), they receive traffic from diverse
+                  geographic locations (indicating distributed phishing
+                  campaigns), and they often have high query volumes for A and
+                  AAAA records (visitors loading the phishing page). The source
+                  IPs for queries to these subdomains often correlate with known
+                  VPN and proxy providers, as attackers hide their registration
+                  activity. If you see a subdomain pattern matching a well-known
+                  brand being actively queried, it is almost certainly malicious
+                  and should be reported immediately.
+                </p>
+                <h2>Reconnaissance and Scanning Activity</h2>
+                <p>
+                  Attackers often probe DNS infrastructure before launching an
+                  attack. Reconnaissance activities visible in DNS logs include:
+                  AXFR queries (zone transfer attempts — these should always be
+                  denied), high volumes of NXDOMAIN responses from sequential
+                  subdomain guesses (e.g., <code>admin.is-pro.dev</code>,
+                  <code>test.is-pro.dev</code>, <code>dev.is-pro.dev</code>),
+                  ANY or wildcard queries designed to enumerate records, and
+                  queries from IP addresses associated with known scanning
+                  services like Shodan or Censys. Blocking these IPs at the
+                  firewall level can reduce noise in your logs, but scanning is
+                  a fact of life on the internet. The important thing is to not
+                  have vulnerable configurations — disable zone transfers, do
+                  not use wildcard DNS records that could help attackers
+                  discover valid subdomains, and ensure your DNS dashboard
+                  credentials are protected with strong passwords and two-factor
+                  authentication.
+                </p>
+                <h2>Using DNS Logs for Incident Response</h2>
+                <p>
+                  When you suspect a security incident involving your subdomain,
+                  DNS logs are a critical forensic resource. They can tell you:
+                  when the abusive subdomain was first queried (the earliest
+                  timestamp in logs), where queries originated (source IPs and
+                  geographic regions), how many potential victims were impacted
+                  (unique IPs that resolved the subdomain), and what records
+                  were queried (indicating whether visitors loaded a web page,
+                  sent email, or connected to a server). This information helps
+                  you assess the scope of an incident, notify affected users,
+                  and inform law enforcement if needed. Cloudflare's DNS
+                  analytics provide dashboards for this analysis, but for
+                  long-term retention and advanced querying, export logs to a
+                  SIEM or data analysis platform.
+                </p>
+                <h2>Conclusion</h2>
+                <p>
+                  DNS logs are a rich source of security intelligence that most
+                  domain owners ignore. Learning to recognize normal patterns,
+                  phishing indicators, takeover attempts, and reconnaissance
+                  activity gives you a significant advantage in protecting your
+                  subdomains. With is-pro.dev's Cloudflare-powered DNS
+                  analytics, you have access to enterprise-grade logging and
+                  analysis tools — use them to keep your digital presence safe.
+                </p>
+                <h2>Key Takeaways</h2>
+                <ul>
+                  <li>
+                    DNS logs reveal who is querying your subdomains and what
+                    they are looking up
+                  </li>
+                  <li>
+                    Phishing activity shows as sudden traffic spikes from
+                    unexpected regions
+                  </li>
+                  <li>
+                    Domain takeover signs include unexpected CNAME resolution
+                    changes
+                  </li>
+                  <li>
+                    Brand impersonation subdomains follow recognizable naming
+                    patterns
+                  </li>
+                  <li>
+                    Reconnaissance appears as AXFR attempts and sequential
+                    subdomain scanning
+                  </li>
+                  <li>
+                    DNS logs are critical forensic evidence during security
+                    incident response
+                  </li>
+                </ul>
+                <h2>Frequently Asked Questions</h2>
+                <p><strong>Is is-pro.dev really free to use?</strong></p>
+                <p>
+                  Yes, is-pro.dev provides free subdomains for developers with
+                  no hidden fees.
+                </p>
+                <p>
+                  <strong>What can I host on an is-pro.dev subdomain?</strong>
+                </p>
+                <p>
+                  Any legitimate project — portfolios, SaaS apps, game servers,
+                  APIs, and more.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <div
+            class="container ad-shell"
+            id="mid-content-ad"
+            data-ad="desktop"
+            aria-hidden="true"
+          >
+            <div class="ad-container ad-banner-728x90">
+              <script>
+                atOptions = {
+                  key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                  format: "iframe",
+                  height: 90,
+                  width: 728,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+            </div>
+          </div>
+
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -220,16 +711,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -247,15 +759,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -274,7 +800,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -289,6 +820,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

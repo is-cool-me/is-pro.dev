@@ -1,244 +1,747 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me</title>
-  <meta name="description" content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
-  <link rel="canonical" href="https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/" />
-  <meta property="og:title" content="Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me" />
-  <meta property="og:description" content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me" />
-  <meta name="twitter:description" content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me",
-      "description": "Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me
+    </title>
+    <meta
+      name="description"
+      content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
+    />
+    <meta
+      property="og:title"
+      content="Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me"
+    />
+    <meta
+      property="og:description"
+      content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me"
+    />
+    <meta
+      name="twitter:description"
+      content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me",
+            "description": "Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode",
+            "description": "Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-08",
+            "dateModified": "2026-06-08",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
+            },
+            "url": "https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://is-pro.dev/guides/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode",
+                "item": "https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode",
-      "description": "Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
-      },
-      "url": "https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Guides",
-          "item": "https://is-pro.dev/guides/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode",
-          "item": "https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link active">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Security</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
-          <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link active">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
-        <h1>Cloudflare Proxy vs DNS-Only: When to Use Each Mode</h1>
-        <p class="article-summary">Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.</p>
       </div>
-    </div>
-  </header>
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Security</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >8 min read</span
+                >
+                <span
+                  class="article-meta-item"
+                  style="
+                    background: rgba(234, 179, 8, 0.1);
+                    border-color: rgba(234, 179, 8, 0.2);
+                    color: #eab308;
+                    padding: 0.2rem 0.6rem;
+                    border-radius: var(--radius-full);
+                    font-size: 0.8rem;
+                  "
+                  >Intermediate</span
+                >
+              </div>
+              <h1>Cloudflare Proxy vs DNS-Only: When to Use Each Mode</h1>
+              <p class="article-summary">
+                Understand the practical differences between Cloudflares proxy
+                (orange cloud) and DNS-only (gray cloud) modes, and learn which
+                to use for different types of subdomains.
+              </p>
+            </div>
+          </div>
+        </header>
 
-  <section class="author-section" aria-label="Article authorship">
-    <div class="container">
-      <div class="author-card" data-reveal>
-        <div class="author-card-main">
-          <h2 class="author-card-title">Written by Mayank Baswal</h2>
-          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-          <div class="author-card-links">
-            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-            <a href="/contact/">Contact</a>
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">Written by Mayank Baswal</h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS & Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows, and
+                  platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Technical Review</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  When managing DNS records in Cloudflare (which powers
+                  is-pro.dev), every record has a toggle between "Proxied"
+                  (orange cloud) and "DNS-only" (gray cloud). This small setting
+                  has significant implications for security, performance, and
+                  compatibility. Understanding when to use each mode is
+                  essential for configuring your subdomains correctly. This
+                  guide explains the technical differences and provides clear
+                  guidance for every common scenario.
+                </p>
+                <h2>Prerequisites</h2>
+                <ul>
+                  <li>An is-pro.dev subdomain with Cloudflare DNS enabled</li>
+                  <li>A basic understanding of how HTTP and DNS work</li>
+                  <li>
+                    Access to the is-pro.dev DNS dashboard to view proxy toggles
+                  </li>
+                </ul>
+                <h2>What Happens in Proxied Mode (Orange Cloud)</h2>
+                <p>
+                  When a DNS record is set to Proxied, traffic to that subdomain
+                  is routed through Cloudflare's global network before reaching
+                  your origin server. Cloudflare terminates the TCP connection
+                  at the edge, inspects the traffic for threats (DDoS, SQL
+                  injection, XSS), caches static content, and optionally
+                  optimizes images and scripts. The visitor sees Cloudflare's IP
+                  address in their DNS resolution, not your origin server's IP —
+                  effectively hiding your server from direct internet exposure.
+                  This is why proxied mode is sometimes called "orange cloud"
+                  mode. Cloudflare also terminates SSL at the edge, presenting
+                  your visitors with a valid certificate even if your origin
+                  server uses a self-signed certificate. Proxied mode supports
+                  Cloudflare features like Page Rules, Workers, Argo Smart
+                  Routing, and WAF (Web Application Firewall).
+                </p>
+                <h2>What Happens in DNS-Only Mode (Gray Cloud)</h2>
+                <p>
+                  In DNS-only mode, Cloudflare simply responds to DNS queries
+                  with the record's value — typically your origin server's IP
+                  address or a CNAME target. Traffic flows directly from the
+                  visitor to your server without passing through Cloudflare's
+                  network. Cloudflare does not cache content, inspect traffic,
+                  or terminate SSL. The proxy toggles on the DNS record are
+                  disabled, and Cloudflare functions only as an authoritative
+                  nameserver. Your origin IP is visible to anyone who looks up
+                  your DNS records. DNS-only mode is necessary for services that
+                  use protocols other than HTTP/HTTPS (such as SMTP for email,
+                  SSH for remote access, or WebSockets without HTTP wrapping),
+                  because Cloudflare's proxy only handles HTTP and WebSocket
+                  traffic on ports 80 and 443.
+                </p>
+                <h2>When to Use Proxied Mode</h2>
+                <p>
+                  Use proxied mode for any web server serving HTTP or HTTPS
+                  content: portfolio sites, blogs, landing pages, web
+                  applications, API endpoints served over HTTPS, and static
+                  sites hosted on VPS or shared hosting. Proxied mode is also
+                  recommended for WordPress sites, custom web applications, and
+                  any service where hiding the origin IP is important for
+                  security. If you are not sure which mode to use, start with
+                  proxied — it provides the most benefits. The only significant
+                  downside is that Cloudflare must see the traffic to serve it,
+                  so the origin server must accept connections from Cloudflare's
+                  IP ranges.
+                </p>
+                <h2>When to Use DNS-Only Mode</h2>
+                <p>
+                  DNS-only mode is required for services that do not use HTTP:
+                  email servers (SMTP on port 25, IMAP on port 143, POP3 on port
+                  110), SSH access (port 22), FTP (ports 20-21), game servers
+                  (Minecraft on port 25565, etc.), and any service using
+                  non-standard ports. DNS-only mode is also needed for platforms
+                  that manage their own SSL and require direct traffic. Netlify,
+                  for example, recommends DNS-only mode because it needs direct
+                  HTTPS traffic to provision and verify Let's Encrypt
+                  certificates. Some API Gateway configurations also require
+                  DNS-only mode for certificate validation. If your service
+                  provides its own CDN, caching, or SSL termination, DNS-only
+                  mode prevents conflicts with Cloudflare's proxy.
+                </p>
+                <h2>How Caching Differs Between the Two Modes</h2>
+                <p>
+                  In proxied mode, Cloudflare caches static content (HTML, CSS,
+                  JS, images) according to cache rules you configure. This
+                  dramatically reduces load on your origin server and improves
+                  page load times for visitors worldwide. You can set cache
+                  duration, purge cached content, and use cache keys to
+                  customize behavior. In DNS-only mode, no caching occurs at
+                  Cloudflare's edge — every request hits your origin server
+                  directly. If you need a CDN in DNS-only mode, you must use a
+                  separate CDN provider or configure caching at your application
+                  level. For high-traffic sites, proxied mode can reduce origin
+                  bandwidth by 60-80%.
+                </p>
+                <h2>Security Implications</h2>
+                <p>
+                  Proxied mode provides DDoS protection, IP obfuscation, SSL
+                  termination, WAF rules, bot management, and rate limiting —
+                  all built into Cloudflare's free tier. DNS-only mode exposes
+                  your origin IP and provides none of these protections. If you
+                  must use DNS-only mode for a specific service (like email),
+                  consider securing that service independently: use strong
+                  authentication, restrict access by IP, enable firewall rules,
+                  and monitor logs for suspicious activity. For hybrid setups
+                  where some records are proxied and others are DNS-only, the
+                  proxied records still benefit from Cloudflare's security
+                  features even on the same subdomain.
+                </p>
+                <h2>Best Practices</h2>
+                <ul>
+                  <li>
+                    Default to proxied (orange cloud) for all HTTP/HTTPS
+                    services and switch to DNS-only only when compatibility
+                    requires it
+                  </li>
+                  <li>
+                    For email-related records (MX, TXT), always use DNS-only —
+                    proxied email records break delivery
+                  </li>
+                  <li>
+                    Test both modes to see which provides better performance for
+                    your specific use case
+                  </li>
+                  <li>
+                    If you need SSL proxied but have an API on a non-standard
+                    port, consider using Cloudflare Workers or a reverse proxy
+                    to bridge the traffic
+                  </li>
+                </ul>
+                <h2>Conclusion</h2>
+                <p>
+                  The proxy toggle in your is-pro.dev DNS dashboard determines
+                  whether Cloudflare actively protects and accelerates your
+                  traffic or simply resolves DNS. Proxied mode offers security,
+                  performance, and SSL benefits for web services. DNS-only mode
+                  is necessary for non-HTTP services and platforms with their
+                  own SSL management. Understanding this distinction is
+                  fundamental to correctly configuring your subdomains.
+                </p>
+                <h2>FAQ</h2>
+                <p>
+                  <strong
+                    >Can I change a record from proxied to DNS-only without
+                    downtime?</strong
+                  >
+                </p>
+                <p>
+                  There may be a brief interruption as DNS caches update. Lower
+                  the TTL to 60 seconds before switching, wait for propagation,
+                  then change the proxy setting.
+                </p>
+                <p><strong>Does DNS-only mode affect SSL?</strong></p>
+                <p>
+                  Yes. In DNS-only mode, Cloudflare does not provide SSL
+                  termination. Your origin server must have its own valid SSL
+                  certificate for HTTPS to work.
+                </p>
+                <p>
+                  <strong
+                    >Can I use proxied mode for a subdomain that hosts a game
+                    server?</strong
+                  >
+                </p>
+                <p>
+                  Only if the game client communicates over HTTP or WebSocket on
+                  ports 80/443. Most game servers use custom protocols on
+                  arbitrary ports and require DNS-only mode.
+                </p>
+                <h2>FAQ</h2>
+                <p><strong>Is Security setup free on is-pro.dev?</strong></p>
+                <p>
+                  Yes, all subdomains on is-pro.dev include free DNS management
+                  and SSL certificates.
+                </p>
+                <p><strong>How long does DNS take to propagate?</strong></p>
+                <p>
+                  Cloudflare typically propagates DNS changes within seconds to
+                  a few minutes globally.
+                </p>
+                <p><strong>Can I use this for commercial projects?</strong></p>
+                <p>
+                  Yes, is-pro.dev subdomains can be used for personal and
+                  commercial projects within our fair use policy.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="author-card-review">
-          <span class="author-card-review-label">Reviewed by</span>
-          <span class="author-card-reviewer">is-cool-me Technical Review</span>
-        </div>
-      </div>
-    </div>
-  </section>
+      </article>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <div
+            class="container ad-shell"
+            id="mid-content-ad"
+            data-ad="desktop"
+            aria-hidden="true"
+          >
+            <div class="ad-container ad-banner-728x90">
+              <script>
+                atOptions = {
+                  key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                  format: "iframe",
+                  height: 90,
+                  width: 728,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+            </div>
+          </div>
 
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>When managing DNS records in Cloudflare (which powers is-pro.dev), every record has a toggle between "Proxied" (orange cloud) and "DNS-only" (gray cloud). This small setting has significant implications for security, performance, and compatibility. Understanding when to use each mode is essential for configuring your subdomains correctly. This guide explains the technical differences and provides clear guidance for every common scenario.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-pro.dev subdomain with Cloudflare DNS enabled</li><li>A basic understanding of how HTTP and DNS work</li><li>Access to the is-pro.dev DNS dashboard to view proxy toggles</li></ul>
-          <h2>What Happens in Proxied Mode (Orange Cloud)</h2>
-          <p>When a DNS record is set to Proxied, traffic to that subdomain is routed through Cloudflare's global network before reaching your origin server. Cloudflare terminates the TCP connection at the edge, inspects the traffic for threats (DDoS, SQL injection, XSS), caches static content, and optionally optimizes images and scripts. The visitor sees Cloudflare's IP address in their DNS resolution, not your origin server's IP — effectively hiding your server from direct internet exposure. This is why proxied mode is sometimes called "orange cloud" mode. Cloudflare also terminates SSL at the edge, presenting your visitors with a valid certificate even if your origin server uses a self-signed certificate. Proxied mode supports Cloudflare features like Page Rules, Workers, Argo Smart Routing, and WAF (Web Application Firewall).</p>
-          <h2>What Happens in DNS-Only Mode (Gray Cloud)</h2>
-          <p>In DNS-only mode, Cloudflare simply responds to DNS queries with the record's value — typically your origin server's IP address or a CNAME target. Traffic flows directly from the visitor to your server without passing through Cloudflare's network. Cloudflare does not cache content, inspect traffic, or terminate SSL. The proxy toggles on the DNS record are disabled, and Cloudflare functions only as an authoritative nameserver. Your origin IP is visible to anyone who looks up your DNS records. DNS-only mode is necessary for services that use protocols other than HTTP/HTTPS (such as SMTP for email, SSH for remote access, or WebSockets without HTTP wrapping), because Cloudflare's proxy only handles HTTP and WebSocket traffic on ports 80 and 443.</p>
-          <h2>When to Use Proxied Mode</h2>
-          <p>Use proxied mode for any web server serving HTTP or HTTPS content: portfolio sites, blogs, landing pages, web applications, API endpoints served over HTTPS, and static sites hosted on VPS or shared hosting. Proxied mode is also recommended for WordPress sites, custom web applications, and any service where hiding the origin IP is important for security. If you are not sure which mode to use, start with proxied — it provides the most benefits. The only significant downside is that Cloudflare must see the traffic to serve it, so the origin server must accept connections from Cloudflare's IP ranges.</p>
-          <h2>When to Use DNS-Only Mode</h2>
-          <p>DNS-only mode is required for services that do not use HTTP: email servers (SMTP on port 25, IMAP on port 143, POP3 on port 110), SSH access (port 22), FTP (ports 20-21), game servers (Minecraft on port 25565, etc.), and any service using non-standard ports. DNS-only mode is also needed for platforms that manage their own SSL and require direct traffic. Netlify, for example, recommends DNS-only mode because it needs direct HTTPS traffic to provision and verify Let's Encrypt certificates. Some API Gateway configurations also require DNS-only mode for certificate validation. If your service provides its own CDN, caching, or SSL termination, DNS-only mode prevents conflicts with Cloudflare's proxy.</p>
-          <h2>How Caching Differs Between the Two Modes</h2>
-          <p>In proxied mode, Cloudflare caches static content (HTML, CSS, JS, images) according to cache rules you configure. This dramatically reduces load on your origin server and improves page load times for visitors worldwide. You can set cache duration, purge cached content, and use cache keys to customize behavior. In DNS-only mode, no caching occurs at Cloudflare's edge — every request hits your origin server directly. If you need a CDN in DNS-only mode, you must use a separate CDN provider or configure caching at your application level. For high-traffic sites, proxied mode can reduce origin bandwidth by 60-80%.</p>
-          <h2>Security Implications</h2>
-          <p>Proxied mode provides DDoS protection, IP obfuscation, SSL termination, WAF rules, bot management, and rate limiting — all built into Cloudflare's free tier. DNS-only mode exposes your origin IP and provides none of these protections. If you must use DNS-only mode for a specific service (like email), consider securing that service independently: use strong authentication, restrict access by IP, enable firewall rules, and monitor logs for suspicious activity. For hybrid setups where some records are proxied and others are DNS-only, the proxied records still benefit from Cloudflare's security features even on the same subdomain.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Default to proxied (orange cloud) for all HTTP/HTTPS services and switch to DNS-only only when compatibility requires it</li><li>For email-related records (MX, TXT), always use DNS-only — proxied email records break delivery</li><li>Test both modes to see which provides better performance for your specific use case</li><li>If you need SSL proxied but have an API on a non-standard port, consider using Cloudflare Workers or a reverse proxy to bridge the traffic</li></ul>
-          <h2>Conclusion</h2>
-          <p>The proxy toggle in your is-pro.dev DNS dashboard determines whether Cloudflare actively protects and accelerates your traffic or simply resolves DNS. Proxied mode offers security, performance, and SSL benefits for web services. DNS-only mode is necessary for non-HTTP services and platforms with their own SSL management. Understanding this distinction is fundamental to correctly configuring your subdomains.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I change a record from proxied to DNS-only without downtime?</strong></p>
-          <p>There may be a brief interruption as DNS caches update. Lower the TTL to 60 seconds before switching, wait for propagation, then change the proxy setting.</p>
-          <p><strong>Does DNS-only mode affect SSL?</strong></p>
-          <p>Yes. In DNS-only mode, Cloudflare does not provide SSL termination. Your origin server must have its own valid SSL certificate for HTTPS to work.</p>
-          <p><strong>Can I use proxied mode for a subdomain that hosts a game server?</strong></p>
-           <p>Only if the game client communicates over HTTP or WebSocket on ports 80/443. Most game servers use custom protocols on arbitrary ports and require DNS-only mode.</p>
-<h2>FAQ</h2><p><strong>Is Security setup free on is-pro.dev?</strong></p>
-<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
-<p><strong>How long does DNS take to propagate?</strong></p>
-<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
-<p><strong>Can I use this for commercial projects?</strong></p>
-<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -250,16 +753,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -277,15 +801,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -304,7 +842,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -319,6 +862,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

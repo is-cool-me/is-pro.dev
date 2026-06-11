@@ -1,244 +1,774 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me</title>
-  <meta name="description" content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules." />
-  <link rel="canonical" href="https://is-pro.dev/guides/ssl-certificate-setup-guide/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/ssl-certificate-setup-guide/" />
-  <meta property="og:title" content="SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me" />
-  <meta property="og:description" content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me" />
-  <meta name="twitter:description" content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me",
-      "description": "Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me
+    </title>
+    <meta
+      name="description"
+      content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/guides/ssl-certificate-setup-guide/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/guides/ssl-certificate-setup-guide/"
+    />
+    <meta
+      property="og:title"
+      content="SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me"
+    />
+    <meta
+      property="og:description"
+      content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me"
+    />
+    <meta
+      name="twitter:description"
+      content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me",
+            "description": "Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "SSL Certificate Setup: From Zero to HTTPS Everywhere",
+            "description": "Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-11",
+            "dateModified": "2026-06-11",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
+            },
+            "url": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://is-pro.dev/guides/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "SSL Certificate Setup: From Zero to HTTPS Everywhere",
+                "item": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "SSL Certificate Setup: From Zero to HTTPS Everywhere",
-      "description": "Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
-      },
-      "url": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Guides",
-          "item": "https://is-pro.dev/guides/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "SSL Certificate Setup: From Zero to HTTPS Everywhere",
-          "item": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link active">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Security</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
-          <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link active">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
-        <h1>SSL Certificate Setup: From Zero to HTTPS Everywhere</h1>
-        <p class="article-summary">Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules.</p>
       </div>
-    </div>
-  </header>
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Security</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >8 min read</span
+                >
+                <span
+                  class="article-meta-item"
+                  style="
+                    background: rgba(34, 197, 94, 0.1);
+                    border-color: rgba(34, 197, 94, 0.2);
+                    color: #4ade80;
+                    padding: 0.2rem 0.6rem;
+                    border-radius: var(--radius-full);
+                    font-size: 0.8rem;
+                  "
+                  >Beginner</span
+                >
+              </div>
+              <h1>SSL Certificate Setup: From Zero to HTTPS Everywhere</h1>
+              <p class="article-summary">
+                Learn how SSL certificates work, configure free auto-renewing
+                certificates through Cloudflare, and ensure every page on your
+                subdomain forces HTTPS with proper redirect rules.
+              </p>
+            </div>
+          </div>
+        </header>
 
-  <section class="author-section" aria-label="Article authorship">
-    <div class="container">
-      <div class="author-card" data-reveal>
-        <div class="author-card-main">
-          <h2 class="author-card-title">Written by Mayank Baswal</h2>
-          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-          <div class="author-card-links">
-            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-            <a href="/contact/">Contact</a>
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">Written by Mayank Baswal</h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS & Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows, and
+                  platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Technical Review</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  SSL certificates are no longer optional for websites —
+                  browsers actively warn users when visiting HTTP sites, and
+                  search engines penalize non-HTTPS pages in rankings. An SSL
+                  certificate encrypts traffic between your visitors and your
+                  server, protecting sensitive data and building trust. With an
+                  is-pro.dev subdomain, you get free SSL through Cloudflare's
+                  edge certificates, which are automatically provisioned and
+                  renewed. This guide explains how SSL works and how to ensure
+                  every page on your subdomain is served securely.
+                </p>
+                <h2>Prerequisites</h2>
+                <ul>
+                  <li>
+                    An is-pro.dev subdomain with DNS managed through Cloudflare
+                  </li>
+                  <li>A website or service hosted on your subdomain</li>
+                  <li>
+                    Access to your origin server to configure redirect rules
+                    (optional but recommended)
+                  </li>
+                </ul>
+                <h2>How SSL Certificates Work</h2>
+                <p>
+                  SSL (or more accurately, TLS) uses public-key cryptography to
+                  establish an encrypted connection between a client (browser)
+                  and a server. When a visitor accesses your subdomain over
+                  HTTPS, the server presents its SSL certificate, which contains
+                  the domain name, the certificate authority (CA) that issued
+                  it, and the public key. The browser verifies the certificate
+                  against trusted CA roots. If valid, a symmetric session key is
+                  exchanged and all subsequent data is encrypted. Cloudflare's
+                  Universal SSL certificates are issued by Google Trust Services
+                  or Let's Encrypt and cover your subdomain automatically as
+                  long as DNS is proxied through Cloudflare (orange cloud
+                  enabled).
+                </p>
+                <h2>Step 1: Enable Cloudflare Proxy on Your DNS Records</h2>
+                <p>
+                  In the is-pro.dev DNS dashboard, ensure your subdomain's DNS
+                  record has the proxy status set to "Proxied" (orange cloud).
+                  This routes traffic through Cloudflare's network, where SSL
+                  termination occurs. Cloudflare's edge servers present the SSL
+                  certificate to visitors, then forward the request to your
+                  origin server either over HTTP or HTTPS (depending on your
+                  origin configuration). The proxy must be enabled for
+                  Cloudflare's Universal SSL to work — DNS-only (gray cloud)
+                  records will not receive an edge certificate and your visitors
+                  would connect directly to your origin server without
+                  Cloudflare's SSL protection.
+                </p>
+                <h2>Step 2: Configure SSL/TLS Encryption Mode</h2>
+                <p>
+                  In your Cloudflare dashboard, navigate to "SSL/TLS &rarr;
+                  Overview". You have four encryption mode options: Off (not
+                  recommended), Flexible (encrypts traffic between visitor and
+                  Cloudflare only), Full (encrypts traffic end-to-end but allows
+                  self-signed origin certificates), and Full (strict) (encrypts
+                  end-to-end with a valid CA-signed origin certificate). For
+                  most setups with is-pro.dev, Flexible mode is the easiest —
+                  Cloudflare terminates SSL at the edge and connects to your
+                  origin over HTTP. For maximum security, configure Full
+                  (strict) mode by installing a valid certificate on your origin
+                  server, such as one from Let's Encrypt.
+                </p>
+                <h2>Step 3: Force HTTPS with Redirect Rules</h2>
+                <p>
+                  Even with SSL enabled, visitors might still access your
+                  subdomain over HTTP if they type the URL without HTTPS or
+                  click old links. In Cloudflare, go to "SSL/TLS &rarr; Edge
+                  Certificates" and enable "Always Use HTTPS". This redirects
+                  all HTTP requests to HTTPS automatically. You can also add a
+                  Page Rule for your subdomain:
+                  <code>yourname.is-pro.dev/*</code> with the setting "Always
+                  Use HTTPS" enabled. For additional security, enable "Automatic
+                  HTTPS Rewrites" which converts HTTP URLs in your page's HTML
+                  to HTTPS, preventing mixed content warnings.
+                </p>
+                <h2>Step 4: Configure HSTS (HTTP Strict Transport Security)</h2>
+                <p>
+                  HSTS tells browsers to always connect to your subdomain over
+                  HTTPS, even if the user types HTTP in the address bar. This
+                  prevents downgrade attacks and SSL stripping. In Cloudflare,
+                  go to "SSL/TLS &rarr; Edge Certificates" and enable "HTTP
+                  Strict Transport Security (HSTS)". Start with a
+                  <code>max-age</code> of 3600 seconds (1 hour) for testing,
+                  then increase to 31536000 seconds (1 year) after confirming
+                  everything works. Include the
+                  <code>includeSubDomains</code> directive if you want all
+                  subdomains covered. Enable "Preload" to submit your domain to
+                  browser preload lists, giving you protection from the very
+                  first visit.
+                </p>
+                <h2>Step 5: Verify SSL Configuration</h2>
+                <p>
+                  Use the SSL Checker tool on is-pro.dev to verify your SSL
+                  certificate status. It will confirm the certificate issuer,
+                  expiration date, and encryption strength. Visit your subdomain
+                  in Chrome or Firefox and click the padlock icon in the address
+                  bar to view certificate details. Run an SSL Labs test
+                  (ssllabs.com) for a comprehensive security assessment of your
+                  configuration. Check for common issues like mixed content
+                  warnings (HTTP resources loaded on HTTPS pages), expired
+                  certificates, and weak cipher suites. A properly configured
+                  SSL setup earns an A+ rating on SSL Labs.
+                </p>
+                <h2>Best Practices</h2>
+                <ul>
+                  <li>
+                    Renew certificates before they expire — Cloudflare does this
+                    automatically for edge certificates, but origin certificates
+                    need manual renewal or Certbot automation
+                  </li>
+                  <li>
+                    Use Full (strict) encryption mode when you control the
+                    origin server and can install a valid origin certificate
+                  </li>
+                  <li>
+                    Monitor SSL expiration dates using the SSL Checker tool or
+                    set up calendar reminders
+                  </li>
+                  <li>
+                    Test your site's SSL configuration after any DNS change, as
+                    misconfigured records can break certificate validation
+                  </li>
+                </ul>
+                <h2>Conclusion</h2>
+                <p>
+                  SSL configuration for an is-pro.dev subdomain is
+                  straightforward thanks to Cloudflare's automatic certificate
+                  management. By enabling proxy mode, configuring the right
+                  encryption level, and enforcing HTTPS with HSTS, you ensure
+                  every visitor connects securely. This protects your users,
+                  improves your search engine ranking, and is a prerequisite for
+                  many web platform features like service workers and
+                  geolocation APIs.
+                </p>
+                <h2>FAQ</h2>
+                <p>
+                  <strong
+                    >Do I need to install anything on my server for Cloudflare
+                    SSL to work?</strong
+                  >
+                </p>
+                <p>
+                  In Flexible mode, no — Cloudflare handles SSL at the edge. For
+                  Full (strict) mode, you need a valid certificate on your
+                  origin server.
+                </p>
+                <p>
+                  <strong
+                    >Is the SSL certificate really free and
+                    auto-renewing?</strong
+                  >
+                </p>
+                <p>
+                  Yes, Cloudflare provides Universal SSL certificates for all
+                  proxied domains at no cost. They renew automatically with no
+                  action needed from you.
+                </p>
+                <p>
+                  <strong
+                    >Why does my subdomain show a certificate warning?</strong
+                  >
+                </p>
+                <p>
+                  This typically happens if your DNS record is set to DNS-only
+                  (gray cloud) rather than proxied (orange cloud). Check your
+                  DNS settings and ensure proxy is enabled.
+                </p>
+                <h2>FAQ</h2>
+                <p><strong>Is Security setup free on is-pro.dev?</strong></p>
+                <p>
+                  Yes, all subdomains on is-pro.dev include free DNS management
+                  and SSL certificates.
+                </p>
+                <p><strong>How long does DNS take to propagate?</strong></p>
+                <p>
+                  Cloudflare typically propagates DNS changes within seconds to
+                  a few minutes globally.
+                </p>
+                <p><strong>Can I use this for commercial projects?</strong></p>
+                <p>
+                  Yes, is-pro.dev subdomains can be used for personal and
+                  commercial projects within our fair use policy.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="author-card-review">
-          <span class="author-card-review-label">Reviewed by</span>
-          <span class="author-card-reviewer">is-cool-me Technical Review</span>
+      </article>
+      <div
+        class="container ad-shell"
+        id="mid-content-ad"
+        data-ad="desktop"
+        aria-hidden="true"
+      >
+        <div class="ad-container ad-banner-728x90">
+          <script>
+            atOptions = {
+              key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+              format: "iframe",
+              height: 90,
+              width: 728,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
         </div>
       </div>
-    </div>
-  </section>
-
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>SSL certificates are no longer optional for websites — browsers actively warn users when visiting HTTP sites, and search engines penalize non-HTTPS pages in rankings. An SSL certificate encrypts traffic between your visitors and your server, protecting sensitive data and building trust. With an is-pro.dev subdomain, you get free SSL through Cloudflare's edge certificates, which are automatically provisioned and renewed. This guide explains how SSL works and how to ensure every page on your subdomain is served securely.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-pro.dev subdomain with DNS managed through Cloudflare</li><li>A website or service hosted on your subdomain</li><li>Access to your origin server to configure redirect rules (optional but recommended)</li></ul>
-          <h2>How SSL Certificates Work</h2>
-          <p>SSL (or more accurately, TLS) uses public-key cryptography to establish an encrypted connection between a client (browser) and a server. When a visitor accesses your subdomain over HTTPS, the server presents its SSL certificate, which contains the domain name, the certificate authority (CA) that issued it, and the public key. The browser verifies the certificate against trusted CA roots. If valid, a symmetric session key is exchanged and all subsequent data is encrypted. Cloudflare's Universal SSL certificates are issued by Google Trust Services or Let's Encrypt and cover your subdomain automatically as long as DNS is proxied through Cloudflare (orange cloud enabled).</p>
-          <h2>Step 1: Enable Cloudflare Proxy on Your DNS Records</h2>
-          <p>In the is-pro.dev DNS dashboard, ensure your subdomain's DNS record has the proxy status set to "Proxied" (orange cloud). This routes traffic through Cloudflare's network, where SSL termination occurs. Cloudflare's edge servers present the SSL certificate to visitors, then forward the request to your origin server either over HTTP or HTTPS (depending on your origin configuration). The proxy must be enabled for Cloudflare's Universal SSL to work — DNS-only (gray cloud) records will not receive an edge certificate and your visitors would connect directly to your origin server without Cloudflare's SSL protection.</p>
-          <h2>Step 2: Configure SSL/TLS Encryption Mode</h2>
-          <p>In your Cloudflare dashboard, navigate to "SSL/TLS &rarr; Overview". You have four encryption mode options: Off (not recommended), Flexible (encrypts traffic between visitor and Cloudflare only), Full (encrypts traffic end-to-end but allows self-signed origin certificates), and Full (strict) (encrypts end-to-end with a valid CA-signed origin certificate). For most setups with is-pro.dev, Flexible mode is the easiest — Cloudflare terminates SSL at the edge and connects to your origin over HTTP. For maximum security, configure Full (strict) mode by installing a valid certificate on your origin server, such as one from Let's Encrypt.</p>
-          <h2>Step 3: Force HTTPS with Redirect Rules</h2>
-          <p>Even with SSL enabled, visitors might still access your subdomain over HTTP if they type the URL without HTTPS or click old links. In Cloudflare, go to "SSL/TLS &rarr; Edge Certificates" and enable "Always Use HTTPS". This redirects all HTTP requests to HTTPS automatically. You can also add a Page Rule for your subdomain: <code>yourname.is-pro.dev/*</code> with the setting "Always Use HTTPS" enabled. For additional security, enable "Automatic HTTPS Rewrites" which converts HTTP URLs in your page's HTML to HTTPS, preventing mixed content warnings.</p>
-          <h2>Step 4: Configure HSTS (HTTP Strict Transport Security)</h2>
-          <p>HSTS tells browsers to always connect to your subdomain over HTTPS, even if the user types HTTP in the address bar. This prevents downgrade attacks and SSL stripping. In Cloudflare, go to "SSL/TLS &rarr; Edge Certificates" and enable "HTTP Strict Transport Security (HSTS)". Start with a <code>max-age</code> of 3600 seconds (1 hour) for testing, then increase to 31536000 seconds (1 year) after confirming everything works. Include the <code>includeSubDomains</code> directive if you want all subdomains covered. Enable "Preload" to submit your domain to browser preload lists, giving you protection from the very first visit.</p>
-          <h2>Step 5: Verify SSL Configuration</h2>
-          <p>Use the SSL Checker tool on is-pro.dev to verify your SSL certificate status. It will confirm the certificate issuer, expiration date, and encryption strength. Visit your subdomain in Chrome or Firefox and click the padlock icon in the address bar to view certificate details. Run an SSL Labs test (ssllabs.com) for a comprehensive security assessment of your configuration. Check for common issues like mixed content warnings (HTTP resources loaded on HTTPS pages), expired certificates, and weak cipher suites. A properly configured SSL setup earns an A+ rating on SSL Labs.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Renew certificates before they expire — Cloudflare does this automatically for edge certificates, but origin certificates need manual renewal or Certbot automation</li><li>Use Full (strict) encryption mode when you control the origin server and can install a valid origin certificate</li><li>Monitor SSL expiration dates using the SSL Checker tool or set up calendar reminders</li><li>Test your site's SSL configuration after any DNS change, as misconfigured records can break certificate validation</li></ul>
-          <h2>Conclusion</h2>
-          <p>SSL configuration for an is-pro.dev subdomain is straightforward thanks to Cloudflare's automatic certificate management. By enabling proxy mode, configuring the right encryption level, and enforcing HTTPS with HSTS, you ensure every visitor connects securely. This protects your users, improves your search engine ranking, and is a prerequisite for many web platform features like service workers and geolocation APIs.</p>
-          <h2>FAQ</h2>
-          <p><strong>Do I need to install anything on my server for Cloudflare SSL to work?</strong></p>
-          <p>In Flexible mode, no — Cloudflare handles SSL at the edge. For Full (strict) mode, you need a valid certificate on your origin server.</p>
-          <p><strong>Is the SSL certificate really free and auto-renewing?</strong></p>
-          <p>Yes, Cloudflare provides Universal SSL certificates for all proxied domains at no cost. They renew automatically with no action needed from you.</p>
-          <p><strong>Why does my subdomain show a certificate warning?</strong></p>
-          <p>This typically happens if your DNS record is set to DNS-only (gray cloud) rather than proxied (orange cloud). Check your DNS settings and ensure proxy is enabled.</p>
-<h2>FAQ</h2><p><strong>Is Security setup free on is-pro.dev?</strong></p>
-<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
-<p><strong>How long does DNS take to propagate?</strong></p>
-<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
-<p><strong>Can I use this for commercial projects?</strong></p>
-<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/trending/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Trending</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tutorials/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Tutorials</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -250,16 +780,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -277,15 +828,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -304,7 +869,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -319,6 +889,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

@@ -1,244 +1,762 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Set Up a Custom Email Address Using Your Subdomain — is-cool-me</title>
-  <meta name="description" content="Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard." />
-  <link rel="canonical" href="https://is-pro.dev/guides/custom-email-address-for-domain/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/custom-email-address-for-domain/" />
-  <meta property="og:title" content="Set Up a Custom Email Address Using Your Subdomain — is-cool-me" />
-  <meta property="og:description" content="Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Set Up a Custom Email Address Using Your Subdomain — is-cool-me" />
-  <meta name="twitter:description" content="Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Set Up a Custom Email Address Using Your Subdomain — is-cool-me",
-      "description": "Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>
+      Set Up a Custom Email Address Using Your Subdomain — is-cool-me
+    </title>
+    <meta
+      name="description"
+      content="Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/guides/custom-email-address-for-domain/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/guides/custom-email-address-for-domain/"
+    />
+    <meta
+      property="og:title"
+      content="Set Up a Custom Email Address Using Your Subdomain — is-cool-me"
+    />
+    <meta
+      property="og:description"
+      content="Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Set Up a Custom Email Address Using Your Subdomain — is-cool-me"
+    />
+    <meta
+      name="twitter:description"
+      content="Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Set Up a Custom Email Address Using Your Subdomain — is-cool-me",
+            "description": "Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "Set Up a Custom Email Address Using Your Subdomain",
+            "description": "Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-08",
+            "dateModified": "2026-06-08",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/guides/custom-email-address-for-domain/"
+            },
+            "url": "https://is-pro.dev/guides/custom-email-address-for-domain/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://is-pro.dev/guides/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Set Up a Custom Email Address Using Your Subdomain",
+                "item": "https://is-pro.dev/guides/custom-email-address-for-domain/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "Set Up a Custom Email Address Using Your Subdomain",
-      "description": "Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/guides/custom-email-address-for-domain/"
-      },
-      "url": "https://is-pro.dev/guides/custom-email-address-for-domain/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Guides",
-          "item": "https://is-pro.dev/guides/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Set Up a Custom Email Address Using Your Subdomain",
-          "item": "https://is-pro.dev/guides/custom-email-address-for-domain/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link active">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Email</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
-          <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link active">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
-        <h1>Set Up a Custom Email Address Using Your Subdomain</h1>
-        <p class="article-summary">Create professional email addresses like hello@yourname.is-pro.dev using email forwarding services, configure MX and SPF records, and manage everything from your dashboard.</p>
       </div>
-    </div>
-  </header>
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Email</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >8 min read</span
+                >
+                <span
+                  class="article-meta-item"
+                  style="
+                    background: rgba(234, 179, 8, 0.1);
+                    border-color: rgba(234, 179, 8, 0.2);
+                    color: #eab308;
+                    padding: 0.2rem 0.6rem;
+                    border-radius: var(--radius-full);
+                    font-size: 0.8rem;
+                  "
+                  >Intermediate</span
+                >
+              </div>
+              <h1>Set Up a Custom Email Address Using Your Subdomain</h1>
+              <p class="article-summary">
+                Create professional email addresses like
+                hello@yourname.is-pro.dev using email forwarding services,
+                configure MX and SPF records, and manage everything from your
+                dashboard.
+              </p>
+            </div>
+          </div>
+        </header>
 
-  <section class="author-section" aria-label="Article authorship">
-    <div class="container">
-      <div class="author-card" data-reveal>
-        <div class="author-card-main">
-          <h2 class="author-card-title">Written by Mayank Baswal</h2>
-          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-          <div class="author-card-links">
-            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-            <a href="/contact/">Contact</a>
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">Written by Mayank Baswal</h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS & Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows, and
+                  platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Technical Review</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  A custom email address like
+                  <code>hello@yourname.is-pro.dev</code> signals professionalism
+                  and brand ownership. It tells recipients that you take your
+                  online presence seriously. With is-pro.dev's Cloudflare DNS
+                  integration, you can set up custom email forwarding at no cost
+                  using Cloudflare Email Routing or other free forwarding
+                  services. This guide covers everything from configuring MX
+                  records to setting up SPF, DKIM, and DMARC for reliable email
+                  delivery.
+                </p>
+                <h2>Prerequisites</h2>
+                <ul>
+                  <li>
+                    An is-pro.dev subdomain with DNS managed through Cloudflare
+                  </li>
+                  <li>
+                    A Cloudflare account (free tier) with access to Email
+                    Routing
+                  </li>
+                  <li>
+                    A personal email inbox (Gmail, Outlook, ProtonMail) to
+                    receive forwarded messages
+                  </li>
+                </ul>
+                <h2>Step 1: Enable Cloudflare Email Routing</h2>
+                <p>
+                  Log into your Cloudflare account and select your is-pro.dev
+                  zone. Navigate to "Email &rarr; Email Routing" and click "Get
+                  started". Cloudflare Email Routing is free for up to 100 email
+                  addresses per zone. It forwards incoming emails to your
+                  destination inbox without storing messages on Cloudflare's
+                  servers. The setup requires adding specific MX records and
+                  optionally SPF and DKIM records. Cloudflare walks you through
+                  each step with a guided setup wizard. Once Email Routing is
+                  enabled, you can create custom email addresses that forward to
+                  any existing inbox.
+                </p>
+                <h2>Step 2: Configure MX Records</h2>
+                <p>
+                  Cloudflare Email Routing requires specific MX records to
+                  function. In the Email Routing dashboard, Cloudflare will show
+                  you the required MX record values. Typically, these are:
+                  <code>route1.mx.cloudflare.net</code> with priority 10 and
+                  <code>route2.mx.cloudflare.net</code> with priority 20. In the
+                  is-pro.dev DNS dashboard (which is your Cloudflare DNS), these
+                  records may be added automatically when you enable Email
+                  Routing. Verify they exist in the DNS settings. If not, add
+                  them manually. Ensure the MX records are set to DNS-only (gray
+                  cloud) — proxied MX records break email delivery. The priority
+                  10 route is the primary mail server; the priority 20 route
+                  serves as a backup if the first is unavailable.
+                </p>
+                <h2>Step 3: Create Email Addresses and Set Up Forwarding</h2>
+                <p>
+                  Back in Cloudflare Email Routing, go to the "Addresses" tab.
+                  Click "Create address". Enter your desired email prefix (e.g.,
+                  <code>hello</code> for
+                  <code>hello@yourname.is-pro.dev</code>). Then enter the
+                  destination email address where forwarded messages should
+                  arrive — this can be a Gmail, Outlook, or any other email
+                  address. Click "Save". Repeat for any other addresses you need
+                  (<code>support@</code>, <code>admin@</code>, etc.). You can
+                  set up catch-all forwarding (all
+                  <code>anything@yourname.is-pro.dev</code> addresses) from the
+                  settings, but use catch-all sparingly as it increases spam
+                  volume. Test forwarding by sending an email to your new custom
+                  address — it should arrive in your destination inbox within
+                  seconds.
+                </p>
+                <h2>Step 4: Add SPF Record to Prevent Spoofing</h2>
+                <p>
+                  An SPF (Sender Policy Framework) TXT record tells receiving
+                  email servers which servers are authorized to send email on
+                  behalf of your domain. Without SPF, spammers can forge emails
+                  that appear to come from your subdomain. In your DNS
+                  dashboard, add a TXT record for your subdomain with the value:
+                  <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>. The
+                  <code>include:_spf.mx.cloudflare.net</code> authorizes
+                  Cloudflare's mail servers, and <code>~all</code> marks
+                  unauthenticated email as "soft fail" (receiver can quarantine
+                  it). For stricter security, use <code>-all</code> (hard fail)
+                  which tells receivers to reject unauthenticated email.
+                  However, test with <code>~all</code> first to avoid
+                  accidentally blocking legitimate email.
+                </p>
+                <h2>Step 5: Add DKIM and DMARC Records</h2>
+                <p>
+                  DKIM (DomainKeys Identified Mail) adds a cryptographic
+                  signature to outgoing emails, allowing receivers to verify the
+                  email was not tampered with. In Cloudflare Email Routing, go
+                  to "Settings &rarr; DKIM". Generate a DKIM key and Cloudflare
+                  will provide a TXT record to add to your DNS. This record has
+                  a selector name (e.g., <code>cloudflare._domainkey</code>) and
+                  a long public key value. Add it to your DNS and enable DKIM
+                  signing. DMARC (Domain-based Message Authentication, Reporting
+                  & Conformance) builds on SPF and DKIM. Add a DMARC TXT record
+                  for <code>_dmarc.yourname.is-pro.dev</code> with a value like:
+                  <code
+                    >v=DMARC1; p=quarantine;
+                    rua=mailto:dmarc-reports@yourname.is-pro.dev</code
+                  >. This tells receivers to quarantine emails that fail SPF or
+                  DKIM checks and send aggregate reports to your email.
+                </p>
+                <h2>Step 6: Test Email Delivery</h2>
+                <p>
+                  After configuring DNS records, test your email setup
+                  thoroughly. Send emails to your custom address from different
+                  providers (Gmail, Outlook, Yahoo) and confirm they arrive.
+                  Check the email headers of received messages to verify SPF
+                  (<code>Received-SPF: Pass</code>), DKIM
+                  (<code>dkim=pass</code>), and DMARC (<code>dmarc=pass</code>)
+                  are all passing. Use online email testing tools like
+                  Mail-tester.com to get a comprehensive score (aim for 10/10).
+                  If you send emails from your subdomain (not just receive),
+                  configure your email client to send through a service that
+                  supports your custom domain, such as Gmail's "Send mail as"
+                  feature, which requires SMTP configuration.
+                </p>
+                <h2>Best Practices</h2>
+                <ul>
+                  <li>
+                    Create separate email addresses for different purposes:
+                    <code>hello@</code> for general inquiries,
+                    <code>security@</code> for security reports,
+                    <code>abuse@</code> for abuse complaints
+                  </li>
+                  <li>
+                    Monitor DMARC reports to detect unauthorized email sending
+                    attempts
+                  </li>
+                  <li>
+                    Avoid catch-all forwarding unless necessary — it reduces
+                    spam filtering accuracy
+                  </li>
+                  <li>
+                    Register a separate subdomain just for email if you want to
+                    keep email infrastructure isolated from your main site
+                  </li>
+                </ul>
+                <h2>Conclusion</h2>
+                <p>
+                  Setting up custom email on your is-pro.dev subdomain is free
+                  and straightforward with Cloudflare Email Routing. MX records
+                  route incoming mail, SPF prevents spoofing, DKIM provides
+                  cryptographic verification, and DMARC ties everything together
+                  with a reporting policy. The result is a professional email
+                  address that enhances your brand credibility without ongoing
+                  costs.
+                </p>
+                <h2>FAQ</h2>
+                <p>
+                  <strong
+                    >Can I send email from my custom subdomain, or just
+                    receive?</strong
+                  >
+                </p>
+                <p>
+                  Cloudflare Email Routing only handles incoming email
+                  (forwarding). To send from your custom address, configure
+                  Gmail, Outlook, or another email client to send through an
+                  SMTP server that supports your domain.
+                </p>
+                <p>
+                  <strong
+                    >How many emails can I forward per day on the free
+                    tier?</strong
+                  >
+                </p>
+                <p>
+                  Cloudflare Email Routing free tier forwards up to 100 emails
+                  per day. For higher volumes, consider an email forwarding
+                  service or a paid email hosting solution.
+                </p>
+                <p>
+                  <strong>Why are my forwarded emails going to spam?</strong>
+                </p>
+                <p>
+                  This is usually an SPF or DKIM configuration issue. Verify
+                  your TXT records are published correctly and use an email
+                  testing tool to check your email authentication score.
+                </p>
+                <h2>FAQ</h2>
+                <p><strong>Is Email setup free on is-pro.dev?</strong></p>
+                <p>
+                  Yes, all subdomains on is-pro.dev include free DNS management
+                  and SSL certificates.
+                </p>
+                <p><strong>How long does DNS take to propagate?</strong></p>
+                <p>
+                  Cloudflare typically propagates DNS changes within seconds to
+                  a few minutes globally.
+                </p>
+                <p><strong>Can I use this for commercial projects?</strong></p>
+                <p>
+                  Yes, is-pro.dev subdomains can be used for personal and
+                  commercial projects within our fair use policy.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="author-card-review">
-          <span class="author-card-review-label">Reviewed by</span>
-          <span class="author-card-reviewer">is-cool-me Technical Review</span>
-        </div>
-      </div>
-    </div>
-  </section>
+      </article>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <div
+            class="container ad-shell"
+            id="mid-content-ad"
+            data-ad="desktop"
+            aria-hidden="true"
+          >
+            <div class="ad-container ad-banner-728x90">
+              <script>
+                atOptions = {
+                  key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                  format: "iframe",
+                  height: 90,
+                  width: 728,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+            </div>
+          </div>
 
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>A custom email address like <code>hello@yourname.is-pro.dev</code> signals professionalism and brand ownership. It tells recipients that you take your online presence seriously. With is-pro.dev's Cloudflare DNS integration, you can set up custom email forwarding at no cost using Cloudflare Email Routing or other free forwarding services. This guide covers everything from configuring MX records to setting up SPF, DKIM, and DMARC for reliable email delivery.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-pro.dev subdomain with DNS managed through Cloudflare</li><li>A Cloudflare account (free tier) with access to Email Routing</li><li>A personal email inbox (Gmail, Outlook, ProtonMail) to receive forwarded messages</li></ul>
-          <h2>Step 1: Enable Cloudflare Email Routing</h2>
-          <p>Log into your Cloudflare account and select your is-pro.dev zone. Navigate to "Email &rarr; Email Routing" and click "Get started". Cloudflare Email Routing is free for up to 100 email addresses per zone. It forwards incoming emails to your destination inbox without storing messages on Cloudflare's servers. The setup requires adding specific MX records and optionally SPF and DKIM records. Cloudflare walks you through each step with a guided setup wizard. Once Email Routing is enabled, you can create custom email addresses that forward to any existing inbox.</p>
-          <h2>Step 2: Configure MX Records</h2>
-          <p>Cloudflare Email Routing requires specific MX records to function. In the Email Routing dashboard, Cloudflare will show you the required MX record values. Typically, these are: <code>route1.mx.cloudflare.net</code> with priority 10 and <code>route2.mx.cloudflare.net</code> with priority 20. In the is-pro.dev DNS dashboard (which is your Cloudflare DNS), these records may be added automatically when you enable Email Routing. Verify they exist in the DNS settings. If not, add them manually. Ensure the MX records are set to DNS-only (gray cloud) — proxied MX records break email delivery. The priority 10 route is the primary mail server; the priority 20 route serves as a backup if the first is unavailable.</p>
-          <h2>Step 3: Create Email Addresses and Set Up Forwarding</h2>
-          <p>Back in Cloudflare Email Routing, go to the "Addresses" tab. Click "Create address". Enter your desired email prefix (e.g., <code>hello</code> for <code>hello@yourname.is-pro.dev</code>). Then enter the destination email address where forwarded messages should arrive — this can be a Gmail, Outlook, or any other email address. Click "Save". Repeat for any other addresses you need (<code>support@</code>, <code>admin@</code>, etc.). You can set up catch-all forwarding (all <code>anything@yourname.is-pro.dev</code> addresses) from the settings, but use catch-all sparingly as it increases spam volume. Test forwarding by sending an email to your new custom address — it should arrive in your destination inbox within seconds.</p>
-          <h2>Step 4: Add SPF Record to Prevent Spoofing</h2>
-          <p>An SPF (Sender Policy Framework) TXT record tells receiving email servers which servers are authorized to send email on behalf of your domain. Without SPF, spammers can forge emails that appear to come from your subdomain. In your DNS dashboard, add a TXT record for your subdomain with the value: <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>. The <code>include:_spf.mx.cloudflare.net</code> authorizes Cloudflare's mail servers, and <code>~all</code> marks unauthenticated email as "soft fail" (receiver can quarantine it). For stricter security, use <code>-all</code> (hard fail) which tells receivers to reject unauthenticated email. However, test with <code>~all</code> first to avoid accidentally blocking legitimate email.</p>
-          <h2>Step 5: Add DKIM and DMARC Records</h2>
-          <p>DKIM (DomainKeys Identified Mail) adds a cryptographic signature to outgoing emails, allowing receivers to verify the email was not tampered with. In Cloudflare Email Routing, go to "Settings &rarr; DKIM". Generate a DKIM key and Cloudflare will provide a TXT record to add to your DNS. This record has a selector name (e.g., <code>cloudflare._domainkey</code>) and a long public key value. Add it to your DNS and enable DKIM signing. DMARC (Domain-based Message Authentication, Reporting & Conformance) builds on SPF and DKIM. Add a DMARC TXT record for <code>_dmarc.yourname.is-pro.dev</code> with a value like: <code>v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@yourname.is-pro.dev</code>. This tells receivers to quarantine emails that fail SPF or DKIM checks and send aggregate reports to your email.</p>
-          <h2>Step 6: Test Email Delivery</h2>
-          <p>After configuring DNS records, test your email setup thoroughly. Send emails to your custom address from different providers (Gmail, Outlook, Yahoo) and confirm they arrive. Check the email headers of received messages to verify SPF (<code>Received-SPF: Pass</code>), DKIM (<code>dkim=pass</code>), and DMARC (<code>dmarc=pass</code>) are all passing. Use online email testing tools like Mail-tester.com to get a comprehensive score (aim for 10/10). If you send emails from your subdomain (not just receive), configure your email client to send through a service that supports your custom domain, such as Gmail's "Send mail as" feature, which requires SMTP configuration.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Create separate email addresses for different purposes: <code>hello@</code> for general inquiries, <code>security@</code> for security reports, <code>abuse@</code> for abuse complaints</li><li>Monitor DMARC reports to detect unauthorized email sending attempts</li><li>Avoid catch-all forwarding unless necessary — it reduces spam filtering accuracy</li><li>Register a separate subdomain just for email if you want to keep email infrastructure isolated from your main site</li></ul>
-          <h2>Conclusion</h2>
-          <p>Setting up custom email on your is-pro.dev subdomain is free and straightforward with Cloudflare Email Routing. MX records route incoming mail, SPF prevents spoofing, DKIM provides cryptographic verification, and DMARC ties everything together with a reporting policy. The result is a professional email address that enhances your brand credibility without ongoing costs.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I send email from my custom subdomain, or just receive?</strong></p>
-          <p>Cloudflare Email Routing only handles incoming email (forwarding). To send from your custom address, configure Gmail, Outlook, or another email client to send through an SMTP server that supports your domain.</p>
-          <p><strong>How many emails can I forward per day on the free tier?</strong></p>
-          <p>Cloudflare Email Routing free tier forwards up to 100 emails per day. For higher volumes, consider an email forwarding service or a paid email hosting solution.</p>
-          <p><strong>Why are my forwarded emails going to spam?</strong></p>
-          <p>This is usually an SPF or DKIM configuration issue. Verify your TXT records are published correctly and use an email testing tool to check your email authentication score.</p>
-<h2>FAQ</h2><p><strong>Is Email setup free on is-pro.dev?</strong></p>
-<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
-<p><strong>How long does DNS take to propagate?</strong></p>
-<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
-<p><strong>Can I use this for commercial projects?</strong></p>
-<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -250,16 +768,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -277,15 +816,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -304,7 +857,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -319,6 +877,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

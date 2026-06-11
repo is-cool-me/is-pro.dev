@@ -1,244 +1,773 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Deploy to a VPS Using SSH and a Custom Subdomain — is-cool-me</title>
-  <meta name="description" content="Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks." />
-  <link rel="canonical" href="https://is-pro.dev/guides/vps-deployment-with-ssh/" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/vps-deployment-with-ssh/" />
-  <meta property="og:title" content="Deploy to a VPS Using SSH and a Custom Subdomain — is-cool-me" />
-  <meta property="og:description" content="Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks." />
-  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Deploy to a VPS Using SSH and a Custom Subdomain — is-cool-me" />
-  <meta name="twitter:description" content="Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks." />
-  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
-  <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://is-pro.dev/#website",
-      "url": "https://is-pro.dev",
-      "name": "Deploy to a VPS Using SSH and a Custom Subdomain — is-cool-me",
-      "description": "Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>Deploy to a VPS Using SSH and a Custom Subdomain — is-cool-me</title>
+    <meta
+      name="description"
+      content="Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks."
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/guides/vps-deployment-with-ssh/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/guides/vps-deployment-with-ssh/"
+    />
+    <meta
+      property="og:title"
+      content="Deploy to a VPS Using SSH and a Custom Subdomain — is-cool-me"
+    />
+    <meta
+      property="og:description"
+      content="Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Deploy to a VPS Using SSH and a Custom Subdomain — is-cool-me"
+    />
+    <meta
+      name="twitter:description"
+      content="Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://is-pro.dev/#website",
+            "url": "https://is-pro.dev",
+            "name": "Deploy to a VPS Using SSH and a Custom Subdomain — is-cool-me",
+            "description": "Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            }
+          },
+          {
+            "@type": "TechArticle",
+            "headline": "Deploy to a VPS Using SSH and a Custom Subdomain",
+            "description": "Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-06-08",
+            "dateModified": "2026-06-08",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/guides/vps-deployment-with-ssh/"
+            },
+            "url": "https://is-pro.dev/guides/vps-deployment-with-ssh/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://is-pro.dev/guides/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Deploy to a VPS Using SSH and a Custom Subdomain",
+                "item": "https://is-pro.dev/guides/vps-deployment-with-ssh/"
+              }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "TechArticle",
-      "headline": "Deploy to a VPS Using SSH and a Custom Subdomain",
-      "description": "Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks.",
-      "author": {
-        "@type": "Person",
-        "name": "Mayank Baswal",
-        "url": "https://is-pro.dev/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "is-cool-me",
-        "url": "https://is-pro.dev",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://is-pro.dev/dist/images/logo.png"
-        }
-      },
-      "datePublished": "2026-06-08",
-      "dateModified": "2026-06-08",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://is-pro.dev/guides/vps-deployment-with-ssh/"
-      },
-      "url": "https://is-pro.dev/guides/vps-deployment-with-ssh/"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://is-pro.dev/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Guides",
-          "item": "https://is-pro.dev/guides/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Deploy to a VPS Using SSH and a Custom Subdomain",
-          "item": "https://is-pro.dev/guides/vps-deployment-with-ssh/"
-        }
-      ]
-    }
-  ]
-}</script>
-</head>
-<body>
-<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 9999;
+        background: var(--color-accent);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        transform: translateY(-200%);
+        transition: transform 0.2s;
+      "
+      onfocus="this.style.transform = 'translateY(0)'"
+      onblur="this.style.transform = 'translateY(-200%)'"
+      >Skip to main content</a
+    >
 
-<header class="site-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
-        <span class="logo-text">is-cool-me</span>
-      </a>
-      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link active">Guides</a>
-        <a href="/showcase/" class="nav-link">Showcase</a>
-        <a href="/trending/" class="nav-link">Trending</a>
-        <a href="/tools/" class="nav-link">Tools</a>
-        <a href="/compare/" class="nav-link">Compare</a>
-              <a href="/about/" class="nav-link">About</a>
-        <a href="/contact/" class="nav-link">Contact</a>
-        <a href="/terms/" class="nav-link">Terms</a>
-      </nav>
-      <div class="header-actions">
-        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
-        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-<main id="main-content">
-<article>
-  <header class="article-hero">
-    <div class="container">
-      <div class="article-hero-inner">
-        <div class="article-meta">
-          <span class="article-category">Deployment</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
-          <span class="article-meta-item" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Advanced</span>
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+            <a href="/guides/" class="nav-link active">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a>
+            <a href="/trending/" class="nav-link">Trending</a>
+            <a href="/tools/" class="nav-link">Tools</a>
+            <a href="/compare/" class="nav-link">Compare</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+              >Discord</a
+            >
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
-        <h1>Deploy to a VPS Using SSH and a Custom Subdomain</h1>
-        <p class="article-summary">Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks.</p>
       </div>
-    </div>
-  </header>
+    </header>
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Deployment</span>
+                <span class="article-meta-item"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >8 min read</span
+                >
+                <span
+                  class="article-meta-item"
+                  style="
+                    background: rgba(239, 68, 68, 0.1);
+                    border-color: rgba(239, 68, 68, 0.2);
+                    color: #ef4444;
+                    padding: 0.2rem 0.6rem;
+                    border-radius: var(--radius-full);
+                    font-size: 0.8rem;
+                  "
+                  >Advanced</span
+                >
+              </div>
+              <h1>Deploy to a VPS Using SSH and a Custom Subdomain</h1>
+              <p class="article-summary">
+                Configure a subdomain to point to a VPS server, set up Nginx as
+                a reverse proxy, manage SSL certificates with Certbot, and
+                automate deployments with Git hooks.
+              </p>
+            </div>
+          </div>
+        </header>
 
-  <section class="author-section" aria-label="Article authorship">
-    <div class="container">
-      <div class="author-card" data-reveal>
-        <div class="author-card-main">
-          <h2 class="author-card-title">Written by Mayank Baswal</h2>
-          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-          <div class="author-card-links">
-            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-            <a href="/contact/">Contact</a>
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">Written by Mayank Baswal</h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS & Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows, and
+                  platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Technical Review</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>Introduction</h2>
+                <p>
+                  A Virtual Private Server (VPS) gives you full control over
+                  your hosting environment — custom software, root access, and
+                  dedicated resources. By connecting a VPS to an is-pro.dev
+                  subdomain, you get a branded URL for your server with
+                  Cloudflare DNS management and optional DDoS protection. This
+                  guide covers the complete workflow: provisioning a VPS,
+                  setting up Nginx as a reverse proxy, securing it with SSL via
+                  Certbot, configuring your subdomain, and automating
+                  deployments with Git hooks.
+                </p>
+                <h2>Prerequisites</h2>
+                <ul>
+                  <li>
+                    A VPS from any provider (DigitalOcean, Linode, Vultr,
+                    Hetzner, or AWS EC2) with Ubuntu 22.04 or 24.04
+                  </li>
+                  <li>
+                    SSH access to your VPS with a root or sudo-enabled user
+                  </li>
+                  <li>An is-pro.dev subdomain registered at dash.is-pro.dev</li>
+                  <li>Basic familiarity with Linux command line and SSH</li>
+                </ul>
+                <h2>Step 1: Initial Server Setup</h2>
+                <p>
+                  SSH into your VPS: <code>ssh root@your-server-ip</code>.
+                  First, update the package manager:
+                  <code>apt update && apt upgrade -y</code>. Create a non-root
+                  user with sudo privileges: <code>adduser deploy</code> and
+                  <code>usermod -aG sudo deploy</code>. Set up SSH key
+                  authentication by copying your public key to the new user's
+                  <code>~/.ssh/authorized_keys</code>. Disable password
+                  authentication in <code>/etc/ssh/sshd_config</code> by setting
+                  <code>PasswordAuthentication no</code>, then restart SSH:
+                  <code>systemctl restart ssh</code>. Configure a basic
+                  firewall:
+                  <code
+                    >ufw allow OpenSSH && ufw allow 'Nginx Full' && ufw
+                    enable</code
+                  >. This ensures only SSH and web traffic can reach your
+                  server. Install Nginx: <code>apt install nginx -y</code>.
+                </p>
+                <h2>Step 2: Configure Nginx as a Reverse Proxy</h2>
+                <p>
+                  Create a new Nginx server block for your subdomain:
+                  <code
+                    >nano /etc/nginx/sites-available/yourname.is-pro.dev</code
+                  >. Configure it as a reverse proxy to your application. For
+                  example, if your app runs on port 3000:
+                  <code
+                    >server { listen 80; server_name yourname.is-pro.dev;
+                    location / { proxy_pass http://127.0.0.1:3000;
+                    proxy_set_header Host $host; proxy_set_header X-Real-IP
+                    $remote_addr; proxy_set_header X-Forwarded-For
+                    $proxy_add_x_forwarded_for; proxy_set_header
+                    X-Forwarded-Proto $scheme; } }</code
+                  >. Enable the site:
+                  <code
+                    >ln -s /etc/nginx/sites-available/yourname.is-pro.dev
+                    /etc/nginx/sites-enabled/</code
+                  >. Test the configuration: <code>nginx -t</code>. If OK,
+                  reload Nginx: <code>systemctl reload nginx</code>. Your
+                  application should now be accessible over HTTP at your VPS's
+                  IP address.
+                </p>
+                <h2>Step 3: Configure DNS in is-pro.dev Dashboard</h2>
+                <p>
+                  In the is-pro.dev DNS dashboard, add an A record pointing your
+                  subdomain to your VPS's IPv4 address. Add an AAAA record if
+                  your VPS has an IPv6 address. Set TTL to 60 seconds for
+                  initial testing. Important: for a VPS, you can use either
+                  proxied (orange cloud) or DNS-only (gray cloud) mode. Proxied
+                  mode hides your VPS IP and provides DDoS protection, but if
+                  your application uses WebSockets or custom protocols, you may
+                  need DNS-only mode or configure Cloudflare to allow WebSocket
+                  traffic. For most web applications with Nginx behind
+                  Cloudflare, proxied mode works well and adds security
+                  benefits.
+                </p>
+                <h2>Step 4: Obtain SSL Certificate with Certbot</h2>
+                <p>
+                  Install Certbot and the Nginx plugin:
+                  <code>apt install certbot python3-certbot-nginx -y</code>. Set
+                  proxy mode to DNS-only (temporarily) for certificate issuance:
+                  run <code>certbot --nginx -d yourname.is-pro.dev</code>.
+                  Certbot will automatically modify your Nginx configuration to
+                  use HTTPS. Follow the prompts to set up auto-renewal. After
+                  the certificate is issued, you can switch the DNS record back
+                  to proxied (orange cloud) mode if desired. Certbot sets up a
+                  systemd timer for automatic renewal — verify it with
+                  <code>systemctl status certbot.timer</code>. If you keep the
+                  record proxied through Cloudflare, you can use Cloudflare's
+                  Origin CA certificate instead of Let's Encrypt for end-to-end
+                  encryption.
+                </p>
+                <h2>Step 5: Set Up Automatic Deployments with Git Hooks</h2>
+                <p>
+                  Create a bare Git repository on your VPS for your application:
+                  <code
+                    >mkdir -p ~/app.git && cd ~/app.git && git init --bare</code
+                  >. Create a post-receive hook:
+                  <code>nano hooks/post-receive</code>. Add the following
+                  script:
+                  <code
+                    >#!/bin/bash; GIT_WORK_TREE=/var/www/yourname git checkout
+                    -f; cd /var/www/yourname && npm install && pm2 restart
+                    app</code
+                  >. Make it executable:
+                  <code>chmod +x hooks/post-receive</code>. On your local
+                  machine, add the VPS as a remote:
+                  <code
+                    >git remote add deploy
+                    ssh://deploy@your-server-ip/home/deploy/app.git</code
+                  >. Deploy by running <code>git push deploy main</code>. The
+                  Git hook checks out the latest code, installs dependencies,
+                  and restarts your application. This gives you a CI/CD-like
+                  workflow without external services.
+                </p>
+                <h2>Step 6: Monitor and Maintain</h2>
+                <p>
+                  Set up monitoring for your VPS: install
+                  <code>netdata</code> or <code>htop</code> for real-time
+                  resource monitoring, configure log rotation for Nginx and
+                  application logs, set up automated backups with
+                  <code>rsync</code> or <code>rclone</code> to offsite storage,
+                  and configure fail2ban to block brute-force SSH attempts. Keep
+                  your server updated with automatic security updates:
+                  <code
+                    >apt install unattended-upgrades && dpkg-reconfigure -plow
+                    unattended-upgrades</code
+                  >. Set up uptime monitoring for your subdomain using the
+                  is-pro.dev monitoring tools or external services like
+                  UptimeRobot.
+                </p>
+                <h2>Best Practices</h2>
+                <ul>
+                  <li>
+                    Use SSH keys only (disable password authentication) for
+                    server access
+                  </li>
+                  <li>
+                    Run applications as a non-root user with limited permissions
+                  </li>
+                  <li>
+                    Keep Nginx, Node.js, and all application dependencies
+                    updated
+                  </li>
+                  <li>
+                    Use environment variables for sensitive configuration —
+                    never hardcode credentials
+                  </li>
+                  <li>
+                    Set up swap space (2GB minimum) for memory-intensive
+                    applications
+                  </li>
+                </ul>
+                <h2>Conclusion</h2>
+                <p>
+                  A VPS paired with an is-pro.dev subdomain gives you full
+                  control over your hosting stack. Nginx handles reverse
+                  proxying and static file serving, SSL certificates from
+                  Certbot encrypt traffic, Git hooks automate deployments, and
+                  your branded subdomain provides a professional URL. This setup
+                  is ideal for applications that need more than static hosting
+                  can provide.
+                </p>
+                <h2>FAQ</h2>
+                <p>
+                  <strong
+                    >How much does a VPS cost compared to shared
+                    hosting?</strong
+                  >
+                </p>
+                <p>
+                  VPS plans start around $4-6/month from providers like
+                  DigitalOcean, Vultr, or Hetzner. Shared hosting is cheaper but
+                  offers less control and performance.
+                </p>
+                <p>
+                  <strong
+                    >Should I use Cloudflare proxied mode or DNS-only for my
+                    VPS?</strong
+                  >
+                </p>
+                <p>
+                  Use proxied mode for web applications (HTTP/HTTPS) to get DDoS
+                  protection and IP hiding. Use DNS-only for non-HTTP services
+                  like SSH, game servers, or custom protocol applications.
+                </p>
+                <p><strong>What if my VPS IP changes?</strong></p>
+                <p>
+                  Update the A record in your is-pro.dev DNS dashboard with the
+                  new IP. With Cloudflare DNS, propagation is nearly instant.
+                  Consider using a dynamic DNS service if your VPS provider
+                  frequently changes your IP.
+                </p>
+                <h2>FAQ</h2>
+                <p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
+                <p>
+                  Yes, all subdomains on is-pro.dev include free DNS management
+                  and SSL certificates.
+                </p>
+                <p><strong>How long does DNS take to propagate?</strong></p>
+                <p>
+                  Cloudflare typically propagates DNS changes within seconds to
+                  a few minutes globally.
+                </p>
+                <p><strong>Can I use this for commercial projects?</strong></p>
+                <p>
+                  Yes, is-pro.dev subdomains can be used for personal and
+                  commercial projects within our fair use policy.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="author-card-review">
-          <span class="author-card-review-label">Reviewed by</span>
-          <span class="author-card-reviewer">is-cool-me Technical Review</span>
-        </div>
-      </div>
-    </div>
-  </section>
+      </article>
+      <section
+        style="
+          padding: var(--space-12) 0;
+          border-top: 1px solid var(--color-border-sub);
+        "
+      >
+        <div class="container">
+          <div
+            class="container ad-shell"
+            id="mid-content-ad"
+            data-ad="desktop"
+            aria-hidden="true"
+          >
+            <div class="ad-container ad-banner-728x90">
+              <script>
+                atOptions = {
+                  key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+                  format: "iframe",
+                  height: 90,
+                  width: 728,
+                  params: {},
+                };
+              </script>
+              <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+            </div>
+          </div>
 
-  <div class="article-layout-section">
-    <div class="container">
-      <div class="article-layout-inner">
-        <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>A Virtual Private Server (VPS) gives you full control over your hosting environment — custom software, root access, and dedicated resources. By connecting a VPS to an is-pro.dev subdomain, you get a branded URL for your server with Cloudflare DNS management and optional DDoS protection. This guide covers the complete workflow: provisioning a VPS, setting up Nginx as a reverse proxy, securing it with SSL via Certbot, configuring your subdomain, and automating deployments with Git hooks.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A VPS from any provider (DigitalOcean, Linode, Vultr, Hetzner, or AWS EC2) with Ubuntu 22.04 or 24.04</li><li>SSH access to your VPS with a root or sudo-enabled user</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Basic familiarity with Linux command line and SSH</li></ul>
-          <h2>Step 1: Initial Server Setup</h2>
-          <p>SSH into your VPS: <code>ssh root@your-server-ip</code>. First, update the package manager: <code>apt update && apt upgrade -y</code>. Create a non-root user with sudo privileges: <code>adduser deploy</code> and <code>usermod -aG sudo deploy</code>. Set up SSH key authentication by copying your public key to the new user's <code>~/.ssh/authorized_keys</code>. Disable password authentication in <code>/etc/ssh/sshd_config</code> by setting <code>PasswordAuthentication no</code>, then restart SSH: <code>systemctl restart ssh</code>. Configure a basic firewall: <code>ufw allow OpenSSH && ufw allow 'Nginx Full' && ufw enable</code>. This ensures only SSH and web traffic can reach your server. Install Nginx: <code>apt install nginx -y</code>.</p>
-          <h2>Step 2: Configure Nginx as a Reverse Proxy</h2>
-          <p>Create a new Nginx server block for your subdomain: <code>nano /etc/nginx/sites-available/yourname.is-pro.dev</code>. Configure it as a reverse proxy to your application. For example, if your app runs on port 3000: <code>server { listen 80; server_name yourname.is-pro.dev; location / { proxy_pass http://127.0.0.1:3000; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header X-Forwarded-Proto $scheme; } }</code>. Enable the site: <code>ln -s /etc/nginx/sites-available/yourname.is-pro.dev /etc/nginx/sites-enabled/</code>. Test the configuration: <code>nginx -t</code>. If OK, reload Nginx: <code>systemctl reload nginx</code>. Your application should now be accessible over HTTP at your VPS's IP address.</p>
-          <h2>Step 3: Configure DNS in is-pro.dev Dashboard</h2>
-          <p>In the is-pro.dev DNS dashboard, add an A record pointing your subdomain to your VPS's IPv4 address. Add an AAAA record if your VPS has an IPv6 address. Set TTL to 60 seconds for initial testing. Important: for a VPS, you can use either proxied (orange cloud) or DNS-only (gray cloud) mode. Proxied mode hides your VPS IP and provides DDoS protection, but if your application uses WebSockets or custom protocols, you may need DNS-only mode or configure Cloudflare to allow WebSocket traffic. For most web applications with Nginx behind Cloudflare, proxied mode works well and adds security benefits.</p>
-          <h2>Step 4: Obtain SSL Certificate with Certbot</h2>
-          <p>Install Certbot and the Nginx plugin: <code>apt install certbot python3-certbot-nginx -y</code>. Set proxy mode to DNS-only (temporarily) for certificate issuance: run <code>certbot --nginx -d yourname.is-pro.dev</code>. Certbot will automatically modify your Nginx configuration to use HTTPS. Follow the prompts to set up auto-renewal. After the certificate is issued, you can switch the DNS record back to proxied (orange cloud) mode if desired. Certbot sets up a systemd timer for automatic renewal — verify it with <code>systemctl status certbot.timer</code>. If you keep the record proxied through Cloudflare, you can use Cloudflare's Origin CA certificate instead of Let's Encrypt for end-to-end encryption.</p>
-          <h2>Step 5: Set Up Automatic Deployments with Git Hooks</h2>
-          <p>Create a bare Git repository on your VPS for your application: <code>mkdir -p ~/app.git && cd ~/app.git && git init --bare</code>. Create a post-receive hook: <code>nano hooks/post-receive</code>. Add the following script: <code>#!/bin/bash; GIT_WORK_TREE=/var/www/yourname git checkout -f; cd /var/www/yourname && npm install && pm2 restart app</code>. Make it executable: <code>chmod +x hooks/post-receive</code>. On your local machine, add the VPS as a remote: <code>git remote add deploy ssh://deploy@your-server-ip/home/deploy/app.git</code>. Deploy by running <code>git push deploy main</code>. The Git hook checks out the latest code, installs dependencies, and restarts your application. This gives you a CI/CD-like workflow without external services.</p>
-          <h2>Step 6: Monitor and Maintain</h2>
-          <p>Set up monitoring for your VPS: install <code>netdata</code> or <code>htop</code> for real-time resource monitoring, configure log rotation for Nginx and application logs, set up automated backups with <code>rsync</code> or <code>rclone</code> to offsite storage, and configure fail2ban to block brute-force SSH attempts. Keep your server updated with automatic security updates: <code>apt install unattended-upgrades && dpkg-reconfigure -plow unattended-upgrades</code>. Set up uptime monitoring for your subdomain using the is-pro.dev monitoring tools or external services like UptimeRobot.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Use SSH keys only (disable password authentication) for server access</li><li>Run applications as a non-root user with limited permissions</li><li>Keep Nginx, Node.js, and all application dependencies updated</li><li>Use environment variables for sensitive configuration — never hardcode credentials</li><li>Set up swap space (2GB minimum) for memory-intensive applications</li></ul>
-          <h2>Conclusion</h2>
-          <p>A VPS paired with an is-pro.dev subdomain gives you full control over your hosting stack. Nginx handles reverse proxying and static file serving, SSL certificates from Certbot encrypt traffic, Git hooks automate deployments, and your branded subdomain provides a professional URL. This setup is ideal for applications that need more than static hosting can provide.</p>
-          <h2>FAQ</h2>
-          <p><strong>How much does a VPS cost compared to shared hosting?</strong></p>
-          <p>VPS plans start around $4-6/month from providers like DigitalOcean, Vultr, or Hetzner. Shared hosting is cheaper but offers less control and performance.</p>
-          <p><strong>Should I use Cloudflare proxied mode or DNS-only for my VPS?</strong></p>
-          <p>Use proxied mode for web applications (HTTP/HTTPS) to get DDoS protection and IP hiding. Use DNS-only for non-HTTP services like SSH, game servers, or custom protocol applications.</p>
-          <p><strong>What if my VPS IP changes?</strong></p>
-          <p>Update the A record in your is-pro.dev DNS dashboard with the new IP. With Cloudflare DNS, propagation is nearly instant. Consider using a dynamic DNS service if your VPS provider frequently changes your IP.</p>
-<h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
-<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
-<p><strong>How long does DNS take to propagate?</strong></p>
-<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
-<p><strong>Can I use this for commercial projects?</strong></p>
-<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Deployment Guides
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/free-hosting-with-github-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >GitHub Pages Hosting</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/deploy-react-app-to-vercel/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Deploy to Vercel</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/netlify-custom-domain-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Netlify Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare Pages</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                DNS & Security
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/guides/dns-records-explained/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >DNS Records Guide</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/ssl-certificate-setup-guide/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >SSL Setup</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-dns-setup/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Cloudflare DNS</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/guides/cloudflare-proxy-vs-dns-only/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Proxy vs DNS-Only</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div
+              style="
+                background: var(--color-card);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <h4
+                style="
+                  color: var(--color-accent-light);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Platform Resources
+              </h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
+                <li>
+                  <a
+                    href="/showcase/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Project Showcase</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/blog/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/tools/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Free Tools</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/compare/"
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 0.9rem;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--color-accent-light)'"
+                    onmouseout="this.style.color = 'var(--color-text-muted)'"
+                    >Compare Hosting</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-      </ul>
-    </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer" role="contentinfo">
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -250,16 +779,37 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
-            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in, DNS
+              management, and community support.
+            </p>
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-outline btn-sm btn-fit"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Join Discord</a
+            >
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -277,15 +827,29 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
             </nav>
           </div>
         </div>
@@ -304,7 +868,12 @@
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+      <div
+        class="container ad-shell"
+        id="mobile-banner-ad"
+        data-ad="mobile"
+        aria-hidden="true"
+      >
         <div class="ad-container ad-banner-320x50">
           <script>
             atOptions = {
@@ -319,6 +888,6 @@
         </div>
       </div>
     </footer>
-<script src="/js/app.js" defer></script>
-</body>
+    <script src="/js/app.js" defer></script>
+  </body>
 </html>

@@ -1,35 +1,35 @@
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SITE_ROOT = process.env.SITE_ROOT || join(__dirname, '..', 'is-pro.dev');
+const SITE_ROOT = process.env.SITE_ROOT || join(__dirname, "..", "is-pro.dev");
 
-const BASE_URL = 'https://is-pro.dev';
-const AUTHOR = 'Mayank Baswal';
-const PUBLISHER = 'is-cool-me';
-const LOGO_URL = 'https://is-pro.dev/dist/images/logo.png';
-const OG_IMAGE = 'https://is-pro.dev/dist/images/is-pro.dev.png';
+const BASE_URL = "https://is-pro.dev";
+const AUTHOR = "Mayank Baswal";
+const PUBLISHER = "is-cool-me";
+const LOGO_URL = "https://is-pro.dev/dist/images/logo.png";
+const OG_IMAGE = "https://is-pro.dev/dist/images/is-pro.dev.png";
 
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/domains/', label: 'Domains' },
-  { href: '/blog/', label: 'Blog' },
-  { href: '/guides/', label: 'Guides' },
-  { href: '/showcase/', label: 'Showcase' },
-  { href: '/trending/', label: 'Trending' },
-  { href: '/tools/', label: 'Tools' },
-  { href: '/compare/', label: 'Compare' },
-  { href: '/about/', label: 'About' },
-  { href: '/contact/', label: 'Contact' },
-  { href: '/terms/', label: 'Terms' },
+  { href: "/", label: "Home" },
+  { href: "/domains/", label: "Domains" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/guides/", label: "Guides" },
+  { href: "/showcase/", label: "Showcase" },
+  { href: "/trending/", label: "Trending" },
+  { href: "/tools/", label: "Tools" },
+  { href: "/compare/", label: "Compare" },
+  { href: "/about/", label: "About" },
+  { href: "/contact/", label: "Contact" },
+  { href: "/terms/", label: "Terms" },
 ];
 
-function navHTML(activePath = '') {
+function navHTML(activePath = "") {
   return NAV_LINKS.map(({ href, label }) => {
-    const isActive = activePath === href || activePath.startsWith(href + '/');
-    return `<a href="${href}" class="nav-link${isActive ? ' active' : ''}">${label}</a>`;
-  }).join('\n        ');
+    const isActive = activePath === href || activePath.startsWith(href + "/");
+    return `<a href="${href}" class="nav-link${isActive ? " active" : ""}">${label}</a>`;
+  }).join("\n        ");
 }
 
 function footerHTML() {
@@ -116,7 +116,7 @@ function footerHTML() {
     </footer>`;
 }
 
-function headerHTML(activePath = '', title = 'is-cool-me') {
+function headerHTML(activePath = "", title = "is-cool-me") {
   return `<header class="site-header" role="banner">
   <div class="container">
     <div class="header-inner">
@@ -139,19 +139,31 @@ function headerHTML(activePath = '', title = 'is-cool-me') {
 
 function jsonLdBreadcrumb(items) {
   return JSON.stringify({
-    '@type': 'BreadcrumbList',
-    'itemListElement': items.map((item, i) => ({
-      '@type': 'ListItem',
-      'position': i + 1,
-      'name': item.name,
-      'item': item.href.startsWith('http') ? item.href : `${BASE_URL}${item.href}`
-    }))
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: item.href.startsWith("http")
+        ? item.href
+        : `${BASE_URL}${item.href}`,
+    })),
   });
 }
 
-function htmlHead({ title, description, canonical, ogType = 'website', ogTitle, ogDesc, article }) {
-  const t = title || 'is-cool-me — Free Subdomains for Developers';
-  const d = description || 'Free subdomains for developers. Grab a free subdomain under is-pro.dev or is-into.tech, sign in with GitHub, and manage DNS records from one dashboard.';
+function htmlHead({
+  title,
+  description,
+  canonical,
+  ogType = "website",
+  ogTitle,
+  ogDesc,
+  article,
+}) {
+  const t = title || "is-cool-me — Free Subdomains for Developers";
+  const d =
+    description ||
+    "Free subdomains for developers. Grab a free subdomain under is-pro.dev or is-into.tech, sign in with GitHub, and manage DNS records from one dashboard.";
   const c = canonical || BASE_URL;
   const ogT = ogTitle || t;
   const ogD = ogDesc || d;
@@ -159,42 +171,44 @@ function htmlHead({ title, description, canonical, ogType = 'website', ogTitle, 
   const dateMod = article?.dateModified || datePub;
 
   let schema = {
-    '@context': 'https://schema.org',
-    '@graph': [
+    "@context": "https://schema.org",
+    "@graph": [
       {
-        '@type': 'WebSite',
-        '@id': `${BASE_URL}/#website`,
-        'url': BASE_URL,
-        'name': t,
-        'description': d,
-        'publisher': {
-          '@type': 'Organization',
-          'name': PUBLISHER,
-          'url': BASE_URL,
-          'logo': { '@type': 'ImageObject', 'url': LOGO_URL }
-        }
-      }
-    ]
+        "@type": "WebSite",
+        "@id": `${BASE_URL}/#website`,
+        url: BASE_URL,
+        name: t,
+        description: d,
+        publisher: {
+          "@type": "Organization",
+          name: PUBLISHER,
+          url: BASE_URL,
+          logo: { "@type": "ImageObject", url: LOGO_URL },
+        },
+      },
+    ],
   };
 
   if (article) {
-    schema['@graph'].splice(1, 0, {
-      '@type': 'TechArticle',
-      'headline': article.headline || t,
-      'description': article.description || d,
-      'author': { '@type': 'Person', 'name': AUTHOR, 'url': `${BASE_URL}/about/` },
-      'publisher': {
-        '@type': 'Organization',
-        'name': PUBLISHER,
-        'url': BASE_URL,
-        'logo': { '@type': 'ImageObject', 'url': LOGO_URL }
+    schema["@graph"].splice(1, 0, {
+      "@type": "TechArticle",
+      headline: article.headline || t,
+      description: article.description || d,
+      author: { "@type": "Person", name: AUTHOR, url: `${BASE_URL}/about/` },
+      publisher: {
+        "@type": "Organization",
+        name: PUBLISHER,
+        url: BASE_URL,
+        logo: { "@type": "ImageObject", url: LOGO_URL },
       },
-      'datePublished': datePub,
-      'dateModified': dateMod,
-      'mainEntityOfPage': { '@type': 'WebPage', '@id': c },
-      'url': c
+      datePublished: datePub,
+      dateModified: dateMod,
+      mainEntityOfPage: { "@type": "WebPage", "@id": c },
+      url: c,
     });
-    schema['@graph'].push(JSON.parse(jsonLdBreadcrumb(article.breadcrumbs || [])));
+    schema["@graph"].push(
+      JSON.parse(jsonLdBreadcrumb(article.breadcrumbs || [])),
+    );
   }
 
   return `<!DOCTYPE html>
@@ -232,9 +246,9 @@ function htmlHead({ title, description, canonical, ogType = 'website', ogTitle, 
 
 function escHtml(str) {
   return String(str)
-    .replace(/&/g, '&')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
+    .replace(/&/g, "&")
+    .replace(/</g, "<")
+    .replace(/>/g, ">")
     .replace(/"/g, '"');
 }
 
@@ -250,11 +264,22 @@ function pageHeroHTML(tag, heading, subtitle) {
   </div>`;
 }
 
-function postCardHTML({ href, title, excerpt, category, tag, readTime, gradient }) {
-  const bgStyle = gradient ? `background:${gradient};` : 'background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));';
-  const iconStyle = 'display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);';
-  const thumbInner = `<div style="${bgStyle}${iconStyle}">${tag || '📄'}</div>`;
-  const tags = category ? `<span class="post-card-tag">${category}</span>` : '';
+function postCardHTML({
+  href,
+  title,
+  excerpt,
+  category,
+  tag,
+  readTime,
+  gradient,
+}) {
+  const bgStyle = gradient
+    ? `background:${gradient};`
+    : "background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));";
+  const iconStyle =
+    "display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--color-accent-light);";
+  const thumbInner = `<div style="${bgStyle}${iconStyle}">${tag || "📄"}</div>`;
+  const tags = category ? `<span class="post-card-tag">${category}</span>` : "";
 
   return `<article class="post-card" data-reveal>
   <div class="post-card-thumb">${thumbInner}</div>
@@ -262,7 +287,7 @@ function postCardHTML({ href, title, excerpt, category, tag, readTime, gradient 
     <div class="post-card-tags">${tags}</div>
     <h3 class="post-card-title">${title}</h3>
     <p class="post-card-excerpt">${excerpt}</p>
-    ${readTime ? `<div class="post-card-meta"><span>⏱ ${readTime} min read</span></div>` : ''}
+    ${readTime ? `<div class="post-card-meta"><span>⏱ ${readTime} min read</span></div>` : ""}
     <a href="${href}" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
   </div>
 </article>`;
@@ -272,12 +297,12 @@ function showcaseCardHTML({ href, title, description, category, subdomain }) {
   return `<article class="post-card" data-reveal>
   <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;height:140px;overflow:hidden;">
     <div style="text-align:center;color:var(--color-accent-light);">
-      <div style="font-size:2rem;font-family:var(--font-mono);">${subdomain || 'project'}</div>
-      <div style="font-size:.7rem;color:var(--color-text-muted);margin-top:.25rem;">${category || 'Project'}</div>
+      <div style="font-size:2rem;font-family:var(--font-mono);">${subdomain || "project"}</div>
+      <div style="font-size:.7rem;color:var(--color-text-muted);margin-top:.25rem;">${category || "Project"}</div>
     </div>
   </div>
   <div class="post-card-body">
-    <div class="post-card-tags"><span class="post-card-tag">${category || 'Showcase'}</span></div>
+    <div class="post-card-tags"><span class="post-card-tag">${category || "Showcase"}</span></div>
     <h3 class="post-card-title">${title}</h3>
     <p class="post-card-excerpt">${description}</p>
     <a href="${href}" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">View Project</a>
@@ -297,20 +322,36 @@ ${footerHtml}
 </html>`;
 }
 
-function guideContentHTML({ title, category, readTime, difficulty, summary, content, faqs, breadcrumbs }) {
+function guideContentHTML({
+  title,
+  category,
+  readTime,
+  difficulty,
+  summary,
+  content,
+  faqs,
+  breadcrumbs,
+}) {
   const difficultyColors = {
-    'Beginner': 'rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;',
-    'Intermediate': 'rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;',
-    'Advanced': 'rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444;'
+    Beginner:
+      "rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;",
+    Intermediate:
+      "rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;",
+    Advanced:
+      "rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444;",
   };
-  const diffStyle = difficulty ? difficultyColors[difficulty] || difficultyColors.Beginner : difficultyColors.Beginner;
-  const diffLabel = difficulty || 'Beginner';
+  const diffStyle = difficulty
+    ? difficultyColors[difficulty] || difficultyColors.Beginner
+    : difficultyColors.Beginner;
+  const diffLabel = difficulty || "Beginner";
 
-  let faqHTML = '';
+  let faqHTML = "";
   if (faqs && faqs.length > 0) {
-    faqHTML = '<h2>FAQ</h2>' + faqs.map(({ q, a }) =>
-      `<p><strong>${q}</strong></p>\n<p>${a}</p>`
-    ).join('\n');
+    faqHTML =
+      "<h2>FAQ</h2>" +
+      faqs
+        .map(({ q, a }) => `<p><strong>${q}</strong></p>\n<p>${a}</p>`)
+        .join("\n");
   }
 
   const articleContent = `<article>
@@ -318,12 +359,12 @@ function guideContentHTML({ title, category, readTime, difficulty, summary, cont
     <div class="container">
       <div class="article-hero-inner">
         <div class="article-meta">
-          <span class="article-category">${category || 'Guide'}</span>
+          <span class="article-category">${category || "Guide"}</span>
           <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${readTime || 10} min read</span>
           <span class="article-meta-item" style="background:${diffStyle};padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">${diffLabel}</span>
         </div>
         <h1>${title}</h1>
-        <p class="article-summary">${summary || ''}</p>
+        <p class="article-summary">${summary || ""}</p>
       </div>
     </div>
   </header>
@@ -363,12 +404,21 @@ ${faqHTML}
   return articleContent;
 }
 
-function blogPostContentHTML({ title, category, readTime, summary, content, faqs }) {
-  let faqHTML = '';
+function blogPostContentHTML({
+  title,
+  category,
+  readTime,
+  summary,
+  content,
+  faqs,
+}) {
+  let faqHTML = "";
   if (faqs && faqs.length > 0) {
-    faqHTML = '<h2>Frequently Asked Questions</h2>' + faqs.map(({ q, a }) =>
-      `<p><strong>${q}</strong></p>\n<p>${a}</p>`
-    ).join('\n');
+    faqHTML =
+      "<h2>Frequently Asked Questions</h2>" +
+      faqs
+        .map(({ q, a }) => `<p><strong>${q}</strong></p>\n<p>${a}</p>`)
+        .join("\n");
   }
 
   return `<article>
@@ -376,11 +426,11 @@ function blogPostContentHTML({ title, category, readTime, summary, content, faqs
     <div class="container">
       <div class="article-hero-inner">
         <div class="article-meta">
-          <span class="article-category">${category || 'Blog'}</span>
+          <span class="article-category">${category || "Blog"}</span>
           <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${readTime || 8} min read</span>
         </div>
         <h1>${title}</h1>
-        <p class="article-summary">${summary || ''}</p>
+        <p class="article-summary">${summary || ""}</p>
       </div>
     </div>
   </header>
@@ -404,11 +454,11 @@ function toolPageHTML({ name, description, category, content, examples }) {
     <div class="container">
       <div class="article-hero-inner">
         <div class="article-meta">
-          <span class="article-category">${category || 'Tool'}</span>
+          <span class="article-category">${category || "Tool"}</span>
           <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Developer Tool</span>
         </div>
         <h1>${name}</h1>
-        <p class="article-summary">${description || ''}</p>
+        <p class="article-summary">${description || ""}</p>
       </div>
     </div>
   </header>
@@ -426,14 +476,17 @@ ${content}
 }
 
 function internalLinksHTML(sections) {
-  const items = sections.map(s =>
-    `<div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+  const items = sections
+    .map(
+      (s) =>
+        `<div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
       <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">${s.title}</h4>
       <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        ${s.links.map(l => `<li><a href="${l.href}" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">${l.label}</a></li>`).join('\n        ')}
+        ${s.links.map((l) => `<li><a href="${l.href}" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">${l.label}</a></li>`).join("\n        ")}
       </ul>
-    </div>`
-  ).join('\n    ');
+    </div>`,
+    )
+    .join("\n    ");
 
   return `<section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
@@ -469,9 +522,22 @@ function poweredByFooter(slug) {
 }
 
 export {
-  htmlHead, headerHTML, footerHTML, pageHeroHTML,
-  postCardHTML, showcaseCardHTML, articlePageHTML,
-  guideContentHTML, blogPostContentHTML, toolPageHTML,
-  internalLinksHTML, midContentAdHTML, poweredByFooter,
-  escHtml, BASE_URL, AUTHOR, PUBLISHER, SITE_ROOT
+  htmlHead,
+  headerHTML,
+  footerHTML,
+  pageHeroHTML,
+  postCardHTML,
+  showcaseCardHTML,
+  articlePageHTML,
+  guideContentHTML,
+  blogPostContentHTML,
+  toolPageHTML,
+  internalLinksHTML,
+  midContentAdHTML,
+  poweredByFooter,
+  escHtml,
+  BASE_URL,
+  AUTHOR,
+  PUBLISHER,
+  SITE_ROOT,
 };

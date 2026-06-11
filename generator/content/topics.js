@@ -821,9 +821,11 @@ export const INTERNAL_LINK_SECTIONS = [
     title: 'Platform Resources',
     links: [
       { href: '/showcase/', label: 'Project Showcase' },
+      { href: '/trending/', label: 'Trending' },
       { href: '/blog/', label: 'Blog' },
       { href: '/tools/', label: 'Free Tools' },
       { href: '/compare/', label: 'Compare Hosting' },
+      { href: '/tutorials/', label: 'Tutorials' },
     ]
   }
 ];

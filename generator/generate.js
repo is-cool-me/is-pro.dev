@@ -10,7 +10,7 @@ import {
   htmlHead, headerHTML, footerHTML, pageHeroHTML,
   postCardHTML, showcaseCardHTML, articlePageHTML,
   guideContentHTML, blogPostContentHTML, toolPageHTML,
-  internalLinksHTML, poweredByFooter, BASE_URL, AUTHOR, SITE_ROOT
+  internalLinksHTML, midContentAdHTML, poweredByFooter, BASE_URL, AUTHOR, SITE_ROOT
 } from './templates/index.js';
 import {
   GUIDE_TOPICS, BLOG_TOPICS, TUTORIAL_TOPICS, COMPARE_TOPICS,
@@ -285,7 +285,7 @@ Generate ONLY the article body content, no metadata, no JSON.`;
     content: content.replace(/^/gm, '          '),
     faqs,
     breadcrumbs
-  }) + internalLinksHTML(INTERNAL_LINK_SECTIONS);
+  }) + midContentAdHTML() + internalLinksHTML(INTERNAL_LINK_SECTIONS);
   const footerHtml = footerHTML();
 
   return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
@@ -355,7 +355,7 @@ Generate ONLY the article body content, no metadata.`;
     summary: topic.summary,
     content: content.replace(/^/gm, '          '),
     faqs
-  }) + internalLinksHTML(INTERNAL_LINK_SECTIONS);
+  }) + midContentAdHTML() + internalLinksHTML(INTERNAL_LINK_SECTIONS);
   const footerHtml = footerHTML();
 
   return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
@@ -887,7 +887,7 @@ function generateToolPage(tool) {
     description: tool.description,
     category: tool.category,
     content: content.replace(/^/gm, '          ')
-  }) + internalLinksHTML(INTERNAL_LINK_SECTIONS);
+  }) + midContentAdHTML() + internalLinksHTML(INTERNAL_LINK_SECTIONS);
 
   const footerHtml = footerHTML();
   return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml })
@@ -1100,7 +1100,7 @@ async function main() {
           readTime: 15,
           summary: topic.summary,
           content: buildTutorialContent(topic).replace(/^/gm, '          ')
-        }) + internalLinksHTML(INTERNAL_LINK_SECTIONS);
+        }) + midContentAdHTML() + internalLinksHTML(INTERNAL_LINK_SECTIONS);
         const footerHtml = footerHTML();
         const html = articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
         const outPath = join(OUT_DIR, 'tutorials', topic.slug, 'index.html');
@@ -1132,7 +1132,7 @@ async function main() {
           readTime: 10,
           summary: topic.summary,
           content: buildCompareContent(topic).replace(/^/gm, '          ')
-        }) + internalLinksHTML(INTERNAL_LINK_SECTIONS);
+        }) + midContentAdHTML() + internalLinksHTML(INTERNAL_LINK_SECTIONS);
         const footerHtml = footerHTML();
         const html = articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
         const outPath = join(OUT_DIR, 'compare', topic.slug, 'index.html');

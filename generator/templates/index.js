@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { href: '/showcase/', label: 'Showcase' },
   { href: '/trending/', label: 'Trending' },
   { href: '/tools/', label: 'Tools' },
+  { href: '/compare/', label: 'Compare' },
   { href: '/about/', label: 'About' },
   { href: '/contact/', label: 'Contact' },
   { href: '/terms/', label: 'Terms' },
@@ -33,28 +34,86 @@ function navHTML(activePath = '') {
 
 function footerHTML() {
   return `<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo" aria-label="is-cool-me home">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span>is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers.</p>
+      <div class="container">
+        <div class="footer-migration-note">
+          &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
+          operating subdomains on <code>is-pro.dev</code> and
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>.
+        </div>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
+            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/showcase/" class="footer-link">Showcase</a>
+              <a href="/trending/" class="footer-link">Trending</a>
+              <a href="/tools/" class="footer-link">Tools</a>
+              <a href="/compare/" class="footer-link">Compare</a>
+              <a href="/tutorials/" class="footer-link">Tutorials</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <nav class="footer-links" aria-label="Community links">
+              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </nav>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div class="footer-inline-links">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
       </div>
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="/">Home</a>
-        <a href="/domains/">Domains</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-      </nav>
-      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
-    </div>
-  </div>
-</footer>`;
+      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
+        <div class="ad-container ad-banner-320x50">
+          <script>
+            atOptions = {
+              key: "d22ebf285f47755fabff0102c2736692",
+              format: "iframe",
+              height: 50,
+              width: 320,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
+        </div>
+      </div>
+    </footer>`;
 }
 
 function headerHTML(activePath = '', title = 'is-cool-me') {
@@ -386,6 +445,23 @@ function internalLinksHTML(sections) {
   </section>`;
 }
 
+function midContentAdHTML() {
+  return `<div class="container ad-shell" id="mid-content-ad" data-ad="desktop" aria-hidden="true">
+        <div class="ad-container ad-banner-728x90">
+          <script>
+            atOptions = {
+              key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
+              format: "iframe",
+              height: 90,
+              width: 728,
+              params: {},
+            };
+          </script>
+          <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
+        </div>
+      </div>`;
+}
+
 function poweredByFooter(slug) {
   return `<div style="text-align:center;padding:2rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
   <a href="https://is-pro.dev/showcase/${slug}/" style="color:var(--color-text-subtle);font-size:.85rem;" target="_blank" rel="noopener">Powered by <strong style="color:var(--color-accent);">is-pro.dev</strong></a>
@@ -396,6 +472,6 @@ export {
   htmlHead, headerHTML, footerHTML, pageHeroHTML,
   postCardHTML, showcaseCardHTML, articlePageHTML,
   guideContentHTML, blogPostContentHTML, toolPageHTML,
-  internalLinksHTML, poweredByFooter,
+  internalLinksHTML, midContentAdHTML, poweredByFooter,
   escHtml, BASE_URL, AUTHOR, PUBLISHER, SITE_ROOT
 };

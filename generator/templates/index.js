@@ -200,6 +200,15 @@ function htmlHead({
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Ezoic - load privacy scripts before header script -->
+    <script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
+    <script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
+    <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+    <script>
+      window.ezstandalone = window.ezstandalone || {};
+      ezstandalone.cmd = ezstandalone.cmd || [];
+    </script>
+    <script src="//ezoicanalytics.com/analytics.js"></script>
 <script src="https://quge5.com/88/tag.min.js" data-zone="251169" async data-cfasync="false"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />

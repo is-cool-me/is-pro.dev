@@ -99,20 +99,6 @@ function footerHTML() {
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
-        <div class="ad-container ad-banner-320x50">
-          <script>
-            atOptions = {
-              key: "d22ebf285f47755fabff0102c2736692",
-              format: "iframe",
-              height: 50,
-              width: 320,
-              params: {},
-            };
-          </script>
-          <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
-        </div>
-      </div>
     </footer>`;
 }
 
@@ -214,6 +200,7 @@ function htmlHead({
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://quge5.com/88/tag.min.js" data-zone="251169" async data-cfasync="false"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -230,7 +217,7 @@ function htmlHead({
   <meta name="twitter:description" content="${escHtml(ogD)}" />
   <meta name="twitter:image" content="${OG_IMAGE}" />
   <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://behavecurlescalator.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://corsproxy.io https://api.allorigins.win https://ip-api.com; frame-src 'self' https://behavecurlescalator.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -499,20 +486,7 @@ function internalLinksHTML(sections) {
 }
 
 function midContentAdHTML() {
-  return `<div class="container ad-shell" id="mid-content-ad" data-ad="desktop" aria-hidden="true">
-        <div class="ad-container ad-banner-728x90">
-          <script>
-            atOptions = {
-              key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
-              format: "iframe",
-              height: 90,
-              width: 728,
-              params: {},
-            };
-          </script>
-          <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
-        </div>
-      </div>`;
+  return ``;
 }
 
 function poweredByFooter(slug) {

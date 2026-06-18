@@ -93,20 +93,6 @@ const NEW_FOOTER = `<footer class="site-footer" role="contentinfo">
           </div>
         </div>
       </div>
-      <div class="container ad-shell" id="mobile-banner-ad" data-ad="mobile" aria-hidden="true">
-        <div class="ad-container ad-banner-320x50">
-          <script>
-            atOptions = {
-              key: "d22ebf285f47755fabff0102c2736692",
-              format: "iframe",
-              height: 50,
-              width: 320,
-              params: {},
-            };
-          </script>
-          <script src="https://behavecurlescalator.com/d22ebf285f47755fabff0102c2736692/invoke.js"></script>
-        </div>
-      </div>
     </footer>`;
 
 function updateFooter(html) {
@@ -138,32 +124,17 @@ function updateNav(html) {
   return html;
 }
 
-const AD_BLOCK = `<div class="container ad-shell" id="mid-content-ad" data-ad="desktop" aria-hidden="true">
-        <div class="ad-container ad-banner-728x90">
-          <script>
-            atOptions = {
-              key: "4d2a4eb320f23a0188fc0bafbe9dfe46",
-              format: "iframe",
-              height: 90,
-              width: 728,
-              params: {},
-            };
-          </script>
-          <script src="https://behavecurlescalator.com/4d2a4eb320f23a0188fc0bafbe9dfe46/invoke.js"></script>
-        </div>
-      </div>`;
-
 function addMidContentAd(html) {
   // Add ad before Explore More section (internalLinksHTML pattern)
   // Only for pages that have Explore More but not already the ad
   if (html.includes('Explore More') && !html.includes('mid-content-ad')) {
     html = html.replace(
       /(<\/div>\s*\n\s*<\/div>\s*\n\s*<\/section>\s*\n\s*<section\s+[^>]*class="[^"]*post-card[^"]*"[^>]*>|<!-- Explore More -->)/,
-      AD_BLOCK + '\n      $1'
+       '\n      $1'
     );
     html = html.replace(
       /(<h2[^>]*>Explore More<\/h2>)/,
-      AD_BLOCK + '\n\n      $1'
+       '\n\n      $1'
     );
   }
   return html;

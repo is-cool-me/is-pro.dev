@@ -173,21 +173,8 @@ p { color: var(--color-text-muted); }
   justify-content: center;
   margin-top: 0.75rem;
 }
-.ad-shell {
-  display: none;
-  margin: 1.5rem auto;
-}
-.ad-shell-flex {
-  display: none;
-  margin: 1.5rem auto;
-}
-@media (min-width: 641px) {
-  [data-ad="desktop"] { display: block; }
-  [data-ad="desktop-flex"] { display: flex; }
-}
-@media (max-width: 640px) {
-  [data-ad="mobile"] { display: block; }
-}
+.ad-shell { margin: 1.5rem auto; }
+.ad-shell-flex { margin: 1.5rem auto; }
 .is-hidden { display: none; }
 .is-flex { display: flex; }
 

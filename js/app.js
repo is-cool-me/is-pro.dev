@@ -127,17 +127,7 @@
     }
   }
 
-  /* ── Ad display toggles ── */
-  const adVisibility = () => {
-    const isDesktop = window.innerWidth > 640;
-    document.querySelectorAll('[data-ad]').forEach((el) => {
-      const isDeskAd = el.getAttribute('data-ad') === 'desktop' || el.getAttribute('data-ad') === 'desktop-flex';
-      el.setAttribute('aria-hidden', isDeskAd ? (!isDesktop).toString() : isDesktop.toString());
-    });
-  };
-
-  adVisibility();
-  window.addEventListener('resize', adVisibility, { passive: true });
+  /* ── (ad visibility removed — Monetag handles all ad formats) ── */
 
   /* ── Cookie consent ── */
   const COOKIE_KEY = 'ispro_cookie_consent';

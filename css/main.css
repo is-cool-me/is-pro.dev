@@ -177,8 +177,17 @@ p { color: var(--color-text-muted); }
   display: none;
   margin: 1.5rem auto;
 }
-.ad-shell.visible { display: block; }
-.ad-shell-flex.visible { display: flex; }
+.ad-shell-flex {
+  display: none;
+  margin: 1.5rem auto;
+}
+@media (min-width: 641px) {
+  [data-ad="desktop"] { display: block; }
+  [data-ad="desktop-flex"] { display: flex; }
+}
+@media (max-width: 640px) {
+  [data-ad="mobile"] { display: block; }
+}
 .is-hidden { display: none; }
 .is-flex { display: flex; }
 

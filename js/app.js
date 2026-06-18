@@ -130,21 +130,9 @@
   /* ── Ad display toggles ── */
   const adVisibility = () => {
     const isDesktop = window.innerWidth > 640;
-    const desktopAds = document.querySelectorAll('[data-ad="desktop"], [data-ad="desktop-flex"]');
-    const mobileAds = document.querySelectorAll('[data-ad="mobile"]');
-
-    desktopAds.forEach((el) => {
-      const isFlex = el.getAttribute('data-ad') === 'desktop-flex';
-      el.classList.toggle('visible', isDesktop);
-      if (isFlex) {
-        el.classList.toggle('ad-shell-flex', true);
-      }
-      el.setAttribute('aria-hidden', isDesktop ? 'false' : 'true');
-    });
-
-    mobileAds.forEach((el) => {
-      el.classList.toggle('visible', !isDesktop);
-      el.setAttribute('aria-hidden', isDesktop ? 'true' : 'false');
+    document.querySelectorAll('[data-ad]').forEach((el) => {
+      const isDeskAd = el.getAttribute('data-ad') === 'desktop' || el.getAttribute('data-ad') === 'desktop-flex';
+      el.setAttribute('aria-hidden', isDeskAd ? (!isDesktop).toString() : isDesktop.toString());
     });
   };
 

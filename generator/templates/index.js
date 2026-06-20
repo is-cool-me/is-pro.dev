@@ -486,7 +486,10 @@ function internalLinksHTML(sections) {
 }
 
 function midContentAdHTML() {
-  return ``;
+  return `<div style="text-align:center;margin:2rem 0;">
+<script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
+<div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+</div>`;
 }
 
 function poweredByFooter(slug) {

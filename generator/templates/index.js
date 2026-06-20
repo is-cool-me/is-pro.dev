@@ -33,7 +33,15 @@ function navHTML(activePath = "") {
 }
 
 function footerHTML() {
-  return `<footer class="site-footer" role="contentinfo">
+  return `      <!-- Native Banner Ad - 4:1 -->
+      <div style="text-align:center;padding:var(--space-8) 0;">
+        <div class="container">
+          <script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
+          <div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+        </div>
+      </div>
+
+      <footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -486,10 +494,7 @@ function internalLinksHTML(sections) {
 }
 
 function midContentAdHTML() {
-  return `<div style="text-align:center;margin:2rem 0;">
-<script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
-<div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
-</div>`;
+  return ``;
 }
 
 function poweredByFooter(slug) {

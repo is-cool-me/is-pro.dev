@@ -1,692 +1,220 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
 <script src="https://quge5.com/88/tag.min.js" data-zone="251169" async data-cfasync="false"></script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <title>
-      Managing 1000+ Subdomains Without Losing Your Mind — is-cool-me Blog
-    </title>
-    <meta
-      name="description"
-      content="The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management."
-    />
-    <link
-      rel="canonical"
-      href="https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
-    />
-    <meta property="og:type" content="article" />
-    <meta
-      property="og:url"
-      content="https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
-    />
-    <meta
-      property="og:title"
-      content="Managing 1000+ Subdomains Without Losing Your Mind — is-cool-me Blog"
-    />
-    <meta
-      property="og:description"
-      content="The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management."
-    />
-    <meta
-      property="og:image"
-      content="https://is-pro.dev/dist/images/is-pro.dev.png"
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Managing 1000+ Subdomains Without Losing Your Mind — is-cool-me Blog"
-    />
-    <meta
-      name="twitter:description"
-      content="The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management."
-    />
-    <meta
-      name="twitter:image"
-      content="https://is-pro.dev/dist/images/is-pro.dev.png"
-    />
-    <meta name="theme-color" content="#08080f" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https: https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
-    />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/main.css" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "WebSite",
-            "@id": "https://is-pro.dev/#website",
-            "url": "https://is-pro.dev",
-            "name": "Managing 1000+ Subdomains Without Losing Your Mind — is-cool-me Blog",
-            "description": "The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management.",
-            "publisher": {
-              "@type": "Organization",
-              "name": "is-cool-me",
-              "url": "https://is-pro.dev",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://is-pro.dev/dist/images/logo.png"
-              }
-            }
-          },
-          {
-            "@type": "TechArticle",
-            "headline": "Managing 1000+ Subdomains Without Losing Your Mind",
-            "description": "The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management.",
-            "author": {
-              "@type": "Person",
-              "name": "Mayank Baswal",
-              "url": "https://is-pro.dev/about/"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "is-cool-me",
-              "url": "https://is-pro.dev",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://is-pro.dev/dist/images/logo.png"
-              }
-            },
-            "datePublished": "2026-06-08",
-            "dateModified": "2026-06-08",
-            "mainEntityOfPage": {
-              "@type": "WebPage",
-              "@id": "https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
-            },
-            "url": "https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
-          },
-          {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://is-pro.dev/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Blog",
-                "item": "https://is-pro.dev/blog/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "Managing 1000+ Subdomains Without Losing Your Mind",
-                "item": "https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
-              }
-            ]
-          }
-        ]
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Managing 1000+ Subdomains Without Losing Your Mind — is-cool-me Blog</title>
+  <meta name="description" content="The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management." />
+  <link rel="canonical" href="https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/" />
+  <meta property="og:title" content="Managing 1000+ Subdomains Without Losing Your Mind — is-cool-me Blog" />
+  <meta property="og:description" content="The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Managing 1000+ Subdomains Without Losing Your Mind — is-cool-me Blog" />
+  <meta name="twitter:description" content="The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://is-pro.dev/#website",
+      "url": "https://is-pro.dev",
+      "name": "Managing 1000+ Subdomains Without Losing Your Mind — is-cool-me Blog",
+      "description": "The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
       }
-    </script>
-  </head>
-  <body>
-    <a
-      href="#main-content"
-      class="sr-only"
-      style="
-        position: fixed;
-        top: 1rem;
-        left: 1rem;
-        z-index: 9999;
-        background: var(--color-accent);
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: var(--radius-md);
-        transform: translateY(-200%);
-        transition: transform 0.2s;
-      "
-      onfocus="this.style.transform = 'translateY(0)'"
-      onblur="this.style.transform = 'translateY(-200%)'"
-      >Skip to main content</a
-    >
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Managing 1000+ Subdomains Without Losing Your Mind",
+      "description": "The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management.",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-06-20",
+      "dateModified": "2026-06-20",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
+      },
+      "url": "https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://is-pro.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Managing 1000+ Subdomains Without Losing Your Mind",
+          "item": "https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
+        }
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
 
-    <header class="site-header" role="banner">
-      <div class="container">
-        <div class="header-inner">
-          <a href="/" class="header-logo" aria-label="is-cool-me home">
-            <img
-              src="/dist/images/logo.png"
-              alt=""
-              width="32"
-              height="32"
-              aria-hidden="true"
-            />
-            <span class="logo-text">is-cool-me</span>
-          </a>
-          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/domains/" class="nav-link">Domains</a>
-            <a href="/blog/" class="nav-link active">Blog</a>
-            <a href="/guides/" class="nav-link">Guides</a>
-            <a href="/showcase/" class="nav-link">Showcase</a>
-            <a href="/trending/" class="nav-link">Trending</a>
-            <a href="/tools/" class="nav-link">Tools</a>
-            <a href="/compare/" class="nav-link">Compare</a>
-            <a href="/about/" class="nav-link">About</a>
-            <a href="/contact/" class="nav-link">Contact</a>
-            <a href="/terms/" class="nav-link">Terms</a>
-          </nav>
-          <div class="header-actions">
-            <a
-              href="https://discord.gg/N8YzrkJxYy"
-              class="btn btn-ghost btn-sm"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Join Discord"
-              >Discord</a
-            >
-            <a
-              href="https://dash.is-pro.dev"
-              class="btn btn-primary btn-sm"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Open Dashboard
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" /></svg
-            ></a>
-          </div>
-          <button
-            class="nav-toggle"
-            aria-label="Toggle navigation menu"
-            aria-expanded="false"
-            aria-controls="header-nav"
-          >
-            <span></span><span></span><span></span>
-          </button>
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link active">Blog</a>
+        <a href="/guides/" class="nav-link">Guides</a>
+        <a href="/showcase/" class="nav-link">Showcase</a>
+        <a href="/trending/" class="nav-link">Trending</a>
+        <a href="/tools/" class="nav-link">Tools</a>
+        <a href="/compare/" class="nav-link">Compare</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main id="main-content">
+<article>
+  <header class="article-hero">
+    <div class="container">
+      <div class="article-hero-inner">
+        <div class="article-meta">
+          <span class="article-category">Operations</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
+        </div>
+        <h1>Managing 1000+ Subdomains Without Losing Your Mind</h1>
+        <p class="article-summary">The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-layout-section">
+    <div class="container">
+      <div class="article-layout-inner">
+        <div class="article-content prose">
+          <h2>Introduction</h2>
+          <p>Running a platform that hosts thousands of subdomains presents unique operational challenges. Each subdomain has its own DNS records, SSL configuration, traffic patterns, and abuse history. At the scale of thousands of active subdomains, manual management is impossible. This post describes the systems and tools we use to manage is-pro.dev's subdomain fleet: from automated DNS provisioning to bulk record updates, monitoring, expiration management, and the custom tools we built to keep everything running smoothly.</p>
+          <h2>Automated DNS Provisioning</h2>
+          <p>When a user registers a subdomain on is-pro.dev, the entire DNS zone setup happens automatically. Our provisioning system calls Cloudflare's API to create the DNS zone, add the initial records (NS, SOA, default A/AAAA records pointing to a splash page), and configure SSL settings. The process takes under 2 seconds from when the user clicks "Register" to when their subdomain is live on Cloudflare's global network. The provisioning system handles edge cases: rate-limited API calls are retried with exponential backoff, zone creation failures trigger alerts to our operations team, and new zones are automatically added to our monitoring systems. We also maintain a pool of pre-configured zone templates so that common configurations (static site, API endpoint, email forwarding) can be applied with a single API call when the user selects a setup wizard option in the dashboard.</p>
+          <h2>Bulk DNS Record Management</h2>
+          <p>Occasionally we need to make changes across many subdomains at once — updating nameserver addresses, adding a new default record, or changing a security setting. Our internal admin tool provides a bulk operations interface: select subdomains by filter (creation date, traffic level, record type, etc.), preview the changes, and apply them in batches. The tool uses Cloudflare's API to apply changes efficiently, handling pagination and rate limits automatically. For sensitive changes (like modifying NS records), we require a two-person approval workflow. The bulk operations tool has saved hundreds of hours of manual work and reduced the error rate compared to individual subdomain management.</p>
+          <h2>Monitoring at Scale</h2>
+          <p>Every is-pro.dev subdomain is monitored for DNS resolution, SSL certificate validity, and HTTP response status. Our monitoring system checks each subdomain from multiple geographic locations at configurable intervals. When a subdomain fails a check, the system categorizes the failure: DNS resolution failure (nameserver not responding), SSL error (certificate expired or invalid), HTTP error (server returning 5xx), or content mismatch (response body does not match expected pattern). Alerts are routed based on severity: individual subdomain failures are logged and queued for daily review, while systemic failures (multiple subdomains failing simultaneously) trigger immediate alerts. The monitoring dashboard provides a real-time view of platform health with drill-down to individual subdomain status.</p>
+          <h2>Expiration and Renewal Management</h2>
+          <p>Free subdomains require periodic activity to remain registered. Our expiration management system tracks the last activity date for each subdomain and sends automated reminders at 30, 14, and 7 days before the inactivity threshold is reached. If a subdomain expires, it is moved to a grace period where DNS records are preserved but the subdomain is marked as inactive. After the grace period (30 days), DNS records are removed and the subdomain name is released back to the pool. The expiration system is fully automated but includes manual override capabilities: subdomains involved in abuse investigations or legal disputes can be frozen to prevent release. We also provide an API endpoint for users to programmatically renew their subdomains, which is useful for automated deployments and CI/CD pipelines.</p>
+          <h2>Abuse Detection and Response Pipeline</h2>
+          <p>Managing thousands of subdomains means dealing with abuse at scale. Our abuse detection pipeline operates in tiers: automated scanning identifies obvious violations (phishing templates, malware signatures, trademarked terms in subdomain names), community reports are triaged automatically based on reporter reputation and report content, and the operations team handles escalated cases. The pipeline uses machine learning classifiers trained on historical abuse data to prioritize reports — a report of a phishing page targeting a major bank receives immediate action, while a copyright claim on a blog post is queued for human review. The abuse system integrates with our DNS management API to suspend subdomains automatically when confidence is high, while flagging ambiguous cases for manual review.</p>
+          <h2>Custom Tooling: The Admin Dashboard</h2>
+          <p>We built an internal admin dashboard that provides a unified interface for managing all aspects of the subdomain fleet. The dashboard shows: total active subdomains, growth trends, abuse report volume, DNS health metrics, and SSL certificate status. From the dashboard, operators can search for any subdomain, view its complete DNS configuration, check recent traffic patterns, review abuse history, and perform administrative actions (suspend, reinstate, transfer ownership, modify DNS records). The dashboard also provides audit logging — every action is recorded with timestamp, operator identity, and before/after state. This audit trail is essential for investigating incidents and maintaining platform integrity.</p>
+          <h2>Scaling Lessons Learned</h2>
+          <p>Managing subdomains at scale has taught us several lessons. First, automation is non-negotiable — anything that can be automated should be automated, because manual processes do not scale and introduce errors. Second, monitoring must be multi-layered: synthetic checks from external locations catch issues that internal metrics miss. Third, rate limits are a constant consideration — every Cloudflare API call is metered, and we manage our API consumption carefully to avoid hitting limits during critical operations. Fourth, graceful degradation matters — when a subsystem fails (e.g., the abuse detection engine goes down), the rest of the platform must continue operating. Fifth, data retention planning is essential — DNS logs, abuse reports, and audit trails accumulate rapidly at scale, and we have automated retention policies that balance storage costs with operational needs.</p>
+          <h2>Conclusion</h2>
+          <p>Managing thousands of subdomains requires a combination of automation, monitoring, careful rate limit management, and custom tooling. The systems we have built allow us to operate is-pro.dev with a small team while maintaining high reliability and fast response to issues. Every component — DNS provisioning, monitoring, expiration management, abuse detection — is designed to operate at scale with minimal manual intervention. The lessons we have learned apply to any platform that manages distributed infrastructure at scale: automate everything, monitor at every layer, and build for graceful degradation from day one.</p>
+          <h2>Key Takeaways</h2>
+          <ul><li>Automated DNS provisioning creates subdomains in under 2 seconds via Cloudflare API</li><li>Bulk operations tools manage thousands of subdomains with a single action</li><li>Multi-layered monitoring catches failures at DNS, SSL, and HTTP levels</li><li>Expiration management automates renewal reminders and graceful subdomain release</li><li>Abuse detection combines automated scanning, community reporting, and ML-based triage</li><li>Custom internal tools provide unified fleet management with full audit logging</li><li>Automation, monitoring, rate limiting, graceful degradation, and data retention are the pillars of operating at scale</li></ul>
+<h2>Frequently Asked Questions</h2><p><strong>Is is-pro.dev really free to use?</strong></p>
+<p>Yes, is-pro.dev provides free subdomains for developers with no hidden fees.</p>
+<p><strong>What can I host on an is-pro.dev subdomain?</strong></p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
         </div>
       </div>
-    </header>
-    <main id="main-content">
-      <article>
-        <header class="article-hero">
-          <div class="container">
-            <div class="article-hero-inner">
-              <div class="article-meta">
-                <span class="article-category">Operations</span>
-                <span class="article-meta-item"
-                  ><svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" /></svg
-                  >6 min read</span
-                >
-              </div>
-              <h1>Managing 1000+ Subdomains Without Losing Your Mind</h1>
-              <p class="article-summary">
-                The systems and tools we use at scale to manage thousands of
-                subdomains — from automated DNS provisioning to bulk record
-                updates, monitoring, and expiration management.
-              </p>
-            </div>
-          </div>
-        </header>
-
-        <div class="article-layout-section">
-          <div class="container">
-            <div class="article-layout-inner">
-              <div class="article-content prose">
-                <h2>Introduction</h2>
-                <p>
-                  Running a platform that hosts thousands of subdomains presents
-                  unique operational challenges. Each subdomain has its own DNS
-                  records, SSL configuration, traffic patterns, and abuse
-                  history. At the scale of thousands of active subdomains,
-                  manual management is impossible. This post describes the
-                  systems and tools we use to manage is-pro.dev's subdomain
-                  fleet: from automated DNS provisioning to bulk record updates,
-                  monitoring, expiration management, and the custom tools we
-                  built to keep everything running smoothly.
-                </p>
-                <h2>Automated DNS Provisioning</h2>
-                <p>
-                  When a user registers a subdomain on is-pro.dev, the entire
-                  DNS zone setup happens automatically. Our provisioning system
-                  calls Cloudflare's API to create the DNS zone, add the initial
-                  records (NS, SOA, default A/AAAA records pointing to a splash
-                  page), and configure SSL settings. The process takes under 2
-                  seconds from when the user clicks "Register" to when their
-                  subdomain is live on Cloudflare's global network. The
-                  provisioning system handles edge cases: rate-limited API calls
-                  are retried with exponential backoff, zone creation failures
-                  trigger alerts to our operations team, and new zones are
-                  automatically added to our monitoring systems. We also
-                  maintain a pool of pre-configured zone templates so that
-                  common configurations (static site, API endpoint, email
-                  forwarding) can be applied with a single API call when the
-                  user selects a setup wizard option in the dashboard.
-                </p>
-                <h2>Bulk DNS Record Management</h2>
-                <p>
-                  Occasionally we need to make changes across many subdomains at
-                  once — updating nameserver addresses, adding a new default
-                  record, or changing a security setting. Our internal admin
-                  tool provides a bulk operations interface: select subdomains
-                  by filter (creation date, traffic level, record type, etc.),
-                  preview the changes, and apply them in batches. The tool uses
-                  Cloudflare's API to apply changes efficiently, handling
-                  pagination and rate limits automatically. For sensitive
-                  changes (like modifying NS records), we require a two-person
-                  approval workflow. The bulk operations tool has saved hundreds
-                  of hours of manual work and reduced the error rate compared to
-                  individual subdomain management.
-                </p>
-                <h2>Monitoring at Scale</h2>
-                <p>
-                  Every is-pro.dev subdomain is monitored for DNS resolution,
-                  SSL certificate validity, and HTTP response status. Our
-                  monitoring system checks each subdomain from multiple
-                  geographic locations at configurable intervals. When a
-                  subdomain fails a check, the system categorizes the failure:
-                  DNS resolution failure (nameserver not responding), SSL error
-                  (certificate expired or invalid), HTTP error (server returning
-                  5xx), or content mismatch (response body does not match
-                  expected pattern). Alerts are routed based on severity:
-                  individual subdomain failures are logged and queued for daily
-                  review, while systemic failures (multiple subdomains failing
-                  simultaneously) trigger immediate alerts. The monitoring
-                  dashboard provides a real-time view of platform health with
-                  drill-down to individual subdomain status.
-                </p>
-                <h2>Expiration and Renewal Management</h2>
-                <p>
-                  Free subdomains require periodic activity to remain
-                  registered. Our expiration management system tracks the last
-                  activity date for each subdomain and sends automated reminders
-                  at 30, 14, and 7 days before the inactivity threshold is
-                  reached. If a subdomain expires, it is moved to a grace period
-                  where DNS records are preserved but the subdomain is marked as
-                  inactive. After the grace period (30 days), DNS records are
-                  removed and the subdomain name is released back to the pool.
-                  The expiration system is fully automated but includes manual
-                  override capabilities: subdomains involved in abuse
-                  investigations or legal disputes can be frozen to prevent
-                  release. We also provide an API endpoint for users to
-                  programmatically renew their subdomains, which is useful for
-                  automated deployments and CI/CD pipelines.
-                </p>
-                <h2>Abuse Detection and Response Pipeline</h2>
-                <p>
-                  Managing thousands of subdomains means dealing with abuse at
-                  scale. Our abuse detection pipeline operates in tiers:
-                  automated scanning identifies obvious violations (phishing
-                  templates, malware signatures, trademarked terms in subdomain
-                  names), community reports are triaged automatically based on
-                  reporter reputation and report content, and the operations
-                  team handles escalated cases. The pipeline uses machine
-                  learning classifiers trained on historical abuse data to
-                  prioritize reports — a report of a phishing page targeting a
-                  major bank receives immediate action, while a copyright claim
-                  on a blog post is queued for human review. The abuse system
-                  integrates with our DNS management API to suspend subdomains
-                  automatically when confidence is high, while flagging
-                  ambiguous cases for manual review.
-                </p>
-                <h2>Custom Tooling: The Admin Dashboard</h2>
-                <p>
-                  We built an internal admin dashboard that provides a unified
-                  interface for managing all aspects of the subdomain fleet. The
-                  dashboard shows: total active subdomains, growth trends, abuse
-                  report volume, DNS health metrics, and SSL certificate status.
-                  From the dashboard, operators can search for any subdomain,
-                  view its complete DNS configuration, check recent traffic
-                  patterns, review abuse history, and perform administrative
-                  actions (suspend, reinstate, transfer ownership, modify DNS
-                  records). The dashboard also provides audit logging — every
-                  action is recorded with timestamp, operator identity, and
-                  before/after state. This audit trail is essential for
-                  investigating incidents and maintaining platform integrity.
-                </p>
-                <h2>Scaling Lessons Learned</h2>
-                <p>
-                  Managing subdomains at scale has taught us several lessons.
-                  First, automation is non-negotiable — anything that can be
-                  automated should be automated, because manual processes do not
-                  scale and introduce errors. Second, monitoring must be
-                  multi-layered: synthetic checks from external locations catch
-                  issues that internal metrics miss. Third, rate limits are a
-                  constant consideration — every Cloudflare API call is metered,
-                  and we manage our API consumption carefully to avoid hitting
-                  limits during critical operations. Fourth, graceful
-                  degradation matters — when a subsystem fails (e.g., the abuse
-                  detection engine goes down), the rest of the platform must
-                  continue operating. Fifth, data retention planning is
-                  essential — DNS logs, abuse reports, and audit trails
-                  accumulate rapidly at scale, and we have automated retention
-                  policies that balance storage costs with operational needs.
-                </p>
-                <h2>Conclusion</h2>
-                <p>
-                  Managing thousands of subdomains requires a combination of
-                  automation, monitoring, careful rate limit management, and
-                  custom tooling. The systems we have built allow us to operate
-                  is-pro.dev with a small team while maintaining high
-                  reliability and fast response to issues. Every component — DNS
-                  provisioning, monitoring, expiration management, abuse
-                  detection — is designed to operate at scale with minimal
-                  manual intervention. The lessons we have learned apply to any
-                  platform that manages distributed infrastructure at scale:
-                  automate everything, monitor at every layer, and build for
-                  graceful degradation from day one.
-                </p>
-                <h2>Key Takeaways</h2>
-                <ul>
-                  <li>
-                    Automated DNS provisioning creates subdomains in under 2
-                    seconds via Cloudflare API
-                  </li>
-                  <li>
-                    Bulk operations tools manage thousands of subdomains with a
-                    single action
-                  </li>
-                  <li>
-                    Multi-layered monitoring catches failures at DNS, SSL, and
-                    HTTP levels
-                  </li>
-                  <li>
-                    Expiration management automates renewal reminders and
-                    graceful subdomain release
-                  </li>
-                  <li>
-                    Abuse detection combines automated scanning, community
-                    reporting, and ML-based triage
-                  </li>
-                  <li>
-                    Custom internal tools provide unified fleet management with
-                    full audit logging
-                  </li>
-                  <li>
-                    Automation, monitoring, rate limiting, graceful degradation,
-                    and data retention are the pillars of operating at scale
-                  </li>
-                </ul>
-                <h2>Frequently Asked Questions</h2>
-                <p><strong>Is is-pro.dev really free to use?</strong></p>
-                <p>
-                  Yes, is-pro.dev provides free subdomains for developers with
-                  no hidden fees.
-                </p>
-                <p>
-                  <strong>What can I host on an is-pro.dev subdomain?</strong>
-                </p>
-                <p>
-                  Any legitimate project — portfolios, SaaS apps, game servers,
-                  APIs, and more.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-      <section
-        style="
-          padding: var(--space-12) 0;
-          border-top: 1px solid var(--color-border-sub);
-        "
-      >
-        <div class="container">
-          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
-          <div
-            style="
-              display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-              gap: 1rem;
-            "
-          >
-            <div
-              style="
-                background: var(--color-card);
-                border: 1px solid var(--color-border);
-                border-radius: var(--radius-md);
-                padding: 1.25rem;
-              "
-            >
-              <h4
-                style="
-                  color: var(--color-accent-light);
-                  font-size: 0.9rem;
-                  margin-bottom: 0.5rem;
-                "
-              >
-                Deployment Guides
-              </h4>
-              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
-                <li>
-                  <a
-                    href="/guides/free-hosting-with-github-pages/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >GitHub Pages Hosting</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/deploy-react-app-to-vercel/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Deploy to Vercel</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/netlify-custom-domain-setup/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Netlify Setup</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Cloudflare Pages</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div
-              style="
-                background: var(--color-card);
-                border: 1px solid var(--color-border);
-                border-radius: var(--radius-md);
-                padding: 1.25rem;
-              "
-            >
-              <h4
-                style="
-                  color: var(--color-accent-light);
-                  font-size: 0.9rem;
-                  margin-bottom: 0.5rem;
-                "
-              >
-                DNS & Security
-              </h4>
-              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
-                <li>
-                  <a
-                    href="/guides/dns-records-explained/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >DNS Records Guide</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/ssl-certificate-setup-guide/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >SSL Setup</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/cloudflare-dns-setup/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Cloudflare DNS</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/cloudflare-proxy-vs-dns-only/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Proxy vs DNS-Only</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div
-              style="
-                background: var(--color-card);
-                border: 1px solid var(--color-border);
-                border-radius: var(--radius-md);
-                padding: 1.25rem;
-              "
-            >
-              <h4
-                style="
-                  color: var(--color-accent-light);
-                  font-size: 0.9rem;
-                  margin-bottom: 0.5rem;
-                "
-              >
-                Platform Resources
-              </h4>
-              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
-                <li>
-                  <a
-                    href="/showcase/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Project Showcase</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/blog/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Blog</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/tools/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Free Tools</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/compare/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Compare Hosting</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>      <!-- Native Banner Ad - 4:1 -->
-      <div style="text-align:center;padding:var(--space-8) 0;">
-        <div class="container">
-          <script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
-          <div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
-        </div>
+    </div>
+  </div>
+</article><div style="text-align:center;margin:2rem 0;">
+<script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
+<div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+</div><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
+        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
+        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
+        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
+        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
+        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
+        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
+        <li><a href="/trending/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Trending</a></li>
+        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
+        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
+        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
+        <li><a href="/tutorials/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Tutorials</a></li>
+      </ul>
+    </div>
       </div>
-
-
-    <footer class="site-footer" role="contentinfo">
+    </div>
+  </section>
+</main>
+<footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -698,37 +226,16 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img
-                src="/dist/images/logo.png"
-                alt=""
-                width="28"
-                height="28"
-                aria-hidden="true"
-              />
+              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">
-              Free subdomains for developers with GitHub sign-in, DNS
-              management, and community support.
-            </p>
-            <a
-              href="https://discord.gg/N8YzrkJxYy"
-              class="btn btn-outline btn-sm btn-fit"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Join Discord</a
-            >
+            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
+            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a
-                href="https://dash.is-pro.dev"
-                class="footer-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Dashboard</a
-              >
+              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -746,29 +253,15 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link"
-                >Editorial Standards</a
-              >
+              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a
-                href="https://discord.gg/N8YzrkJxYy"
-                class="footer-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Discord Server</a
-              >
-              <a
-                href="https://github.com/is-cool-me"
-                class="footer-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >GitHub</a
-              >
+              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
             </nav>
           </div>
         </div>
@@ -787,7 +280,7 @@
           </div>
         </div>
       </div>
-      </footer>
-    <script src="/js/app.js" defer></script>
-  </body>
+    </footer>
+<script src="/js/app.js" defer></script>
+</body>
 </html>

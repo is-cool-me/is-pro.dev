@@ -1,751 +1,250 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
 <script src="https://quge5.com/88/tag.min.js" data-zone="251169" async data-cfasync="false"></script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <title>DNS Records Explained: A-Z Guide for Developers — is-cool-me</title>
-    <meta
-      name="description"
-      content="Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration."
-    />
-    <link
-      rel="canonical"
-      href="https://is-pro.dev/guides/dns-records-explained/"
-    />
-    <meta property="og:type" content="article" />
-    <meta
-      property="og:url"
-      content="https://is-pro.dev/guides/dns-records-explained/"
-    />
-    <meta
-      property="og:title"
-      content="DNS Records Explained: A-Z Guide for Developers — is-cool-me"
-    />
-    <meta
-      property="og:description"
-      content="Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration."
-    />
-    <meta
-      property="og:image"
-      content="https://is-pro.dev/dist/images/is-pro.dev.png"
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="DNS Records Explained: A-Z Guide for Developers — is-cool-me"
-    />
-    <meta
-      name="twitter:description"
-      content="Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration."
-    />
-    <meta
-      name="twitter:image"
-      content="https://is-pro.dev/dist/images/is-pro.dev.png"
-    />
-    <meta name="theme-color" content="#08080f" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https: https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
-    />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link rel="icon" href="/dist/images/logo.png" type="image/png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/main.css" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "WebSite",
-            "@id": "https://is-pro.dev/#website",
-            "url": "https://is-pro.dev",
-            "name": "DNS Records Explained: A-Z Guide for Developers — is-cool-me",
-            "description": "Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.",
-            "publisher": {
-              "@type": "Organization",
-              "name": "is-cool-me",
-              "url": "https://is-pro.dev",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://is-pro.dev/dist/images/logo.png"
-              }
-            }
-          },
-          {
-            "@type": "TechArticle",
-            "headline": "DNS Records Explained: A-Z Guide for Developers",
-            "description": "Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.",
-            "author": {
-              "@type": "Person",
-              "name": "Mayank Baswal",
-              "url": "https://is-pro.dev/about/"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "is-cool-me",
-              "url": "https://is-pro.dev",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://is-pro.dev/dist/images/logo.png"
-              }
-            },
-            "datePublished": "2026-06-08",
-            "dateModified": "2026-06-08",
-            "mainEntityOfPage": {
-              "@type": "WebPage",
-              "@id": "https://is-pro.dev/guides/dns-records-explained/"
-            },
-            "url": "https://is-pro.dev/guides/dns-records-explained/"
-          },
-          {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://is-pro.dev/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Guides",
-                "item": "https://is-pro.dev/guides/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "DNS Records Explained: A-Z Guide for Developers",
-                "item": "https://is-pro.dev/guides/dns-records-explained/"
-              }
-            ]
-          }
-        ]
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>DNS Records Explained: A-Z Guide for Developers — is-cool-me</title>
+  <meta name="description" content="Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration." />
+  <link rel="canonical" href="https://is-pro.dev/guides/dns-records-explained/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/guides/dns-records-explained/" />
+  <meta property="og:title" content="DNS Records Explained: A-Z Guide for Developers — is-cool-me" />
+  <meta property="og:description" content="Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DNS Records Explained: A-Z Guide for Developers — is-cool-me" />
+  <meta name="twitter:description" content="Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://is-pro.dev/#website",
+      "url": "https://is-pro.dev",
+      "name": "DNS Records Explained: A-Z Guide for Developers — is-cool-me",
+      "description": "Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
       }
-    </script>
-  </head>
-  <body>
-    <a
-      href="#main-content"
-      class="sr-only"
-      style="
-        position: fixed;
-        top: 1rem;
-        left: 1rem;
-        z-index: 9999;
-        background: var(--color-accent);
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: var(--radius-md);
-        transform: translateY(-200%);
-        transition: transform 0.2s;
-      "
-      onfocus="this.style.transform = 'translateY(0)'"
-      onblur="this.style.transform = 'translateY(-200%)'"
-      >Skip to main content</a
-    >
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "DNS Records Explained: A-Z Guide for Developers",
+      "description": "Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-06-20",
+      "dateModified": "2026-06-20",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/guides/dns-records-explained/"
+      },
+      "url": "https://is-pro.dev/guides/dns-records-explained/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://is-pro.dev/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "DNS Records Explained: A-Z Guide for Developers",
+          "item": "https://is-pro.dev/guides/dns-records-explained/"
+        }
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
 
-    <header class="site-header" role="banner">
-      <div class="container">
-        <div class="header-inner">
-          <a href="/" class="header-logo" aria-label="is-cool-me home">
-            <img
-              src="/dist/images/logo.png"
-              alt=""
-              width="32"
-              height="32"
-              aria-hidden="true"
-            />
-            <span class="logo-text">is-cool-me</span>
-          </a>
-          <nav class="header-nav" id="header-nav" aria-label="Main navigation">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/domains/" class="nav-link">Domains</a>
-            <a href="/blog/" class="nav-link">Blog</a>
-            <a href="/guides/" class="nav-link active">Guides</a>
-            <a href="/showcase/" class="nav-link">Showcase</a>
-            <a href="/trending/" class="nav-link">Trending</a>
-            <a href="/tools/" class="nav-link">Tools</a>
-            <a href="/compare/" class="nav-link">Compare</a>
-            <a href="/about/" class="nav-link">About</a>
-            <a href="/contact/" class="nav-link">Contact</a>
-            <a href="/terms/" class="nav-link">Terms</a>
-          </nav>
-          <div class="header-actions">
-            <a
-              href="https://discord.gg/N8YzrkJxYy"
-              class="btn btn-ghost btn-sm"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Join Discord"
-              >Discord</a
-            >
-            <a
-              href="https://dash.is-pro.dev"
-              class="btn btn-primary btn-sm"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Open Dashboard
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" /></svg
-            ></a>
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/showcase/" class="nav-link">Showcase</a>
+        <a href="/trending/" class="nav-link">Trending</a>
+        <a href="/tools/" class="nav-link">Tools</a>
+        <a href="/compare/" class="nav-link">Compare</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main id="main-content">
+<article>
+  <header class="article-hero">
+    <div class="container">
+      <div class="article-hero-inner">
+        <div class="article-meta">
+          <span class="article-category">DNS</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
+          <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
+        </div>
+        <h1>DNS Records Explained: A-Z Guide for Developers</h1>
+        <p class="article-summary">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="author-section" aria-label="Article authorship">
+    <div class="container">
+      <div class="author-card" data-reveal>
+        <div class="author-card-main">
+          <h2 class="author-card-title">Written by Mayank Baswal</h2>
+          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+          <div class="author-card-links">
+            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+            <a href="/contact/">Contact</a>
           </div>
-          <button
-            class="nav-toggle"
-            aria-label="Toggle navigation menu"
-            aria-expanded="false"
-            aria-controls="header-nav"
-          >
-            <span></span><span></span><span></span>
-          </button>
+        </div>
+        <div class="author-card-review">
+          <span class="author-card-review-label">Reviewed by</span>
+          <span class="author-card-reviewer">is-cool-me Technical Review</span>
         </div>
       </div>
-    </header>
-    <main id="main-content">
-      <article>
-        <header class="article-hero">
-          <div class="container">
-            <div class="article-hero-inner">
-              <div class="article-meta">
-                <span class="article-category">DNS</span>
-                <span class="article-meta-item"
-                  ><svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" /></svg
-                  >8 min read</span
-                >
-                <span
-                  class="article-meta-item"
-                  style="
-                    background: rgba(34, 197, 94, 0.1);
-                    border-color: rgba(34, 197, 94, 0.2);
-                    color: #4ade80;
-                    padding: 0.2rem 0.6rem;
-                    border-radius: var(--radius-full);
-                    font-size: 0.8rem;
-                  "
-                  >Beginner</span
-                >
-              </div>
-              <h1>DNS Records Explained: A-Z Guide for Developers</h1>
-              <p class="article-summary">
-                Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF,
-                DKIM, DMARC, SRV, and CAA — with practical examples and common
-                use cases for subdomain configuration.
-              </p>
-            </div>
-          </div>
-        </header>
+    </div>
+  </section>
 
-        <section class="author-section" aria-label="Article authorship">
-          <div class="container">
-            <div class="author-card" data-reveal>
-              <div class="author-card-main">
-                <h2 class="author-card-title">Written by Mayank Baswal</h2>
-                <p class="author-card-role">
-                  Founder of is-cool-me · DNS & Platform Infrastructure
-                </p>
-                <p class="author-card-bio">
-                  Mayank Baswal maintains the is-cool-me platform and writes
-                  technical guides focused on DNS configuration, subdomain
-                  infrastructure, SSL troubleshooting, deployment workflows, and
-                  platform reliability.
-                </p>
-                <div class="author-card-links">
-                  <a
-                    href="https://github.com/LightHostingFree"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >GitHub Profile</a
-                  >
-                  <a href="/contact/">Contact</a>
-                </div>
-              </div>
-              <div class="author-card-review">
-                <span class="author-card-review-label">Reviewed by</span>
-                <span class="author-card-reviewer"
-                  >is-cool-me Technical Review</span
-                >
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div class="article-layout-section">
-          <div class="container">
-            <div class="article-layout-inner">
-              <div class="article-content prose">
-                <h2>Introduction</h2>
-                <p>
-                  DNS records are the building blocks of the internet's
-                  addressing system. Every time someone visits your subdomain,
-                  sends an email, or connects to your server, DNS records
-                  translate human-readable names into network-usable addresses.
-                  Understanding these record types is essential for anyone
-                  managing online services. This guide explains each DNS record
-                  type in practical terms, with examples of how and when to use
-                  them with your is-pro.dev subdomain.
-                </p>
-                <h2>Prerequisites</h2>
-                <ul>
-                  <li>
-                    An is-pro.dev subdomain to practice with (free at
-                    dash.is-pro.dev)
-                  </li>
-                  <li>
-                    Basic understanding of how domain names and IP addresses
-                    work
-                  </li>
-                  <li>
-                    Access to a DNS dashboard (the is-pro.dev dashboard provides
-                    Cloudflare-powered DNS)
-                  </li>
-                </ul>
-                <h2>A and AAAA Records: Mapping Names to IP Addresses</h2>
-                <p>
-                  An A record maps a domain or subdomain to an IPv4 address,
-                  such as <code>192.0.2.1</code>. This is the most fundamental
-                  DNS record type — without it, your subdomain cannot point to a
-                  server. For example, if your VPS has an IP address of
-                  <code>203.0.113.5</code>, you create an A record for
-                  <code>myserver.is-pro.dev</code> pointing to that IP. AAAA
-                  records do the same but for IPv6 addresses, which are longer
-                  (e.g., <code>2001:db8::1</code>). Modern best practice is to
-                  include both A and AAAA records to support clients on either
-                  protocol. When setting up a web server, always verify that
-                  your A record resolves to the correct IP by using a DNS lookup
-                  tool.
-                </p>
-                <h2>CNAME Records: Aliasing One Name to Another</h2>
-                <p>
-                  A CNAME record creates an alias from one domain name to
-                  another. For instance, <code>www.is-pro.dev</code> might be a
-                  CNAME pointing to <code>is-pro.dev</code>. CNAME records are
-                  essential for platforms like GitHub Pages, Vercel, and Netlify
-                  — you create a CNAME from your subdomain to the platform's
-                  provided domain. Important rules: a CNAME cannot coexist with
-                  other record types on the same name, and it cannot be used at
-                  the zone apex (the bare <code>is-pro.dev</code> domain). If
-                  you need the apex to alias to another domain, use an ALIAS or
-                  ANAME record if your provider supports it, or use CNAME
-                  flattening.
-                </p>
-                <h2>MX Records: Routing Email Delivery</h2>
-                <p>
-                  MX (Mail Exchange) records specify which mail servers are
-                  responsible for receiving email on behalf of your subdomain.
-                  Each MX record has a priority value — lower numbers are tried
-                  first. For example, to receive email at
-                  <code>hello@yourname.is-pro.dev</code>, you configure MX
-                  records pointing to your email provider's servers. Cloudflare
-                  Email Routing uses MX records like
-                  <code>route1.mx.cloudflare.net</code> (priority 10) and
-                  <code>route2.mx.cloudflare.net</code> (priority 20). Always
-                  configure at least two MX records with different priorities
-                  for redundancy. Missing MX records mean email addressed to
-                  your domain will bounce or be undeliverable.
-                </p>
-                <h2>TXT Records: Storing Arbitrary Text Data</h2>
-                <p>
-                  TXT records store text information associated with your
-                  subdomain. They are most commonly used for email
-                  authentication: SPF (Sender Policy Framework) records
-                  authorize which servers can send email from your domain, DKIM
-                  (DomainKeys Identified Mail) records provide cryptographic
-                  signatures, and DMARC (Domain-based Message Authentication,
-                  Reporting & Conformance) records specify how receivers should
-                  handle unauthenticated email. A typical SPF TXT record looks
-                  like: <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>.
-                  TXT records are also used for domain ownership verification —
-                  services like Google Workspace, AWS, or GitHub ask you to add
-                  a specific TXT record to prove you control the domain.
-                </p>
-                <h2>SRV Records: Locating Specific Services</h2>
-                <p>
-                  SRV records generalize the concept of MX records to any
-                  service. They specify a target host and port for a specific
-                  protocol and service. The format is:
-                  <code
-                    >_service._protocol.name TTL class SRV priority weight port
-                    target</code
-                  >. For example, Minecraft game servers often use SRV records
-                  to point to a non-standard port:
-                  <code
-                    >_minecraft._tcp.mc.is-pro.dev SRV 0 5 25565
-                    mc-server.example.com</code
-                  >. SRV records are also used by Discord for voice channels,
-                  Microsoft Teams for SIP services, and SIP-based phone systems.
-                  They are less common than A/CNAME records but critical for
-                  gaming and communication services.
-                </p>
-                <h2>Other Record Types: NS, CAA, PTR, and SOA</h2>
-                <p>
-                  NS (Nameserver) records indicate which DNS servers are
-                  authoritative for a zone. For is-pro.dev subdomains, the NS
-                  records point to Cloudflare's nameservers and should not be
-                  modified. CAA (Certification Authority Authorization) records
-                  specify which certificate authorities are allowed to issue SSL
-                  certificates for your domain. Adding a CAA record for
-                  <code>letsencrypt.org</code> and
-                  <code>cloudflare.com</code> provides an extra security layer
-                  against unauthorized certificate issuance. PTR records
-                  (reverse DNS) map IP addresses back to domain names — they are
-                  managed by your hosting provider, not in your DNS dashboard.
-                  SOA (Start of Authority) records contain administrative
-                  information about the zone and are automatically managed.
-                </p>
-                <h2>Best Practices</h2>
-                <ul>
-                  <li>
-                    Always use DNS-only (gray cloud) for MX records — proxied MX
-                    records can interfere with email delivery
-                  </li>
-                  <li>
-                    Set TTL values based on how frequently you expect to change
-                    records: use 60 seconds during migration, 300-3600 seconds
-                    for stable configurations
-                  </li>
-                  <li>
-                    Add CAA records to restrict SSL certificate issuance to
-                    authorized providers only
-                  </li>
-                  <li>
-                    Use a DNS checker tool to verify each record type after
-                    making changes
-                  </li>
-                </ul>
-                <h2>Conclusion</h2>
-                <p>
-                  DNS records form the foundation of how your subdomain
-                  interacts with the internet. Each record type serves a
-                  specific purpose, and knowing when to use A vs CNAME vs MX vs
-                  SRV is essential for configuring everything from websites to
-                  game servers. The is-pro.dev DNS dashboard, powered by
-                  Cloudflare, supports all standard record types and provides
-                  instant propagation across the global network.
-                </p>
-                <h2>FAQ</h2>
-                <p>
-                  <strong
-                    >What is the difference between proxied (orange cloud) and
-                    DNS-only (gray cloud)?</strong
-                  >
-                </p>
-                <p>
-                  Proxied routes traffic through Cloudflare's CDN, hiding your
-                  origin IP and providing DDoS protection. DNS-only passes
-                  traffic directly to your server. Use proxied for web servers,
-                  DNS-only for email and non-HTTP services.
-                </p>
-                <p>
-                  <strong
-                    >Can I have multiple records of the same type for the same
-                    subdomain?</strong
-                  >
-                </p>
-                <p>
-                  Yes, you can have multiple A records for load balancing
-                  (round-robin DNS), multiple MX records for redundancy, and
-                  multiple TXT records for different purposes (SPF, DKIM,
-                  DMARC).
-                </p>
-                <p>
-                  <strong
-                    >How long does it take for DNS changes to take
-                    effect?</strong
-                  >
-                </p>
-                <p>
-                  With Cloudflare DNS on is-pro.dev, changes typically propagate
-                  within seconds globally. The TTL value of the record
-                  determines how long clients cache the old value before
-                  rechecking.
-                </p>
-                <h2>FAQ</h2>
-                <p><strong>Is DNS setup free on is-pro.dev?</strong></p>
-                <p>
-                  Yes, all subdomains on is-pro.dev include free DNS management
-                  and SSL certificates.
-                </p>
-                <p><strong>How long does DNS take to propagate?</strong></p>
-                <p>
-                  Cloudflare typically propagates DNS changes within seconds to
-                  a few minutes globally.
-                </p>
-                <p><strong>Can I use this for commercial projects?</strong></p>
-                <p>
-                  Yes, is-pro.dev subdomains can be used for personal and
-                  commercial projects within our fair use policy.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-      <section
-        style="
-          padding: var(--space-12) 0;
-          border-top: 1px solid var(--color-border-sub);
-        "
-      >
-        <div class="container">
-          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem">Explore More</h2>
-          <div
-            style="
-              display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-              gap: 1rem;
-            "
-          >
-            <div
-              style="
-                background: var(--color-card);
-                border: 1px solid var(--color-border);
-                border-radius: var(--radius-md);
-                padding: 1.25rem;
-              "
-            >
-              <h4
-                style="
-                  color: var(--color-accent-light);
-                  font-size: 0.9rem;
-                  margin-bottom: 0.5rem;
-                "
-              >
-                Deployment Guides
-              </h4>
-              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
-                <li>
-                  <a
-                    href="/guides/free-hosting-with-github-pages/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >GitHub Pages Hosting</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/deploy-react-app-to-vercel/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Deploy to Vercel</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/netlify-custom-domain-setup/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Netlify Setup</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/nextjs-hosting-on-cloudflare-pages/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Cloudflare Pages</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div
-              style="
-                background: var(--color-card);
-                border: 1px solid var(--color-border);
-                border-radius: var(--radius-md);
-                padding: 1.25rem;
-              "
-            >
-              <h4
-                style="
-                  color: var(--color-accent-light);
-                  font-size: 0.9rem;
-                  margin-bottom: 0.5rem;
-                "
-              >
-                DNS & Security
-              </h4>
-              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
-                <li>
-                  <a
-                    href="/guides/dns-records-explained/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >DNS Records Guide</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/ssl-certificate-setup-guide/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >SSL Setup</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/cloudflare-dns-setup/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Cloudflare DNS</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/guides/cloudflare-proxy-vs-dns-only/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Proxy vs DNS-Only</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div
-              style="
-                background: var(--color-card);
-                border: 1px solid var(--color-border);
-                border-radius: var(--radius-md);
-                padding: 1.25rem;
-              "
-            >
-              <h4
-                style="
-                  color: var(--color-accent-light);
-                  font-size: 0.9rem;
-                  margin-bottom: 0.5rem;
-                "
-              >
-                Platform Resources
-              </h4>
-              <ul style="display: flex; flex-direction: column; gap: 0.35rem">
-                <li>
-                  <a
-                    href="/showcase/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Project Showcase</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/blog/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Blog</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/tools/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Free Tools</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="/compare/"
-                    style="
-                      color: var(--color-text-muted);
-                      font-size: 0.9rem;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--color-accent-light)'"
-                    onmouseout="this.style.color = 'var(--color-text-muted)'"
-                    >Compare Hosting</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>      <!-- Native Banner Ad - 4:1 -->
-      <div style="text-align:center;padding:var(--space-8) 0;">
-        <div class="container">
-          <script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
-          <div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+  <div class="article-layout-section">
+    <div class="container">
+      <div class="article-layout-inner">
+        <div class="article-content prose">
+          <h2>Introduction</h2>
+          <p>DNS records are the building blocks of the internet's addressing system. Every time someone visits your subdomain, sends an email, or connects to your server, DNS records translate human-readable names into network-usable addresses. Understanding these record types is essential for anyone managing online services. This guide explains each DNS record type in practical terms, with examples of how and when to use them with your is-pro.dev subdomain.</p>
+          <h2>Prerequisites</h2>
+          <ul><li>An is-pro.dev subdomain to practice with (free at dash.is-pro.dev)</li><li>Basic understanding of how domain names and IP addresses work</li><li>Access to a DNS dashboard (the is-pro.dev dashboard provides Cloudflare-powered DNS)</li></ul>
+          <h2>A and AAAA Records: Mapping Names to IP Addresses</h2>
+          <p>An A record maps a domain or subdomain to an IPv4 address, such as <code>192.0.2.1</code>. This is the most fundamental DNS record type — without it, your subdomain cannot point to a server. For example, if your VPS has an IP address of <code>203.0.113.5</code>, you create an A record for <code>myserver.is-pro.dev</code> pointing to that IP. AAAA records do the same but for IPv6 addresses, which are longer (e.g., <code>2001:db8::1</code>). Modern best practice is to include both A and AAAA records to support clients on either protocol. When setting up a web server, always verify that your A record resolves to the correct IP by using a DNS lookup tool.</p>
+          <h2>CNAME Records: Aliasing One Name to Another</h2>
+          <p>A CNAME record creates an alias from one domain name to another. For instance, <code>www.is-pro.dev</code> might be a CNAME pointing to <code>is-pro.dev</code>. CNAME records are essential for platforms like GitHub Pages, Vercel, and Netlify — you create a CNAME from your subdomain to the platform's provided domain. Important rules: a CNAME cannot coexist with other record types on the same name, and it cannot be used at the zone apex (the bare <code>is-pro.dev</code> domain). If you need the apex to alias to another domain, use an ALIAS or ANAME record if your provider supports it, or use CNAME flattening.</p>
+          <h2>MX Records: Routing Email Delivery</h2>
+          <p>MX (Mail Exchange) records specify which mail servers are responsible for receiving email on behalf of your subdomain. Each MX record has a priority value — lower numbers are tried first. For example, to receive email at <code>hello@yourname.is-pro.dev</code>, you configure MX records pointing to your email provider's servers. Cloudflare Email Routing uses MX records like <code>route1.mx.cloudflare.net</code> (priority 10) and <code>route2.mx.cloudflare.net</code> (priority 20). Always configure at least two MX records with different priorities for redundancy. Missing MX records mean email addressed to your domain will bounce or be undeliverable.</p>
+          <h2>TXT Records: Storing Arbitrary Text Data</h2>
+          <p>TXT records store text information associated with your subdomain. They are most commonly used for email authentication: SPF (Sender Policy Framework) records authorize which servers can send email from your domain, DKIM (DomainKeys Identified Mail) records provide cryptographic signatures, and DMARC (Domain-based Message Authentication, Reporting & Conformance) records specify how receivers should handle unauthenticated email. A typical SPF TXT record looks like: <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>. TXT records are also used for domain ownership verification — services like Google Workspace, AWS, or GitHub ask you to add a specific TXT record to prove you control the domain.</p>
+          <h2>SRV Records: Locating Specific Services</h2>
+          <p>SRV records generalize the concept of MX records to any service. They specify a target host and port for a specific protocol and service. The format is: <code>_service._protocol.name TTL class SRV priority weight port target</code>. For example, Minecraft game servers often use SRV records to point to a non-standard port: <code>_minecraft._tcp.mc.is-pro.dev SRV 0 5 25565 mc-server.example.com</code>. SRV records are also used by Discord for voice channels, Microsoft Teams for SIP services, and SIP-based phone systems. They are less common than A/CNAME records but critical for gaming and communication services.</p>
+          <h2>Other Record Types: NS, CAA, PTR, and SOA</h2>
+          <p>NS (Nameserver) records indicate which DNS servers are authoritative for a zone. For is-pro.dev subdomains, the NS records point to Cloudflare's nameservers and should not be modified. CAA (Certification Authority Authorization) records specify which certificate authorities are allowed to issue SSL certificates for your domain. Adding a CAA record for <code>letsencrypt.org</code> and <code>cloudflare.com</code> provides an extra security layer against unauthorized certificate issuance. PTR records (reverse DNS) map IP addresses back to domain names — they are managed by your hosting provider, not in your DNS dashboard. SOA (Start of Authority) records contain administrative information about the zone and are automatically managed.</p>
+          <h2>Best Practices</h2>
+          <ul><li>Always use DNS-only (gray cloud) for MX records — proxied MX records can interfere with email delivery</li><li>Set TTL values based on how frequently you expect to change records: use 60 seconds during migration, 300-3600 seconds for stable configurations</li><li>Add CAA records to restrict SSL certificate issuance to authorized providers only</li><li>Use a DNS checker tool to verify each record type after making changes</li></ul>
+          <h2>Conclusion</h2>
+          <p>DNS records form the foundation of how your subdomain interacts with the internet. Each record type serves a specific purpose, and knowing when to use A vs CNAME vs MX vs SRV is essential for configuring everything from websites to game servers. The is-pro.dev DNS dashboard, powered by Cloudflare, supports all standard record types and provides instant propagation across the global network.</p>
+          <h2>FAQ</h2>
+          <p><strong>What is the difference between proxied (orange cloud) and DNS-only (gray cloud)?</strong></p>
+          <p>Proxied routes traffic through Cloudflare's CDN, hiding your origin IP and providing DDoS protection. DNS-only passes traffic directly to your server. Use proxied for web servers, DNS-only for email and non-HTTP services.</p>
+          <p><strong>Can I have multiple records of the same type for the same subdomain?</strong></p>
+          <p>Yes, you can have multiple A records for load balancing (round-robin DNS), multiple MX records for redundancy, and multiple TXT records for different purposes (SPF, DKIM, DMARC).</p>
+          <p><strong>How long does it take for DNS changes to take effect?</strong></p>
+          <p>With Cloudflare DNS on is-pro.dev, changes typically propagate within seconds globally. The TTL value of the record determines how long clients cache the old value before rechecking.</p>
+<h2>FAQ</h2><p><strong>Is DNS setup free on is-pro.dev?</strong></p>
+<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
+<p><strong>How long does DNS take to propagate?</strong></p>
+<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
+<p><strong>Can I use this for commercial projects?</strong></p>
+<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
         </div>
       </div>
-
-
-    <footer class="site-footer" role="contentinfo">
+    </div>
+  </div>
+</article><div style="text-align:center;margin:2rem 0;">
+<script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
+<div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+</div><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
+        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
+        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
+        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
+        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
+        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
+        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
+        <li><a href="/trending/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Trending</a></li>
+        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
+        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
+        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
+        <li><a href="/tutorials/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Tutorials</a></li>
+      </ul>
+    </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" role="contentinfo">
       <div class="container">
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
@@ -757,37 +256,16 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img
-                src="/dist/images/logo.png"
-                alt=""
-                width="28"
-                height="28"
-                aria-hidden="true"
-              />
+              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
               <span class="mono">is-cool-me</span>
             </a>
-            <p class="footer-tagline">
-              Free subdomains for developers with GitHub sign-in, DNS
-              management, and community support.
-            </p>
-            <a
-              href="https://discord.gg/N8YzrkJxYy"
-              class="btn btn-outline btn-sm btn-fit"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Join Discord</a
-            >
+            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
+            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
           </div>
           <div class="footer-col">
             <h4>Service</h4>
             <nav class="footer-links" aria-label="Service links">
-              <a
-                href="https://dash.is-pro.dev"
-                class="footer-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Dashboard</a
-              >
+              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
               <a href="/domains/" class="footer-link">Domains</a>
               <a href="/blog/" class="footer-link">Blog</a>
               <a href="/guides/" class="footer-link">Guides</a>
@@ -805,29 +283,15 @@
             <nav class="footer-links" aria-label="Legal links">
               <a href="/terms/" class="footer-link">Terms of Service</a>
               <a href="/privacy/" class="footer-link">Privacy Policy</a>
-              <a href="/editorial-standards/" class="footer-link"
-                >Editorial Standards</a
-              >
+              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <nav class="footer-links" aria-label="Community links">
-              <a
-                href="https://discord.gg/N8YzrkJxYy"
-                class="footer-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Discord Server</a
-              >
-              <a
-                href="https://github.com/is-cool-me"
-                class="footer-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >GitHub</a
-              >
+              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
             </nav>
           </div>
         </div>
@@ -846,7 +310,7 @@
           </div>
         </div>
       </div>
-      </footer>
-    <script src="/js/app.js" defer></script>
-  </body>
+    </footer>
+<script src="/js/app.js" defer></script>
+</body>
 </html>

@@ -1168,7 +1168,7 @@ function generateComparePage() {
 }
 
 function generateGuidesPage() {
-  const guideSlugs = readdirSync(join(CONTENT_ROOT, "guides"), {
+  const guideSlugs = readdirSync(join(OUT_DIR, "guides"), {
     withFileTypes: true,
   })
     .filter((d) => d.isDirectory() && d.name !== "index.html")
@@ -1218,7 +1218,7 @@ function generateGuidesPage() {
 }
 
 function generateBlogPage() {
-  const blogSlugs = readdirSync(join(CONTENT_ROOT, "blog"), {
+  const blogSlugs = readdirSync(join(OUT_DIR, "blog"), {
     withFileTypes: true,
   })
     .filter((d) => d.isDirectory() && d.name !== "index.html")

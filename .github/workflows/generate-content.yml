@@ -39,6 +39,31 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Create database if missing
+        run: |
+          mkdir -p dash/data
+          if [ ! -f dash/data/domains.db ]; then
+            sqlite3 dash/data/domains.db <<'SQL'
+              CREATE TABLE IF NOT EXISTS domains (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                subdomain TEXT NOT NULL,
+                zone TEXT NOT NULL,
+                owner_username TEXT,
+                owner_email TEXT,
+                created_at TEXT,
+                updated_at TEXT
+              );
+              CREATE TABLE IF NOT EXISTS dns_records (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                domain_id INTEGER,
+                type TEXT,
+                name TEXT,
+                value TEXT
+              );
+SQL
+            echo "[db] Created empty database at dash/data/domains.db"
+          fi
+
       - name: Install generator dependencies
         run: |
           cd is-pro.dev/generator

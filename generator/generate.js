@@ -15,11 +15,16 @@ import { lookup } from "dns/promises";
 const require = createRequire(import.meta.url);
 import {
   generateWithOllama,
-  startOllama,
-  stopOllama,
   isOllamaRunning,
-  ensureModel,
 } from "./lib/ollama.js";
+
+function isAiEnabled() {
+  return (
+    process.env.AI_ENABLED === "true" &&
+    !!process.env.OLLAMA_HOST
+  );
+}
+
 import {
   htmlHead,
   headerHTML,
@@ -92,8 +97,8 @@ function readDb() {
 
 async function filterOnlineDomains(domains) {
   if (!domains || domains.length === 0) return [];
-  if (process.env.OLLAMA_OFFLINE) {
-    console.log("[check] Skipping online check (OLLAMA_OFFLINE=1)");
+  if (!isAiEnabled()) {
+    console.log("[ai] Skipping online check (AI not enabled)");
     return domains;
   }
   console.log(`[check] Verifying ${domains.length} domains return HTTP 200...`);
@@ -144,18 +149,17 @@ function slugify(str) {
 }
 
 async function generateContent(prompt, systemPrompt) {
-  if (!process.env.OLLAMA_OFFLINE) {
-    try {
-      return await generateWithOllama(prompt, systemPrompt);
-    } catch (err) {
-      console.warn(
-        "[ollama] Generation failed, using fallback content:",
-        err.message,
-      );
-      return null;
+  try {
+    const content = await generateWithOllama(prompt, systemPrompt);
+    if (content) {
+      console.log("[ai] Generated content with Ollama");
+      return content;
     }
+    return null;
+  } catch (err) {
+    console.warn("[ai] Generation failed, using fallback content");
+    return null;
   }
-  return null;
 }
 
 function escHtml(str) {
@@ -332,8 +336,12 @@ Generate ONLY the article body content, no metadata, no JSON.`;
   const systemPrompt = `You are a technical writer for is-cool-me, a free developer platform. Write in a clear, authoritative voice. Use concrete examples with real subdomain examples like "myproject.is-pro.dev". Avoid filler, repetition, and generic intros. Focus on practical value.`;
 
   let aiContent = null;
-  if (!process.env.OLLAMA_OFFLINE) {
+  if (isAiEnabled()) {
+    console.log("[ai] Generating guide with AI");
     aiContent = await generateContent(prompt, systemPrompt);
+  }
+  if (!aiContent) {
+    console.log("[ai] Using fallback content for guide");
   }
 
   const { content, faqs, breadcrumbs } = buildGuideContent(topic, aiContent);
@@ -388,8 +396,12 @@ Generate ONLY the article body content, no metadata.`;
   const systemPrompt = `You are a technical blogger writing for is-cool-me, a free developer platform. Your voice is knowledgeable but approachable. You write about real problems developers face. Use specific examples and avoid generic advice.`;
 
   let aiContent = null;
-  if (!process.env.OLLAMA_OFFLINE) {
+  if (isAiEnabled()) {
+    console.log("[ai] Generating blog post with AI");
     aiContent = await generateContent(prompt, systemPrompt);
+  }
+  if (!aiContent) {
+    console.log("[ai] Using fallback content for blog post");
   }
 
   const content =
@@ -1388,6 +1400,12 @@ async function main() {
   console.log("🚀 is-pro.dev Content Generator");
   console.log("================================");
 
+  if (isAiEnabled()) {
+    console.log("[ai] AI enabled");
+  } else {
+    console.log("[ai] AI disabled");
+  }
+
   if (doPreview) {
     console.log("\n📋 Running preview (no writes)...\n");
     console.log("Guides:", GUIDE_TOPICS.length);
@@ -1435,14 +1453,15 @@ async function main() {
     types.includes("profiles") ||
     types.length === 0
   ) {
-    const needOllama = !process.env.OLLAMA_OFFLINE;
-    if (needOllama) {
+    if (isAiEnabled()) {
       const running = await isOllamaRunning();
-      if (!running) {
-        console.log("\n⏳ Ollama not running. Starting...");
-        await startOllama();
-        console.log("✅ Ollama started.");
+      if (running) {
+        console.log("[ai] Ollama available");
+      } else {
+        console.log("[ai] Ollama unavailable, will use fallback content");
       }
+    } else {
+      console.log("[ai] AI not enabled, using fallback content");
     }
   }
 

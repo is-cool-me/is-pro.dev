@@ -80,6 +80,7 @@ jobs:
         env:
           SITE_ROOT: ${{ github.workspace }}/is-pro.dev
           DB_PATH: ${{ github.workspace }}/dash/data/domains.db
+          GH_PAT: ${{ secrets.GH_PAT }}
 
       - name: Commit and push changes
         run: |

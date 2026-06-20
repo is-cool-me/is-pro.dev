@@ -27,41 +27,38 @@ jobs:
           path: is-pro.dev
           token: ${{ secrets.GH_PAT }}
 
-      - name: Checkout dash (for DB access)
-        uses: actions/checkout@v4
-        with:
-          repository: is-cool-me/dash
-          path: dash
-          token: ${{ secrets.GH_PAT }}
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Create database if missing
+      - name: Download domain database from dash
+        continue-on-error: true
         run: |
           mkdir -p dash/data
-          if [ ! -f dash/data/domains.db ]; then
+          curl -fsS -o dash/data/domains.db \
+            -H "x-export-key: ${{ secrets.DOMAIN_EXPORT_KEY }}" \
+            "https://dash.is-pro.dev/api/domains/export"
+          if [ -f dash/data/domains.db ] && [ -s dash/data/domains.db ]; then
+            echo "[db] Downloaded domains database ($(stat -c%s dash/data/domains.db) bytes)"
+          else
+            echo "[db] Failed to download database, will use fallback"
+            # Create empty DB so generator doesn't error
             sqlite3 dash/data/domains.db <<'SQL'
               CREATE TABLE IF NOT EXISTS domains (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 subdomain TEXT NOT NULL,
                 zone TEXT NOT NULL,
                 owner_username TEXT,
-                owner_email TEXT,
                 created_at TEXT,
                 updated_at TEXT
               );
               CREATE TABLE IF NOT EXISTS dns_records (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                domain_id INTEGER,
-                type TEXT,
-                name TEXT,
-                value TEXT
+                domain_id INTEGER
               );
 SQL
-            echo "[db] Created empty database at dash/data/domains.db"
+            echo "[db] Created empty database as fallback"
           fi
 
       - name: Install generator dependencies

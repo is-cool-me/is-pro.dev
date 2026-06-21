@@ -43,21 +43,9 @@ jobs:
             echo "[db] Downloaded domains database ($(stat -c%s dash/data/domains.db) bytes)"
           else
             echo "[db] Failed to download database, will use fallback"
-            # Create empty DB so generator doesn't error
-            sqlite3 dash/data/domains.db <<'SQL'
-              CREATE TABLE IF NOT EXISTS domains (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                subdomain TEXT NOT NULL,
-                zone TEXT NOT NULL,
-                owner_username TEXT,
-                created_at TEXT,
-                updated_at TEXT
-              );
-              CREATE TABLE IF NOT EXISTS dns_records (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                domain_id INTEGER
-              );
-SQL
+            sqlite3 dash/data/domains.db \
+              "CREATE TABLE IF NOT EXISTS domains (id INTEGER PRIMARY KEY AUTOINCREMENT, subdomain TEXT NOT NULL, zone TEXT NOT NULL, owner_username TEXT, created_at TEXT, updated_at TEXT);" \
+              "CREATE TABLE IF NOT EXISTS dns_records (id INTEGER PRIMARY KEY AUTOINCREMENT, domain_id INTEGER);"
             echo "[db] Created empty database as fallback"
           fi
 

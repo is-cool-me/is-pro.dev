@@ -13,10 +13,7 @@ import { execSync } from "child_process";
 import { createRequire } from "module";
 import { lookup } from "dns/promises";
 const require = createRequire(import.meta.url);
-import {
-  generateWithGroq,
-  isGroqAvailable,
-} from "./lib/groq.js";
+import { generateWithGroq } from "./lib/groq.js";
 
 function isAiEnabled() {
   return (

@@ -14,14 +14,14 @@ import { createRequire } from "module";
 import { lookup } from "dns/promises";
 const require = createRequire(import.meta.url);
 import {
-  generateWithOllama,
-  isOllamaRunning,
-} from "./lib/ollama.js";
+  generateWithGroq,
+  isGroqAvailable,
+} from "./lib/groq.js";
 
 function isAiEnabled() {
   return (
     process.env.AI_ENABLED === "true" &&
-    !!process.env.OLLAMA_HOST
+    !!process.env.GROQ_API_KEY
   );
 }
 
@@ -150,9 +150,9 @@ function slugify(str) {
 
 async function generateContent(prompt, systemPrompt) {
   try {
-    const content = await generateWithOllama(prompt, systemPrompt);
+    const content = await generateWithGroq(prompt, systemPrompt);
     if (content) {
-      console.log("[ai] Generated content with Ollama");
+      console.log("[ai] Generated content with Groq");
       return content;
     }
     return null;
@@ -1454,12 +1454,7 @@ async function main() {
     types.length === 0
   ) {
     if (isAiEnabled()) {
-      const running = await isOllamaRunning();
-      if (running) {
-        console.log("[ai] Ollama available");
-      } else {
-        console.log("[ai] Ollama unavailable, will use fallback content");
-      }
+      console.log("[ai] Groq API key configured");
     } else {
       console.log("[ai] AI not enabled, using fallback content");
     }

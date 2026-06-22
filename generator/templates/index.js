@@ -53,7 +53,7 @@ function footerHTML() {
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
               <span class="mono">is-cool-me</span>
             </a>
             <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
@@ -84,13 +84,18 @@ function footerHTML() {
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
-          <div class="footer-col">
-            <h4>Community</h4>
-            <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
         </div>
         <div class="footer-bottom">
           <span>&copy; 2026 is-cool-me. All rights reserved.</span>
@@ -115,7 +120,7 @@ function headerHTML(activePath = "", title = "is-cool-me") {
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">${title}</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -153,7 +158,9 @@ function htmlHead({
   ogTitle,
   ogDesc,
   article,
+  keywords,
 }) {
+  const kw = keywords ? `<meta name="keywords" content="${escHtml(keywords)}" />\n  ` : "";
   const t = title || "is-cool-me — Free Subdomains for Developers";
   const d =
     description ||
@@ -214,7 +221,7 @@ function htmlHead({
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>${escHtml(t)}</title>
   <meta name="description" content="${escHtml(d)}" />
-  <link rel="canonical" href="${c}" />
+  ${kw}<link rel="canonical" href="${c}" />
   <meta property="og:type" content="${ogType}" />
   <meta property="og:url" content="${c}" />
   <meta property="og:title" content="${escHtml(ogT)}" />
@@ -230,7 +237,9 @@ function htmlHead({
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
   <script type="application/ld+json">${JSON.stringify(schema, null, 2)}</script>
 </head>
@@ -493,10 +502,6 @@ function internalLinksHTML(sections) {
   </section>`;
 }
 
-function midContentAdHTML() {
-  return ``;
-}
-
 function poweredByFooter(slug) {
   return `<div style="text-align:center;padding:2rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
   <a href="https://is-pro.dev/showcase/${slug}/" style="color:var(--color-text-subtle);font-size:.85rem;" target="_blank" rel="noopener">Powered by <strong style="color:var(--color-accent);">is-pro.dev</strong></a>
@@ -515,7 +520,6 @@ export {
   blogPostContentHTML,
   toolPageHTML,
   internalLinksHTML,
-  midContentAdHTML,
   poweredByFooter,
   escHtml,
   BASE_URL,

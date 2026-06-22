@@ -2,46 +2,110 @@
 
 Official static website for **is-pro.dev**, operated by **is-cool-me**.
 
-This repository hosts the public marketing pages, blog posts, and operational guides for the `is-pro.dev` free subdomain service.
+This repository hosts the public marketing pages, blog posts, guides, tools, and operational pages for the `is-pro.dev` free subdomain service.
 
-## What’s in this repo
+## What's in this repo
 
 - Landing and product pages (`/`, `/domains/`, `/contact/`, etc.)
-- Blog index + individual blog articles
-- Guides index + individual guide pages
-- Shared frontend styles and behavior
-- SEO/supporting static files (`sitemap.xml`, `robots.txt`, `ads.txt`, `CNAME`)
-
-The project is a **static HTML/CSS/JS site** with no framework build pipeline required to run locally.
+- Blog index + individual blog articles (60+ articles)
+- Guides index + individual guide pages (40+ guides)
+- Tools pages, showcase, trending, tutorials, comparisons
+- Shared frontend styles and behavior (`css/main.css`, `js/app.js`)
+- SEO files (`sitemap.xml`, `robots.txt`, `ads.txt`, `CNAME`)
 
 ## Repository structure
 
 ```text
 .
-├── index.html
-├── 404.html
-├── blog/
+├── index.html                  # Homepage
+├── 404.html                    # Custom 404 page
+├── blog/                       # Blog posts (static HTML)
 │   ├── index.html
-│   └── <article-slug>/index.html
-├── guides/
+│   └── <slug>/index.html
+├── guides/                     # Technical guides (static HTML)
 │   ├── index.html
-│   └── <guide-slug>/index.html
-├── domains/
-├── contact/
-├── terms/
-├── privacy/
-├── css/
-│   └── main.css
-├── js/
-│   └── app.js
-├── dist/
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── sitemap.xml
+│   └── <slug>/index.html
+├── tools/                      # Free developer tools
+├── compare/                    # Platform comparisons
+├── tutorials/                  # Step-by-step tutorials
+├── showcase/                   # Community project showcase
+├── trending/                   # Trending subdomains
+├── domains/                    # Available domain info
+├── new/                        # Recently registered subdomains
+├── u/                          # User profiles
+├── contact/                    # Contact page
+├── about/                      # About page
+├── terms/                      # Terms of Service
+├── privacy/                    # Privacy Policy
+├── editorial-standards/        # Editorial standards
+├── abuse-report/               # Abuse reporting
+├── css/main.css                # Design tokens, layout, utilities, components
+├── js/app.js                   # Scroll reveal, nav, TOC, copy, utilities
+├── generator/                  # Content generation system
+│   ├── generate.js             # Main generator script
+│   ├── content/topics.js       # Topic definitions, keywords, internal links
+│   ├── templates/index.js      # HTML template functions
+│   └── lib/groq.js             # AI content generation via Groq API
+├── dist/                       # Built assets (images, minified CSS/JS)
+├── sitemap.xml                 # Auto-generated XML sitemap
 ├── robots.txt
+├── ads.txt
 └── CNAME
 ```
+
+## Content generation
+
+The `generator/` directory contains a Node.js script that generates site content programmatically.
+
+### How it works
+
+1. **Topic definitions** in `generator/content/topics.js` define guides, blog posts, tutorials, comparisons, and tools with title, summary, keywords, and metadata.
+2. **Templates** in `generator/templates/index.js` provide reusable HTML components (headers, footers, cards, article layouts).
+3. **AI generation** via Groq API (`generator/lib/groq.js`) produces full article content when `AI_ENABLED=true` and `GROQ_API_KEY` are set. Falls back to template-based content when AI is unavailable.
+
+### Commands
+
+```bash
+# Generate everything (all sections)
+cd generator && node generate.js --all
+
+# Generate specific sections
+node generate.js --type=guides
+node generate.js --type=blog
+node generate.js --type=tools
+node generate.js --type=tutorials
+node generate.js --type=compare
+node generate.js --type=showcase
+
+# Regenerate sitemap only
+node generate.js --sitemap
+
+# Preview what would be generated
+node generate.js --preview
+
+# Generate and push to GitHub
+GH_PAT=your_token node generate.js --all --push
+```
+
+### Environment variables
+
+| Variable | Description |
+|----------|-------------|
+| `AI_ENABLED` | Set to `"true"` to enable Groq AI generation |
+| `GROQ_API_KEY` | Groq API key for AI content generation |
+| `GROQ_MODEL` | Groq model (default: `llama-3.3-70b-versatile`) |
+| `SITE_ROOT` | Output directory root (default: `../is-pro.dev`) |
+| `GH_PAT` | GitHub personal access token for `--push` |
+
+## GitHub Actions / CI
+
+The site is auto-generated via GitHub Actions workflow (`.github/workflows/generate-content.yml`):
+
+- Runs on schedule or manually
+- Uses Groq API (not local Ollama) for AI content generation
+- Generates all content sections and sitemap
+- Commits and pushes generated files back to the repository
+- Automatically discovers new topic ideas via AI on `--all` runs
 
 ## Local development
 

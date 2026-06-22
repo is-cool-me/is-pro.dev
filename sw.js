@@ -1,6 +1,2 @@
-self.options = {
-    "domain": "5gvci.com",
-    "zoneId": 11168111
-}
-self.lary = ""
-importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw')
+// Service worker intentionally disabled — no third-party scripts.
+// Previous version loaded from 5gvci.com (removed for security).

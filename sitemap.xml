@@ -91,21 +91,9 @@
     <lastmod>2026-06-22</lastmod>
   </url>
   <url>
-    <loc>https://is-pro.dev/guides/</loc>
-    <priority>0.9</priority>
+    <loc>https://is-pro.dev/editorial-standards/</loc>
+    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-06-22</lastmod>
-  </url>
-  <url>
-    <loc>https://is-pro.dev/blog/</loc>
-    <priority>0.9</priority>
-    <changefreq>weekly</changefreq>
-    <lastmod>2026-06-22</lastmod>
-  </url>
-  <url>
-    <loc>https://is-pro.dev/showcase/</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
     <lastmod>2026-06-22</lastmod>
   </url>
   <url>
@@ -592,24 +580,6 @@
     <loc>https://is-pro.dev/tools/subdomain-finder/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
-    <lastmod>2026-06-22</lastmod>
-  </url>
-  <url>
-    <loc>https://is-pro.dev/tools/</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-    <lastmod>2026-06-22</lastmod>
-  </url>
-  <url>
-    <loc>https://is-pro.dev/tutorials/</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-    <lastmod>2026-06-22</lastmod>
-  </url>
-  <url>
-    <loc>https://is-pro.dev/compare/</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
     <lastmod>2026-06-22</lastmod>
   </url>
 </urlset>

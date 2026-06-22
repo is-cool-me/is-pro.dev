@@ -91,7 +91,6 @@ import {
   blogPostContentHTML,
   toolPageHTML,
   internalLinksHTML,
-  midContentAdHTML,
   poweredByFooter,
   BASE_URL,
   AUTHOR,
@@ -447,6 +446,7 @@ Generate ONLY the article body content, no metadata, no JSON.`;
     description: topic.summary,
     canonical: `${BASE_URL}/guides/${topic.slug}/`,
     ogType: "article",
+    keywords: topic.keywords?.join(", "),
     article: {
       headline: topic.title,
       description: topic.summary,
@@ -468,7 +468,6 @@ Generate ONLY the article body content, no metadata, no JSON.`;
       faqs,
       breadcrumbs,
     }) +
-    midContentAdHTML() +
     internalLinksHTML(INTERNAL_LINK_SECTIONS);
   const footerHtml = footerHTML();
 
@@ -531,6 +530,7 @@ Generate ONLY the article body content, no metadata.`;
     description: topic.summary,
     canonical: `${BASE_URL}/blog/${topic.slug}/`,
     ogType: "article",
+    keywords: topic.keywords?.join(", "),
     article: {
       headline: topic.title,
       description: topic.summary,
@@ -554,7 +554,6 @@ Generate ONLY the article body content, no metadata.`;
       content: content.replace(/^/gm, "          "),
       faqs,
     }) +
-    midContentAdHTML() +
     internalLinksHTML(INTERNAL_LINK_SECTIONS);
   const footerHtml = footerHTML();
 
@@ -1179,7 +1178,6 @@ function generateToolPage(tool) {
       category: tool.category,
       content: content.replace(/^/gm, "          "),
     }) +
-    midContentAdHTML() +
     internalLinksHTML(INTERNAL_LINK_SECTIONS);
 
   const footerHtml = footerHTML();
@@ -1387,6 +1385,7 @@ async function generateSitemap() {
     "/terms/",
     "/privacy/",
     "/abuse-report/",
+    "/editorial-standards/",
   ];
   urls.push(
     ...staticPages.map((p) => ({
@@ -1395,22 +1394,6 @@ async function generateSitemap() {
       changefreq: "weekly",
     })),
   );
-
-  urls.push({
-    loc: BASE_URL + "/guides/",
-    priority: "0.9",
-    changefreq: "weekly",
-  });
-  urls.push({
-    loc: BASE_URL + "/blog/",
-    priority: "0.9",
-    changefreq: "weekly",
-  });
-  urls.push({
-    loc: BASE_URL + "/showcase/",
-    priority: "0.9",
-    changefreq: "daily",
-  });
 
   const allTopics = [
     ...GUIDE_TOPICS,
@@ -1462,22 +1445,6 @@ async function generateSitemap() {
       priority: "0.6",
       changefreq: "monthly",
     });
-  });
-
-  urls.push({
-    loc: BASE_URL + "/tools/",
-    priority: "0.8",
-    changefreq: "weekly",
-  });
-  urls.push({
-    loc: BASE_URL + "/tutorials/",
-    priority: "0.8",
-    changefreq: "weekly",
-  });
-  urls.push({
-    loc: BASE_URL + "/compare/",
-    priority: "0.8",
-    changefreq: "weekly",
   });
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -1543,6 +1510,14 @@ async function main() {
       "   Available: --type=guides, --type=blog, --type=showcase, --type=tools, --type=tutorials, --type=compare, --type=profiles",
     );
     console.log("   Or use --sitemap, --preview, --push");
+  }
+
+  // Only sitemap requested — skip full generation
+  if (doSitemap && types.length === 0 && !doAll && !doPreview && !doPush) {
+    const sitemap = await generateSitemap();
+    writeFileSync(join(OUT_DIR, "sitemap.xml"), sitemap, "utf-8");
+    console.log("  ✅ sitemap.xml");
+    return;
   }
 
   let db = readDb();
@@ -1616,6 +1591,7 @@ async function main() {
           title: `${topic.title} — is-cool-me Tutorials`,
           description: topic.summary,
           canonical: `${BASE_URL}/tutorials/${topic.slug}/`,
+          keywords: topic.keywords?.join(", "),
         });
         const headerHtml = headerHTML("/tutorials/");
         const contentHtml =
@@ -1626,7 +1602,6 @@ async function main() {
             summary: topic.summary,
             content: buildTutorialContent(topic).replace(/^/gm, "          "),
           }) +
-          midContentAdHTML() +
           internalLinksHTML(INTERNAL_LINK_SECTIONS);
         const footerHtml = footerHTML();
         const html = articlePageHTML({
@@ -1656,6 +1631,7 @@ async function main() {
           title: `${topic.title} — is-cool-me`,
           description: topic.summary,
           canonical: `${BASE_URL}/compare/${topic.slug}/`,
+          keywords: topic.keywords?.join(", "),
         });
         const headerHtml = headerHTML("/compare/");
         const contentHtml =
@@ -1666,7 +1642,6 @@ async function main() {
             summary: topic.summary,
             content: buildCompareContent(topic).replace(/^/gm, "          "),
           }) +
-          midContentAdHTML() +
           internalLinksHTML(INTERNAL_LINK_SECTIONS);
         const footerHtml = footerHTML();
         const html = articlePageHTML({

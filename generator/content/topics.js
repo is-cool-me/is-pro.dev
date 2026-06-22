@@ -1113,7 +1113,7 @@ export const COMPARE_TOPICS = [
     category: "Comparison",
     summary:
       "Review the free subdomain landscape — Freenom, is-pro.dev, and alternatives — comparing reliability, DNS features, SSL support, longevity, and hidden restrictions.",
-    keywords: ["free domain", "freenom", "comparision", "subdomain", "dns"],
+    keywords: ["free domain", "freenom", "comparison", "subdomain", "dns"],
     platforms: [
       "is-pro.dev",
       "Freenom",
@@ -1566,11 +1566,8 @@ export const INTERNAL_LINK_SECTIONS = [
     links: [
       { href: "/guides/dns-records-explained/", label: "DNS Records Guide" },
       { href: "/guides/ssl-certificate-setup-guide/", label: "SSL Setup" },
-      { href: "/guides/cloudflare-dns-setup/", label: "Cloudflare DNS" },
-      {
-        href: "/guides/cloudflare-proxy-vs-dns-only/",
-        label: "Proxy vs DNS-Only",
-      },
+      { href: "/guides/subdomain-registry-guide/", label: "Subdomain Registry" },
+      { href: "/guides/redirect-old-domain-to-new/", label: "Domain Redirects" },
     ],
   },
   {

@@ -1770,8 +1770,8 @@ async function main() {
   if (doSitemap || doAll || types.length > 0) {
     console.log("\nGenerating sitemap...");
     const xml = await generateSitemap();
-    writePage(join(OUT_DIR, "sitemap-generated.xml"), xml);
-    console.log("  ✅ sitemap-generated.xml");
+    writePage(join(OUT_DIR, "sitemap.xml"), xml);
+    console.log("  ✅ sitemap.xml");
   }
 
   console.log("\n✅ Generation complete!");

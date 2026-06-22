@@ -113,5 +113,7 @@ jobs:
             echo "No changes to push"
           else
             git commit -m "chore: auto-regenerate content [skip ci]"
+            git fetch origin main
+            git rebase origin/main
             git push origin main
           fi

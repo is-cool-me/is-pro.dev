@@ -62,8 +62,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-20",
-      "dateModified": "2026-06-20",
+      "datePublished": "2026-06-22",
+      "dateModified": "2026-06-22",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/free-developer-portfolio-hosting/"
@@ -167,31 +167,134 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Your developer portfolio is your digital business card — it is often the first thing potential employers or clients see when they search for you online. A professional portfolio does not need expensive hosting or a premium domain. With free tools like GitHub Pages, Vercel, or Netlify, and a no-cost is-pro.dev subdomain, you can build and host a polished portfolio site that showcases your skills, projects, and experience without spending a penny on infrastructure.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A GitHub account for hosting (or Vercel/Netlify account)</li><li>Basic HTML/CSS knowledge (or use a template)</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Portfolio content: projects, skills, work experience, and contact information</li></ul>
-          <h2>Step 1: Choose Your Portfolio Platform</h2>
-          <p>There are several approaches to building a developer portfolio. Option one: hand-code a custom HTML/CSS site for full control and minimal overhead. Option two: use a static site generator like Hugo or Eleventy for templating and content management. Option three: use a pre-built template from HTML5 UP, Start Bootstrap, or similar sites. Option four: deploy a portfolio built with a framework like React or Vue. For most developers, a hand-coded or template-based static site hosted on GitHub Pages offers the best balance of simplicity and customization. Your portfolio should include at minimum: an "About" section, a project showcase with links to live demos and source code, a skills section, work experience timeline, and a contact form or links to your professional profiles.</p>
-          <h2>Step 2: Build or Customize Your Portfolio</h2>
-          <p>Create an <code>index.html</code> file as the entry point. Structure it with semantic HTML5 elements: <code>&lt;header&gt;</code> for navigation, <code>&lt;main&gt;</code> for content sections, and <code>&lt;footer&gt;</code> for contact links. Use CSS Grid or Flexbox for responsive layouts that work on mobile and desktop. Optimize images with tools like Squoosh or TinyPNG to keep page loads fast. Add meta tags for SEO and social sharing: include a descriptive title, meta description, and Open Graph tags with a profile image. Your portfolio should load in under 2 seconds — use Lighthouse in Chrome DevTools to audit performance and fix issues like render-blocking resources or oversized images.</p>
-          <h2>Step 3: Deploy to GitHub Pages</h2>
-          <p>Create a GitHub repository named <code>{username}.github.io</code> for a user site, or a regular name for a project site. Push your portfolio files to the <code>main</code> branch. In the repository settings, go to "Pages" and set the source to "Deploy from branch: main, /root". Your site is immediately live at <code>https://{username}.github.io</code>. If you chose Vercel instead, connect your repository and it auto-deploys with a <code>.vercel.app</code> domain. Verify the deployment loads correctly before adding your custom subdomain.</p>
-          <h2>Step 4: Connect Your is-pro.dev Subdomain</h2>
-          <p>In the is-pro.dev DNS dashboard, add a CNAME record pointing your portfolio subdomain (e.g., <code>portfolio.is-pro.dev</code> or <code>yourname.is-pro.dev</code>) to your GitHub Pages URL (<code>username.github.io</code>). Save the record. Next, go to your GitHub Pages settings and enter the custom domain: <code>portfolio.is-pro.dev</code>. GitHub will create a CNAME file and provision a Let's Encrypt certificate. For Vercel deployments, add the subdomain in Vercel's Domains settings and follow the DNS instructions provided. SSL is provisioned automatically by both platforms.</p>
-          <h2>Step 5: Add Customizations and Polish</h2>
-          <p>Once the basic portfolio is live, add finishing touches: configure a custom 404 page that matches your design, add a blog or writing section if you write technical articles, set up form handling for your contact form (Netlify Forms works well for static sites), add Google Analytics or a privacy-friendly alternative like Plausible to track visitors, and submit your site to Google Search Console for indexing. Consider adding a dark mode toggle using CSS custom properties and a small JavaScript snippet — it is a subtle touch that impresses technical recruiters.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Keep your portfolio URL simple and memorable — <code>firstname-lastname.is-pro.dev</code> or just <code>yourname.is-pro.dev</code> work well</li><li>Showcase 3-5 best projects with clear descriptions, technologies used, and links to live demos and source code</li><li>Include measurable impact in project descriptions (e.g., "Reduced API response time by 40%" rather than "Improved performance")</li><li>Add a downloadable PDF resume link for recruiters who want a traditional format</li></ul>
-          <h2>Conclusion</h2>
-          <p>A professional developer portfolio on a custom subdomain is achievable with entirely free tools. GitHub Pages or Vercel handle hosting and SSL, while is-pro.dev provides the branded URL. The total cost is zero, yet the result is a polished, professional online presence that helps you stand out in the job market.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I use my own domain instead of an is-pro.dev subdomain?</strong></p>
-          <p>Yes, the same techniques work with paid domains. However, an is-pro.dev subdomain is completely free and includes Cloudflare DNS management and SSL — saving you $10-15/year on domain registration.</p>
-          <p><strong>How do I add a blog to my portfolio?</strong></p>
-          <p>You can add a blog section by creating individual HTML pages for each post and linking them from a blog index. For a more scalable approach, use a static site generator like Eleventy or Hugo that supports blog-like collections.</p>
-          <p><strong>Does a custom subdomain affect my portfolio's SEO?</strong></p>
-          <p>Using a custom subdomain like <code>yourname.is-pro.dev</code> provides SEO benefits similar to a custom domain. Search engines treat subdomains as distinct entities, so your portfolio can rank independently while benefiting from the parent domain's trust.</p>
+          As a developer, having a professional online presence is crucial for showcasing your skills and attracting potential employers or clients. A well-crafted portfolio can help you stand out in a crowded job market and demonstrate your expertise to the world. In this guide, we will walk you through the process of building and hosting a developer portfolio for free using GitHub Pages and a custom subdomain on is-pro.dev.
+          
+          ## Prerequisites
+          Before you begin, make sure you have the following:
+          - A GitHub account (create one at github.com if you don't already have one)
+          - A basic understanding of HTML, CSS, and JavaScript
+          - A code editor or IDE of your choice
+          - An is-pro.dev account (sign up at is-pro.dev to get your free subdomain, e.g., myproject.is-pro.dev)
+          
+          ## Setting Up Your Portfolio
+          To start building your portfolio, create a new repository on GitHub. Name it something like "my-portfolio" or "myproject-portfolio". Initialize the repository with a README file and a .gitignore file for your chosen programming language. For example, if you're a JavaScript developer, your .gitignore file might look like this:
+          ```
+          node_modules
+          npm-debug.log
+          ```
+          Next, create a new branch for your portfolio. This will allow you to work on your portfolio without affecting the main branch of your repository.
+          
+          ## Configuring GitHub Pages
+          GitHub Pages is a free service that allows you to host static websites directly from your GitHub repository. To enable GitHub Pages for your portfolio, follow these steps:
+          - Go to your repository settings on GitHub
+          - Scroll down to the "GitHub Pages" section
+          - Select the branch you created for your portfolio (e.g., "main" or "portfolio")
+          - Choose a theme for your portfolio or select "None" to use a custom theme
+          - Click "Save" to enable GitHub Pages
+          
+          ## Customizing Your Portfolio
+          Now that GitHub Pages is enabled, you can start customizing your portfolio. Create a new file called index.html in the root of your repository. This will be the entry point for your portfolio. Add some basic HTML structure to your index.html file, including a header, navigation menu, and main content area. For example:
+          ```html
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>My Developer Portfolio</title>
+              <link rel="stylesheet" href="styles.css">
+          </head>
+          <body>
+              <header>
+                  <nav>
+                      <ul>
+                          <li><a href="#about">About</a></li>
+                          <li><a href="#projects">Projects</a></li>
+                          <li><a href="#contact">Contact</a></li>
+                      </ul>
+                  </nav>
+              </header>
+              <main>
+                  <section id="about">
+                      <h1>About Me</h1>
+                      <p>I'm a full-stack developer with a passion for building innovative web applications.</p>
+                  </section>
+                  <section id="projects">
+                      <h1>My Projects</h1>
+                      <ul>
+                          <li><a href="https://myproject.is-pro.dev/project1">Project 1</a></li>
+                          <li><a href="https://myproject.is-pro.dev/project2">Project 2</a></li>
+                      </ul>
+                  </section>
+                  <section id="contact">
+                      <h1>Get in Touch</h1>
+                      <p>Email: <a href="mailto:example@example.com">example@example.com</a></p>
+                  </section>
+              </main>
+          </body>
+          </html>
+          ```
+          Add some basic CSS styles to your portfolio by creating a new file called styles.css. For example:
+          ```css
+          body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+          }
+          
+          header {
+              background-color: #333;
+              color: #fff;
+              padding: 1em;
+              text-align: center;
+          }
+          
+          nav ul {
+              list-style: none;
+              margin: 0;
+              padding: 0;
+          }
+          
+          nav li {
+              display: inline-block;
+              margin-right: 20px;
+          }
+          
+          nav a {
+              color: #fff;
+              text-decoration: none;
+          }
+          
+          main {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              padding: 2em;
+          }
+          
+          section {
+              background-color: #f7f7f7;
+              padding: 1em;
+              margin-bottom: 20px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          ```
+          ## Integrating with is-pro.dev
+          To integrate your portfolio with your is-pro.dev subdomain, follow these steps:
+          - Log in to your is-pro.dev account and go to the "Domains" section
+          - Click on the "Add Domain" button and select "Use an existing domain"
+          - Enter your GitHub Pages URL (e.g., https://your-username.github.io/my-portfolio)
+          - Click "Add Domain" to add your domain to is-pro.dev
+          - Update your DNS settings to point to is-pro.dev (you can find the DNS settings in the "Domains" section of your is-pro.dev account)
+          
+          ## Common Pitfalls
+          When building and hosting your developer portfolio, there are a few common pitfalls to watch out for:
+          - Not testing your portfolio on different devices and browsers
+          - Not optimizing your portfolio for search engines (SEO)
+          - Not keeping your portfolio up-to-date with your latest projects and skills
+          - Not using a custom domain or subdomain (e.g., myproject.is-pro.dev)
+          
+          ## Best Practices
+          
 <h2>FAQ</h2><p><strong>Is Portfolio setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

@@ -62,8 +62,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-20",
-      "dateModified": "2026-06-20",
+      "datePublished": "2026-06-22",
+      "dateModified": "2026-06-22",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/dns-records-explained/"
@@ -167,33 +167,65 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>DNS records are the building blocks of the internet's addressing system. Every time someone visits your subdomain, sends an email, or connects to your server, DNS records translate human-readable names into network-usable addresses. Understanding these record types is essential for anyone managing online services. This guide explains each DNS record type in practical terms, with examples of how and when to use them with your is-pro.dev subdomain.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-pro.dev subdomain to practice with (free at dash.is-pro.dev)</li><li>Basic understanding of how domain names and IP addresses work</li><li>Access to a DNS dashboard (the is-pro.dev dashboard provides Cloudflare-powered DNS)</li></ul>
-          <h2>A and AAAA Records: Mapping Names to IP Addresses</h2>
-          <p>An A record maps a domain or subdomain to an IPv4 address, such as <code>192.0.2.1</code>. This is the most fundamental DNS record type — without it, your subdomain cannot point to a server. For example, if your VPS has an IP address of <code>203.0.113.5</code>, you create an A record for <code>myserver.is-pro.dev</code> pointing to that IP. AAAA records do the same but for IPv6 addresses, which are longer (e.g., <code>2001:db8::1</code>). Modern best practice is to include both A and AAAA records to support clients on either protocol. When setting up a web server, always verify that your A record resolves to the correct IP by using a DNS lookup tool.</p>
-          <h2>CNAME Records: Aliasing One Name to Another</h2>
-          <p>A CNAME record creates an alias from one domain name to another. For instance, <code>www.is-pro.dev</code> might be a CNAME pointing to <code>is-pro.dev</code>. CNAME records are essential for platforms like GitHub Pages, Vercel, and Netlify — you create a CNAME from your subdomain to the platform's provided domain. Important rules: a CNAME cannot coexist with other record types on the same name, and it cannot be used at the zone apex (the bare <code>is-pro.dev</code> domain). If you need the apex to alias to another domain, use an ALIAS or ANAME record if your provider supports it, or use CNAME flattening.</p>
-          <h2>MX Records: Routing Email Delivery</h2>
-          <p>MX (Mail Exchange) records specify which mail servers are responsible for receiving email on behalf of your subdomain. Each MX record has a priority value — lower numbers are tried first. For example, to receive email at <code>hello@yourname.is-pro.dev</code>, you configure MX records pointing to your email provider's servers. Cloudflare Email Routing uses MX records like <code>route1.mx.cloudflare.net</code> (priority 10) and <code>route2.mx.cloudflare.net</code> (priority 20). Always configure at least two MX records with different priorities for redundancy. Missing MX records mean email addressed to your domain will bounce or be undeliverable.</p>
-          <h2>TXT Records: Storing Arbitrary Text Data</h2>
-          <p>TXT records store text information associated with your subdomain. They are most commonly used for email authentication: SPF (Sender Policy Framework) records authorize which servers can send email from your domain, DKIM (DomainKeys Identified Mail) records provide cryptographic signatures, and DMARC (Domain-based Message Authentication, Reporting & Conformance) records specify how receivers should handle unauthenticated email. A typical SPF TXT record looks like: <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>. TXT records are also used for domain ownership verification — services like Google Workspace, AWS, or GitHub ask you to add a specific TXT record to prove you control the domain.</p>
-          <h2>SRV Records: Locating Specific Services</h2>
-          <p>SRV records generalize the concept of MX records to any service. They specify a target host and port for a specific protocol and service. The format is: <code>_service._protocol.name TTL class SRV priority weight port target</code>. For example, Minecraft game servers often use SRV records to point to a non-standard port: <code>_minecraft._tcp.mc.is-pro.dev SRV 0 5 25565 mc-server.example.com</code>. SRV records are also used by Discord for voice channels, Microsoft Teams for SIP services, and SIP-based phone systems. They are less common than A/CNAME records but critical for gaming and communication services.</p>
-          <h2>Other Record Types: NS, CAA, PTR, and SOA</h2>
-          <p>NS (Nameserver) records indicate which DNS servers are authoritative for a zone. For is-pro.dev subdomains, the NS records point to Cloudflare's nameservers and should not be modified. CAA (Certification Authority Authorization) records specify which certificate authorities are allowed to issue SSL certificates for your domain. Adding a CAA record for <code>letsencrypt.org</code> and <code>cloudflare.com</code> provides an extra security layer against unauthorized certificate issuance. PTR records (reverse DNS) map IP addresses back to domain names — they are managed by your hosting provider, not in your DNS dashboard. SOA (Start of Authority) records contain administrative information about the zone and are automatically managed.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Always use DNS-only (gray cloud) for MX records — proxied MX records can interfere with email delivery</li><li>Set TTL values based on how frequently you expect to change records: use 60 seconds during migration, 300-3600 seconds for stable configurations</li><li>Add CAA records to restrict SSL certificate issuance to authorized providers only</li><li>Use a DNS checker tool to verify each record type after making changes</li></ul>
-          <h2>Conclusion</h2>
-          <p>DNS records form the foundation of how your subdomain interacts with the internet. Each record type serves a specific purpose, and knowing when to use A vs CNAME vs MX vs SRV is essential for configuring everything from websites to game servers. The is-pro.dev DNS dashboard, powered by Cloudflare, supports all standard record types and provides instant propagation across the global network.</p>
-          <h2>FAQ</h2>
-          <p><strong>What is the difference between proxied (orange cloud) and DNS-only (gray cloud)?</strong></p>
-          <p>Proxied routes traffic through Cloudflare's CDN, hiding your origin IP and providing DDoS protection. DNS-only passes traffic directly to your server. Use proxied for web servers, DNS-only for email and non-HTTP services.</p>
-          <p><strong>Can I have multiple records of the same type for the same subdomain?</strong></p>
-          <p>Yes, you can have multiple A records for load balancing (round-robin DNS), multiple MX records for redundancy, and multiple TXT records for different purposes (SPF, DKIM, DMARC).</p>
-          <p><strong>How long does it take for DNS changes to take effect?</strong></p>
-          <p>With Cloudflare DNS on is-pro.dev, changes typically propagate within seconds globally. The TTL value of the record determines how long clients cache the old value before rechecking.</p>
+          As a developer setting up a project on a subdomain like myproject.is-pro.dev, understanding DNS records is crucial for ensuring your application is accessible and secure. DNS records are the backbone of the internet, mapping domain names to IP addresses and controlling various aspects of your online presence. In this guide, we will delve into the world of DNS records, exploring the different types, their functions, and how to configure them for your is-pro.dev subdomain.
+          
+          ## Prerequisites
+          Before diving into the world of DNS records, ensure you have a basic understanding of networking concepts and have access to your is-pro.dev subdomain's DNS settings. Typically, you can find these settings in the is-pro.dev control panel or by contacting their support team. For this guide, we will use the example subdomain myproject.is-pro.dev.
+          
+          ## A Record
+          The A record, also known as the Address record, is used to map a domain name to an IP address. This is the most basic type of DNS record and is essential for your website to be accessible. To set up an A record for your myproject.is-pro.dev subdomain, follow these steps:
+          1. Log in to your is-pro.dev control panel and navigate to the DNS settings section.
+          2. Click on "Add a new record" and select "A" as the record type.
+          3. Enter myproject.is-pro.dev as the name and the IP address of your server (e.g., 192.0.2.1) as the value.
+          4. Set the TTL (Time To Live) to a suitable value, such as 3600 (1 hour), and save the record.
+          
+          ## CNAME Record
+          The CNAME record, or Canonical Name record, is used to map an alias or subdomain to the canonical name of a server or another domain. This is useful when you want to point a subdomain to a third-party service or a load balancer. For example, to point blog.myproject.is-pro.dev to a blogging platform, follow these steps:
+          1. Create a new CNAME record in your DNS settings.
+          2. Enter blog.myproject.is-pro.dev as the name and the canonical name of the blogging platform (e.g., blogs.example.com) as the value.
+          3. Set the TTL to a suitable value and save the record.
+          
+          ## MX Record
+          The MX record, or Mail Exchanger record, is used to route email messages to the mail server responsible for receiving emails on behalf of your domain. To set up an MX record for myproject.is-pro.dev, follow these steps:
+          1. Create a new MX record in your DNS settings.
+          2. Enter myproject.is-pro.dev as the name and the hostname of your mail server (e.g., mail.example.com) as the value.
+          3. Set the priority to a suitable value (lower values have higher priority) and save the record.
+          
+          ## TXT Record
+          The TXT record is used to store text information about your domain, such as SPF (Sender Policy Framework) and DKIM (DomainKeys Identified Mail) records. These records are essential for email authentication and preventing spam. To set up a TXT record for myproject.is-pro.dev, follow these steps:
+          1. Create a new TXT record in your DNS settings.
+          2. Enter myproject.is-pro.dev as the name and the text value (e.g., "v=spf1 a mx ip4:192.0.2.1 -all") as the value.
+          3. Set the TTL to a suitable value and save the record.
+          
+          ## SPF, DKIM, and DMARC
+          SPF, DKIM, and DMARC are email authentication protocols that help prevent spam and phishing attacks. SPF defines which mail servers are authorized to send emails on behalf of your domain. DKIM adds a digital signature to your emails, verifying their authenticity. DMARC (Domain-based Message Authentication, Reporting, and Conformance) builds upon SPF and DKIM, providing a framework for email authentication and reporting.
+          To set up SPF, DKIM, and DMARC for myproject.is-pro.dev, follow these steps:
+          1. Set up an SPF record using a TXT record, as described earlier.
+          2. Set up a DKIM record by generating a public-private key pair and publishing the public key in a TXT record.
+          3. Set up a DMARC record by publishing a TXT record with the DMARC policy (e.g., "v=DMARC1; p=reject; pct=100; rua=mailto:abuse@myproject.is-pro.dev; ruf=mailto:abuse@myproject.is-pro.dev; fo=1").
+          
+          ## Step-by-Step Instructions
+          To summarize, here are the step-by-step instructions for setting up DNS records for your myproject.is-pro.dev subdomain:
+          1. Create an A record pointing to the IP address of your server.
+          2. Create a CNAME record pointing to the canonical name of a third-party service (if applicable).
+          3. Create an MX record pointing to the hostname of your mail server (if applicable).
+          4. Create a TXT record for SPF, DKIM, and DMARC (if applicable).
+          
+          ## Common Pitfalls
+          When setting up DNS records, be aware of the following common pitfalls:
+          * Incorrect IP addresses or hostnames can lead to downtime or email delivery issues.
+          * Insufficient TTL values can cause propagation delays.
+          * Missing or incorrect SPF, DKIM, and DMARC records can lead to email authentication issues.
+          
+          ## Best Practices
+          To ensure a smooth and secure online presence, follow these best practices:
+          * Use a consistent naming convention for your DNS records.
+          * Regularly review and update your DNS records to reflect changes in your infrastructure.
+          * Implement SPF, DKIM, and DMARC to prevent email spoofing and phishing attacks.
+          * Monitor your DNS records for any issues or errors.
+          
+          ## Conclusion
+          In conclusion, understanding and configuring DNS records is essential for developers
 <h2>FAQ</h2><p><strong>Is DNS setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

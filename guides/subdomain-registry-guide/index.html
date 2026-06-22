@@ -62,8 +62,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-20",
-      "dateModified": "2026-06-20",
+      "datePublished": "2026-06-22",
+      "dateModified": "2026-06-22",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/subdomain-registry-guide/"
@@ -167,33 +167,48 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Registering a subdomain on is-pro.dev is the first step toward having a free, professionally managed web presence. The platform provides Cloudflare-powered DNS management, free SSL certificates, and a straightforward dashboard for handling all your domain records. This guide explains the complete lifecycle of an is-pro.dev subdomain — from choosing the right name and registering it, to configuring DNS records, managing multiple projects, and keeping your subdomain active.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>No previous account required — registration is open to everyone</li><li>A web browser to access dash.is-pro.dev</li><li>A clear idea of what you want to host on your subdomain</li></ul>
-          <h2>Step 1: Choosing a Subdomain Name</h2>
-          <p>Your subdomain name is your identity on the is-pro.dev platform. Choose a name that reflects your project or personal brand. For a portfolio site, use your name or initials (e.g., <code>alex.is-pro.dev</code>). For a project, use the project name (e.g., <code>myapp.is-pro.dev</code>). Keep it short, memorable, and easy to type over the phone. Avoid hyphens, numbers, and ambiguous characters like zero vs the letter O. Check that the name is not already registered by searching on the dashboard. If your first choice is taken, try variations like adding your industry or location.</p>
-          <h2>Step 2: Registering Your Subdomain</h2>
-          <p>Navigate to dash.is-pro.dev and enter your desired subdomain name in the registration field. Click "Check Availability". If the name is available, click "Register". The system will provision your subdomain on Cloudflare's DNS infrastructure, creating the necessary zone records. This process takes less than 30 seconds. You will see your new subdomain listed in the dashboard with a default configuration. By default, your subdomain has Cloudflare DNS enabled with proxied (orange cloud) mode, providing DDoS protection and SSL termination from the moment of registration.</p>
-          <h2>Step 3: Understanding the DNS Dashboard</h2>
-          <p>The is-pro.dev dashboard presents your DNS records in a table format. Each record shows: type (A, CNAME, MX, TXT, etc.), name (your subdomain prefix), value (the target), TTL (time to live — how long DNS responses are cached), and proxy status (orange cloud for proxied, gray cloud for DNS-only). The dashboard supports all standard record types needed for web hosting, email, and other services. You can add, edit, or delete records at any time. Changes propagate through Cloudflare's global network within seconds.</p>
-          <h2>Step 4: Adding DNS Records for Your Project</h2>
-          <p>Once your subdomain is registered, you need DNS records to connect it to your hosting or service. The type of records depends on what you are hosting: for GitHub Pages, add a CNAME record pointing to <code>username.github.io</code>. For a VPS, add an A record with your server's IP address. For email, add MX records pointing to your email provider. Always verify your records using a DNS checker tool after adding them. Common mistakes include missing trailing dots, wrong record types, and proxy settings that conflict with the service's requirements. For most web hosting platforms, a CNAME record with DNS-only (gray cloud) mode works best.</p>
-          <h2>Step 5: Managing Multiple Subdomains</h2>
-          <p>You can register multiple subdomains under your is-pro.dev account, each pointing to different projects or services. The dashboard lists all your subdomains on a single page, making it easy to manage them. Use descriptive names for each subdomain to keep them organized: <code>blog.is-pro.dev</code>, <code>api.is-pro.dev</code>, <code>portfolio.is-pro.dev</code>, etc. Each subdomain is independent — changing DNS records for one does not affect others. This isolation makes it safe to experiment with new configurations on separate subdomains while keeping production services stable.</p>
-          <h2>Step 6: Keeping Your Subdomain Active</h2>
-          <p>is-pro.dev subdomains are free but require periodic activity to remain active. The dashboard shows the status of each subdomain, including any inactivity warnings. To keep your subdomain active, ensure it has valid DNS records configured and is serving content. If you stop using a subdomain, you can release it from the dashboard so someone else can register it. Set a reminder to check your subdomain status every few months, especially if you registered it for a project that is temporarily on hold.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Register multiple subdomains for different projects — they are free and isolated from each other</li><li>Use a naming convention that scales: <code>project-type.yourname.is-pro.dev</code> or just <code>projectname.is-pro.dev</code></li><li>Monitor your subdomains with the is-pro.dev status dashboard and set up uptime monitoring for critical services</li><li>Remove DNS records for projects you have decommissioned to keep your dashboard clean</li></ul>
-          <h2>Conclusion</h2>
-          <p>The is-pro.dev subdomain registry provides a fast, free way to establish a web presence with enterprise-grade DNS infrastructure. With Cloudflare powering the backend, your subdomain benefits from global CDN, DDoS protection, and free SSL from the moment of registration. Whether you need one subdomain for a portfolio or a dozen for various projects, the dashboard makes management simple.</p>
-          <h2>FAQ</h2>
-          <p><strong>How many subdomains can I register?</strong></p>
-          <p>There is no hard limit, but each subdomain should be used for an active project. Register only what you need to keep the platform sustainable for everyone.</p>
-          <p><strong>Can I transfer my subdomain to another user?</strong></p>
-          <p>Subdomain transfers are handled through the dashboard. Both parties need to confirm the transfer, and the receiving user must have an active account.</p>
-          <p><strong>What happens if I stop using my subdomain?</strong></p>
-          <p>After a period of inactivity, the subdomain may be released back to the pool for others to register. Check the platform's terms for the exact inactivity period.</p>
+          ## Introduction to Subdomains on is-pro.dev
+          As a developer, having a professional online presence is crucial for showcasing projects and demonstrating expertise. is-pro.dev offers a free developer platform that allows you to register and manage subdomains, providing an ideal space to host and share your projects. With a subdomain on is-pro.dev, such as myproject.is-pro.dev, you can easily share your work with others, whether it's a personal portfolio, a prototype, or a full-fledged application. This guide will walk you through the process of registering and managing subdomains on is-pro.dev, covering the necessary steps, common pitfalls, and best practices to ensure a smooth and effective experience.
+          
+          ## Prerequisites for Registration
+          Before you can register a subdomain on is-pro.dev, you need to ensure you have the following prerequisites in place:
+          - An active is-pro.dev account: If you haven't already, sign up for an account on the is-pro.dev platform. This will be your gateway to managing all your subdomains.
+          - A unique subdomain name: Choose a name for your subdomain that is not already in use. For example, if you're working on a project named "My Blog", you might choose the subdomain myblog.is-pro.dev.
+          - Basic knowledge of DNS management: Understanding how DNS (Domain Name System) works is crucial for managing your subdomain. DNS management involves setting up records that direct users to your subdomain.
+          
+          ## Step-by-Step Registration and Management
+          Registering and managing a subdomain on is-pro.dev involves several steps:
+          1. **Login to Your Account**: Start by logging into your is-pro.dev account. This will give you access to the dashboard where you can manage all aspects of your subdomains.
+          2. **Navigate to Subdomain Management**: Look for the subdomain management section within your dashboard. This is usually labeled as "Subdomains" or "Domains".
+          3. **Register a New Subdomain**: Click on the option to register a new subdomain. You will be prompted to enter your desired subdomain name, such as myproject.is-pro.dev.
+          4. **Verify Subdomain Ownership**: Depending on the platform's requirements, you might need to verify that you own or have control over the subdomain. This is typically done through email verification or by setting a specific DNS record.
+          5. **Configure DNS Records**: Once your subdomain is registered, you'll need to configure DNS records to point to your project. For example, if your project is hosted on a server with the IP address 192.0.2.1, you would set an A record for your subdomain (myproject.is-pro.dev) to this IP address.
+          6. **Test Your Subdomain**: After setting up your DNS records, test your subdomain by navigating to it in a web browser. It may take a few minutes for the changes to propagate globally.
+          
+          ## Common Pitfalls and Troubleshooting
+          When registering and managing subdomains, several common pitfalls can cause issues:
+          - **Propagation Delay**: DNS changes can take up to 48 hours to propagate globally. If your subdomain isn't working immediately, wait for some time before troubleshooting further.
+          - **Incorrect DNS Records**: Double-check that your DNS records are correctly set up. A single typo in a record can prevent your subdomain from resolving correctly.
+          - **Subdomain Name Already in Use**: Ensure the subdomain name you've chosen isn't already in use by another user. If it is, you'll need to choose a different name.
+          
+          ## Best Practices for Subdomain Management
+          To get the most out of your subdomains on is-pro.dev and ensure they remain secure and accessible:
+          - **Use Meaningful Subdomain Names**: Choose subdomain names that are easy to remember and relate to the content or project they host.
+          - **Regularly Update DNS Records**: If your project moves to a different server or IP address, update your DNS records promptly to avoid downtime.
+          - **Monitor Subdomain Performance**: Keep an eye on the performance and uptime of your subdomains to quickly identify and resolve any issues that arise.
+          
+          ## Conclusion
+          Registering and managing subdomains on is-pro.dev is a straightforward process that can enhance your online presence as a developer. By following the steps outlined in this guide, avoiding common pitfalls, and adhering to best practices, you can effectively utilize subdomains to showcase your projects and share them with the world. Whether you're working on a personal project or a professional portfolio, is-pro.dev provides a reliable and free platform to host your subdomains.
+          
+          ## Frequently Asked Questions
+          1. **Q: How long does it take for DNS changes to propagate?**
+          A: DNS changes can take anywhere from a few minutes to up to 48 hours to propagate globally, depending on the DNS provider and the location of users accessing your subdomain.
+          2. **Q: Can I use custom DNS records with my is-pro.dev subdomain?**
+          A: Yes, is-pro.dev allows you to set custom DNS records for your subdomains, giving you full control over how they resolve.
+          3. **Q: Are subdomains on is-pro.dev really free?**
+          A: Yes, is-pro.dev offers free subdomains, allowing developers to host their projects without incurring additional costs.
+          4. **Q: How do I secure my subdomain with HTTPS?**
+          A: To secure your subdomain with HTTPS, you can obtain an SSL/TLS certificate from a certificate authority and configure it according to the instructions provided by is-pro.dev or your hosting provider.
 <h2>FAQ</h2><p><strong>Is Platform setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

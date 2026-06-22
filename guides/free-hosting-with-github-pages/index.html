@@ -62,8 +62,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-20",
-      "dateModified": "2026-06-20",
+      "datePublished": "2026-06-22",
+      "dateModified": "2026-06-22",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/free-hosting-with-github-pages/"
@@ -167,33 +167,50 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>GitHub Pages is one of the most popular free hosting solutions for static websites, offering seamless integration with GitHub repositories and automatic deployments. Combined with a free is-pro.dev subdomain, you can have a professional website live on the internet within minutes without spending a cent. This guide walks through every step of the process, from setting up your repository to configuring the custom subdomain with SSL.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A GitHub account with a repository containing your static site files</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Your site files ready (HTML, CSS, JS) or a static site generator configured</li></ul>
-          <h2>Step 1: Prepare Your Repository for GitHub Pages</h2>
-          <p>Navigate to your GitHub repository and go to "Settings &rarr; Pages". Under "Build and deployment", select "Deploy from a branch". Choose the branch you want to deploy (typically <code>main</code> or <code>gh-pages</code>) and set the root folder to <code>/</code> (root) or <code>/docs</code> depending on where your site files live. GitHub Pages will build and serve your site at <code>https://{username}.github.io/{repository}/</code>. If you are using a static site generator like Jekyll, Hugo, or Eleventy, commit the built output to your chosen branch or configure a GitHub Action to build on push.</p>
-          <h2>Step 2: Configure Your is-pro.dev Subdomain</h2>
-          <p>Log into the is-pro.dev dashboard at dash.is-pro.dev. If you have not registered your subdomain yet, enter your desired name and click register. Once registered, you will see the DNS management interface powered by Cloudflare. This is where you will add the DNS records that connect your subdomain to GitHub Pages. Take note of your GitHub Pages URL — it will be something like <code>username.github.io</code>.</p>
-          <h2>Step 3: Add a CNAME Record in the DNS Dashboard</h2>
-          <p>In the is-pro.dev DNS dashboard, click "Add Record". Select CNAME as the record type. For the name field, enter your subdomain prefix (e.g., <code>myproject</code> if your subdomain is <code>myproject.is-pro.dev</code>). For the target field, enter your GitHub Pages URL, such as <code>username.github.io</code>. Make sure there is no trailing dot unless your provider requires it. Save the record. Cloudflare will propagate this change nearly instantly across its global network of 330+ data centers.</p>
-          <h2>Step 4: Set the Custom Domain in GitHub Pages Settings</h2>
-          <p>Go back to your GitHub repository settings, navigate to "Pages", and enter your full is-pro.dev subdomain in the "Custom domain" field (e.g., <code>myproject.is-pro.dev</code>). Click "Save". GitHub will automatically create a CNAME file in your repository and attempt to provision a Let's Encrypt SSL certificate. This certificate may take up to 20 minutes to issue, during which your site may show a warning. If you see a message about "Enforcing HTTPS", check the box to force all traffic over HTTPS once the certificate is ready.</p>
-          <h2>Step 5: Verify DNS Resolution and SSL</h2>
-          <p>Wait a few minutes for DNS propagation (though Cloudflare propagates within seconds for most regions). Open a terminal and run <code>nslookup myproject.is-pro.dev</code> or use the DNS Checker tool at is-pro.dev. The result should show GitHub's IP addresses. Then visit your subdomain in a browser. You should see your site loading over HTTPS with a valid certificate. If you see a 404, ensure that your GitHub Pages source branch is correctly configured and that the repository contains an <code>index.html</code> file at the root.</p>
-          <h2>Best Practices for GitHub Pages + Custom Domain</h2>
-          <ul><li>Enable "Enforce HTTPS" in GitHub Pages settings as soon as the certificate provisions — this prevents insecure connections and improves SEO rankings</li><li>Use a <code>.nojekyll</code> file in your repository root if you are not using Jekyll and want files or directories starting with an underscore to be served correctly</li><li>Keep your repository public (GitHub Pages is free only for public repositories) or upgrade to GitHub Pro for private repository hosting</li><li>Set a low TTL (60 seconds) on your DNS records during initial setup so changes propagate quickly; increase it to 300 or 3600 once everything is stable</li><li>Add a 404.html page to your repository for a custom error page when visitors mistype URLs</li></ul>
-          <h2>Conclusion</h2>
-          <p>GitHub Pages combined with an is-pro.dev subdomain gives you a production-ready static site with automatic deployments, free SSL, and a professional URL — all at zero cost. This setup works perfectly for project documentation, personal blogs, portfolio sites, and landing pages. Once configured, every push to your repository automatically redeploys your site.</p>
-          <h2>FAQ</h2>
-          <p><strong>Does GitHub Pages support custom domains on the free tier?</strong></p>
-          <p>Yes, GitHub Pages supports custom domains on all tiers, including free. You just need a CNAME record pointing GitHub's servers.</p>
-          <p><strong>Why is my site showing a 404 after setting up the custom domain?</strong></p>
-          <p>This typically means the DNS has propagated but GitHub has not yet provisioned the SSL certificate, or the CNAME file in your repository does not match the domain. Check that the custom domain in your GitHub Pages settings exactly matches your subdomain.</p>
-          <p><strong>Can I use GitHub Pages for a single-page React app?</strong></p>
-          <p>Yes, but you need to configure client-side routing carefully. Set the <code>homepage</code> field in <code>package.json</code> to your subdomain URL, and use <code>HashRouter</code> instead of <code>BrowserRouter</code> to avoid 404 errors on page reload.</p>
-          <p><strong>How long does the SSL certificate take to provision?</strong></p>
-          <p>GitHub Pages uses Let's Encrypt and typically provisions certificates within 5-20 minutes. If it takes longer, ensure your DNS CNAME record resolves correctly and try removing and re-adding the custom domain in GitHub settings.</p>
+          ## Introduction to Free Hosting with GitHub Pages
+          Free hosting with GitHub Pages is an excellent option for developers looking to deploy static sites, such as personal portfolios, blogs, or project documentation. As a developer on the is-pro.dev platform, you can leverage GitHub Pages to host your projects, like myproject.is-pro.dev, without incurring additional costs. This comprehensive guide will walk you through the setup process, from creating a GitHub repository to configuring a custom domain.
+          
+          ## Prerequisites for GitHub Pages Setup
+          Before you begin, ensure you have the following prerequisites in place:
+          - A GitHub account: If you haven't already, create a GitHub account at github.com.
+          - A code editor or IDE: Choose a code editor or Integrated Development Environment (IDE) like Visual Studio Code, Sublime Text, or Atom.
+          - A static site generator (optional): If you're building a complex site, consider using a static site generator like Jekyll, Hugo, or Gatsby.
+          - An is-pro.dev subdomain: Set up your project on an is-pro.dev subdomain, such as myproject.is-pro.dev.
+          
+          ## Step-by-Step Setup Instructions
+          To set up free hosting with GitHub Pages, follow these steps:
+          1. **Create a GitHub Repository**: Log in to your GitHub account and create a new repository for your project. Name it after your is-pro.dev subdomain, such as myproject.
+          2. **Initialize a Git Repository**: Open your terminal, navigate to your project directory, and run `git init` to initialize a new Git repository.
+          3. **Create a Static Site**: Develop your static site using your preferred tools and frameworks. If you're using a static site generator, follow its documentation to create and build your site.
+          4. **Configure GitHub Pages**: In your GitHub repository, go to Settings > Pages. Select the branch you want to use for GitHub Pages (usually `main` or `master`). You can also choose a custom domain or use the default github.io domain.
+          5. **Deploy Your Site**: Commit and push your changes to the GitHub repository. GitHub Pages will automatically build and deploy your site.
+          6. **Configure a Custom Domain**: To use a custom domain like myproject.is-pro.dev, create a `CNAME` file in the root of your repository with the following content: `myproject.is-pro.dev`. Then, go to your domain registrar or DNS provider and set up a `CNAME` record pointing to `github.io`.
+          
+          ## Common Pitfalls and Troubleshooting
+          When setting up GitHub Pages, you may encounter some common issues:
+          - **Incorrect `CNAME` File**: Ensure the `CNAME` file contains the correct custom domain, such as myproject.is-pro.dev.
+          - **DNS Configuration**: Verify that your DNS provider has propagated the `CNAME` record changes. This may take up to 48 hours.
+          - **Repository Settings**: Double-check your GitHub repository settings to ensure GitHub Pages is enabled and configured correctly.
+          
+          ## Best Practices for GitHub Pages
+          To get the most out of GitHub Pages, follow these best practices:
+          - **Use a Consistent Branch**: Choose a consistent branch (e.g., `main` or `master`) for your GitHub Pages deployment.
+          - **Optimize Images and Assets**: Compress images and optimize assets to reduce page load times.
+          - **Use a Static Site Generator**: Consider using a static site generator to simplify site development and maintenance.
+          - **Monitor Analytics**: Set up analytics tools to track site traffic and user engagement.
+          
+          ## Conclusion
+          Free hosting with GitHub Pages is a convenient and cost-effective way to deploy static sites on the is-pro.dev platform. By following this comprehensive guide, you can set up a custom domain like myproject.is-pro.dev and enjoy the benefits of GitHub Pages. Remember to troubleshoot common issues and follow best practices to ensure a smooth and efficient deployment process.
+          
+          ## Frequently Asked Questions
+          Q: Can I use GitHub Pages for dynamic sites?
+          A: No, GitHub Pages is designed for static sites only. For dynamic sites, consider using a different hosting solution.
+          Q: How do I set up HTTPS for my custom domain?
+          A: GitHub Pages automatically enables HTTPS for custom domains. Ensure your `CNAME` record points to `github.io` to enable HTTPS.
+          Q: Can I use a custom email address with my GitHub Pages site?
+          A: Yes, you can set up a custom email address using a third-party email provider or your domain registrar's email services.
+          Q: Are there any storage or bandwidth limits for GitHub Pages?
+          A: GitHub Pages has limits on storage (1 GB) and bandwidth (100 GB per month). For larger sites, consider using a different hosting solution or optimizing your site's assets.
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

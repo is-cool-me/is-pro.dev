@@ -25,13 +25,13 @@ function isAiEnabled() {
 const ACRONYMS = new Set([
   'api', 'dns', 'ssl', 'aws', 'cname', 'mx', 'spf', 'dkim', 'dmarc',
   'caa', 'cors', 'http', 'https', 'ssh', 'vps', 'ci', 'saas', 'html', 'css',
-  'js', 'json', 'yaml', 'tls', 'cdn', 'ip',
+  'js', 'json', 'yaml', 'tls', 'cdn', 'ip', 'txt',
 ]);
 
 const ALWAYS_LOWER = new Set([
   'a', 'an', 'the', 'of', 'to', 'for', 'with', 'on', 'in', 'and', 'or',
   'but', 'by', 'at', 'from', 'via', 'as', 'is', 'into', 'onto', 'over',
-  'under', 'between', 'through', 'without', 'upon', 'within',
+  'under', 'between', 'through', 'without', 'upon', 'within', 'vs', 'only',
 ]);
 
 function formatTitle(slug) {

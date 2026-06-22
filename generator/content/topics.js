@@ -199,7 +199,7 @@ export const GUIDE_TOPICS = [
     category: "Security",
     difficulty: "Intermediate",
     summary:
-      "Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
+      "Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
     keywords: ["cloudflare", "proxy", "dns", "cdn", "performance", "security"],
     tags: ["Cloudflare", "Security", "DNS"],
     relatedSlugs: [
@@ -469,10 +469,10 @@ export const BLOG_TOPICS = [
   },
   {
     slug: "building-a-global-cdn-on-cloudflares-anycast-network",
-    title: "Building a Global CDN on Cloudflares Anycast Network",
+    title: "Building a Global CDN on Cloudflare's Anycast Network",
     category: "Infrastructure",
     summary:
-      "How Cloudflares anycast architecture works under the hood, why it makes subdomains faster globally, and what it means for your sites performance and security.",
+      "How Cloudflare's anycast architecture works under the hood, why it makes subdomains faster globally, and what it means for your sites performance and security.",
     keywords: [
       "cloudflare",
       "cdn",
@@ -1045,7 +1045,7 @@ export const COMPARE_TOPICS = [
     title: "Cloudflare DNS vs Namecheap DNS: Performance and Features Compared",
     category: "Comparison",
     summary:
-      "Compare Cloudflares DNS service against Namecheap for subdomain management — propagation speed, uptime, API access, security features, and cost.",
+      "Compare Cloudflare's DNS service against Namecheap for subdomain management — propagation speed, uptime, API access, security features, and cost.",
     keywords: ["cloudflare", "namecheap", "dns", "comparison", "dns hosting"],
     platforms: ["Cloudflare DNS", "Namecheap DNS"],
     featureRows: [

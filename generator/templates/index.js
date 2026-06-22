@@ -281,7 +281,7 @@ function postCardHTML({
   <div class="post-card-body">
     <div class="post-card-tags">${tags}</div>
     <h3 class="post-card-title">${title}</h3>
-    <p class="post-card-excerpt">${excerpt}</p>
+    ${excerpt ? `<p class="post-card-excerpt">${excerpt}</p>` : ""}
     ${readTime ? `<div class="post-card-meta"><span>⏱ ${readTime} min read</span></div>` : ""}
     <a href="${href}" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
   </div>

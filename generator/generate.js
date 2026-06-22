@@ -22,6 +22,63 @@ function isAiEnabled() {
   );
 }
 
+const ACRONYMS = new Set([
+  'api', 'dns', 'ssl', 'aws', 'cname', 'mx', 'spf', 'dkim', 'dmarc',
+  'caa', 'cors', 'http', 'https', 'ssh', 'vps', 'ci', 'saas', 'html', 'css',
+  'js', 'json', 'yaml', 'tls', 'cdn', 'ip',
+]);
+
+const ALWAYS_LOWER = new Set([
+  'a', 'an', 'the', 'of', 'to', 'for', 'with', 'on', 'in', 'and', 'or',
+  'but', 'by', 'at', 'from', 'via', 'as', 'is', 'into', 'onto', 'over',
+  'under', 'between', 'through', 'without', 'upon', 'within',
+]);
+
+function formatTitle(slug) {
+  const words = slug.replace(/-/g, ' ').split(' ');
+  const titled = words
+    .map((w, i) => {
+      const lower = w.toLowerCase();
+      if (ACRONYMS.has(lower)) return lower.toUpperCase();
+      if (lower === 'github') return 'GitHub';
+      if (lower === 'netlify') return 'Netlify';
+      if (lower === 'vercel') return 'Vercel';
+      if (lower === 'cloudflare') return 'Cloudflare';
+      if (lower === 'javascript') return 'JavaScript';
+      if (lower === 'nextjs') return 'Next.js';
+      if (lower === 'nodejs') return 'Node.js';
+      if (lower === 'wordpress') return 'WordPress';
+      if (lower === 'shopify') return 'Shopify';
+      if (lower === 'discord') return 'Discord';
+      if (i > 0 && ALWAYS_LOWER.has(lower)) return lower;
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(' ')
+    .replace(/\bis pro dev\b/gi, 'is-pro.dev')
+    .replace(/\bis cool me\b/gi, 'is-cool-me')
+    .replace(/\bGithub\b/g, 'GitHub')
+    .replace(/\bNetlify\b/g, 'Netlify')
+    .replace(/\bVercel\b/g, 'Vercel')
+    .replace(/\bCloudflare\b/g, 'Cloudflare')
+    .replace(/\bJavascript\b/g, 'JavaScript')
+    .replace(/\bNext Js\b/gi, 'Next.js')
+    .replace(/\bNode Js\b/gi, 'Node.js')
+    .replace(/\bWordpress\b/g, 'WordPress')
+    .replace(/\bShopify\b/g, 'Shopify')
+    .replace(/\bDiscord\b/g, 'Discord')
+    .replace(/\bSsl\b/g, 'SSL')
+    .replace(/\bDns\b/g, 'DNS')
+    .replace(/\bApi\b/g, 'API')
+    .replace(/\bCaa\b/g, 'CAA');
+  return titled;
+}
+
+function fallbackExcerpt(slug) {
+  const title = formatTitle(slug);
+  const lowerTitle = title.charAt(0).toLowerCase() + title.slice(1);
+  return `A practical guide to ${lowerTitle}. Learn how to configure DNS, set up SSL, and deploy your project on a free is-pro.dev subdomain.`;
+}
+
 import {
   htmlHead,
   headerHTML,
@@ -156,6 +213,45 @@ async function generateContent(prompt, systemPrompt) {
   } catch (err) {
     console.warn("[ai] Generation failed, using fallback content");
     return null;
+  }
+}
+
+async function discoverNewTopics() {
+  if (!isAiEnabled()) return;
+  console.log("[ai] Discovering new topics...");
+  const prompt = `Suggest 3 new blog post topics about subdomains, DNS, hosting, or developer infrastructure that are currently popular but have low competition. Return ONLY a JSON array with no markdown formatting, each object having: title (catchy, SEO-friendly), slug (kebab-case), summary (1-2 sentences), category (one word), keywords (array of 4-6 strings), tags (array of 2-3 strings). The topics must be distinct from: DNS caching, subdomain takeover, free tools for developers, indie SaaS pricing, Let's Encrypt vs Cloudflare SSL, abuse handling, fair use policies, reading DNS logs, TXT records for verification, bootstrapper subdomains, CDN on Cloudflare.`;
+
+  const systemPrompt = "You are an SEO content strategist. Return valid JSON only, no markdown, no explanation.";
+
+  try {
+    const raw = await generateWithGroq(prompt, systemPrompt);
+    const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+    const suggestions = JSON.parse(cleaned);
+    if (!Array.isArray(suggestions)) return;
+
+    let added = 0;
+    const existingSlugs = new Set([...BLOG_TOPICS, ...GUIDE_TOPICS].map(t => t.slug));
+    for (const s of suggestions) {
+      if (s.title && s.slug && s.summary && !existingSlugs.has(s.slug)) {
+        BLOG_TOPICS.push({
+          slug: s.slug,
+          title: s.title,
+          category: s.category || 'Blog',
+          summary: s.summary,
+          keywords: s.keywords || [s.slug.replace(/-/g, ' ')],
+          tags: s.tags || ['General'],
+          relatedSlugs: [],
+        });
+        existingSlugs.add(s.slug);
+        added++;
+        console.log(`  ➕ New topic: ${s.title}`);
+      }
+    }
+    if (added > 0) {
+      console.log(`[ai] Added ${added} new topic(s)`);
+    }
+  } catch (err) {
+    console.warn("[ai] Topic discovery failed:", err.message);
   }
 }
 
@@ -1187,10 +1283,8 @@ function generateGuidesPage() {
     const topic = GUIDE_TOPICS.find((t) => t.slug === slug);
     return postCardHTML({
       href: `/guides/${slug}/`,
-      title:
-        topic?.title ||
-        slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-      excerpt: topic?.summary || "",
+      title: topic?.title || formatTitle(slug),
+      excerpt: topic?.summary || fallbackExcerpt(slug),
       category: topic?.category || "Guide",
       tag: "📘",
       readTime: topic?.readTime || 12,
@@ -1237,10 +1331,8 @@ function generateBlogPage() {
     const topic = BLOG_TOPICS.find((t) => t.slug === slug);
     return postCardHTML({
       href: `/blog/${slug}/`,
-      title:
-        topic?.title ||
-        slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-      excerpt: topic?.summary || "",
+      title: topic?.title || formatTitle(slug),
+      excerpt: topic?.summary || fallbackExcerpt(slug),
       category: topic?.category || "Blog",
       tag: "📝",
       readTime: topic?.readTime || 8,
@@ -1326,6 +1418,7 @@ async function generateSitemap() {
     ...TUTORIAL_TOPICS,
     ...COMPARE_TOPICS,
   ];
+  const seenSlugs = new Set();
   allTopics.forEach((topic) => {
     const section = GUIDE_TOPICS.includes(topic)
       ? "guides"
@@ -1334,12 +1427,34 @@ async function generateSitemap() {
         : TUTORIAL_TOPICS.includes(topic)
           ? "tutorials"
           : "compare";
+    seenSlugs.add(`${section}/${topic.slug}`);
     urls.push({
       loc: BASE_URL + `/${section}/${topic.slug}/`,
       priority: "0.7",
       changefreq: "monthly",
     });
   });
+
+  // Scan directories for orphan content not in topic arrays
+  for (const section of ['guides', 'blog', 'tutorials', 'compare']) {
+    const dir = join(OUT_DIR, section);
+    if (existsSync(dir)) {
+      const entries = readdirSync(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        if (entry.isDirectory() && entry.name !== 'index.html') {
+          const key = `${section}/${entry.name}`;
+          if (!seenSlugs.has(key)) {
+            seenSlugs.add(key);
+            urls.push({
+              loc: BASE_URL + `/${section}/${entry.name}/`,
+              priority: "0.6",
+              changefreq: "monthly",
+            });
+          }
+        }
+      }
+    }
+  }
 
   TOOL_PAGES.forEach((tool) => {
     urls.push({
@@ -1455,6 +1570,11 @@ async function main() {
     } else {
       console.log("[ai] AI not enabled, using fallback content");
     }
+  }
+
+  console.log("\n🔍 Discovering new topics...\n");
+  if (doAll || types.length === 0) {
+    await discoverNewTopics();
   }
 
   console.log("\n📝 Generating content...\n");
@@ -1631,17 +1751,23 @@ async function main() {
     }
   }
 
-  if (doAll || types.length === 0) {
+  if (doAll || types.length === 0 || types.includes("guides") || types.includes("blog") || types.includes("tools")) {
     console.log("\nRegenerating hub pages...");
-    writePage(join(OUT_DIR, "guides", "index.html"), generateGuidesPage());
-    console.log("  ✅ guides/index.html");
-    writePage(join(OUT_DIR, "blog", "index.html"), generateBlogPage());
-    console.log("  ✅ blog/index.html");
-    writePage(join(OUT_DIR, "tools", "index.html"), generateToolsPage());
-    console.log("  ✅ tools/index.html");
+    if (doAll || types.length === 0 || types.includes("guides")) {
+      writePage(join(OUT_DIR, "guides", "index.html"), generateGuidesPage());
+      console.log("  ✅ guides/index.html");
+    }
+    if (doAll || types.length === 0 || types.includes("blog")) {
+      writePage(join(OUT_DIR, "blog", "index.html"), generateBlogPage());
+      console.log("  ✅ blog/index.html");
+    }
+    if (doAll || types.length === 0 || types.includes("tools")) {
+      writePage(join(OUT_DIR, "tools", "index.html"), generateToolsPage());
+      console.log("  ✅ tools/index.html");
+    }
   }
 
-  if (doSitemap || doAll) {
+  if (doSitemap || doAll || types.length > 0) {
     console.log("\nGenerating sitemap...");
     const xml = await generateSitemap();
     writePage(join(OUT_DIR, "sitemap-generated.xml"), xml);

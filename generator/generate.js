@@ -1002,6 +1002,58 @@ async function generateNewPage(domains) {
   return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
 }
 
+function generateShowcaseCategoryPage(category, domains) {
+  const topic = SHOWCASE_TOPICS.find((t) => t.category === category);
+  const title = topic?.title || formatTitle(category);
+  const description =
+    topic?.description ||
+    `Browse ${category} projects hosted on is-cool-me free subdomains.`;
+
+  const projectCards = domains.slice(0, 24).map((d) =>
+    showcaseCardHTML({
+      href: `/showcase/${slugify(d.subdomain)}/`,
+      title: `${d.subdomain}.is-pro.dev`,
+      description: `A ${d.zone} subdomain project by ${d.owner_username || "a developer"}.`,
+      category: "Project",
+      subdomain: d.subdomain,
+    }),
+  );
+
+  const headHtml = htmlHead({
+    title: `${title} — is-cool-me Showcase`,
+    description,
+    canonical: `${BASE_URL}/showcase/category/${category}/`,
+  });
+
+  const headerHtml = headerHTML("/showcase/");
+  const contentHtml = `
+  <section class="hero" style="padding:var(--space-16) 0;">
+    <div class="container">
+      <div class="hero-inner">
+        <nav style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:1rem;" aria-label="Breadcrumb">
+          <a href="/showcase/" style="color:var(--color-accent);">← Back to Showcase</a>
+        </nav>
+        <div class="hero-badge">${topic?.icon || "📁"} ${category}</div>
+        <h1>${title}</h1>
+        <p class="hero-subtitle">${description}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding:var(--space-12) 0;">
+    <div class="container">
+      ${
+        projectCards.length > 0
+          ? `<div class="posts-grid" style="margin-top:2rem;">${projectCards.join("\n")}</div>`
+          : '<p style="color:var(--color-text-muted);">No projects in this category yet. <a href="https://dash.is-pro.dev" style="color:var(--color-accent);">Submit one!</a></p>'
+      }
+    </div>
+  </section>` + internalLinksHTML(INTERNAL_LINK_SECTIONS);
+
+  const footerHtml = footerHTML();
+  return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
+}
+
 async function generateShowcaseProjectPage(domain) {
   const slug = slugify(domain.subdomain);
   const title = `${domain.subdomain}.is-pro.dev`;
@@ -1271,11 +1323,14 @@ function generateComparePage() {
 }
 
 function generateGuidesPage() {
-  const guideSlugs = readdirSync(join(OUT_DIR, "guides"), {
-    withFileTypes: true,
-  })
-    .filter((d) => d.isDirectory() && d.name !== "index.html")
-    .map((d) => d.name);
+  const guidesDir = join(OUT_DIR, "guides");
+  const guideSlugs = existsSync(guidesDir)
+    ? readdirSync(guidesDir, {
+        withFileTypes: true,
+      })
+        .filter((d) => d.isDirectory() && d.name !== "index.html")
+        .map((d) => d.name)
+    : [];
 
   const guideCards = guideSlugs.map((slug) => {
     const topic = GUIDE_TOPICS.find((t) => t.slug === slug);
@@ -1319,11 +1374,14 @@ function generateGuidesPage() {
 }
 
 function generateBlogPage() {
-  const blogSlugs = readdirSync(join(OUT_DIR, "blog"), {
-    withFileTypes: true,
-  })
-    .filter((d) => d.isDirectory() && d.name !== "index.html")
-    .map((d) => d.name);
+  const blogDir = join(OUT_DIR, "blog");
+  const blogSlugs = existsSync(blogDir)
+    ? readdirSync(blogDir, {
+        withFileTypes: true,
+      })
+        .filter((d) => d.isDirectory() && d.name !== "index.html")
+        .map((d) => d.name)
+    : [];
 
   const blogCards = blogSlugs.map((slug) => {
     const topic = BLOG_TOPICS.find((t) => t.slug === slug);
@@ -1443,6 +1501,14 @@ async function generateSitemap() {
     urls.push({
       loc: BASE_URL + `/tools/${tool.slug}/`,
       priority: "0.6",
+      changefreq: "monthly",
+    });
+  });
+
+  SHOWCASE_CATEGORIES.forEach((cat) => {
+    urls.push({
+      loc: BASE_URL + `/showcase/category/${cat}/`,
+      priority: "0.5",
       changefreq: "monthly",
     });
   });
@@ -1685,6 +1751,16 @@ async function main() {
           console.log(`  ✅ showcase/${slug}`);
         } catch (err) {
           console.error(`  ❌ showcase/${domain.subdomain}:`, err.message);
+        }
+      }
+
+      for (const cat of SHOWCASE_CATEGORIES) {
+        try {
+          const catHtml = generateShowcaseCategoryPage(cat, db);
+          writePage(join(OUT_DIR, "showcase", "category", cat, "index.html"), catHtml);
+          console.log(`  ✅ showcase/category/${cat}`);
+        } catch (err) {
+          console.error(`  ❌ showcase/category/${cat}:`, err.message);
         }
       }
     } catch (err) {

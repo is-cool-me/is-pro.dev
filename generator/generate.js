@@ -232,9 +232,9 @@ function slugify(str) {
     .slice(0, 60);
 }
 
-async function generateContent(prompt, systemPrompt) {
+async function generateContent(prompt, systemPrompt, maxTokens = 1200) {
   try {
-    const content = await generateWithGroq(prompt, systemPrompt);
+    const content = await generateWithGroq(prompt, systemPrompt, maxTokens);
     if (content) {
       console.log("[ai] Generated content with Groq");
       return content;
@@ -446,22 +446,24 @@ function buildGuideContent(topic, aiContent) {
 async function generateGuide(topic) {
   topic.body = GUIDE_BODIES[topic.slug] || null;
   console.log(`  Generating guide: ${topic.slug}`);
-  const prompt = `Write a comprehensive technical guide (1000-1200 words) about: "${topic.title}".
+  const prompt = `Write a comprehensive, in-depth technical guide (2000-2500 words) about: "${topic.title}".
 Keywords: ${topic.keywords.join(", ")}
 Target audience: Developers setting up projects on is-pro.dev subdomains.
-Style: Technical but accessible, with practical steps, code examples where relevant, and real-world context.
-Structure: H2 headings for each section, include an intro paragraph, prerequisites, step-by-step instructions, common pitfalls, best practices, and a conclusion.
-Include a FAQ section at the end with 3-4 questions.
-Do NOT use placeholder text like "insert your domain here" - use concrete examples.
+Style: Technical but accessible, with practical steps, code examples where relevant, real-world context, and detailed explanations.
+Structure: H2 headings for each section, include an intro with context/motivation, prerequisites, detailed step-by-step instructions, common pitfalls with solutions, best practices, performance considerations, troubleshooting section, and a conclusion with next steps.
+Include a FAQ section at the end with 4-5 questions covering edge cases.
+Include a "Further Reading" section at the end with relevant tools and resources.
+Be specific - include actual commands, configuration examples, and real scenarios.
+Do NOT use placeholder text like "insert your domain here" - use concrete examples like "myproject.is-pro.dev".
 Do NOT repeat the title as a section heading (the H1 is already the title).
 Generate ONLY the article body content, no metadata, no JSON.`;
 
-  const systemPrompt = `You are a technical writer for is-cool-me, a free developer platform. Write in a clear, authoritative voice. Use concrete examples with real subdomain examples like "myproject.is-pro.dev". Avoid filler, repetition, and generic intros. Focus on practical value.`;
+  const systemPrompt = `You are a senior technical writer for is-cool-me, a free developer platform. Write in a clear, authoritative voice. Use concrete examples with real subdomain examples like "myproject.is-pro.dev". Avoid filler, repetition, and generic intros. Focus on practical value. Each section should teach something useful.`;
 
   let aiContent = null;
   if (isAiEnabled()) {
     console.log("[ai] Generating guide with AI");
-    aiContent = await generateContent(prompt, systemPrompt);
+    aiContent = await generateContent(prompt, systemPrompt, 4000);
   }
   if (!aiContent) {
     console.log("[ai] Using fallback content for guide");
@@ -469,7 +471,7 @@ Generate ONLY the article body content, no metadata, no JSON.`;
 
   const { content, faqs, breadcrumbs } = buildGuideContent(topic, aiContent);
 
-  const readTime = Math.max(8, Math.ceil(content.split(" ").length / 200));
+  const readTime = Math.max(1, Math.ceil(content.split(" ").length / 200));
   const today = new Date().toISOString().split("T")[0];
 
   const headHtml = htmlHead({
@@ -508,20 +510,22 @@ Generate ONLY the article body content, no metadata, no JSON.`;
 async function generateBlogPost(topic) {
   topic.body = BLOG_BODIES[topic.slug] || null;
   console.log(`  Generating blog post: ${topic.slug}`);
-  const prompt = `Write a compelling blog post (900-1100 words) about: "${topic.title}".
+  const prompt = `Write a compelling, in-depth blog post (1500-2000 words) about: "${topic.title}".
 Keywords: ${topic.keywords.join(", ")}
-Style: Thoughtful, well-argued, with personal perspective where appropriate. Should feel like it was written by someone who actually runs a developer platform.
-Structure: engaging intro that hooks the reader, body with H2 sections, concrete examples, and a strong conclusion.
-Include a FAQ or key takeaways section at the end.
-Do NOT use placeholder text. Use real examples.
+Style: Thoughtful, well-argued, with personal perspective where appropriate. Should feel like it was written by someone who actually runs a developer platform and has hands-on experience.
+Structure: engaging intro that hooks the reader with a problem/context, body with 3-4 H2 sections with concrete examples and data, practical takeaways, and a strong conclusion with actionable next steps.
+Include a "Key Takeaways" or FAQ section at the end with 3-4 items.
+Include a "Related Resources" section with links to tools and further reading.
+Do NOT use placeholder text. Use real examples with actual subdomains, tools, and services.
+Write with genuine insight - share war stories, gotchas, and things learned the hard way.
 Generate ONLY the article body content, no metadata.`;
 
-  const systemPrompt = `You are a technical blogger writing for is-cool-me, a free developer platform. Your voice is knowledgeable but approachable. You write about real problems developers face. Use specific examples and avoid generic advice.`;
+  const systemPrompt = `You are a technical blogger writing for is-cool-me, a free developer platform. Your voice is knowledgeable but approachable - write like a senior developer sharing hard-won knowledge. You write about real problems developers face. Use specific examples and avoid generic advice. Each paragraph should add value.`;
 
   let aiContent = null;
   if (isAiEnabled()) {
     console.log("[ai] Generating blog post with AI");
-    aiContent = await generateContent(prompt, systemPrompt);
+    aiContent = await generateContent(prompt, systemPrompt, 3500);
   }
   if (!aiContent) {
     console.log("[ai] Using fallback content for blog post");
@@ -553,7 +557,7 @@ Generate ONLY the article body content, no metadata.`;
     },
   ];
 
-  const readTime = Math.max(5, Math.ceil(content.split(" ").length / 200));
+  const readTime = Math.max(1, Math.ceil(content.split(" ").length / 200));
   const today = new Date().toISOString().split("T")[0];
 
   const headHtml = htmlHead({

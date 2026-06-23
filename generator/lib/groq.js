@@ -16,7 +16,7 @@ export async function isGroqAvailable() {
   }
 }
 
-export async function generateWithGroq(prompt, systemPrompt = '') {
+export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 1200) {
   if (!GROQ_API_KEY) {
     throw new Error('GROQ_API_KEY is not set');
   }
@@ -30,7 +30,7 @@ export async function generateWithGroq(prompt, systemPrompt = '') {
     model: MODEL,
     messages,
     temperature: 0.7,
-    max_tokens: 1200,
+    max_tokens: maxTokens,
     top_p: 0.9
   };
 

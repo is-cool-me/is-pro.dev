@@ -170,92 +170,33 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction
-          Deploying a project to a Virtual Private Server (VPS) using SSH and a custom subdomain is a crucial step in making your application accessible to the public. As a developer on the is-pro.dev platform, you can leverage the flexibility of a VPS to host your projects on custom subdomains like myproject.is-pro.dev. This guide will walk you through the process, covering the setup of SSH, configuration of Nginx, implementation of a reverse proxy, and the installation of SSL certificates using Certbot.
-          
-          ## Prerequisites
-          Before you begin, ensure you have the following:
-          - A VPS with a supported operating system (e.g., Ubuntu).
-          - A custom subdomain set up on is-pro.dev (e.g., myproject.is-pro.dev).
-          - Basic knowledge of SSH, Linux command line, and Nginx.
-          - Certbot installed on your VPS for SSL certificate management.
-          - Nginx installed and configured as your web server.
-          
-          ## Step-by-Step Instructions
-          ### Setting Up SSH
-          First, connect to your VPS using SSH. If you're using a Mac or Linux, you can do this directly from the terminal. For Windows, consider using PuTTY or the Windows Subsystem for Linux.
-          ```bash
-          ssh user@your-vps-ip
-          ```
-          Replace `user` with your actual username and `your-vps-ip` with the IP address of your VPS.
-          
-          ### Configuring Nginx
-          Create a new configuration file for your project in the Nginx sites-available directory. For example, for `myproject.is-pro.dev`, you might create a file named `myproject`:
-          ```bash
-          sudo nano /etc/nginx/sites-available/myproject
-          ```
-          Add the following configuration to the file, adjusting the server name and root directory as necessary:
-          ```nginx
-          server {
-              listen 80;
-              server_name myproject.is-pro.dev;
-          
-              location / {
-                  proxy_pass http://localhost:3000;
-                  proxy_http_version 1.1;
-                  proxy_set_header Upgrade $http_upgrade;
-                  proxy_set_header Connection 'upgrade';
-                  proxy_set_header Host $host;
-                  proxy_cache_bypass $http_upgrade;
-              }
-          }
-          ```
-          This configuration sets up a reverse proxy, directing traffic from `myproject.is-pro.dev` to your application running on `http://localhost:3000`.
-          
-          ### Enabling the Nginx Configuration
-          Create a symbolic link to the `sites-enabled` directory to enable the configuration:
-          ```bash
-          sudo ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled/
-          ```
-          Then, reload Nginx to apply the changes:
-          ```bash
-          sudo systemctl reload nginx
-          ```
-          
-          ### Installing SSL with Certbot
-          To secure your site with HTTPS, use Certbot to obtain an SSL certificate. First, install Certbot if you haven't already:
-          ```bash
-          sudo apt-get update
-          sudo apt-get install certbot python3-certbot-nginx
-          ```
-          Then, run Certbot with the following command, replacing `myproject.is-pro.dev` with your subdomain:
-          ```bash
-          sudo certbot --nginx -d myproject.is-pro.dev
-          ```
-          Follow the prompts to complete the installation. Certbot will automatically configure Nginx to use the obtained SSL certificate.
-          
-          ## Common Pitfalls
-          - **Incorrect Nginx Configuration**: Ensure your server block is correctly configured, especially the `server_name` and `proxy_pass` directives.
-          - **Firewall Rules**: Make sure your VPS's firewall allows incoming traffic on ports 80 (HTTP) and 443 (HTTPS).
-          - **Certbot Errors**: If Certbot fails to obtain a certificate, check your DNS settings and ensure your subdomain points to the VPS's IP address.
-          
-          ## Best Practices
-          - **Regularly Update Your Server**: Keep your VPS and installed software up to date to protect against security vulnerabilities.
-          - **Monitor Your Server**: Use tools like `htop` or `monit` to monitor your server's performance and respond to issues promptly.
-          - **Backup Your Data**: Regularly backup your project files and database to prevent data loss in case of a failure.
-          
-          ## Conclusion
-          Deploying your project to a VPS using SSH and a custom subdomain on is-pro.dev provides a flexible and scalable hosting solution. By following the steps outlined in this guide, you can securely host your application, leveraging Nginx, Certbot, and SSH. Remember to maintain your server, monitor its performance, and backup your data to ensure the longevity and reliability of your project.
-          
-          ## FAQ
-          Q: How do I renew my SSL certificate?
-          A: Certbot automatically renews SSL certificates. You can also manually renew by running `sudo certbot renew`.
-          Q: What if my application runs on a different port?
-          A: Update the `proxy_pass` directive in your Nginx configuration to point to the correct port, e.g., `http://localhost:8080`.
-          Q: Can I host multiple projects on the same VPS?
-          A: Yes, you can configure multiple server blocks in Nginx, each serving a different project on its own subdomain.
-          Q: How do I troubleshoot Nginx configuration issues?
-          A: Check the Nginx error log (usually located at `/var/log/nginx/error.log`) for clues, and test your configuration with `sudo nginx -t`.
+          <h2>Introduction</h2>
+          <p>A Virtual Private Server (VPS) gives you full control over your hosting environment — custom software, root access, and dedicated resources. By connecting a VPS to an is-pro.dev subdomain, you get a branded URL for your server with Cloudflare DNS management and optional DDoS protection. This guide covers the complete workflow: provisioning a VPS, setting up Nginx as a reverse proxy, securing it with SSL via Certbot, configuring your subdomain, and automating deployments with Git hooks.</p>
+          <h2>Prerequisites</h2>
+          <ul><li>A VPS from any provider (DigitalOcean, Linode, Vultr, Hetzner, or AWS EC2) with Ubuntu 22.04 or 24.04</li><li>SSH access to your VPS with a root or sudo-enabled user</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Basic familiarity with Linux command line and SSH</li></ul>
+          <h2>Step 1: Initial Server Setup</h2>
+          <p>SSH into your VPS: <code>ssh root@your-server-ip</code>. First, update the package manager: <code>apt update && apt upgrade -y</code>. Create a non-root user with sudo privileges: <code>adduser deploy</code> and <code>usermod -aG sudo deploy</code>. Set up SSH key authentication by copying your public key to the new user's <code>~/.ssh/authorized_keys</code>. Disable password authentication in <code>/etc/ssh/sshd_config</code> by setting <code>PasswordAuthentication no</code>, then restart SSH: <code>systemctl restart ssh</code>. Configure a basic firewall: <code>ufw allow OpenSSH && ufw allow 'Nginx Full' && ufw enable</code>. This ensures only SSH and web traffic can reach your server. Install Nginx: <code>apt install nginx -y</code>.</p>
+          <h2>Step 2: Configure Nginx as a Reverse Proxy</h2>
+          <p>Create a new Nginx server block for your subdomain: <code>nano /etc/nginx/sites-available/yourname.is-pro.dev</code>. Configure it as a reverse proxy to your application. For example, if your app runs on port 3000: <code>server { listen 80; server_name yourname.is-pro.dev; location / { proxy_pass http://127.0.0.1:3000; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header X-Forwarded-Proto $scheme; } }</code>. Enable the site: <code>ln -s /etc/nginx/sites-available/yourname.is-pro.dev /etc/nginx/sites-enabled/</code>. Test the configuration: <code>nginx -t</code>. If OK, reload Nginx: <code>systemctl reload nginx</code>. Your application should now be accessible over HTTP at your VPS's IP address.</p>
+          <h2>Step 3: Configure DNS in is-pro.dev Dashboard</h2>
+          <p>In the is-pro.dev DNS dashboard, add an A record pointing your subdomain to your VPS's IPv4 address. Add an AAAA record if your VPS has an IPv6 address. Set TTL to 60 seconds for initial testing. Important: for a VPS, you can use either proxied (orange cloud) or DNS-only (gray cloud) mode. Proxied mode hides your VPS IP and provides DDoS protection, but if your application uses WebSockets or custom protocols, you may need DNS-only mode or configure Cloudflare to allow WebSocket traffic. For most web applications with Nginx behind Cloudflare, proxied mode works well and adds security benefits.</p>
+          <h2>Step 4: Obtain SSL Certificate with Certbot</h2>
+          <p>Install Certbot and the Nginx plugin: <code>apt install certbot python3-certbot-nginx -y</code>. Set proxy mode to DNS-only (temporarily) for certificate issuance: run <code>certbot --nginx -d yourname.is-pro.dev</code>. Certbot will automatically modify your Nginx configuration to use HTTPS. Follow the prompts to set up auto-renewal. After the certificate is issued, you can switch the DNS record back to proxied (orange cloud) mode if desired. Certbot sets up a systemd timer for automatic renewal — verify it with <code>systemctl status certbot.timer</code>. If you keep the record proxied through Cloudflare, you can use Cloudflare's Origin CA certificate instead of Let's Encrypt for end-to-end encryption.</p>
+          <h2>Step 5: Set Up Automatic Deployments with Git Hooks</h2>
+          <p>Create a bare Git repository on your VPS for your application: <code>mkdir -p ~/app.git && cd ~/app.git && git init --bare</code>. Create a post-receive hook: <code>nano hooks/post-receive</code>. Add the following script: <code>#!/bin/bash; GIT_WORK_TREE=/var/www/yourname git checkout -f; cd /var/www/yourname && npm install && pm2 restart app</code>. Make it executable: <code>chmod +x hooks/post-receive</code>. On your local machine, add the VPS as a remote: <code>git remote add deploy ssh://deploy@your-server-ip/home/deploy/app.git</code>. Deploy by running <code>git push deploy main</code>. The Git hook checks out the latest code, installs dependencies, and restarts your application. This gives you a CI/CD-like workflow without external services.</p>
+          <h2>Step 6: Monitor and Maintain</h2>
+          <p>Set up monitoring for your VPS: install <code>netdata</code> or <code>htop</code> for real-time resource monitoring, configure log rotation for Nginx and application logs, set up automated backups with <code>rsync</code> or <code>rclone</code> to offsite storage, and configure fail2ban to block brute-force SSH attempts. Keep your server updated with automatic security updates: <code>apt install unattended-upgrades && dpkg-reconfigure -plow unattended-upgrades</code>. Set up uptime monitoring for your subdomain using the is-pro.dev monitoring tools or external services like UptimeRobot.</p>
+          <h2>Best Practices</h2>
+          <ul><li>Use SSH keys only (disable password authentication) for server access</li><li>Run applications as a non-root user with limited permissions</li><li>Keep Nginx, Node.js, and all application dependencies updated</li><li>Use environment variables for sensitive configuration — never hardcode credentials</li><li>Set up swap space (2GB minimum) for memory-intensive applications</li></ul>
+          <h2>Conclusion</h2>
+          <p>A VPS paired with an is-pro.dev subdomain gives you full control over your hosting stack. Nginx handles reverse proxying and static file serving, SSL certificates from Certbot encrypt traffic, Git hooks automate deployments, and your branded subdomain provides a professional URL. This setup is ideal for applications that need more than static hosting can provide.</p>
+          <h2>FAQ</h2>
+          <p><strong>How much does a VPS cost compared to shared hosting?</strong></p>
+          <p>VPS plans start around $4-6/month from providers like DigitalOcean, Vultr, or Hetzner. Shared hosting is cheaper but offers less control and performance.</p>
+          <p><strong>Should I use Cloudflare proxied mode or DNS-only for my VPS?</strong></p>
+          <p>Use proxied mode for web applications (HTTP/HTTPS) to get DDoS protection and IP hiding. Use DNS-only for non-HTTP services like SSH, game servers, or custom protocol applications.</p>
+          <p><strong>What if my VPS IP changes?</strong></p>
+          <p>Update the A record in your is-pro.dev DNS dashboard with the new IP. With Cloudflare DNS, propagation is nearly instant. Consider using a dynamic DNS service if your VPS provider frequently changes your IP.</p>
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

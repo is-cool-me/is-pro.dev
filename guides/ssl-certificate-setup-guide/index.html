@@ -170,76 +170,33 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to SSL Certificates
-          As a developer setting up projects on is-pro.dev subdomains, such as myproject.is-pro.dev, ensuring the security of your website is crucial. One of the fundamental steps in securing your website is setting up an SSL certificate, which enables HTTPS (Hypertext Transfer Protocol Secure) for your domain. In this guide, we will walk through the process of obtaining and installing an SSL certificate, from the basics of TLS (Transport Layer Security) to advanced configurations using Cloudflare.
-          
-          ## Prerequisites for SSL Certificate Setup
-          Before diving into the setup process, ensure you have the following prerequisites in place:
-          - A domain or subdomain hosted on is-pro.dev, such as myproject.is-pro.dev.
-          - Access to your domain's DNS settings, which may be managed through is-pro.dev's control panel or an external DNS service.
-          - A basic understanding of TLS and SSL certificates, though this guide will cover the necessary concepts.
-          
-          ## Step-by-Step SSL Certificate Setup
-          ### Obtaining an SSL Certificate
-          To obtain an SSL certificate, you can use a Certificate Authority (CA) like Let's Encrypt, which provides free SSL certificates. For is-pro.dev subdomains, the process can be automated using ACME protocol clients like Certbot. Here’s how to do it:
-          1. Install Certbot on your server. For most Linux distributions, you can use your package manager. For example, on Ubuntu or Debian, run `sudo apt-get update` followed by `sudo apt-get install certbot`.
-          2. Run Certbot with the `--dns-cloudflare` plugin if you're using Cloudflare for DNS management. You'll need your Cloudflare API key and email. The command will look something like `certbot certonly --dns-cloudflare --dns-cloudflare-credentials /path/to/credentials.ini -d myproject.is-pro.dev`.
-          3. Follow the prompts to complete the verification process. Certbot will automatically obtain and install the SSL certificate for your domain.
-          
-          ### Configuring Your Server for HTTPS
-          After obtaining the SSL certificate, you need to configure your web server to use it. The steps vary depending on the web server software you're using (e.g., Apache, Nginx).
-          - For Apache, you'll need to create or edit a virtual host configuration file to include the SSL certificate and key files. An example configuration might look like:
-          ```apache
-          <VirtualHost *:443>
-              ServerName myproject.is-pro.dev
-              DocumentRoot /var/www/myproject
-          
-              SSLEngine on
-              SSLCertificateFile /etc/letsencrypt/live/myproject.is-pro.dev/fullchain.pem
-              SSLCertificateKeyFile /etc/letsencrypt/live/myproject.is-pro.dev/privkey.pem
-          </VirtualHost>
-          ```
-          - For Nginx, the configuration would be similar but in the Nginx configuration file format:
-          ```nginx
-          server {
-              listen 443 ssl;
-              server_name myproject.is-pro.dev;
-              root /var/www/myproject;
-          
-              ssl_certificate /etc/letsencrypt/live/myproject.is-pro.dev/fullchain.pem;
-              ssl_certificate_key /etc/letsencrypt/live/myproject.is-pro.dev/privkey.pem;
-          }
-          ```
-          Restart your web server after making these changes to apply the new configuration.
-          
-          ## Using Cloudflare for SSL Termination
-          If you're using Cloudflare, you can also configure SSL termination at the Cloudflare level. This means Cloudflare handles the SSL connection, and then connects to your origin server (your web server) over HTTP. To do this:
-          1. Go to the SSL/TLS section of your Cloudflare dashboard.
-          2. Under "Edge Certificates," select "Flexible" or "Full" for the SSL option, depending on your needs. "Flexible" allows HTTP traffic between Cloudflare and your origin server, while "Full" requires HTTPS.
-          3. Ensure your web server is configured to serve content over HTTP (port 80) if you choose "Flexible," or over HTTPS (port 443) if you choose "Full."
-          
-          ## Common Pitfalls and Troubleshooting
-          Common issues include:
-          - Incorrect certificate installation, leading to browser warnings about the site not being secure.
-          - Failure to update the DNS settings correctly, preventing the verification process from completing.
-          - Web server misconfiguration, resulting in the site not serving content over HTTPS.
-          
-          To troubleshoot, check your web server logs for errors, verify that your DNS settings are correct, and ensure your SSL certificate is properly installed and configured.
-          
-          ## Best Practices for SSL Certificate Management
-          - **Automate Certificate Renewal:** Certbot and other ACME clients can automatically renew your SSL certificates before they expire, ensuring your site remains secure.
-          - **Monitor Certificate Expiration:** Keep an eye on your certificate's expiration date to avoid any downtime.
-          - **Use HTTPS Everywhere:** Configure your site to redirect all HTTP traffic to HTTPS to ensure all communications are secure.
-          
-          ## Conclusion
-          Setting up an SSL certificate for your is-pro.dev subdomain, such as myproject.is-pro.dev, is a critical step in securing your website. By following the steps outlined in this guide, you can obtain and install an SSL certificate, configure your web server for HTTPS, and optionally use Cloudflare for SSL termination. Remember to automate your certificate renewal, monitor expiration dates, and enforce HTTPS everywhere for the best security practices.
-          
-          ## Frequently Asked Questions
-          1. **Q: How long does it take to obtain an SSL certificate with Let's Encrypt?**
-          A: The process is usually very quick, taking only a few minutes to complete, depending on your DNS propagation time.
-          2. **Q: Can I use a wildcard SSL certificate for my subdomains?**
-          A: Yes, you can use a wildcard SSL certificate for subdomains. However, the process of obtaining one is more complex and may require a different verification process.
-          3. **Q: Is it necessary to configure SSL certificates for local
+          <h2>Introduction</h2>
+          <p>SSL certificates are no longer optional for websites — browsers actively warn users when visiting HTTP sites, and search engines penalize non-HTTPS pages in rankings. An SSL certificate encrypts traffic between your visitors and your server, protecting sensitive data and building trust. With an is-pro.dev subdomain, you get free SSL through Cloudflare's edge certificates, which are automatically provisioned and renewed. This guide explains how SSL works and how to ensure every page on your subdomain is served securely.</p>
+          <h2>Prerequisites</h2>
+          <ul><li>An is-pro.dev subdomain with DNS managed through Cloudflare</li><li>A website or service hosted on your subdomain</li><li>Access to your origin server to configure redirect rules (optional but recommended)</li></ul>
+          <h2>How SSL Certificates Work</h2>
+          <p>SSL (or more accurately, TLS) uses public-key cryptography to establish an encrypted connection between a client (browser) and a server. When a visitor accesses your subdomain over HTTPS, the server presents its SSL certificate, which contains the domain name, the certificate authority (CA) that issued it, and the public key. The browser verifies the certificate against trusted CA roots. If valid, a symmetric session key is exchanged and all subsequent data is encrypted. Cloudflare's Universal SSL certificates are issued by Google Trust Services or Let's Encrypt and cover your subdomain automatically as long as DNS is proxied through Cloudflare (orange cloud enabled).</p>
+          <h2>Step 1: Enable Cloudflare Proxy on Your DNS Records</h2>
+          <p>In the is-pro.dev DNS dashboard, ensure your subdomain's DNS record has the proxy status set to "Proxied" (orange cloud). This routes traffic through Cloudflare's network, where SSL termination occurs. Cloudflare's edge servers present the SSL certificate to visitors, then forward the request to your origin server either over HTTP or HTTPS (depending on your origin configuration). The proxy must be enabled for Cloudflare's Universal SSL to work — DNS-only (gray cloud) records will not receive an edge certificate and your visitors would connect directly to your origin server without Cloudflare's SSL protection.</p>
+          <h2>Step 2: Configure SSL/TLS Encryption Mode</h2>
+          <p>In your Cloudflare dashboard, navigate to "SSL/TLS &rarr; Overview". You have four encryption mode options: Off (not recommended), Flexible (encrypts traffic between visitor and Cloudflare only), Full (encrypts traffic end-to-end but allows self-signed origin certificates), and Full (strict) (encrypts end-to-end with a valid CA-signed origin certificate). For most setups with is-pro.dev, Flexible mode is the easiest — Cloudflare terminates SSL at the edge and connects to your origin over HTTP. For maximum security, configure Full (strict) mode by installing a valid certificate on your origin server, such as one from Let's Encrypt.</p>
+          <h2>Step 3: Force HTTPS with Redirect Rules</h2>
+          <p>Even with SSL enabled, visitors might still access your subdomain over HTTP if they type the URL without HTTPS or click old links. In Cloudflare, go to "SSL/TLS &rarr; Edge Certificates" and enable "Always Use HTTPS". This redirects all HTTP requests to HTTPS automatically. You can also add a Page Rule for your subdomain: <code>yourname.is-pro.dev/*</code> with the setting "Always Use HTTPS" enabled. For additional security, enable "Automatic HTTPS Rewrites" which converts HTTP URLs in your page's HTML to HTTPS, preventing mixed content warnings.</p>
+          <h2>Step 4: Configure HSTS (HTTP Strict Transport Security)</h2>
+          <p>HSTS tells browsers to always connect to your subdomain over HTTPS, even if the user types HTTP in the address bar. This prevents downgrade attacks and SSL stripping. In Cloudflare, go to "SSL/TLS &rarr; Edge Certificates" and enable "HTTP Strict Transport Security (HSTS)". Start with a <code>max-age</code> of 3600 seconds (1 hour) for testing, then increase to 31536000 seconds (1 year) after confirming everything works. Include the <code>includeSubDomains</code> directive if you want all subdomains covered. Enable "Preload" to submit your domain to browser preload lists, giving you protection from the very first visit.</p>
+          <h2>Step 5: Verify SSL Configuration</h2>
+          <p>Use the SSL Checker tool on is-pro.dev to verify your SSL certificate status. It will confirm the certificate issuer, expiration date, and encryption strength. Visit your subdomain in Chrome or Firefox and click the padlock icon in the address bar to view certificate details. Run an SSL Labs test (ssllabs.com) for a comprehensive security assessment of your configuration. Check for common issues like mixed content warnings (HTTP resources loaded on HTTPS pages), expired certificates, and weak cipher suites. A properly configured SSL setup earns an A+ rating on SSL Labs.</p>
+          <h2>Best Practices</h2>
+          <ul><li>Renew certificates before they expire — Cloudflare does this automatically for edge certificates, but origin certificates need manual renewal or Certbot automation</li><li>Use Full (strict) encryption mode when you control the origin server and can install a valid origin certificate</li><li>Monitor SSL expiration dates using the SSL Checker tool or set up calendar reminders</li><li>Test your site's SSL configuration after any DNS change, as misconfigured records can break certificate validation</li></ul>
+          <h2>Conclusion</h2>
+          <p>SSL configuration for an is-pro.dev subdomain is straightforward thanks to Cloudflare's automatic certificate management. By enabling proxy mode, configuring the right encryption level, and enforcing HTTPS with HSTS, you ensure every visitor connects securely. This protects your users, improves your search engine ranking, and is a prerequisite for many web platform features like service workers and geolocation APIs.</p>
+          <h2>FAQ</h2>
+          <p><strong>Do I need to install anything on my server for Cloudflare SSL to work?</strong></p>
+          <p>In Flexible mode, no — Cloudflare handles SSL at the edge. For Full (strict) mode, you need a valid certificate on your origin server.</p>
+          <p><strong>Is the SSL certificate really free and auto-renewing?</strong></p>
+          <p>Yes, Cloudflare provides Universal SSL certificates for all proxied domains at no cost. They renew automatically with no action needed from you.</p>
+          <p><strong>Why does my subdomain show a certificate warning?</strong></p>
+          <p>This typically happens if your DNS record is set to DNS-only (gray cloud) rather than proxied (orange cloud). Check your DNS settings and ensure proxy is enabled.</p>
 <h2>FAQ</h2><p><strong>Is Security setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

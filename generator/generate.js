@@ -1046,7 +1046,7 @@ function generateShowcaseCategoryPage(category, domains, showcaseMap) {
     const key = `${d.subdomain}:${d.zone}`;
     const s = showcaseMap.get(key);
     if (!s || seen.has(key)) continue;
-    if (topic?.keywords?.includes(s.category) || s.category === category || !topic?.keywords?.length) {
+    if (s.category === category) {
       seen.add(key);
       catDomains.push({ domain: d, showcase: s });
     }

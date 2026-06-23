@@ -170,69 +170,50 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction
-          As a developer on the is-pro.dev platform, you're likely looking for a reliable and cost-effective way to host your static sites. GitHub Pages offers a free hosting solution that integrates seamlessly with your GitHub repositories. In this guide, we'll walk you through the process of setting up GitHub Pages for your project, using a custom domain, and deploying your site to myproject.is-pro.dev.
+          ## Introduction to Free Hosting with GitHub Pages
+          As a developer on the is-pro.dev platform, you're likely looking for a reliable and cost-effective way to host your projects. GitHub Pages offers a fantastic solution, allowing you to host static sites directly from your GitHub repository. In this guide, we'll walk through the process of setting up free hosting with GitHub Pages for your project on myproject.is-pro.dev. We'll cover the prerequisites, step-by-step instructions, common pitfalls, and best practices to ensure a seamless deployment.
           
-          ## Prerequisites
-          Before you begin, ensure you have the following:
-          - A GitHub account
-          - A repository for your project (e.g., myproject)
+          ## Prerequisites for GitHub Pages Setup
+          Before you begin, make sure you have the following:
+          - A GitHub account (create one if you haven't already)
+          - A repository for your project (e.g., myproject.git)
           - A basic understanding of Git version control
-          - Your project set up on the is-pro.dev platform with a subdomain (e.g., myproject.is-pro.dev)
+          - Your project set up on an is-pro.dev subdomain (e.g., myproject.is-pro.dev)
+          - A static site generated with a tool like Jekyll, Hugo, or a custom build process
           
-          ## Setting Up GitHub Pages
-          To set up GitHub Pages, follow these steps:
-          1. Navigate to your repository on GitHub (e.g., github.com/yourusername/myproject).
-          2. Click on the "Settings" tab.
-          3. Scroll down to the "GitHub Pages" section.
-          4. Under "Source", select the branch you want to use for your site (e.g., main).
-          5. Click "Save" to save your changes.
-          GitHub Pages will now be enabled for your repository, and your site will be accessible at https://yourusername.github.io/myproject.
+          ## Step-by-Step Setup Instructions
+          To set up GitHub Pages for your project, follow these steps:
+          1. **Create a GitHub Repository**: If you haven't already, create a new repository for your project on GitHub. Initialize it with a README file and a .gitignore file suitable for your project type.
+          2. **Configure GitHub Pages**: In your repository settings, navigate to the "GitHub Pages" section. Select the branch you want to use for GitHub Pages (usually "main" or "master") and the folder that contains your static site (usually "/docs" or "/public").
+          3. **Set Up a Custom Domain**: To use your is-pro.dev subdomain with GitHub Pages, you'll need to set up a custom domain. Create a new file named "CNAME" in the root of your repository, containing the line "myproject.is-pro.dev".
+          4. **Update Your DNS Settings**: Since you're using an is-pro.dev subdomain, you won't need to update any DNS settings. However, if you were using a custom domain, you'd need to set up a CNAME record pointing to GitHub's servers.
+          5. **Deploy Your Site**: Commit and push your changes to your GitHub repository. GitHub Pages will automatically build and deploy your site from the configured branch and folder.
+          6. **Verify Your Deployment**: Visit your site at myproject.is-pro.dev to verify that it's been deployed correctly. You should see your static site rendered as expected.
           
-          ## Configuring a Custom Domain
-          To use a custom domain (e.g., myproject.is-pro.dev), you'll need to configure DNS settings:
-          1. Create a new file in your repository's root directory named "CNAME" (without any extension).
-          2. Add the following line to the CNAME file: myproject.is-pro.dev
-          3. Commit the changes to your repository.
-          4. Go to your DNS provider and set up a CNAME record pointing to your GitHub Pages site (e.g., yourusername.github.io).
-          For is-pro.dev subdomains, you can configure the CNAME record as follows:
-          | Type | Name | Value |
-          | --- | --- | --- |
-          | CNAME | myproject | yourusername.github.io |
+          ## Common Pitfalls and Troubleshooting
+          When setting up GitHub Pages, you might encounter a few common issues:
+          - **Incorrect CNAME File**: Double-check that your CNAME file contains the correct domain (myproject.is-pro.dev) and is in the root of your repository.
+          - **Invalid GitHub Pages Configuration**: Ensure that you've selected the correct branch and folder for your static site in your repository settings.
+          - **Build Errors**: Check your repository's actions tab for any build errors. You may need to update your build process or configuration to resolve these issues.
           
-          ## Deploying Your Site
-          To deploy your site to GitHub Pages, you'll need to push your changes to the configured branch (e.g., main):
-          1. Make sure you're in the root directory of your project.
-          2. Run the command `git add .` to stage all changes.
-          3. Run the command `git commit -m "Deploy to GitHub Pages"` to commit the changes.
-          4. Run the command `git push origin main` to push the changes to your repository.
-          Your site should now be live at myproject.is-pro.dev.
-          
-          ## Common Pitfalls
-          When setting up GitHub Pages, be aware of the following common pitfalls:
-          - Forgetting to configure the CNAME file or DNS settings, resulting in your site not being accessible at the custom domain.
-          - Using the wrong branch or repository, leading to deployment issues.
-          - Not committing changes or pushing them to the wrong branch, causing your site to not update correctly.
-          
-          ## Best Practices
-          To ensure a smooth deployment process, follow these best practices:
-          - Use a consistent branch naming convention (e.g., main for production).
-          - Regularly update your repository and push changes to the configured branch.
-          - Test your site after each deployment to ensure everything is working as expected.
-          - Consider using a CI/CD pipeline to automate your deployment process.
+          ## Best Practices for GitHub Pages Deployment
+          To get the most out of GitHub Pages, follow these best practices:
+          - **Use a Consistent Branching Strategy**: Use a consistent branching strategy (e.g., Git Flow) to manage your repository and ensure that your GitHub Pages deployment is always up-to-date.
+          - **Optimize Your Site for Performance**: Use tools like image compression and code minification to optimize your site's performance and reduce load times.
+          - **Monitor Your Site's Uptime and Analytics**: Use tools like Uptime Robot and Google Analytics to monitor your site's uptime and analytics, helping you identify areas for improvement.
           
           ## Conclusion
-          In this guide, we've walked you through the process of setting up GitHub Pages for your project on the is-pro.dev platform. By following these steps and best practices, you can ensure a reliable and cost-effective hosting solution for your static site. If you encounter any issues or have further questions, refer to the FAQ section below.
+          In this guide, we've walked through the process of setting up free hosting with GitHub Pages for your project on myproject.is-pro.dev. By following these steps and best practices, you can ensure a seamless and reliable deployment of your static site. Remember to troubleshoot common issues and monitor your site's performance to get the most out of GitHub Pages.
           
-          ## FAQ
+          ## Frequently Asked Questions
+          Q: Can I use GitHub Pages with a custom domain?
+          A: Yes, you can use GitHub Pages with a custom domain. You'll need to set up a CNAME record pointing to GitHub's servers and configure your custom domain in your repository settings.
+          Q: How do I update my site after making changes to my repository?
+          A: Simply commit and push your changes to your GitHub repository. GitHub Pages will automatically build and deploy your site from the configured branch and folder.
           Q: Can I use GitHub Pages for dynamic sites?
-          A: No, GitHub Pages is designed for static sites only. For dynamic sites, consider using a different hosting solution.
-          Q: How do I handle SSL certificates for my custom domain?
-          A: GitHub Pages automatically provides SSL certificates for custom domains. Ensure your DNS settings are configured correctly to enable SSL.
-          Q: Can I use a custom domain with a subfolder on GitHub Pages?
-          A: Yes, you can use a custom domain with a subfolder on GitHub Pages. Configure your CNAME file and DNS settings accordingly.
-          Q: How long does it take for my site to be deployed on GitHub Pages?
-          A: Deployment times on GitHub Pages are typically instantaneous. However, DNS changes may take some time to propagate, depending on your DNS provider.
+          A: No, GitHub Pages is designed for static sites only. If you need to host a dynamic site, you'll need to explore alternative hosting options.
+          Q: Are there any limitations to using GitHub Pages?
+          A: Yes, GitHub Pages has some limitations, including limited bandwidth and storage. However, for most small to medium-sized projects, GitHub Pages provides a reliable and cost-effective hosting solution.
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

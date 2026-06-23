@@ -5,18 +5,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me</title>
-  <meta name="description" content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules." />
-  <meta name="keywords" content="ssl, https, certificate, tls, security, cloudflare" />
-  <link rel="canonical" href="https://is-pro.dev/guides/ssl-certificate-setup-guide/" />
+  <title>Unlocking the Power of Subdomain Routing — is-cool-me Blog</title>
+  <meta name="description" content="Subdomain routing can significantly improve website performance and user experience. By optimizing subdomain routing, developers can reduce latency and increase scalability." />
+  <meta name="keywords" content="subdomain routing, website performance, user experience, latency reduction, scalability" />
+  <link rel="canonical" href="https://is-pro.dev/blog/subdomain-routing-optimization/" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://is-pro.dev/guides/ssl-certificate-setup-guide/" />
-  <meta property="og:title" content="SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me" />
-  <meta property="og:description" content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules." />
+  <meta property="og:url" content="https://is-pro.dev/blog/subdomain-routing-optimization/" />
+  <meta property="og:title" content="Unlocking the Power of Subdomain Routing — is-cool-me Blog" />
+  <meta property="og:description" content="Subdomain routing can significantly improve website performance and user experience. By optimizing subdomain routing, developers can reduce latency and increase scalability." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me" />
-  <meta name="twitter:description" content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules." />
+  <meta name="twitter:title" content="Unlocking the Power of Subdomain Routing — is-cool-me Blog" />
+  <meta name="twitter:description" content="Subdomain routing can significantly improve website performance and user experience. By optimizing subdomain routing, developers can reduce latency and increase scalability." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -35,8 +35,8 @@
       "@type": "WebSite",
       "@id": "https://is-pro.dev/#website",
       "url": "https://is-pro.dev",
-      "name": "SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me",
-      "description": "Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules.",
+      "name": "Unlocking the Power of Subdomain Routing — is-cool-me Blog",
+      "description": "Subdomain routing can significantly improve website performance and user experience. By optimizing subdomain routing, developers can reduce latency and increase scalability.",
       "publisher": {
         "@type": "Organization",
         "name": "is-cool-me",
@@ -49,8 +49,8 @@
     },
     {
       "@type": "TechArticle",
-      "headline": "SSL Certificate Setup: From Zero to HTTPS Everywhere",
-      "description": "Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules.",
+      "headline": "Unlocking the Power of Subdomain Routing",
+      "description": "Subdomain routing can significantly improve website performance and user experience. By optimizing subdomain routing, developers can reduce latency and increase scalability.",
       "author": {
         "@type": "Person",
         "name": "Mayank Baswal",
@@ -69,9 +69,9 @@
       "dateModified": "2026-06-23",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
+        "@id": "https://is-pro.dev/blog/subdomain-routing-optimization/"
       },
-      "url": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
+      "url": "https://is-pro.dev/blog/subdomain-routing-optimization/"
     },
     {
       "@type": "BreadcrumbList",
@@ -85,14 +85,14 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Guides",
-          "item": "https://is-pro.dev/guides/"
+          "name": "Blog",
+          "item": "https://is-pro.dev/blog/"
         },
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "SSL Certificate Setup: From Zero to HTTPS Everywhere",
-          "item": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
+          "name": "Unlocking the Power of Subdomain Routing",
+          "item": "https://is-pro.dev/blog/subdomain-routing-optimization/"
         }
       ]
     }
@@ -112,8 +112,8 @@
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
         <a href="/" class="nav-link">Home</a>
         <a href="/domains/" class="nav-link">Domains</a>
-        <a href="/blog/" class="nav-link">Blog</a>
-        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/blog/" class="nav-link active">Blog</a>
+        <a href="/guides/" class="nav-link">Guides</a>
         <a href="/showcase/" class="nav-link">Showcase</a>
         <a href="/trending/" class="nav-link">Trending</a>
         <a href="/tools/" class="nav-link">Tools</a>
@@ -136,116 +136,34 @@
     <div class="container">
       <div class="article-hero-inner">
         <div class="article-meta">
-          <span class="article-category">Security</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
-          <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
+          <span class="article-category">Hosting</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
         </div>
-        <h1>SSL Certificate Setup: From Zero to HTTPS Everywhere</h1>
-        <p class="article-summary">Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules.</p>
+        <h1>Unlocking the Power of Subdomain Routing</h1>
+        <p class="article-summary">Subdomain routing can significantly improve website performance and user experience. By optimizing subdomain routing, developers can reduce latency and increase scalability.</p>
       </div>
     </div>
   </header>
-
-  <section class="author-section" aria-label="Article authorship">
-    <div class="container">
-      <div class="author-card" data-reveal>
-        <div class="author-card-main">
-          <h2 class="author-card-title">Written by Mayank Baswal</h2>
-          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-          <div class="author-card-links">
-            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-            <a href="/contact/">Contact</a>
-          </div>
-        </div>
-        <div class="author-card-review">
-          <span class="author-card-review-label">Reviewed by</span>
-          <span class="author-card-reviewer">is-cool-me Technical Review</span>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <div class="article-layout-section">
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to SSL Certificates
-          As a developer setting up projects on is-pro.dev subdomains, such as myproject.is-pro.dev, ensuring the security of your website is crucial. One of the fundamental steps in securing your website is setting up an SSL certificate, which enables HTTPS (Hypertext Transfer Protocol Secure) for your domain. In this guide, we will walk through the process of obtaining and installing an SSL certificate, from the basics of TLS (Transport Layer Security) to advanced configurations using Cloudflare.
-          
-          ## Prerequisites for SSL Certificate Setup
-          Before diving into the setup process, ensure you have the following prerequisites in place:
-          - A domain or subdomain hosted on is-pro.dev, such as myproject.is-pro.dev.
-          - Access to your domain's DNS settings, which may be managed through is-pro.dev's control panel or an external DNS service.
-          - A basic understanding of TLS and SSL certificates, though this guide will cover the necessary concepts.
-          
-          ## Step-by-Step SSL Certificate Setup
-          ### Obtaining an SSL Certificate
-          To obtain an SSL certificate, you can use a Certificate Authority (CA) like Let's Encrypt, which provides free SSL certificates. For is-pro.dev subdomains, the process can be automated using ACME protocol clients like Certbot. Here’s how to do it:
-          1. Install Certbot on your server. For most Linux distributions, you can use your package manager. For example, on Ubuntu or Debian, run `sudo apt-get update` followed by `sudo apt-get install certbot`.
-          2. Run Certbot with the `--dns-cloudflare` plugin if you're using Cloudflare for DNS management. You'll need your Cloudflare API key and email. The command will look something like `certbot certonly --dns-cloudflare --dns-cloudflare-credentials /path/to/credentials.ini -d myproject.is-pro.dev`.
-          3. Follow the prompts to complete the verification process. Certbot will automatically obtain and install the SSL certificate for your domain.
-          
-          ### Configuring Your Server for HTTPS
-          After obtaining the SSL certificate, you need to configure your web server to use it. The steps vary depending on the web server software you're using (e.g., Apache, Nginx).
-          - For Apache, you'll need to create or edit a virtual host configuration file to include the SSL certificate and key files. An example configuration might look like:
-          ```apache
-          <VirtualHost *:443>
-              ServerName myproject.is-pro.dev
-              DocumentRoot /var/www/myproject
-          
-              SSLEngine on
-              SSLCertificateFile /etc/letsencrypt/live/myproject.is-pro.dev/fullchain.pem
-              SSLCertificateKeyFile /etc/letsencrypt/live/myproject.is-pro.dev/privkey.pem
-          </VirtualHost>
-          ```
-          - For Nginx, the configuration would be similar but in the Nginx configuration file format:
-          ```nginx
-          server {
-              listen 443 ssl;
-              server_name myproject.is-pro.dev;
-              root /var/www/myproject;
-          
-              ssl_certificate /etc/letsencrypt/live/myproject.is-pro.dev/fullchain.pem;
-              ssl_certificate_key /etc/letsencrypt/live/myproject.is-pro.dev/privkey.pem;
-          }
-          ```
-          Restart your web server after making these changes to apply the new configuration.
-          
-          ## Using Cloudflare for SSL Termination
-          If you're using Cloudflare, you can also configure SSL termination at the Cloudflare level. This means Cloudflare handles the SSL connection, and then connects to your origin server (your web server) over HTTP. To do this:
-          1. Go to the SSL/TLS section of your Cloudflare dashboard.
-          2. Under "Edge Certificates," select "Flexible" or "Full" for the SSL option, depending on your needs. "Flexible" allows HTTP traffic between Cloudflare and your origin server, while "Full" requires HTTPS.
-          3. Ensure your web server is configured to serve content over HTTP (port 80) if you choose "Flexible," or over HTTPS (port 443) if you choose "Full."
-          
-          ## Common Pitfalls and Troubleshooting
-          Common issues include:
-          - Incorrect certificate installation, leading to browser warnings about the site not being secure.
-          - Failure to update the DNS settings correctly, preventing the verification process from completing.
-          - Web server misconfiguration, resulting in the site not serving content over HTTPS.
-          
-          To troubleshoot, check your web server logs for errors, verify that your DNS settings are correct, and ensure your SSL certificate is properly installed and configured.
-          
-          ## Best Practices for SSL Certificate Management
-          - **Automate Certificate Renewal:** Certbot and other ACME clients can automatically renew your SSL certificates before they expire, ensuring your site remains secure.
-          - **Monitor Certificate Expiration:** Keep an eye on your certificate's expiration date to avoid any downtime.
-          - **Use HTTPS Everywhere:** Configure your site to redirect all HTTP traffic to HTTPS to ensure all communications are secure.
-          
-          ## Conclusion
-          Setting up an SSL certificate for your is-pro.dev subdomain, such as myproject.is-pro.dev, is a critical step in securing your website. By following the steps outlined in this guide, you can obtain and install an SSL certificate, configure your web server for HTTPS, and optionally use Cloudflare for SSL termination. Remember to automate your certificate renewal, monitor expiration dates, and enforce HTTPS everywhere for the best security practices.
-          
-          ## Frequently Asked Questions
-          1. **Q: How long does it take to obtain an SSL certificate with Let's Encrypt?**
-          A: The process is usually very quick, taking only a few minutes to complete, depending on your DNS propagation time.
-          2. **Q: Can I use a wildcard SSL certificate for my subdomains?**
-          A: Yes, you can use a wildcard SSL certificate for subdomains. However, the process of obtaining one is more complex and may require a different verification process.
-          3. **Q: Is it necessary to configure SSL certificates for local
-<h2>FAQ</h2><p><strong>Is Security setup free on is-pro.dev?</strong></p>
-<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
-<p><strong>How long does DNS take to propagate?</strong></p>
-<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
-<p><strong>Can I use this for commercial projects?</strong></p>
-<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
+          <h2>Introduction</h2>
+          <p>Subdomain routing can significantly improve website performance and user experience. By optimizing subdomain routing, developers can reduce latency and increase scalability.</p>
+          <h2>The Core Problem</h2>
+          <p>Developers face a common challenge when building projects: where to host without spending money on domain registration. For side projects, MVPs, and experiments, every dollar counts. This is where free subdomain providers fill a critical gap in the ecosystem.</p>
+          <h2>Key Insights</h2>
+          <p>Understanding how DNS works at a practical level changes how you think about deploying projects. It is not just about pointing a domain to an IP address — it is about building reliable infrastructure that scales with your needs.</p>
+          <p>When you register a subdomain on is-pro.dev, you get access to Cloudflares global DNS network, free SSL certificates, and a dashboard to manage all your records in one place. This combination would cost hundreds of dollars annually with traditional registrars.</p>
+          <h2>Practical Takeaways</h2>
+          <ul><li>Start with free infrastructure and upgrade only when you have revenue</li><li>Use subdomains strategically to separate concerns in your project portfolio</li><li>Always configure SSL from day one — it is free and takes 2 minutes</li></ul>
+          <h2>Conclusion</h2>
+          <p>The tools available to developers today are remarkably powerful and often free. The key is knowing how to piece them together effectively. Free subdomain providers like is-pro.dev are part of that toolkit.</p>
+<h2>Frequently Asked Questions</h2><p><strong>Is is-pro.dev really free to use?</strong></p>
+<p>Yes, is-pro.dev provides free subdomains for developers with no hidden fees.</p>
+<p><strong>What can I host on an is-pro.dev subdomain?</strong></p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
         </div>
       </div>
     </div>

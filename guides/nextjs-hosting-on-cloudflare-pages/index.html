@@ -171,47 +171,47 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Hosting Next.js on Cloudflare Pages
-          Hosting a Next.js application on Cloudflare Pages offers a powerful combination of server-side rendering (SSR), edge computing, and a free subdomain, making it an attractive option for developers. With Cloudflare Pages, you can leverage the global CDN and security features of Cloudflare while enjoying the ease of use and performance of Next.js. For developers setting up projects on is-pro.dev subdomains, this guide will walk you through the process of deploying a Next.js application to Cloudflare Pages, using a free subdomain like myproject.is-pro.dev.
+          Hosting a Next.js application on Cloudflare Pages offers a powerful combination of server-side rendering (SSR), edge computing, and a free subdomain, making it an attractive option for developers. With is-pro.dev subdomains, you can easily deploy and manage your Next.js projects. In this guide, we will walk through the process of deploying a Next.js application to Cloudflare Pages using the myproject.is-pro.dev subdomain as an example.
           
           ## Prerequisites for Deployment
-          Before you start, ensure you have the following prerequisites in place:
-          - A Cloudflare account: If you haven't already, sign up for a Cloudflare account to access Cloudflare Pages.
-          - A GitHub account: Cloudflare Pages integrates with GitHub for repository management and automatic deployments.
-          - Node.js and npm installed: These are necessary for creating and building your Next.js project.
-          - A basic understanding of Next.js and Cloudflare: While not necessary, familiarity with Next.js development and Cloudflare services can be helpful.
+          Before deploying your Next.js application to Cloudflare Pages, ensure you have the following prerequisites in place:
+          - A Cloudflare account: Sign up for a Cloudflare account if you haven't already.
+          - A GitHub account: Cloudflare Pages integrates with GitHub for repository management.
+          - A Next.js project: Make sure your Next.js project is set up and ready for deployment. If you're starting from scratch, run `npx create-next-app myproject` to create a new Next.js project.
+          - The Cloudflare Pages GitHub app installed in your repository: This allows Cloudflare to access your code for deployment.
           
-          ## Step-by-Step Instructions for Deployment
-          1. **Create a Next.js Project**: Start by creating a new Next.js project. Open your terminal and run `npx create-next-app@latest myproject` to create a new project named "myproject".
-          2. **Initialize a Git Repository**: Navigate into your project directory with `cd myproject` and initialize a Git repository with `git init`. Then, create a new repository on GitHub and link it to your local repository.
-          3. **Push Your Project to GitHub**: Add all your files with `git add .`, commit them with `git commit -m "Initial commit"`, and push to GitHub with `git push -u origin master`.
-          4. **Set Up Cloudflare Pages**: Log in to your Cloudflare account, go to the "Pages" section, and click on "Create a Page". Follow the prompts to connect your GitHub account and select the repository you just created.
-          5. **Configure Deployment Settings**: In the Cloudflare Pages setup, you'll be asked to configure your deployment settings. Choose the branch you want to deploy (usually "main" or "master"), and set the build settings to use the Next.js default build command.
-          6. **Set Up Your Subdomain**: After setting up your deployment, you'll be prompted to set up a subdomain. Choose a subdomain like "myproject.is-pro.dev" and configure it according to Cloudflare's instructions.
-          7. **Deploy Your Application**: Once everything is set up, Cloudflare Pages will automatically deploy your Next.js application. You can monitor the deployment process and see your live site once it's complete.
+          ## Step-by-Step Deployment Instructions
+          To deploy your Next.js application to Cloudflare Pages with a free subdomain like myproject.is-pro.dev, follow these steps:
+          1. **Create a New Site on Cloudflare Pages**: Log in to your Cloudflare account, navigate to the Pages section, and click on "Create a site". Select "Connect to Git" and choose your GitHub account.
+          2. **Link Your GitHub Repository**: Find your Next.js project repository and link it to Cloudflare Pages. This step may require you to install the Cloudflare Pages app in your GitHub repository if you haven't done so already.
+          3. **Configure Deployment Settings**: After linking your repository, you'll be prompted to configure your deployment settings. Choose the branch you want to deploy (usually "main" or "master"), and set the build settings. For a Next.js project, the build command should be `npm run build` and the output directory should be set to the directory where Next.js outputs static files, typically `out`.
+          4. **Set Up Your Custom Domain (myproject.is-pro.dev)**: Once your site is created, go to the "Custom Domains" tab and click on "Add a custom domain". Enter `myproject.is-pro.dev` as your custom domain. Cloudflare will automatically configure DNS records for you since you're using an is-pro.dev subdomain.
+          5. **Deploy Your Site**: After setting up your custom domain, Cloudflare Pages will automatically start deploying your site. You can monitor the deployment status in the Cloudflare dashboard.
           
           ## Common Pitfalls and Troubleshooting
-          - **Build Errors**: If your build fails, check the Cloudflare Pages build logs for errors. Common issues include incorrect build commands or missing dependencies.
-          - **DNS Configuration**: Ensure your DNS settings are correctly configured. If you're using a custom domain, verify that your CNAME records point to Cloudflare.
-          - **Security Headers**: Cloudflare automatically adds security headers to your site. However, if you're using a custom header, ensure it doesn't conflict with Cloudflare's defaults.
+          When deploying a Next.js application to Cloudflare Pages, watch out for the following common pitfalls:
+          - **Incorrect Build Settings**: Ensure your build command and output directory are correctly set. Incorrect settings can lead to deployment failures.
+          - **DNS Configuration Issues**: Although Cloudflare automatically configures DNS for is-pro.dev subdomains, issues can arise if your domain is not properly set up. Verify that your domain is correctly linked to Cloudflare.
+          - **Environment Variables**: If your Next.js application relies on environment variables, ensure they are properly set in your Cloudflare Pages project settings.
           
           ## Best Practices for Deployment and Maintenance
-          - **Use Environment Variables**: For sensitive data like API keys, use environment variables instead of hardcoding them into your code.
-          - **Implement Edge Computing**: Leverage Cloudflare's edge computing capabilities to reduce latency and improve performance.
-          - **Monitor Your Site**: Use Cloudflare's analytics and performance monitoring tools to keep an eye on your site's health and optimize as needed.
-          - **Keep Your Dependencies Up-to-Date**: Regularly update your dependencies to ensure you have the latest security patches and features.
+          To get the most out of hosting your Next.js application on Cloudflare Pages with a free subdomain, follow these best practices:
+          - **Regularly Update Your Application**: Keep your Next.js application and dependencies up to date to ensure security and performance.
+          - **Monitor Your Site's Performance**: Use Cloudflare's built-in analytics and performance monitoring tools to optimize your site's speed and user experience.
+          - **Leverage Edge Functions**: Cloudflare's edge functions allow you to run server-side code at edge locations closer to your users, reducing latency and improving performance.
           
           ## Conclusion
-          Hosting a Next.js application on Cloudflare Pages with a free subdomain like myproject.is-pro.dev is a straightforward process that offers a robust set of features for developers. By following the steps outlined in this guide, you can leverage the power of Cloudflare's global CDN, security features, and edge computing, combined with the ease of use and performance of Next.js. Remember to follow best practices for deployment and maintenance to ensure your application is secure, performant, and always up-to-date.
+          Deploying a Next.js application to Cloudflare Pages with a free subdomain like myproject.is-pro.dev offers a scalable, secure, and high-performance solution for developers. By following the steps outlined in this guide and adhering to best practices, you can efficiently host and manage your Next.js projects, leveraging the power of server-side rendering, edge computing, and DNS management provided by Cloudflare.
           
           ## Frequently Asked Questions
-          Q: Do I need to pay for a Cloudflare account to use Cloudflare Pages?
-          A: No, Cloudflare Pages is available on all Cloudflare plans, including the free plan.
-          Q: Can I use a custom domain with Cloudflare Pages?
-          A: Yes, you can use a custom domain with Cloudflare Pages by configuring your DNS settings to point to Cloudflare.
-          Q: How do I handle server-side rendering (SSR) with Next.js on Cloudflare Pages?
-          A: Cloudflare Pages supports SSR out of the box for Next.js applications. You don't need to configure anything special for SSR to work.
-          Q: What if I encounter issues during the deployment process?
-          A: Check the Cloudflare Pages documentation and support resources for troubleshooting guides and community forums where you can ask for help.
+          1. **Q: Can I use a custom domain other than is-pro.dev?**
+             A: Yes, Cloudflare Pages supports custom domains beyond is-pro.dev. However, you will need to manually configure DNS records for your custom domain.
+          2. **Q: How do I handle environment variables in my Next.js project on Cloudflare Pages?**
+             A: You can set environment variables in your Cloudflare Pages project settings. These variables will be available to your Next.js application during deployment.
+          3. **Q: Does Cloudflare Pages support Next.js Internationalized Routing?**
+             A: Yes, Cloudflare Pages supports Next.js internationalized routing. Ensure that your Next.js project is correctly configured for internationalized routing, and Cloudflare Pages will handle the routing appropriately.
+          4. **Q: Can I use Cloudflare Pages for static site generation (SSG) with Next.js?**
+             A: Yes, Cloudflare Pages supports static site generation with Next.js. Configure your Next.js project to use SSG, and Cloudflare Pages will build and serve your static site.
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

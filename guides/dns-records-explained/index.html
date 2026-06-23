@@ -171,51 +171,53 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to DNS Records
-          As a developer setting up projects on is-pro.dev subdomains, understanding DNS records is crucial for ensuring your application is accessible and secure. DNS records are the backbone of the internet, mapping domain names to IP addresses and defining how emails are routed. In this guide, we'll delve into the world of DNS records, exploring the different types, their purposes, and how to set them up for your project on myproject.is-pro.dev.
+          When setting up a project on a subdomain like myproject.is-pro.dev, understanding DNS records is crucial for ensuring your application is accessible and secure. DNS records are the backbone of the internet, mapping domain names to IP addresses and controlling various aspects of email and web traffic. In this guide, we'll delve into the world of DNS records, exploring their types, functions, and practical applications for developers.
           
-          ## Prerequisites
-          Before diving into DNS records, ensure you have the following:
-          - A domain name (e.g., myproject.is-pro.dev)
-          - Access to your DNS management panel, typically provided by your domain registrar or hosting service
-          - Basic understanding of networking concepts, such as IP addresses and ports
+          ## Prerequisites for Managing DNS Records
+          Before diving into the world of DNS records, ensure you have the following:
+          - A subdomain set up on is-pro.dev, such as myproject.is-pro.dev.
+          - Access to your DNS management panel, typically provided by your domain registrar or hosting service.
+          - Basic knowledge of networking concepts, including IP addresses and domain names.
           
           ## Understanding DNS Record Types
-          DNS records come in several types, each serving a specific purpose. The most common types include:
-          - **A Record**: Maps a domain name to an IP address. For example, to point myproject.is-pro.dev to a server with the IP address 192.0.2.1, you would create an A record with the name "myproject.is-pro.dev" and the IP address "192.0.2.1".
-          - **CNAME Record**: Maps an alias or subdomain to the canonical name of a server or another domain. It's often used for load balancing or when you want to direct traffic from one domain to another. For instance, creating a CNAME record for "blog.myproject.is-pro.dev" that points to "myblog.is-pro.dev" allows you to manage blog.myproject.is-pro.dev as if it were a separate entity.
-          - **MX Record**: Specifies the mail server responsible for receiving emails on behalf of your domain. For myproject.is-pro.dev, you might set up an MX record pointing to "mail.myproject.is-pro.dev" to handle incoming emails.
-          - **TXT Record**: Used to store text information about your domain. It's commonly used for email authentication (SPF, DKIM, DMARC) and verifying domain ownership. For example, adding a TXT record with the value "v=spf1 a mx ip4:192.0.2.1 -all" to myproject.is-pro.dev helps prevent spam by specifying which IP addresses are allowed to send emails on your behalf.
-          
-          ## Setting Up DNS Records for Email Authentication
-          Email authentication is crucial for preventing spam and ensuring deliverability. The key records for email authentication are:
-          - **SPF (Sender Policy Framework)**: Defines which IP addresses are allowed to send emails for your domain. An example SPF record for myproject.is-pro.dev could be "v=spf1 a mx ip4:192.0.2.1 -all", indicating that only the specified IP address and the domain's A and MX records are allowed to send emails.
-          - **DKIM (DomainKeys Identified Mail)**: Adds a digital signature to outgoing emails, which verifies the sender's identity. Setting up DKIM involves generating a public-private key pair and adding a TXT record with the public key to your domain.
-          - **DMARC (Domain-based Message Authentication, Reporting, and Conformance)**: Combines SPF and DKIM to determine the authenticity of an email. A DMARC record for myproject.is-pro.dev might look like "v=DMARC1; p=reject; pct=100; rua=mailto:abuse@myproject.is-pro.dev; ruf=mailto:abuse@myproject.is-pro.dev; fo=1", which tells receivers what to do with emails that fail authentication and where to send reports.
+          DNS records come in several types, each serving a specific purpose:
+          - **A Record**: Maps a domain name to an IP address. For example, to point myproject.is-pro.dev to a server with the IP address 192.0.2.1, you would create an A record with the name "myproject.is-pro.dev" and the value "192.0.2.1".
+          - **CNAME Record**: Maps an alias or subdomain to the canonical name of a server or another domain. It's useful for pointing subdomains to services like CDN providers or third-party services. For instance, creating a CNAME record for "blog.myproject.is-pro.dev" with the value "cdn.example.com" directs traffic from your blog subdomain to the specified CDN.
+          - **MX Record**: Directs email messages to the mail server responsible for receiving emails on behalf of the domain. Setting up MX records for myproject.is-pro.dev involves specifying the mail server's domain name and priority. For example, "10 mail.is-pro.dev" and "20 mail2.is-pro.dev" for primary and secondary mail servers, respectively.
+          - **TXT Record**: Originally used for human-readable text, TXT records now play a critical role in email authentication and verification. They are used for SPF (Sender Policy Framework), DKIM (DomainKeys Identified Mail), and DMARC (Domain-based Message Authentication, Reporting, and Conformance) policies.
           
           ## Step-by-Step Instructions for Setting Up DNS Records
-          1. **Access your DNS management panel**: Log in to your domain registrar or hosting service to manage your DNS records.
-          2. **Create an A Record**: Add a new A record with the name "myproject.is-pro.dev" and the IP address of your server.
-          3. **Set up MX Records**: Add MX records pointing to your mail server, ensuring emails are delivered correctly.
-          4. **Configure SPF, DKIM, and DMARC**: Add TXT records for SPF, DKIM, and DMARC as per your email authentication requirements.
+          1. **Access your DNS management panel** and navigate to the section for adding new DNS records.
+          2. **Create an A Record** for your subdomain (e.g., myproject.is-pro.dev) by specifying the subdomain name and the IP address of your server.
+          3. **Set up a CNAME Record** for any subdomains that need to point to external services, such as a blog or a CDN.
+          4. **Configure MX Records** for email services, ensuring you have at least one mail server specified.
+          5. **Implement TXT Records** for SPF, DKIM, and DMARC. For SPF, a record might look like "v=spf1 include:is-pro.dev -all", indicating that is-pro.dev is authorized to send emails on behalf of myproject.is-pro.dev.
+          6. **Verify your DNS changes** by using online tools or command-line utilities like `dig` or `nslookup` to check the propagation of your records.
           
-          ## Common Pitfalls and Troubleshooting
-          - **Propagation Time**: DNS changes can take up to 48 hours to propagate globally. Be patient when testing changes.
-          - **Typographical Errors**: Double-check the spelling of your domain and the values of your DNS records to avoid configuration errors.
-          - **Overlapping Records**: Ensure that you don't have conflicting records (e.g., multiple A records for the same subdomain) that could cause resolution issues.
+          ## Common Pitfalls in DNS Record Management
+          - **Incorrect IP Addresses**: Ensure that A records point to the correct IP addresses to avoid downtime or misdirected traffic.
+          - **Propagation Delays**: DNS changes can take up to 48 hours to propagate globally. Plan ahead and make changes well in advance of deadlines.
+          - **MX Record Priorities**: Incorrectly setting MX record priorities can lead to email delivery issues. Always specify a primary mail server with the lowest priority number.
+          - **TXT Record Formatting**: SPF, DKIM, and DMARC policies require precise formatting in TXT records. Double-check your records for typos or syntax errors.
           
-          ## Best Practices for Managing DNS Records
-          - **Regularly Review DNS Records**: Periodically check your DNS records for accuracy and relevance.
-          - **Use a Consistent Naming Convention**: Keep your subdomains and records organized with a consistent naming scheme.
-          - **Implement Security Measures**: Always set up SPF, DKIM, and DMARC to protect your domain from spam and phishing attacks.
+          ## Best Practices for DNS Record Management
+          - **Regularly Review DNS Records**: Periodically check your DNS setup to ensure it aligns with your current infrastructure and services.
+          - **Use Secure Protocols**: When possible, use encrypted protocols like HTTPS for web traffic and TLS for email to enhance security.
+          - **Implement Email Authentication**: SPF, DKIM, and DMARC are crucial for preventing email spoofing and ensuring your emails are delivered reliably.
+          - **Monitor DNS Performance**: Use monitoring tools to track the performance of your DNS service, identifying any issues that could impact your application's availability.
           
           ## Conclusion
-          DNS records are a fundamental aspect of domain management, crucial for both accessibility and security. By understanding and correctly configuring A, CNAME, MX, TXT, SPF, DKIM, and DMARC records, you can ensure your project on myproject.is-pro.dev is both reachable and protected. Remember to follow best practices and be mindful of common pitfalls to avoid issues with your DNS configuration.
+          DNS records are fundamental to the operation and security of your project on is-pro.dev. By understanding the different types of DNS records and how to set them up correctly, you can ensure your application is accessible, secure, and reliable. Remember to regularly review and update your DNS records as your project evolves, and always follow best practices to minimize potential pitfalls.
           
           ## Frequently Asked Questions
           1. **Q: How long does it take for DNS changes to propagate?**
-             A: DNS changes can take anywhere from a few minutes to 48 hours to propagate globally, depending on the TTL (Time To Live) set for your records and the efficiency of DNS servers worldwide.
-          2. **Q: Can I have multiple A records for the same domain?**
-             A: While technically possible, having multiple A records for the
+             A: DNS changes can take anywhere from a few minutes to 48 hours to propagate globally, depending on the TTL (Time To Live) set for the records and the efficiency of DNS servers worldwide.
+          2. **Q: Can I have multiple A records for the same subdomain?**
+             A: Yes, but this is known as round-robin DNS and is used for load balancing. Each A record should point to a different IP address.
+          3. **Q: What is the purpose of DMARC?**
+             A: DMARC is a policy that helps prevent email spoofing by specifying which email senders are authorized to send emails on behalf of a domain and what actions to take when unauthorized emails are detected.
+          4. **Q: Do I need to set up DKIM for my email services?**
+             A: Yes, DKIM is highly recommended as it provides an additional layer of email authentication, helping to prevent spam filters from
 <h2>FAQ</h2><p><strong>Is DNS setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

@@ -7,6 +7,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Host an Anime Fan Site or Wiki on a Free Subdomain — is-cool-me</title>
   <meta name="description" content="Deploy an anime information site, wiki, or fan archive using tools like MediaWiki or Hugo, host it for free on GitHub Pages or Cloudflare Pages, and connect it to your is-pro.dev subdomain." />
+  <meta name="keywords" content="anime, wiki, mediawiki, hugo, fan site, free hosting" />
   <link rel="canonical" href="https://is-pro.dev/guides/anime-website-hosting-guide/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/anime-website-hosting-guide/" />
@@ -23,7 +24,9 @@
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -62,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-22",
-      "dateModified": "2026-06-22",
+      "datePublished": "2026-06-23",
+      "dateModified": "2026-06-23",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/anime-website-hosting-guide/"
@@ -103,7 +106,7 @@
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -167,31 +170,54 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Anime fan sites and wikis are passion projects that deserve reliable hosting without monthly costs eating into your budget. Whether you are building a character database, episode guide, fan art gallery, or full wiki, you can host it on a free is-pro.dev subdomain using tools like MediaWiki, Hugo, or Jekyll. This guide covers the complete setup from choosing the right tool to deploying with free hosting platforms and configuring your custom subdomain.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A GitHub account for hosting static sites on GitHub Pages</li><li>Basic knowledge of Markdown or HTML for content creation</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Content ready: character descriptions, episode summaries, images (optimized for web)</li></ul>
-          <h2>Step 1: Choose Your Site Builder</h2>
-          <p>Select a tool based on the type of site you want to create. For a full wiki with search, categories, and user contributions, MediaWiki (the software behind Wikipedia) is the gold standard but requires PHP hosting. For a static information site, Hugo or Jekyll are excellent choices — they generate fast HTML pages from Markdown content and are free to host on GitHub Pages or Cloudflare Pages. For a simple gallery site, a hand-coded HTML page or a template-based site works well. Hugo is particularly well-suited for anime fan sites because of its taxonomy system — you can tag characters by series, studio, genre, or year and automatically generate archive pages.</p>
-          <h2>Step 2: Set Up Hugo for Your Fan Site</h2>
-          <p>Install Hugo on your local machine (<code>brew install hugo</code> on macOS or download from the Hugo website). Create a new site: <code>hugo new site my-anime-site</code>. Install a theme by cloning a Git repository into the <code>themes</code> directory and adding it to your config. Create content: <code>hugo new characters/naruto-uzumaki.md</code>. Edit the Markdown file with your character information. Add front matter for structured data like series, abilities, and voice actors. Hugo's shortcodes let you embed images, YouTube trailers, and related character links. Build the site with <code>hugo</code> — the output goes to the <code>public</code> directory ready for deployment.</p>
-          <h2>Step 3: Deploy to GitHub Pages or Cloudflare Pages</h2>
-          <p>Push your Hugo site repository to GitHub. In the repository settings, enable GitHub Pages from the <code>gh-pages</code> branch (or use GitHub Actions to build and deploy automatically). For Cloudflare Pages, connect your Git repository and set the build command to <code>hugo</code> with an output directory of <code>public</code>. Cloudflare Pages provides preview URLs for each branch and automatic SSL. Both platforms support custom domains. Cloudflare Pages offers the advantage of unlimited bandwidth and tighter integration with Cloudflare DNS (which powers is-pro.dev), making it the recommended choice for Hugo sites.</p>
-          <h2>Step 4: Connect Your is-pro.dev Subdomain</h2>
-          <p>In the is-pro.dev DNS dashboard, add a CNAME record pointing your subdomain to your hosting platform. For GitHub Pages, point to <code>username.github.io</code>. For Cloudflare Pages, point to <code>project-name.pages.dev</code>. Save the record. Then in your hosting platform's settings, add your is-pro.dev subdomain as a custom domain. Both platforms will provision an SSL certificate automatically. For GitHub Pages, you may need to wait up to 20 minutes for the Let's Encrypt certificate. For Cloudflare Pages, the certificate is instant since it uses Cloudflare's own edge certificates.</p>
-          <h2>Step 5: Optimize Images for Fast Loading</h2>
-          <p>Anime fan sites often have many images — character art, screenshots, and fan creations. Optimize every image before uploading. Use tools like Squoosh, TinyPNG, or ImageMagick to reduce file sizes. Aim for JPEG quality 80-85 for photos and PNG-8 for illustrations with limited colors. Consider using WebP format for supported browsers (which covers over 95% of modern traffic). Hugo supports image processing — you can resize, crop, and convert images at build time using the <code>image</code> shortcode. Use lazy loading (<code>loading=&quot;lazy&quot;</code> attribute) for images below the fold to improve initial page load time.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Organize content by series, genre, or character type using Hugo's taxonomy system for easy navigation</li><li>Add an RSS feed so visitors can subscribe to new content updates</li><li>Include a search feature — Hugo integrates with Lunr.js or Pagefind for client-side search without a backend</li><li>Credit your sources properly when using fan art or information from other databases</li><li>Add a sitemap.xml for search engines and register your subdomain with Google Search Console</li></ul>
-          <h2>Conclusion</h2>
-          <p>An anime fan site or wiki hosted on an is-pro.dev subdomain combines passion with practicality. Hugo handles content management and static generation, GitHub Pages or Cloudflare Pages provides free hosting with CDN, and your branded subdomain gives the site a professional URL. The entire setup costs nothing while delivering fast load times and reliable uptime.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I use MediaWiki instead of Hugo for my fan wiki?</strong></p>
-          <p>Yes, but MediaWiki requires PHP and MySQL hosting, which is harder to find for free. Consider using a free PHP hosting provider or a low-cost VPS if you need full wiki functionality with user accounts.</p>
-          <p><strong>How do I handle copyrighted anime images on my fan site?</strong></p>
-          <p>Use images that are officially released promotional material, screenshots for educational purposes (review/analysis), or your own fan art. Always credit the original source and studio.</p>
-          <p><strong>Can I add a forum or comments section to my static site?</strong></p>
-          <p>Yes, you can embed third-party comment systems like Disqus or Remark42, or create a separate discussion space using free tools like GitHub Discussions.</p>
+          ## Introduction to Hosting Anime Fan Sites
+          Hosting an anime fan site or wiki on a free subdomain is an excellent way for developers to share their passion for anime with the community while gaining hands-on experience with web development and content management. Platforms like is-pro.dev offer free subdomains, making it easy to get started. For example, you could host your anime fan site on a subdomain like `myanimefansite.is-pro.dev`. This guide will walk you through the process of setting up an anime fan site or wiki on a free subdomain, using tools like MediaWiki for wikis and Hugo for static sites.
+          
+          ## Prerequisites
+          Before you begin, ensure you have the following prerequisites covered:
+          - A basic understanding of HTML, CSS, and possibly JavaScript for customizations.
+          - Familiarity with command-line interfaces (CLI) for using tools like Hugo.
+          - An account on is-pro.dev to create your free subdomain (e.g., `myproject.is-pro.dev`).
+          - Optional: Knowledge of wiki markup if you're using MediaWiki.
+          
+          ## Setting Up Your Anime Fan Site with Hugo
+          Hugo is a popular static site generator that's perfect for creating and managing content-heavy sites like anime fan sites. Here’s how to set it up:
+          1. **Install Hugo**: Download and install Hugo from its official website. For Windows, you can use Chocolatey, while macOS users can use Homebrew.
+          2. **Create a New Site**: Open your terminal or command prompt, navigate to your projects directory, and run `hugo new site myanimewebsite` to create a new Hugo site.
+          3. **Choose a Theme**: Hugo has a wide range of themes. You can find them on the Hugo themes website. For an anime fan site, a simple, content-focused theme like "ananke" would be suitable. Download your chosen theme and place it in the `themes` directory of your site.
+          4. **Configure Hugo**: Edit the `config.toml` file in the root of your project to set your site's title, description, and base URL (e.g., `https://myanimewebsite.is-pro.dev`).
+          5. **Create Content**: Start creating your content. Hugo uses Markdown files for content. You can add posts, pages, and even support for anime lists or character databases using Hugo's shortcodes.
+          6. **Build and Deploy**: Use `hugo` to build your site, and then upload the generated public folder to your is-pro.dev subdomain. You can use FTP, SFTP, or even GitHub Actions for automated deployment.
+          
+          ## Setting Up Your Anime Wiki with MediaWiki
+          For a more collaborative approach, MediaWiki is an excellent choice. It's the same software that powers Wikipedia. Here's a brief setup guide:
+          1. **Download MediaWiki**: Visit the MediaWiki website and download the latest version.
+          2. **Extract and Upload**: Extract the MediaWiki files and upload them to your is-pro.dev subdomain (e.g., `myanimewiki.is-pro.dev`).
+          3. **Run the Installer**: Navigate to your wiki's URL in a browser and follow the on-screen instructions to complete the installation. You'll need to create a database (you can use a free MySQL database provided by your hosting) and configure the wiki settings.
+          4. **Customize Your Wiki**: Once installed, you can customize your wiki by installing extensions (for features like anime character templates), skins, and editing the wiki's content.
+          
+          ## Common Pitfalls and Troubleshooting
+          - **Permission Issues**: When uploading files, ensure you have the correct permissions. If you're using FTP, check the file permissions and adjust them if necessary.
+          - **Database Errors**: With MediaWiki, database connection issues can arise. Double-check your database credentials and ensure the database user has the necessary permissions.
+          - **Theme Compatibility**: When choosing a Hugo theme, ensure it's compatible with the latest version of Hugo to avoid compatibility issues.
+          
+          ## Best Practices for Maintenance and Security
+          - **Regularly Update Software**: Keep Hugo, MediaWiki, and any extensions or themes up to date to protect against security vulnerabilities.
+          - **Backup Your Site**: Regular backups can save you from losing your content in case of errors or attacks. Use services like GitHub for Hugo sites or MediaWiki's built-in backup tool.
+          - **Optimize Performance**: Use tools like Google PageSpeed Insights to optimize your site's performance. Enable compression, leverage browser caching, and optimize images.
+          
+          ## Conclusion
+          Hosting an anime fan site or wiki on a free subdomain like `myproject.is-pro.dev` is a fun and educational project that combines web development with a passion for anime. By following the steps outlined in this guide, you can create a vibrant community hub for fellow anime fans. Remember to keep your site updated, secure, and optimized for the best user experience.
+          
+          ## Frequently Asked Questions
+          1. **Q: Can I use other static site generators besides Hugo?**
+             A: Yes, other generators like Jekyll or Middleman can be used, but Hugo is particularly well-suited for content-heavy sites like anime fan sites.
+          2. **Q: How do I add custom functionality to my MediaWiki site?**
+             A: You can add custom functionality by installing extensions from the MediaWiki Extensions wiki. There are extensions for a wide range of features, from social media integration to custom content types.
+          3. **Q: Is it possible to migrate my existing wiki or site to a new subdomain?**
+             A: Yes, both Hugo and MediaWiki support migration. For Hugo, you can simply update the base URL in your config file and redeploy. For MediaWiki, you'll need to update the wiki's configuration and possibly adjust database settings.
+          4. **Q: What are some good practices for managing user contributions on my anime wiki?**
+             A: Establish clear community guidelines, use MediaWiki's built-in
 <h2>FAQ</h2><p><strong>Is Hosting setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>
@@ -220,8 +246,8 @@
       <ul style="display:flex;flex-direction:column;gap:.35rem;">
         <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
         <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
       </ul>
     </div>
     <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
@@ -259,7 +285,7 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
               <span class="mono">is-cool-me</span>
             </a>
             <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
@@ -290,13 +316,18 @@
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
-          <div class="footer-col">
-            <h4>Community</h4>
-            <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
         </div>
         <div class="footer-bottom">
           <span>&copy; 2026 is-cool-me. All rights reserved.</span>

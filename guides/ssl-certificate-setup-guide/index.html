@@ -7,6 +7,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>SSL Certificate Setup: From Zero to HTTPS Everywhere — is-cool-me</title>
   <meta name="description" content="Learn how SSL certificates work, configure free auto-renewing certificates through Cloudflare, and ensure every page on your subdomain forces HTTPS with proper redirect rules." />
+  <meta name="keywords" content="ssl, https, certificate, tls, security, cloudflare" />
   <link rel="canonical" href="https://is-pro.dev/guides/ssl-certificate-setup-guide/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/ssl-certificate-setup-guide/" />
@@ -23,7 +24,9 @@
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -62,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-22",
-      "dateModified": "2026-06-22",
+      "datePublished": "2026-06-23",
+      "dateModified": "2026-06-23",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
@@ -103,7 +106,7 @@
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -168,63 +171,51 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to SSL Certificates
-          As a developer setting up projects on is-pro.dev subdomains, such as myproject.is-pro.dev, ensuring the security of your website is crucial. One of the fundamental aspects of web security is setting up an SSL (Secure Sockets Layer) certificate, which enables HTTPS (Hypertext Transfer Protocol Secure) for your domain. In this guide, we will walk you through the process of obtaining and installing an SSL certificate, from start to finish, using Cloudflare as our Certificate Authority (CA) and Content Delivery Network (CDN).
+          Setting up an SSL certificate is a crucial step in securing your web application, especially when deploying projects on is-pro.dev subdomains like myproject.is-pro.dev. SSL (Secure Sockets Layer) certificates, now commonly referred to as TLS (Transport Layer Security), encrypt the data exchanged between your website and its users, protecting sensitive information from eavesdropping and tampering. In this guide, we will walk through the process of obtaining and setting up an SSL certificate for your project, ensuring that your users can access your site securely via HTTPS.
           
-          ## Prerequisites for SSL Certificate Setup
-          Before you begin, make sure you have the following prerequisites in place:
-          - A domain set up on is-pro.dev, for example, myproject.is-pro.dev.
-          - An account with Cloudflare, which offers free SSL certificates and CDN services.
-          - Access to your domain's DNS settings, either through your domain registrar or Cloudflare.
+          ## Prerequisites for SSL Setup
+          Before diving into the setup process, ensure you have the following prerequisites met:
+          - A project hosted on an is-pro.dev subdomain (e.g., myproject.is-pro.dev).
+          - Access to your project's DNS settings, either through is-pro.dev's control panel or your domain registrar if you're using a custom domain.
+          - A basic understanding of DNS records and SSL certificates.
           
-          ## Step-by-Step Instructions for SSL Certificate Setup
-          ### Step 1: Sign Up for Cloudflare and Add Your Domain
-          First, sign up for a Cloudflare account and add your domain (myproject.is-pro.dev) to Cloudflare. This process involves changing your domain's nameservers to point to Cloudflare, which may take some time to propagate globally.
+          ## Step-by-Step SSL Certificate Setup
+          To set up an SSL certificate, follow these steps:
+          1. **Generate a Certificate Signing Request (CSR):** Most web servers and control panels provide tools to generate a CSR. For example, if you're using a Linux server with OpenSSL, you can generate a CSR with the command `openssl req -new -newkey rsa:2048 -nodes -keyout myproject.key -out myproject.csr`. This command generates a 2048-bit RSA key and a CSR based on the information you provide during the prompt.
+          2. **Obtain an SSL Certificate:** You can obtain an SSL certificate from a Certificate Authority (CA) like Let's Encrypt, which offers free SSL certificates. If you're using Cloudflare, you can also use their SSL certificates, which are automatically issued and renewed.
+          3. **Install the SSL Certificate:** Once you have your SSL certificate, you need to install it on your server. The process varies depending on your web server software. For example, with Apache, you would configure your virtual host to point to your certificate and private key files.
+          4. **Configure Your DNS for HTTPS:** Ensure your DNS settings are configured to support HTTPS. This typically involves updating your DNS records to point to the IP address or hostname of your server that has the SSL certificate installed.
           
-          ### Step 2: Configure Cloudflare SSL/TLS Settings
-          After your domain is added and the nameservers have propagated, navigate to the SSL/TLS section in your Cloudflare dashboard. Here, you can select the SSL mode that suits your needs. For most use cases, "Flexible" or "Full" SSL modes are recommended. The "Flexible" mode allows you to use HTTPS between the visitor and Cloudflare, while "Full" mode encrypts the connection all the way to your origin server.
+          ## Using Cloudflare for Simplified SSL Setup
+          Cloudflare simplifies the SSL setup process by automatically issuing and renewing SSL certificates for your domain. To use Cloudflare with your is-pro.dev subdomain:
+          1. **Sign up for Cloudflare:** Create an account on Cloudflare and add your domain (e.g., myproject.is-pro.dev).
+          2. **Update Your DNS:** Change your DNS settings to point to Cloudflare's nameservers.
+          3. **Enable SSL in Cloudflare:** In the Cloudflare dashboard, go to the "SSL/TLS" section and select "Full" under the "SSL" dropdown. This setting ensures that Cloudflare issues an SSL certificate for your domain and that all traffic between Cloudflare and your visitor's browser is encrypted.
           
-          ### Step 3: Obtain an SSL Certificate
-          Cloudflare automatically issues an SSL certificate for your domain when you enable SSL. However, for a more secure and trusted certificate, you might want to use Cloudflare's "Full (strict)" mode, which requires you to have a valid SSL certificate installed on your origin server. You can obtain a free SSL certificate from Let's Encrypt or purchase one from a trusted CA.
-          
-          ### Step 4: Install the SSL Certificate on Your Origin Server
-          If you've chosen to use "Full (strict)" mode, you'll need to install your SSL certificate on your origin server. The process varies depending on your server software. For example, on an Apache server, you would configure your virtual host to point to your certificate and key files.
-          
-          ```apache
-          <VirtualHost *:443>
-              ServerName myproject.is-pro.dev
-              DocumentRoot /var/www/myproject
-          
-              SSLEngine on
-              SSLCertificateFile /path/to/your/certificate.crt
-              SSLCertificateKeyFile /path/to/your/private/key.key
-          </VirtualHost>
-          ```
-          
-          ### Step 5: Test Your SSL Setup
-          After configuring your SSL settings and installing your certificate, test your setup using tools like SSL Labs' SSL Test or by simply visiting your website over HTTPS (https://myproject.is-pro.dev). Ensure that your website loads correctly and that there are no SSL-related errors.
-          
-          ## Common Pitfalls in SSL Certificate Setup
-          - **Mixed Content Issues**: If your website loads resources (images, scripts, stylesheets) over HTTP while the main page is loaded over HTTPS, you'll encounter mixed content warnings. Ensure all resources are loaded over HTTPS.
-          - **Certificate Mismatch**: Make sure your SSL certificate matches your domain name. A mismatch can lead to security warnings for your visitors.
-          - **Expiration**: SSL certificates have expiration dates. Make sure to renew your certificate before it expires to avoid any downtime.
+          ## Common Pitfalls and Troubleshooting
+          Common issues during SSL setup include:
+          - **Certificate Mismatch:** Ensure your certificate is issued for the correct domain (e.g., myproject.is-pro.dev) and that you're using the correct certificate files.
+          - **Expired Certificates:** Regularly check the expiration dates of your certificates and renew them before they expire to avoid downtime.
+          - **Mixed Content Warnings:** After enabling HTTPS, ensure all resources (images, scripts, etc.) on your site are loaded over HTTPS to avoid mixed content warnings.
           
           ## Best Practices for SSL Certificate Management
-          - **Monitor Certificate Expiration**: Regularly check the expiration dates of your SSL certificates to ensure they are renewed on time.
-          - **Use Automated Certificate Management**: Tools like Certbot (from Let's Encrypt) can automate the process of obtaining and renewing SSL certificates.
-          - **Keep Software Up-to-Date**: Ensure your server software and any SSL/TLS libraries are updated to the latest versions to protect against known vulnerabilities.
+          To maintain the security and integrity of your SSL setup:
+          - **Regularly Update Your Server Software:** Keep your web server and related software up to date to patch security vulnerabilities.
+          - **Monitor Certificate Expiration:** Use tools or services that notify you of upcoming certificate expirations.
+          - **Test Your SSL Setup:** Use online tools to test your SSL setup and ensure it's correctly configured and secure.
           
           ## Conclusion
-          Setting up an SSL certificate and enabling HTTPS for your domain on is-pro.dev subdomains is a straightforward process, especially when leveraging services like Cloudflare. By following the steps outlined in this guide, you can ensure your website is secure, trusted by visitors, and compliant with modern web security standards. Remember to monitor your SSL setup regularly and adhere to best practices for ongoing security and reliability.
+          Setting up an SSL certificate for your is-pro.dev subdomain is a straightforward process that significantly enhances the security of your web application. By following the steps outlined in this guide and leveraging services like Cloudflare, you can ensure that your project is accessible over HTTPS, protecting your users' data and boosting trust in your site.
           
           ## Frequently Asked Questions
-          - Q: Do I need to pay for an SSL certificate?
-            A: No, you can obtain free SSL certificates from providers like Let's Encrypt or use Cloudflare's free SSL/TLS encryption.
-          - Q: How long does it take for SSL certificate changes to propagate?
-            A: Changes to your SSL setup, like switching to a new certificate, can take anywhere from a few minutes to 48 hours to fully propagate globally.
-          - Q: Can I use Cloudflare's SSL certificate with a custom domain not hosted on is-pro.dev?
-            A: Yes, Cloudflare supports SSL certificates for custom domains. You can add your custom domain to Cloudflare and enable SSL, regardless of where your domain is hosted.
-          - Q: What is the difference between SSL and TLS?
-            A: SSL (Secure Sockets Layer) and TLS (Transport Layer Security) are both cryptographic protocols used for secure communication over the internet. TLS is the successor to SSL and is considered more secure. When people refer to SSL, they often mean TLS, as TLS has become the de facto standard for secure web traffic.
+          1. **Q: Do I need to pay for an SSL certificate?**
+             A: No, thanks to services like Let's Encrypt, you can obtain SSL certificates for free. Cloudflare also offers free SSL certificates for domains routed through their network.
+          2. **Q: How long does it take to set up an SSL certificate?**
+             A: The setup process can take anywhere from a few minutes to several hours, depending on the method you choose and the complexity of your setup.
+          3. **Q: Can I use SSL certificates with custom domains on is-pro.dev?**
+             A: Yes, you can use SSL certificates with custom domains on is-pro.dev. The process is similar to setting up an SSL certificate for an is-pro.dev subdomain, but you may need to configure additional DNS settings.
+          4. **Q: How do I renew my SSL certificate?**
+             A: The renewal process depends on your SSL provider. For example, Let's Encrypt certificates automatically renew if you have a cron job set up, while Cloudflare handles renewals automatically for domains using their service.
 <h2>FAQ</h2><p><strong>Is Security setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>
@@ -253,8 +244,8 @@
       <ul style="display:flex;flex-direction:column;gap:.35rem;">
         <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
         <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
       </ul>
     </div>
     <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
@@ -292,7 +283,7 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
               <span class="mono">is-cool-me</span>
             </a>
             <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
@@ -323,13 +314,18 @@
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
-          <div class="footer-col">
-            <h4>Community</h4>
-            <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
         </div>
         <div class="footer-bottom">
           <span>&copy; 2026 is-cool-me. All rights reserved.</span>

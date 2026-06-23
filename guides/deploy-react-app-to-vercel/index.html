@@ -7,6 +7,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Deploy a React App to Vercel with Custom Domain — is-cool-me</title>
   <meta name="description" content="Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production." />
+  <meta name="keywords" content="react, vercel, deployment, javascript, custom domain, frontend" />
   <link rel="canonical" href="https://is-pro.dev/guides/deploy-react-app-to-vercel/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/deploy-react-app-to-vercel/" />
@@ -23,7 +24,9 @@
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -62,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-22",
-      "dateModified": "2026-06-22",
+      "datePublished": "2026-06-23",
+      "dateModified": "2026-06-23",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/deploy-react-app-to-vercel/"
@@ -103,7 +106,7 @@
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -167,63 +170,79 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to Deploying React Apps on Vercel
-          Deploying a React application to Vercel with a custom domain offers numerous benefits, including enhanced performance, simplified maintenance, and improved user experience. For developers working on projects hosted on subdomains like myproject.is-pro.dev, integrating Vercel into the workflow can significantly streamline the deployment process. This guide is designed to walk you through the steps required to deploy a React app to Vercel, complete with setting up a custom domain, providing a seamless and professional web presence.
+          ## Introduction
+          As a developer on the is-pro.dev platform, deploying a React application to a custom domain is a crucial step in making your project accessible to the world. Vercel is a popular choice for deployment due to its ease of use, performance, and seamless integration with React. In this guide, we'll walk through the process of deploying a React app to Vercel with a custom domain, using myproject.is-pro.dev as an example.
           
-          ## Prerequisites for Deployment
-          Before diving into the deployment process, ensure you have the following prerequisites in place:
-          - A React application ready for deployment. If your application is not yet set up, create a new React app using `npx create-react-app myproject`.
+          ## Prerequisites
+          Before we begin, ensure you have the following:
+          - A React application set up and ready for deployment. If you're starting from scratch, create a new React app using `npx create-react-app myproject`.
           - A Vercel account. Sign up at vercel.com if you haven't already.
-          - A custom domain. For this example, let's use `myproject.is-pro.dev`.
-          - Node.js and npm installed on your machine.
+          - Your project hosted on a version control platform like GitHub, which will be linked to Vercel for automatic deployments.
+          - A custom domain. For this example, we'll use myproject.is-pro.dev.
           
-          ## Step-by-Step Deployment Instructions
+          ## Step-by-Step Instructions
+          ### Setting Up Your React App for Deployment
+          First, navigate to your React project directory. If you're using `create-react-app`, your directory should look something like this:
+          ```bash
+          myproject/
+            node_modules/
+            public/
+            src/
+            package.json
+          ```
+          Ensure your `package.json` includes a `build` script. If not, add it:
+          ```json
+          "scripts": {
+            "start": "react-scripts start",
+            "build": "react-scripts build",
+            "test": "react-scripts test"
+          },
+          ```
           ### Creating a Vercel Project
           1. Log in to your Vercel account and click on "New Project".
-          2. Select "Import" and choose the Git repository where your React project is hosted, or manually upload your project folder.
-          3. Follow the prompts to set up your project. Vercel will automatically detect that it's a React app and configure the build settings accordingly.
+          2. Select "Import" and choose the Git provider where your React app is hosted (e.g., GitHub).
+          3. Find your repository and click "Import".
+          4. Vercel will automatically detect your React app and set up a new project.
           
-          ### Configuring Environment Variables
-          In your React app, you might have environment variables set in a `.env` file. To ensure these are properly configured on Vercel:
-          1. Go to your project settings on Vercel.
-          2. Navigate to the "Environment Variables" section.
-          3. Add your environment variables here, ensuring they match what's defined in your local `.env` file.
-          
-          ### Setting Up a Custom Domain
-          To set up `myproject.is-pro.dev` as your custom domain:
-          1. In your Vercel project settings, go to the "Domains" section.
-          2. Click on "Add a Domain" and enter `myproject.is-pro.dev`.
+          ### Configuring Vercel for Custom Domain
+          1. In your Vercel project settings, navigate to "Domains".
+          2. Click "Add a Domain" and enter your custom domain (myproject.is-pro.dev).
           3. Vercel will provide you with a TXT record to verify domain ownership. Add this record to your DNS settings.
-          4. Once the domain is verified, you can set it as the primary domain for your project.
           
-          ### Deploying Your React App
-          With your project and domain set up:
-          1. Push any changes to your Git repository. Vercel will automatically trigger a build and deployment.
-          2. Alternatively, you can manually trigger a deployment from the Vercel dashboard.
-          3. Wait for the deployment to complete. Your React app should now be live on `myproject.is-pro.dev`.
+          ### Linking Custom Domain to Vercel
+          To link your custom domain to Vercel, you'll need to update your DNS settings:
+          1. Go to your DNS provider and add a new CNAME record.
+          2. Set the name to `@` (or the subdomain you're using, e.g., `www`) and the value to `cname.vercel-dns.com`.
+          3. Save the changes. DNS propagation can take some time, so be patient.
           
-          ## Common Pitfalls and Troubleshooting
-          - **Build Failures:** Check the Vercel build logs for any errors. Common issues include incorrect `package.json` scripts or missing dependencies.
-          - **Domain Verification Issues:** Ensure the TXT record is correctly added to your DNS settings. Verification can take a few minutes to propagate.
-          - **Environment Variable Misconfigurations:** Double-check that environment variables are correctly set both in your `.env` file and in Vercel's environment variable settings.
+          ### Deploying Your App
+          Once your domain is set up and verified, Vercel will automatically deploy your React app whenever you push changes to your linked Git repository. To trigger a manual deployment:
+          1. Make some changes to your React app (e.g., update a component).
+          2. Commit these changes with a meaningful message: `git commit -m "Updated component"`.
+          3. Push the changes to your repository: `git push origin main`.
           
-          ## Best Practices for Deployment
-          - **Automate Deployments:** Use Git to trigger automatic deployments on Vercel. This ensures your app is always up-to-date with the latest changes.
-          - **Monitor Performance:** Use Vercel's analytics tools to monitor your app's performance and identify areas for optimization.
-          - **Secure Your App:** Ensure you're using HTTPS for your custom domain. Vercel provides SSL certificates for all custom domains.
+          ## Common Pitfalls
+          - **DNS Propagation Delay**: Changes to DNS records can take anywhere from a few minutes to 48 hours to propagate globally. Be patient if your custom domain doesn't work immediately.
+          - **Vercel Build Failures**: If your build fails, check the Vercel build logs for errors. Common issues include outdated dependencies or incorrect `package.json` scripts.
+          - **SSL Certificate Errors**: After setting up your custom domain, ensure you have an SSL certificate. Vercel automatically provisions SSL certificates for custom domains, but this process can take some time.
+          
+          ## Best Practices
+          - **Regularly Update Dependencies**: Keep your React app's dependencies up to date to avoid compatibility issues and security vulnerabilities.
+          - **Monitor Vercel Logs**: Regularly check your Vercel project logs for any deployment issues or errors.
+          - **Test on Different Devices**: Ensure your React app works as expected on various devices and browsers to catch any compatibility issues early.
           
           ## Conclusion
-          Deploying a React app to Vercel with a custom domain like `myproject.is-pro.dev` is a straightforward process that enhances your web application's performance and user experience. By following the steps outlined in this guide, developers can efficiently set up their React projects on Vercel, taking advantage of its robust features and scalability.
+          Deploying a React app to Vercel with a custom domain like myproject.is-pro.dev is a straightforward process that enhances your project's accessibility and professionalism. By following the steps outlined in this guide, you can ensure a smooth deployment process. Remember to stay vigilant about potential pitfalls and adhere to best practices for ongoing maintenance and updates.
           
-          ## Frequently Asked Questions
-          1. **Q: Can I use a subdomain of my custom domain?**
-          A: Yes, Vercel supports using subdomains of your custom domain. Simply add the subdomain in the Vercel domain settings and verify it as you would with a top-level domain.
-          2. **Q: How do I handle routing for my React app on Vercel?**
-          A: Vercel automatically handles routing for React apps based on the `package.json` scripts and the app's configuration. For custom routing needs, refer to Vercel's documentation on routing.
-          3. **Q: Are there any costs associated with using Vercel for my React app?**
-          A: Vercel offers a generous free plan that includes most features needed for deploying a React app. Depending on your app's traffic and requirements, you might need to upgrade to a paid plan.
-          4. **Q: Can I use Vercel with other frontend frameworks besides React?**
-          A: Yes, Vercel supports deployment of various frontend frameworks and static sites, including Next.js, Angular, Vue.js, and more. The deployment process may vary slightly depending on the framework.
+          ## FAQ
+          1. **How long does DNS propagation take?**
+             - DNS propagation can take anywhere from a few minutes to 48 hours, depending on your location and the DNS provider.
+          2. **Do I need to manually deploy my app every time I make changes?**
+             - No, Vercel is set up to automatically deploy your app whenever you push changes to your linked Git repository.
+          3. **Can I use a custom domain with a free Vercel plan?**
+             - Yes, Vercel supports custom domains on all plans, including the free tier, with automatic SSL certificate provisioning.
+          4. **How do I handle build failures on Vercel?**
+             - Check the Vercel build logs for specific error messages. Common solutions include updating dependencies, fixing `package.json` scripts, or adjusting environment variables.
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>
@@ -252,8 +271,8 @@
       <ul style="display:flex;flex-direction:column;gap:.35rem;">
         <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
         <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
       </ul>
     </div>
     <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
@@ -291,7 +310,7 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
               <span class="mono">is-cool-me</span>
             </a>
             <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
@@ -322,13 +341,18 @@
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
-          <div class="footer-col">
-            <h4>Community</h4>
-            <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
         </div>
         <div class="footer-bottom">
           <span>&copy; 2026 is-cool-me. All rights reserved.</span>

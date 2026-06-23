@@ -7,6 +7,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Free Hosting with GitHub Pages: Complete Setup Guide — is-cool-me</title>
   <meta name="description" content="Learn how to host your static website for free using GitHub Pages, configure custom domains with is-pro.dev, and set up automatic deployments from your repository." />
+  <meta name="keywords" content="github pages, free hosting, static site, deployment, custom domain, is-pro.dev" />
   <link rel="canonical" href="https://is-pro.dev/guides/free-hosting-with-github-pages/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/free-hosting-with-github-pages/" />
@@ -23,7 +24,9 @@
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -62,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-22",
-      "dateModified": "2026-06-22",
+      "datePublished": "2026-06-23",
+      "dateModified": "2026-06-23",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/free-hosting-with-github-pages/"
@@ -103,7 +106,7 @@
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -167,50 +170,77 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to Free Hosting with GitHub Pages
-          Free hosting with GitHub Pages is an excellent option for developers looking to deploy static sites, such as personal portfolios, blogs, or project documentation. As a developer on the is-pro.dev platform, you can leverage GitHub Pages to host your projects, like myproject.is-pro.dev, without incurring additional costs. This comprehensive guide will walk you through the setup process, from creating a GitHub repository to configuring a custom domain.
+          ## Introduction
+          As a developer on the is-pro.dev platform, you're likely looking for a reliable and cost-effective way to host your static site. GitHub Pages offers a free hosting solution that integrates seamlessly with your GitHub repository. In this guide, we'll walk you through the process of setting up GitHub Pages for your project, using a custom domain like myproject.is-pro.dev. We'll cover the prerequisites, step-by-step instructions, common pitfalls, and best practices to ensure a smooth deployment.
           
-          ## Prerequisites for GitHub Pages Setup
-          Before you begin, ensure you have the following prerequisites in place:
-          - A GitHub account: If you haven't already, create a GitHub account at github.com.
-          - A code editor or IDE: Choose a code editor or Integrated Development Environment (IDE) like Visual Studio Code, Sublime Text, or Atom.
-          - A static site generator (optional): If you're building a complex site, consider using a static site generator like Jekyll, Hugo, or Gatsby.
-          - An is-pro.dev subdomain: Set up your project on an is-pro.dev subdomain, such as myproject.is-pro.dev.
+          ## Prerequisites
+          Before you begin, make sure you have the following:
+          - A GitHub account and a repository for your project (e.g., myproject)
+          - A basic understanding of Git and GitHub workflows
+          - A static site generator like Jekyll, Hugo, or Middleman (optional but recommended for more complex sites)
+          - An is-pro.dev subdomain (e.g., myproject.is-pro.dev) for custom domain hosting
           
-          ## Step-by-Step Setup Instructions
-          To set up free hosting with GitHub Pages, follow these steps:
-          1. **Create a GitHub Repository**: Log in to your GitHub account and create a new repository for your project. Name it after your is-pro.dev subdomain, such as myproject.
-          2. **Initialize a Git Repository**: Open your terminal, navigate to your project directory, and run `git init` to initialize a new Git repository.
-          3. **Create a Static Site**: Develop your static site using your preferred tools and frameworks. If you're using a static site generator, follow its documentation to create and build your site.
-          4. **Configure GitHub Pages**: In your GitHub repository, go to Settings > Pages. Select the branch you want to use for GitHub Pages (usually `main` or `master`). You can also choose a custom domain or use the default github.io domain.
-          5. **Deploy Your Site**: Commit and push your changes to the GitHub repository. GitHub Pages will automatically build and deploy your site.
-          6. **Configure a Custom Domain**: To use a custom domain like myproject.is-pro.dev, create a `CNAME` file in the root of your repository with the following content: `myproject.is-pro.dev`. Then, go to your domain registrar or DNS provider and set up a `CNAME` record pointing to `github.io`.
+          ## Setting Up GitHub Pages
+          To set up GitHub Pages, follow these steps:
+          1. Navigate to your repository on GitHub (e.g., github.com/yourusername/myproject)
+          2. Click on the "Settings" tab
+          3. Scroll down to the "GitHub Pages" section
+          4. Select the branch you want to use for GitHub Pages (e.g., main or master)
+          5. Choose a theme or leave it as is for a basic setup
+          6. Click "Save" to enable GitHub Pages
+          
+          ## Configuring a Custom Domain
+          To use a custom domain like myproject.is-pro.dev, you'll need to configure DNS settings:
+          1. Go to your DNS provider (e.g., Cloudflare or your domain registrar)
+          2. Create a new CNAME record with the following values:
+             - Name: myproject
+             - Type: CNAME
+             - Value: yourgithubusername.github.io
+          3. Create another CNAME record for the www subdomain (if desired):
+             - Name: www.myproject
+             - Type: CNAME
+             - Value: yourgithubusername.github.io
+          4. Update your GitHub Pages settings to use the custom domain:
+             - Go back to your repository settings
+             - Click on "GitHub Pages"
+             - Enter your custom domain (e.g., myproject.is-pro.dev)
+             - Click "Save"
+          
+          ## Deployment and Build Process
+          GitHub Pages supports automatic deployment and build for certain static site generators. If you're using Jekyll, for example, you can enable the Jekyll build process in your repository settings:
+          1. Go to your repository settings
+          2. Click on "Actions"
+          3. Click on "New workflow"
+          4. Choose the Jekyll workflow template
+          5. Update the workflow file to match your repository settings
+          6. Commit and push the changes to trigger the build process
           
           ## Common Pitfalls and Troubleshooting
-          When setting up GitHub Pages, you may encounter some common issues:
-          - **Incorrect `CNAME` File**: Ensure the `CNAME` file contains the correct custom domain, such as myproject.is-pro.dev.
-          - **DNS Configuration**: Verify that your DNS provider has propagated the `CNAME` record changes. This may take up to 48 hours.
-          - **Repository Settings**: Double-check your GitHub repository settings to ensure GitHub Pages is enabled and configured correctly.
+          Some common issues you may encounter include:
+          - Incorrect DNS settings: Double-check your CNAME records and ensure they point to the correct GitHub Pages URL.
+          - Build process errors: Check your workflow file and repository settings to ensure everything is configured correctly.
+          - Custom domain not propagating: Wait for up to 48 hours for DNS changes to take effect, or try flushing your DNS cache.
           
           ## Best Practices for GitHub Pages
           To get the most out of GitHub Pages, follow these best practices:
-          - **Use a Consistent Branch**: Choose a consistent branch (e.g., `main` or `master`) for your GitHub Pages deployment.
-          - **Optimize Images and Assets**: Compress images and optimize assets to reduce page load times.
-          - **Use a Static Site Generator**: Consider using a static site generator to simplify site development and maintenance.
-          - **Monitor Analytics**: Set up analytics tools to track site traffic and user engagement.
+          - Use a consistent naming convention for your repository and custom domain
+          - Keep your repository organized and up-to-date
+          - Use a static site generator to simplify the build process
+          - Test your site regularly to ensure everything is working as expected
+          - Take advantage of GitHub Actions for automated deployment and build processes
           
           ## Conclusion
-          Free hosting with GitHub Pages is a convenient and cost-effective way to deploy static sites on the is-pro.dev platform. By following this comprehensive guide, you can set up a custom domain like myproject.is-pro.dev and enjoy the benefits of GitHub Pages. Remember to troubleshoot common issues and follow best practices to ensure a smooth and efficient deployment process.
+          In this guide, we've covered the process of setting up GitHub Pages for your static site, using a custom domain like myproject.is-pro.dev. By following these steps and best practices, you can ensure a smooth deployment and take advantage of the benefits of free hosting with GitHub Pages. Whether you're a seasoned developer or just starting out, GitHub Pages offers a reliable and cost-effective solution for hosting your static site.
           
           ## Frequently Asked Questions
           Q: Can I use GitHub Pages for dynamic sites?
-          A: No, GitHub Pages is designed for static sites only. For dynamic sites, consider using a different hosting solution.
-          Q: How do I set up HTTPS for my custom domain?
-          A: GitHub Pages automatically enables HTTPS for custom domains. Ensure your `CNAME` record points to `github.io` to enable HTTPS.
-          Q: Can I use a custom email address with my GitHub Pages site?
-          A: Yes, you can set up a custom email address using a third-party email provider or your domain registrar's email services.
-          Q: Are there any storage or bandwidth limits for GitHub Pages?
-          A: GitHub Pages has limits on storage (1 GB) and bandwidth (100 GB per month). For larger sites, consider using a different hosting solution or optimizing your site's assets.
+          A: No, GitHub Pages is designed for static sites only. If you need to host a dynamic site, consider using a different hosting solution.
+          Q: How do I handle HTTPS with a custom domain on GitHub Pages?
+          A: GitHub Pages automatically enables HTTPS for custom domains. You can verify the SSL certificate in your repository settings.
+          Q: Can I use a custom domain with a subfolder on GitHub Pages?
+          A: Yes, you can use a custom domain with a subfolder on GitHub Pages. Update your DNS settings and repository configuration to reflect the subfolder.
+          Q: Are there any limits to the free hosting with GitHub Pages?
+          A: Yes, GitHub Pages has limits on bandwidth, storage, and build minutes. Check the GitHub Pages documentation for the most up-to-date information on limits and pricing.
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>
@@ -239,8 +269,8 @@
       <ul style="display:flex;flex-direction:column;gap:.35rem;">
         <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
         <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
       </ul>
     </div>
     <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
@@ -278,7 +308,7 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
               <span class="mono">is-cool-me</span>
             </a>
             <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
@@ -309,13 +339,18 @@
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
-          <div class="footer-col">
-            <h4>Community</h4>
-            <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
         </div>
         <div class="footer-bottom">
           <span>&copy; 2026 is-cool-me. All rights reserved.</span>

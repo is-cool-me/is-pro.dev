@@ -7,6 +7,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>DNS Records Explained: A-Z Guide for Developers — is-cool-me</title>
   <meta name="description" content="Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration." />
+  <meta name="keywords" content="dns, dns records, a record, cname, mx record, txt record, spf, dkim, dmarc" />
   <link rel="canonical" href="https://is-pro.dev/guides/dns-records-explained/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/dns-records-explained/" />
@@ -23,7 +24,9 @@
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -62,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-22",
-      "dateModified": "2026-06-22",
+      "datePublished": "2026-06-23",
+      "dateModified": "2026-06-23",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/dns-records-explained/"
@@ -103,7 +106,7 @@
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -167,65 +170,47 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          As a developer setting up a project on a subdomain like myproject.is-pro.dev, understanding DNS records is crucial for ensuring your application is accessible and secure. DNS records are the backbone of the internet, mapping domain names to IP addresses and controlling various aspects of your online presence. In this guide, we will delve into the world of DNS records, exploring the different types, their functions, and how to configure them for your is-pro.dev subdomain.
+          ## Introduction to DNS Records
+          When setting up a project on a subdomain like myproject.is-pro.dev, understanding DNS records is crucial for ensuring your website or application is accessible and secure. DNS records are the backbone of the internet, mapping domain names to IP addresses and controlling various aspects of your online presence. In this guide, we'll delve into the world of DNS records, exploring the different types, their functions, and how to configure them for your is-pro.dev subdomain.
           
-          ## Prerequisites
-          Before diving into the world of DNS records, ensure you have a basic understanding of networking concepts and have access to your is-pro.dev subdomain's DNS settings. Typically, you can find these settings in the is-pro.dev control panel or by contacting their support team. For this guide, we will use the example subdomain myproject.is-pro.dev.
+          ## Prerequisites for Configuring DNS Records
+          Before you start configuring DNS records for your myproject.is-pro.dev subdomain, make sure you have the following:
+          - An active is-pro.dev account
+          - A subdomain set up (e.g., myproject.is-pro.dev)
+          - Access to your DNS management panel, usually provided by your domain registrar or hosting service
+          - Basic knowledge of networking concepts, such as IP addresses and domain names
           
-          ## A Record
-          The A record, also known as the Address record, is used to map a domain name to an IP address. This is the most basic type of DNS record and is essential for your website to be accessible. To set up an A record for your myproject.is-pro.dev subdomain, follow these steps:
-          1. Log in to your is-pro.dev control panel and navigate to the DNS settings section.
-          2. Click on "Add a new record" and select "A" as the record type.
-          3. Enter myproject.is-pro.dev as the name and the IP address of your server (e.g., 192.0.2.1) as the value.
-          4. Set the TTL (Time To Live) to a suitable value, such as 3600 (1 hour), and save the record.
+          ## Step-by-Step Guide to Configuring DNS Records
+          Configuring DNS records involves adding or modifying records in your DNS management panel. Here’s a step-by-step guide to the most common DNS record types:
+          - **A Record**: Maps a domain name to an IP address. For example, to point myproject.is-pro.dev to a server with the IP address 192.0.2.1, you would create an A record with the name "myproject.is-pro.dev" and the value "192.0.2.1".
+          - **CNAME Record**: Maps an alias or subdomain to the canonical name of a server or another domain. If you want to point blog.myproject.is-pro.dev to a blogging platform hosted at blog.hosting-service.com, you would create a CNAME record with the name "blog.myproject.is-pro.dev" and the value "blog.hosting-service.com".
+          - **MX Record**: Directs email messages to a mail server. To set up email for myproject.is-pro.dev, you would create an MX record pointing to the mail server provided by your email service, such as mail.is-pro.dev.
+          - **TXT Record**: Used for verifying domain ownership and setting up SPF (Sender Policy Framework), DKIM (DomainKeys Identified Mail), and DMARC (Domain-based Message Authentication, Reporting, and Conformance) policies. For example, to set up SPF for myproject.is-pro.dev, you would create a TXT record with the name "myproject.is-pro.dev" and a value like "v=spf1 include:mail.is-pro.dev -all".
           
-          ## CNAME Record
-          The CNAME record, or Canonical Name record, is used to map an alias or subdomain to the canonical name of a server or another domain. This is useful when you want to point a subdomain to a third-party service or a load balancer. For example, to point blog.myproject.is-pro.dev to a blogging platform, follow these steps:
-          1. Create a new CNAME record in your DNS settings.
-          2. Enter blog.myproject.is-pro.dev as the name and the canonical name of the blogging platform (e.g., blogs.example.com) as the value.
-          3. Set the TTL to a suitable value and save the record.
+          ## Common Pitfalls and Troubleshooting
+          When configuring DNS records, several pitfalls can lead to issues with your website’s accessibility and email deliverability:
+          - **Propagation Time**: DNS changes can take up to 48 hours to propagate globally. Be patient and plan ahead.
+          - **Typographical Errors**: A single mistake in the DNS record name or value can lead to failure. Double-check your entries.
+          - **Inconsistent Record Sets**: Ensure that your DNS records are consistent across all subdomains and services.
           
-          ## MX Record
-          The MX record, or Mail Exchanger record, is used to route email messages to the mail server responsible for receiving emails on behalf of your domain. To set up an MX record for myproject.is-pro.dev, follow these steps:
-          1. Create a new MX record in your DNS settings.
-          2. Enter myproject.is-pro.dev as the name and the hostname of your mail server (e.g., mail.example.com) as the value.
-          3. Set the priority to a suitable value (lower values have higher priority) and save the record.
-          
-          ## TXT Record
-          The TXT record is used to store text information about your domain, such as SPF (Sender Policy Framework) and DKIM (DomainKeys Identified Mail) records. These records are essential for email authentication and preventing spam. To set up a TXT record for myproject.is-pro.dev, follow these steps:
-          1. Create a new TXT record in your DNS settings.
-          2. Enter myproject.is-pro.dev as the name and the text value (e.g., "v=spf1 a mx ip4:192.0.2.1 -all") as the value.
-          3. Set the TTL to a suitable value and save the record.
-          
-          ## SPF, DKIM, and DMARC
-          SPF, DKIM, and DMARC are email authentication protocols that help prevent spam and phishing attacks. SPF defines which mail servers are authorized to send emails on behalf of your domain. DKIM adds a digital signature to your emails, verifying their authenticity. DMARC (Domain-based Message Authentication, Reporting, and Conformance) builds upon SPF and DKIM, providing a framework for email authentication and reporting.
-          To set up SPF, DKIM, and DMARC for myproject.is-pro.dev, follow these steps:
-          1. Set up an SPF record using a TXT record, as described earlier.
-          2. Set up a DKIM record by generating a public-private key pair and publishing the public key in a TXT record.
-          3. Set up a DMARC record by publishing a TXT record with the DMARC policy (e.g., "v=DMARC1; p=reject; pct=100; rua=mailto:abuse@myproject.is-pro.dev; ruf=mailto:abuse@myproject.is-pro.dev; fo=1").
-          
-          ## Step-by-Step Instructions
-          To summarize, here are the step-by-step instructions for setting up DNS records for your myproject.is-pro.dev subdomain:
-          1. Create an A record pointing to the IP address of your server.
-          2. Create a CNAME record pointing to the canonical name of a third-party service (if applicable).
-          3. Create an MX record pointing to the hostname of your mail server (if applicable).
-          4. Create a TXT record for SPF, DKIM, and DMARC (if applicable).
-          
-          ## Common Pitfalls
-          When setting up DNS records, be aware of the following common pitfalls:
-          * Incorrect IP addresses or hostnames can lead to downtime or email delivery issues.
-          * Insufficient TTL values can cause propagation delays.
-          * Missing or incorrect SPF, DKIM, and DMARC records can lead to email authentication issues.
-          
-          ## Best Practices
-          To ensure a smooth and secure online presence, follow these best practices:
-          * Use a consistent naming convention for your DNS records.
-          * Regularly review and update your DNS records to reflect changes in your infrastructure.
-          * Implement SPF, DKIM, and DMARC to prevent email spoofing and phishing attacks.
-          * Monitor your DNS records for any issues or errors.
+          ## Best Practices for DNS Record Management
+          To ensure your DNS records are well-managed and secure:
+          - **Use a Consistent Naming Convention**: Keep your subdomain and record names consistent and easy to understand.
+          - **Monitor DNS Record Changes**: Regularly review your DNS records for any unauthorized changes.
+          - **Implement Security Measures**: Use SPF, DKIM, and DMARC to protect your domain from email spoofing and spam.
           
           ## Conclusion
-          In conclusion, understanding and configuring DNS records is essential for developers
+          DNS records are a critical component of setting up and managing your online presence on platforms like is-pro.dev. By understanding the different types of DNS records and how to configure them, you can ensure your project is accessible, secure, and runs smoothly. Remember to always follow best practices and be mindful of common pitfalls to avoid issues with your website and email services.
+          
+          ## Frequently Asked Questions
+          - Q: How long does it take for DNS record changes to take effect?
+          A: DNS record changes can take anywhere from a few minutes to 48 hours to propagate globally.
+          - Q: Can I have multiple A records for the same domain?
+          A: Yes, but this is typically used for load balancing or failover scenarios. For standard setups, one A record per domain or subdomain is sufficient.
+          - Q: What is the purpose of the TXT record in DNS configuration?
+          A: TXT records are used for domain verification, SPF, DKIM, and DMARC setup, among other purposes, to enhance email security and deliverability.
+          - Q: Do I need to configure DNS records for subdomains separately?
+          A: Yes, each subdomain may require its own set of DNS records, depending on how you want to use it (e.g., hosting a blog, email service, or separate application).
 <h2>FAQ</h2><p><strong>Is DNS setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>
@@ -254,8 +239,8 @@
       <ul style="display:flex;flex-direction:column;gap:.35rem;">
         <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
         <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
       </ul>
     </div>
     <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
@@ -293,7 +278,7 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
               <span class="mono">is-cool-me</span>
             </a>
             <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
@@ -324,13 +309,18 @@
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
-          <div class="footer-col">
-            <h4>Community</h4>
-            <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
         </div>
         <div class="footer-bottom">
           <span>&copy; 2026 is-cool-me. All rights reserved.</span>

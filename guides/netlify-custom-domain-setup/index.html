@@ -7,6 +7,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Netlify Custom Domain Setup with Free Subdomain — is-cool-me</title>
   <meta name="description" content="Connect your is-pro.dev subdomain to a Netlify site, configure DNS records for both root and www variants, and set up automatic HTTPS provisioning through Netlify Lets Encrypt." />
+  <meta name="keywords" content="netlify, custom domain, dns, free hosting, static site, https" />
   <link rel="canonical" href="https://is-pro.dev/guides/netlify-custom-domain-setup/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/netlify-custom-domain-setup/" />
@@ -23,7 +24,9 @@
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -62,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-22",
-      "dateModified": "2026-06-22",
+      "datePublished": "2026-06-23",
+      "dateModified": "2026-06-23",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/netlify-custom-domain-setup/"
@@ -103,7 +106,7 @@
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -168,56 +171,47 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction
-          As a developer on the is-pro.dev platform, you can take advantage of Netlify's free hosting features to deploy your static site. One of the key benefits of using Netlify is the ability to set up a custom domain, which allows you to access your site using a personalized URL instead of the default is-pro.dev subdomain. In this guide, we'll walk you through the process of setting up a custom domain with a free subdomain on Netlify, using myproject.is-pro.dev as an example.
+          Netlify is a popular platform for hosting static sites, offering a range of features including free hosting, automatic HTTPS, and easy deployment. When setting up a project on a subdomain like myproject.is-pro.dev, you may want to use a custom domain to give your site a more professional appearance. In this guide, we will walk through the process of setting up a custom domain with Netlify, using a free subdomain as an example.
           
           ## Prerequisites
           Before you start, make sure you have the following:
           - A Netlify account
-          - A site deployed on Netlify
+          - A site deployed to Netlify
+          - A custom domain (e.g., myproject.com)
+          - Access to your domain's DNS settings
           - A subdomain on is-pro.dev (e.g., myproject.is-pro.dev)
-          - Access to your DNS settings (either through your domain registrar or a third-party DNS service)
           
-          ## Setting Up Your Custom Domain
-          To set up your custom domain, follow these steps:
-          1. Log in to your Netlify account and navigate to the Sites page.
-          2. Click on the site you want to set up the custom domain for (e.g., myproject).
-          3. Click on the Settings icon (represented by three horizontal lines) and select Domain management from the drop-down menu.
-          4. Click on Add custom domain and enter your custom domain (e.g., myproject.com).
-          5. Netlify will automatically generate a DNS record for your custom domain. You'll need to add this record to your DNS settings.
-          6. The DNS record will be in the format of `CNAME myproject.com your-netlify-subdomain.netlify.app` (e.g., `CNAME myproject.com myproject.is-pro.dev.netlify.app`).
-          7. If you're using a third-party DNS service, you can add the record manually. If you're using your domain registrar's DNS service, you may need to contact their support team for assistance.
-          
-          ## Configuring HTTPS
-          Once you've set up your custom domain, you'll need to configure HTTPS to ensure that your site is secure. Netlify provides free SSL certificates for custom domains. To enable HTTPS, follow these steps:
-          1. In the Domain management section, click on the three dots next to your custom domain and select Edit.
-          2. Scroll down to the HTTPS section and click on the Verify DNS configuration button.
-          3. If your DNS configuration is correct, Netlify will automatically generate an SSL certificate for your custom domain.
-          4. Once the SSL certificate is generated, you can test your site by accessing it using the HTTPS protocol (e.g., https://myproject.com).
+          ## Step-by-Step Instructions
+          To set up a custom domain with Netlify, follow these steps:
+          1. **Verify your custom domain**: Go to your Netlify site's settings, click on "Domain management", and then click on "Add a custom domain". Enter your custom domain (e.g., myproject.com) and follow the verification process. Netlify will provide you with a TXT record to add to your domain's DNS settings.
+          2. **Set up DNS records**: Log in to your domain registrar's control panel and navigate to the DNS settings for your custom domain. Add the TXT record provided by Netlify to verify your domain. You will also need to set up a CNAME record pointing to your Netlify site (e.g., myproject.is-pro.dev).
+          3. **Configure Netlify DNS**: Once your custom domain is verified, go back to your Netlify site's settings and click on "Domain management". Click on "Set up Netlify DNS" and follow the instructions to set up DNS records for your custom domain.
+          4. **Enable HTTPS**: Netlify provides automatic HTTPS for custom domains. To enable HTTPS, go to your Netlify site's settings, click on "Domain management", and click on the "HTTPS" tab. Click on "Enable HTTPS" to provision an SSL certificate for your custom domain.
           
           ## Common Pitfalls
-          When setting up a custom domain with a free subdomain on Netlify, there are a few common pitfalls to watch out for:
-          - **DNS propagation delays**: It can take up to 48 hours for DNS changes to propagate globally. If you're experiencing issues with your custom domain, try waiting for a few hours and then checking again.
-          - **Incorrect DNS records**: Make sure you've added the correct DNS record to your DNS settings. If you're unsure, you can contact Netlify support for assistance.
-          - **SSL certificate issues**: If you're experiencing issues with your SSL certificate, try verifying your DNS configuration again or contacting Netlify support.
+          When setting up a custom domain with Netlify, there are a few common pitfalls to watch out for:
+          - **DNS propagation delays**: It can take up to 48 hours for DNS changes to propagate globally. Be patient and wait for the changes to take effect before troubleshooting.
+          - **Incorrect DNS records**: Double-check that your DNS records are set up correctly, as incorrect records can prevent your custom domain from working.
+          - **SSL certificate issues**: If you encounter issues with your SSL certificate, check that your custom domain is verified and that you have enabled HTTPS in your Netlify site's settings.
           
           ## Best Practices
-          To ensure a smooth custom domain setup process, follow these best practices:
-          - **Use a consistent naming convention**: Use a consistent naming convention for your custom domain and subdomain (e.g., myproject.com and myproject.is-pro.dev).
-          - **Test your site regularly**: Test your site regularly to ensure that it's working correctly and that there are no issues with your custom domain or HTTPS configuration.
-          - **Keep your DNS settings up to date**: Make sure your DNS settings are up to date and that you're using the correct DNS records for your custom domain.
+          To ensure a smooth and secure setup, follow these best practices:
+          - **Use a consistent domain**: Use the same domain for your Netlify site and your custom domain to avoid confusion.
+          - **Monitor DNS changes**: Keep an eye on your DNS settings and monitor for any changes or issues.
+          - **Test your site**: Thoroughly test your site after setting up your custom domain to ensure that everything is working as expected.
           
           ## Conclusion
-          Setting up a custom domain with a free subdomain on Netlify is a straightforward process that can be completed in a few steps. By following the instructions outlined in this guide, you can take advantage of Netlify's free hosting features and access your site using a personalized URL. Remember to test your site regularly and keep your DNS settings up to date to ensure a smooth and secure user experience.
+          Setting up a custom domain with Netlify is a straightforward process that can enhance the professionalism of your static site. By following the steps outlined in this guide, you can configure your custom domain to work seamlessly with your Netlify site. Remember to verify your custom domain, set up DNS records, configure Netlify DNS, and enable HTTPS to ensure a secure and reliable setup.
           
           ## FAQ
-          Q: Can I use a custom domain with a free subdomain on Netlify without setting up HTTPS?
-          A: While it's technically possible to use a custom domain with a free subdomain on Netlify without setting up HTTPS, it's not recommended. HTTPS is an essential security feature that protects your site and its users from potential threats.
-          Q: How long does it take for DNS changes to propagate globally?
-          A: DNS changes can take up to 48 hours to propagate globally. If you're experiencing issues with your custom domain, try waiting for a few hours and then checking again.
-          Q: Can I use a custom domain with a free subdomain on Netlify if I'm using a third-party DNS service?
-          A: Yes, you can use a custom domain with a free subdomain on Netlify even if you're using a third-party DNS service. You'll need to add the correct DNS record to your DNS settings, which can usually be done manually.
-          Q: What happens if I encounter issues with my custom domain or HTTPS configuration?
-          A: If you encounter issues with your custom domain or HTTPS configuration, you can contact Netlify support for assistance. They'll be able to help you troubleshoot the issue and provide guidance on how to resolve it.
+          Q: Can I use a custom domain with a free subdomain on is-pro.dev?
+          A: Yes, you can use a custom domain with a free subdomain on is-pro.dev. Simply follow the steps outlined in this guide to set up your custom domain.
+          Q: How long does it take for DNS changes to propagate?
+          A: DNS changes can take up to 48 hours to propagate globally. Be patient and wait for the changes to take effect before troubleshooting.
+          Q: Do I need to pay for a custom domain?
+          A: You will need to register your custom domain with a domain registrar, which typically involves a yearly fee. However, Netlify's custom domain feature is free, and you can use it with your existing domain registration.
+          Q: Can I use multiple custom domains with my Netlify site?
+          A: Yes, you can use multiple custom domains with your Netlify site. Simply repeat the verification and DNS setup process for each custom domain you want to use.
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>
@@ -246,8 +240,8 @@
       <ul style="display:flex;flex-direction:column;gap:.35rem;">
         <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
         <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
       </ul>
     </div>
     <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
@@ -285,7 +279,7 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
               <span class="mono">is-cool-me</span>
             </a>
             <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
@@ -316,13 +310,18 @@
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
-          <div class="footer-col">
-            <h4>Community</h4>
-            <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
         </div>
         <div class="footer-bottom">
           <span>&copy; 2026 is-cool-me. All rights reserved.</span>

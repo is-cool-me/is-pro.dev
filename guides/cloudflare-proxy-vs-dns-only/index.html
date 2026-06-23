@@ -6,16 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me</title>
-  <meta name="description" content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
+  <meta name="description" content="Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
+  <meta name="keywords" content="cloudflare, proxy, dns, cdn, performance, security" />
   <link rel="canonical" href="https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/" />
   <meta property="og:title" content="Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me" />
-  <meta property="og:description" content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
+  <meta property="og:description" content="Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me" />
-  <meta name="twitter:description" content="Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
+  <meta name="twitter:description" content="Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -23,7 +24,9 @@
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -33,7 +36,7 @@
       "@id": "https://is-pro.dev/#website",
       "url": "https://is-pro.dev",
       "name": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me",
-      "description": "Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
+      "description": "Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
       "publisher": {
         "@type": "Organization",
         "name": "is-cool-me",
@@ -47,7 +50,7 @@
     {
       "@type": "TechArticle",
       "headline": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode",
-      "description": "Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
+      "description": "Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
       "author": {
         "@type": "Person",
         "name": "Mayank Baswal",
@@ -62,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-22",
-      "dateModified": "2026-06-22",
+      "datePublished": "2026-06-23",
+      "dateModified": "2026-06-23",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
@@ -103,7 +106,7 @@
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -138,7 +141,7 @@
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Cloudflare Proxy vs DNS-Only: When to Use Each Mode</h1>
-        <p class="article-summary">Understand the practical differences between Cloudflares proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.</p>
+        <p class="article-summary">Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.</p>
       </div>
     </div>
   </header>
@@ -168,58 +171,56 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Cloudflare Modes
-          When setting up a project on a subdomain like myproject.is-pro.dev, understanding the differences between Cloudflare's proxy and DNS-only modes is crucial for optimizing performance and security. Cloudflare is a popular choice among developers for its content delivery network (CDN) and security features. However, choosing the right mode depends on specific project requirements. In this guide, we will explore the characteristics of each mode, provide step-by-step instructions for setup, and discuss common pitfalls and best practices.
+          When setting up a project on a subdomain like myproject.is-pro.dev, understanding the differences between Cloudflare's proxy and DNS-only modes is crucial for optimizing performance and security. Cloudflare is a popular Content Delivery Network (CDN) that offers a range of features to enhance website speed, protection, and reliability. In this guide, we'll delve into the specifics of each mode, exploring when to use Cloudflare proxy and when DNS-only is more suitable, providing developers with practical insights to make informed decisions for their projects.
           
-          ## Prerequisites for Setup
-          Before configuring Cloudflare for your project, ensure you have the following:
-          - A Cloudflare account.
-          - Your project set up on a subdomain like myproject.is-pro.dev.
-          - Access to your domain's DNS settings.
-          - Familiarity with basic DNS concepts and Cloudflare's dashboard.
+          ## Prerequisites for Setting Up Cloudflare
+          Before diving into the configuration, ensure you have the following prerequisites in place:
+          - A Cloudflare account. If you haven't already, sign up at cloudflare.com.
+          - Your project set up on a subdomain, such as myproject.is-pro.dev.
+          - Basic understanding of DNS records and how they affect your website's accessibility and security.
+          - Familiarity with the Cloudflare dashboard and its core features.
           
-          ## Setting Up Cloudflare Proxy Mode
-          Cloudflare's proxy mode, often referred to as "CDN" mode, routes your website's traffic through Cloudflare's servers. This mode provides comprehensive security features, performance optimizations, and CDN capabilities. To set up proxy mode for your project:
-          1. Log into your Cloudflare account and add your domain (e.g., myproject.is-pro.dev).
-          2. Cloudflare will scan your domain for existing DNS records and prompt you to verify them.
-          3. Update your domain's nameservers to point to Cloudflare's nameservers if you want Cloudflare to manage your DNS.
-          4. For specific subdomains or records, you can toggle the "Proxy status" to enable (orange cloud) or disable (gray cloud) the proxy.
+          ## Step-by-Step Configuration of Cloudflare Proxy
+          To configure Cloudflare proxy for your subdomain myproject.is-pro.dev, follow these steps:
+          1. Log in to your Cloudflare account and navigate to the "Add a Site" section.
+          2. Enter your subdomain (myproject.is-pro.dev) and click "Add Site."
+          3. Cloudflare will scan your DNS records. Once the scan is complete, review the records to ensure they are correct.
+          4. Change the proxy status to "Proxied" by clicking on the cloud icon next to the record you want to proxy. A orange cloud indicates the record is being proxied.
+          5. Configure any additional settings as needed, such as SSL/TLS encryption, caching, or security features like firewall rules.
+          6. Test your website to ensure it's working as expected with the proxy enabled.
           
-          ## Setting Up Cloudflare DNS-Only Mode
-          DNS-only mode allows you to use Cloudflare's DNS services without routing your website's traffic through their proxy servers. This mode is useful for managing DNS records and benefiting from Cloudflare's DNS security features without affecting your website's traffic flow. To set up DNS-only mode:
-          1. Add your domain to Cloudflare as described above.
-          2. Ensure your domain's nameservers are set to Cloudflare's, allowing them to manage your DNS.
-          3. For each DNS record, toggle the "Proxy status" to the gray cloud icon to disable the proxy for that record.
+          ## Step-by-Step Configuration of DNS-Only
+          For DNS-only mode, the process is simpler:
+          1. Log in to your Cloudflare account and go to the DNS tab for your domain (myproject.is-pro.dev).
+          2. Ensure the cloud icon next to your DNS records is gray, indicating DNS-only mode.
+          3. Manage your DNS records directly within Cloudflare, adding or modifying records as necessary.
+          4. Since you're not using the proxy, you won't have access to some of Cloudflare's performance and security features, but you can still manage DNS records and use Cloudflare's DNS analytics.
           
-          ## Performance and Security Considerations
-          The choice between proxy and DNS-only modes significantly impacts your project's performance and security:
-          - **Proxy Mode**: Offers enhanced security features like web application firewall (WAF), SSL encryption, and DDoS protection. It also improves performance by leveraging Cloudflare's CDN, which caches content at edge locations worldwide.
-          - **DNS-Only Mode**: Provides DNS security features such as DNSSEC and rate limiting, but does not offer the same level of security or performance enhancements as proxy mode.
+          ## Common Pitfalls and Considerations
+          When deciding between Cloudflare proxy and DNS-only, consider the following:
+          - **Performance and Security**: Cloudflare proxy offers enhanced performance through caching and content optimization, as well as improved security with features like web application firewall (WAF) and DDoS protection. DNS-only mode does not provide these benefits.
+          - **Complexity and Compatibility**: Some applications or server configurations might not be compatible with Cloudflare's proxy. In such cases, DNS-only mode might be necessary to avoid conflicts.
+          - **SSL/TLS Encryption**: If you're using Cloudflare proxy, ensure that SSL/TLS encryption is properly configured to avoid mixed content warnings or SSL verification issues.
           
-          ## Common Pitfalls and Troubleshooting
-          - **Mixed Mode Configuration**: Be cautious when mixing proxy and DNS-only modes for different records within the same domain. This can lead to inconsistent security and performance.
-          - **SSL/TLS Configuration**: Ensure that SSL/TLS settings are correctly configured, especially when using proxy mode, to avoid SSL verification errors.
-          - **DNS Propagation**: After updating DNS settings, allow sufficient time for changes to propagate globally.
-          
-          ## Best Practices for Configuration
-          - **Monitor Traffic and Analytics**: Regularly review your Cloudflare analytics to understand traffic patterns and potential security threats.
-          - **Regularly Update DNS Records**: Keep your DNS records up-to-date to reflect changes in your infrastructure.
-          - **Test Configuration**: Thoroughly test your website's functionality and performance after configuring Cloudflare.
+          ## Best Practices for Cloudflare Configuration
+          To get the most out of Cloudflare, follow these best practices:
+          - Regularly review your DNS records and Cloudflare configuration to ensure they are up-to-date and optimized for your project's needs.
+          - Monitor your website's performance and security using Cloudflare's analytics and security tools.
+          - Test your website thoroughly after making changes to your Cloudflare configuration to catch any potential issues early.
+          - Keep your Cloudflare account and DNS records organized, especially if you're managing multiple subdomains or projects.
           
           ## Conclusion
-          Choosing between Cloudflare's proxy and DNS-only modes depends on your project's specific needs regarding performance, security, and DNS management. By understanding the characteristics and implications of each mode, developers can make informed decisions to optimize their project's setup on subdomains like myproject.is-pro.dev. Always consider the trade-offs between security features, CDN performance, and the complexity of your DNS configuration.
+          Choosing between Cloudflare proxy and DNS-only modes depends on your project's specific needs regarding performance, security, and complexity. By understanding the benefits and limitations of each mode, developers can make informed decisions to optimize their projects hosted on subdomains like myproject.is-pro.dev. Whether you prioritize the enhanced security and performance of Cloudflare proxy or the simplicity of DNS-only mode, Cloudflare offers flexible solutions to meet the diverse needs of developers.
           
           ## Frequently Asked Questions
-          1. **Q: Can I use both proxy and DNS-only modes for different subdomains?**
-             A: Yes, Cloudflare allows you to configure different modes for various subdomains or even specific DNS records within the same domain.
-          
-          2. **Q: How does Cloudflare's proxy mode affect SEO?**
-             A: Cloudflare's proxy mode can have both positive and negative effects on SEO. The CDN can improve page load times, which is a ranking factor. However, improper configuration can lead to duplicate content issues.
-          
-          3. **Q: Is DNS-only mode suitable for static websites?**
-             A: Yes, DNS-only mode can be sufficient for static websites that do not require the advanced security features or performance optimizations provided by Cloudflare's proxy mode.
-          
-          4. **Q: Can I switch between proxy and DNS-only modes without downtime?**
-             A: Generally, switching between modes should not cause downtime, but it's essential to monitor your website's performance and traffic during and after the change to address any unexpected issues promptly.
+          1. **Q: Can I use both Cloudflare proxy and DNS-only modes for different records on the same domain?**
+             A: Yes, you can mix proxied and DNS-only records on the same domain, allowing for flexible configuration based on specific record needs.
+          2. **Q: How does Cloudflare proxy affect SEO?**
+             A: Cloudflare proxy can positively impact SEO by improving page load times and protecting against downtime, both of which are factors in search engine rankings.
+          3. **Q: Are there any costs associated with using Cloudflare proxy or DNS-only modes?**
+             A: Cloudflare offers a free plan that includes both proxy and DNS-only capabilities, with additional features and support available on paid plans.
+          4. **Q: Can I switch between Cloudflare proxy and DNS-only modes at any time?**
+             A: Yes, you can switch between modes by changing the proxy status of your DNS records within the Cloudflare dashboard. However, be cautious of potential impacts on your website's performance and security during the transition.
 <h2>FAQ</h2><p><strong>Is Security setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>
@@ -248,8 +249,8 @@
       <ul style="display:flex;flex-direction:column;gap:.35rem;">
         <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
         <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/cloudflare-dns-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare DNS</a></li>
-        <li><a href="/guides/cloudflare-proxy-vs-dns-only/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Proxy vs DNS-Only</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
       </ul>
     </div>
     <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
@@ -287,7 +288,7 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="/" class="footer-logo-link">
-              <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
               <span class="mono">is-cool-me</span>
             </a>
             <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
@@ -318,13 +319,18 @@
               <a href="/abuse-report/" class="footer-link">Abuse Report</a>
             </nav>
           </div>
-          <div class="footer-col">
-            <h4>Community</h4>
-            <nav class="footer-links" aria-label="Community links">
-              <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
-              <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
         </div>
         <div class="footer-bottom">
           <span>&copy; 2026 is-cool-me. All rights reserved.</span>

@@ -170,48 +170,56 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction
-          Netlify is a popular platform for hosting static sites, offering a range of features including free hosting, automatic HTTPS, and easy deployment. When setting up a project on a subdomain like myproject.is-pro.dev, you may want to use a custom domain to give your site a more professional appearance. In this guide, we will walk through the process of setting up a custom domain with Netlify, using a free subdomain as an example.
+          ## Introduction to Custom Domains on Netlify
+          Netlify offers a robust platform for hosting static sites, with features like automatic HTTPS encryption, continuous integration, and content delivery networks (CDNs). For developers on the is-pro.dev platform, such as those hosting their projects on myproject.is-pro.dev, setting up a custom domain can enhance the professional appearance and accessibility of their sites. This guide will walk through the process of setting up a custom domain with Netlify, specifically focusing on utilizing a free subdomain provided by is-pro.dev.
           
-          ## Prerequisites
-          Before you start, make sure you have the following:
-          - A Netlify account
-          - A site deployed to Netlify
-          - A custom domain (e.g., myproject.com)
-          - Access to your domain's DNS settings
-          - A subdomain on is-pro.dev (e.g., myproject.is-pro.dev)
+          ## Prerequisites for Custom Domain Setup
+          Before proceeding with the custom domain setup, ensure you have the following:
+          - A Netlify account.
+          - A site already deployed on Netlify.
+          - Access to your DNS settings. If you're using is-pro.dev, you'll need to configure DNS settings through their control panel or support team.
+          - Familiarity with basic DNS concepts, such as A records, CNAME records, and TXT records.
           
-          ## Step-by-Step Instructions
-          To set up a custom domain with Netlify, follow these steps:
-          1. **Verify your custom domain**: Go to your Netlify site's settings, click on "Domain management", and then click on "Add a custom domain". Enter your custom domain (e.g., myproject.com) and follow the verification process. Netlify will provide you with a TXT record to add to your domain's DNS settings.
-          2. **Set up DNS records**: Log in to your domain registrar's control panel and navigate to the DNS settings for your custom domain. Add the TXT record provided by Netlify to verify your domain. You will also need to set up a CNAME record pointing to your Netlify site (e.g., myproject.is-pro.dev).
-          3. **Configure Netlify DNS**: Once your custom domain is verified, go back to your Netlify site's settings and click on "Domain management". Click on "Set up Netlify DNS" and follow the instructions to set up DNS records for your custom domain.
-          4. **Enable HTTPS**: Netlify provides automatic HTTPS for custom domains. To enable HTTPS, go to your Netlify site's settings, click on "Domain management", and click on the "HTTPS" tab. Click on "Enable HTTPS" to provision an SSL certificate for your custom domain.
+          ## Step-by-Step Instructions for Custom Domain Setup
+          ### Setting Up Your Domain on Netlify
+          1. Log in to your Netlify dashboard and navigate to your site.
+          2. Click on "Domain management" under the "Site settings" section.
+          3. Click on "Add a custom domain" and enter your custom domain, for example, "myproject.com" or a subdomain like "blog.myproject.com".
+          4. Follow the prompts to verify your domain ownership. This may involve adding a TXT record to your DNS settings.
           
-          ## Common Pitfalls
-          When setting up a custom domain with Netlify, there are a few common pitfalls to watch out for:
-          - **DNS propagation delays**: It can take up to 48 hours for DNS changes to propagate globally. Be patient and wait for the changes to take effect before troubleshooting.
-          - **Incorrect DNS records**: Double-check that your DNS records are set up correctly, as incorrect records can prevent your custom domain from working.
-          - **SSL certificate issues**: If you encounter issues with your SSL certificate, check that your custom domain is verified and that you have enabled HTTPS in your Netlify site's settings.
+          ### Configuring DNS for Your Custom Domain
+          To point your custom domain to Netlify, you'll need to update your DNS settings:
+          1. Create a CNAME record with the name "www" (if you want to use a subdomain like www.myproject.com) or "@" for the root domain, pointing to "myproject.is-pro.dev" if you're using an is-pro.dev subdomain.
+          2. For HTTPS to work, you'll need to set up a TXT record as instructed by Netlify during the domain verification process.
+          3. If your domain provider supports it, set up an A record pointing to Netlify's load balancer IP addresses (usually provided in Netlify's documentation or support resources).
           
-          ## Best Practices
-          To ensure a smooth and secure setup, follow these best practices:
-          - **Use a consistent domain**: Use the same domain for your Netlify site and your custom domain to avoid confusion.
-          - **Monitor DNS changes**: Keep an eye on your DNS settings and monitor for any changes or issues.
-          - **Test your site**: Thoroughly test your site after setting up your custom domain to ensure that everything is working as expected.
+          ### Enabling HTTPS on Your Custom Domain
+          1. Once your domain is verified and DNS settings are propagated, go back to your Netlify domain management settings.
+          2. Click on "Verify DNS configuration" to ensure everything is set up correctly.
+          3. Enable HTTPS for your custom domain. Netlify should automatically issue an SSL certificate for your domain.
+          
+          ## Common Pitfalls and Troubleshooting
+          - **DNS Propagation Delay**: Changes to DNS settings can take up to 48 hours to propagate globally. Be patient and use tools like `dig` or online DNS checkers to verify when changes have taken effect.
+          - **Incorrect DNS Records**: Double-check that your CNAME, A, and TXT records are set up exactly as specified by Netlify and your domain provider.
+          - **SSL Certificate Issues**: If your site doesn't load over HTTPS, check the Netlify dashboard for any SSL certificate errors or warnings.
+          
+          ## Best Practices for Custom Domain Management
+          - **Regularly Review DNS Settings**: Ensure that all DNS records are up-to-date and correctly point to your Netlify site.
+          - **Monitor SSL Certificate Expiration**: Netlify usually handles SSL renewal automatically, but it's good practice to keep an eye on certificate expiration dates.
+          - **Use a Consistent Domain Naming Convention**: Decide whether to use "www" or the root domain for your site and stick to it for consistency and SEO purposes.
           
           ## Conclusion
-          Setting up a custom domain with Netlify is a straightforward process that can enhance the professionalism of your static site. By following the steps outlined in this guide, you can configure your custom domain to work seamlessly with your Netlify site. Remember to verify your custom domain, set up DNS records, configure Netlify DNS, and enable HTTPS to ensure a secure and reliable setup.
+          Setting up a custom domain with Netlify, especially when utilizing a free subdomain from is-pro.dev, enhances the professionalism and accessibility of your static site. By following the steps outlined in this guide, you can ensure a smooth transition to a custom domain while maintaining the benefits of Netlify's free hosting and HTTPS encryption. Remember to stay vigilant about DNS settings and SSL certificates to avoid common pitfalls.
           
-          ## FAQ
-          Q: Can I use a custom domain with a free subdomain on is-pro.dev?
-          A: Yes, you can use a custom domain with a free subdomain on is-pro.dev. Simply follow the steps outlined in this guide to set up your custom domain.
-          Q: How long does it take for DNS changes to propagate?
-          A: DNS changes can take up to 48 hours to propagate globally. Be patient and wait for the changes to take effect before troubleshooting.
-          Q: Do I need to pay for a custom domain?
-          A: You will need to register your custom domain with a domain registrar, which typically involves a yearly fee. However, Netlify's custom domain feature is free, and you can use it with your existing domain registration.
-          Q: Can I use multiple custom domains with my Netlify site?
-          A: Yes, you can use multiple custom domains with your Netlify site. Simply repeat the verification and DNS setup process for each custom domain you want to use.
+          ## Frequently Asked Questions
+          1. **Q: Can I use a custom domain with a free plan on Netlify?**
+          A: Yes, Netlify allows custom domains even on its free plan, making it an attractive option for developers and small projects.
+          2. **Q: How long does DNS propagation take?**
+          A: DNS changes can take anywhere from a few minutes to 48 hours to propagate globally, depending on your domain provider and the type of DNS record updated.
+          3. **Q: Does Netlify automatically renew SSL certificates?**
+          A: Yes, Netlify typically handles SSL certificate renewal automatically for custom domains, but it's a good idea to monitor certificate expiration dates.
+          4. **Q: Can I use a subdomain of my custom domain with Netlify?**
+          A: Yes, Netlify supports subdomains. For example, you can set up "blog.myproject.com" as a custom domain, pointing it to your Netlify site.
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

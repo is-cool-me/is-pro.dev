@@ -277,19 +277,19 @@
     <lastmod>2026-06-23</lastmod>
   </url>
   <url>
-    <loc>https://is-pro.dev/blog/subdomain-architecture-optimization/</loc>
+    <loc>https://is-pro.dev/blog/subdomain-architecture-best-practices/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-23</lastmod>
   </url>
   <url>
-    <loc>https://is-pro.dev/blog/dns-propagation-explained/</loc>
+    <loc>https://is-pro.dev/blog/load-balancing-for-high-traffic-websites/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-23</lastmod>
   </url>
   <url>
-    <loc>https://is-pro.dev/blog/load-balancing-for-developers/</loc>
+    <loc>https://is-pro.dev/blog/anycast-networking-for-global-content-delivery/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-23</lastmod>
@@ -475,6 +475,12 @@
     <lastmod>2026-06-23</lastmod>
   </url>
   <url>
+    <loc>https://is-pro.dev/blog/dns-propagation-explained/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-23</lastmod>
+  </url>
+  <url>
     <loc>https://is-pro.dev/blog/dns-propagation-explained-for-new-users/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
@@ -505,6 +511,12 @@
     <lastmod>2026-06-23</lastmod>
   </url>
   <url>
+    <loc>https://is-pro.dev/blog/load-balancing-for-developers/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-23</lastmod>
+  </url>
+  <url>
     <loc>https://is-pro.dev/blog/post-incident-review-template-for-dns-outages/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
@@ -512,6 +524,12 @@
   </url>
   <url>
     <loc>https://is-pro.dev/blog/preventing-takeovers-after-deploy-deletions/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-23</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/subdomain-architecture-optimization/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-23</lastmod>

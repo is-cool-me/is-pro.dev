@@ -130,7 +130,7 @@ function readDb() {
     const rows = db
       .prepare(
         `
-      SELECT d.subdomain, d.zone, d.owner_username, d.owner_email,
+      SELECT d.subdomain, d.zone, d.owner_username,
              d.created_at, d.updated_at,
              (SELECT COUNT(*) FROM dns_records WHERE domain_id = d.id) as record_count
       FROM domains d

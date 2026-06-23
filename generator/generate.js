@@ -1193,7 +1193,7 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
       </div>
     </div>
   </section>
-  <style>.showcase-grid@media(max-width:640px){.showcase-grid{grid-template-columns:1fr!important}}</style>` +
+  <style>@media(max-width:640px){.showcase-grid{grid-template-columns:1fr!important}}</style>` +
     internalLinksHTML(INTERNAL_LINK_SECTIONS) +
     poweredByFooter(slug);
 

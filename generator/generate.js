@@ -148,6 +148,37 @@ function readDb() {
   }
 }
 
+function getShowcasePath() {
+  const defaultPath = join(__dirname, "..", "dash", "data", "showcase.json");
+  return process.env.SHOWCASE_PATH || defaultPath;
+}
+
+function readShowcase() {
+  const path = getShowcasePath();
+  if (!existsSync(path)) {
+    console.warn("[showcase] No showcase data at", path);
+    return new Map();
+  }
+  try {
+    const data = JSON.parse(readFileSync(path, "utf-8"));
+    if (!Array.isArray(data)) {
+      console.warn("[showcase] Invalid showcase data format");
+      return new Map();
+    }
+    const map = new Map();
+    for (const item of data) {
+      if (item.subdomain && item.zone) {
+        map.set(`${item.subdomain}:${item.zone}`, item);
+      }
+    }
+    console.log(`[showcase] Loaded ${map.size} enriched entries`);
+    return map;
+  } catch (err) {
+    console.warn("[showcase] Failed to read showcase data:", err.message);
+    return new Map();
+  }
+}
+
 async function filterOnlineDomains(domains) {
   if (!domains || domains.length === 0) return [];
   if (!isAiEnabled()) {
@@ -1002,19 +1033,31 @@ async function generateNewPage(domains) {
   return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
 }
 
-function generateShowcaseCategoryPage(category, domains) {
+function generateShowcaseCategoryPage(category, domains, showcaseMap) {
   const topic = SHOWCASE_TOPICS.find((t) => t.category === category);
   const title = topic?.title || formatTitle(category);
   const description =
     topic?.description ||
     `Browse ${category} projects hosted on is-cool-me free subdomains.`;
 
-  const projectCards = domains.slice(0, 24).map((d) =>
+  const catDomains = [];
+  const seen = new Set();
+  for (const d of domains) {
+    const key = `${d.subdomain}:${d.zone}`;
+    const s = showcaseMap.get(key);
+    if (!s || seen.has(key)) continue;
+    if (topic?.keywords?.includes(s.category) || s.category === category || !topic?.keywords?.length) {
+      seen.add(key);
+      catDomains.push({ domain: d, showcase: s });
+    }
+  }
+
+  const projectCards = catDomains.slice(0, 24).map(({ domain: d, showcase: s }) =>
     showcaseCardHTML({
       href: `/showcase/${slugify(d.subdomain)}/`,
-      title: `${d.subdomain}.is-pro.dev`,
-      description: `A ${d.zone} subdomain project by ${d.owner_username || "a developer"}.`,
-      category: "Project",
+      title: s.title || `${d.subdomain}.${d.zone}`,
+      description: s.description || `A ${d.zone} subdomain project by ${d.owner_username || "a developer"}.`,
+      category: s.category || "Project",
       subdomain: d.subdomain,
     }),
   );
@@ -1054,15 +1097,36 @@ function generateShowcaseCategoryPage(category, domains) {
   return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
 }
 
-async function generateShowcaseProjectPage(domain) {
+async function generateShowcaseProjectPage(domain, showcaseData) {
   const slug = slugify(domain.subdomain);
-  const title = `${domain.subdomain}.is-pro.dev`;
+  const s = showcaseData || {};
+  const host = `${domain.subdomain}.${domain.zone}`;
+  const projectTitle = s.title || host;
+  const description = s.description || `Explore ${host} — a developer project hosted on is-pro.dev.`;
+  const technologies = Array.isArray(s.technologies) ? s.technologies : [];
+  const tags = Array.isArray(s.tags) ? s.tags : [];
+  const category = s.category || "";
 
   const headHtml = htmlHead({
-    title: `${title} — is-cool-me Showcase`,
-    description: `Explore ${title} — a developer project hosted on is-pro.dev. View project details, links, and screenshots.`,
+    title: `${projectTitle} — is-cool-me Showcase`,
+    description,
     canonical: `${BASE_URL}/showcase/${slug}/`,
+    keywords: [category, ...tags].filter(Boolean).join(", "),
   });
+
+  const techHtml = technologies.length > 0
+    ? `<div style="display:flex;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--color-border-sub);flex-wrap:wrap;">
+        <span style="color:var(--color-text-muted);">Technologies</span>
+        <div style="display:flex;gap:.35rem;flex-wrap:wrap;">${technologies.map(t => `<span style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:.2rem .65rem;font-size:.8rem;">${escHtml(t)}</span>`).join("")}</div>
+      </div>`
+    : "";
+
+  const tagHtml = tags.length > 0
+    ? `<div style="display:flex;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--color-border-sub);flex-wrap:wrap;">
+        <span style="color:var(--color-text-muted);">Tags</span>
+        <div style="display:flex;gap:.35rem;flex-wrap:wrap;">${tags.map(t => `<span style="background:var(--color-accent);color:#fff;border-radius:var(--radius-full);padding:.2rem .65rem;font-size:.8rem;">${escHtml(t)}</span>`).join("")}</div>
+      </div>`
+    : "";
 
   const headerHtml = headerHTML("/showcase/");
   const contentHtml =
@@ -1072,11 +1136,13 @@ async function generateShowcaseProjectPage(domain) {
       <div class="hero-inner">
         <nav style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:1rem;" aria-label="Breadcrumb">
           <a href="/showcase/" style="color:var(--color-accent);">← Back to Showcase</a>
+          <span style="margin:0 .5rem;">/</span>
+          <a href="/showcase/category/${category}/" style="color:var(--color-text-muted);">${category || "showcase"}</a>
         </nav>
-        <h1 style="font-size:clamp(1.8rem,4vw,3rem);">${title}</h1>
-        <p style="color:var(--color-text-muted);margin-top:.5rem;">Submitted ${relativeTime(domain.created_at)}</p>
-        <div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
-          <span style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:.35rem 1rem;font-size:.85rem;">📅 ${relativeTime(domain.created_at)}</span>
+        <div style="display:flex;flex-direction:column;gap:.5rem;">
+          <div class="hero-badge" style="align-self:flex-start;">${category || "Showcase"}</div>
+          <h1 style="font-size:clamp(1.8rem,4vw,3rem);">${projectTitle}</h1>
+          ${description ? `<p class="hero-subtitle">${description}</p>` : ""}
         </div>
       </div>
     </div>
@@ -1098,7 +1164,7 @@ async function generateShowcaseProjectPage(domain) {
           <div style="display:flex;flex-direction:column;gap:.75rem;">
             <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--color-border-sub);">
               <span style="color:var(--color-text-muted);">Owner</span>
-              <span style="font-family:var(--font-mono);font-size:.9rem;">${domain.owner_username || "Unknown"}</span>
+              <span style="font-family:var(--font-mono);font-size:.9rem;">${escHtml(domain.owner_username || "Unknown")}</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--color-border-sub);">
               <span style="color:var(--color-text-muted);">Zone</span>
@@ -1112,9 +1178,11 @@ async function generateShowcaseProjectPage(domain) {
               <span style="color:var(--color-text-muted);">DNS Records</span>
               <span style="font-size:.9rem;">${domain.record_count || 0} records</span>
             </div>
+            ${techHtml}
+            ${tagHtml}
           </div>
           <div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap;">
-            <a href="https://${domain.subdomain}.${domain.zone}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Project <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="https://${host}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Project <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             <a href="/u/${domain.owner_username || "_"}/" class="btn btn-outline">View Profile</a>
           </div>
         </div>
@@ -1730,6 +1798,8 @@ async function main() {
 
   if (doAll || types.includes("showcase") || types.length === 0) {
     console.log("\nGenerating showcase pages...");
+    const showcaseMap = readShowcase();
+    console.log(`[showcase] ${showcaseMap.size} enriched entries available`);
     try {
       const html = await generateShowcaseIndex(db);
       writePage(join(OUT_DIR, "showcase", "index.html"), html);
@@ -1746,9 +1816,11 @@ async function main() {
       for (const domain of db.slice(0, 50)) {
         try {
           const slug = slugify(domain.subdomain);
-          const projectHtml = await generateShowcaseProjectPage(domain);
+          const key = `${domain.subdomain}:${domain.zone}`;
+          const showcaseData = showcaseMap.get(key);
+          const projectHtml = await generateShowcaseProjectPage(domain, showcaseData);
           writePage(join(OUT_DIR, "showcase", slug, "index.html"), projectHtml);
-          console.log(`  ✅ showcase/${slug}`);
+          console.log(`  ✅ showcase/${slug}${showcaseData ? " ✨" : ""}`);
         } catch (err) {
           console.error(`  ❌ showcase/${domain.subdomain}:`, err.message);
         }
@@ -1756,7 +1828,7 @@ async function main() {
 
       for (const cat of SHOWCASE_CATEGORIES) {
         try {
-          const catHtml = generateShowcaseCategoryPage(cat, db);
+          const catHtml = generateShowcaseCategoryPage(cat, db, showcaseMap);
           writePage(join(OUT_DIR, "showcase", "category", cat, "index.html"), catHtml);
           console.log(`  ✅ showcase/category/${cat}`);
         } catch (err) {

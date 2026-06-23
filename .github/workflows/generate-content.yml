@@ -48,6 +48,20 @@ jobs:
             echo "[db] Created empty database as fallback"
           fi
 
+      - name: Download showcase data from dash
+        continue-on-error: true
+        run: |
+          mkdir -p dash/data
+          curl -fsS -o dash/data/showcase.json \
+            -H "x-export-key: ${{ secrets.DOMAIN_EXPORT_KEY }}" \
+            "https://dash.is-pro.dev/api/showcase/export"
+          if [ -f dash/data/showcase.json ] && [ -s dash/data/showcase.json ]; then
+            echo "[showcase] Downloaded showcase data ($(stat -c%s dash/data/showcase.json) bytes)"
+          else
+            echo "[showcase] Failed to download showcase data"
+            echo '[]' > dash/data/showcase.json
+          fi
+
       - name: Install generator dependencies
         run: |
           cd is-pro.dev/generator
@@ -65,6 +79,7 @@ jobs:
         env:
           SITE_ROOT: ${{ github.workspace }}/is-pro.dev
           DB_PATH: ${{ github.workspace }}/dash/data/domains.db
+          SHOWCASE_PATH: ${{ github.workspace }}/dash/data/showcase.json
           GH_PAT: ${{ secrets.GH_PAT }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 

@@ -15,6 +15,8 @@ import { lookup } from "dns/promises";
 const require = createRequire(import.meta.url);
 import { generateWithGroq } from "./lib/groq.js";
 
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
 function isAiEnabled() {
   return (
     process.env.AI_ENABLED === "true" &&
@@ -1115,6 +1117,10 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
   const category = s.category || "";
   const screenshotPath = `/showcase/screenshots/${domain.subdomain}.${domain.zone}.jpg`;
 
+  const tagHtml = tags.length > 0
+    ? `<div style="margin-top:1.5rem;"><h2 style="font-size:1.25rem;margin-bottom:1rem;">Tags</h2><div style="display:flex;gap:.35rem;flex-wrap:wrap;">${tags.map(t => `<span style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:.2rem .65rem;font-size:.8rem;">${escHtml(t)}</span>`).join("")}</div></div>`
+    : "";
+
   const headHtml = htmlHead({
     title: `${projectTitle} — is-cool-me Showcase`,
     description: longDescription || description,
@@ -1196,7 +1202,7 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
             ${githubHtml}
             <a href="/u/${domain.owner_username || "_"}/" class="btn btn-outline">View Profile</a>
           </div>
-          ${tagHtml ? `<div style="margin-top:1rem;">${tagHtml}</div>` : ""}
+          ${tagHtml}
         </div>
       </div>
     </div>
@@ -1708,6 +1714,7 @@ async function main() {
         const outPath = join(OUT_DIR, "guides", topic.slug, "index.html");
         writePage(outPath, html);
         console.log(`  ✅ ${topic.slug}`);
+        await delay(1500);
       } catch (err) {
         console.error(`  ❌ ${topic.slug}:`, err.message);
       }
@@ -1722,6 +1729,7 @@ async function main() {
         const outPath = join(OUT_DIR, "blog", topic.slug, "index.html");
         writePage(outPath, html);
         console.log(`  ✅ ${topic.slug}`);
+        await delay(1500);
       } catch (err) {
         console.error(`  ❌ ${topic.slug}:`, err.message);
       }

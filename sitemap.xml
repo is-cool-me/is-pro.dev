@@ -277,24 +277,6 @@
     <lastmod>2026-06-25</lastmod>
   </url>
   <url>
-    <loc>https://is-pro.dev/blog/subdomain-clustering-strategies/</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-    <lastmod>2026-06-25</lastmod>
-  </url>
-  <url>
-    <loc>https://is-pro.dev/blog/edge-computing-for-developers/</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-    <lastmod>2026-06-25</lastmod>
-  </url>
-  <url>
-    <loc>https://is-pro.dev/blog/dns-load-balancing-explained/</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-    <lastmod>2026-06-25</lastmod>
-  </url>
-  <url>
     <loc>https://is-pro.dev/tutorials/deploy-create-react-app-to-vercel/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
@@ -487,6 +469,12 @@
     <lastmod>2026-06-25</lastmod>
   </url>
   <url>
+    <loc>https://is-pro.dev/blog/dns-load-balancing-explained/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-25</lastmod>
+  </url>
+  <url>
     <loc>https://is-pro.dev/blog/dns-propagation-explained/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
@@ -494,6 +482,12 @@
   </url>
   <url>
     <loc>https://is-pro.dev/blog/dns-propagation-explained-for-new-users/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-25</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/edge-computing-for-developers/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-25</lastmod>
@@ -560,6 +554,12 @@
   </url>
   <url>
     <loc>https://is-pro.dev/blog/subdomain-architecture-optimization/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-25</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/subdomain-clustering-strategies/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-25</lastmod>

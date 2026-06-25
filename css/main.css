@@ -342,13 +342,16 @@ code, .mono {
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--color-text);
-  min-width: 0;
+  flex-shrink: 0;
 }
 
 .header-logo img { width: 32px; height: 32px; }
 
 .logo-text {
   font-family: var(--font-mono);
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .header-nav {
@@ -1301,7 +1304,6 @@ option { background: var(--color-surface); }
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .header-nav, .header-actions {

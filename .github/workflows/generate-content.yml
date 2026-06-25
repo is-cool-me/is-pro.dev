@@ -83,6 +83,21 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
+      - name: Install Playwright for screenshots
+        run: |
+          cd is-pro.dev/generator
+          npm install playwright 2>/dev/null
+          npx playwright install chromium 2>/dev/null
+
+      - name: Take showcase screenshots
+        continue-on-error: true
+        run: |
+          cd is-pro.dev/generator
+          node scripts/screenshot.js
+        env:
+          SITE_ROOT: ${{ github.workspace }}/is-pro.dev
+          SHOWCASE_PATH: ${{ github.workspace }}/dash/data/showcase.json
+
       - name: Commit and push changes
         run: |
           cd is-pro.dev

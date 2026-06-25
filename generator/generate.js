@@ -1107,29 +1107,37 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
   const host = `${domain.subdomain}.${domain.zone}`;
   const projectTitle = s.title || host;
   const description = s.description || `Explore ${host} — a developer project hosted on is-pro.dev.`;
+  const longDescription = s.long_description || "";
   const technologies = Array.isArray(s.technologies) ? s.technologies : [];
   const tags = Array.isArray(s.tags) ? s.tags : [];
+  const features = Array.isArray(s.features) ? s.features : [];
+  const githubUrl = s.github_url || "";
   const category = s.category || "";
+  const screenshotPath = `/showcase/screenshots/${domain.subdomain}.${domain.zone}.jpg`;
 
   const headHtml = htmlHead({
     title: `${projectTitle} — is-cool-me Showcase`,
-    description,
+    description: longDescription || description,
     canonical: `${BASE_URL}/showcase/${slug}/`,
     keywords: [category, ...tags].filter(Boolean).join(", "),
   });
 
   const techHtml = technologies.length > 0
     ? `<div style="display:flex;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--color-border-sub);flex-wrap:wrap;">
-        <span style="color:var(--color-text-muted);">Technologies</span>
+        <span style="color:var(--color-text-muted);min-width:100px;">Technologies</span>
         <div style="display:flex;gap:.35rem;flex-wrap:wrap;">${technologies.map(t => `<span style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:.2rem .65rem;font-size:.8rem;">${escHtml(t)}</span>`).join("")}</div>
       </div>`
     : "";
 
-  const tagHtml = tags.length > 0
-    ? `<div style="display:flex;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--color-border-sub);flex-wrap:wrap;">
-        <span style="color:var(--color-text-muted);">Tags</span>
-        <div style="display:flex;gap:.35rem;flex-wrap:wrap;">${tags.map(t => `<span style="background:var(--color-accent);color:#fff;border-radius:var(--radius-full);padding:.2rem .65rem;font-size:.8rem;">${escHtml(t)}</span>`).join("")}</div>
+  const featureHtml = features.length > 0
+    ? `<div style="padding:.5rem 0;border-bottom:1px solid var(--color-border-sub);">
+        <span style="color:var(--color-text-muted);display:block;margin-bottom:.5rem;">Features</span>
+        <ul style="display:flex;flex-direction:column;gap:.35rem;padding:0;margin:0;list-style:none;">${features.map(f => `<li style="font-size:.85rem;padding-left:1.25rem;position:relative;">&bull; ${escHtml(f)}</li>`).join("")}</ul>
       </div>`
+    : "";
+
+  const githubHtml = githubUrl
+    ? `<a href="${escHtml(githubUrl)}" class="btn btn-outline" target="_blank" rel="noopener noreferrer">GitHub Repo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>`
     : "";
 
   const headerHtml = headerHTML("/showcase/");
@@ -1156,16 +1164,14 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
     <div class="container">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;" class="showcase-grid">
         <div>
-          <div style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));border-radius:var(--radius-lg);height:280px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);">
-            <div style="text-align:center;color:var(--color-accent-light);">
-              <div style="font-size:2.5rem;font-family:var(--font-mono);">${domain.subdomain}</div>
-              <div style="font-size:.9rem;color:var(--color-text-muted);margin-top:.5rem;">.${domain.zone}</div>
-            </div>
-          </div>
+          <a href="https://${host}" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--color-border);background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));">
+            <img src="${screenshotPath}" alt="Screenshot of ${projectTitle}" style="width:100%;display:block;aspect-ratio:16/10;object-fit:cover;" onerror="this.remove()">
+          </a>
         </div>
         <div>
+          ${longDescription ? `<p style="color:var(--color-text-muted);line-height:1.7;margin-bottom:1.5rem;font-size:.95rem;">${escHtml(longDescription)}</p>` : ""}
           <h2 style="font-size:1.25rem;margin-bottom:1rem;">Project Details</h2>
-          <div style="display:flex;flex-direction:column;gap:.75rem;">
+          <div style="display:flex;flex-direction:column;">
             <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--color-border-sub);">
               <span style="color:var(--color-text-muted);">Owner</span>
               <span style="font-family:var(--font-mono);font-size:.9rem;">${escHtml(domain.owner_username || "Unknown")}</span>
@@ -1183,17 +1189,19 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
               <span style="font-size:.9rem;">${domain.record_count || 0} records</span>
             </div>
             ${techHtml}
-            ${tagHtml}
+            ${featureHtml}
           </div>
           <div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap;">
             <a href="https://${host}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Project <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            ${githubHtml}
             <a href="/u/${domain.owner_username || "_"}/" class="btn btn-outline">View Profile</a>
           </div>
+          ${tagHtml ? `<div style="margin-top:1rem;">${tagHtml}</div>` : ""}
         </div>
       </div>
     </div>
   </section>
-  <style>@media(max-width:640px){.showcase-grid{grid-template-columns:1fr!important}}</style>` +
+  <style>@media(max-width:640px){.showcase-grid{grid-template-columns:1fr!important}}@media(max-width:640px){.showcase-grid img{aspect-ratio:16/9}}</style>` +
     internalLinksHTML(INTERNAL_LINK_SECTIONS) +
     poweredByFooter(slug);
 

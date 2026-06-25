@@ -397,8 +397,6 @@ ${content}
   return articleContent;
 }
 
-function
-
 function blogPostContentHTML({
   title,
   category,

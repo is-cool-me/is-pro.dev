@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">API</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Host an API Endpoint on a Subdomain with AWS Lambda</h1>
@@ -170,33 +170,88 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>AWS Lambda enables you to run serverless functions without provisioning or managing servers. Combined with API Gateway, you can build RESTful or HTTP APIs that scale automatically from zero to thousands of requests per second. By exposing your API through an is-pro.dev subdomain, you get a clean, branded endpoint with Cloudflare's DNS management and SSL — all while keeping your infrastructure costs near zero for low-traffic APIs.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An AWS account with Lambda and API Gateway access</li><li>The AWS CLI installed and configured locally (optional but helpful)</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Basic knowledge of REST APIs and HTTP methods</li></ul>
-          <h2>Step 1: Create Your Lambda Function</h2>
-          <p>Log into the AWS Management Console and navigate to Lambda. Click "Create function" and choose "Author from scratch". Give your function a name (e.g., <code>my-api-handler</code>). Select a runtime — Node.js 18 or Python 3.11 are good choices. For permissions, create a basic execution role with Lambda basic execution permissions. Write your function code that handles API requests. A simple example returns a JSON response: <code>exports.handler = async (event) => { return { statusCode: 200, body: JSON.stringify({ message: 'Hello from Lambda' }) } }</code>. Click "Deploy" to save your function. Test it with a sample event to confirm it returns the expected response.</p>
-          <h2>Step 2: Set Up API Gateway</h2>
-          <p>Navigate to API Gateway in the AWS console. Click "Create API" and choose "REST API" or "HTTP API". HTTP API is simpler and cheaper for most use cases. Select "Build" and give your API a name (e.g., <code>my-api</code>). Create a route — for a basic API, add a <code>GET /</code> route and a <code>GET /{proxy+}</code> catch-all route. Attach your Lambda function as the integration target. Deploy your API to a stage (e.g., <code>prod</code>). API Gateway assigns an invoke URL like <code>https://abcdef123.execute-api.us-east-1.amazonaws.com</code>. Test this URL in your browser or with curl to verify your Lambda responds correctly.</p>
-          <h2>Step 3: Configure Custom Domain in API Gateway</h2>
-          <p>In API Gateway, go to "Custom domain names" in the left navigation. Click "Create". Enter your is-pro.dev subdomain (e.g., <code>api.is-pro.dev</code>). For the endpoint configuration, choose "Regional" (not Edge-optimized, since Cloudflare will handle CDN). Create a TLS certificate using AWS Certificate Manager (ACM) in the same region as your API Gateway. ACM requires domain verification — it will give you a CNAME record to add to your DNS. You need to request the certificate for <code>api.is-pro.dev</code> and optionally a wildcard <code>*.api.is-pro.dev</code>. Once the certificate is issued (verification usually takes a few minutes), select it in the API Gateway custom domain settings and map your API stage to a path (e.g., map <code>GET /</code> to <code>$default</code>).</p>
-          <h2>Step 4: Configure DNS in the is-pro.dev Dashboard</h2>
-          <p>Open the is-pro.dev DNS dashboard. You need to add two DNS records. First, add the CNAME record that ACM provided during certificate verification (this verifies domain ownership for AWS). Second, add a CNAME record pointing your API subdomain to the API Gateway regional domain name, which looks like <code>d-abc1234.execute-api.us-east-1.amazonaws.com</code>. Important: set the proxy status to DNS-only (gray cloud) for the API Gateway CNAME record. Proxied mode (orange cloud) can interfere with API Gateway's certificate validation and may cause issues with non-HTTP traffic patterns used by API Gateway.</p>
-          <h2>Step 5: Configure CORS for Your API</h2>
-          <p>If your API is called from a frontend application on a different domain, you need to configure CORS (Cross-Origin Resource Sharing). In API Gateway, you can enable CORS at the API level or for individual routes. Add the <code>Access-Control-Allow-Origin</code> header with your frontend domain (or <code>*</code> for development). Also add <code>Access-Control-Allow-Methods</code> and <code>Access-Control-Allow-Headers</code>. If your Lambda returns these headers directly, ensure they are included in the response. Test CORS by making an HTTP request from your frontend and checking for CORS errors in the browser console. Use the HTTP Headers Checker tool on is-pro.dev to verify your API's response headers.</p>
-          <h2>Step 6: Monitor and Optimize</h2>
-          <p>Set up CloudWatch monitoring for your Lambda function to track invocation counts, error rates, and duration. Configure basic alerts for 5xx errors exceeding a threshold. For cost management, monitor the AWS Free Tier limits: 1 million Lambda requests and 1 million API Gateway requests per month. Consider using Cloudflare's caching for GET endpoints that return static or slowly-changing data. Add rate limiting via API Gateway's usage plans if your API is publicly accessible. Use the is-pro.dev uptime monitoring tools to track your API availability.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Use environment variables in Lambda for configuration like database connection strings and API keys</li><li>Implement proper error handling with consistent JSON error responses</li><li>Enable AWS X-Ray tracing for debugging performance bottlenecks</li><li>Set API Gateway throttling limits to protect against unexpected traffic spikes</li></ul>
-          <h2>Conclusion</h2>
-          <p>AWS Lambda, API Gateway, and an is-pro.dev subdomain form a powerful serverless stack for building and exposing APIs. The Lambda function handles business logic, API Gateway manages HTTP routing and scaling, and your subdomain provides a clean, branded endpoint with professional DNS management.</p>
-          <h2>FAQ</h2>
-          <p><strong>Does this setup work with the AWS Free Tier?</strong></p>
-          <p>Yes, AWS Free Tier includes 1 million Lambda requests and 1 million API Gateway requests per month for the first 12 months. After that, costs remain very low for small to moderate traffic.</p>
-          <p><strong>Can I use this with other cloud providers like Google Cloud Functions or Azure Functions?</strong></p>
-          <p>Yes, the DNS configuration approach is similar for any cloud provider. Instead of API Gateway, you would use Cloud Run, Cloud Functions, or Azure API Management with the same CNAME-based custom domain setup.</p>
-          <p><strong>Why does my API return a 403 error after setting up the custom domain?</strong></p>
-          <p>This usually indicates API Gateway's resource policy or AWS WAF is blocking the request. Check your API's resource policy to ensure it allows requests from the custom domain, and verify that the API Gateway stage is properly mapped to the custom domain path.</p>
+          ## Introduction to Serverless API Hosting
+          Developers on the is-pro.dev platform, such as those hosting their projects on myproject.is-pro.dev, often require scalable and cost-effective solutions for hosting API endpoints. AWS Lambda, in conjunction with API Gateway, provides a serverless architecture that fulfills these requirements. By leveraging AWS Lambda, developers can focus on writing code without worrying about the underlying infrastructure. This guide will walk through the process of hosting an API endpoint on a subdomain using AWS Lambda and API Gateway, specifically tailored for developers on the is-pro.dev platform.
+          
+          ## Prerequisites
+          Before proceeding, ensure you have the following:
+          - An AWS account with the necessary permissions to create Lambda functions, API Gateway REST APIs, and IAM roles.
+          - A subdomain on is-pro.dev, such as myproject.is-pro.dev, for which you want to host the API endpoint.
+          - AWS CLI installed and configured on your machine.
+          - A basic understanding of AWS services, including Lambda, API Gateway, and IAM.
+          
+          ## Setting Up the Lambda Function
+          To start, you'll need to create a Lambda function that will serve as the backend for your API endpoint. This can be done using the AWS CLI or the AWS Management Console. For this example, let's create a simple Lambda function using Python that responds to a GET request:
+          ```python
+          import json
+          
+          def lambda_handler(event, context):
+              return {
+                  'statusCode': 200,
+                  'body': json.dumps('Hello from Lambda!')
+              }
+          ```
+          Save this code in a file named `lambda_function.py`. Then, create a deployment package by zipping this file. You can create the Lambda function using the AWS CLI with the following command:
+          ```bash
+          aws lambda create-function --function-name mylambda --zip-file fileb://lambda_function.py.zip --handler lambda_function.lambda_handler --runtime python3.9 --role arn:aws:iam::123456789012:role/service-role/lambda-execution-role
+          ```
+          Replace the `--role` value with the ARN of an IAM role that has execution permissions for Lambda.
+          
+          ## Configuring API Gateway
+          Next, you'll need to set up API Gateway to act as the entry point for your API endpoint. Create a new REST API or use an existing one. Then, create a new resource and method (e.g., GET) that will trigger your Lambda function. To integrate Lambda with API Gateway, you'll need to create an IAM role for API Gateway that allows it to invoke your Lambda function.
+          
+          ```bash
+          aws iam create-role --role-name api-gateway-execution-role --assume-role-policy-document '{"Version": "2012-10-17", "Statement": [{"Effect": "Allow", "Principal": {"Service": "apigateway.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
+          aws iam put-role-policy --role-name api-gateway-execution-role --policy-name execution-policy --policy-document '{"Version": "2012-10-17", "Statement": [{"Effect": "Allow", "Action": "lambda:InvokeFunction", "Resource": "arn:aws:lambda:us-east-1:123456789012:function:mylambda"}]}'
+          ```
+          Replace the `--policy-document` Resource value with the ARN of your Lambda function.
+          
+          ## Setting Up the Custom Domain
+          To host your API endpoint on a custom subdomain like myproject.is-pro.dev, you'll need to set up a custom domain in API Gateway. First, request a certificate for your subdomain from AWS Certificate Manager (ACM) or import an existing one. Then, create a new custom domain in API Gateway, specifying your subdomain and the ACM certificate.
+          
+          ```bash
+          aws apigateway create-domain-name --domain-name myproject.is-pro.dev --certificate-arn arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012
+          ```
+          After setting up the custom domain, you'll need to configure DNS settings for your subdomain to point to API Gateway. This typically involves creating a CNAME record that maps your subdomain to the cloudfront.net domain provided by API Gateway.
+          
+          ## Common Pitfalls and Solutions
+          - **Lambda Function Not Invoking**: Check the IAM role permissions and ensure that API Gateway has the necessary permissions to invoke your Lambda function.
+          - **API Gateway Integration Issues**: Verify that the Lambda function ARN is correctly specified in the API Gateway integration request and that the IAM role for API Gateway has the necessary permissions.
+          - **Certificate Issues**: Ensure that the SSL certificate is correctly configured for your custom domain and that it matches the domain name you're using.
+          
+          ## Best Practices
+          - **Monitor and Log**: Use AWS CloudWatch for monitoring and logging your Lambda function and API Gateway to quickly identify and debug issues.
+          - **Security**: Implement appropriate security measures, such as validating user input, using secure protocols (HTTPS), and configuring IAM roles with least privilege access.
+          - **Versioning**: Use versioning for your Lambda function and API Gateway to manage changes and roll back if necessary.
+          
+          ## Performance Considerations
+          - **Cold Start**: Be aware of the cold start issue in Lambda, where the first invocation after a period of inactivity can take longer. Implementing provisioned concurrency can help mitigate this.
+          - **API Gateway Limits**: Be mindful of the API Gateway usage limits and plan accordingly to avoid throttling.
+          - **Lambda Memory and Timeout**: Optimize your Lambda function's memory allocation and timeout settings based on its requirements to avoid unnecessary costs and failures.
+          
+          ## Troubleshooting
+          For issues with your Lambda function, check the CloudWatch logs for error messages. For API Gateway issues, use the Test feature in the API Gateway console or check the execution logs. If you encounter domain name or SSL certificate issues, verify your DNS settings and certificate configurations.
+          
+          ## Conclusion and Next Steps
+          Hosting an API endpoint on a subdomain with AWS Lambda and API Gateway provides a scalable and cost-effective solution for developers on the is-pro.dev platform. By following the steps outlined in this guide, you can set up a serverless API endpoint for your project, such as myproject.is-pro.dev. For further learning, explore advanced topics like API Gateway caching, Lambda function optimization, and integrating with other AWS services.
+          
+          ## FAQ
+          1. **Q: Can I use a subdomain that is not on is-pro.dev?**
+             A: Yes, the process outlined in this guide can be adapted for any custom domain, not just those on is-pro.dev. You would need to adjust the DNS settings accordingly.
+          2. **Q: How do I handle CORS in my API Gateway?**
+             A: You can handle CORS by adding a CORS configuration to your API Gateway resource. This involves specifying the allowed origins, methods, and headers.
+          3. **Q: Can I use AWS Lambda with other AWS services?**
+             A: Yes, AWS Lambda can be integrated with a variety of AWS services, including S3, DynamoDB, and SNS, among others, to build more complex serverless applications.
+          4. **Q: How do I secure my API endpoint with authentication?**
+             A: You can secure your API endpoint using AWS services like API Gateway's built-in authorization features, AWS Cognito for user authentication, or AWS IAM for resource-based access control.
+          5. **Q: What are the limits on the number of API Gateway custom domains?**
+             A: AWS has specific limits on the number of custom domains you can create in API Gateway. Check the AWS documentation for the most current information on service limits.
+          
+          ## Further Reading
+          - **AWS Lambda Documentation**: For detailed information on creating and managing Lambda functions.
+          - **API Gateway Documentation**: For comprehensive guides on setting up and configuring API Gateway.
+          - **AWS Well-Architected Framework**: For best practices on designing and operating reliable, secure, and high-performing workloads in the cloud.
+          - **AWS CloudFormation**: For automating the deployment of your AWS resources, including Lambda and API Gateway, using infrastructure as code.
 <h2>FAQ</h2><p><strong>Is API setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

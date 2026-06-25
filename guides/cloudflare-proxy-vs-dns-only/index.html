@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Security</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Cloudflare Proxy vs DNS-Only: When to Use Each Mode</h1>
@@ -170,33 +170,76 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>When managing DNS records in Cloudflare (which powers is-pro.dev), every record has a toggle between "Proxied" (orange cloud) and "DNS-only" (gray cloud). This small setting has significant implications for security, performance, and compatibility. Understanding when to use each mode is essential for configuring your subdomains correctly. This guide explains the technical differences and provides clear guidance for every common scenario.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-pro.dev subdomain with Cloudflare DNS enabled</li><li>A basic understanding of how HTTP and DNS work</li><li>Access to the is-pro.dev DNS dashboard to view proxy toggles</li></ul>
-          <h2>What Happens in Proxied Mode (Orange Cloud)</h2>
-          <p>When a DNS record is set to Proxied, traffic to that subdomain is routed through Cloudflare's global network before reaching your origin server. Cloudflare terminates the TCP connection at the edge, inspects the traffic for threats (DDoS, SQL injection, XSS), caches static content, and optionally optimizes images and scripts. The visitor sees Cloudflare's IP address in their DNS resolution, not your origin server's IP — effectively hiding your server from direct internet exposure. This is why proxied mode is sometimes called "orange cloud" mode. Cloudflare also terminates SSL at the edge, presenting your visitors with a valid certificate even if your origin server uses a self-signed certificate. Proxied mode supports Cloudflare features like Page Rules, Workers, Argo Smart Routing, and WAF (Web Application Firewall).</p>
-          <h2>What Happens in DNS-Only Mode (Gray Cloud)</h2>
-          <p>In DNS-only mode, Cloudflare simply responds to DNS queries with the record's value — typically your origin server's IP address or a CNAME target. Traffic flows directly from the visitor to your server without passing through Cloudflare's network. Cloudflare does not cache content, inspect traffic, or terminate SSL. The proxy toggles on the DNS record are disabled, and Cloudflare functions only as an authoritative nameserver. Your origin IP is visible to anyone who looks up your DNS records. DNS-only mode is necessary for services that use protocols other than HTTP/HTTPS (such as SMTP for email, SSH for remote access, or WebSockets without HTTP wrapping), because Cloudflare's proxy only handles HTTP and WebSocket traffic on ports 80 and 443.</p>
-          <h2>When to Use Proxied Mode</h2>
-          <p>Use proxied mode for any web server serving HTTP or HTTPS content: portfolio sites, blogs, landing pages, web applications, API endpoints served over HTTPS, and static sites hosted on VPS or shared hosting. Proxied mode is also recommended for WordPress sites, custom web applications, and any service where hiding the origin IP is important for security. If you are not sure which mode to use, start with proxied — it provides the most benefits. The only significant downside is that Cloudflare must see the traffic to serve it, so the origin server must accept connections from Cloudflare's IP ranges.</p>
-          <h2>When to Use DNS-Only Mode</h2>
-          <p>DNS-only mode is required for services that do not use HTTP: email servers (SMTP on port 25, IMAP on port 143, POP3 on port 110), SSH access (port 22), FTP (ports 20-21), game servers (Minecraft on port 25565, etc.), and any service using non-standard ports. DNS-only mode is also needed for platforms that manage their own SSL and require direct traffic. Netlify, for example, recommends DNS-only mode because it needs direct HTTPS traffic to provision and verify Let's Encrypt certificates. Some API Gateway configurations also require DNS-only mode for certificate validation. If your service provides its own CDN, caching, or SSL termination, DNS-only mode prevents conflicts with Cloudflare's proxy.</p>
-          <h2>How Caching Differs Between the Two Modes</h2>
-          <p>In proxied mode, Cloudflare caches static content (HTML, CSS, JS, images) according to cache rules you configure. This dramatically reduces load on your origin server and improves page load times for visitors worldwide. You can set cache duration, purge cached content, and use cache keys to customize behavior. In DNS-only mode, no caching occurs at Cloudflare's edge — every request hits your origin server directly. If you need a CDN in DNS-only mode, you must use a separate CDN provider or configure caching at your application level. For high-traffic sites, proxied mode can reduce origin bandwidth by 60-80%.</p>
-          <h2>Security Implications</h2>
-          <p>Proxied mode provides DDoS protection, IP obfuscation, SSL termination, WAF rules, bot management, and rate limiting — all built into Cloudflare's free tier. DNS-only mode exposes your origin IP and provides none of these protections. If you must use DNS-only mode for a specific service (like email), consider securing that service independently: use strong authentication, restrict access by IP, enable firewall rules, and monitor logs for suspicious activity. For hybrid setups where some records are proxied and others are DNS-only, the proxied records still benefit from Cloudflare's security features even on the same subdomain.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Default to proxied (orange cloud) for all HTTP/HTTPS services and switch to DNS-only only when compatibility requires it</li><li>For email-related records (MX, TXT), always use DNS-only — proxied email records break delivery</li><li>Test both modes to see which provides better performance for your specific use case</li><li>If you need SSL proxied but have an API on a non-standard port, consider using Cloudflare Workers or a reverse proxy to bridge the traffic</li></ul>
-          <h2>Conclusion</h2>
-          <p>The proxy toggle in your is-pro.dev DNS dashboard determines whether Cloudflare actively protects and accelerates your traffic or simply resolves DNS. Proxied mode offers security, performance, and SSL benefits for web services. DNS-only mode is necessary for non-HTTP services and platforms with their own SSL management. Understanding this distinction is fundamental to correctly configuring your subdomains.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I change a record from proxied to DNS-only without downtime?</strong></p>
-          <p>There may be a brief interruption as DNS caches update. Lower the TTL to 60 seconds before switching, wait for propagation, then change the proxy setting.</p>
-          <p><strong>Does DNS-only mode affect SSL?</strong></p>
-          <p>Yes. In DNS-only mode, Cloudflare does not provide SSL termination. Your origin server must have its own valid SSL certificate for HTTPS to work.</p>
-          <p><strong>Can I use proxied mode for a subdomain that hosts a game server?</strong></p>
-           <p>Only if the game client communicates over HTTP or WebSocket on ports 80/443. Most game servers use custom protocols on arbitrary ports and require DNS-only mode.</p>
+          ## Introduction to Cloudflare Modes
+          When setting up a project on is-pro.dev subdomains, such as myproject.is-pro.dev, understanding the difference between Cloudflare's proxy and DNS-only modes is crucial for optimizing performance and security. Cloudflare is a Content Delivery Network (CDN) that offers a range of services to enhance the speed, security, and reliability of websites and applications. In this guide, we will delve into the specifics of each mode, exploring when to use them, how to configure them, and the implications for your project.
+          
+          ## Prerequisites for Configuration
+          Before configuring Cloudflare for your project, ensure you have the following:
+          - A Cloudflare account.
+          - Your project set up on an is-pro.dev subdomain (e.g., myproject.is-pro.dev).
+          - Access to your domain's DNS settings, either through your registrar or a third-party DNS manager.
+          To start using Cloudflare with your is-pro.dev subdomain, sign up for a Cloudflare account and add your domain. Cloudflare will then guide you through the process of setting up your domain, which may involve updating your domain's nameservers or adding specific DNS records.
+          
+          ## Configuring Cloudflare Proxy Mode
+          Proxy mode, often referred to as "CDN" mode, is the default mode when you add a domain to Cloudflare. In this mode, Cloudflare acts as a reverse proxy, caching content from your origin server and distributing it across its global network of edge servers. This not only accelerates the delivery of your content but also provides an additional layer of security and protection against attacks.
+          
+          To configure your domain (e.g., myproject.is-pro.dev) to use Cloudflare's proxy mode:
+          1. Log in to your Cloudflare dashboard.
+          2. Select the domain you wish to configure.
+          3. Go to the "DNS" tab.
+          4. For each record you want to proxy (typically A records for your website and potentially AAAA records for IPv6), click the cloud icon to toggle it to "Proxied" (orange cloud).
+          5. Ensure that SSL/TLS encryption is enabled under the "SSL/TLS" tab to secure the connection between visitors and Cloudflare, and between Cloudflare and your origin server.
+          
+          ## Configuring Cloudflare DNS-Only Mode
+          DNS-only mode allows you to use Cloudflare's DNS services without proxying your traffic through Cloudflare's CDN. This mode is useful for DNS management and security features without caching or content delivery. To configure DNS-only mode:
+          1. Follow the same initial steps as for proxy mode.
+          2. For each record, ensure the cloud icon is toggled to "DNS only" (gray cloud).
+          3. You can still utilize Cloudflare's DNS security features and manage your DNS records from the Cloudflare dashboard.
+          
+          ## Common Pitfalls and Solutions
+          One common issue when setting up Cloudflare is incorrectly configuring DNS records, leading to site downtime or security vulnerabilities. To avoid this:
+          - Double-check that all necessary records are correctly pointed to your origin server when using DNS-only mode.
+          - When switching to proxy mode, ensure that Cloudflare's edge certificates are properly set up to avoid SSL/TLS errors.
+          - Use Cloudflare's built-in tools and analytics to monitor your site's performance and security, identifying and addressing issues promptly.
+          
+          ## Best Practices for Performance and Security
+          To maximize the benefits of using Cloudflare:
+          - Enable Auto Minify and Auto Rewrite in the "Speed" tab to optimize page load times.
+          - Use Cloudflare's built-in Web Application Firewall (WAF) and enable IP Firewall to enhance security.
+          - Regularly review your DNS records and SSL/TLS settings to ensure they are up-to-date and correctly configured.
+          - Consider implementing a Content Security Policy (CSP) to define which sources of content are allowed to be executed within a web page.
+          
+          ## Performance Considerations
+          The choice between proxy and DNS-only modes significantly impacts your project's performance. Proxy mode can dramatically reduce page load times by caching frequently accessed resources and distributing them across Cloudflare's network. However, for applications that require a direct connection to the origin server (e.g., certain real-time applications), DNS-only mode might be more appropriate. Monitor your application's performance using tools like Cloudflare's analytics and external benchmarking services to determine the best approach.
+          
+          ## Troubleshooting Common Issues
+          If you encounter issues with your site after configuring Cloudflare:
+          - Check the Cloudflare status page for any ongoing outages or maintenance.
+          - Review your DNS records and proxy settings to ensure they are correctly configured.
+          - Utilize Cloudflare's support resources, including documentation, community forums, and support tickets for personalized assistance.
+          - Test your site using tools like `curl` or online SSL testers to diagnose SSL/TLS issues.
+          
+          ## Conclusion and Next Steps
+          In conclusion, understanding the differences between Cloudflare's proxy and DNS-only modes is essential for optimizing the performance and security of your project on is-pro.dev subdomains. By following the guidelines and best practices outlined in this guide, you can effectively configure Cloudflare to meet your project's specific needs. Continue to monitor your project's performance and security, and explore additional Cloudflare features to further enhance your users' experience.
+          
+          ## FAQ
+          1. **Q: Can I use both proxy and DNS-only modes for different records within the same domain?**
+             A: Yes, you can mix proxy and DNS-only modes for different records within your domain, allowing for flexible configuration based on your specific needs.
+          2. **Q: How do I handle SSL/TLS certificates when using Cloudflare's proxy mode?**
+             A: Cloudflare provides free SSL/TLS certificates for proxied domains. Ensure that SSL/TLS is enabled in your Cloudflare dashboard and that your origin server's certificate is properly configured.
+          3. **Q: Will using Cloudflare's proxy mode affect my website's SEO?**
+             A: Generally, using Cloudflare's proxy mode should not negatively impact your website's SEO. Cloudflare is designed to be SEO-friendly, and it can even improve your site's performance, which is a positive ranking factor.
+          4. **Q: Can I use Cloudflare with a third-party CDN?**
+             A: While it's technically possible to use Cloudflare alongside another CDN, it's usually not necessary and could potentially introduce complexity. Cloudflare itself acts as a CDN, offering comprehensive content delivery and caching capabilities.
+          5. **Q: How do I migrate my existing DNS records to Cloudflare?**
+             A: Cloudflare provides a DNS import tool that can automatically detect and import your existing DNS records. Alternatively, you can manually add records through the Cloudflare dashboard.
+          
+          ## Further Reading
+          For deeper dives into specific topics and to stay updated on the latest features and best practices:
+          - Cloudflare Documentation: [https://developers.cloudflare.com/](https://developers.cloudflare.com/)
+          - Cloudflare Blog: [https://blog.cloudflare.com/](https://blog.cloudflare.com/)
+          - Is-pro.dev Developer Resources: Check the official is-pro.dev documentation for guides on integrating Cloudflare with your is-pro.dev subdomain.
+          - Online Communities: Participate in forums like Reddit's r/webdev and Stack Overflow to discuss Cloudflare and web development topics with other professionals.
 <h2>FAQ</h2><p><strong>Is Security setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

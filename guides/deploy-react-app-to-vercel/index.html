@@ -171,61 +171,70 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Deploying React Apps on Vercel
-          As a developer on the is-pro.dev platform, deploying a React application to a custom domain like myproject.is-pro.dev can significantly enhance your project's visibility and accessibility. Vercel, with its seamless integration with React and support for custom domains, makes this process straightforward. This guide will walk you through the steps to deploy your React app to Vercel with a custom domain, highlighting key considerations and troubleshooting tips along the way.
+          As a developer on the is-pro.dev platform, deploying a React application to a custom domain can seem daunting, but with the right guidance, it can be a straightforward process. Vercel is a popular choice for hosting React applications due to its ease of use, performance, and seamless integration with custom domains. In this guide, we will walk through the steps to deploy a React app to Vercel with a custom domain, such as myproject.is-pro.dev. This will enable you to showcase your projects professionally and enhance your development workflow.
           
           ## Prerequisites for Deployment
-          Before you begin, ensure you have the following:
-          - A React application ready for deployment. If your app isn't already set up, you can create a new one using `npx create-react-app myproject`.
-          - A Vercel account. Sign up at [Vercel.com](https://vercel.com/) if you haven't already.
-          - Your project hosted on a version control platform like GitHub, which Vercel can integrate with for automatic deployments.
-          - A custom domain, such as myproject.is-pro.dev, which you want to use for your React app.
+          Before deploying your React app to Vercel, ensure you have the following:
+          - A React application set up and ready for deployment. If you're starting from scratch, you can create a new React app using `npx create-react-app myproject`.
+          - A Vercel account. Sign up at [vercel.com](https://vercel.com) if you haven't already.
+          - The Vercel CLI installed on your machine. You can install it using `npm install -g vercel`.
+          - A custom domain, such as myproject.is-pro.dev, configured and ready for use.
           
-          ## Step-by-Step Deployment Guide
-          1. **Link Your GitHub Repository to Vercel**: Go to your Vercel dashboard, click on "New Project", and then select "Import" to link your GitHub repository. Follow the prompts to authorize Vercel to access your repository.
-          2. **Configure Vercel for Your React App**: After importing your repository, Vercel will automatically detect that it's a React project. You can then configure the build settings if necessary. Typically, the default settings work fine for React apps.
-          3. **Deploy Your App**: Click on "Deploy" to start the deployment process. Vercel will build and deploy your app. You can monitor the deployment logs to see the progress.
-          4. **Add a Custom Domain**: Once your app is deployed, navigate to the "Domains" section of your project settings on Vercel. Click on "Add a Domain" and enter your custom domain, e.g., myproject.is-pro.dev. Vercel will guide you through verifying domain ownership, which typically involves adding a TXT record to your DNS settings.
-          5. **Configure DNS Settings**: To point your custom domain to Vercel, you'll need to update your DNS settings. Vercel provides the necessary CNAME records for this purpose. For a domain like myproject.is-pro.dev, you would set the CNAME record to point to `cname.vercel-dns.com`.
+          ## Step-by-Step Deployment Instructions
+          1. **Initialize Vercel in Your Project**: Navigate to your React project directory in the terminal and run `vercel login` to log in to your Vercel account. Then, execute `vercel` to create a new Vercel project. Follow the prompts to set up your project.
+          2. **Configure Your Custom Domain**: In your Vercel dashboard, go to your project settings > Domains, and click "Add a Domain". Enter your custom domain, myproject.is-pro.dev, and follow the verification process. Vercel will guide you through setting up the necessary DNS records.
+          3. **Update `vercel.json` for Custom Domain**: In the root of your project, create or edit `vercel.json` to include your custom domain. Here's an example configuration:
+          ```json
+          {
+            "version": 2,
+            "domains": [
+              "myproject.is-pro.dev"
+            ]
+          }
+          ```
+          4. **Deploy Your Application**: Run `vercel build && vercel deploy --prod` to build and deploy your application to production. The `--prod` flag ensures your application is deployed to the production environment.
+          5. **Verify Your Deployment**: After deployment, visit your custom domain, myproject.is-pro.dev, to verify that your React application is live and functioning as expected.
           
           ## Common Pitfalls and Solutions
-          - **DNS Propagation Delays**: After updating your DNS settings, it may take some time (up to 48 hours) for the changes to propagate globally. Be patient, as this is a normal part of the process.
-          - **Build Failures**: If your deployment fails, check the build logs on Vercel for errors. Common issues include outdated dependencies or incorrect build settings.
-          - **Domain Verification Issues**: If you encounter problems verifying your domain, ensure you've correctly added the required TXT record to your DNS settings and that you've waited long enough for the changes to propagate.
+          - **DNS Configuration Issues**: If your custom domain doesn't resolve to your Vercel project, double-check your DNS settings. Ensure the nameservers or CNAME records are correctly configured according to Vercel's instructions.
+          - **Build Failures**: If your deployment fails during the build process, check the error logs for specific issues. Common problems include incompatible dependencies or incorrect `vercel.json` configurations.
+          - **Cache Invalidation**: After updating your application, if changes are not reflected, try invalidating the cache by running `vercel --force` or configuring cache invalidation in your `vercel.json`.
           
           ## Best Practices for Deployment
-          - **Use Environment Variables**: For configurations that vary between development and production, use environment variables. Vercel allows you to set these in your project settings.
-          - **Optimize Images and Assets**: Large images and assets can significantly slow down your app. Use tools like Webpack or Vercel's built-in image optimization to reduce file sizes.
-          - **Monitor Performance**: Use Vercel's analytics and performance monitoring tools to identify and address bottlenecks in your app.
+          - **Automate Deployments**: Use GitHub or GitLab integrations to automate deployments on push events, ensuring your application is always up-to-date.
+          - **Environment Variables**: Manage environment variables through Vercel's dashboard to keep sensitive information secure and easily configurable across different environments.
+          - **Monitoring and Analytics**: Leverage Vercel's built-in analytics and monitoring tools to track performance and user engagement.
           
           ## Performance Considerations
-          Vercel offers various features to enhance the performance of your React app, including:
-          - **Edge Networking**: Vercel's Edge Network can cache your app's content at edge locations worldwide, reducing latency for users.
-          - **Serverless Functions**: For dynamic content, consider using Vercel's serverless functions, which can handle requests without the need for a full server setup.
-          - **Code Splitting**: Implement code splitting in your React app to load components and their dependencies on demand, reducing initial load times.
+          - **Optimize Images and Assets**: Ensure all images and assets are optimized for web use to reduce payload sizes and improve page load times.
+          - **Enable Compression**: Vercel automatically compresses assets, but double-check that this feature is enabled for your project.
+          - **Leverage Edge Functions**: For complex, data-driven applications, consider using Edge Functions to reduce latency and improve responsiveness.
           
           ## Troubleshooting Deployment Issues
-          If you encounter issues during deployment, the first step is to check the Vercel deployment logs for error messages. Common issues include build failures due to outdated dependencies or incorrect configuration. For domain-related issues, verify that your DNS settings are correctly configured and that domain verification has been successfully completed.
+          - **Check Vercel Logs**: For any deployment or runtime issues, inspect the Vercel logs for detailed error messages and troubleshooting guidance.
+          - **Community Support**: Utilize Vercel's community forums and documentation for solutions to common issues and best practices.
+          - **Vercel Status Page**: Monitor the Vercel status page for any platform-wide issues that might affect your deployment.
           
           ## Conclusion and Next Steps
-          Deploying a React app to Vercel with a custom domain like myproject.is-pro.dev is a straightforward process that enhances your app's accessibility and professional appearance. By following the steps outlined in this guide and considering best practices for performance and deployment, you can ensure a smooth and efficient deployment process. For further learning, explore Vercel's documentation and React's official guides to deepen your understanding of both platforms.
+          Deploying a React app to Vercel with a custom domain like myproject.is-pro.dev is a straightforward process that enhances the professionalism and accessibility of your projects. By following the steps outlined in this guide, you can ensure a smooth deployment experience. Remember to automate your deployments, monitor performance, and follow best practices for security and optimization. For further learning and troubleshooting, refer to the resources provided below.
           
           ## FAQ
-          1. **How long does DNS propagation take?**
-             - DNS propagation can take anywhere from a few minutes to up to 48 hours, depending on your DNS provider and the location of your users.
-          2. **Can I use a subdomain with Vercel?**
-             - Yes, Vercel supports the use of subdomains. You can add a subdomain like `blog.myproject.is-pro.dev` through the Vercel dashboard.
-          3. **Do I need to manually update my app for new deployments?**
-             - No, if you've linked your GitHub repository to Vercel, new deployments can be triggered automatically whenever you push changes to your repository.
-          4. **How do I handle SSL certificates for my custom domain?**
-             - Vercel automatically provisions SSL certificates for your custom domains, ensuring your app is served over HTTPS.
-          5. **Can I use Vercel with other frontend frameworks?**
-             - Yes, Vercel supports deployment of apps built with various frontend frameworks, including Next.js, Gatsby, and more, in addition to React.
+          1. **Q: Can I use a subdomain of my custom domain?**
+             A: Yes, you can use a subdomain like `sub.myproject.is-pro.dev`. Just add it to your `vercel.json` and configure the necessary DNS records.
+          2. **Q: How do I handle SSL certificates for my custom domain?**
+             A: Vercel automatically provisions and manages SSL certificates for your custom domains, ensuring your site is served over HTTPS.
+          3. **Q: What if my React app uses a specific Node.js version?**
+             A: You can specify the Node.js version in your `vercel.json` or `package.json` to ensure compatibility.
+          4. **Q: Can I deploy a React app from a monorepo?**
+             A: Yes, Vercel supports deploying applications from monorepos. You'll need to configure the `vercel.json` to point to the correct package within your monorepo.
+          5. **Q: How do I roll back to a previous deployment?**
+             A: Vercel allows you to roll back to previous deployments through the dashboard or using the Vercel CLI with the `--prod` and `--version` flags.
           
           ## Further Reading
-          - **Vercel Documentation**: [https://vercel.com/docs](https://vercel.com/docs) - Comprehensive guides to deploying and managing your apps on Vercel.
-          - **React Official Documentation**: [https://reactjs.org/](https://reactjs.org/) - The official React documentation, covering everything from getting started to advanced topics.
-          - **Webpack**: [https://webpack.js.org/](https://webpack.js.org/) - A powerful tool for bundling and optimizing your frontend code.
-          - **GitHub**: [https://github.com/](https://github.com/) - A web-based platform for version control and collaboration on software projects.
+          - **Vercel Documentation**: [https://vercel.com/docs](https://vercel.com/docs)
+          - **React Documentation**: [https://reactjs.org/docs/getting-started.html](https://reactjs.org/docs/getting-started.html)
+          - **Vercel Community Forum**: [https://vercel.com/community](https://vercel.com/community)
+          - **Web Performance Optimization**: [https://web.dev/fast/](https://web.dev/fast/)
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

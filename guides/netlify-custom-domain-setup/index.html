@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Deployment</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
           <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
         </div>
         <h1>Netlify Custom Domain Setup with Free Subdomain</h1>
@@ -170,33 +170,68 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Netlify is a leading platform for deploying static sites and frontend applications, offering features like form handling, serverless functions, deploy previews, and split testing. Pairing Netlify with an is-pro.dev subdomain gives you a professional hosting setup with global CDN, automatic HTTPS via Let's Encrypt, and continuous deployment from Git — all on the free tier. This guide walks through connecting your is-pro.dev subdomain to Netlify step by step.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A Netlify account (free tier) with a deployed site</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Access to the is-pro.dev DNS management interface (Cloudflare-powered)</li><li>Your site's Netlify-assigned URL (e.g., <code>mysite.netlify.app</code>)</li></ul>
-          <h2>Step 1: Deploy Your Site to Netlify</h2>
-          <p>If you have not deployed to Netlify yet, log into your Netlify dashboard and click "Add new site &rarr; Import an existing project". Connect your Git provider (GitHub, GitLab, or Bitbucket) and select the repository for your site. Netlify auto-detects the framework and pre-fills build settings. Review and click "Deploy site". Netlify assigns a random subdomain like <code>random-words-123456.netlify.app</code>. Your site is immediately live at this URL. Verify everything works before proceeding to add your custom subdomain.</p>
-          <h2>Step 2: Add Your is-pro.dev Subdomain in Netlify</h2>
-          <p>In your Netlify site dashboard, go to "Site settings &rarr; Domain management &rarr; Custom domains". Click "Add custom domain". Enter your full is-pro.dev subdomain (e.g., <code>mysite.is-pro.dev</code>). Netlify will prompt you to check DNS configuration. It provides the required DNS target — typically a CNAME record pointing to <code>mysite.netlify.app</code> or an A record pointing to Netlify's load balancer IPs. Note: if you are adding the bare domain (e.g., <code>is-pro.dev</code> itself), Netlify expects A records. For subdomains, a CNAME record suffices.</p>
-          <h2>Step 3: Configure DNS in the is-pro.dev Dashboard</h2>
-          <p>Open the is-pro.dev DNS dashboard. Click "Add Record". For a subdomain setup, select CNAME as the record type. Enter your subdomain prefix as the name (e.g., <code>mysite</code>) and your Netlify site URL (<code>mysite.netlify.app</code>) as the target. Important: Netlify recommends setting the proxy status to DNS-only (gray cloud) rather than proxied (orange cloud). This is because Netlify handles its own SSL via Let's Encrypt and needs direct traffic for certificate validation. Save the record and verify it appears in your DNS list.</p>
-          <h2>Step 4: Configure Netlify SSL / HTTPS</h2>
-          <p>Back in Netlify, under "Domain management &rarr; Custom domains", wait for Netlify to detect the DNS changes. Netlify automatically provisions a Let's Encrypt SSL certificate for your custom domain once it confirms DNS resolution. This process can take 1-15 minutes. Do not check "External DNS" if you are managing DNS through is-pro.dev. Once the certificate is active, you will see a "Netlify Certificate" status with a green checkmark. Enable "Force HTTPS" to redirect all HTTP traffic to HTTPS.</p>
-          <h2>Step 5: Handle the WWW Subdomain Variant</h2>
-          <p>Many visitors still type <code>www.mysite.is-pro.dev</code> out of habit. In Netlify, add <code>www.mysite.is-pro.dev</code> as another custom domain. Then add a CNAME record in the is-pro.dev dashboard: name it <code>www.mysite</code>, target it to <code>mysite.netlify.app</code>. Netlify handles the redirect from www to the non-www version (or vice versa, based on your configured primary domain). Set this up under "Domain management &rarr; Custom domains &rarr; Options &rarr; Set preferred domain".</p>
-          <h2>Step 6: Verify Full Setup</h2>
-          <p>Visit your is-pro.dev subdomain in a browser. Confirm the site loads over HTTPS with a valid Let's Encrypt certificate. Check that the <code>www</code> variant redirects correctly to your primary domain. Test Netlify-specific features like deploy previews and form handling. Use the DNS Checker tool to confirm your CNAME record resolves to Netlify's servers. If you see a Netlify-branded page saying "This page is not found", your DNS record may not point to the correct target or the certificate has not yet provisioned.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Use Netlify's deploy previews for staging — each branch or PR gets a unique URL to test before merging to production</li><li>Configure form handling in Netlify by adding <code>netlify</code> attribute to your HTML forms — submissions are collected in the Netlify dashboard</li><li>Set up branch-based subdomains (e.g., <code>staging.mysite.is-pro.dev</code>) by adding additional CNAME records</li></ul>
-          <h2>Conclusion</h2>
-          <p>Netlify combined with an is-pro.dev subdomain provides a complete, free hosting solution for static sites and frontend applications. Netlify handles builds, deployments, and SSL, while your is-pro.dev subdomain gives you a clean, professional URL backed by Cloudflare DNS.</p>
-          <h2>FAQ</h2>
-          <p><strong>Why does Netlify recommend DNS-only (gray cloud) instead of proxied?</strong></p>
-          <p>Netlify manages its own SSL certificates through Let's Encrypt and needs to verify domain ownership by connecting directly to your origin. Proxied mode (orange cloud) can interfere with this verification process.</p>
-          <p><strong>Can I use Netlify with a proxied (orange cloud) DNS record?</strong></p>
-          <p>Technically yes, but Netlify cannot provision its own SSL certificate in that case. You would rely on Cloudflare's edge certificate, which works but limits some Netlify features like custom 404 pages.</p>
-          <p><strong>How do I set up a redirect from my old domain to the new is-pro.dev subdomain?</strong></p>
-          <p>Netlify supports redirects via a <code>_redirects</code> file or <code>netlify.toml</code>. Add the old domain as a custom domain and configure a redirect rule to your primary subdomain.</p>
+          ## Introduction to Netlify Custom Domain Setup
+          Developers setting up projects on is-pro.dev subdomains can leverage Netlify's free hosting to deploy static sites with custom domains. This setup allows for a professional-looking website without the cost of a custom domain. For example, instead of accessing a project at `myproject.is-pro.dev`, users can access it at `myproject.netlify.app` or even a custom domain like `myproject.com`. In this guide, we'll walk through the process of setting up a Netlify custom domain with a free subdomain, focusing on practical steps and real-world examples.
+          
+          ## Prerequisites for Netlify Custom Domain Setup
+          Before starting the custom domain setup, ensure you have the following:
+          - A Netlify account
+          - A project set up on is-pro.dev (e.g., `myproject.is-pro.dev`)
+          - The project deployed to Netlify
+          - Access to your DNS settings (if using a custom domain)
+          
+          For this example, let's assume you have a project named `myproject` hosted on `myproject.is-pro.dev` and you want to set it up with Netlify.
+          
+          ## Step-by-Step Instructions for Custom Domain Setup
+          ### Deploying to Netlify
+          First, deploy your project to Netlify. If you haven't already, create a new site in Netlify and link it to your GitHub repository (or the repository hosting your project). Netlify will automatically detect the repository and deploy your site. Once deployed, Netlify assigns a default domain, such as `myproject.netlify.app`.
+          
+          ### Setting Up the Custom Domain
+          1. **Verify Domain Ownership**: In your Netlify dashboard, go to `Settings` > `Domain management` > `Add custom domain`. Enter your custom domain (e.g., `myproject.com`) or the free subdomain provided by is-pro.dev (e.g., `myproject.is-pro.dev`).
+          2. **Configure DNS**: For custom domains, you'll need to update your DNS settings. Netlify provides the necessary DNS records. For `myproject.is-pro.dev`, since it's managed by is-pro.dev, you might not need to configure DNS settings manually.
+          3. **Set Up HTTPS**: Netlify automatically enables HTTPS for custom domains. Ensure that your site is configured to use HTTPS to avoid mixed content warnings.
+          
+          ### Example Configuration
+          Let's say you're using Cloudflare for DNS management. You would add a CNAME record with the name `myproject` and the content `myproject.netlify.app`. For TXT records required by Netlify for verification, you would add a TXT record with the name `_netlify` and the content provided by Netlify.
+          
+          ## Common Pitfalls and Solutions
+          - **DNS Propagation Delay**: Changes to DNS records can take up to 48 hours to propagate globally. If your site isn't accessible after setting up the custom domain, wait for the DNS changes to propagate.
+          - **Mixed Content Warnings**: Ensure all resources (images, CSS, JavaScript files) are loaded over HTTPS to avoid mixed content warnings.
+          - **Netlify Deployment Issues**: If your site isn't deploying correctly, check the build logs in Netlify for errors. Common issues include incorrect build settings or dependencies not being installed correctly.
+          
+          ## Best Practices for Custom Domain Setup
+          - **Use Environment Variables**: For projects that need to differentiate between development and production environments, use environment variables to configure API keys, database connections, or other settings.
+          - **Automate Deployment**: Set up continuous deployment (CD) in Netlify to automate the deployment process whenever code changes are pushed to your repository.
+          - **Monitor Performance**: Use Netlify's built-in performance monitoring tools or third-party services to monitor your site's performance and optimize as necessary.
+          
+          ## Performance Considerations
+          Netlify offers a robust CDN and automatic code splitting, which can significantly improve your site's performance. However, for very large sites or those with complex build processes, consider optimizing images, minifying CSS and JavaScript, and leveraging caching mechanisms to reduce load times.
+          
+          ## Troubleshooting Custom Domain Issues
+          - **Check DNS Settings**: Ensure DNS records are correctly set up and propagated.
+          - **Verify Netlify Configuration**: Make sure the custom domain is correctly set up in Netlify and the site is deploying without errors.
+          - **Test with Different Browsers and Devices**: Sometimes, issues can be browser or device-specific. Testing across different environments can help identify and fix problems.
+          
+          ## Conclusion and Next Steps
+          Setting up a custom domain with Netlify for your project on `myproject.is-pro.dev` enhances your site's professionalism and accessibility. By following the steps outlined in this guide, you can ensure a smooth setup process. Remember to monitor your site's performance and adjust settings as necessary for optimal user experience. For further learning, explore Netlify's documentation and community forums for advanced configurations and troubleshooting tips.
+          
+          ## FAQ
+          1. **Q: Can I use a custom domain with a free plan on Netlify?**
+             A: Yes, Netlify allows custom domains on their free plan, making it an attractive option for developers and small projects.
+          2. **Q: How long does DNS propagation take?**
+             A: DNS propagation can take anywhere from a few minutes to 48 hours, depending on the DNS provider and the location of users accessing the site.
+          3. **Q: Do I need to configure SSL certificates manually?**
+             A: No, Netlify automatically enables HTTPS for custom domains, eliminating the need for manual SSL certificate configuration.
+          4. **Q: Can I use a subdomain of my custom domain with Netlify?**
+             A: Yes, you can set up subdomains (e.g., `blog.myproject.com`) with Netlify by adding them as custom domains in your Netlify site settings.
+          5. **Q: Are there any limitations on the number of custom domains I can set up?**
+             A: The number of custom domains you can set up depends on your Netlify plan. The free plan has limitations, while paid plans offer more flexibility.
+          
+          ## Further Reading
+          - **Netlify Documentation**: The official Netlify documentation provides in-depth guides on custom domain setup, DNS configuration, and troubleshooting.
+          - **Cloudflare DNS**: For managing DNS settings, Cloudflare offers a comprehensive guide on setting up DNS records for custom domains.
+          - **Let's Encrypt**: For understanding SSL certificates and HTTPS, Let's Encrypt is a valuable resource, although Netlify handles this automatically.
+          - **Web Performance Optimization**: Resources like WebPageTest and Google's PageSpeed Insights can help optimize your site's performance after setting up the custom domain.
 <h2>FAQ</h2><p><strong>Is Deployment setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

@@ -170,31 +170,134 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Anime fan sites and wikis are passion projects that deserve reliable hosting without monthly costs eating into your budget. Whether you are building a character database, episode guide, fan art gallery, or full wiki, you can host it on a free is-pro.dev subdomain using tools like MediaWiki, Hugo, or Jekyll. This guide covers the complete setup from choosing the right tool to deploying with free hosting platforms and configuring your custom subdomain.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A GitHub account for hosting static sites on GitHub Pages</li><li>Basic knowledge of Markdown or HTML for content creation</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Content ready: character descriptions, episode summaries, images (optimized for web)</li></ul>
-          <h2>Step 1: Choose Your Site Builder</h2>
-          <p>Select a tool based on the type of site you want to create. For a full wiki with search, categories, and user contributions, MediaWiki (the software behind Wikipedia) is the gold standard but requires PHP hosting. For a static information site, Hugo or Jekyll are excellent choices — they generate fast HTML pages from Markdown content and are free to host on GitHub Pages or Cloudflare Pages. For a simple gallery site, a hand-coded HTML page or a template-based site works well. Hugo is particularly well-suited for anime fan sites because of its taxonomy system — you can tag characters by series, studio, genre, or year and automatically generate archive pages.</p>
-          <h2>Step 2: Set Up Hugo for Your Fan Site</h2>
-          <p>Install Hugo on your local machine (<code>brew install hugo</code> on macOS or download from the Hugo website). Create a new site: <code>hugo new site my-anime-site</code>. Install a theme by cloning a Git repository into the <code>themes</code> directory and adding it to your config. Create content: <code>hugo new characters/naruto-uzumaki.md</code>. Edit the Markdown file with your character information. Add front matter for structured data like series, abilities, and voice actors. Hugo's shortcodes let you embed images, YouTube trailers, and related character links. Build the site with <code>hugo</code> — the output goes to the <code>public</code> directory ready for deployment.</p>
-          <h2>Step 3: Deploy to GitHub Pages or Cloudflare Pages</h2>
-          <p>Push your Hugo site repository to GitHub. In the repository settings, enable GitHub Pages from the <code>gh-pages</code> branch (or use GitHub Actions to build and deploy automatically). For Cloudflare Pages, connect your Git repository and set the build command to <code>hugo</code> with an output directory of <code>public</code>. Cloudflare Pages provides preview URLs for each branch and automatic SSL. Both platforms support custom domains. Cloudflare Pages offers the advantage of unlimited bandwidth and tighter integration with Cloudflare DNS (which powers is-pro.dev), making it the recommended choice for Hugo sites.</p>
-          <h2>Step 4: Connect Your is-pro.dev Subdomain</h2>
-          <p>In the is-pro.dev DNS dashboard, add a CNAME record pointing your subdomain to your hosting platform. For GitHub Pages, point to <code>username.github.io</code>. For Cloudflare Pages, point to <code>project-name.pages.dev</code>. Save the record. Then in your hosting platform's settings, add your is-pro.dev subdomain as a custom domain. Both platforms will provision an SSL certificate automatically. For GitHub Pages, you may need to wait up to 20 minutes for the Let's Encrypt certificate. For Cloudflare Pages, the certificate is instant since it uses Cloudflare's own edge certificates.</p>
-          <h2>Step 5: Optimize Images for Fast Loading</h2>
-          <p>Anime fan sites often have many images — character art, screenshots, and fan creations. Optimize every image before uploading. Use tools like Squoosh, TinyPNG, or ImageMagick to reduce file sizes. Aim for JPEG quality 80-85 for photos and PNG-8 for illustrations with limited colors. Consider using WebP format for supported browsers (which covers over 95% of modern traffic). Hugo supports image processing — you can resize, crop, and convert images at build time using the <code>image</code> shortcode. Use lazy loading (<code>loading=&quot;lazy&quot;</code> attribute) for images below the fold to improve initial page load time.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Organize content by series, genre, or character type using Hugo's taxonomy system for easy navigation</li><li>Add an RSS feed so visitors can subscribe to new content updates</li><li>Include a search feature — Hugo integrates with Lunr.js or Pagefind for client-side search without a backend</li><li>Credit your sources properly when using fan art or information from other databases</li><li>Add a sitemap.xml for search engines and register your subdomain with Google Search Console</li></ul>
-          <h2>Conclusion</h2>
-          <p>An anime fan site or wiki hosted on an is-pro.dev subdomain combines passion with practicality. Hugo handles content management and static generation, GitHub Pages or Cloudflare Pages provides free hosting with CDN, and your branded subdomain gives the site a professional URL. The entire setup costs nothing while delivering fast load times and reliable uptime.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I use MediaWiki instead of Hugo for my fan wiki?</strong></p>
-          <p>Yes, but MediaWiki requires PHP and MySQL hosting, which is harder to find for free. Consider using a free PHP hosting provider or a low-cost VPS if you need full wiki functionality with user accounts.</p>
-          <p><strong>How do I handle copyrighted anime images on my fan site?</strong></p>
-          <p>Use images that are officially released promotional material, screenshots for educational purposes (review/analysis), or your own fan art. Always credit the original source and studio.</p>
-          <p><strong>Can I add a forum or comments section to my static site?</strong></p>
-          <p>Yes, you can embed third-party comment systems like Disqus or Remark42, or create a separate discussion space using free tools like GitHub Discussions.</p>
+          ## Introduction to Hosting Anime Fan Sites
+          For anime enthusiasts, creating a fan site or wiki is an excellent way to share knowledge, discuss favorite shows, and connect with like-minded individuals. With the rise of free hosting platforms like is-pro.dev, developers can easily set up and manage their projects without incurring significant costs. In this guide, we will walk through the process of hosting an anime fan site or wiki on a free subdomain, such as myproject.is-pro.dev.
+          
+          ## Prerequisites for Hosting
+          Before we dive into the setup process, ensure you have the following prerequisites:
+          - A GitHub account for version control and repository management
+          - Basic knowledge of Git commands and version control principles
+          - Familiarity with Markdown syntax for content creation
+          - A code editor or IDE (Integrated Development Environment) of your choice
+          
+          ## Setting Up Your Anime Fan Site with Hugo
+          For building the anime fan site, we will use Hugo, a popular static site generator. First, create a new Hugo project by running the following command in your terminal:
+          ```bash
+          hugo new site myanimeproject
+          ```
+          Navigate into your project directory:
+          ```bash
+          cd myanimeproject
+          ```
+          Initialize a Git repository:
+          ```bash
+          git init
+          ```
+          Add your GitHub repository as a remote:
+          ```bash
+          git remote add origin https://github.com/yourusername/myanimeproject.git
+          ```
+          Install the Hugo theme of your choice. For this example, let's use the "ananke" theme:
+          ```bash
+          git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke
+          ```
+          Configure your site in `config.toml` to use the "ananke" theme:
+          ```toml
+          theme = "ananke"
+          baseURL = "https://myproject.is-pro.dev/"
+          ```
+          Create your content in the `content` directory using Markdown files. For example, create a file named `index.md` for your homepage:
+          ```markdown
+          ---
+          title: Welcome to My Anime Fan Site
+          ---
+          
+          Welcome to my anime fan site, where we discuss the latest anime shows and trends.
+          ```
+          Build your site:
+          ```bash
+          hugo
+          ```
+          Push your changes to GitHub:
+          ```bash
+          git add .
+          git commit -m "Initial commit"
+          git push -u origin main
+          ```
+          
+          ## Setting Up a Wiki with MediaWiki
+          For creating a wiki, we will use MediaWiki, a free and open-source wiki software. First, download the latest version of MediaWiki from the official website and extract it to a directory named `wiki` in your project:
+          ```bash
+          wget https://releases.wikimedia.org/mediawiki/1.38/mediawiki-1.38.4.tar.gz
+          tar -xvzf mediawiki-1.38.4.tar.gz -C wiki
+          ```
+          Configure your wiki by running the installation script:
+          ```bash
+          php wiki/maintenance/install.php --conf wiki/LocalSettings.php --dbtype mysql --dbname mywikidb --dbuser mywikiuser --dbpass mywikipassword --server https://myproject.is-pro.dev/wiki --scriptpath /wiki --lang en --pass AdminPassword
+          ```
+          Edit `wiki/LocalSettings.php` to configure your wiki settings, such as the database connection and administrator account:
+          ```php
+          $wgDBtype = "mysql";
+          $wgDBserver = "localhost";
+          $wgDBname = "mywikidb";
+          $wgDBuser = "mywikiuser";
+          $wgDBpassword = "mywikipassword";
+          ```
+          Push your wiki changes to GitHub:
+          ```bash
+          git add wiki
+          git commit -m "Initial wiki commit"
+          git push origin main
+          ```
+          
+          ## Common Pitfalls and Solutions
+          - **Issue:** Hugo build fails due to missing dependencies.
+            **Solution:** Run `hugo mod tidy` to manage dependencies and `hugo mod get` to fetch required modules.
+          - **Issue:** MediaWiki installation fails due to database connection issues.
+            **Solution:** Verify your database credentials and server settings in `wiki/LocalSettings.php`.
+          - **Issue:** CSS styles are not applied correctly.
+            **Solution:** Check your theme configuration and CSS files for any errors or inconsistencies.
+          
+          ## Best Practices for Maintenance
+          - Regularly update your Hugo and MediaWiki versions to ensure you have the latest security patches and features.
+          - Use a consistent naming convention for your files and directories.
+          - Implement a backup strategy for your site and database.
+          - Monitor your site's performance and adjust settings as needed.
+          
+          ## Performance Considerations
+          - Optimize your images and assets to reduce page load times.
+          - Use caching mechanisms, such as Hugo's built-in caching or MediaWiki's caching extensions.
+          - Minify and compress your CSS and JavaScript files.
+          - Use a content delivery network (CDN) to distribute your content across different geographic locations.
+          
+          ## Troubleshooting
+          - **Issue:** Site not building or deploying correctly.
+            **Solution:** Check your Git repository and deployment settings. Verify that your site is configured correctly in `config.toml` or `wiki/LocalSettings.php`.
+          - **Issue:** Wiki pages not displaying correctly.
+            **Solution:** Check your wiki configuration and database settings. Ensure that your wiki is installed and configured correctly.
+          - **Issue:** CSS styles not applying correctly.
+            **Solution:** Check your CSS files and theme configuration for any errors or inconsistencies.
+          
+          ## Conclusion and Next Steps
+          Hosting an anime fan site or wiki on a free subdomain like myproject.is-pro.dev is a straightforward process using Hugo and MediaWiki. By following the steps outlined in this guide, you can create a robust and feature-rich platform for sharing your passion for anime with others. Next steps include customizing your site's design, creating engaging content, and promoting your site to attract visitors.
+          
+          ## FAQ
+          Q: How do I customize my Hugo theme?
+          A: You can customize your Hugo theme by editing the theme's configuration files and CSS styles. Refer to the theme's documentation for specific instructions.
+          Q: Can I use a different wiki software instead of MediaWiki?
+          A: Yes, you can use other wiki software like DokuWiki or Wikidot. However, MediaWiki is a popular and widely-used option.
+          Q: How do I optimize my site's performance?
+          A: You can optimize your site's performance by using caching mechanisms, minifying and compressing CSS and JavaScript files, and optimizing images.
+          Q: Can I use a custom domain instead of a subdomain?
+          A: Yes, you can use a custom domain instead of a subdomain. However, this may require additional configuration and setup.
+          Q: How do I backup my site and database?
+          A: You can backup your site and database using tools like Git and MySQL dump. Regularly backing up your data is essential for ensuring business continuity.
+          
+          ## Further Reading
+          - Hugo Documentation: <https://gohugo.io/documentation/>
+          - MediaWiki Documentation: <https://www.mediawiki.org/wiki/Documentation>
+          - GitHub Guides: <https://guides.github.com/>
+          - is-pro.dev Documentation: <https://is-pro.dev/docs/>
 <h2>FAQ</h2><p><strong>Is Hosting setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

@@ -170,31 +170,94 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Static site generators (SSGs) have revolutionized how developers build websites by combining the flexibility of modern development workflows with the speed and security of static HTML. The choice of SSG affects your development experience, build times, hosting options, and long-term maintainability. This guide compares three of the most popular SSGs — Hugo, Eleventy, and Astro — to help you choose the right tool for your is-pro.dev subdomain project.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>Basic familiarity with the command line and Git</li><li>A code editor (VS Code, Sublime Text, or similar)</li><li>An is-pro.dev subdomain to deploy your site</li><li>Understanding of HTML, CSS, and basic templating concepts</li></ul>
-          <h2>Hugo: Speed Above All</h2>
-          <p>Hugo is the fastest static site generator, capable of building thousands of pages in seconds. Written in Go, it has no runtime dependencies — you download a single binary and start building. Hugo's template system uses Go templates, which have a learning curve but offer powerful features like shortcodes, content adapters, and menu management. Hugo excels at content-heavy sites: documentation projects, blogs with hundreds of posts, and large corporate sites. Its built-in asset pipeline handles SCSS/SASS compilation, image processing, JavaScript bundling, and fingerprinting without third-party tools. The theme ecosystem is mature, with hundreds of free and premium themes. Hugo's content organization is file-based using front matter in Markdown, with taxonomies for categorizing content. The main downside is that Go templates can be verbose, and Hugo's configuration is YAML-based with less community support for non-standard setups.</p>
-          <h2>Eleventy: Simplicity and Flexibility</h2>
-          <p>Eleventy (11ty) prides itself on being a simpler alternative to more complex SSGs. It does not impose a specific template language — you can use Nunjucks, Liquid, Handlebars, EJS, Pug, or plain HTML, even mixing them within the same project. This flexibility makes Eleventy an excellent choice for developers transitioning from different frameworks. Eleventy outputs zero client-side JavaScript by default, keeping your sites lean and fast. Its configuration is JavaScript-based (an <code>.eleventy.js</code> file), giving you full programmatic control over collections, filters, and build processes. Eleventy's ecosystem supports plugins for RSS feeds, sitemaps, image optimization, and syntax highlighting. It handles small to medium-sized sites well, but build times can become noticeable beyond a few thousand pages. Eleventy is ideal for portfolios, simple blogs, and marketing sites where simplicity and output quality matter more than build speed.</p>
-          <h2>Astro: Component-Based Architecture</h2>
-          <p>Astro represents the next generation of static site generators, combining a component-based architecture with zero-JS output by default. You build pages using Astro components (which support JSX-like syntax), and Astro renders them to static HTML at build time. What sets Astro apart is its ability to use components from React, Vue, Svelte, or Solid.js within the same project — you can import a React component alongside a Svelte component, and Astro handles the rendering. This makes Astro perfect for teams migrating from a specific framework or projects that need to reuse existing components. Astro's islands architecture lets you selectively hydrate interactive components on the client while keeping the rest of the page static. It supports Markdown and MDX for content, has built-in image optimization, and provides RSS, sitemap, and SEO integrations. The main trade-off is that Astro is newer, so its plugin ecosystem is smaller than Hugo's or Eleventy's.</p>
-          <h2>Comparison by Use Case</h2>
-          <p>For a documentation-heavy project or blog with hundreds of posts, Hugo's build speed and mature feature set make it the clear winner. For a developer portfolio or simple marketing site where simplicity and output quality are priorities, Eleventy provides the most straightforward path from project start to deployment. For a site that needs interactive components from multiple frameworks (React + Vue together), or a team that already knows a component framework and wants to adopt a static site, Astro offers unique advantages. All three generators produce static HTML that can be hosted on any free platform — GitHub Pages, Vercel, Netlify, or Cloudflare Pages — paired with your is-pro.dev subdomain.</p>
-          <h2>Deployment Considerations</h2>
-          <p>All three SSGs deploy the same way: you build the site locally (or via CI), generating an output folder (<code>public</code> for Hugo, <code>_site</code> for Eleventy, <code>dist</code> for Astro), and deploy that folder to your hosting platform. GitHub Actions, Vercel, Netlify, and Cloudflare Pages all support automatic builds triggered by Git pushes. Hugo builds complete in seconds even for large sites, reducing CI wait times. Eleventy and Astro take longer for larger sites but still build in under a minute for most projects. Configure your hosting platform's build command and output directory, connect your is-pro.dev subdomain via a CNAME record, and your site is live with automatic SSL.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Choose the SSG that matches your content structure and team skills rather than chasing the newest tool</li><li>Use Git-based content management — all three SSGs work well with headless CMS options like Forestry or Decap CMS</li><li>Optimize images at build time using each SSG's built-in image pipeline for faster page loads</li><li>Configure incremental builds for large sites to reduce build times during development</li></ul>
-          <h2>Conclusion</h2>
-          <p>Hugo, Eleventy, and Astro each excel in different scenarios. Hugo offers unmatched speed for content-heavy sites, Eleventy provides simplicity and template flexibility, and Astro delivers a modern component architecture with multi-framework support. All three pair perfectly with an is-pro.dev subdomain and free hosting platforms, giving you a professional web presence without infrastructure costs.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I switch between SSGs after my site is already built?</strong></p>
-          <p>Yes, since all three output static HTML, you can migrate content and rebuild with a different SSG. The effort depends on how your content is structured — Markdown front matter is broadly compatible.</p>
-          <p><strong>Which SSG has the best image optimization?</strong></p>
-          <p>Astro and Hugo both have excellent built-in image processing. Eleventy requires a plugin (eleventy-img) for image optimization, which is well-maintained and powerful.</p>
-          <p><strong>Do I need to know JavaScript to use these SSGs?</strong></p>
-          <p>Hugo does not require JavaScript — everything is configured with YAML/TOML and Go templates. Eleventy and Astro use JavaScript for configuration but the templates can be HTML-only or use template languages that do not require JS knowledge.</p>
+          ## Introduction to Static Site Generators
+          As a developer setting up a project on a subdomain like myproject.is-pro.dev, you're likely considering the best approach for building and deploying your site. Static Site Generators (SSGs) have become increasingly popular due to their simplicity, speed, and security. In this guide, we'll compare three leading SSGs: Hugo, Eleventy, and Astro, and explore how to get started with each on the is-pro.dev platform.
+          
+          ## Prerequisites
+          Before diving into the world of SSGs, ensure you have the following prerequisites:
+          - A basic understanding of HTML, CSS, and JavaScript
+          - Familiarity with the command line interface (CLI)
+          - A code editor or IDE of your choice
+          - Node.js (for Eleventy and Astro) or Go (for Hugo) installed on your machine
+          - An is-pro.dev account with a subdomain set up (e.g., myproject.is-pro.dev)
+          
+          ## Setting Up Hugo
+          Hugo is a fast and flexible SSG written in Go. To get started with Hugo on myproject.is-pro.dev:
+          1. Install Hugo using the following command: `brew install hugo` (on macOS) or download the binary from the official Hugo website for other platforms.
+          2. Create a new Hugo project: `hugo new site myproject`
+          3. Change into your project directory: `cd myproject`
+          4. Initialize a Git repository: `git init`
+          5. Create a new branch for your site: `git branch -M main`
+          6. Add a theme (optional): `git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke`
+          7. Configure your site in `config.toml` to use your subdomain: `baseURL = "https://myproject.is-pro.dev/"`
+          8. Build your site: `hugo`
+          9. Deploy your site to myproject.is-pro.dev using your preferred method (e.g., Git submodule, rsync, or a CI/CD pipeline)
+          
+          ## Setting Up Eleventy
+          Eleventy is a simple, fast, and highly configurable SSG built on Node.js. To set up Eleventy on myproject.is-pro.dev:
+          1. Initialize a new Node.js project: `npm init -y`
+          2. Install Eleventy: `npm install @11ty/eleventy`
+          3. Create a new Eleventy configuration file: `touch .eleventy.js`
+          4. Configure Eleventy to use your subdomain in `.eleventy.js`: `module.exports = { pathPrefix: '/myproject' };`
+          5. Create your first page: `mkdir src && touch src/index.md`
+          6. Add content to `src/index.md`
+          7. Build your site: `npx eleventy`
+          8. Deploy your site to myproject.is-pro.dev
+          
+          ## Setting Up Astro
+          Astro is a modern, fast, and highly customizable SSG that allows you to use your favorite UI framework. To get started with Astro on myproject.is-pro.dev:
+          1. Create a new Astro project: `npm create astro@latest`
+          2. Follow the prompts to set up your project
+          3. Change into your project directory: `cd myproject`
+          4. Install dependencies: `npm install`
+          5. Configure Astro to use your subdomain in `astro.config.js`: `export default { pathPrefix: '/myproject' };`
+          6. Create your first page: `touch src/pages/index.astro`
+          7. Add content to `src/pages/index.astro`
+          8. Build your site: `npm run build`
+          9. Deploy your site to myproject.is-pro.dev
+          
+          ## Common Pitfalls and Solutions
+          - **Hugo:** When using Hugo, ensure your `config.toml` is correctly formatted to avoid build errors. If you encounter issues with theme installation, try updating your Hugo version or checking the theme's compatibility.
+          - **Eleventy:** With Eleventy, pay attention to your file structure and naming conventions, as these can affect how your site is generated. If you encounter issues with deployment, verify that your `pathPrefix` is correctly set.
+          - **Astro:** When using Astro, ensure you're using the correct version of your preferred UI framework. If you encounter build errors, check your `astro.config.js` for any misconfigurations.
+          
+          ## Best Practices
+          - **Keep it Simple:** Start with a simple configuration and gradually add complexity as needed.
+          - **Use Version Control:** Always use version control (e.g., Git) to track changes to your site.
+          - **Test Thoroughly:** Regularly test your site on different devices and browsers to ensure compatibility.
+          - **Optimize Images:** Use optimized images to reduce page load times and improve performance.
+          
+          ## Performance Considerations
+          - **Page Speed:** Use tools like Google PageSpeed Insights to analyze and improve your site's performance.
+          - **Caching:** Implement caching mechanisms (e.g., service workers) to reduce the number of requests made to your site.
+          - **Image Compression:** Compress images to reduce file size and improve load times.
+          
+          ## Troubleshooting
+          - **Check Logs:** Always check your build and server logs for errors.
+          - **Verify Configuration:** Double-check your configuration files for any misconfigurations.
+          - **Search for Solutions:** Look for solutions online or in the documentation of your chosen SSG.
+          
+          ## Conclusion and Next Steps
+          In conclusion, choosing the right SSG for your project on myproject.is-pro.dev depends on your specific needs and preferences. Hugo, Eleventy, and Astro each offer unique advantages and can help you build fast, secure, and scalable sites. By following the steps outlined in this guide, you'll be well on your way to deploying a successful static site. Next, explore more advanced features of your chosen SSG, such as internationalization, accessibility, and SEO optimization.
+          
+          ## FAQ
+          1. **Q: Can I use multiple SSGs together?**
+          A: While it's technically possible, using multiple SSGs together can add complexity and is generally not recommended.
+          2. **Q: How do I handle dynamic content with an SSG?**
+          A: You can use APIs or serverless functions to fetch dynamic content and integrate it with your SSG.
+          3. **Q: Are SSGs suitable for large, complex sites?**
+          A: Yes, many large and complex sites use SSGs. However, you may need to implement additional optimizations and caching mechanisms.
+          4. **Q: Can I use an SSG with a headless CMS?**
+          A: Yes, many headless CMS solutions integrate well with SSGs, allowing you to manage content separately from your site's frontend.
+          5. **Q: How often should I update my SSG and its dependencies?**
+          A: Regularly update your SSG and its dependencies to ensure you have the latest security patches and features.
+          
+          ## Further Reading
+          - **Hugo Documentation:** <https://gohugo.io/documentation/>
+          - **Eleventy Documentation:** <https://www.11ty.dev/docs/>
+          - **Astro Documentation:** <https://docs.astro.build/>
+          - **Jamstack.org:** <https://jamstack.org/>
+          - **Static Site Generators on GitHub:** <https://github.com/topics/static-site-generator>
 <h2>FAQ</h2><p><strong>Is Tools setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

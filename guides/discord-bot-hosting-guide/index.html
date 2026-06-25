@@ -170,31 +170,88 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Discord bots have become essential tools for server management, entertainment, and community engagement. While the bot itself runs on your server or cloud platform, exposing its dashboard, webhook endpoints, or status page through a clean subdomain makes it accessible and professional. An is-pro.dev subdomain gives your Discord bot a branded web presence with SSL, DNS management, and uptime monitoring — all for free. This guide covers hosting bot dashboards, webhook receivers, and status pages on your subdomain.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A Discord bot created in the Discord Developer Portal with a token</li><li>A hosting platform for your bot: a VPS, cloud server, or a free platform like Railway or Fly.io</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Basic knowledge of Node.js or Python for bot development</li></ul>
-          <h2>Step 1: Host Your Bot Dashboard on a Subdomain</h2>
-          <p>Many Discord bots have a web dashboard for configuration — slash command settings, moderation logs, role management, and analytics. Build your dashboard as a web application using React, Vue, or plain HTML/CSS. Host it on GitHub Pages, Vercel, or Cloudflare Pages. Connect your is-pro.dev dashboard subdomain (e.g., <code>bot.yourname.is-pro.dev</code>) to the hosting platform using a CNAME record. The dashboard communicates with your bot via API endpoints exposed through the same subdomain or a dedicated API subdomain. Use OAuth2 with Discord to authenticate users on your dashboard — this allows users to log in with their Discord account and manage bot settings for servers they administer.</p>
-          <h2>Step 2: Set Up Webhook Endpoints</h2>
-          <p>Discord bots often need to receive webhooks from external services — GitHub, Twitter, payment processors, or monitoring tools. Create a webhook receiver endpoint on your bot server. Use Express.js for Node.js or Flask for Python to handle POST requests at a route like <code>/webhook/github</code>. Validate incoming webhooks using the provider's signature header to ensure requests are authentic. Your is-pro.dev subdomain serves as the base URL for these webhooks. Configure your external services to send webhooks to <code>https://bot.yourname.is-pro.dev/webhook/github</code>. Make sure the DNS record for this subdomain is set to DNS-only (gray cloud) if your bot server uses a non-standard port, or use Cloudflare Tunnel for proxied connections.</p>
-          <h2>Step 3: Create a Bot Status Page</h2>
-          <p>A status page lets your users check if the bot is online, see recent incidents, and subscribe to notifications. Build a simple status page that pings your bot's API every 30 seconds and displays the result. Use green/yellow/red indicators for online, degraded, and offline states. Include a history of uptime checks and a subscribe form for email or Discord DM notifications. Host this status page on a separate is-pro.dev subdomain like <code>status.yourname.is-pro.dev</code>. Use free uptime monitoring services like UptimeRobot or Better Stack to check your bot's API endpoint and trigger the status page update. This separate subdomain ensures your status page stays accessible even if the main bot dashboard goes down.</p>
-          <h2>Step 4: Configure SSL and DNS for Bot Services</h2>
-          <p>All bot web services should use HTTPS. Cloudflare provides free SSL certificates for proxied DNS records, which works well for bot dashboards and status pages hosted on standard web hosting platforms. For bot servers that run on custom ports (not 80/443), use DNS-only (gray cloud) mode and configure SSL directly on your server using Let's Encrypt with Certbot. If your bot server is behind a NAT or firewall without a public IP, use Cloudflare Tunnel (<code>cloudflared</code>) to expose your local bot services through Cloudflare's network. This provides a proxied connection with SSL even for services on non-standard ports, without needing to open firewall ports.</p>
-          <h2>Step 5: Set Up Uptime Monitoring</h2>
-          <p>Discord bots must maintain a WebSocket connection to Discord's gateway. If the bot goes offline, it stops responding to commands. Set up monitoring for both the bot itself (WebSocket connection health) and its web services (HTTP endpoint availability). Use UptimeRobot or Better Stack to ping your bot's API or status page every 5 minutes. Configure alerts via email, Discord webhook (ironic but effective), or SMS for critical outages. The is-pro.dev monitoring dashboard can also track your subdomain DNS resolution and SSL certificate status. For comprehensive monitoring, set up a health check endpoint in your bot that returns memory usage, command counts, and WebSocket latency.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Rate limit webhook endpoints to prevent abuse — implement a sliding window rate limiter in your webhook receiver</li><li>Use environment variables for sensitive configuration like the Discord bot token and OAuth2 client secret</li><li>Log all incoming webhooks for debugging, but sanitize sensitive data before writing to logs</li><li>Implement a maintenance mode page on your dashboard subdomain for planned downtimes</li></ul>
-          <h2>Conclusion</h2>
-          <p>An is-pro.dev subdomain provides the perfect web companion for your Discord bot. Whether you need a configuration dashboard, webhook receiver, status page, or all three, the combination of free DNS management, SSL, and hosting creates a professional presence for your bot project.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I host the Discord bot itself on my subdomain?</strong></p>
-          <p>Not directly — a subdomain points to a web server, but Discord bots are WebSocket clients that connect to Discord's gateway. Use the subdomain for the bot's web dashboard and API, not the bot process itself.</p>
-          <p><strong>What if my bot server is on my home network with a dynamic IP?</strong></p>
-          <p>Use Cloudflare Tunnel (cloudflared) to create a secure, proxied connection without exposing your home IP. The tunnel handles SSL termination and works with dynamic IPs.</p>
-          <p><strong>How do I handle Discord OAuth2 callbacks on my subdomain?</strong></p>
-          <p>Register your subdomain URL (e.g., <code>https://bot.is-pro.dev/auth/callback</code>) in the Discord Developer Portal as a redirect URI. The OAuth2 flow will redirect users to this URL after authorization.</p>
+          ## Introduction to Hosting Discord Bots
+          Hosting a Discord bot 24/7 on a subdomain endpoint is a common requirement for many developers, especially those setting up projects on is-pro.dev subdomains. Discord bots can enhance the functionality of a Discord server, providing automated tasks, entertainment, and community management. However, to ensure continuous operation, the bot needs to be hosted on a server that can maintain uptime. In this guide, we will walk through the process of hosting a Discord bot on a subdomain endpoint, such as `myproject.is-pro.dev`, to achieve 24/7 uptime.
+          
+          ## Prerequisites for Hosting
+          Before diving into the hosting process, ensure you have the following prerequisites:
+          - A Discord bot account with a token.
+          - A subdomain on is-pro.dev (e.g., `myproject.is-pro.dev`).
+          - Basic knowledge of Node.js and Discord.js (for this example).
+          - A code editor or IDE.
+          - A version control system like Git.
+          
+          ## Setting Up Your Discord Bot
+          To set up your Discord bot, start by creating a new Discord application on the Discord Developer Portal. Once created, navigate to the "Bot" section and then click "Add Bot". You will receive a token which you should keep secure as it grants control over your bot. Next, invite your bot to the server where it will operate by generating an invite link in the "OAuth2" section.
+          
+          ## Hosting Your Bot on a Subdomain
+          To host your bot 24/7 on `myproject.is-pro.dev`, you will need to set up a server that can run your bot continuously. For this example, we will use Node.js and Discord.js. First, create a new directory for your project and initialize it with `npm init`. Then, install Discord.js with `npm install discord.js`. Create a file named `index.js` and set up your bot with the following code:
+          ```javascript
+          const Discord = require('discord.js');
+          const client = new Discord.Client();
+          
+          client.on('ready', () => {
+            console.log('I am ready!');
+          });
+          
+          client.on('message', (msg) => {
+            if (msg.author.bot) return;
+            if (msg.content === '!hello') {
+              msg.reply('Hello!');
+            }
+          });
+          
+          client.login('YOUR_DISCORD_BOT_TOKEN');
+          ```
+          Replace `'YOUR_DISCORD_BOT_TOKEN'` with your actual Discord bot token.
+          
+          ## Deploying Your Bot to is-pro.dev
+          To deploy your bot to `myproject.is-pro.dev`, you will need to create a new repository on GitHub or another version control platform and push your project to it. Then, link your repository to your is-pro.dev subdomain. is-pro.dev will automatically detect your Node.js project and deploy it. Ensure your `package.json` includes a start script that runs your bot, such as `"start": "node index.js"`.
+          
+          ## Setting Up a Webhook for Uptime Monitoring
+          To ensure your bot stays online, you can set up a webhook with a service like Uptime Robot. This involves creating a monitor that sends a request to your bot's endpoint (e.g., `https://myproject.is-pro.dev/`) at regular intervals. If the request fails, Uptime Robot will notify you, allowing you to take corrective action.
+          
+          ## Common Pitfalls and Solutions
+          One common pitfall is exposing your Discord bot token. Never hard-code your token directly into your scripts or push it to public repositories. Use environment variables instead. Another issue is bot downtime due to server restarts. Use a process manager like PM2 to keep your bot running even after server restarts.
+          
+          ## Best Practices for Bot Hosting
+          For optimal performance and security, follow these best practices:
+          - Keep your Discord bot token secure.
+          - Regularly update your bot's dependencies.
+          - Monitor your bot's performance and uptime.
+          - Use a version control system to track changes.
+          - Implement logging to diagnose issues.
+          
+          ## Performance Considerations
+          When hosting a Discord bot, consider the performance impact of your bot's activities. High-traffic bots may require more resources. Optimize your bot's code for efficiency, and consider scaling your hosting solution if necessary.
+          
+          ## Troubleshooting
+          If your bot goes offline, check the following:
+          - Server status: Ensure your server is running and accessible.
+          - Bot logs: Check for error messages that might indicate the cause of the issue.
+          - Uptime monitoring: Verify if your uptime monitoring service has detected any downtime.
+          
+          ## Conclusion and Next Steps
+          Hosting a Discord bot 24/7 on a subdomain endpoint like `myproject.is-pro.dev` requires careful setup and maintenance. By following the steps outlined in this guide, you can ensure your bot stays online and continues to serve your Discord community. Next, consider expanding your bot's functionality with more commands and features.
+          
+          ## FAQ
+          1. **Q: How do I keep my Discord bot token secure?**
+             A: Use environment variables to store your token, and never hard-code it into your scripts or push it to public repositories.
+          2. **Q: What if my bot requires more resources than my current hosting plan provides?**
+             A: Consider scaling your hosting solution or optimizing your bot's code for better efficiency.
+          3. **Q: Can I host multiple bots on the same subdomain?**
+             A: Yes, but ensure each bot has a unique endpoint or port to avoid conflicts.
+          4. **Q: How often should I update my bot's dependencies?**
+             A: Regularly check for updates and update your dependencies to ensure you have the latest security patches and features.
+          5. **Q: What happens if my server restarts?**
+             A: Use a process manager like PM2 to keep your bot running even after server restarts.
+          
+          ## Further Reading
+          - Discord.js Documentation: <https://discord.js.org/#/docs/main/stable/general/welcome>
+          - Uptime Robot: <https://uptimerobot.com/>
+          - Node.js Documentation: <https://nodejs.org/en/docs/>
+          - is-pro.dev Documentation: Check the official is-pro.dev website for the most current documentation and guides on hosting Node.js projects.
+          - PM2 Documentation: <https://pm2.keymetrics.io/docs/usage/quick-start/>
 <h2>FAQ</h2><p><strong>Is Bots setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

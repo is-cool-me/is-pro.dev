@@ -170,33 +170,103 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Your is-pro.dev subdomain may host critical services — a portfolio, API, or business site. When it goes down, you need to know immediately. Uptime monitoring services track your subdomain's availability, response time, and SSL certificate status, alerting you when something goes wrong. This guide covers setting up free monitoring using UptimeRobot, Better Stack, or the built-in is-pro.dev monitoring tools, configuring alerts, and creating a public status page.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-pro.dev subdomain with a live service (website, API, or application)</li><li>An account on UptimeRobot or Better Stack (free tier)</li><li>Access to your notification channels (email, Slack, Discord, or SMS)</li></ul>
-          <h2>Step 1: Choose a Monitoring Service</h2>
-          <p>Several free monitoring services offer reliable uptime tracking. UptimeRobot monitors 50 URLs on the free tier at 5-minute intervals, with alerts via email, SMS, Slack, Discord, and webhooks. Better Stack (formerly Better Uptime) offers 10 monitors on the free tier with status pages, incident management, and a 3-minute check interval. Both services check your subdomain from multiple global locations and report response times. The is-pro.dev platform also provides built-in monitoring for registered subdomains, tracking DNS resolution, SSL status, and HTTP response codes. For most users, one of these free services provides sufficient coverage.</p>
-          <h2>Step 2: Configure Monitors for Your Subdomain</h2>
-          <p>In your chosen monitoring service, create a new monitor. Set the monitor type to "HTTP" or "HTTPS" for web services. Enter your full subdomain URL: <code>https://yourname.is-pro.dev</code>. Configure the check interval — UptimeRobot free tier offers 5-minute checks, which balances coverage with API usage limits. Set the timeout (typically 30 seconds) and select the monitoring locations closest to your target audience. For APIs, configure the monitor to check a specific endpoint and expect a particular HTTP status code (e.g., <code>200 OK</code>) or keyword in the response body. Add monitors for all critical subdomains — one for your main site, one for your API, and one for your status page.</p>
-          <h2>Step 3: Set Up Alert Notifications</h2>
-          <p>Configure alert contacts in your monitoring service. For email alerts, add your primary email address. For faster response, set up Slack or Discord webhook integrations — paste the webhook URL from your Slack or Discord channel into the monitoring service's integration settings. This posts instant notifications when downtime is detected. For SMS alerts, UptimeRobot offers 50 SMS credits per month on the free plan. Better Stack offers push notifications via their mobile app. Configure alert thresholds: "Down" after 2 consecutive failed checks to avoid false alarms from transient network issues. Set up "Up" notifications so you know when the service recovers.</p>
-          <h2>Step 4: Monitor SSL Certificate Status</h2>
-          <p>SSL certificate expiration is one of the most common causes of unexpected downtime. Configure your monitoring service to check SSL certificate validity and expiration date. Both UptimeRobot and Better Stack include SSL monitoring in their HTTP checks. Set a warning threshold — get notified 30, 14, and 7 days before certificate expiration. For is-pro.dev subdomains with Cloudflare proxied mode, Cloudflare's Universal SSL certificates renew automatically, so manual renewal is not needed. For DNS-only records with self-managed Let's Encrypt certificates, monitoring is essential because Certbot auto-renewal can fail if ports are blocked or the ACME challenge fails.</p>
-          <h2>Step 5: Create a Public Status Page</h2>
-          <p>A public status page lets your users check if your service is experiencing issues without contacting you. Better Stack offers a free status page with the ability to mark incidents and show uptime history. Create a status page listing all your monitored services. Customize it with your branding and subdomain (e.g., <code>status.yourname.is-pro.dev</code>). Better Stack hosts the status page on their domain or you can point your status subdomain to it via a CNAME record. Configure the status page to automatically update when monitor status changes — green for operational, yellow for degraded, red for downtime. Add an incident history log so users can see past outages and their resolution times.</p>
-          <h2>Step 6: Review Monitoring Data and Improve Reliability</h2>
-          <p>Review your monitoring dashboard regularly. Look for patterns: does your subdomain become slow or unresponsive at certain times of day? Do SSL checks fail after specific events? Use the response time data to identify performance bottlenecks. If your monitoring service provides multi-location checks, compare response times from different geographic regions — high variance may indicate CDN configuration issues. Set up weekly or monthly uptime reports to track trends. Use the insights to improve your infrastructure: add caching, optimize database queries, or upgrade hosting if response times degrade consistently. Higher uptime builds trust with your users and improves SEO.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Monitor from multiple geographic locations to catch regional outages</li><li>Set up redundant notification channels (email + Slack + SMS) so you never miss an alert</li><li>Include a health check endpoint in your application that returns database and cache status for deeper monitoring</li><li>Keep your status page URL separate from your main service so it stays accessible during outages</li></ul>
-          <h2>Conclusion</h2>
-          <p>Uptime monitoring is essential for any service you care about. Free tools like UptimeRobot and Better Stack provide reliable monitoring, instant alerts, and public status pages for your is-pro.dev subdomains. Combined with SSL monitoring and a status page, you can detect and respond to issues before they impact your users significantly.</p>
-          <h2>FAQ</h2>
-          <p><strong>How often should I check my subdomain?</strong></p>
-          <p>For most services, a 5-minute check interval is sufficient. Critical production services may benefit from 1-minute checks, which typically require a paid plan.</p>
-          <p><strong>Can I monitor non-HTTP services like game servers?</strong></p>
-          <p>Some monitoring services support TCP and port checks, which work for game servers, SSH, and other non-HTTP services. UptimeRobot's free tier includes TCP monitoring.</p>
-          <p><strong>What is a good uptime target?</strong></p>
-          <p>99.9% uptime (about 8.7 hours of downtime per year) is a reasonable target for most personal projects. Commercial services should aim for 99.99% (52 minutes of downtime per year).</p>
+          ## Introduction to Uptime Monitoring
+          As a developer hosting projects on is-pro.dev subdomains, such as myproject.is-pro.dev, ensuring the uptime and reliability of your services is crucial. Downtime can lead to lost productivity, revenue, and reputation. Uptime monitoring is a critical component of DevOps practices, enabling you to detect issues promptly and take corrective actions. This guide will walk you through setting up uptime monitoring for your subdomain services, including health checks, status pages, and alerts.
+          
+          ## Prerequisites
+          Before you begin, ensure you have the following:
+          - A subdomain set up on is-pro.dev (e.g., myproject.is-pro.dev).
+          - Basic knowledge of Linux commands and JSON configuration files.
+          - An account with a monitoring service (e.g., Uptime Robot, Pingdom) or access to a self-hosted monitoring solution (e.g., Prometheus, Grafana).
+          
+          ## Setting Up Uptime Monitoring
+          To set up uptime monitoring, follow these steps:
+          1. **Choose a Monitoring Service**: Select a suitable monitoring service. For this example, we'll use Uptime Robot. Create an account and add a new monitor for your subdomain (myproject.is-pro.dev).
+          2. **Configure Health Checks**: Set up health checks to monitor the status of your subdomain. This can be as simple as an HTTP check to ensure your website is accessible. For more complex services, you might need to configure specific checks (e.g., TCP checks for services not accessible via HTTP).
+          3. **Integrate with Your Service**: Depending on your service, you might need to integrate the monitoring tool. For example, if you're using a self-hosted solution like Prometheus, you'll need to configure your service to expose metrics.
+          
+          Example configuration for a simple HTTP check with Uptime Robot:
+          ```json
+          {
+            "friendly_name": "My Project",
+            "url": "http://myproject.is-pro.dev/",
+            "type": "http"
+          }
+          ```
+          ## Creating a Status Page
+          A status page is essential for transparency, keeping your users informed about the status of your services. You can use services like Statuspage or create your own using static site generators like Hugo or Jekyll.
+          1. **Choose a Status Page Service**: Sign up for a status page service or decide on a self-hosted solution.
+          2. **Configure Components**: Define the components of your service that will be displayed on the status page. This could include your website, API, or database.
+          3. **Integrate with Monitoring**: Connect your monitoring service to your status page. This usually involves API keys or webhooks.
+          
+          Example of integrating Uptime Robot with a status page:
+          ```bash
+          # Using Uptime Robot's API to update status page components
+          curl -X POST \
+            https://api.uptimerobot.com/v2/getMonitors \
+            -H 'Authorization: Bearer YOUR_API_KEY' \
+            -H 'Content-Type: application/x-www-form-urlencoded' \
+            -d 'response_times=1&logs=1'
+          ```
+          
+          ## Setting Up Alerts
+          Alerts are crucial for notifying your team about downtime or issues. Most monitoring services offer various notification channels, including email, SMS, and integrations with communication platforms like Slack or Discord.
+          1. **Configure Notification Channels**: Set up your preferred notification channels within your monitoring service.
+          2. **Define Alert Conditions**: Determine the conditions under which alerts should be triggered. This could be based on the duration of downtime or the type of error encountered.
+          
+          Example of setting up an alert condition with Uptime Robot:
+          ```json
+          {
+            "notification_settings": {
+              "notification_type": "sms",
+              "alert_contact": "Your Phone Number",
+              "alert_threshold": 5 // Minutes
+            }
+          }
+          ```
+          
+          ## Common Pitfalls and Solutions
+          - **False Positives**: Regularly review your monitoring setup to avoid false positives, which can lead to alert fatigue. Adjust your check intervals and conditions as needed.
+          - **Over-monitoring**: Balance the comprehensiveness of your monitoring with the potential for information overload. Focus on critical components and services.
+          - **Integration Issues**: When integrating with third-party services, ensure you're using the correct API versions and authentication methods.
+          
+          ## Best Practices
+          - **Regularly Review Monitoring Setup**: Ensure your monitoring setup remains relevant and effective as your services evolve.
+          - **Use Multiple Monitoring Tools**: Consider using a combination of external and internal monitoring tools for a more comprehensive view of your services' health.
+          - **Implement Automated Recovery**: Where possible, automate recovery processes to minimize downtime.
+          
+          ## Performance Considerations
+          - **Monitor Resource Usage**: Keep an eye on the resource usage of your monitoring tools to avoid impacting your services' performance.
+          - **Optimize Check Intervals**: Balance the frequency of checks with the potential performance impact on your services.
+          - **Use Distributed Monitoring**: For large-scale services, consider distributed monitoring to reduce the load on any single point.
+          
+          ## Troubleshooting
+          When issues arise, follow these steps:
+          1. **Verify Monitoring Setup**: Ensure your monitoring setup is correct and functioning as expected.
+          2. **Check Service Logs**: Review the logs of your services for any error messages or indicators of issues.
+          3. **Test Connectivity**: Manually test the connectivity to your services to isolate the problem.
+          
+          ## Conclusion and Next Steps
+          Setting up uptime monitoring for your subdomain services on is-pro.dev is a straightforward process that significantly enhances the reliability and user experience of your projects. By following the steps outlined in this guide, you can ensure your services are always available and that you're promptly notified of any issues. Next, consider exploring more advanced monitoring techniques, such as synthetic monitoring and APM (Application Performance Monitoring), to further optimize your services.
+          
+          ## FAQ
+          1. **Q: Can I use a self-hosted monitoring solution?**
+             A: Yes, you can use self-hosted solutions like Prometheus and Grafana for more control and customization.
+          2. **Q: How often should I review my monitoring setup?**
+             A: Regularly, ideally every quarter, to ensure it remains effective and relevant.
+          3. **Q: What if my service requires custom health checks?**
+             A: Most monitoring services allow for custom checks. You might need to write a script or use a specific protocol (e.g., TCP checks).
+          4. **Q: Are there any costs associated with uptime monitoring?**
+             A: Many monitoring services offer free tiers, but as your needs grow, you might need to upgrade to a paid plan.
+          5. **Q: Can I automate the setup of monitoring for new projects?**
+             A: Yes, many services provide APIs that allow for automated setup and configuration of monitoring.
+          
+          ## Further Reading
+          - **Uptime Robot Documentation**: For detailed information on setting up and using Uptime Robot.
+          - **Prometheus and Grafana**: For self-hosted monitoring solutions.
+          - **Statuspage**: For creating and managing status pages.
+          - **DevOps Practices**: For a deeper dive into monitoring as part of a broader DevOps strategy.
+          - **API Documentation for Monitoring Services**: To explore automation and integration possibilities.
 <h2>FAQ</h2><p><strong>Is DevOps setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

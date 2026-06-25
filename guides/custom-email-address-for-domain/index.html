@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Email</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Set Up a Custom Email Address Using Your Subdomain</h1>
@@ -170,33 +170,70 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>A custom email address like <code>hello@yourname.is-pro.dev</code> signals professionalism and brand ownership. It tells recipients that you take your online presence seriously. With is-pro.dev's Cloudflare DNS integration, you can set up custom email forwarding at no cost using Cloudflare Email Routing or other free forwarding services. This guide covers everything from configuring MX records to setting up SPF, DKIM, and DMARC for reliable email delivery.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-pro.dev subdomain with DNS managed through Cloudflare</li><li>A Cloudflare account (free tier) with access to Email Routing</li><li>A personal email inbox (Gmail, Outlook, ProtonMail) to receive forwarded messages</li></ul>
-          <h2>Step 1: Enable Cloudflare Email Routing</h2>
-          <p>Log into your Cloudflare account and select your is-pro.dev zone. Navigate to "Email &rarr; Email Routing" and click "Get started". Cloudflare Email Routing is free for up to 100 email addresses per zone. It forwards incoming emails to your destination inbox without storing messages on Cloudflare's servers. The setup requires adding specific MX records and optionally SPF and DKIM records. Cloudflare walks you through each step with a guided setup wizard. Once Email Routing is enabled, you can create custom email addresses that forward to any existing inbox.</p>
-          <h2>Step 2: Configure MX Records</h2>
-          <p>Cloudflare Email Routing requires specific MX records to function. In the Email Routing dashboard, Cloudflare will show you the required MX record values. Typically, these are: <code>route1.mx.cloudflare.net</code> with priority 10 and <code>route2.mx.cloudflare.net</code> with priority 20. In the is-pro.dev DNS dashboard (which is your Cloudflare DNS), these records may be added automatically when you enable Email Routing. Verify they exist in the DNS settings. If not, add them manually. Ensure the MX records are set to DNS-only (gray cloud) — proxied MX records break email delivery. The priority 10 route is the primary mail server; the priority 20 route serves as a backup if the first is unavailable.</p>
-          <h2>Step 3: Create Email Addresses and Set Up Forwarding</h2>
-          <p>Back in Cloudflare Email Routing, go to the "Addresses" tab. Click "Create address". Enter your desired email prefix (e.g., <code>hello</code> for <code>hello@yourname.is-pro.dev</code>). Then enter the destination email address where forwarded messages should arrive — this can be a Gmail, Outlook, or any other email address. Click "Save". Repeat for any other addresses you need (<code>support@</code>, <code>admin@</code>, etc.). You can set up catch-all forwarding (all <code>anything@yourname.is-pro.dev</code> addresses) from the settings, but use catch-all sparingly as it increases spam volume. Test forwarding by sending an email to your new custom address — it should arrive in your destination inbox within seconds.</p>
-          <h2>Step 4: Add SPF Record to Prevent Spoofing</h2>
-          <p>An SPF (Sender Policy Framework) TXT record tells receiving email servers which servers are authorized to send email on behalf of your domain. Without SPF, spammers can forge emails that appear to come from your subdomain. In your DNS dashboard, add a TXT record for your subdomain with the value: <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>. The <code>include:_spf.mx.cloudflare.net</code> authorizes Cloudflare's mail servers, and <code>~all</code> marks unauthenticated email as "soft fail" (receiver can quarantine it). For stricter security, use <code>-all</code> (hard fail) which tells receivers to reject unauthenticated email. However, test with <code>~all</code> first to avoid accidentally blocking legitimate email.</p>
-          <h2>Step 5: Add DKIM and DMARC Records</h2>
-          <p>DKIM (DomainKeys Identified Mail) adds a cryptographic signature to outgoing emails, allowing receivers to verify the email was not tampered with. In Cloudflare Email Routing, go to "Settings &rarr; DKIM". Generate a DKIM key and Cloudflare will provide a TXT record to add to your DNS. This record has a selector name (e.g., <code>cloudflare._domainkey</code>) and a long public key value. Add it to your DNS and enable DKIM signing. DMARC (Domain-based Message Authentication, Reporting & Conformance) builds on SPF and DKIM. Add a DMARC TXT record for <code>_dmarc.yourname.is-pro.dev</code> with a value like: <code>v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@yourname.is-pro.dev</code>. This tells receivers to quarantine emails that fail SPF or DKIM checks and send aggregate reports to your email.</p>
-          <h2>Step 6: Test Email Delivery</h2>
-          <p>After configuring DNS records, test your email setup thoroughly. Send emails to your custom address from different providers (Gmail, Outlook, Yahoo) and confirm they arrive. Check the email headers of received messages to verify SPF (<code>Received-SPF: Pass</code>), DKIM (<code>dkim=pass</code>), and DMARC (<code>dmarc=pass</code>) are all passing. Use online email testing tools like Mail-tester.com to get a comprehensive score (aim for 10/10). If you send emails from your subdomain (not just receive), configure your email client to send through a service that supports your custom domain, such as Gmail's "Send mail as" feature, which requires SMTP configuration.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Create separate email addresses for different purposes: <code>hello@</code> for general inquiries, <code>security@</code> for security reports, <code>abuse@</code> for abuse complaints</li><li>Monitor DMARC reports to detect unauthorized email sending attempts</li><li>Avoid catch-all forwarding unless necessary — it reduces spam filtering accuracy</li><li>Register a separate subdomain just for email if you want to keep email infrastructure isolated from your main site</li></ul>
-          <h2>Conclusion</h2>
-          <p>Setting up custom email on your is-pro.dev subdomain is free and straightforward with Cloudflare Email Routing. MX records route incoming mail, SPF prevents spoofing, DKIM provides cryptographic verification, and DMARC ties everything together with a reporting policy. The result is a professional email address that enhances your brand credibility without ongoing costs.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I send email from my custom subdomain, or just receive?</strong></p>
-          <p>Cloudflare Email Routing only handles incoming email (forwarding). To send from your custom address, configure Gmail, Outlook, or another email client to send through an SMTP server that supports your domain.</p>
-          <p><strong>How many emails can I forward per day on the free tier?</strong></p>
-          <p>Cloudflare Email Routing free tier forwards up to 100 emails per day. For higher volumes, consider an email forwarding service or a paid email hosting solution.</p>
-          <p><strong>Why are my forwarded emails going to spam?</strong></p>
-          <p>This is usually an SPF or DKIM configuration issue. Verify your TXT records are published correctly and use an email testing tool to check your email authentication score.</p>
+          ## Introduction to Custom Email Addresses
+          As a developer setting up projects on is-pro.dev subdomains, having a custom email address can significantly enhance your branding and professional image. Instead of using a generic email address, you can create a custom email address that matches your subdomain, such as `contact@myproject.is-pro.dev`. This not only looks more professional but also helps to establish trust with your users. In this guide, we will walk you through the process of setting up a custom email address using your subdomain on is-pro.dev.
+          
+          ## Prerequisites
+          Before you start, ensure you have the following:
+          - A subdomain set up on is-pro.dev (e.g., `myproject.is-pro.dev`).
+          - Access to your DNS settings. For is-pro.dev subdomains, you typically manage DNS records through your is-pro.dev dashboard.
+          - An email service provider (ESP) that supports custom domains. Popular choices include Gmail, Outlook, and custom email hosting services like Mailgun or Zoho Mail.
+          
+          ## Setting Up MX Records
+          To use a custom email address with your subdomain, you need to set up MX (Mail Exchanger) records. These records tell the world which mail server is responsible for receiving emails on your behalf. Here’s how you can do it for `myproject.is-pro.dev`:
+          1. Log into your is-pro.dev dashboard and navigate to the DNS settings section for your subdomain.
+          2. Add a new MX record with the following details:
+             - **Name/Host**: Leave this blank or enter `@` to apply the record to your root domain (`myproject.is-pro.dev`).
+             - **Type**: MX
+             - **Value**: The mail server address provided by your ESP. For example, if you’re using Gmail, you might use `mx.google.com`.
+             - **Priority**: Set according to your ESP’s instructions. Gmail, for instance, requires you to set up multiple MX records with different priorities.
+          3. Save your changes. DNS changes can take up to 48 hours to propagate globally, but they usually take effect much sooner.
+          
+          ## Configuring Mail Forwarding
+          If you prefer not to manage a separate email account for your custom email address, you can set up mail forwarding. This way, emails sent to your custom address will be automatically forwarded to your existing email account. The process varies depending on your ESP:
+          - **For Gmail**: Go to the Gmail settings > Forwarding and POP/IMAP > Add a forwarding address. Enter the email address you want to forward messages from, and then follow the verification link sent to that address.
+          - **For Outlook**: Navigate to Outlook settings > Mail > Forwarding. Enter the email address you want to forward messages to, and then save your changes.
+          
+          ## Common Pitfalls and Solutions
+          - **DNS Propagation Delays**: If your MX records don’t seem to be working, wait for up to 48 hours for DNS changes to propagate.
+          - **ESP Configuration Issues**: Double-check your ESP’s setup instructions. Incorrectly configured MX records or mail forwarding settings can prevent your custom email from working.
+          - **SPF and DKIM Records**: To prevent spam filters from flagging your emails, consider setting up SPF (Sender Policy Framework) and DKIM (DomainKeys Identified Mail) records. These verify that your emails are coming from an authorized server.
+          
+          ## Best Practices for Custom Email Addresses
+          - **Use a Consistent Branding**: Ensure your custom email address aligns with your project or company branding.
+          - **Set Up Autoresponders**: For support or contact email addresses, consider setting up autoresponders to immediately acknowledge receipt of emails.
+          - **Monitor Your Email**: Regularly check your custom email address for important messages. If you’ve set up mail forwarding, ensure the destination email account is regularly monitored.
+          
+          ## Performance Considerations
+          When setting up custom email addresses, consider the performance implications:
+          - **Email Delivery Speed**: The speed at which emails are delivered can be affected by the configuration of your MX records and the mail servers used by your ESP.
+          - **Uptime and Reliability**: Choose an ESP with a good uptime record to minimize the chance of emails being lost or undeliverable.
+          
+          ## Troubleshooting Custom Email Issues
+          If you encounter issues with your custom email address, follow these steps:
+          1. **Verify DNS Records**: Ensure your MX records are correctly set up and have propagated.
+          2. **Check ESP Settings**: Review your ESP’s settings to ensure they are correctly configured for your custom domain.
+          3. **Test Email Delivery**: Send a test email to your custom email address from an external account to check if it’s being delivered correctly.
+          
+          ## Conclusion and Next Steps
+          Setting up a custom email address using your is-pro.dev subdomain enhances your professional image and helps establish trust with your users. By following the steps outlined in this guide, you can create a custom email address that matches your subdomain, such as `contact@myproject.is-pro.dev`. Remember to verify your DNS settings, configure your ESP correctly, and test your email delivery to ensure everything is working as expected. For further customization and integration, consider exploring additional features offered by your ESP.
+          
+          ## Frequently Asked Questions
+          1. **Q: Can I use my custom email address with multiple projects?**
+             A: Yes, you can use the same custom email address across multiple projects, but it’s often more professional to use a unique address for each project to maintain clear communication channels.
+          2. **Q: How do I handle emails sent to non-existent addresses on my domain?**
+             A: You can set up a catch-all email address with your ESP to receive emails sent to non-existent addresses on your domain, helping you catch any typos or incorrect addresses.
+          3. **Q: Is it possible to set up custom email addresses for sub-subdomains (e.g., `blog.myproject.is-pro.dev`)?**
+             A: Yes, most ESPs support setting up custom email addresses for sub-subdomains. You would need to set up separate MX records for the sub-subdomain.
+          4. **Q: Can I migrate my custom email address to a different ESP?**
+             A: Yes, you can migrate your custom email address to a different ESP by updating your MX records to point to the new ESP’s mail servers. Ensure you follow the new ESP’s setup instructions carefully.
+          
+          ## Further Reading
+          For more information on setting up and managing custom email addresses, consider the following resources:
+          - **Mailgun Documentation**: Detailed guides on setting up custom email addresses with Mailgun.
+          - **Gmail Help Center**: Google’s official support pages for setting up custom email addresses with Gmail.
+          - **Zoho Mail Documentation**: Zoho’s guides on configuring custom email addresses with their service.
+          - **DNS Guide by Cloudflare**: A comprehensive guide to understanding and managing DNS records.
 <h2>FAQ</h2><p><strong>Is Email setup free on is-pro.dev?</strong></p>
 <p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
 <p><strong>How long does DNS take to propagate?</strong></p>

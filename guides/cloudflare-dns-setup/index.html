@@ -6,16 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Cloudflare DNS Setup: Complete Configuration Guide — is-cool-me</title>
-  <meta name="description" content="Master Cloudflare DNS configuration for your is-pro.dev subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices." />
+  <meta name="description" content="Master Cloudflare DNS configuration for your is-cool-me subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices." />
   <link rel="canonical" href="https://is-pro.dev/guides/cloudflare-dns-setup/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/cloudflare-dns-setup/" />
   <meta property="og:title" content="Cloudflare DNS Setup: Complete Configuration Guide — is-cool-me" />
-  <meta property="og:description" content="Master Cloudflare DNS configuration for your is-pro.dev subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices." />
+  <meta property="og:description" content="Master Cloudflare DNS configuration for your is-cool-me subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Cloudflare DNS Setup: Complete Configuration Guide — is-cool-me" />
-  <meta name="twitter:description" content="Master Cloudflare DNS configuration for your is-pro.dev subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices." />
+  <meta name="twitter:description" content="Master Cloudflare DNS configuration for your is-cool-me subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https: https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -33,7 +33,7 @@
     {
       "@type": "TechArticle",
       "headline": "Cloudflare DNS Setup: Complete Configuration Guide",
-      "description": "Master Cloudflare DNS configuration for your is-pro.dev subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices.",
+      "description": "Master Cloudflare DNS configuration for your is-cool-me subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices.",
       "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
       "publisher": {
         "@type": "Organization",
@@ -100,7 +100,7 @@
             <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
           </div>
           <h1>Cloudflare DNS Setup: Complete Configuration Guide</h1>
-          <p class="article-summary">Master Cloudflare DNS configuration for your is-pro.dev subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices.</p>
+          <p class="article-summary">Master Cloudflare DNS configuration for your is-cool-me subdomain. Covers record types, proxy settings, SSL/TLS modes, security features, and best practices.</p>
         </div>
       </div>
     </header>
@@ -130,12 +130,12 @@
         <div class="article-layout-inner">
           <div class="article-content prose">
 <h1>Cloudflare DNS Setup: Complete Configuration Guide</h1>
-<p>Cloudflare powers is-pro.dev's DNS infrastructure, providing fast, secure, and reliable domain management. Understanding how to configure DNS records and Cloudflare's features is essential for getting the most out of your free subdomain. This guide covers everything from basic DNS records to advanced security settings.</p>
+<p>Cloudflare powers is-cool-me's DNS infrastructure, providing fast, secure, and reliable domain management. Understanding how to configure DNS records and Cloudflare's features is essential for getting the most out of your free subdomain. This guide covers everything from basic DNS records to advanced security settings.</p>
 <h2>Understanding DNS Record Types</h2>
-<p>When managing your is-pro.dev subdomain, you will primarily work with these record types:</p>
+<p>When managing your is-cool-me subdomain, you will primarily work with these record types:</p>
 <p><strong>A records</strong> map a domain to an IPv4 address. Use these when you want to point your subdomain directly to a server's IP address. For example, pointing to a VPS or dedicated server. A records require four values: name, IPv4 address, TTL, and proxy status.</p>
 <p><strong>AAAA records</strong> work identically to A records but for IPv6 addresses. Most modern hosting platforms provide both A and AAAA records. Include both for maximum compatibility.</p>
-<p><strong>CNAME records</strong> map a domain to another domain name. This is the most commonly used record type with is-pro.dev because most hosting platforms (Vercel, Netlify, GitHub Pages) provide a domain to point to. CNAME records cannot coexist with other record types at the same name.</p>
+<p><strong>CNAME records</strong> map a domain to another domain name. This is the most commonly used record type with is-cool-me because most hosting platforms (Vercel, Netlify, GitHub Pages) provide a domain to point to. CNAME records cannot coexist with other record types at the same name.</p>
 <p><strong>TXT records</strong> store text information for domain verification, email authentication (SPF, DKIM, DMARC), and other purposes. They are invisible to website visitors but critical for email deliverability and proving domain ownership.</p>
 <p><strong>MX records</strong> specify mail servers responsible for receiving email on behalf of your domain. If you plan to use custom email with your subdomain, you will need MX records pointing to your email provider.</p>
 <h2>Proxy Status: Orange vs Gray Cloud</h2>
@@ -148,7 +148,7 @@
 <p><strong>Off:</strong> No encryption between visitor and Cloudflare or between Cloudflare and your server. Not recommended.</p>
 <p><strong>Flexible:</strong> Encrypts traffic between visitor and Cloudflare but not between Cloudflare and your server. Use this only if your origin does not support HTTPS.</p>
 <p><strong>Full:</strong> Encrypts both legs of the connection. Your origin needs a valid SSL certificate (self-signed works).</p>
-<p><strong>Full (Strict):</strong> Same as Full but requires a valid, trusted SSL certificate on your origin. This is the recommended setting for is-pro.dev subdomains.</p>
+<p><strong>Full (Strict):</strong> Same as Full but requires a valid, trusted SSL certificate on your origin. This is the recommended setting for is-cool-me subdomains.</p>
 <p>To enable Full (Strict) mode, go to the SSL/TLS tab in your Cloudflare dashboard and select the appropriate mode. Ensure your origin server has HTTPS enabled.</p>
 <h2>Security Features</h2>
 <p><strong>DDoS Protection:</strong> Cloudflare's network absorbs large DDoS attacks automatically. No configuration needed.</p>
@@ -166,9 +166,9 @@
 <h2>Troubleshooting</h2>
 <p><strong>DNS changes not taking effect:</strong> Cloudflare's DNS propagates within minutes, but your local DNS cache may need to be cleared. Run <code>ipconfig /flushdns</code> (Windows) or <code>sudo dscacheutil -flushcache</code> (macOS).</p>
 <p><strong>SSL errors after changing proxy status:</strong> If you switch from proxied to DNS-only, SSL certificates must be configured on your origin server. Ensure your origin supports HTTPS.</p>
-<p><strong>CNAME flattening issues:</strong> CNAME records at the root of a zone (naked domain) require special handling. is-pro.dev uses CNAME flattening to support this. If you encounter issues, use a subdomain instead.</p>
+<p><strong>CNAME flattening issues:</strong> CNAME records at the root of a zone (naked domain) require special handling. is-cool-me uses CNAME flattening to support this. If you encounter issues, use a subdomain instead.</p>
 <h2>Conclusion</h2>
-<p>Cloudflare DNS configuration for your is-pro.dev subdomain is powerful yet straightforward. Understand the different record types, use proxy mode for web traffic, configure SSL/TLS properly, and enable security features. With this setup, your subdomain benefits from world-class DNS infrastructure at no cost.</p>          </div>
+<p>Cloudflare DNS configuration for your is-cool-me subdomain is powerful yet straightforward. Understand the different record types, use proxy mode for web traffic, configure SSL/TLS properly, and enable security features. With this setup, your subdomain benefits from world-class DNS infrastructure at no cost.</p>          </div>
         </div>
       </div>
     </div>

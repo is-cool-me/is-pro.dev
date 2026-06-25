@@ -6,17 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Host an API Endpoint on a Subdomain with AWS Lambda — is-cool-me</title>
-  <meta name="description" content="Use an is-pro.dev subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing." />
+  <meta name="description" content="Use an is-cool-me subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing." />
   <meta name="keywords" content="aws, lambda, api gateway, serverless, api, subdomain" />
   <link rel="canonical" href="https://is-pro.dev/guides/api-subdomain-with-aws-lambda/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/api-subdomain-with-aws-lambda/" />
   <meta property="og:title" content="Host an API Endpoint on a Subdomain with AWS Lambda — is-cool-me" />
-  <meta property="og:description" content="Use an is-pro.dev subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing." />
+  <meta property="og:description" content="Use an is-cool-me subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Host an API Endpoint on a Subdomain with AWS Lambda — is-cool-me" />
-  <meta name="twitter:description" content="Use an is-pro.dev subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing." />
+  <meta name="twitter:description" content="Use an is-cool-me subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -36,7 +36,7 @@
       "@id": "https://is-pro.dev/#website",
       "url": "https://is-pro.dev",
       "name": "Host an API Endpoint on a Subdomain with AWS Lambda — is-cool-me",
-      "description": "Use an is-pro.dev subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.",
+      "description": "Use an is-cool-me subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.",
       "publisher": {
         "@type": "Organization",
         "name": "is-cool-me",
@@ -50,7 +50,7 @@
     {
       "@type": "TechArticle",
       "headline": "Host an API Endpoint on a Subdomain with AWS Lambda",
-      "description": "Use an is-pro.dev subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.",
+      "description": "Use an is-cool-me subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.",
       "author": {
         "@type": "Person",
         "name": "Mayank Baswal",
@@ -141,7 +141,7 @@
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Host an API Endpoint on a Subdomain with AWS Lambda</h1>
-        <p class="article-summary">Use an is-pro.dev subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.</p>
+        <p class="article-summary">Use an is-cool-me subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.</p>
       </div>
     </div>
   </header>
@@ -171,12 +171,12 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Serverless API Hosting
-          Developers on the is-pro.dev platform, such as those hosting their projects on myproject.is-pro.dev, often require scalable and cost-effective solutions for hosting API endpoints. AWS Lambda, in conjunction with API Gateway, provides a serverless architecture that fulfills these requirements. By leveraging AWS Lambda, developers can focus on writing code without worrying about the underlying infrastructure. This guide will walk through the process of hosting an API endpoint on a subdomain using AWS Lambda and API Gateway, specifically tailored for developers on the is-pro.dev platform.
+          Developers on the is-cool-me platform, such as those hosting their projects on myproject.is-pro.dev, often require scalable and cost-effective solutions for hosting API endpoints. AWS Lambda, in conjunction with API Gateway, provides a serverless architecture that fulfills these requirements. By leveraging AWS Lambda, developers can focus on writing code without worrying about the underlying infrastructure. This guide will walk through the process of hosting an API endpoint on a subdomain using AWS Lambda and API Gateway, specifically tailored for developers on the is-cool-me platform.
           
           ## Prerequisites
           Before proceeding, ensure you have the following:
           - An AWS account with the necessary permissions to create Lambda functions, API Gateway REST APIs, and IAM roles.
-          - A subdomain on is-pro.dev, such as myproject.is-pro.dev, for which you want to host the API endpoint.
+          - A subdomain on is-cool-me, such as myproject.is-pro.dev, for which you want to host the API endpoint.
           - AWS CLI installed and configured on your machine.
           - A basic understanding of AWS services, including Lambda, API Gateway, and IAM.
           
@@ -233,11 +233,11 @@
           For issues with your Lambda function, check the CloudWatch logs for error messages. For API Gateway issues, use the Test feature in the API Gateway console or check the execution logs. If you encounter domain name or SSL certificate issues, verify your DNS settings and certificate configurations.
           
           ## Conclusion and Next Steps
-          Hosting an API endpoint on a subdomain with AWS Lambda and API Gateway provides a scalable and cost-effective solution for developers on the is-pro.dev platform. By following the steps outlined in this guide, you can set up a serverless API endpoint for your project, such as myproject.is-pro.dev. For further learning, explore advanced topics like API Gateway caching, Lambda function optimization, and integrating with other AWS services.
+          Hosting an API endpoint on a subdomain with AWS Lambda and API Gateway provides a scalable and cost-effective solution for developers on the is-cool-me platform. By following the steps outlined in this guide, you can set up a serverless API endpoint for your project, such as myproject.is-pro.dev. For further learning, explore advanced topics like API Gateway caching, Lambda function optimization, and integrating with other AWS services.
           
           ## FAQ
-          1. **Q: Can I use a subdomain that is not on is-pro.dev?**
-             A: Yes, the process outlined in this guide can be adapted for any custom domain, not just those on is-pro.dev. You would need to adjust the DNS settings accordingly.
+          1. **Q: Can I use a subdomain that is not on is-cool-me?**
+             A: Yes, the process outlined in this guide can be adapted for any custom domain, not just those on is-cool-me. You would need to adjust the DNS settings accordingly.
           2. **Q: How do I handle CORS in my API Gateway?**
              A: You can handle CORS by adding a CORS configuration to your API Gateway resource. This involves specifying the allowed origins, methods, and headers.
           3. **Q: Can I use AWS Lambda with other AWS services?**
@@ -252,12 +252,6 @@
           - **API Gateway Documentation**: For comprehensive guides on setting up and configuring API Gateway.
           - **AWS Well-Architected Framework**: For best practices on designing and operating reliable, secure, and high-performing workloads in the cloud.
           - **AWS CloudFormation**: For automating the deployment of your AWS resources, including Lambda and API Gateway, using infrastructure as code.
-<h2>FAQ</h2><p><strong>Is API setup free on is-pro.dev?</strong></p>
-<p>Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.</p>
-<p><strong>How long does DNS take to propagate?</strong></p>
-<p>Cloudflare typically propagates DNS changes within seconds to a few minutes globally.</p>
-<p><strong>Can I use this for commercial projects?</strong></p>
-<p>Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.</p>
         </div>
       </div>
     </div>
@@ -312,8 +306,7 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
-          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

@@ -402,7 +402,7 @@
               traffic to the wrong destination. After saving, immediately verify
               with dig: <code>dig yourname.is-pro.dev A +short</code>. Query
               both an authoritative nameserver (discoverable with
-              <code>dig NS is-pro.dev +short</code>) and a public resolver. The
+              <code>dig NS is-cool-me +short</code>) and a public resolver. The
               new value should appear in the authoritative response immediately.
               It will take up to 300 seconds (the TTL you set in step 1) for
               public resolvers to show the new value.
@@ -467,7 +467,7 @@
               After the migration is complete, verify every aspect of the
               subdomain's configuration. Run dig against an authoritative
               nameserver (discoverable with
-              <code>dig NS is-pro.dev +short</code>) and confirm the record
+              <code>dig NS is-cool-me +short</code>) and confirm the record
               points to the new provider's target. Run dig against a public
               resolver and confirm the same. Curl the subdomain from an external
               network and confirm the response headers show the new provider's

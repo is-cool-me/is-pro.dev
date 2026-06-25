@@ -555,7 +555,7 @@ dig @8.8.8.8 yourname.is-pro.dev A +short</code></pre>
                   Find one first, then query it directly. It should return the
                   new value because the change was made there:
                 </p>
-                <pre><code>dig NS is-pro.dev +short
+                <pre><code>dig NS is-cool-me +short
 dig @&lt;authoritative-ns&gt; app.yourname.is-pro.dev CNAME +short
 your-site.vercel.app.</code></pre>
 
@@ -594,7 +594,7 @@ your-site.vercel.app.</code></pre>
                   compare answers:
                 </p>
                 <pre><code># Find authoritative nameservers for the zone
-dig NS is-pro.dev +short
+dig NS is-cool-me +short
 
 # Query an authoritative nameserver directly
 dig @&lt;authoritative-ns&gt; yourname.is-pro.dev A +short
@@ -787,7 +787,7 @@ sudo killall -HUP mDNSResponder</code></pre>
                 <h3>"I changed the record but nothing happens"</h3>
                 <p>
                   Check authoritative DNS first:
-                  <code>dig NS is-pro.dev +short</code> then
+                  <code>dig NS is-cool-me +short</code> then
                   <code
                     >dig @&lt;authoritative-ns&gt; yourname.is-pro.dev A</code
                   >. If the authoritative answer is wrong, the change was not

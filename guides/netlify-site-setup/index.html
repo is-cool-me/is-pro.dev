@@ -6,16 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Netlify Site Setup: Custom Domain Guide — is-cool-me</title>
-  <meta name="description" content="Configure your is-pro.dev free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site." />
+  <meta name="description" content="Configure your is-cool-me free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site." />
   <link rel="canonical" href="https://is-pro.dev/guides/netlify-site-setup/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/netlify-site-setup/" />
   <meta property="og:title" content="Netlify Site Setup: Custom Domain Guide — is-cool-me" />
-  <meta property="og:description" content="Configure your is-pro.dev free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site." />
+  <meta property="og:description" content="Configure your is-cool-me free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Netlify Site Setup: Custom Domain Guide — is-cool-me" />
-  <meta name="twitter:description" content="Configure your is-pro.dev free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site." />
+  <meta name="twitter:description" content="Configure your is-cool-me free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https: https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -33,7 +33,7 @@
     {
       "@type": "TechArticle",
       "headline": "Netlify Site Setup: Custom Domain Guide",
-      "description": "Configure your is-pro.dev free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site.",
+      "description": "Configure your is-cool-me free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site.",
       "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
       "publisher": {
         "@type": "Organization",
@@ -100,7 +100,7 @@
             <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
           </div>
           <h1>Netlify Site Setup: Custom Domain Guide</h1>
-          <p class="article-summary">Configure your is-pro.dev free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site.</p>
+          <p class="article-summary">Configure your is-cool-me free subdomain with Netlify. Complete DNS setup, deployment configuration, and SSL/HTTPS for your Netlify site.</p>
         </div>
       </div>
     </header>
@@ -130,13 +130,13 @@
         <div class="article-layout-inner">
           <div class="article-content prose">
 <h1>Netlify Site Setup: Custom Domain Guide</h1>
-<p>Netlify is one of the most developer-friendly hosting platforms, offering continuous deployment, serverless functions, and form handling. While Netlify provides <code>*.netlify.app</code> subdomains, using a custom domain makes your project stand out. This guide shows you how to point your free is-pro.dev subdomain to any Netlify site.</p>
+<p>Netlify is one of the most developer-friendly hosting platforms, offering continuous deployment, serverless functions, and form handling. While Netlify provides <code>*.netlify.app</code> subdomains, using a custom domain makes your project stand out. This guide shows you how to point your free is-cool-me subdomain to any Netlify site.</p>
 <h2>Benefits of a Custom Domain on Netlify</h2>
 <p>A custom domain transforms your site from a generic Netlify URL to a branded web presence. Whether you are hosting a landing page, a JAMstack application, or a documentation site, a domain like <code>app.is-pro.dev</code> communicates professionalism and attention to detail. Combined with Netlify's automatic HTTPS and deployment previews, you get a world-class hosting setup at zero cost.</p>
 <h2>Prerequisites</h2>
 <ul><li>A Netlify account with a deployed site</li>
 <li>Your Netlify site's default domain (e.g., <code>random-name-123456.netlify.app</code>)</li>
-<li>A registered is-pro.dev subdomain</li>
+<li>A registered is-cool-me subdomain</li>
 <p></ul></p>
 <h2>Step 1: Get Your Netlify Site Domain</h2>
 <p>Log into Netlify and go to Site Settings → Domain Management. Copy your Netlify-assigned domain name (it ends with <code>.netlify.app</code>). You will need this for your DNS configuration. If you have a team site, the domain format may be slightly different, but the setup process remains the same.</p>
@@ -146,11 +146,11 @@
 <p>In your DNS management dashboard, add a CNAME record pointing your subdomain to your Netlify site domain. For example, if your subdomain is <code>my-site.is-pro.dev</code> and your Netlify domain is <code>random-name-123456.netlify.app</code>, the CNAME should have the name <code>my-site</code> (or leave blank if using the root) and the target <code>random-name-123456.netlify.app</code>.</p>
 <p>If you want the <code>www</code> subdomain to also work, add another CNAME record for <code>www</code> pointing to the same Netlify domain.</p>
 <h2>Step 4: Configure Netlify</h2>
-<p>Go to your Netlify site dashboard → Site Settings → Domain Management → Custom Domains. Click "Add a domain" and enter your full is-pro.dev subdomain. Netlify will automatically verify the DNS configuration. If it detects the CNAME record, it will show a green checkmark. If not, wait a few minutes and refresh.</p>
+<p>Go to your Netlify site dashboard → Site Settings → Domain Management → Custom Domains. Click "Add a domain" and enter your full is-cool-me subdomain. Netlify will automatically verify the DNS configuration. If it detects the CNAME record, it will show a green checkmark. If not, wait a few minutes and refresh.</p>
 <h2>Step 5: Enable Netlify SSL</h2>
 <p>Netlify automatically provisions Let's Encrypt certificates for custom domains. Once your domain is verified, Netlify will handle the SSL certificate generation and renewal automatically. You can check the certificate status under Domain Management → HTTPS. Enable "Force HTTPS" to redirect all HTTP traffic to HTTPS.</p>
 <h2>Performance Optimization</h2>
-<p>Netlify's global CDN will serve your site from the nearest edge node to your visitors. To maximize performance, enable Netlify's asset optimization features: CSS/JS minification, image compression, and smart redirects. Combined with Cloudflare's CDN (if proxying through is-pro.dev's Cloudflare), your site will load quickly worldwide.</p>
+<p>Netlify's global CDN will serve your site from the nearest edge node to your visitors. To maximize performance, enable Netlify's asset optimization features: CSS/JS minification, image compression, and smart redirects. Combined with Cloudflare's CDN (if proxying through is-cool-me's Cloudflare), your site will load quickly worldwide.</p>
 <h2>Troubleshooting</h2>
 <p><strong>Netlify shows "Awaiting external DNS":</strong> This means your CNAME record is not propagated yet. DNS changes can take a few minutes to propagate. Double-check that your CNAME targets the full Netlify domain including <code>.netlify.app</code>.</p>
 <p><strong>SSL certificate fails:</strong> Ensure your CNAME record is a flat CNAME (not a CNAME flattening or ALIAS record). Netlify needs a standard CNAME for certificate verification.</p>
@@ -163,7 +163,7 @@
 <p><strong>Q: How do I set up a redirect from <code>www</code> to my subdomain?</strong></p>
 <p>A: In your Netlify dashboard, add a redirect rule: <code>http://www.your-subdomain.is-pro.dev/* https://your-subdomain.is-pro.dev/:splat 301</code>.</p>
 <h2>Conclusion</h2>
-<p>Connecting your free is-pro.dev subdomain to Netlify takes just a few minutes. Register your subdomain, add a CNAME record, configure it in Netlify, and your site is live with automatic HTTPS. This combination gives you a professional, fast, and free hosting solution.</p>          </div>
+<p>Connecting your free is-cool-me subdomain to Netlify takes just a few minutes. Register your subdomain, add a CNAME record, configure it in Netlify, and your site is live with automatic HTTPS. This combination gives you a professional, fast, and free hosting solution.</p>          </div>
         </div>
       </div>
     </div>

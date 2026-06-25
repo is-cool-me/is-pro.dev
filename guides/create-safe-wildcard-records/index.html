@@ -309,7 +309,7 @@
 
                 <h2>Requirements</h2>
                 <ul>
-                  <li>An is-pro.dev subdomain with DNS management access</li>
+                  <li>An is-cool-me subdomain with DNS management access</li>
                   <li>Understanding of basic DNS record types (A, CNAME)</li>
                   <li>Access to the is-cool-me dashboard</li>
                   <li>
@@ -446,7 +446,7 @@
                     <strong>Important:</strong> You cannot use a CNAME at the
                     zone apex (the bare subdomain itself). If you need wildcard
                     behaviour for the apex, use an A or AAAA record. On
-                    is-pro.dev, the wildcard lives on a subdomain level, so this
+                    is-cool-me, the wildcard lives on a subdomain level, so this
                     is less of a concern — but keep it in mind if you are
                     reading DNS documentation meant for root domains.
                   </p>
@@ -541,7 +541,7 @@ dig www.yourname.is-pro.dev A +short
 # Expected: the explicit record's value (different from wildcard)
 
 # Authoritative check: find and query an authoritative nameserver directly
-dig NS is-pro.dev +short
+dig NS is-cool-me +short
 dig @&lt;authoritative-ns&gt; random-test.yourname.is-pro.dev A +short
 # Expected: same as the wildcard target
 
@@ -601,7 +601,7 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
                   (e.g. via Let's Encrypt with DNS-01 challenge) for
                   <code>*.yourname.is-pro.dev</code>, or ensure that every
                   subdomain you intend to serve over HTTPS gets its own
-                  certificate. On is-pro.dev, automated HTTPS through platforms
+                  certificate. On is-cool-me, automated HTTPS through platforms
                   like Vercel or Netlify usually handles single-name
                   certificates automatically when you configure the domain on
                   their side — but the wildcard alone is not sufficient to
@@ -664,7 +664,7 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
                 <p>
                   <strong>Fix:</strong> Query an authoritative nameserver
                   directly to verify the record is live:
-                  <code>dig NS is-pro.dev +short</code> then
+                  <code>dig NS is-cool-me +short</code> then
                   <code
                     >dig @&lt;authoritative-ns&gt;
                     random-test.yourname.is-pro.dev A +short</code
@@ -753,7 +753,7 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
                   <code>*</code> record for the bare domain
                   <code>yourname.is-pro.dev</code> itself — the wildcard only
                   matches names like <code>*.yourname.is-pro.dev</code>. On
-                  is-pro.dev, the apex is your subdomain (e.g.
+                  is-cool-me, the apex is your subdomain (e.g.
                   <code>yourname.is-pro.dev</code>), and the wildcard applies to
                   <code>*.yourname.is-pro.dev</code>.
                 </p>
@@ -776,7 +776,7 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
                   closer match exists. If your zone is DNSSEC-signed, the
                   wildcard still functions, but signature verification requires
                   careful implementation. Most cloud DNS providers (including
-                  is-pro.dev) handle this automatically.
+                  is-cool-me) handle this automatically.
                 </p>
 
                 <h3>How many wildcard records can I have in one zone?</h3>
@@ -875,7 +875,7 @@ dig a7xk9m.yourname.is-pro.dev CNAME +short
                   Always pair your wildcard with explicit MX records, document
                   your explicit overrides, and test with high-entropy hostnames
                   to avoid false negatives from resolver caches. If you run into
-                  issues, the is-pro.dev
+                  issues, the is-cool-me
                   <a href="https://discord.gg/N8YzrkJxYy" class="inline-link"
                     >Discord community</a
                   >

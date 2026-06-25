@@ -6,16 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>SSL Certificate Setup: Free HTTPS Guide — is-cool-me</title>
-  <meta name="description" content="Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
+  <meta name="description" content="Set up free SSL certificates for your is-cool-me subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
   <link rel="canonical" href="https://is-pro.dev/guides/ssl-certificate-setup/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/ssl-certificate-setup/" />
   <meta property="og:title" content="SSL Certificate Setup: Free HTTPS Guide — is-cool-me" />
-  <meta property="og:description" content="Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
+  <meta property="og:description" content="Set up free SSL certificates for your is-cool-me subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="SSL Certificate Setup: Free HTTPS Guide — is-cool-me" />
-  <meta name="twitter:description" content="Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
+  <meta name="twitter:description" content="Set up free SSL certificates for your is-cool-me subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https: https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -33,7 +33,7 @@
     {
       "@type": "TechArticle",
       "headline": "SSL Certificate Setup: Free HTTPS Guide",
-      "description": "Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues.",
+      "description": "Set up free SSL certificates for your is-cool-me subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues.",
       "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
       "publisher": {
         "@type": "Organization",
@@ -100,7 +100,7 @@
             <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
           </div>
           <h1>SSL Certificate Setup: Free HTTPS Guide</h1>
-          <p class="article-summary">Set up free SSL certificates for your is-pro.dev subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues.</p>
+          <p class="article-summary">Set up free SSL certificates for your is-cool-me subdomain. Cloudflare SSL, Let's Encrypt, automatic provisioning, and troubleshooting HTTPS issues.</p>
         </div>
       </div>
     </header>
@@ -130,19 +130,19 @@
         <div class="article-layout-inner">
           <div class="article-content prose">
 <h1>SSL Certificate Setup: Free HTTPS Guide</h1>
-<p>HTTPS is no longer optional — it is essential for security, SEO, and user trust. Every website should serve content over an encrypted connection. With is-pro.dev, you get free SSL certificates through Cloudflare, and you can combine them with Let's Encrypt for additional flexibility. This guide covers all the ways to set up SSL for your subdomain.</p>
+<p>HTTPS is no longer optional — it is essential for security, SEO, and user trust. Every website should serve content over an encrypted connection. With is-cool-me, you get free SSL certificates through Cloudflare, and you can combine them with Let's Encrypt for additional flexibility. This guide covers all the ways to set up SSL for your subdomain.</p>
 <h2>Why SSL Matters</h2>
 <p>SSL (Secure Sockets Layer) encrypts data between your visitors and your website. Without it, anyone on the same network can intercept sensitive information. Beyond security, HTTPS improves your Google search ranking, enables HTTP/2 for faster loading, and is required for many browser features like service workers and geolocation APIs. Modern browsers mark HTTP sites as "Not Secure," which discourages visitors.</p>
-<h2>How SSL Works on is-pro.dev</h2>
-<p>is-pro.dev uses Cloudflare for DNS, which means you have two SSL options:</p>
+<h2>How SSL Works on is-cool-me</h2>
+<p>is-cool-me uses Cloudflare for DNS, which means you have two SSL options:</p>
 <p><strong>Cloudflare's Edge Certificate (free):</strong> Cloudflare provides a shared SSL certificate that covers all proxied domains. When your DNS record has the orange cloud enabled, Cloudflare terminates the SSL connection at its edge and connects to your origin server over a separate connection. This certificate is automatically issued and renewed — no action needed.</p>
 <p><strong>Origin Certificate (free):</strong> If you need end-to-end encryption, Cloudflare also provides a 15-year origin certificate that you install on your server. This works with Full (Strict) SSL mode.</p>
 <h2>Setting Up Cloudflare SSL</h2>
-<p>When you register your is-pro.dev subdomain, SSL is automatically available if your DNS record is proxied through Cloudflare (orange cloud). To verify:</p>
+<p>When you register your is-cool-me subdomain, SSL is automatically available if your DNS record is proxied through Cloudflare (orange cloud). To verify:</p>
 <li>Go to your DNS settings and ensure the orange cloud is enabled for your subdomain</li>
 <li>Visit your domain with <code>https://</code> in the browser</li>
 <li>Click the padlock icon to view the certificate details</li>
-<p>The certificate will show Cloudflare as the issuer and your subdomain as the subject. It is valid for all is-pro.dev subdomains.</p>
+<p>The certificate will show Cloudflare as the issuer and your subdomain as the subject. It is valid for all is-cool-me subdomains.</p>
 <h2>Let's Encrypt Certificates</h2>
 <p>If you prefer to use your own certificate or need DNS-only mode (gray cloud), Let's Encrypt provides free, 90-day certificates that auto-renew:</p>
 <p><strong>Using Certbot:</strong></p>
@@ -210,7 +210,7 @@
 <p><strong>Q: Can I use my own custom certificate?</strong></p>
 <p>A: Yes. Cloudflare supports uploading custom certificates in the SSL/TLS section of the dashboard.</p>
 <h2>Conclusion</h2>
-<p>SSL certificates for your is-pro.dev subdomain are free and easy to set up. Cloudflare provides automatic SSL for proxied domains, and Let's Encrypt offers an alternative for custom setups. Whichever method you choose, encrypting your traffic protects your users and improves your site's credibility.</p>          </div>
+<p>SSL certificates for your is-cool-me subdomain are free and easy to set up. Cloudflare provides automatic SSL for proxied domains, and Let's Encrypt offers an alternative for custom setups. Whichever method you choose, encrypting your traffic protects your users and improves your site's credibility.</p>          </div>
         </div>
       </div>
     </div>

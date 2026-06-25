@@ -5,14 +5,14 @@ export const GUIDE_TOPICS = [
     category: "Deployment",
     difficulty: "Beginner",
     summary:
-      "Learn how to host your static website for free using GitHub Pages, configure custom domains with is-pro.dev, and set up automatic deployments from your repository.",
+      "Learn how to host your static website for free using GitHub Pages, configure custom domains with is-cool-me, and set up automatic deployments from your repository.",
     keywords: [
       "github pages",
       "free hosting",
       "static site",
       "deployment",
       "custom domain",
-      "is-pro.dev",
+      "is-cool-me",
     ],
     tags: ["GitHub", "Deployment", "Free"],
     relatedSlugs: [
@@ -28,7 +28,7 @@ export const GUIDE_TOPICS = [
     category: "Deployment",
     difficulty: "Beginner",
     summary:
-      "Step-by-step guide to deploying your React application to Vercel, connecting a free is-pro.dev subdomain, and configuring environment variables for production.",
+      "Step-by-step guide to deploying your React application to Vercel, connecting a free is-cool-me subdomain, and configuring environment variables for production.",
     keywords: [
       "react",
       "vercel",
@@ -50,7 +50,7 @@ export const GUIDE_TOPICS = [
     category: "Deployment",
     difficulty: "Intermediate",
     summary:
-      "Complete guide to deploying Next.js applications on Cloudflare Pages, configuring DNS records through is-pro.dev, and enabling edge caching for fast global performance.",
+      "Complete guide to deploying Next.js applications on Cloudflare Pages, configuring DNS records through is-cool-me, and enabling edge caching for fast global performance.",
     keywords: [
       "nextjs",
       "cloudflare pages",
@@ -72,7 +72,7 @@ export const GUIDE_TOPICS = [
     category: "Portfolio",
     difficulty: "Beginner",
     summary:
-      "Create a professional developer portfolio using free tools, host it on GitHub Pages or Vercel, and connect it to a custom subdomain from is-pro.dev without spending a dime.",
+      "Create a professional developer portfolio using free tools, host it on GitHub Pages or Vercel, and connect it to a custom subdomain from is-cool-me without spending a dime.",
     keywords: [
       "portfolio",
       "developer",
@@ -134,7 +134,7 @@ export const GUIDE_TOPICS = [
     category: "Deployment",
     difficulty: "Beginner",
     summary:
-      "Connect your is-pro.dev subdomain to a Netlify site, configure DNS records for both root and www variants, and set up automatic HTTPS provisioning through Netlify Lets Encrypt.",
+      "Connect your is-cool-me subdomain to a Netlify site, configure DNS records for both root and www variants, and set up automatic HTTPS provisioning through Netlify Lets Encrypt.",
     keywords: [
       "netlify",
       "custom domain",
@@ -152,14 +152,14 @@ export const GUIDE_TOPICS = [
   },
   {
     slug: "subdomain-registry-guide",
-    title: "How to Register and Manage Subdomains on is-pro.dev",
+    title: "How to Register and Manage Subdomains on is-cool-me",
     category: "Platform",
     difficulty: "Beginner",
     summary:
-      "Everything you need to know about registering free subdomains on is-pro.dev — from choosing the right subdomain name to configuring DNS records and managing multiple projects.",
+      "Everything you need to know about registering free subdomains on is-cool-me — from choosing the right subdomain name to configuring DNS records and managing multiple projects.",
     keywords: [
       "subdomain",
-      "is-pro.dev",
+      "is-cool-me",
       "registry",
       "dns management",
       "free domain",
@@ -177,7 +177,7 @@ export const GUIDE_TOPICS = [
     category: "API",
     difficulty: "Intermediate",
     summary:
-      "Use an is-pro.dev subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.",
+      "Use an is-cool-me subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.",
     keywords: [
       "aws",
       "lambda",
@@ -214,7 +214,7 @@ export const GUIDE_TOPICS = [
     category: "Hosting",
     difficulty: "Beginner",
     summary:
-      "Deploy an anime information site, wiki, or fan archive using tools like MediaWiki or Hugo, host it for free on GitHub Pages or Cloudflare Pages, and connect it to your is-pro.dev subdomain.",
+      "Deploy an anime information site, wiki, or fan archive using tools like MediaWiki or Hugo, host it for free on GitHub Pages or Cloudflare Pages, and connect it to your is-cool-me subdomain.",
     keywords: [
       "anime",
       "wiki",
@@ -236,7 +236,7 @@ export const GUIDE_TOPICS = [
     category: "Bots",
     difficulty: "Intermediate",
     summary:
-      "Expose your Discord bot dashboard or webhook endpoint through an is-pro.dev subdomain, configure SSL, and keep your bot running with uptime monitoring and proper DNS routing.",
+      "Expose your Discord bot dashboard or webhook endpoint through an is-cool-me subdomain, configure SSL, and keep your bot running with uptime monitoring and proper DNS routing.",
     keywords: ["discord", "bot", "webhook", "hosting", "dashboard", "uptime"],
     tags: ["Discord", "Bots", "Hosting"],
     relatedSlugs: [
@@ -317,7 +317,7 @@ export const GUIDE_TOPICS = [
     category: "E-Commerce",
     difficulty: "Beginner",
     summary:
-      "Point a subdomain from is-pro.dev to your Shopify store, configure DNS records for Shopifys CDN, and set up proper SSL to accept payments on your branded store URL.",
+      "Point a subdomain from is-cool-me to your Shopify store, configure DNS records for Shopifys CDN, and set up proper SSL to accept payments on your branded store URL.",
     keywords: ["shopify", "ecommerce", "store", "custom domain", "dns", "ssl"],
     tags: ["E-Commerce", "Shopify"],
     relatedSlugs: [
@@ -328,11 +328,11 @@ export const GUIDE_TOPICS = [
   },
   {
     slug: "wordpress-on-free-subdomain",
-    title: "Host WordPress on a Free is-pro.dev Subdomain",
+    title: "Host WordPress on a Free is-cool-me Subdomain",
     category: "CMS",
     difficulty: "Intermediate",
     summary:
-      "Deploy a WordPress site using PHP hosting services like 000webhost or by connecting to a VPS, configure your is-pro.dev subdomain for WordPress-specific DNS requirements.",
+      "Deploy a WordPress site using PHP hosting services like 000webhost or by connecting to a VPS, configure your is-cool-me subdomain for WordPress-specific DNS requirements.",
     keywords: ["wordpress", "cms", "php", "blog", "subdomain", "hosting"],
     tags: ["WordPress", "CMS", "Hosting"],
     relatedSlugs: [
@@ -391,7 +391,7 @@ export const GUIDE_TOPICS = [
     category: "SEO",
     difficulty: "Beginner",
     summary:
-      "Set up 301 permanent redirects to send visitors from an old domain to your new is-pro.dev subdomain while preserving search engine rankings and maintaining analytics.",
+      "Set up 301 permanent redirects to send visitors from an old domain to your new is-cool-me subdomain while preserving search engine rankings and maintaining analytics.",
     keywords: ["redirect", "301", "seo", "migration", "domain forwarding"],
     tags: ["SEO", "DNS"],
     relatedSlugs: [
@@ -408,7 +408,7 @@ export const BLOG_TOPICS = [
     title: "Why Free Subdomains Matter for Bootstrappers and Indie Hackers",
     category: "Opinion",
     summary:
-      "A personal argument for why free subdomain providers like is-pro.dev are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs.",
+      "A personal argument for why free subdomain providers like is-cool-me are critical infrastructure for the indie hacker ecosystem, enabling anyone to build and ship without upfront costs.",
     keywords: [
       "bootstrapping",
       "indie hacker",
@@ -430,7 +430,7 @@ export const BLOG_TOPICS = [
     title: "How We Handle Abuse Reports Without Breaking Legit Users",
     category: "Operations",
     summary:
-      "The moderation system behind is-pro.dev — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted.",
+      "The moderation system behind is-cool-me — how we detect abuse, handle false positives, balance free speech with platform safety, and keep the majority of users experience uninterrupted.",
     keywords: [
       "moderation",
       "abuse",
@@ -458,7 +458,7 @@ export const BLOG_TOPICS = [
     title: "The Free Tools That Replaced Paid SaaS for Our Entire Team",
     category: "Productivity",
     summary:
-      "A curated list of the free-tier tools we rely on to run is-pro.dev — from DNS management to monitoring, error tracking, and CI/CD — and how to maximize value from each.",
+      "A curated list of the free-tier tools we rely on to run is-cool-me — from DNS management to monitoring, error tracking, and CI/CD — and how to maximize value from each.",
     keywords: [
       "free tools",
       "saas alternatives",
@@ -547,7 +547,7 @@ export const TUTORIAL_TOPICS = [
     category: "Tutorial",
     difficulty: "Beginner",
     summary:
-      "Build a Create React App project, push it to GitHub, deploy to Vercel, and connect your free is-pro.dev subdomain — all in under 20 minutes.",
+      "Build a Create React App project, push it to GitHub, deploy to Vercel, and connect your free is-cool-me subdomain — all in under 20 minutes.",
     keywords: [
       "react",
       "create react app",
@@ -557,7 +557,7 @@ export const TUTORIAL_TOPICS = [
     ],
     whatYouNeed: [
       "A GitHub account with a Create React App project pushed to a repository",
-      "An is-pro.dev subdomain (free at dash.is-pro.dev)",
+      "An is-cool-me subdomain (free at dash.is-pro.dev)",
       "A Vercel account (free tier, connect with GitHub)",
       "10-15 minutes of free time",
     ],
@@ -573,14 +573,14 @@ export const TUTORIAL_TOPICS = [
           'Log in to Vercel and click "Add New &rarr; Project". Select your GitHub repository. Vercel auto-detects Create React App and pre-fills the build command (<code>npm run build</code>) and output directory (<code>build</code>). Click "Deploy" and wait for the initial build to complete.',
       },
       {
-        title: "Add Your is-pro.dev Subdomain in Vercel",
+        title: "Add Your is-cool-me Subdomain in Vercel",
         content:
-          'In your Vercel project dashboard, go to "Settings &rarr; Domains". Enter your is-pro.dev subdomain (e.g., <code>myapp.is-pro.dev</code>). Vercel will display a CNAME target like <code>cname.vercel-dns.com</code>. Copy this value.',
+          'In your Vercel project dashboard, go to "Settings &rarr; Domains". Enter your is-cool-me subdomain (e.g., <code>myapp.is-pro.dev</code>). Vercel will display a CNAME target like <code>cname.vercel-dns.com</code>. Copy this value.',
       },
       {
-        title: "Configure DNS in the is-pro.dev Dashboard",
+        title: "Configure DNS in the is-cool-me Dashboard",
         content:
-          "Go to your is-pro.dev dashboard, find your subdomain, and add a CNAME record pointing to the Vercel target. Once saved, Cloudflare provisions a free SSL certificate automatically. Propagation is nearly instant through Cloudflare's network.",
+          "Go to your is-cool-me dashboard, find your subdomain, and add a CNAME record pointing to the Vercel target. Once saved, Cloudflare provisions a free SSL certificate automatically. Propagation is nearly instant through Cloudflare's network.",
       },
       {
         title: "Verify the Deployment",
@@ -592,12 +592,12 @@ export const TUTORIAL_TOPICS = [
       {
         title: "Vercel shows a 404",
         content:
-          "Your CNAME record may not point to the correct target. Verify the domain settings in Vercel and confirm the DNS record in your is-pro.dev dashboard matches exactly.",
+          "Your CNAME record may not point to the correct target. Verify the domain settings in Vercel and confirm the DNS record in your is-cool-me dashboard matches exactly.",
       },
       {
         title: "SSL certificate not provisioning",
         content:
-          "Cloudflare provisions certificates automatically but may take up to 5 minutes. Ensure your DNS is set to Proxied (orange cloud) in the is-pro.dev dashboard.",
+          "Cloudflare provisions certificates automatically but may take up to 5 minutes. Ensure your DNS is set to Proxied (orange cloud) in the is-cool-me dashboard.",
       },
       {
         title: "Blank page after deploy",
@@ -612,11 +612,11 @@ export const TUTORIAL_TOPICS = [
     category: "Tutorial",
     difficulty: "Beginner",
     summary:
-      "Configure email forwarding on your is-pro.dev subdomain using a free email service, set up MX and SPF records, and start receiving emails at your custom address.",
+      "Configure email forwarding on your is-cool-me subdomain using a free email service, set up MX and SPF records, and start receiving emails at your custom address.",
     keywords: ["email", "mx records", "forwarding", "tutorial", "dns"],
     whatYouNeed: [
-      "An is-pro.dev subdomain (free at dash.is-pro.dev)",
-      "A Cloudflare account (free tier, linked to your is-pro.dev zone)",
+      "An is-cool-me subdomain (free at dash.is-pro.dev)",
+      "A Cloudflare account (free tier, linked to your is-cool-me zone)",
       "An email forwarding service like Cloudflare Email Routing (free) or Forward Email",
       "A personal email inbox to receive forwarded messages",
       "5 minutes of free time",
@@ -625,7 +625,7 @@ export const TUTORIAL_TOPICS = [
       {
         title: "Enable Email Routing in Cloudflare",
         content:
-          'Log in to your Cloudflare account and select the is-pro.dev zone. Navigate to "Email &rarr; Email Routing" and click "Get started". This feature is free and handles forwarding for up to 100 email addresses per zone.',
+          'Log in to your Cloudflare account and select the is-cool-me zone. Navigate to "Email &rarr; Email Routing" and click "Get started". This feature is free and handles forwarding for up to 100 email addresses per zone.',
       },
       {
         title: "Create a Custom Email Address",
@@ -635,7 +635,7 @@ export const TUTORIAL_TOPICS = [
       {
         title: "Configure MX Records in DNS",
         content:
-          "Cloudflare Email Routing requires specific MX records. In the DNS section of your is-pro.dev zone, add the MX records provided by Cloudflare (typically <code>route1.mx.cloudflare.net</code>, <code>route2.mx.cloudflare.net</code>). Set the priority to 10 and 20 respectively.",
+          "Cloudflare Email Routing requires specific MX records. In the DNS section of your is-cool-me zone, add the MX records provided by Cloudflare (typically <code>route1.mx.cloudflare.net</code>, <code>route2.mx.cloudflare.net</code>). Set the priority to 10 and 20 respectively.",
       },
       {
         title: "Add SPF Record to Prevent Spoofing",
@@ -668,7 +668,7 @@ export const TUTORIAL_TOPICS = [
   },
   {
     slug: "connect-domain-to-webflow-website",
-    title: "Connect Your is-pro.dev Subdomain to a Webflow Site",
+    title: "Connect Your is-cool-me Subdomain to a Webflow Site",
     category: "Tutorial",
     difficulty: "Beginner",
     summary:
@@ -676,8 +676,8 @@ export const TUTORIAL_TOPICS = [
     keywords: ["webflow", "cms", "website builder", "tutorial", "dns"],
     whatYouNeed: [
       "A Webflow account (free tier works) with a published site",
-      "An is-pro.dev subdomain (free at dash.is-pro.dev)",
-      "Access to the is-pro.dev DNS dashboard (Cloudflare-powered)",
+      "An is-cool-me subdomain (free at dash.is-pro.dev)",
+      "Access to the is-cool-me DNS dashboard (Cloudflare-powered)",
       "10 minutes of free time",
     ],
     steps: [
@@ -689,12 +689,12 @@ export const TUTORIAL_TOPICS = [
       {
         title: "Add Your Subdomain in Webflow",
         content:
-          'Go to your Webflow project settings, click the "Publishing" tab, and scroll to "Custom Domains". Click "Add Custom Domain" and enter your is-pro.dev subdomain (e.g., <code>mysite.is-pro.dev</code>). Webflow will display a DNS target — either a CNAME or A record values.',
+          'Go to your Webflow project settings, click the "Publishing" tab, and scroll to "Custom Domains". Click "Add Custom Domain" and enter your is-cool-me subdomain (e.g., <code>mysite.is-pro.dev</code>). Webflow will display a DNS target — either a CNAME or A record values.',
       },
       {
-        title: "Configure DNS in the is-pro.dev Dashboard",
+        title: "Configure DNS in the is-cool-me Dashboard",
         content:
-          "In your is-pro.dev DNS dashboard, add a CNAME record pointing to Webflow's target domain (e.g., <code>proxy-ssl.webflow.com</code>). If Webflow provides A records instead, add those pointing to Webflow's IP addresses. Set proxying to DNS-only (gray cloud) for Webflow compatibility.",
+          "In your is-cool-me DNS dashboard, add a CNAME record pointing to Webflow's target domain (e.g., <code>proxy-ssl.webflow.com</code>). If Webflow provides A records instead, add those pointing to Webflow's IP addresses. Set proxying to DNS-only (gray cloud) for Webflow compatibility.",
       },
       {
         title: "Enable SSL in Webflow",
@@ -716,7 +716,7 @@ export const TUTORIAL_TOPICS = [
       {
         title: "Site not loading on custom domain",
         content:
-          "Verify the DNS record is saving correctly and pointing to Webflow's target. Use the DNS Checker tool on is-pro.dev to confirm the record resolves.",
+          "Verify the DNS record is saving correctly and pointing to Webflow's target. Use the DNS Checker tool on is-cool-me to confirm the record resolves.",
       },
       {
         title: "Mixed content warnings",
@@ -731,12 +731,12 @@ export const TUTORIAL_TOPICS = [
     category: "Tutorial",
     difficulty: "Intermediate",
     summary:
-      "Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website.",
+      "Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-cool-me subdomain, and embed them on your main website.",
     keywords: ["discord", "widgets", "embeds", "tutorial", "github pages"],
     whatYouNeed: [
       "A Discord server with widget settings configured",
       "A GitHub account for hosting the widget page",
-      "An is-pro.dev subdomain (free at dash.is-pro.dev)",
+      "An is-cool-me subdomain (free at dash.is-pro.dev)",
       "Basic HTML/CSS knowledge",
       "15-20 minutes of free time",
     ],
@@ -757,9 +757,9 @@ export const TUTORIAL_TOPICS = [
           'Push the HTML page to a GitHub repository. Go to the repository "Settings &rarr; Pages" and enable GitHub Pages from the <code>main</code> branch. Your widget page will be live at <code>https://{username}.github.io/{repository}/</code>. Verify it loads and displays Discord data correctly.',
       },
       {
-        title: "Connect Your is-pro.dev Subdomain",
+        title: "Connect Your is-cool-me Subdomain",
         content:
-          "In your is-pro.dev DNS dashboard, create a CNAME record pointing your subdomain (e.g., <code>discord.yourname.is-pro.dev</code>) to <code>{username}.github.io</code>. GitHub Pages will recognize the custom domain and provision a Let's Encrypt certificate automatically.",
+          "In your is-cool-me DNS dashboard, create a CNAME record pointing your subdomain (e.g., <code>discord.yourname.is-pro.dev</code>) to <code>{username}.github.io</code>. GitHub Pages will recognize the custom domain and provision a Let's Encrypt certificate automatically.",
       },
       {
         title: "Verify and Embed",
@@ -776,7 +776,7 @@ export const TUTORIAL_TOPICS = [
       {
         title: "GitHub Pages not serving custom domain",
         content:
-          "Add your is-pro.dev subdomain to the GitHub Pages custom domain field in the repository settings. Also ensure your DNS CNAME record has the trailing dot (<code>{username}.github.io.</code>).",
+          "Add your is-cool-me subdomain to the GitHub Pages custom domain field in the repository settings. Also ensure your DNS CNAME record has the trailing dot (<code>{username}.github.io.</code>).",
       },
       {
         title: "Widget data not updating",
@@ -1098,7 +1098,7 @@ export const COMPARE_TOPICS = [
     chooseWhen: [
       {
         platform: "Cloudflare DNS",
-        text: "Choose Cloudflare DNS if you want the fastest propagation, DDoS protection, free SSL certificates, email forwarding, and DNS analytics — all for free. Cloudflare is the best choice for most developers hosting projects on is-pro.dev subdomains.",
+        text: "Choose Cloudflare DNS if you want the fastest propagation, DDoS protection, free SSL certificates, email forwarding, and DNS analytics — all for free. Cloudflare is the best choice for most developers hosting projects on is-cool-me subdomains.",
       },
       {
         platform: "Namecheap DNS",
@@ -1109,13 +1109,13 @@ export const COMPARE_TOPICS = [
   {
     slug: "free-domain-providers-compared",
     title:
-      "Free Domain Providers Compared: Freenom, is-pro.dev, and Alternatives",
+      "Free Domain Providers Compared: Freenom, is-cool-me, and Alternatives",
     category: "Comparison",
     summary:
-      "Review the free subdomain landscape — Freenom, is-pro.dev, and alternatives — comparing reliability, DNS features, SSL support, longevity, and hidden restrictions.",
+      "Review the free subdomain landscape — Freenom, is-cool-me, and alternatives — comparing reliability, DNS features, SSL support, longevity, and hidden restrictions.",
     keywords: ["free domain", "freenom", "comparison", "subdomain", "dns"],
     platforms: [
-      "is-pro.dev",
+      "is-cool-me",
       "Freenom",
       "Duck DNS",
       "afraid.org (FreeDNS)",
@@ -1205,8 +1205,8 @@ export const COMPARE_TOPICS = [
     ],
     chooseWhen: [
       {
-        platform: "is-pro.dev",
-        text: "Choose is-pro.dev if you need Cloudflare-powered DNS, free SSL, an easy dashboard, and a reliable subdomain for developer projects. Best for developers who want professional infrastructure without cost.",
+        platform: "is-cool-me",
+        text: "Choose is-cool-me if you need Cloudflare-powered DNS, free SSL, an easy dashboard, and a reliable subdomain for developer projects. Best for developers who want professional infrastructure without cost.",
       },
       {
         platform: "Freenom",
@@ -1468,7 +1468,7 @@ export const SHOWCASE_TOPICS = [
     category: "portfolio",
     title: "Developer Portfolios",
     description:
-      "Personal websites and developer portfolios hosted on is-pro.dev subdomains",
+      "Personal websites and developer portfolios hosted on is-cool-me subdomains",
     icon: "👨‍💻",
   },
   {

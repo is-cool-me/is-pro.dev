@@ -308,7 +308,7 @@
                 <h2>Requirements</h2>
                 <ul>
                   <li>
-                    An is-pro.dev subdomain currently pointing to an API
+                    An is-cool-me subdomain currently pointing to an API
                     endpoint
                   </li>
                   <li>
@@ -365,7 +365,7 @@
                 <div class="callout">
                   <p>
                     <strong>Important:</strong> This guide assumes you already
-                    have an API subdomain configured on is-pro.dev that is
+                    have an API subdomain configured on is-cool-me that is
                     serving live traffic. If you are setting up a brand new API
                     subdomain for the first time, the process is simpler — you
                     can skip the pre-reduced TTL step because there is no
@@ -474,7 +474,7 @@
                     (<code>api.yourname.is-pro.dev</code>) to their dashboard
                     before they will accept traffic for it. This step typically
                     involves adding a CNAME record or a verification TXT record
-                    — but on is-pro.dev, you already own the domain, so the new
+                    — but on is-cool-me, you already own the domain, so the new
                     provider will ask you to verify ownership via a TXT record
                     or by creating a CNAME. Complete this step so the provider's
                     edge servers recognise the domain when traffic starts
@@ -685,7 +685,7 @@ dig @1.1.1.1 api.yourname.is-pro.dev A +short
 # Expected: same as above
 
 # Find the authoritative nameserver for the zone
-dig NS is-pro.dev +short
+dig NS is-cool-me +short
 
 # Check one authoritative nameserver directly (bypasses caches)
 dig @&lt;authoritative-ns&gt; api.yourname.is-pro.dev A +short
@@ -722,7 +722,7 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
                 <p>
                   <strong>Fix:</strong> Check an authoritative nameserver to
                   confirm the new record is live:
-                  <code>dig NS is-pro.dev +short</code> then
+                  <code>dig NS is-cool-me +short</code> then
                   <code
                     >dig @&lt;authoritative-ns&gt; api.yourname.is-pro.dev A
                     +short</code
@@ -882,7 +882,7 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
                     have an API gateway (Kong, Tyk, AWS API Gateway) or reverse
                     proxy (Nginx, Envoy) in front of your backend, the DNS
                     change may need to be made at the gateway level rather than
-                    at the is-pro.dev DNS level. In this architecture, the
+                    at the is-cool-me DNS level. In this architecture, the
                     gateway resolves the backend hostname internally, so you
                     would change the backend DNS (or the gateway's upstream
                     configuration) rather than the public-facing DNS.
@@ -967,11 +967,11 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
                   Weighted records (sometimes called traffic steering or split
                   horizon DNS) allow you to send a percentage of queries to one
                   target and the remainder to another. This is useful for
-                  gradual rollouts. On is-pro.dev, weighted records are not
+                  gradual rollouts. On is-cool-me, weighted records are not
                   natively supported in the dashboard, but you can achieve a
                   similar effect by running your own authoritative DNS
                   infrastructure or by using a DNS load-balancing service in
-                  front of is-pro.dev. For most users, the simpler approach of
+                  front of is-cool-me. For most users, the simpler approach of
                   pre-reduced TTL followed by a single cutover is sufficient and
                   less error-prone.
                 </p>
@@ -1039,7 +1039,7 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
                   The apex (bare domain) cannot use a CNAME record. If your API
                   is served from the apex, you must use an A or AAAA record
                   (pointing to an IP address) or an ALIAS/ANAME record if your
-                  DNS provider supports it (is-pro.dev does support synthetic
+                  DNS provider supports it (is-cool-me does support synthetic
                   ANAME records at the apex). The migration steps are the same,
                   but instead of editing a CNAME value, you change the A record
                   to the new IP. Note that some hosting providers do not support
@@ -1121,7 +1121,7 @@ watch -n 60 "curl -s -o /dev/null -w '%{http_code}' https://api.yourname.is-pro.
                   Remember to always have a rollback plan, communicate with your
                   API consumers about the migration window, and keep your
                   observability tooling active for at least 24 hours after the
-                  cutover. The is-pro.dev
+                  cutover. The is-cool-me
                   <a href="https://discord.gg/N8YzrkJxYy" class="inline-link"
                     >Discord community</a
                   >

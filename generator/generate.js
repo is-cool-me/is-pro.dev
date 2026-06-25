@@ -78,7 +78,7 @@ function formatTitle(slug) {
 function fallbackExcerpt(slug) {
   const title = formatTitle(slug);
   const lowerTitle = title.charAt(0).toLowerCase() + title.slice(1);
-  return `A practical guide to ${lowerTitle}. Learn how to configure DNS, set up SSL, and deploy your project on a free is-pro.dev subdomain.`;
+  return `A practical guide to ${lowerTitle}. Learn how to configure DNS, set up SSL, and deploy your project on a free is-cool-me subdomain.`;
 }
 
 import {
@@ -405,38 +405,22 @@ function buildGuideContent(topic, aiContent) {
     `<h2>Introduction</h2>
 <p>${topic.summary}</p>
 <h2>Prerequisites</h2>
-<ul><li>A GitHub account</li><li>An is-pro.dev subdomain registered at dash.is-pro.dev</li><li>Basic familiarity with DNS records</li></ul>
+<ul><li>A GitHub account</li><li>An is-cool-me subdomain registered at dash.is-pro.dev</li><li>Basic familiarity with DNS records</li></ul>
 <h2>Step 1: Configure Your Subdomain</h2>
 <p>Register your free subdomain at dash.is-pro.dev. Once registered, navigate to the DNS management section to configure the records needed for your project. Cloudflare handles the underlying DNS infrastructure, so propagation is typically instant.</p>
 <h2>Step 2: Set Up DNS Records</h2>
 <p>Depending on your hosting provider, you will need to add appropriate DNS records. Common setups include CNAME records for platforms like GitHub Pages, Vercel, or Netlify, or A records for VPS deployments.</p>
 <h2>Step 3: Enable SSL</h2>
-<p>All is-pro.dev subdomains come with free SSL through Cloudflare. Make sure your DNS is configured correctly and allow a few minutes for the certificate to provision automatically.</p>
+<p>All is-cool-me subdomains come with free SSL through Cloudflare. Make sure your DNS is configured correctly and allow a few minutes for the certificate to provision automatically.</p>
 <h2>Step 4: Verify Your Setup</h2>
 <p>Visit your subdomain in a browser to confirm everything is working. Check for the padlock icon indicating a valid SSL certificate.</p>
 <h2>Best Practices</h2>
 <ul><li>Always use HTTPS in production</li><li>Monitor your DNS configuration regularly</li><li>Keep your subdomain registration active</li><li>Use descriptive subdomain names for better SEO</li></ul>
 <h2>Conclusion</h2>
-<p>Following these steps, you should now have your project live on a custom is-pro.dev subdomain with free hosting, DNS management, and SSL security.</p>`;
-
-  const faqs = [
-    {
-      q: `Is ${topic.category} setup free on is-pro.dev?`,
-      a: "Yes, all subdomains on is-pro.dev include free DNS management and SSL certificates.",
-    },
-    {
-      q: "How long does DNS take to propagate?",
-      a: "Cloudflare typically propagates DNS changes within seconds to a few minutes globally.",
-    },
-    {
-      q: "Can I use this for commercial projects?",
-      a: "Yes, is-pro.dev subdomains can be used for personal and commercial projects within our fair use policy.",
-    },
-  ];
+<p>Following these steps, you should now have your project live on a custom is-cool-me subdomain with free hosting, DNS management, and SSL security.</p>`;
 
   return {
     content,
-    faqs,
     breadcrumbs: [
       { name: "Home", href: BASE_URL + "/" },
       { name: "Guides", href: BASE_URL + "/guides/" },
@@ -450,7 +434,7 @@ async function generateGuide(topic) {
   console.log(`  Generating guide: ${topic.slug}`);
   const prompt = `Write a comprehensive, in-depth technical guide (2000-2500 words) about: "${topic.title}".
 Keywords: ${topic.keywords.join(", ")}
-Target audience: Developers setting up projects on is-pro.dev subdomains.
+Target audience: Developers setting up projects on is-cool-me subdomains.
 Style: Technical but accessible, with practical steps, code examples where relevant, real-world context, and detailed explanations.
 Structure: H2 headings for each section, include an intro with context/motivation, prerequisites, detailed step-by-step instructions, common pitfalls with solutions, best practices, performance considerations, troubleshooting section, and a conclusion with next steps.
 Include a FAQ section at the end with 4-5 questions covering edge cases.
@@ -500,7 +484,6 @@ Generate ONLY the article body content, no metadata, no JSON.`;
       difficulty: topic.difficulty,
       summary: topic.summary,
       content: content.replace(/^/gm, "          "),
-      faqs,
       breadcrumbs,
     }) +
     internalLinksHTML(INTERNAL_LINK_SECTIONS);
@@ -542,19 +525,19 @@ Generate ONLY the article body content, no metadata.`;
 <p>Developers face a common challenge when building projects: where to host without spending money on domain registration. For side projects, MVPs, and experiments, every dollar counts. This is where free subdomain providers fill a critical gap in the ecosystem.</p>
 <h2>Key Insights</h2>
 <p>Understanding how DNS works at a practical level changes how you think about deploying projects. It is not just about pointing a domain to an IP address — it is about building reliable infrastructure that scales with your needs.</p>
-<p>When you register a subdomain on is-pro.dev, you get access to Cloudflares global DNS network, free SSL certificates, and a dashboard to manage all your records in one place. This combination would cost hundreds of dollars annually with traditional registrars.</p>
+<p>When you register a subdomain on is-cool-me, you get access to Cloudflares global DNS network, free SSL certificates, and a dashboard to manage all your records in one place. This combination would cost hundreds of dollars annually with traditional registrars.</p>
 <h2>Practical Takeaways</h2>
 <ul><li>Start with free infrastructure and upgrade only when you have revenue</li><li>Use subdomains strategically to separate concerns in your project portfolio</li><li>Always configure SSL from day one — it is free and takes 2 minutes</li></ul>
 <h2>Conclusion</h2>
-<p>The tools available to developers today are remarkably powerful and often free. The key is knowing how to piece them together effectively. Free subdomain providers like is-pro.dev are part of that toolkit.</p>`;
+<p>The tools available to developers today are remarkably powerful and often free. The key is knowing how to piece them together effectively. Free subdomain providers like is-cool-me are part of that toolkit.</p>`;
 
   const faqs = [
     {
-      q: "Is is-pro.dev really free to use?",
-      a: "Yes, is-pro.dev provides free subdomains for developers with no hidden fees.",
+      q: "Is is-cool-me really free to use?",
+      a: "Yes, is-cool-me provides free subdomains for developers with no hidden fees.",
     },
     {
-      q: "What can I host on an is-pro.dev subdomain?",
+      q: "What can I host on an is-cool-me subdomain?",
       a: "Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.",
     },
   ];
@@ -849,7 +832,7 @@ ${topic.chooseWhen.map((c) => `<p><strong>Choose ${c.platform}</strong> if ${c.t
 
   const conclusion = topic.platforms
     ? `<h2>Conclusion</h2>
-<p>${topic.platforms.length > 2 ? "All of these platforms" : `Both ${topic.platforms.join(" and ")}`} are excellent choices for hosting projects on is-pro.dev subdomains. The right choice depends on your specific needs — review the table above and pick the platform that aligns best with your project requirements and skill set.</p>`
+<p>${topic.platforms.length > 2 ? "All of these platforms" : `Both ${topic.platforms.join(" and ")}`} are excellent choices for hosting projects on is-cool-me subdomains. The right choice depends on your specific needs — review the table above and pick the platform that aligns best with your project requirements and skill set.</p>`
     : "";
 
   return [intro, keyDifferences, table, chooseWhen, conclusion]
@@ -882,7 +865,7 @@ async function generateShowcaseIndex(domains) {
   const headHtml = htmlHead({
     title: "Developer Showcase — is-cool-me",
     description:
-      "Discover amazing projects built by the is-cool-me community. Browse portfolios, apps, tools, and more — all hosted on free is-pro.dev subdomains.",
+      "Discover amazing projects built by the is-cool-me community. Browse portfolios, apps, tools, and more — all hosted on free is-cool-me subdomains.",
     canonical: `${BASE_URL}/showcase/`,
   });
 
@@ -894,7 +877,7 @@ async function generateShowcaseIndex(domains) {
       <div class="hero-inner text-center">
         <div class="hero-badge">Community</div>
         <h1>Developer Showcase</h1>
-        <p class="hero-subtitle">Discover ${domains.length > 0 ? domains.length + "+" : "amazing"} projects built by the is-cool-me community. From portfolios to SaaS tools, see what is possible with free is-pro.dev subdomains.</p>
+        <p class="hero-subtitle">Discover ${domains.length > 0 ? domains.length + "+" : "amazing"} projects built by the is-cool-me community. From portfolios to SaaS tools, see what is possible with free is-cool-me subdomains.</p>
         <div class="hero-actions" style="justify-content:center;gap:1rem;margin-top:2rem;">
           <a href="https://dash.is-pro.dev" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">Submit Your Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
@@ -1108,14 +1091,25 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
   const s = showcaseData || {};
   const host = `${domain.subdomain}.${domain.zone}`;
   const projectTitle = s.title || host;
-  const description = s.description || `Explore ${host} — a developer project hosted on is-pro.dev.`;
-  const longDescription = s.long_description || "";
+  const description = s.description || `Explore ${host} — a developer project hosted on is-cool-me.`;
+  let longDescription = s.long_description || s.ai_summary || "";
   const technologies = Array.isArray(s.technologies) ? s.technologies : [];
   const tags = Array.isArray(s.tags) ? s.tags : [];
-  const features = Array.isArray(s.features) ? s.features : [];
+  let features = Array.isArray(s.features) ? s.features : [];
   const githubUrl = s.github_url || "";
   const category = s.category || "";
   const screenshotPath = `/showcase/screenshots/${domain.subdomain}.${domain.zone}.jpg`;
+
+  if (isAiEnabled() && !longDescription && (s.title || s.description)) {
+    const prompt = `Write 2-3 sentences describing the project "${projectTitle}". ${description ? `Context: ${description}` : ""} ${technologies.length ? `Tech: ${technologies.join(", ")}` : ""} ${tags.length ? `Tags: ${tags.join(", ")}` : ""}. Focus on what it does and why it matters. Use plain text.`;
+    const systemPrompt = "You write concise developer project descriptions.";
+    const aiContent = await generateContent(prompt, systemPrompt, 500);
+    if (aiContent) longDescription = aiContent;
+  }
+
+  if (features.length === 0 && technologies.length > 0) {
+    features = technologies.map(t => `Built with ${t}`);
+  }
 
   const tagHtml = tags.length > 0
     ? `<div style="margin-top:1.5rem;"><h2 style="font-size:1.25rem;margin-bottom:1rem;">Tags</h2><div style="display:flex;gap:.35rem;flex-wrap:wrap;">${tags.map(t => `<span style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:.2rem .65rem;font-size:.8rem;">${escHtml(t)}</span>`).join("")}</div></div>`
@@ -1343,7 +1337,7 @@ function generateTutorialsPage() {
   const headHtml = htmlHead({
     title: "Tutorials — is-cool-me",
     description:
-      "Step-by-step tutorials for deploying projects, configuring DNS, and building on is-pro.dev subdomains.",
+      "Step-by-step tutorials for deploying projects, configuring DNS, and building on is-cool-me subdomains.",
     canonical: `${BASE_URL}/tutorials/`,
   });
 
@@ -1841,6 +1835,7 @@ async function main() {
           const projectHtml = await generateShowcaseProjectPage(domain, showcaseData);
           writePage(join(OUT_DIR, "showcase", slug, "index.html"), projectHtml);
           console.log(`  ✅ showcase/${slug}${showcaseData ? " ✨" : ""}`);
+          await delay(500);
         } catch (err) {
           console.error(`  ❌ showcase/${domain.subdomain}:`, err.message);
         }

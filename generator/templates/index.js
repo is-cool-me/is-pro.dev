@@ -333,7 +333,6 @@ function guideContentHTML({
   difficulty,
   summary,
   content,
-  faqs,
   breadcrumbs,
 }) {
   const difficultyColors = {
@@ -348,15 +347,6 @@ function guideContentHTML({
     ? difficultyColors[difficulty] || difficultyColors.Beginner
     : difficultyColors.Beginner;
   const diffLabel = difficulty || "Beginner";
-
-  let faqHTML = "";
-  if (faqs && faqs.length > 0) {
-    faqHTML =
-      "<h2>FAQ</h2>" +
-      faqs
-        .map(({ q, a }) => `<p><strong>${q}</strong></p>\n<p>${a}</p>`)
-        .join("\n");
-  }
 
   const articleContent = `<article>
   <header class="article-hero">
@@ -398,7 +388,6 @@ function guideContentHTML({
       <div class="article-layout-inner">
         <div class="article-content prose">
 ${content}
-${faqHTML}
         </div>
       </div>
     </div>
@@ -407,6 +396,8 @@ ${faqHTML}
 
   return articleContent;
 }
+
+function
 
 function blogPostContentHTML({
   title,

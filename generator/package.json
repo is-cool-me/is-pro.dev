@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "better-sqlite3": "^9.4.3",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "playwright": "^1.61.1"
   }
 }

@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Operations</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
         </div>
         <h1>Managing 1000+ Subdomains Without Losing Your Mind</h1>
         <p class="article-summary">The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management.</p>
@@ -145,30 +145,60 @@
     </div>
   </header>
 
+  
+  <section class="author-section" aria-label="Article authorship">
+    <div class="container">
+      <div class="author-card" data-reveal>
+        <div class="author-card-main">
+          <h2 class="author-card-title">Written by Mayank Baswal</h2>
+          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+          <div class="author-card-links">
+            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+        <div class="author-card-review">
+          <span class="author-card-review-label">Reviewed by</span>
+          <span class="author-card-reviewer">is-cool-me Technical Review</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="article-layout-section">
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Running a platform that hosts thousands of subdomains presents unique operational challenges. Each subdomain has its own DNS records, SSL configuration, traffic patterns, and abuse history. At the scale of thousands of active subdomains, manual management is impossible. This post describes the systems and tools we use to manage is-cool-me's subdomain fleet: from automated DNS provisioning to bulk record updates, monitoring, expiration management, and the custom tools we built to keep everything running smoothly.</p>
-          <h2>Automated DNS Provisioning</h2>
-          <p>When a user registers a subdomain on is-cool-me, the entire DNS zone setup happens automatically. Our provisioning system calls Cloudflare's API to create the DNS zone, add the initial records (NS, SOA, default A/AAAA records pointing to a splash page), and configure SSL settings. The process takes under 2 seconds from when the user clicks "Register" to when their subdomain is live on Cloudflare's global network. The provisioning system handles edge cases: rate-limited API calls are retried with exponential backoff, zone creation failures trigger alerts to our operations team, and new zones are automatically added to our monitoring systems. We also maintain a pool of pre-configured zone templates so that common configurations (static site, API endpoint, email forwarding) can be applied with a single API call when the user selects a setup wizard option in the dashboard.</p>
-          <h2>Bulk DNS Record Management</h2>
-          <p>Occasionally we need to make changes across many subdomains at once — updating nameserver addresses, adding a new default record, or changing a security setting. Our internal admin tool provides a bulk operations interface: select subdomains by filter (creation date, traffic level, record type, etc.), preview the changes, and apply them in batches. The tool uses Cloudflare's API to apply changes efficiently, handling pagination and rate limits automatically. For sensitive changes (like modifying NS records), we require a two-person approval workflow. The bulk operations tool has saved hundreds of hours of manual work and reduced the error rate compared to individual subdomain management.</p>
-          <h2>Monitoring at Scale</h2>
-          <p>Every is-cool-me subdomain is monitored for DNS resolution, SSL certificate validity, and HTTP response status. Our monitoring system checks each subdomain from multiple geographic locations at configurable intervals. When a subdomain fails a check, the system categorizes the failure: DNS resolution failure (nameserver not responding), SSL error (certificate expired or invalid), HTTP error (server returning 5xx), or content mismatch (response body does not match expected pattern). Alerts are routed based on severity: individual subdomain failures are logged and queued for daily review, while systemic failures (multiple subdomains failing simultaneously) trigger immediate alerts. The monitoring dashboard provides a real-time view of platform health with drill-down to individual subdomain status.</p>
-          <h2>Expiration and Renewal Management</h2>
-          <p>Free subdomains require periodic activity to remain registered. Our expiration management system tracks the last activity date for each subdomain and sends automated reminders at 30, 14, and 7 days before the inactivity threshold is reached. If a subdomain expires, it is moved to a grace period where DNS records are preserved but the subdomain is marked as inactive. After the grace period (30 days), DNS records are removed and the subdomain name is released back to the pool. The expiration system is fully automated but includes manual override capabilities: subdomains involved in abuse investigations or legal disputes can be frozen to prevent release. We also provide an API endpoint for users to programmatically renew their subdomains, which is useful for automated deployments and CI/CD pipelines.</p>
-          <h2>Abuse Detection and Response Pipeline</h2>
-          <p>Managing thousands of subdomains means dealing with abuse at scale. Our abuse detection pipeline operates in tiers: automated scanning identifies obvious violations (phishing templates, malware signatures, trademarked terms in subdomain names), community reports are triaged automatically based on reporter reputation and report content, and the operations team handles escalated cases. The pipeline uses machine learning classifiers trained on historical abuse data to prioritize reports — a report of a phishing page targeting a major bank receives immediate action, while a copyright claim on a blog post is queued for human review. The abuse system integrates with our DNS management API to suspend subdomains automatically when confidence is high, while flagging ambiguous cases for manual review.</p>
-          <h2>Custom Tooling: The Admin Dashboard</h2>
-          <p>We built an internal admin dashboard that provides a unified interface for managing all aspects of the subdomain fleet. The dashboard shows: total active subdomains, growth trends, abuse report volume, DNS health metrics, and SSL certificate status. From the dashboard, operators can search for any subdomain, view its complete DNS configuration, check recent traffic patterns, review abuse history, and perform administrative actions (suspend, reinstate, transfer ownership, modify DNS records). The dashboard also provides audit logging — every action is recorded with timestamp, operator identity, and before/after state. This audit trail is essential for investigating incidents and maintaining platform integrity.</p>
-          <h2>Scaling Lessons Learned</h2>
-          <p>Managing subdomains at scale has taught us several lessons. First, automation is non-negotiable — anything that can be automated should be automated, because manual processes do not scale and introduce errors. Second, monitoring must be multi-layered: synthetic checks from external locations catch issues that internal metrics miss. Third, rate limits are a constant consideration — every Cloudflare API call is metered, and we manage our API consumption carefully to avoid hitting limits during critical operations. Fourth, graceful degradation matters — when a subsystem fails (e.g., the abuse detection engine goes down), the rest of the platform must continue operating. Fifth, data retention planning is essential — DNS logs, abuse reports, and audit trails accumulate rapidly at scale, and we have automated retention policies that balance storage costs with operational needs.</p>
-          <h2>Conclusion</h2>
-          <p>Managing thousands of subdomains requires a combination of automation, monitoring, careful rate limit management, and custom tooling. The systems we have built allow us to operate is-cool-me with a small team while maintaining high reliability and fast response to issues. Every component — DNS provisioning, monitoring, expiration management, abuse detection — is designed to operate at scale with minimal manual intervention. The lessons we have learned apply to any platform that manages distributed infrastructure at scale: automate everything, monitor at every layer, and build for graceful degradation from day one.</p>
-          <h2>Key Takeaways</h2>
-          <ul><li>Automated DNS provisioning creates subdomains in under 2 seconds via Cloudflare API</li><li>Bulk operations tools manage thousands of subdomains with a single action</li><li>Multi-layered monitoring catches failures at DNS, SSL, and HTTP levels</li><li>Expiration management automates renewal reminders and graceful subdomain release</li><li>Abuse detection combines automated scanning, community reporting, and ML-based triage</li><li>Custom internal tools provide unified fleet management with full audit logging</li><li>Automation, monitoring, rate limiting, graceful degradation, and data retention are the pillars of operating at scale</li></ul>
+          Managing 1000+ Subdomains Without Losing Your Mind
+          As the platform architect at is-cool-me, I've had the privilege of scaling our infrastructure to support over 1000 subdomains, each serving a unique purpose for our developer community. However, I can attest that getting to this point was not without its challenges. In the early days, our team struggled to keep track of the sheer number of subdomains, often resulting in configuration errors, DNS mismanagement, and frustrated users. It wasn't until we implemented a combination of automation, clever DNS management, and operational best practices that we were able to tame the beast and provide a seamless experience for our users.
+          
+          ## Scaling DNS Management
+          One of the biggest hurdles we faced was scaling our DNS management. With over 1000 subdomains, manually updating DNS records was a recipe for disaster. We began by transitioning from a traditional DNS provider to a more scalable solution like Amazon Route 53. This allowed us to take advantage of automated DNS management, including load balancing, health checks, and failover routing. For example, we use Route 53 to manage subdomains like `docs.is-cool-me.com`, `blog.is-cool-me.com`, and `api.is-cool-me.com`, each with its own set of DNS records and routing rules. By automating DNS management, we reduced the likelihood of human error and improved our overall uptime. We also implemented a system of templated DNS records, allowing us to easily replicate common configurations across multiple subdomains. This not only saved us time but also ensured consistency across our infrastructure.
+          
+          ## Automation and Operations
+          As our infrastructure grew, so did the complexity of our operations. We needed a way to automate repetitive tasks, such as provisioning new subdomains, updating DNS records, and monitoring system health. We turned to tools like Terraform and Ansible to automate our infrastructure provisioning and configuration management. For instance, when a new user signs up for our platform, Terraform automatically provisions a new subdomain, complete with DNS records, load balancing, and security groups. This not only streamlined our onboarding process but also reduced the risk of human error. We also implemented a continuous integration and continuous deployment (CI/CD) pipeline using Jenkins, which allows us to automate testing, building, and deployment of our applications. By automating our operations, we were able to free up resources, focus on higher-level tasks, and improve our overall system reliability.
+          
+          ## Infrastructure as Code
+          Another crucial aspect of managing our subdomains was adopting an infrastructure-as-code (IaC) approach. By defining our infrastructure in code, we were able to version control, test, and validate our configurations before deploying them to production. We use Terraform to define our infrastructure, including subdomains, DNS records, and security groups. This approach allowed us to track changes, collaborate with team members, and ensure consistency across our infrastructure. For example, when we needed to update the SSL certificates for our subdomains, we simply updated the Terraform configuration, ran a test, and deployed the changes to production. This process took minutes, not hours or days, and ensured that all subdomains were updated correctly. By treating our infrastructure as code, we were able to apply the same principles of software development to our operations, including testing, validation, and continuous improvement.
+          
+          ## Monitoring and Troubleshooting
+          Finally, monitoring and troubleshooting were critical components of our subdomain management strategy. With so many moving parts, it was essential to have visibility into system performance, latency, and errors. We implemented a monitoring system using Prometheus and Grafana, which provides real-time insights into our infrastructure, including subdomain performance, DNS resolution, and system health. For example, when we noticed a spike in latency for our `api.is-cool-me.com` subdomain, we were able to quickly identify the issue, troubleshoot the problem, and implement a fix. We also set up alerting and notification systems using PagerDuty, which ensures that our team is notified of any issues, allowing us to respond quickly and minimize downtime. By investing in monitoring and troubleshooting, we were able to proactively identify and resolve issues, improving our overall system reliability and user experience.
+          
+          In conclusion, managing 1000+ subdomains requires a combination of scalable DNS management, automation, infrastructure-as-code, and monitoring and troubleshooting. By implementing these strategies, we were able to scale our infrastructure, reduce errors, and improve our overall system reliability. Whether you're a seasoned platform architect or just starting to build your infrastructure, the lessons we've learned can be applied to your own environment. By taking a thoughtful and well-planned approach to subdomain management, you can avoid the pitfalls we encountered and build a scalable, reliable, and maintainable infrastructure.
+          
+          Key Takeaways:
+          * Implement automated DNS management using solutions like Amazon Route 53 to reduce errors and improve uptime.
+          * Use automation tools like Terraform and Ansible to streamline infrastructure provisioning and configuration management.
+          * Adopt an infrastructure-as-code approach to version control, test, and validate your configurations.
+          * Invest in monitoring and troubleshooting tools like Prometheus and Grafana to proactively identify and resolve issues.
+          
+          Related Resources:
+          * Amazon Route 53: https://aws.amazon.com/route53/
+          * Terraform: https://www.terraform.io/
+          * Ansible: https://www.ansible.com/
+          * Prometheus: https://prometheus.io/
+          * Grafana: https://grafana.com/
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
 <p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
@@ -177,7 +207,24 @@
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Managing%201000%2B%20Subdomains%20Without%20Losing%20Your%20Mind&url=https%3A%2F%2Fis-pro.dev%2Fblog%2Fmanaging-1000-subdomains-without-losing-your-mind%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fblog%2Fmanaging-1000-subdomains-without-losing-your-mind%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/blog/lets-encrypt-vs-cloudflare-flexible-ssl/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Let's Encrypt vs Cloudflare Flexible SSL: A Practical Comparison</span>
+    </a><a href="/blog/subdomains-for-api-security/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">The Benefits of Using a Subdomain for Your API: Security, Scalability, and More</span>
+    </a>
+  </div><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

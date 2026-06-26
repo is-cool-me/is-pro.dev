@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">SEO</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
           <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
         </div>
         <h1>Redirect an Old Domain to Your New Subdomain Permanently</h1>
@@ -170,38 +170,109 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Moving a website from one domain to another is a common task — whether you are migrating from an old personal domain to a free is-cool-me subdomain, rebranding your project, or consolidating multiple domains. A 301 redirect tells browsers and search engines that the content has permanently moved to the new URL, preserving SEO rankings and ensuring visitors reach the right page. This guide covers setting up 301 redirects using Cloudflare Page Rules, Nginx configurations, and Netlify redirect files.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An old domain or subdomain that you want to redirect from</li><li>An is-cool-me subdomain that you want to redirect to (already configured with your site)</li><li>Access to the old domain's DNS settings (or Cloudflare dashboard if on is-cool-me)</li><li>A clear mapping of old URLs to new URLs (if restructuring content)</li></ul>
-          <h2>Step 1: Choose Your Redirect Method</h2>
-          <p>There are several ways to implement 301 redirects. Cloudflare Page Rules work if the old domain is on Cloudflare (which is-cool-me domains are). Nginx or Apache configuration works if you control the origin server. Netlify or Vercel redirects work if your site is hosted on those platforms. The simplest method is Cloudflare Page Rules — you can set up a redirect in minutes without touching server configuration. For most is-cool-me subdomain migrations, Cloudflare Page Rules are the recommended approach because they handle redirects at the edge, are free, and do not require server access.</p>
-          <h2>Step 2: Set Up Redirect with Cloudflare Page Rules</h2>
-          <p>Log into your Cloudflare dashboard and select the domain you are redirecting from. Navigate to "Rules &rarr; Page Rules". Click "Create Page Rule". Enter the old URL pattern using a wildcard: <code>oldname.is-pro.dev/*</code>. Under "Then the settings", choose "Forwarding URL" and select status code "301 - Permanent Redirect". In the destination URL, enter your new subdomain URL with a placeholder for the captured path: <code>https://newname.is-pro.dev/$1</code>. The <code>$1</code> captures everything matched by the <code>*</code> wildcard, preserving the full URL path. Click "Save and Deploy". The redirect activates immediately on Cloudflare's network. Test it by visiting <code>https://oldname.is-pro.dev/any-page</code> — it should redirect to <code>https://newname.is-pro.dev/any-page</code>.</p>
-          <h2>Step 3: Preserve SEO During Migration</h2>
-          <p>To maintain search engine rankings during a domain migration, follow these SEO best practices. First, ensure all old URLs return a 301 (permanent) redirect status, not 302 (temporary). Search engines treat 301s as a signal to transfer ranking signals to the new URL. Second, use the <code>$1</code> wildcard technique to preserve the URL path structure — changing URL structures can dilute SEO value. Third, update your sitemap.xml on the new domain to list all migrated content. Fourth, submit a change of address in Google Search Console: go to "Settings &rarr; Change of address" and enter your new subdomain. This explicitly tells Google that your site has moved. Fifth, notify any external sites that link to your old domain to update their links to the new URL.</p>
-          <h2>Step 4: Set Up Nginx-Level Redirect (Alternative Method)</h2>
-          <p>If you control the origin server for the old domain, you can configure redirects in Nginx. In the server block for the old domain, add: <code>server { listen 80; server_name oldname.is-pro.dev; return 301 https://newname.is-pro.dev$request_uri; }</code>. This captures the full request URI and appends it to the new domain. For HTTPS redirects, repeat with port 443 and include SSL configuration. The <code>$request_uri</code> Nginx variable includes the path and query string, ensuring complete URL preservation. Test with <code>curl -I https://oldname.is-pro.dev/old-page?param=value</code> and verify the <code>Location</code> header contains the full new URL.</p>
-          <h2>Step 5: Set Up Netlify Redirects (Hosting Platform Method)</h2>
-          <p>If your site is hosted on Netlify, create a <code>_redirects</code> file in the publish directory (no file extension). Add rules in the format: <code>https://oldname.is-pro.dev/* https://newname.is-pro.dev/:splat 301!</code>. The <code>!</code> makes this a forced redirect that overrides any conflicting rules. Alternatively, add redirects in <code>netlify.toml</code>: <code>[[redirects]] from = "https://oldname.is-pro.dev/*" to = "https://newname.is-pro.dev/:splat" status = 301 force = true</code>. Deploy the changes. Netlify applies redirects at the edge, so propagation is immediate. For Vercel, use a <code>vercel.json</code> file with redirects configuration: <code>{"redirects": [{"source": "/(.*)", "destination": "https://newname.is-pro.dev/$1", "permanent": true}]}</code>.</p>
-          <h2>Step 6: Verify the Migration</h2>
-          <p>After setting up redirects, thoroughly test every aspect of the migration. Visit multiple old URLs and confirm they redirect to the correct new URLs with a 301 status code. Use the HTTP Headers Checker tool on is-cool-me to verify the redirect chain. Check that query parameters are preserved in the redirect. Test that all site features work on the new domain — forms, login, API calls, and embedded content. Update any hardcoded URLs in your application code, database, or email templates. Monitor Google Search Console for crawl errors on the old domain. Set a reminder to check back in 30 days to confirm search rankings have transferred and the old domain is no longer being indexed.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Keep the old domain active and redirecting for at least 6-12 months after migration</li><li>Do not redirect all URLs to the homepage — preserve the URL structure to maintain SEO value for individual pages</li><li>Update internal links in your content to point to the new domain directly rather than relying on redirects</li><li>Monitor the old domain's redirect logs for unexpected traffic patterns that might indicate broken redirect rules</li></ul>
-          <h2>Conclusion</h2>
-          <p>Redirecting an old domain to your new is-cool-me subdomain is essential for preserving traffic, SEO rankings, and user experience during a migration. Cloudflare Page Rules offer the simplest implementation, while Nginx and Netlify configurations provide alternatives for server-level control. Whichever method you choose, proper 301 redirects with URL preservation ensure a smooth transition for both users and search engines.</p>
-          <h2>FAQ</h2>
-          <p><strong>How long should I keep the old domain active?</strong></p>
-          <p>Keep the redirect active for at least 6 months to a year. Search engines need time to transfer ranking signals, and users may have bookmarks pointing to the old URL.</p>
-          <p><strong>Can I redirect a subdomain that is not on Cloudflare?</strong></p>
-          <p>Yes, you can redirect from any domain using server configuration, HTML meta refresh, or JavaScript redirect. However, server-level 301 redirects are the most SEO-friendly method.</p>
-          <p><strong>Will a 301 redirect affect my search engine rankings?</strong></p>
-          <p>When implemented correctly with 301 status codes and matching URL paths, most SEO value transfers to the new domain. Rankings may fluctuate temporarily but should recover within 1-3 months.</p>
+          ## Introduction to Domain Migration
+          When setting up a new project on is-cool-me, such as `myproject.is-pro.dev`, you might find yourself in a situation where you need to redirect an old domain to your new subdomain permanently. This could be due to a rebranding effort, a change in project scope, or simply to consolidate your online presence. A permanent redirect, also known as a 301 redirect, is the most SEO-friendly way to redirect users and search engines to your new subdomain, preserving your search engine rankings and minimizing disruption to your visitors.
+          
+          ## Prerequisites for Domain Redirect
+          Before you begin the process of redirecting your old domain to your new subdomain, ensure you have the following:
+          - Ownership or control over the old domain (e.g., `oldproject.com`).
+          - A new subdomain set up on is-cool-me (e.g., `myproject.is-pro.dev`).
+          - Access to your domain registrar's control panel for the old domain.
+          - Basic understanding of DNS settings and HTTP redirects.
+          
+          ## Step-by-Step Redirect Setup
+          To permanently redirect `oldproject.com` to `myproject.is-pro.dev`, follow these steps:
+          1. **Log in to your domain registrar** for `oldproject.com` and navigate to the DNS management section.
+          2. **Create a new DNS record**. You will typically need to add a CNAME record that points to your is-cool-me subdomain. However, for a 301 redirect, you will actually be modifying or adding an A record or using a domain forwarding service provided by your registrar.
+          3. **Use Domain Forwarding**: Many registrars offer a domain forwarding service that allows you to redirect your domain to another URL. Look for this option in your DNS settings, and set the forwarding address to `http://myproject.is-pro.dev`. Ensure that the "Permanent (301)" option is selected if available.
+          4. **Alternatively, use DNS and HTTP Redirect**: If your registrar does not offer a straightforward domain forwarding option, you can set an A record to point to an IP address that you control (or use a third-party redirect service), and then configure your server to issue a 301 redirect to `myproject.is-pro.dev`. For example, if you're using an Apache server, you can add the following to your `.htaccess` file:
+          ```apache
+          Redirect 301 / http://myproject.is-pro.dev/
+          ```
+          5. **Verify the Redirect**: After setting up the redirect, visit `oldproject.com` in your web browser to ensure you are correctly redirected to `myproject.is-pro.dev`. Also, use tools like `curl` from the command line to verify the HTTP status code of the redirect:
+          ```bash
+          curl -I http://oldproject.com
+          ```
+          You should see a `301 Moved Permanently` status code in the response headers.
+          
+          ## Common Pitfalls and Solutions
+          - **Incorrect DNS Setup**: Double-check your DNS settings to ensure records are correctly pointing to your new subdomain or redirect service.
+          - **Temporary vs. Permanent Redirects**: Always use a 301 redirect for permanent changes to preserve SEO rankings.
+          - **Chain Redirects**: Avoid setting up a chain of redirects (e.g., `oldproject.com` -> `anotheroldproject.com` -> `myproject.is-pro.dev`). This can negatively impact SEO and user experience.
+          
+          ## Best Practices for Domain Migration
+          - **Plan Ahead**: Schedule your redirect during a period of low traffic to minimize disruption.
+          - **Test Thoroughly**: Verify that all parts of your site are correctly redirected, including subpages and resources.
+          - **Update Internal Links**: Once the redirect is in place, update all internal links on your site to point to the new subdomain to avoid redirect chains.
+          
+          ## Performance Considerations
+          - **Redirect Impact on Load Times**: While redirects are generally fast, having too many can increase page load times. Minimize the number of redirects in a chain.
+          - **Caching and Redirects**: Be aware that redirects can sometimes be cached by browsers and intermediaries, potentially causing issues if you need to change the redirect target.
+          
+          ## Troubleshooting Redirect Issues
+          - **Use Browser Developer Tools**: The Network tab in browser developer tools can help diagnose redirect issues by showing the redirect chain and response codes.
+          - **Check Server Logs**: Server logs can provide detailed information about redirects, including any errors that might occur during the redirect process.
+          - **Test from Different Locations**: Sometimes, DNS changes can take time to propagate globally. Test your redirect from different geographic locations to ensure it's working as expected worldwide.
+          
+          ## Conclusion and Next Steps
+          Redirecting an old domain to your new subdomain on is-cool-me is a straightforward process that, when done correctly, can help maintain your online presence and search engine rankings. After setting up your redirect, monitor your website's performance and analytics to ensure a smooth transition for your users. Remember to update any external links to your site and notify search engines of your domain change to expedite the update of their indexes.
+          
+          ## FAQ
+          1. **Q: Can I redirect a subdomain of my old domain to my new subdomain?**
+             A: Yes, you can redirect a subdomain (e.g., `blog.oldproject.com`) to your new subdomain (`myproject.is-pro.dev`) using the same methods described, by setting up a CNAME or A record for the subdomain.
+          2. **Q: How long does it take for a 301 redirect to be recognized by search engines?**
+             A: The time it takes for search engines to recognize and update their indexes based on a 301 redirect can vary, but it's typically within a few weeks to a couple of months.
+          3. **Q: Will a 301 redirect preserve my website's backlinks?**
+             A: Yes, a 301 redirect is the best way to preserve backlinks to your old domain. Search engines will transfer the link equity to the new URL.
+          4. **Q: Can I use a 301 redirect for HTTPS to HTTP or vice versa?**
+             A: Yes, but ensure that your target URL (in this case, `myproject.is-pro.dev`) is correctly set up for HTTPS if that's what you're redirecting to, to avoid security warnings.
+          5. **Q: How do I handle email addresses associated with my old domain?**
+             A: You will need to set up email forwarding or migrate your email service to your new domain to continue receiving emails sent to addresses at your old domain.
+          
+          ## Further Reading
+          - **Is-cool-me Documentation**: For specific details on setting up and managing your subdomain on is-cool-me.
+          - **Apache HTTP Server Documentation**: For detailed information on configuring redirects and other settings on an Apache server.
+          - **Google Search Console Help**: For guidance on managing domain changes and redirects in the context of Google search rankings.
+          - **Mozilla Developer Network (MDN)**: For comprehensive information on HTTP redirects, including 301 and other status codes.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Redirect%20an%20Old%20Domain%20to%20Your%20New%20Subdomain%20Permanently&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fredirect-old-domain-to-new%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fredirect-old-domain-to-new%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/monitoring-subdomain-health/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Set Up Uptime Monitoring for Your Subdomain Services</span>
+    </a><a href="/guides/custom-subdomain-setup-for-blog/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">A Step-by-Step Guide to Setting Up a Custom Subdomain for Your Blog</span>
+    </a>
+  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
+              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
+              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
+              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article>
+      </div>
+    </div>
+  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Bots</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Host a Discord Bot 24/7 on a Subdomain Endpoint</h1>
@@ -170,36 +170,140 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Discord bots have become essential tools for server management, entertainment, and community engagement. While the bot itself runs on your server or cloud platform, exposing its dashboard, webhook endpoints, or status page through a clean subdomain makes it accessible and professional. An is-cool-me subdomain gives your Discord bot a branded web presence with SSL, DNS management, and uptime monitoring — all for free. This guide covers hosting bot dashboards, webhook receivers, and status pages on your subdomain.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A Discord bot created in the Discord Developer Portal with a token</li><li>A hosting platform for your bot: a VPS, cloud server, or a free platform like Railway or Fly.io</li><li>An is-cool-me subdomain registered at dash.is-pro.dev</li><li>Basic knowledge of Node.js or Python for bot development</li></ul>
-          <h2>Step 1: Host Your Bot Dashboard on a Subdomain</h2>
-          <p>Many Discord bots have a web dashboard for configuration — slash command settings, moderation logs, role management, and analytics. Build your dashboard as a web application using React, Vue, or plain HTML/CSS. Host it on GitHub Pages, Vercel, or Cloudflare Pages. Connect your is-cool-me dashboard subdomain (e.g., <code>bot.yourname.is-pro.dev</code>) to the hosting platform using a CNAME record. The dashboard communicates with your bot via API endpoints exposed through the same subdomain or a dedicated API subdomain. Use OAuth2 with Discord to authenticate users on your dashboard — this allows users to log in with their Discord account and manage bot settings for servers they administer.</p>
-          <h2>Step 2: Set Up Webhook Endpoints</h2>
-          <p>Discord bots often need to receive webhooks from external services — GitHub, Twitter, payment processors, or monitoring tools. Create a webhook receiver endpoint on your bot server. Use Express.js for Node.js or Flask for Python to handle POST requests at a route like <code>/webhook/github</code>. Validate incoming webhooks using the provider's signature header to ensure requests are authentic. Your is-cool-me subdomain serves as the base URL for these webhooks. Configure your external services to send webhooks to <code>https://bot.yourname.is-pro.dev/webhook/github</code>. Make sure the DNS record for this subdomain is set to DNS-only (gray cloud) if your bot server uses a non-standard port, or use Cloudflare Tunnel for proxied connections.</p>
-          <h2>Step 3: Create a Bot Status Page</h2>
-          <p>A status page lets your users check if the bot is online, see recent incidents, and subscribe to notifications. Build a simple status page that pings your bot's API every 30 seconds and displays the result. Use green/yellow/red indicators for online, degraded, and offline states. Include a history of uptime checks and a subscribe form for email or Discord DM notifications. Host this status page on a separate is-cool-me subdomain like <code>status.yourname.is-pro.dev</code>. Use free uptime monitoring services like UptimeRobot or Better Stack to check your bot's API endpoint and trigger the status page update. This separate subdomain ensures your status page stays accessible even if the main bot dashboard goes down.</p>
-          <h2>Step 4: Configure SSL and DNS for Bot Services</h2>
-          <p>All bot web services should use HTTPS. Cloudflare provides free SSL certificates for proxied DNS records, which works well for bot dashboards and status pages hosted on standard web hosting platforms. For bot servers that run on custom ports (not 80/443), use DNS-only (gray cloud) mode and configure SSL directly on your server using Let's Encrypt with Certbot. If your bot server is behind a NAT or firewall without a public IP, use Cloudflare Tunnel (<code>cloudflared</code>) to expose your local bot services through Cloudflare's network. This provides a proxied connection with SSL even for services on non-standard ports, without needing to open firewall ports.</p>
-          <h2>Step 5: Set Up Uptime Monitoring</h2>
-          <p>Discord bots must maintain a WebSocket connection to Discord's gateway. If the bot goes offline, it stops responding to commands. Set up monitoring for both the bot itself (WebSocket connection health) and its web services (HTTP endpoint availability). Use UptimeRobot or Better Stack to ping your bot's API or status page every 5 minutes. Configure alerts via email, Discord webhook (ironic but effective), or SMS for critical outages. The is-cool-me monitoring dashboard can also track your subdomain DNS resolution and SSL certificate status. For comprehensive monitoring, set up a health check endpoint in your bot that returns memory usage, command counts, and WebSocket latency.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Rate limit webhook endpoints to prevent abuse — implement a sliding window rate limiter in your webhook receiver</li><li>Use environment variables for sensitive configuration like the Discord bot token and OAuth2 client secret</li><li>Log all incoming webhooks for debugging, but sanitize sensitive data before writing to logs</li><li>Implement a maintenance mode page on your dashboard subdomain for planned downtimes</li></ul>
-          <h2>Conclusion</h2>
-          <p>An is-cool-me subdomain provides the perfect web companion for your Discord bot. Whether you need a configuration dashboard, webhook receiver, status page, or all three, the combination of free DNS management, SSL, and hosting creates a professional presence for your bot project.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I host the Discord bot itself on my subdomain?</strong></p>
-          <p>Not directly — a subdomain points to a web server, but Discord bots are WebSocket clients that connect to Discord's gateway. Use the subdomain for the bot's web dashboard and API, not the bot process itself.</p>
-          <p><strong>What if my bot server is on my home network with a dynamic IP?</strong></p>
-          <p>Use Cloudflare Tunnel (cloudflared) to create a secure, proxied connection without exposing your home IP. The tunnel handles SSL termination and works with dynamic IPs.</p>
-          <p><strong>How do I handle Discord OAuth2 callbacks on my subdomain?</strong></p>
-          <p>Register your subdomain URL (e.g., <code>https://bot.is-pro.dev/auth/callback</code>) in the Discord Developer Portal as a redirect URI. The OAuth2 flow will redirect users to this URL after authorization.</p>
+          ## Introduction to Hosting Discord Bots
+          Hosting a Discord bot 24/7 on a subdomain endpoint is a common requirement for developers who want to create interactive Discord experiences. Discord bots can be used to automate tasks, provide information, and engage with users in various ways. However, to ensure that your bot is always available, you need to host it on a reliable platform. In this guide, we will walk you through the process of hosting a Discord bot on a subdomain endpoint, such as `myproject.is-pro.dev`. We will cover the prerequisites, step-by-step instructions, common pitfalls, best practices, performance considerations, and troubleshooting.
+          
+          ## Prerequisites for Hosting a Discord Bot
+          Before you can host a Discord bot, you need to have a few things in place. First, you need to create a Discord bot account and obtain a bot token. You can do this by going to the Discord Developer Portal and creating a new application. Once you have created the application, you can go to the "Bot" tab and click on "Add Bot" to create a new bot. You will then be given a bot token, which you should keep secret. Next, you need to have a subdomain endpoint set up on is-cool-me, such as `myproject.is-pro.dev`. You can do this by going to the is-cool-me dashboard and creating a new project. Finally, you need to have a basic understanding of programming concepts, such as variables, loops, and functions.
+          
+          ## Step-by-Step Instructions for Hosting a Discord Bot
+          To host a Discord bot on a subdomain endpoint, you need to follow these steps:
+          1. Set up a new project on is-cool-me and create a subdomain endpoint, such as `myproject.is-pro.dev`.
+          2. Create a new Discord bot account and obtain a bot token.
+          3. Install the Discord.py library by running the command `pip install discord.py` in your terminal.
+          4. Create a new file called `bot.py` and add the following code:
+          ```python
+          import discord
+          from discord.ext import commands
+          
+          bot = commands.Bot(command_prefix='!')
+          
+          @bot.event
+          async def on_ready():
+              print(f'{bot.user} has connected to Discord!')
+          
+          @bot.command(name='hello')
+          async def hello(ctx):
+              await ctx.send(f'Hello {ctx.author.mention}!')
+          
+          bot.run('YOUR_BOT_TOKEN')
+          ```
+          Replace `YOUR_BOT_TOKEN` with your actual bot token.
+          5. Set up a webhook on your subdomain endpoint to receive requests from Discord. You can do this by going to the is-cool-me dashboard and clicking on the "Webhooks" tab.
+          6. Configure the webhook to send requests to your `bot.py` file. You can do this by adding the following code to your `bot.py` file:
+          ```python
+          @bot.command(name='webhook')
+          async def webhook(ctx):
+              await ctx.send('Webhook received!')
+          ```
+          7. Start the bot by running the command `python bot.py` in your terminal.
+          
+          ## Common Pitfalls and Solutions
+          One common pitfall when hosting a Discord bot is that the bot may not be able to receive requests from Discord due to a misconfigured webhook. To solve this, make sure that the webhook is configured correctly and that the bot is running. Another common pitfall is that the bot may crash or become unresponsive due to a programming error. To solve this, make sure to test your code thoroughly and use try-except blocks to catch any errors.
+          
+          ## Best Practices for Hosting a Discord Bot
+          To ensure that your Discord bot is always available and running smoothly, follow these best practices:
+          * Use a reliable hosting platform, such as is-cool-me, to host your bot.
+          * Use a version control system, such as Git, to manage your code.
+          * Test your code thoroughly before deploying it to production.
+          * Use try-except blocks to catch any errors and prevent the bot from crashing.
+          * Monitor the bot's uptime and performance regularly.
+          
+          ## Performance Considerations
+          When hosting a Discord bot, performance is critical. To ensure that your bot is performing well, follow these tips:
+          * Use a fast and reliable hosting platform, such as is-cool-me.
+          * Optimize your code to reduce latency and improve response times.
+          * Use caching to store frequently accessed data.
+          * Monitor the bot's performance regularly and make adjustments as needed.
+          
+          ## Troubleshooting
+          If you encounter any issues with your Discord bot, here are some troubleshooting steps you can follow:
+          * Check the bot's logs to see if there are any error messages.
+          * Check the webhook configuration to make sure it is correct.
+          * Test the bot's commands to see if they are working as expected.
+          * Check the bot's uptime and performance to see if there are any issues.
+          
+          ## Conclusion and Next Steps
+          In this guide, we walked you through the process of hosting a Discord bot on a subdomain endpoint, such as `myproject.is-pro.dev`. We covered the prerequisites, step-by-step instructions, common pitfalls, best practices, performance considerations, and troubleshooting. By following these steps and tips, you can create a reliable and high-performance Discord bot that is always available to your users. Next, you can explore more advanced topics, such as using multiple bots, creating custom commands, and integrating with other services.
+          
+          ## FAQ
+          Q: How do I handle errors in my Discord bot?
+          A: You can use try-except blocks to catch any errors and prevent the bot from crashing.
+          Q: How do I optimize the performance of my Discord bot?
+          A: You can use caching to store frequently accessed data, optimize your code to reduce latency, and monitor the bot's performance regularly.
+          Q: How do I configure the webhook for my Discord bot?
+          A: You can configure the webhook by going to the is-cool-me dashboard and clicking on the "Webhooks" tab.
+          Q: How do I test my Discord bot's commands?
+          A: You can test the bot's commands by sending a message to the bot and seeing if it responds as expected.
+          Q: How do I monitor the uptime and performance of my Discord bot?
+          A: You can use tools such as Uptime Robot or Pingdom to monitor the bot's uptime and performance.
+          
+          ## Further Reading
+          To learn more about hosting a Discord bot, you can check out the following resources:
+          * Discord Developer Portal: This is the official documentation for Discord developers and provides a wealth of information on creating and hosting Discord bots.
+          * is-cool-me Documentation: This provides detailed information on how to use the is-cool-me platform to host your Discord bot.
+          * Discord.py Library: This is a popular Python library for creating Discord bots and provides a lot of functionality out of the box.
+          * Uptime Robot: This is a tool that allows you to monitor the uptime and performance of your Discord bot.
+          * Pingdom: This is a tool that allows you to monitor the performance of your Discord bot and provides detailed analytics.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Host%20a%20Discord%20Bot%2024%2F7%20on%20a%20Subdomain%20Endpoint&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fdiscord-bot-hosting-guide%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fdiscord-bot-hosting-guide%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/anime-website-hosting-guide/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Host an Anime Fan Site or Wiki on a Free Subdomain</span>
+    </a><a href="/guides/static-site-generators-comparison/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Static Site Generators Compared: Hugo, Eleventy, Astro</span>
+    </a>
+  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">API</span></div>
+              <h3 class="post-card-title">Host an API Endpoint on a Subdomain with AWS Lambda</h3>
+              <p class="post-card-excerpt">Use an is-cool-me subdomain to expose serverless API endpoints built with AWS Lambda and API Gateway, with proper CORS configuration and custom domain routing.</p>
+              <a href="/guides/api-subdomain-with-aws-lambda/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article><article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
+              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
+              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
+              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article>
+      </div>
+    </div>
+  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

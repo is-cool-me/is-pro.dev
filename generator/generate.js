@@ -510,6 +510,10 @@ Target audience: Developers setting up projects on is-cool-me subdomains.
 Style: Technical but accessible, with practical steps, code examples where relevant, real-world context, and detailed explanations.
 Structure: H2 headings for each section, include an intro with context/motivation, prerequisites, detailed step-by-step instructions, common pitfalls with solutions, best practices, performance considerations, troubleshooting section, and a conclusion with next steps.
 Include a FAQ section at the end with 4-5 questions covering edge cases.
+After the FAQ, include three sections:
+- "Deployment scenario from operations" with a real-world example
+- "Common mistakes" as a bullet list
+- "How to verify it works" with numbered steps
 Be specific - include actual commands, configuration examples, and real scenarios.
 Do NOT use placeholder text like "insert your domain here" - use concrete examples like "myproject.is-pro.dev".
 Do NOT repeat the title as a section heading (the H1 is already the title).
@@ -530,11 +534,23 @@ Generate ONLY the article body content, no metadata, no JSON.`;
 
   const readTime = Math.max(1, Math.ceil(content.split(" ").length / 200));
   const today = new Date().toISOString().split("T")[0];
+  const dateLabel = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long" });
+
+  const idx = GUIDE_TOPICS.indexOf(topic);
+  const prev = idx > 0 ? { label: GUIDE_TOPICS[idx - 1].title, href: `${BASE_URL}/guides/${GUIDE_TOPICS[idx - 1].slug}/` } : null;
+  const next = idx < GUIDE_TOPICS.length - 1 ? { label: GUIDE_TOPICS[idx + 1].title, href: `${BASE_URL}/guides/${GUIDE_TOPICS[idx + 1].slug}/` } : null;
+
+  const relatedTopics = (topic.relatedSlugs || [])
+    .map(slug => [...GUIDE_TOPICS, ...BLOG_TOPICS].find(t => t.slug === slug))
+    .filter(Boolean)
+    .map(t => ({ ...t, section: GUIDE_TOPICS.includes(t) ? "guides" : "blog" }));
+
+  const shareUrl = `${BASE_URL}/guides/${topic.slug}/`;
 
   const headHtml = htmlHead({
     title: `${topic.title} — is-cool-me`,
     description: topic.summary,
-    canonical: `${BASE_URL}/guides/${topic.slug}/`,
+    canonical: shareUrl,
     ogType: "article",
     keywords: topic.keywords?.join(", "),
     article: {
@@ -556,6 +572,11 @@ Generate ONLY the article body content, no metadata, no JSON.`;
       summary: topic.summary,
       content: content.replace(/^/gm, "          "),
       breadcrumbs,
+      date: dateLabel,
+      shareUrl,
+      prev,
+      next,
+      relatedTopics,
     }) +
     internalLinksHTML(INTERNAL_LINK_SECTIONS);
   const footerHtml = footerHTML();
@@ -571,6 +592,10 @@ Keywords: ${topic.keywords.join(", ")}
 Style: Thoughtful, well-argued, with personal perspective where appropriate. Should feel like it was written by someone who actually runs a developer platform and has hands-on experience.
 Structure: engaging intro that hooks the reader with a problem/context, body with 3-4 H2 sections with concrete examples and data, practical takeaways, and a strong conclusion with actionable next steps.
 Include a "Key Takeaways" or FAQ section at the end with 3-4 items.
+After the takeaways, include three sections:
+- "Deployment scenario from operations" with a real-world example
+- "Common mistakes" as a bullet list
+- "How to verify it works" with numbered steps
 Do NOT use placeholder text. Use real examples with actual subdomains, tools, and services.
 Write with genuine insight - share war stories, gotchas, and things learned the hard way.
 Generate ONLY the article body content, no metadata.`;
@@ -614,11 +639,23 @@ Generate ONLY the article body content, no metadata.`;
 
   const readTime = Math.max(1, Math.ceil(content.split(" ").length / 200));
   const today = new Date().toISOString().split("T")[0];
+  const dateLabel = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long" });
+
+  const idx = BLOG_TOPICS.indexOf(topic);
+  const prev = idx > 0 ? { label: BLOG_TOPICS[idx - 1].title, href: `${BASE_URL}/blog/${BLOG_TOPICS[idx - 1].slug}/` } : null;
+  const next = idx < BLOG_TOPICS.length - 1 ? { label: BLOG_TOPICS[idx + 1].title, href: `${BASE_URL}/blog/${BLOG_TOPICS[idx + 1].slug}/` } : null;
+
+  const relatedTopics = (topic.relatedSlugs || [])
+    .map(slug => [...GUIDE_TOPICS, ...BLOG_TOPICS].find(t => t.slug === slug))
+    .filter(Boolean)
+    .map(t => ({ ...t, section: GUIDE_TOPICS.includes(t) ? "guides" : "blog" }));
+
+  const shareUrl = `${BASE_URL}/blog/${topic.slug}/`;
 
   const headHtml = htmlHead({
     title: `${topic.title} — is-cool-me Blog`,
     description: topic.summary,
-    canonical: `${BASE_URL}/blog/${topic.slug}/`,
+    canonical: shareUrl,
     ogType: "article",
     keywords: topic.keywords?.join(", "),
     article: {
@@ -643,6 +680,11 @@ Generate ONLY the article body content, no metadata.`;
       summary: topic.summary,
       content: content.replace(/^/gm, "          "),
       faqs,
+      date: dateLabel,
+      shareUrl,
+      prev,
+      next,
+      relatedTopics,
     }) +
     internalLinksHTML(INTERNAL_LINK_SECTIONS);
   const footerHtml = footerHTML();

@@ -170,38 +170,92 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>DNS records are the building blocks of the internet's addressing system. Every time someone visits your subdomain, sends an email, or connects to your server, DNS records translate human-readable names into network-usable addresses. Understanding these record types is essential for anyone managing online services. This guide explains each DNS record type in practical terms, with examples of how and when to use them with your is-cool-me subdomain.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-cool-me subdomain to practice with (free at dash.is-pro.dev)</li><li>Basic understanding of how domain names and IP addresses work</li><li>Access to a DNS dashboard (the is-cool-me dashboard provides Cloudflare-powered DNS)</li></ul>
-          <h2>A and AAAA Records: Mapping Names to IP Addresses</h2>
-          <p>An A record maps a domain or subdomain to an IPv4 address, such as <code>192.0.2.1</code>. This is the most fundamental DNS record type — without it, your subdomain cannot point to a server. For example, if your VPS has an IP address of <code>203.0.113.5</code>, you create an A record for <code>myserver.is-pro.dev</code> pointing to that IP. AAAA records do the same but for IPv6 addresses, which are longer (e.g., <code>2001:db8::1</code>). Modern best practice is to include both A and AAAA records to support clients on either protocol. When setting up a web server, always verify that your A record resolves to the correct IP by using a DNS lookup tool.</p>
-          <h2>CNAME Records: Aliasing One Name to Another</h2>
-          <p>A CNAME record creates an alias from one domain name to another. For instance, <code>www.is-pro.dev</code> might be a CNAME pointing to <code>is-pro.dev</code>. CNAME records are essential for platforms like GitHub Pages, Vercel, and Netlify — you create a CNAME from your subdomain to the platform's provided domain. Important rules: a CNAME cannot coexist with other record types on the same name, and it cannot be used at the zone apex (the bare <code>is-pro.dev</code> domain). If you need the apex to alias to another domain, use an ALIAS or ANAME record if your provider supports it, or use CNAME flattening.</p>
-          <h2>MX Records: Routing Email Delivery</h2>
-          <p>MX (Mail Exchange) records specify which mail servers are responsible for receiving email on behalf of your subdomain. Each MX record has a priority value — lower numbers are tried first. For example, to receive email at <code>hello@yourname.is-pro.dev</code>, you configure MX records pointing to your email provider's servers. Cloudflare Email Routing uses MX records like <code>route1.mx.cloudflare.net</code> (priority 10) and <code>route2.mx.cloudflare.net</code> (priority 20). Always configure at least two MX records with different priorities for redundancy. Missing MX records mean email addressed to your domain will bounce or be undeliverable.</p>
-          <h2>TXT Records: Storing Arbitrary Text Data</h2>
-          <p>TXT records store text information associated with your subdomain. They are most commonly used for email authentication: SPF (Sender Policy Framework) records authorize which servers can send email from your domain, DKIM (DomainKeys Identified Mail) records provide cryptographic signatures, and DMARC (Domain-based Message Authentication, Reporting & Conformance) records specify how receivers should handle unauthenticated email. A typical SPF TXT record looks like: <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>. TXT records are also used for domain ownership verification — services like Google Workspace, AWS, or GitHub ask you to add a specific TXT record to prove you control the domain.</p>
-          <h2>SRV Records: Locating Specific Services</h2>
-          <p>SRV records generalize the concept of MX records to any service. They specify a target host and port for a specific protocol and service. The format is: <code>_service._protocol.name TTL class SRV priority weight port target</code>. For example, Minecraft game servers often use SRV records to point to a non-standard port: <code>_minecraft._tcp.mc.is-pro.dev SRV 0 5 25565 mc-server.example.com</code>. SRV records are also used by Discord for voice channels, Microsoft Teams for SIP services, and SIP-based phone systems. They are less common than A/CNAME records but critical for gaming and communication services.</p>
-          <h2>Other Record Types: NS, CAA, PTR, and SOA</h2>
-          <p>NS (Nameserver) records indicate which DNS servers are authoritative for a zone. For is-cool-me subdomains, the NS records point to Cloudflare's nameservers and should not be modified. CAA (Certification Authority Authorization) records specify which certificate authorities are allowed to issue SSL certificates for your domain. Adding a CAA record for <code>letsencrypt.org</code> and <code>cloudflare.com</code> provides an extra security layer against unauthorized certificate issuance. PTR records (reverse DNS) map IP addresses back to domain names — they are managed by your hosting provider, not in your DNS dashboard. SOA (Start of Authority) records contain administrative information about the zone and are automatically managed.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Always use DNS-only (gray cloud) for MX records — proxied MX records can interfere with email delivery</li><li>Set TTL values based on how frequently you expect to change records: use 60 seconds during migration, 300-3600 seconds for stable configurations</li><li>Add CAA records to restrict SSL certificate issuance to authorized providers only</li><li>Use a DNS checker tool to verify each record type after making changes</li></ul>
-          <h2>Conclusion</h2>
-          <p>DNS records form the foundation of how your subdomain interacts with the internet. Each record type serves a specific purpose, and knowing when to use A vs CNAME vs MX vs SRV is essential for configuring everything from websites to game servers. The is-cool-me DNS dashboard, powered by Cloudflare, supports all standard record types and provides instant propagation across the global network.</p>
-          <h2>FAQ</h2>
-          <p><strong>What is the difference between proxied (orange cloud) and DNS-only (gray cloud)?</strong></p>
-          <p>Proxied routes traffic through Cloudflare's CDN, hiding your origin IP and providing DDoS protection. DNS-only passes traffic directly to your server. Use proxied for web servers, DNS-only for email and non-HTTP services.</p>
-          <p><strong>Can I have multiple records of the same type for the same subdomain?</strong></p>
-          <p>Yes, you can have multiple A records for load balancing (round-robin DNS), multiple MX records for redundancy, and multiple TXT records for different purposes (SPF, DKIM, DMARC).</p>
-          <p><strong>How long does it take for DNS changes to take effect?</strong></p>
-          <p>With Cloudflare DNS on is-cool-me, changes typically propagate within seconds globally. The TTL value of the record determines how long clients cache the old value before rechecking.</p>
+          ## Introduction to DNS Records
+          As a developer setting up projects on is-cool-me subdomains, understanding DNS records is crucial for ensuring your website or application is accessible and secure. DNS (Domain Name System) records are the backbone of the internet, mapping domain names to IP addresses and controlling various aspects of your online presence. In this guide, we'll delve into the world of DNS records, exploring the different types, their functions, and how to configure them for your project on myproject.is-pro.dev.
+          
+          ## Prerequisites
+          Before diving into DNS records, make sure you have the following:
+          - A subdomain set up on is-cool-me, such as myproject.is-pro.dev.
+          - Access to your DNS manager, either through is-cool-me's control panel or an external DNS service.
+          - Basic understanding of networking concepts, including IP addresses and domain names.
+          
+          ## Understanding DNS Record Types
+          DNS records come in several types, each serving a specific purpose. The most common types include:
+          - **A Record (Address Record):** Maps a domain or subdomain to an IP address. For example, to point myproject.is-pro.dev to a server with the IP address 192.0.2.1, you would create an A record with the name "myproject.is-pro.dev" and the value "192.0.2.1".
+          - **CNAME (Canonical Name Record):** Maps an alias or subdomain to the canonical name of a server or another domain. It's often used for load balancing or when you want to point a subdomain to an external service. For instance, creating a CNAME record for blog.myproject.is-pro.dev with the value "blog.example.com" would direct traffic from blog.myproject.is-pro.dev to blog.example.com.
+          - **MX Record (Mail Exchanger Record):** Directs email messages to the mail server responsible for receiving emails on your behalf. Setting up MX records for myproject.is-pro.dev involves specifying the mail server domain and priority, such as "10 mail.is-pro.dev" for the primary mail server.
+          - **TXT Record (Text Record):** Used for verifying domain ownership or specifying additional information like SPF (Sender Policy Framework) and DKIM (DomainKeys Identified Mail) settings. A TXT record for myproject.is-pro.dev might contain "v=spf1 a mx ip4:192.0.2.1 -all" to define the SPF policy.
+          
+          ## Configuring DNS Records
+          To configure DNS records for your is-cool-me subdomain:
+          1. Log into your is-cool-me account and navigate to the DNS manager section.
+          2. Select the subdomain you want to configure (e.g., myproject.is-pro.dev).
+          3. Choose the type of DNS record you want to create (A, CNAME, MX, TXT, etc.).
+          4. Enter the required values for the record type. For example, for an A record, you would enter the IP address of your server.
+          5. Save the changes and wait for the DNS records to propagate, which can take up to 48 hours.
+          
+          ## Common Pitfalls and Solutions
+          - **Incorrect IP Addresses:** Double-check the IP addresses you enter for A records to avoid pointing your domain to the wrong server.
+          - **Propagation Delays:** Be patient and allow sufficient time for DNS changes to propagate globally.
+          - **MX Record Misconfiguration:** Ensure MX records are correctly set up to avoid email delivery issues. Use tools like MX lookup services to verify your configuration.
+          
+          ## Best Practices
+          - **Use Secure Protocols:** Prefer HTTPS over HTTP for secure communication.
+          - **Implement SPF, DKIM, and DMARC:** Protect your domain from spam and phishing by setting up these email authentication protocols.
+          - **Regularly Update DNS Records:** Reflect changes in your infrastructure or services by updating the corresponding DNS records.
+          
+          ## Performance Considerations
+          - **Use a Fast DNS Service:** Choose a reliable DNS service provider to minimize latency and ensure high availability.
+          - **Optimize DNS Record Configuration:** Minimize the number of DNS lookups required for your domain by optimizing CNAME and A record configurations.
+          - **Leverage Content Delivery Networks (CDNs):** Use CDNs to distribute content and reduce the load on your origin server, improving overall performance.
+          
+          ## Troubleshooting DNS Issues
+          - **Use DNS Lookup Tools:** Utilize online tools or command-line utilities like `dig` or `nslookup` to diagnose DNS resolution issues.
+          - **Check DNS Record Propagation:** Verify that your DNS changes have propagated globally using tools like What's My DNS.
+          - **Inspect Server Logs:** Analyze server logs for errors related to DNS resolution or configuration issues.
+          
+          ## Conclusion and Next Steps
+          Mastering DNS records is essential for developers working with is-cool-me subdomains. By understanding and correctly configuring A, CNAME, MX, and TXT records, you can ensure your project is accessible, secure, and performs well. Continue learning about advanced DNS topics, such as DNSSEC and load balancing, to further enhance your skills.
+          
+          ## FAQ
+          1. **Q: How long does it take for DNS changes to propagate?**
+             A: DNS changes can take up to 48 hours to propagate globally, depending on the TTL (Time To Live) set for the records and the efficiency of the DNS service.
+          2. **Q: Can I use CNAME records for the root domain (e.g., myproject.is-pro.dev)?**
+             A: No, CNAME records cannot be used for the root domain as it would conflict with the SOA (Start of Authority) record. Instead, use A records for the root domain.
+          3. **Q: How do I set up SPF, DKIM, and DMARC for my domain?**
+             A: Set up SPF by creating a TXT record with the SPF policy, configure DKIM by generating a public/private key pair and setting up the DKIM record, and implement DMARC by creating a TXT record with the DMARC policy.
+          4. **Q: What is the difference between a CNAME and an A record?**
+             A: A CNAME record maps a domain to another domain, while an A record maps a domain directly to an IP address.
+          5. **Q: Can I have multiple MX records for my domain?**
+             A: Yes, you can have multiple MX records with different priorities to specify backup mail servers in case the primary server is unavailable.
+          
+          ## Further Reading
+          - **RFC 1035 (Domain Names - Implementation and Specification):** The foundational document for DNS.
+          - **Is-cool-me Documentation:** Official guides and tutorials for managing DNS records on is-cool-me.
+          - **DNS Manager Tools:** Utilize online tools like Cloudflare DNS or Google Cloud DNS to manage your DNS records efficiently.
+          - **Email Authentication Protocols:** Learn more about SPF, DKIM, and DMARC from official resources and implementation guides.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=DNS%20Records%20Explained%3A%20A-Z%20Guide%20for%20Developers&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fdns-records-explained%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fdns-records-explained%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/free-developer-portfolio-hosting/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Build and Host a Developer Portfolio for Free</span>
+    </a><a href="/guides/ssl-certificate-setup-guide/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">SSL Certificate Setup: From Zero to HTTPS Everywhere</span>
+    </a>
+  </div><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

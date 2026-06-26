@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Hosting</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
           <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
         </div>
         <h1>Host an Anime Fan Site or Wiki on a Free Subdomain</h1>
@@ -170,36 +170,117 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Anime fan sites and wikis are passion projects that deserve reliable hosting without monthly costs eating into your budget. Whether you are building a character database, episode guide, fan art gallery, or full wiki, you can host it on a free is-cool-me subdomain using tools like MediaWiki, Hugo, or Jekyll. This guide covers the complete setup from choosing the right tool to deploying with free hosting platforms and configuring your custom subdomain.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A GitHub account for hosting static sites on GitHub Pages</li><li>Basic knowledge of Markdown or HTML for content creation</li><li>An is-cool-me subdomain registered at dash.is-pro.dev</li><li>Content ready: character descriptions, episode summaries, images (optimized for web)</li></ul>
-          <h2>Step 1: Choose Your Site Builder</h2>
-          <p>Select a tool based on the type of site you want to create. For a full wiki with search, categories, and user contributions, MediaWiki (the software behind Wikipedia) is the gold standard but requires PHP hosting. For a static information site, Hugo or Jekyll are excellent choices — they generate fast HTML pages from Markdown content and are free to host on GitHub Pages or Cloudflare Pages. For a simple gallery site, a hand-coded HTML page or a template-based site works well. Hugo is particularly well-suited for anime fan sites because of its taxonomy system — you can tag characters by series, studio, genre, or year and automatically generate archive pages.</p>
-          <h2>Step 2: Set Up Hugo for Your Fan Site</h2>
-          <p>Install Hugo on your local machine (<code>brew install hugo</code> on macOS or download from the Hugo website). Create a new site: <code>hugo new site my-anime-site</code>. Install a theme by cloning a Git repository into the <code>themes</code> directory and adding it to your config. Create content: <code>hugo new characters/naruto-uzumaki.md</code>. Edit the Markdown file with your character information. Add front matter for structured data like series, abilities, and voice actors. Hugo's shortcodes let you embed images, YouTube trailers, and related character links. Build the site with <code>hugo</code> — the output goes to the <code>public</code> directory ready for deployment.</p>
-          <h2>Step 3: Deploy to GitHub Pages or Cloudflare Pages</h2>
-          <p>Push your Hugo site repository to GitHub. In the repository settings, enable GitHub Pages from the <code>gh-pages</code> branch (or use GitHub Actions to build and deploy automatically). For Cloudflare Pages, connect your Git repository and set the build command to <code>hugo</code> with an output directory of <code>public</code>. Cloudflare Pages provides preview URLs for each branch and automatic SSL. Both platforms support custom domains. Cloudflare Pages offers the advantage of unlimited bandwidth and tighter integration with Cloudflare DNS (which powers is-cool-me), making it the recommended choice for Hugo sites.</p>
-          <h2>Step 4: Connect Your is-cool-me Subdomain</h2>
-          <p>In the is-cool-me DNS dashboard, add a CNAME record pointing your subdomain to your hosting platform. For GitHub Pages, point to <code>username.github.io</code>. For Cloudflare Pages, point to <code>project-name.pages.dev</code>. Save the record. Then in your hosting platform's settings, add your is-cool-me subdomain as a custom domain. Both platforms will provision an SSL certificate automatically. For GitHub Pages, you may need to wait up to 20 minutes for the Let's Encrypt certificate. For Cloudflare Pages, the certificate is instant since it uses Cloudflare's own edge certificates.</p>
-          <h2>Step 5: Optimize Images for Fast Loading</h2>
-          <p>Anime fan sites often have many images — character art, screenshots, and fan creations. Optimize every image before uploading. Use tools like Squoosh, TinyPNG, or ImageMagick to reduce file sizes. Aim for JPEG quality 80-85 for photos and PNG-8 for illustrations with limited colors. Consider using WebP format for supported browsers (which covers over 95% of modern traffic). Hugo supports image processing — you can resize, crop, and convert images at build time using the <code>image</code> shortcode. Use lazy loading (<code>loading=&quot;lazy&quot;</code> attribute) for images below the fold to improve initial page load time.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Organize content by series, genre, or character type using Hugo's taxonomy system for easy navigation</li><li>Add an RSS feed so visitors can subscribe to new content updates</li><li>Include a search feature — Hugo integrates with Lunr.js or Pagefind for client-side search without a backend</li><li>Credit your sources properly when using fan art or information from other databases</li><li>Add a sitemap.xml for search engines and register your subdomain with Google Search Console</li></ul>
-          <h2>Conclusion</h2>
-          <p>An anime fan site or wiki hosted on an is-cool-me subdomain combines passion with practicality. Hugo handles content management and static generation, GitHub Pages or Cloudflare Pages provides free hosting with CDN, and your branded subdomain gives the site a professional URL. The entire setup costs nothing while delivering fast load times and reliable uptime.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I use MediaWiki instead of Hugo for my fan wiki?</strong></p>
-          <p>Yes, but MediaWiki requires PHP and MySQL hosting, which is harder to find for free. Consider using a free PHP hosting provider or a low-cost VPS if you need full wiki functionality with user accounts.</p>
-          <p><strong>How do I handle copyrighted anime images on my fan site?</strong></p>
-          <p>Use images that are officially released promotional material, screenshots for educational purposes (review/analysis), or your own fan art. Always credit the original source and studio.</p>
-          <p><strong>Can I add a forum or comments section to my static site?</strong></p>
-          <p>Yes, you can embed third-party comment systems like Disqus or Remark42, or create a separate discussion space using free tools like GitHub Discussions.</p>
+          ## Introduction to Hosting Anime Fan Sites
+          The world of anime fandom is vast and diverse, with countless fans around the globe. For developers and enthusiasts, creating a fan site or wiki dedicated to anime can be a rewarding project, allowing them to share knowledge, discuss favorite series, and connect with like-minded individuals. With the rise of free hosting platforms like is-cool-me, it's now easier than ever to host such projects without incurring significant costs. In this guide, we'll explore how to host an anime fan site or wiki on a free subdomain, using myproject.is-pro.dev as our example project.
+          
+          ## Prerequisites for Hosting
+          Before diving into the setup process, ensure you have the following prerequisites:
+          - A basic understanding of HTML, CSS, and possibly JavaScript for customizing your site.
+          - Familiarity with the command line interface (CLI) for tasks like setting up and configuring your site.
+          - An account on is-cool-me to claim your free subdomain (e.g., myproject.is-pro.dev).
+          - A code editor or IDE for editing your site's files.
+          - Optionally, knowledge of a static site generator (SSG) like Hugo or a wiki platform like MediaWiki for more complex sites.
+          
+          ## Setting Up Your Anime Fan Site
+          To set up your anime fan site, follow these steps:
+          1. **Claim Your Subdomain**: Log into your is-cool-me account and claim your free subdomain. For this example, let's use myproject.is-pro.dev.
+          2. **Choose Your Platform**: Decide whether you'll use a static site generator like Hugo, a wiki platform like MediaWiki, or a simple HTML/CSS/JS setup. For a wiki, MediaWiki is a popular choice, while Hugo is great for blogs and structured content sites.
+          3. **Install MediaWiki**: If you've chosen MediaWiki, you can install it using the command line. First, clone the MediaWiki repository: `git clone https://gerrit.wikimedia.org/r/mediawiki/core.git`. Then, follow the installation instructions provided in the README file, customizing the `LocalSettings.php` file to suit your needs, including setting the wiki's name and database credentials.
+          4. **Configure Hugo**: For a Hugo site, start by creating a new site: `hugo new site myproject`. Then, add a theme (e.g., `git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke`) and configure your `config.toml` file to include your site's title, base URL (`https://myproject.is-pro.dev/`), and other settings.
+          
+          ## Deploying Your Site
+          Deploying your site to your is-cool-me subdomain involves the following steps:
+          1. **Build Your Site**: If using Hugo, run `hugo` to build your site. For MediaWiki, this step is not necessary as it generates pages dynamically.
+          2. **Upload Files**: Use an FTP client or the command line to upload your site's files to your is-cool-me storage. Ensure that your site's index file (e.g., `index.html` for Hugo sites) is in the root directory.
+          3. **Configure DNS (if necessary)**: Typically, is-cool-me handles DNS configuration for you. However, if you're using a custom domain or have specific DNS needs, you may need to configure DNS records manually.
+          
+          ## Common Pitfalls and Solutions
+          - **Permission Issues**: If you encounter permission errors when uploading files, ensure that the FTP user has the correct permissions. You might need to contact is-cool-me support for assistance.
+          - **Broken Links**: After deployment, test all links on your site to ensure they're working correctly. If links are broken, check your base URL configuration in your site's settings.
+          - **MediaWiki Extensions**: When installing MediaWiki extensions, make sure they're compatible with your version of MediaWiki to avoid compatibility issues.
+          
+          ## Best Practices for Maintenance
+          - **Regular Backups**: Use tools like `git` for version control and automate backups of your site's files and database (if applicable) to prevent data loss.
+          - **Security Updates**: Keep your site's software (e.g., MediaWiki, Hugo) and any extensions or themes up to date to protect against security vulnerabilities.
+          - **Content Updates**: Regularly update your site's content to keep visitors engaged and attract return visits.
+          
+          ## Performance Considerations
+          - **Optimize Images**: Use tools like ImageOptim to reduce the file size of your images without compromising quality, improving page load times.
+          - **Enable Caching**: If your site allows it, enable caching to reduce the load on your server and improve performance for repeat visitors.
+          - **Minify and Compress Files**: Use build tools or plugins to minify CSS and JavaScript files and compress them for faster transfer over the network.
+          
+          ## Troubleshooting
+          If you encounter issues with your site, start by checking the is-cool-me status page for any outages or maintenance windows. Then, review your site's logs for error messages that can help diagnose the problem. Common issues include incorrect file permissions, misconfigured DNS settings, and compatibility problems with extensions or themes.
+          
+          ## Conclusion and Next Steps
+          Hosting an anime fan site or wiki on a free subdomain like myproject.is-pro.dev is a straightforward process that can be completed with basic web development knowledge. By following the steps outlined in this guide, you can create a thriving community hub for anime enthusiasts. Next, consider expanding your site's features, engaging with your audience, and exploring advanced customization options to make your site stand out.
+          
+          ## FAQ
+          1. **Q: Can I use a custom domain with my is-cool-me subdomain?**
+             A: Yes, is-cool-me allows you to use a custom domain. You'll need to configure DNS records to point to your is-cool-me subdomain.
+          2. **Q: How do I handle large file uploads on my wiki?**
+             A: For large file uploads, consider using an external storage service or configuring your wiki to use a more robust upload handler.
+          3. **Q: Are there any limitations on the type of content I can host?**
+             A: is-cool-me has terms of service that prohibit certain types of content. Ensure your anime fan site complies with these terms to avoid account suspension.
+          4. **Q: Can I monetize my anime fan site with ads?**
+             A: Yes, but be sure to comply with is-cool-me's policies on advertising and the terms of service of any ad networks you use.
+          5. **Q: How do I protect my site from spam and vandalism?**
+             A: Use CAPTCHAs, require user registration for editing, and monitor your site regularly to prevent and revert vandalism and spam.
+          
+          ## Further Reading
+          - **MediaWiki Documentation**: For in-depth guides on installing, configuring, and extending MediaWiki.
+          - **Hugo Documentation**: The official Hugo documentation provides comprehensive guides on setting up and customizing Hugo sites.
+          - **is-cool-me Documentation**: is-cool-me's official documentation offers detailed information on using their platform, including setting up custom domains and troubleshooting common issues.
+          - **Web Development Resources**: Sites like MDN Web Docs and W3Schools provide valuable resources for learning web development and improving your skills.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Host%20an%20Anime%20Fan%20Site%20or%20Wiki%20on%20a%20Free%20Subdomain&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fanime-website-hosting-guide%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fanime-website-hosting-guide%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/cloudflare-proxy-vs-dns-only/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Cloudflare Proxy vs DNS-Only: When to Use Each Mode</span>
+    </a><a href="/guides/discord-bot-hosting-guide/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Host a Discord Bot 24/7 on a Subdomain Endpoint</span>
+    </a>
+  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">Deployment</span></div>
+              <h3 class="post-card-title">Free Hosting with GitHub Pages: Complete Setup Guide</h3>
+              <p class="post-card-excerpt">Learn how to host your static website for free using GitHub Pages, configure custom domains with is-cool-me, and set up automatic deployments from your repository.</p>
+              <a href="/guides/free-hosting-with-github-pages/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article><article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">Deployment</span></div>
+              <h3 class="post-card-title">Netlify Custom Domain Setup with Free Subdomain</h3>
+              <p class="post-card-excerpt">Connect your is-cool-me subdomain to a Netlify site, configure DNS records for both root and www variants, and set up automatic HTTPS provisioning through Netlify Lets Encrypt.</p>
+              <a href="/guides/netlify-custom-domain-setup/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article>
+      </div>
+    </div>
+  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

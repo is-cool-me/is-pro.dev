@@ -170,38 +170,107 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>SSL certificates are no longer optional for websites — browsers actively warn users when visiting HTTP sites, and search engines penalize non-HTTPS pages in rankings. An SSL certificate encrypts traffic between your visitors and your server, protecting sensitive data and building trust. With an is-cool-me subdomain, you get free SSL through Cloudflare's edge certificates, which are automatically provisioned and renewed. This guide explains how SSL works and how to ensure every page on your subdomain is served securely.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-cool-me subdomain with DNS managed through Cloudflare</li><li>A website or service hosted on your subdomain</li><li>Access to your origin server to configure redirect rules (optional but recommended)</li></ul>
-          <h2>How SSL Certificates Work</h2>
-          <p>SSL (or more accurately, TLS) uses public-key cryptography to establish an encrypted connection between a client (browser) and a server. When a visitor accesses your subdomain over HTTPS, the server presents its SSL certificate, which contains the domain name, the certificate authority (CA) that issued it, and the public key. The browser verifies the certificate against trusted CA roots. If valid, a symmetric session key is exchanged and all subsequent data is encrypted. Cloudflare's Universal SSL certificates are issued by Google Trust Services or Let's Encrypt and cover your subdomain automatically as long as DNS is proxied through Cloudflare (orange cloud enabled).</p>
-          <h2>Step 1: Enable Cloudflare Proxy on Your DNS Records</h2>
-          <p>In the is-cool-me DNS dashboard, ensure your subdomain's DNS record has the proxy status set to "Proxied" (orange cloud). This routes traffic through Cloudflare's network, where SSL termination occurs. Cloudflare's edge servers present the SSL certificate to visitors, then forward the request to your origin server either over HTTP or HTTPS (depending on your origin configuration). The proxy must be enabled for Cloudflare's Universal SSL to work — DNS-only (gray cloud) records will not receive an edge certificate and your visitors would connect directly to your origin server without Cloudflare's SSL protection.</p>
-          <h2>Step 2: Configure SSL/TLS Encryption Mode</h2>
-          <p>In your Cloudflare dashboard, navigate to "SSL/TLS &rarr; Overview". You have four encryption mode options: Off (not recommended), Flexible (encrypts traffic between visitor and Cloudflare only), Full (encrypts traffic end-to-end but allows self-signed origin certificates), and Full (strict) (encrypts end-to-end with a valid CA-signed origin certificate). For most setups with is-cool-me, Flexible mode is the easiest — Cloudflare terminates SSL at the edge and connects to your origin over HTTP. For maximum security, configure Full (strict) mode by installing a valid certificate on your origin server, such as one from Let's Encrypt.</p>
-          <h2>Step 3: Force HTTPS with Redirect Rules</h2>
-          <p>Even with SSL enabled, visitors might still access your subdomain over HTTP if they type the URL without HTTPS or click old links. In Cloudflare, go to "SSL/TLS &rarr; Edge Certificates" and enable "Always Use HTTPS". This redirects all HTTP requests to HTTPS automatically. You can also add a Page Rule for your subdomain: <code>yourname.is-pro.dev/*</code> with the setting "Always Use HTTPS" enabled. For additional security, enable "Automatic HTTPS Rewrites" which converts HTTP URLs in your page's HTML to HTTPS, preventing mixed content warnings.</p>
-          <h2>Step 4: Configure HSTS (HTTP Strict Transport Security)</h2>
-          <p>HSTS tells browsers to always connect to your subdomain over HTTPS, even if the user types HTTP in the address bar. This prevents downgrade attacks and SSL stripping. In Cloudflare, go to "SSL/TLS &rarr; Edge Certificates" and enable "HTTP Strict Transport Security (HSTS)". Start with a <code>max-age</code> of 3600 seconds (1 hour) for testing, then increase to 31536000 seconds (1 year) after confirming everything works. Include the <code>includeSubDomains</code> directive if you want all subdomains covered. Enable "Preload" to submit your domain to browser preload lists, giving you protection from the very first visit.</p>
-          <h2>Step 5: Verify SSL Configuration</h2>
-          <p>Use the SSL Checker tool on is-cool-me to verify your SSL certificate status. It will confirm the certificate issuer, expiration date, and encryption strength. Visit your subdomain in Chrome or Firefox and click the padlock icon in the address bar to view certificate details. Run an SSL Labs test (ssllabs.com) for a comprehensive security assessment of your configuration. Check for common issues like mixed content warnings (HTTP resources loaded on HTTPS pages), expired certificates, and weak cipher suites. A properly configured SSL setup earns an A+ rating on SSL Labs.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Renew certificates before they expire — Cloudflare does this automatically for edge certificates, but origin certificates need manual renewal or Certbot automation</li><li>Use Full (strict) encryption mode when you control the origin server and can install a valid origin certificate</li><li>Monitor SSL expiration dates using the SSL Checker tool or set up calendar reminders</li><li>Test your site's SSL configuration after any DNS change, as misconfigured records can break certificate validation</li></ul>
-          <h2>Conclusion</h2>
-          <p>SSL configuration for an is-cool-me subdomain is straightforward thanks to Cloudflare's automatic certificate management. By enabling proxy mode, configuring the right encryption level, and enforcing HTTPS with HSTS, you ensure every visitor connects securely. This protects your users, improves your search engine ranking, and is a prerequisite for many web platform features like service workers and geolocation APIs.</p>
-          <h2>FAQ</h2>
-          <p><strong>Do I need to install anything on my server for Cloudflare SSL to work?</strong></p>
-          <p>In Flexible mode, no — Cloudflare handles SSL at the edge. For Full (strict) mode, you need a valid certificate on your origin server.</p>
-          <p><strong>Is the SSL certificate really free and auto-renewing?</strong></p>
-          <p>Yes, Cloudflare provides Universal SSL certificates for all proxied domains at no cost. They renew automatically with no action needed from you.</p>
-          <p><strong>Why does my subdomain show a certificate warning?</strong></p>
-          <p>This typically happens if your DNS record is set to DNS-only (gray cloud) rather than proxied (orange cloud). Check your DNS settings and ensure proxy is enabled.</p>
+          ## Introduction to SSL Certificate Setup
+          As a developer setting up projects on is-cool-me subdomains, ensuring the security of your application and its users is paramount. One crucial step in achieving this is setting up an SSL certificate to enable HTTPS (Hypertext Transfer Protocol Secure) for your project. In this guide, we'll walk through the process of obtaining and configuring an SSL certificate for your is-cool-me subdomain, using `myproject.is-pro.dev` as a concrete example. This will not only enhance security but also improve your project's visibility and trustworthiness.
+          
+          ## Prerequisites for SSL Certificate Setup
+          Before diving into the setup process, ensure you have the following prerequisites in place:
+          - An active project on is-cool-me with a subdomain (e.g., `myproject.is-pro.dev`).
+          - Access to your project's DNS settings, either through is-cool-me's control panel or an external DNS manager.
+          - A basic understanding of command-line interfaces (CLI) and DNS records.
+          
+          ## Obtaining an SSL Certificate
+          To obtain an SSL certificate, you can use Let's Encrypt, a free, automated, and open certificate authority. For is-cool-me subdomains, you can leverage the built-in integration with Let's Encrypt or use an external service like Cloudflare for more advanced features. Here, we'll focus on using Cloudflare for its ease of use and additional security benefits.
+          
+          1. **Sign up for Cloudflare**: If you haven't already, create a Cloudflare account and add your site (`myproject.is-pro.dev`) to Cloudflare. This process involves updating your domain's DNS nameservers to point to Cloudflare.
+          2. **Enable SSL/TLS**: In your Cloudflare dashboard, go to the "SSL/TLS" section and select "Full" under the "Encryption Mode" dropdown. This ensures that Cloudflare will handle SSL encryption between the visitor and Cloudflare, and then between Cloudflare and your origin server (in this case, is-cool-me).
+          
+          ## Configuring Your Project for HTTPS
+          After enabling SSL/TLS in Cloudflare, your project should now be accessible over HTTPS. However, to ensure that all traffic is redirected to HTTPS, follow these steps:
+          
+          1. **Update Your Application**: If your application has any hardcoded HTTP URLs, update them to HTTPS to avoid mixed content warnings.
+          2. **Implement HTTP to HTTPS Redirects**: Cloudflare can automatically redirect HTTP traffic to HTTPS. In the Cloudflare dashboard, go to the "Page Rules" section and create a new rule. Set the "If the URL matches" field to `*myproject.is-pro.dev/*` and the "Then" action to "Always use HTTPS". This ensures all requests to your site are redirected to HTTPS.
+          
+          ## Common Pitfalls and Solutions
+          - **Mixed Content Warnings**: If your site loads resources (images, scripts, etc.) over HTTP, users may see mixed content warnings. Solve this by updating all resource URLs to HTTPS.
+          - **Certificate Mismatch**: Ensure your SSL certificate matches your domain. If using Cloudflare, their universal SSL certificate should cover your subdomain.
+          - **DNS Propagation Delays**: Changes to DNS settings can take up to 48 hours to propagate globally. Be patient and use tools like `dig` or online DNS checkers to verify propagation.
+          
+          ## Best Practices for SSL Certificate Management
+          - **Monitor Certificate Expiration**: Let's Encrypt certificates expire every 90 days. If using Cloudflare, they automatically handle renewal.
+          - **Use HSTS (HTTP Strict Transport Security)**: HSTS instructs browsers to only use HTTPS when communicating with your site. Cloudflare can enable HSTS for you.
+          - **Regularly Update Dependencies**: Ensure any libraries or frameworks your project uses are updated to the latest versions to mitigate known security vulnerabilities.
+          
+          ## Performance Considerations
+          Enabling HTTPS can introduce a slight performance overhead due to the encryption process. However, this impact is minimal with modern hardware and the benefits of HTTPS far outweigh the costs. To minimize overhead:
+          - **Enable HTTP/2**: Cloudflare supports HTTP/2, which can improve performance by allowing multiple requests to be sent over a single connection.
+          - **Optimize Server Configuration**: Ensure your server (or is-cool-me's servers, in this case) is configured for optimal performance, including enabling keep-alive, gzip compression, and leveraging browser caching.
+          
+          ## Troubleshooting SSL Certificate Issues
+          If you encounter issues with your SSL setup, start by checking the following:
+          - **Certificate Status**: Use tools like SSL Labs' SSL Test or Mozilla's Observatory to analyze your site's SSL configuration and identify potential issues.
+          - **DNS Records**: Verify that your DNS records are correctly configured and propagated.
+          - **Cloudflare Configuration**: Review your Cloudflare settings to ensure SSL/TLS is enabled and configured as expected.
+          
+          ## Conclusion and Next Steps
+          Setting up an SSL certificate for your is-cool-me subdomain is a straightforward process, especially when leveraging services like Cloudflare. By following the steps outlined in this guide, you've not only enhanced the security of your project but also improved its visibility and credibility. Next, consider implementing additional security measures such as Content Security Policy (CSP), Cross-Origin Resource Sharing (CORS), and regular security audits to further protect your application and users.
+          
+          ## FAQ
+          1. **Q: Can I use a custom SSL certificate with is-cool-me?**
+             A: Yes, though is-cool-me's built-in Let's Encrypt integration or using Cloudflare's universal SSL certificate is recommended for simplicity and automatic renewal.
+          2. **Q: How do I handle SSL certificate renewal?**
+             A: If using Cloudflare, they handle renewal automatically. For custom certificates, ensure you have a process in place to renew your certificate before it expires.
+          3. **Q: Will enabling HTTPS affect my site's SEO?**
+             A: Google favors HTTPS sites in search rankings, so enabling HTTPS can have a positive impact on your site's SEO.
+          4. **Q: Can I use Cloudflare's SSL features with a custom domain?**
+             A: Yes, Cloudflare supports SSL/TLS encryption for custom domains, including the ability to upload your own SSL certificate or use their universal SSL certificate.
+          5. **Q: How do I troubleshoot mixed content warnings?**
+             A: Use the browser's developer tools to identify resources being loaded over HTTP and update their URLs to HTTPS.
+          
+          ## Further Reading
+          - **Let's Encrypt Documentation**: For detailed information on obtaining and renewing SSL certificates with Let's Encrypt.
+          - **Cloudflare SSL/TLS Documentation**: Cloudflare's comprehensive guide to their SSL/TLS features and how to configure them.
+          - **Mozilla's Web Security Guide**: A thorough resource covering web security best practices, including SSL/TLS configuration and security headers.
+          - **SSL Labs' SSL Test**: An online tool for analyzing your site's SSL configuration and identifying potential security issues.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=SSL%20Certificate%20Setup%3A%20From%20Zero%20to%20HTTPS%20Everywhere&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fssl-certificate-setup-guide%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fssl-certificate-setup-guide%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/dns-records-explained/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">DNS Records Explained: A-Z Guide for Developers</span>
+    </a><a href="/guides/netlify-custom-domain-setup/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Netlify Custom Domain Setup with Free Subdomain</span>
+    </a>
+  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
+              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
+              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
+              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article>
+      </div>
+    </div>
+  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

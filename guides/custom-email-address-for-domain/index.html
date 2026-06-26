@@ -170,38 +170,109 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>A custom email address like <code>hello@yourname.is-pro.dev</code> signals professionalism and brand ownership. It tells recipients that you take your online presence seriously. With is-cool-me's Cloudflare DNS integration, you can set up custom email forwarding at no cost using Cloudflare Email Routing or other free forwarding services. This guide covers everything from configuring MX records to setting up SPF, DKIM, and DMARC for reliable email delivery.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An is-cool-me subdomain with DNS managed through Cloudflare</li><li>A Cloudflare account (free tier) with access to Email Routing</li><li>A personal email inbox (Gmail, Outlook, ProtonMail) to receive forwarded messages</li></ul>
-          <h2>Step 1: Enable Cloudflare Email Routing</h2>
-          <p>Log into your Cloudflare account and select your is-pro.dev zone. Navigate to "Email &rarr; Email Routing" and click "Get started". Cloudflare Email Routing is free for up to 100 email addresses per zone. It forwards incoming emails to your destination inbox without storing messages on Cloudflare's servers. The setup requires adding specific MX records and optionally SPF and DKIM records. Cloudflare walks you through each step with a guided setup wizard. Once Email Routing is enabled, you can create custom email addresses that forward to any existing inbox.</p>
-          <h2>Step 2: Configure MX Records</h2>
-          <p>Cloudflare Email Routing requires specific MX records to function. In the Email Routing dashboard, Cloudflare will show you the required MX record values. Typically, these are: <code>route1.mx.cloudflare.net</code> with priority 10 and <code>route2.mx.cloudflare.net</code> with priority 20. In the is-cool-me DNS dashboard (which is your Cloudflare DNS), these records may be added automatically when you enable Email Routing. Verify they exist in the DNS settings. If not, add them manually. Ensure the MX records are set to DNS-only (gray cloud) — proxied MX records break email delivery. The priority 10 route is the primary mail server; the priority 20 route serves as a backup if the first is unavailable.</p>
-          <h2>Step 3: Create Email Addresses and Set Up Forwarding</h2>
-          <p>Back in Cloudflare Email Routing, go to the "Addresses" tab. Click "Create address". Enter your desired email prefix (e.g., <code>hello</code> for <code>hello@yourname.is-pro.dev</code>). Then enter the destination email address where forwarded messages should arrive — this can be a Gmail, Outlook, or any other email address. Click "Save". Repeat for any other addresses you need (<code>support@</code>, <code>admin@</code>, etc.). You can set up catch-all forwarding (all <code>anything@yourname.is-pro.dev</code> addresses) from the settings, but use catch-all sparingly as it increases spam volume. Test forwarding by sending an email to your new custom address — it should arrive in your destination inbox within seconds.</p>
-          <h2>Step 4: Add SPF Record to Prevent Spoofing</h2>
-          <p>An SPF (Sender Policy Framework) TXT record tells receiving email servers which servers are authorized to send email on behalf of your domain. Without SPF, spammers can forge emails that appear to come from your subdomain. In your DNS dashboard, add a TXT record for your subdomain with the value: <code>v=spf1 include:_spf.mx.cloudflare.net ~all</code>. The <code>include:_spf.mx.cloudflare.net</code> authorizes Cloudflare's mail servers, and <code>~all</code> marks unauthenticated email as "soft fail" (receiver can quarantine it). For stricter security, use <code>-all</code> (hard fail) which tells receivers to reject unauthenticated email. However, test with <code>~all</code> first to avoid accidentally blocking legitimate email.</p>
-          <h2>Step 5: Add DKIM and DMARC Records</h2>
-          <p>DKIM (DomainKeys Identified Mail) adds a cryptographic signature to outgoing emails, allowing receivers to verify the email was not tampered with. In Cloudflare Email Routing, go to "Settings &rarr; DKIM". Generate a DKIM key and Cloudflare will provide a TXT record to add to your DNS. This record has a selector name (e.g., <code>cloudflare._domainkey</code>) and a long public key value. Add it to your DNS and enable DKIM signing. DMARC (Domain-based Message Authentication, Reporting & Conformance) builds on SPF and DKIM. Add a DMARC TXT record for <code>_dmarc.yourname.is-pro.dev</code> with a value like: <code>v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@yourname.is-pro.dev</code>. This tells receivers to quarantine emails that fail SPF or DKIM checks and send aggregate reports to your email.</p>
-          <h2>Step 6: Test Email Delivery</h2>
-          <p>After configuring DNS records, test your email setup thoroughly. Send emails to your custom address from different providers (Gmail, Outlook, Yahoo) and confirm they arrive. Check the email headers of received messages to verify SPF (<code>Received-SPF: Pass</code>), DKIM (<code>dkim=pass</code>), and DMARC (<code>dmarc=pass</code>) are all passing. Use online email testing tools like Mail-tester.com to get a comprehensive score (aim for 10/10). If you send emails from your subdomain (not just receive), configure your email client to send through a service that supports your custom domain, such as Gmail's "Send mail as" feature, which requires SMTP configuration.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Create separate email addresses for different purposes: <code>hello@</code> for general inquiries, <code>security@</code> for security reports, <code>abuse@</code> for abuse complaints</li><li>Monitor DMARC reports to detect unauthorized email sending attempts</li><li>Avoid catch-all forwarding unless necessary — it reduces spam filtering accuracy</li><li>Register a separate subdomain just for email if you want to keep email infrastructure isolated from your main site</li></ul>
-          <h2>Conclusion</h2>
-          <p>Setting up custom email on your is-cool-me subdomain is free and straightforward with Cloudflare Email Routing. MX records route incoming mail, SPF prevents spoofing, DKIM provides cryptographic verification, and DMARC ties everything together with a reporting policy. The result is a professional email address that enhances your brand credibility without ongoing costs.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I send email from my custom subdomain, or just receive?</strong></p>
-          <p>Cloudflare Email Routing only handles incoming email (forwarding). To send from your custom address, configure Gmail, Outlook, or another email client to send through an SMTP server that supports your domain.</p>
-          <p><strong>How many emails can I forward per day on the free tier?</strong></p>
-          <p>Cloudflare Email Routing free tier forwards up to 100 emails per day. For higher volumes, consider an email forwarding service or a paid email hosting solution.</p>
-          <p><strong>Why are my forwarded emails going to spam?</strong></p>
-          <p>This is usually an SPF or DKIM configuration issue. Verify your TXT records are published correctly and use an email testing tool to check your email authentication score.</p>
+          ## Introduction to Custom Email Addresses
+          As a developer setting up projects on is-cool-me subdomains, having a custom email address that matches your domain can significantly enhance your branding and professional image. For instance, instead of using a generic email address like `john.doe@example.com`, you can use `john.doe@myproject.is-pro.dev`. This guide will walk you through the process of setting up a custom email address using your subdomain on is-cool-me.
+          
+          ## Prerequisites
+          Before you start, ensure you have the following:
+          - A subdomain set up on is-cool-me, for example, `myproject.is-pro.dev`.
+          - Access to your domain's DNS settings. Since you're using is-cool-me, you'll manage these settings through their control panel.
+          - A mail service provider. For this example, we'll use Mailgun, a popular choice for custom email solutions.
+          
+          ## Setting Up MX Records
+          To set up a custom email address, you need to configure MX (Mail Exchanger) records. These records tell the world which mail server is responsible for receiving emails on your behalf. Here’s how to do it on is-cool-me:
+          1. Log into your is-cool-me control panel and navigate to the DNS settings for your subdomain `myproject.is-pro.dev`.
+          2. Add two new MX records with the following details:
+             - **Priority 10**: Point to `mxa.mailgun.org`
+             - **Priority 20**: Point to `mxb.mailgun.org`
+          These records tell mail servers to first try delivering email to Mailgun’s primary server (`mxa.mailgun.org`), and if that fails, to try the secondary server (`mxb.mailgun.org`).
+          
+          ## Configuring Mail Forwarding
+          To actually receive emails at your custom address, you need to set up mail forwarding. This involves telling Mailgun where to forward emails sent to your custom address. Here’s how:
+          1. Log into your Mailgun control panel and navigate to the domain settings for `myproject.is-pro.dev`.
+          2. Go to the "Routes" tab and click on "Create Route".
+          3. Set up a route with the following conditions and actions:
+             - **Condition**: Match Recipient, `john.doe@myproject.is-pro.dev`
+             - **Action**: Forward, `john.doe@example.com` (your actual email address where you want to receive the forwarded emails)
+          4. Save the route. Now, any email sent to `john.doe@myproject.is-pro.dev` will be forwarded to `john.doe@example.com`.
+          
+          ## Common Pitfalls and Solutions
+          - **MX Record Propagation**: Changes to MX records can take up to 48 hours to propagate globally. If your emails aren’t being delivered, wait for this period to pass before troubleshooting further.
+          - **SPF and DKIM Records**: For better deliverability, ensure you have SPF (Sender Policy Framework) and DKIM (DomainKeys Identified Mail) records set up. These records help prevent spam filters from blocking your emails.
+          - **Mailgun Verification**: Mailgun requires you to verify your domain by adding a TXT record to your DNS settings. Follow the instructions provided by Mailgun during the setup process.
+          
+          ## Best Practices
+          - **Use a Consistent Branding**: Ensure your custom email address matches your project’s branding for a professional look.
+          - **Monitor Your Emails**: Regularly check your custom email address for any issues or undelivered emails.
+          - **Keep Your DNS Settings Organized**: Use clear and descriptive names for your DNS records to avoid confusion.
+          
+          ## Performance Considerations
+          - **Mail Server Uptime**: The reliability of your mail server can impact email deliverability. Choose a reputable mail service provider.
+          - **Email Volume**: If you expect a high volume of emails, consider upgrading your mail service plan to handle the load efficiently.
+          
+          ## Troubleshooting
+          If you encounter issues with email delivery:
+          1. **Check MX Records**: Ensure your MX records are correctly set up and propagated.
+          2. **Verify Domain**: Confirm that your domain is verified with your mail service provider.
+          3. **Inspect Email Headers**: Look at the email headers of undelivered emails for clues about what went wrong.
+          4. **Contact Support**: Reach out to your mail service provider’s support team for assistance.
+          
+          ## Conclusion and Next Steps
+          Setting up a custom email address using your is-cool-me subdomain enhances your professional image and reinforces your branding. By following the steps outlined in this guide, you can efficiently configure a custom email solution using Mailgun. Remember to monitor your email deliverability and adjust your settings as necessary. For further learning, explore the resources listed below.
+          
+          ## FAQ
+          - Q: Can I use Gmail or Outlook for my custom email?
+            A: Yes, you can use Gmail or Outlook by setting up mail forwarding or using their respective SMTP settings.
+          - Q: How do I set up SPF and DKIM records?
+            A: You can set up SPF and DKIM records through your DNS settings. The exact process depends on your mail service provider.
+          - Q: What if my emails are being marked as spam?
+            A: Ensure you have SPF and DKIM records set up, and avoid using spammy keywords in your emails.
+          - Q: Can I have multiple custom email addresses?
+            A: Yes, you can set up multiple custom email addresses by repeating the mail forwarding setup process for each address.
+          
+          ## Further Reading
+          - Mailgun Documentation: For detailed guides on setting up and managing your custom email solution.
+          - is-cool-me Documentation: For specific instructions on managing DNS settings on your subdomain.
+          - SPF and DKIM Setup Guides: Provided by your mail service provider or domain registrar, these guides help you set up these crucial records for better email deliverability.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Set%20Up%20a%20Custom%20Email%20Address%20Using%20Your%20Subdomain&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fcustom-email-address-for-domain%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fcustom-email-address-for-domain%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/static-site-generators-comparison/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Static Site Generators Compared: Hugo, Eleventy, Astro</span>
+    </a><a href="/guides/vps-deployment-with-ssh/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Deploy to a VPS Using SSH and a Custom Subdomain</span>
+    </a>
+  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
+              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
+              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
+              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article>
+      </div>
+    </div>
+  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

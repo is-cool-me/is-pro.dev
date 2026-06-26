@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Security</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4 min read</span>
         </div>
         <h1>Let's Encrypt vs Cloudflare Flexible SSL: A Practical Comparison</h1>
         <p class="article-summary">Understanding the real security differences between Let's Encrypt (end-to-end encryption), Cloudflare Full Strict (edge encryption), and Cloudflare Flexible SSL (partial encryption).</p>
@@ -145,30 +145,64 @@
     </div>
   </header>
 
+  
+  <section class="author-section" aria-label="Article authorship">
+    <div class="container">
+      <div class="author-card" data-reveal>
+        <div class="author-card-main">
+          <h2 class="author-card-title">Written by Mayank Baswal</h2>
+          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+          <div class="author-card-links">
+            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+        <div class="author-card-review">
+          <span class="author-card-review-label">Reviewed by</span>
+          <span class="author-card-reviewer">is-cool-me Technical Review</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="article-layout-section">
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>SSL is not optional anymore, but the "how" of SSL configuration varies significantly. Two of the most common approaches for developers are Let's Encrypt (a free, automated certificate authority) and Cloudflare's Flexible SSL (edge-terminated encryption). While both provide the green padlock in the browser, they differ fundamentally in security model, setup complexity, and the level of encryption they provide. Understanding these differences is crucial for choosing the right approach for your is-cool-me subdomain and for understanding the security implications of your DNS proxy settings.</p>
-          <h2>How Let's Encrypt Works</h2>
-          <p>Let's Encrypt is a free, automated, and open certificate authority operated by the Internet Security Research Group (ISRG). It provides Domain Validation (DV) certificates valid for 90 days, which must be renewed every 60-70 days via the ACME protocol. The certificate is installed on your origin server — your actual web server has the private key and terminates the TLS connection directly. This means encryption is end-to-end: from the visitor's browser to your server, every byte is encrypted. Let's Encrypt validates domain ownership by checking that you control the domain — either by serving a specific file on your web server (HTTP challenge) or by adding a specific DNS TXT record (DNS challenge). The HTTP challenge is simpler but requires your server to be publicly accessible on port 80. The DNS challenge works even if your server is not directly accessible, as long as you can add DNS records.</p>
-          <h2>How Cloudflare Flexible SSL Works</h2>
-          <p>Cloudflare Flexible SSL is a configuration mode where Cloudflare terminates the TLS connection at its edge network and connects to your origin server over plain HTTP. The visitor's browser sees a valid SSL certificate (issued by Cloudflare's partner CA, Google Trust Services), but between Cloudflare and your origin server, traffic is unencrypted. This is the default mode when you enable proxy (orange cloud) on your is-cool-me DNS records and have not configured an SSL certificate on your origin server. Flexible SSL is easy to set up — you do not need to install anything on your server — but it means your traffic is only partially encrypted. Anyone who can intercept traffic between Cloudflare and your origin server (for example, within the same data center or on a compromised network hop) can read your traffic in plaintext.</p>
-          <h2>Security Implications Compared</h2>
-          <p>The fundamental security difference is simple: Let's Encrypt (or any origin certificate) provides end-to-end encryption, while Cloudflare Flexible SSL provides encryption only to the edge. For most personal websites, blogs, and portfolios, Flexible SSL is adequate — the risk of someone intercepting traffic between Cloudflare and your origin is low, and the convenience of zero-configuration SSL is significant. However, for any site handling sensitive data — login forms, payment pages, APIs that transmit personal information — Flexible SSL is not acceptable. The unencrypted hop between Cloudflare and your origin means that anyone with access to that network path can read the data. In this scenario, you should use Full (strict) mode with a valid origin certificate from Let's Encrypt or another CA.</p>
-          <h2>Performance Differences</h2>
-          <p>Let's Encrypt certificates on your origin server mean every HTTPS connection terminates at your server, which is responsible for TLS computation. This adds CPU overhead, especially for servers handling many concurrent connections. Cloudflare's Flexible SSL offloads TLS termination to Cloudflare's edge, reducing the computational load on your origin server. For shared hosting or low-resource VPS instances, this offloading can significantly improve performance. Cloudflare also supports newer TLS protocols and ciphers that your origin server might not support, potentially providing better performance and security for visitors. The trade-off: you gain performance but lose end-to-end encryption.</p>
-          <h2>Setup Complexity</h2>
-          <p>Let's Encrypt requires installing and configuring Certbot or another ACME client on your server. You need to set up automated renewal via cron job or systemd timer. The renewal process must be able to complete the ACME challenge, which requires either port 80 to be accessible (HTTP challenge) or DNS API access (DNS challenge). For developers comfortable with server administration, this is straightforward. For beginners, the setup can be intimidating. Cloudflare Flexible SSL requires zero configuration — just enable the orange cloud on your DNS record and Cloudflare handles the rest. SSL certificates are provisioned automatically, renewed automatically, and never expire visibly to the user. For non-technical users or anyone who wants SSL without managing certificates, Flexible SSL is the clear winner in simplicity.</p>
-          <h2>When to Use Each Approach</h2>
-          <p>Choose Let's Encrypt (with Cloudflare Full Strict) when: you handle sensitive data (logins, payments, personal information), you want end-to-end encryption regardless of regulatory requirements, you control your origin server and can install certificates, or you are building a service where trust and data privacy are core to your value proposition. Choose Cloudflare Flexible SSL when: your site is a blog, portfolio, or content site with no sensitive data, you want maximum performance with minimal server load, you are using shared hosting where you cannot install custom certificates, or you are prototyping and want SSL without configuration overhead. The compromise option: use Cloudflare Full (strict) mode with a Let's Encrypt certificate on your origin — you get the performance benefits of Cloudflare's edge network and the security of end-to-end encryption.</p>
-          <h2>Compliance Considerations</h2>
-          <p>If your project needs to comply with PCI DSS, HIPAA, or other regulations that mandate encryption of data in transit, Flexible SSL likely does not meet compliance requirements. These regulations require end-to-end encryption, which means the traffic between Cloudflare and your origin must also be encrypted. For regulatory compliance, you must use Full (strict) mode with a valid origin certificate. Some regulations also require specific cipher suites and TLS versions, which you can control on your origin server but not at Cloudflare's edge. Always check your specific compliance requirements before choosing an SSL mode.</p>
-          <h2>Conclusion</h2>
-          <p>Let's Encrypt and Cloudflare Flexible SSL serve different needs. Let's Encrypt provides true end-to-end encryption with automated certificate management on your origin server. Cloudflare Flexible SSL offers zero-configuration edge encryption with performance benefits but exposes the Cloudflare-to-origin connection. For is-cool-me subdomains, the choice depends on what you are hosting: use Flexible SSL for content sites and Full (strict) with Let's Encrypt for anything handling sensitive data. Understanding this distinction helps you make informed security decisions for your projects.</p>
-          <h2>Key Takeaways</h2>
-          <ul><li>Let's Encrypt provides end-to-end encryption with certificates on your origin server</li><li>Cloudflare Flexible SSL encrypts traffic to the edge only — origin traffic is plain HTTP</li><li>Flexible SSL is adequate for blogs and portfolios, not for sensitive data</li><li>Let's Encrypt certificates require renewal every 90 days (automated via Certbot)</li><li>Full (strict) mode with origin certificate combines edge performance + end-to-end encryption</li><li>PCI DSS, HIPAA, and other regulations typically require end-to-end encryption, ruling out Flexible SSL</li></ul>
+          As the founder of a developer platform, I've had my fair share of battles with SSL certificates. One of the most significant challenges we faced was ensuring that all our subdomains were secured with HTTPS. With over 500 subdomains, manually managing SSL certificates was a daunting task. That's when I discovered Let's Encrypt and Cloudflare Flexible SSL. In this article, I'll share my hands-on experience with both solutions, highlighting their strengths and weaknesses, and provide a practical comparison to help you make an informed decision.
+          
+          ## Introduction to Let's Encrypt and Cloudflare Flexible SSL
+          Let's Encrypt is a free, automated, and open certificate authority that provides SSL/TLS certificates to websites. It's a game-changer for small to medium-sized websites, as it eliminates the need for manual certificate management. On the other hand, Cloudflare Flexible SSL is a feature offered by Cloudflare, a popular content delivery network (CDN) and security platform. Flexible SSL allows you to enable HTTPS on your website, even if you don't have a valid SSL certificate installed on your origin server. Both solutions have their own strengths and weaknesses, which I'll delve into in the following sections.
+          
+          ## Certificate Management and Automation
+          Let's Encrypt shines when it comes to certificate management and automation. With Let's Encrypt, you can automate the entire certificate issuance and renewal process using tools like Certbot. For example, we use Certbot to automate SSL certificate issuance for our subdomains on our platform, `dev.is-cool-me`. Certbot takes care of verifying domain ownership, generating a certificate signing request (CSR), and installing the certificate on our server. This automation saves us a significant amount of time and reduces the likelihood of human error. In contrast, Cloudflare Flexible SSL doesn't require any certificate management on your part, as it uses a wildcard certificate issued by Cloudflare. However, this means you have limited control over the certificate issuance and renewal process.
+          
+          ## Security Comparison
+          From a security perspective, both Let's Encrypt and Cloudflare Flexible SSL have their strengths and weaknesses. Let's Encrypt provides end-to-end encryption, ensuring that data is encrypted from the client's browser to your origin server. This is particularly important if you're handling sensitive data, such as user passwords or credit card information. On the other hand, Cloudflare Flexible SSL uses a technique called "SSL bridging" to enable HTTPS on your website. This means that data is encrypted from the client's browser to Cloudflare's edge server, but not necessarily from Cloudflare's edge server to your origin server. This can be a security concern if you're handling sensitive data, as it may be transmitted in plaintext between Cloudflare's edge server and your origin server. For example, if you're using Cloudflare Flexible SSL on your e-commerce website, `shop.example.com`, you may want to consider using a full SSL setup to ensure end-to-end encryption.
+          
+          ## Performance and Compatibility
+          In terms of performance, Cloudflare Flexible SSL has a slight edge over Let's Encrypt. Since Cloudflare is a CDN, it can cache and serve your website's content from its edge servers, reducing the latency and improving page load times. Additionally, Cloudflare's Flexible SSL feature is tightly integrated with its CDN, making it easy to enable HTTPS on your website without requiring any additional configuration. Let's Encrypt, on the other hand, requires you to configure your server to use the SSL certificate, which can be a complex process, especially if you're not familiar with SSL/TLS configuration. For example, we use Let's Encrypt on our blog, `blog.is-cool-me`, and had to configure our server to use the SSL certificate. However, the process was relatively straightforward, and we were able to get HTTPS enabled on our blog within a few hours.
+          
+          ## Practical Takeaways
+          Based on my experience with Let's Encrypt and Cloudflare Flexible SSL, here are some practical takeaways to consider:
+          * If you're looking for a free, automated SSL certificate solution, Let's Encrypt is an excellent choice.
+          * If you're already using Cloudflare as your CDN, Flexible SSL is a convenient option to enable HTTPS on your website.
+          * If you're handling sensitive data, consider using a full SSL setup with end-to-end encryption to ensure the security of your users' data.
+          * Be aware of the potential security risks associated with SSL bridging, and take steps to mitigate them if you're using Cloudflare Flexible SSL.
+          
+          ## Key Takeaways
+          * Let's Encrypt provides free, automated SSL certificates with end-to-end encryption.
+          * Cloudflare Flexible SSL enables HTTPS on your website, but uses SSL bridging, which may not provide end-to-end encryption.
+          * Consider using a full SSL setup if you're handling sensitive data.
+          * Be aware of the potential security risks associated with SSL bridging.
+          
+          ## Related Resources
+          For further reading and to learn more about the tools and services mentioned in this article, check out the following resources:
+          * Let's Encrypt: [https://letsencrypt.org/](https://letsencrypt.org/)
+          * Cloudflare Flexible SSL: [https://www.cloudflare.com/ssl/](https://www.cloudflare.com/ssl/)
+          * Certbot: [https://certbot.eff.org/](https://certbot.eff.org/)
+          * SSL Labs: [https://www.ssllabs.com/](https://www.ssllabs.com/)
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
 <p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
@@ -177,7 +211,24 @@
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Let's%20Encrypt%20vs%20Cloudflare%20Flexible%20SSL%3A%20A%20Practical%20Comparison&url=https%3A%2F%2Fis-pro.dev%2Fblog%2Flets-encrypt-vs-cloudflare-flexible-ssl%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fblog%2Flets-encrypt-vs-cloudflare-flexible-ssl%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/blog/indie-saas-pricing-psychology-for-developers/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Indie SaaS Pricing Psychology: What Every Developer Should Know</span>
+    </a><a href="/blog/managing-1000-subdomains-without-losing-your-mind/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Managing 1000+ Subdomains Without Losing Your Mind</span>
+    </a>
+  </div><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

@@ -170,38 +170,130 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>Registering a subdomain on is-cool-me is the first step toward having a free, professionally managed web presence. The platform provides Cloudflare-powered DNS management, free SSL certificates, and a straightforward dashboard for handling all your domain records. This guide explains the complete lifecycle of an is-cool-me subdomain — from choosing the right name and registering it, to configuring DNS records, managing multiple projects, and keeping your subdomain active.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>No previous account required — registration is open to everyone</li><li>A web browser to access dash.is-pro.dev</li><li>A clear idea of what you want to host on your subdomain</li></ul>
-          <h2>Step 1: Choosing a Subdomain Name</h2>
-          <p>Your subdomain name is your identity on the is-cool-me platform. Choose a name that reflects your project or personal brand. For a portfolio site, use your name or initials (e.g., <code>alex.is-pro.dev</code>). For a project, use the project name (e.g., <code>myapp.is-pro.dev</code>). Keep it short, memorable, and easy to type over the phone. Avoid hyphens, numbers, and ambiguous characters like zero vs the letter O. Check that the name is not already registered by searching on the dashboard. If your first choice is taken, try variations like adding your industry or location.</p>
-          <h2>Step 2: Registering Your Subdomain</h2>
-          <p>Navigate to dash.is-pro.dev and enter your desired subdomain name in the registration field. Click "Check Availability". If the name is available, click "Register". The system will provision your subdomain on Cloudflare's DNS infrastructure, creating the necessary zone records. This process takes less than 30 seconds. You will see your new subdomain listed in the dashboard with a default configuration. By default, your subdomain has Cloudflare DNS enabled with proxied (orange cloud) mode, providing DDoS protection and SSL termination from the moment of registration.</p>
-          <h2>Step 3: Understanding the DNS Dashboard</h2>
-          <p>The is-cool-me dashboard presents your DNS records in a table format. Each record shows: type (A, CNAME, MX, TXT, etc.), name (your subdomain prefix), value (the target), TTL (time to live — how long DNS responses are cached), and proxy status (orange cloud for proxied, gray cloud for DNS-only). The dashboard supports all standard record types needed for web hosting, email, and other services. You can add, edit, or delete records at any time. Changes propagate through Cloudflare's global network within seconds.</p>
-          <h2>Step 4: Adding DNS Records for Your Project</h2>
-          <p>Once your subdomain is registered, you need DNS records to connect it to your hosting or service. The type of records depends on what you are hosting: for GitHub Pages, add a CNAME record pointing to <code>username.github.io</code>. For a VPS, add an A record with your server's IP address. For email, add MX records pointing to your email provider. Always verify your records using a DNS checker tool after adding them. Common mistakes include missing trailing dots, wrong record types, and proxy settings that conflict with the service's requirements. For most web hosting platforms, a CNAME record with DNS-only (gray cloud) mode works best.</p>
-          <h2>Step 5: Managing Multiple Subdomains</h2>
-          <p>You can register multiple subdomains under your is-cool-me account, each pointing to different projects or services. The dashboard lists all your subdomains on a single page, making it easy to manage them. Use descriptive names for each subdomain to keep them organized: <code>blog.is-pro.dev</code>, <code>api.is-pro.dev</code>, <code>portfolio.is-pro.dev</code>, etc. Each subdomain is independent — changing DNS records for one does not affect others. This isolation makes it safe to experiment with new configurations on separate subdomains while keeping production services stable.</p>
-          <h2>Step 6: Keeping Your Subdomain Active</h2>
-          <p>is-cool-me subdomains are free but require periodic activity to remain active. The dashboard shows the status of each subdomain, including any inactivity warnings. To keep your subdomain active, ensure it has valid DNS records configured and is serving content. If you stop using a subdomain, you can release it from the dashboard so someone else can register it. Set a reminder to check your subdomain status every few months, especially if you registered it for a project that is temporarily on hold.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Register multiple subdomains for different projects — they are free and isolated from each other</li><li>Use a naming convention that scales: <code>project-type.yourname.is-pro.dev</code> or just <code>projectname.is-pro.dev</code></li><li>Monitor your subdomains with the is-cool-me status dashboard and set up uptime monitoring for critical services</li><li>Remove DNS records for projects you have decommissioned to keep your dashboard clean</li></ul>
-          <h2>Conclusion</h2>
-          <p>The is-cool-me subdomain registry provides a fast, free way to establish a web presence with enterprise-grade DNS infrastructure. With Cloudflare powering the backend, your subdomain benefits from global CDN, DDoS protection, and free SSL from the moment of registration. Whether you need one subdomain for a portfolio or a dozen for various projects, the dashboard makes management simple.</p>
-          <h2>FAQ</h2>
-          <p><strong>How many subdomains can I register?</strong></p>
-          <p>There is no hard limit, but each subdomain should be used for an active project. Register only what you need to keep the platform sustainable for everyone.</p>
-          <p><strong>Can I transfer my subdomain to another user?</strong></p>
-          <p>Subdomain transfers are handled through the dashboard. Both parties need to confirm the transfer, and the receiving user must have an active account.</p>
-          <p><strong>What happens if I stop using my subdomain?</strong></p>
-          <p>After a period of inactivity, the subdomain may be released back to the pool for others to register. Check the platform's terms for the exact inactivity period.</p>
+          ## Introduction to Subdomains on is-cool-me
+          is-cool-me offers a free developer platform that includes the ability to register and manage subdomains, providing developers with a convenient way to host and manage their projects. A subdomain is a subset of a larger domain, and on is-cool-me, these subdomains are hosted under the main domains such as is-pro.dev, is-cool.me, etc. For instance, a developer can register a subdomain like myproject.is-pro.dev to host their web application or project. This guide will walk you through the process of registering and managing subdomains on is-cool-me, covering the prerequisites, step-by-step instructions, common pitfalls, best practices, and troubleshooting.
+          
+          ## Prerequisites for Subdomain Registration
+          Before you can register a subdomain on is-cool-me, you need to have an account on the platform. If you haven't already, sign up for an account on is-cool-me. The registration process is straightforward and requires basic information such as your name, email address, and a password. Once your account is set up, you can proceed to register your subdomain. Ensure you have a clear idea of the subdomain name you wish to register, as it should be unique and not already in use by another user.
+          
+          ## Registering a Subdomain
+          To register a subdomain, follow these steps:
+          1. Log in to your is-cool-me account.
+          2. Navigate to the dashboard or control panel where domain management options are available.
+          3. Look for the option to add or register a new subdomain. This is usually represented by a "+" icon or an "Add Subdomain" button.
+          4. Enter your desired subdomain name, for example, "myproject".
+          5. Select the domain under which your subdomain will be hosted, such as "is-pro.dev".
+          6. Click on the "Register" or "Add Subdomain" button to complete the registration process.
+          7. You will receive a confirmation message once your subdomain is successfully registered.
+          
+          ## DNS Management for Subdomains
+          After registering your subdomain, you may need to configure DNS settings to point to your hosting server or to set up email services. is-cool-me provides a DNS management interface where you can add, edit, or delete DNS records. Common DNS records you might need to configure include:
+          - A records to point your subdomain to an IP address.
+          - CNAME records to point your subdomain to another domain or subdomain.
+          - MX records to set up email services for your subdomain.
+          
+          For example, to point your subdomain "myproject.is-pro.dev" to an IP address "192.0.2.1", you would add an A record with the following details:
+          - Name: myproject
+          - Type: A
+          - Value: 192.0.2.1
+          - TTL: 3600 (or any other suitable TTL value)
+          
+          ## Common Pitfalls and Solutions
+          One common issue developers face is the propagation time for DNS changes. After making changes to your DNS records, it can take up to 48 hours for these changes to propagate globally. If your subdomain is not resolving as expected, wait for the propagation time to pass before troubleshooting further.
+          
+          Another common pitfall is incorrect DNS record configuration. Double-check your DNS records to ensure they are correctly set up. For instance, if you are setting up a CNAME record, make sure the value points to the correct domain or subdomain.
+          
+          ## Best Practices for Subdomain Management
+          To effectively manage your subdomains, follow these best practices:
+          - Use meaningful and descriptive subdomain names to help organize your projects.
+          - Regularly review your DNS records to ensure they are up-to-date and correctly configured.
+          - Use a consistent naming convention for your subdomains across all projects.
+          - Document your subdomain and DNS configurations for future reference and troubleshooting.
+          
+          ## Performance Considerations
+          When hosting applications on subdomains, consider the performance implications. Factors such as the location of your hosting server, the type of content being served, and the configuration of your DNS records can all impact performance. To optimize performance:
+          - Choose a hosting server that is geographically close to your target audience.
+          - Optimize your application and content for faster load times.
+          - Use a content delivery network (CDN) to distribute your content across different geographic locations.
+          
+          ## Troubleshooting Subdomain Issues
+          If you encounter issues with your subdomain, such as it not resolving or loading incorrectly, follow these troubleshooting steps:
+          1. Check your DNS records to ensure they are correctly configured.
+          2. Verify that your subdomain is properly registered and not expired.
+          3. Check for any propagation delays if you have recently made changes to your DNS records.
+          4. Test your subdomain using different browsers and devices to rule out client-side issues.
+          5. Contact is-cool-me support if you are unable to resolve the issue on your own.
+          
+          ## Conclusion and Next Steps
+          Registering and managing subdomains on is-cool-me is a straightforward process that can be completed in a few steps. By following the guidelines and best practices outlined in this guide, you can effectively manage your subdomains and ensure they are properly configured for your projects. For further learning and troubleshooting, refer to the FAQ and Further Reading sections below.
+          
+          ## FAQ
+          1. Q: Can I register multiple subdomains under the same account?
+          A: Yes, you can register multiple subdomains under the same account on is-cool-me.
+          2. Q: How long does it take for DNS changes to propagate?
+          A: DNS changes can take up to 48 hours to propagate globally.
+          3. Q: Can I use a custom domain with is-cool-me?
+          A: Yes, is-cool-me allows you to use custom domains in addition to their provided subdomains.
+          4. Q: How do I set up email services for my subdomain?
+          A: You can set up email services by configuring MX records for your subdomain.
+          5. Q: What is the maximum number of subdomains I can register?
+          A: The maximum number of subdomains you can register may vary depending on your account type and is-cool-me's policies.
+          
+          ## Further Reading
+          For more information on DNS management and subdomain configuration, consider the following resources:
+          - is-cool-me Documentation: The official documentation provides detailed guides on managing subdomains and DNS records.
+          - DNS Tutorial by Cloudflare: A comprehensive tutorial on DNS basics and advanced topics.
+          - Subdomain Management Guide by Namecheap: A guide focused on managing subdomains with a registrar.
+          - DNS Records Explained by Google: A resource explaining different types of DNS records and their uses.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=How%20to%20Register%20and%20Manage%20Subdomains%20on%20is-cool-me&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fsubdomain-registry-guide%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fsubdomain-registry-guide%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/netlify-custom-domain-setup/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Netlify Custom Domain Setup with Free Subdomain</span>
+    </a><a href="/guides/api-subdomain-with-aws-lambda/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Host an API Endpoint on a Subdomain with AWS Lambda</span>
+    </a>
+  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
+              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
+              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
+              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article><article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">Deployment</span></div>
+              <h3 class="post-card-title">Free Hosting with GitHub Pages: Complete Setup Guide</h3>
+              <p class="post-card-excerpt">Learn how to host your static website for free using GitHub Pages, configure custom domains with is-cool-me, and set up automatic deployments from your repository.</p>
+              <a href="/guides/free-hosting-with-github-pages/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article>
+      </div>
+    </div>
+  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

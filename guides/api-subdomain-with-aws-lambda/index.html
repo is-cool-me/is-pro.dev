@@ -170,38 +170,128 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>AWS Lambda enables you to run serverless functions without provisioning or managing servers. Combined with API Gateway, you can build RESTful or HTTP APIs that scale automatically from zero to thousands of requests per second. By exposing your API through an is-cool-me subdomain, you get a clean, branded endpoint with Cloudflare's DNS management and SSL — all while keeping your infrastructure costs near zero for low-traffic APIs.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>An AWS account with Lambda and API Gateway access</li><li>The AWS CLI installed and configured locally (optional but helpful)</li><li>An is-cool-me subdomain registered at dash.is-pro.dev</li><li>Basic knowledge of REST APIs and HTTP methods</li></ul>
-          <h2>Step 1: Create Your Lambda Function</h2>
-          <p>Log into the AWS Management Console and navigate to Lambda. Click "Create function" and choose "Author from scratch". Give your function a name (e.g., <code>my-api-handler</code>). Select a runtime — Node.js 18 or Python 3.11 are good choices. For permissions, create a basic execution role with Lambda basic execution permissions. Write your function code that handles API requests. A simple example returns a JSON response: <code>exports.handler = async (event) => { return { statusCode: 200, body: JSON.stringify({ message: 'Hello from Lambda' }) } }</code>. Click "Deploy" to save your function. Test it with a sample event to confirm it returns the expected response.</p>
-          <h2>Step 2: Set Up API Gateway</h2>
-          <p>Navigate to API Gateway in the AWS console. Click "Create API" and choose "REST API" or "HTTP API". HTTP API is simpler and cheaper for most use cases. Select "Build" and give your API a name (e.g., <code>my-api</code>). Create a route — for a basic API, add a <code>GET /</code> route and a <code>GET /{proxy+}</code> catch-all route. Attach your Lambda function as the integration target. Deploy your API to a stage (e.g., <code>prod</code>). API Gateway assigns an invoke URL like <code>https://abcdef123.execute-api.us-east-1.amazonaws.com</code>. Test this URL in your browser or with curl to verify your Lambda responds correctly.</p>
-          <h2>Step 3: Configure Custom Domain in API Gateway</h2>
-          <p>In API Gateway, go to "Custom domain names" in the left navigation. Click "Create". Enter your is-cool-me subdomain (e.g., <code>api.is-pro.dev</code>). For the endpoint configuration, choose "Regional" (not Edge-optimized, since Cloudflare will handle CDN). Create a TLS certificate using AWS Certificate Manager (ACM) in the same region as your API Gateway. ACM requires domain verification — it will give you a CNAME record to add to your DNS. You need to request the certificate for <code>api.is-pro.dev</code> and optionally a wildcard <code>*.api.is-pro.dev</code>. Once the certificate is issued (verification usually takes a few minutes), select it in the API Gateway custom domain settings and map your API stage to a path (e.g., map <code>GET /</code> to <code>$default</code>).</p>
-          <h2>Step 4: Configure DNS in the is-cool-me Dashboard</h2>
-          <p>Open the is-cool-me DNS dashboard. You need to add two DNS records. First, add the CNAME record that ACM provided during certificate verification (this verifies domain ownership for AWS). Second, add a CNAME record pointing your API subdomain to the API Gateway regional domain name, which looks like <code>d-abc1234.execute-api.us-east-1.amazonaws.com</code>. Important: set the proxy status to DNS-only (gray cloud) for the API Gateway CNAME record. Proxied mode (orange cloud) can interfere with API Gateway's certificate validation and may cause issues with non-HTTP traffic patterns used by API Gateway.</p>
-          <h2>Step 5: Configure CORS for Your API</h2>
-          <p>If your API is called from a frontend application on a different domain, you need to configure CORS (Cross-Origin Resource Sharing). In API Gateway, you can enable CORS at the API level or for individual routes. Add the <code>Access-Control-Allow-Origin</code> header with your frontend domain (or <code>*</code> for development). Also add <code>Access-Control-Allow-Methods</code> and <code>Access-Control-Allow-Headers</code>. If your Lambda returns these headers directly, ensure they are included in the response. Test CORS by making an HTTP request from your frontend and checking for CORS errors in the browser console. Use the HTTP Headers Checker tool on is-cool-me to verify your API's response headers.</p>
-          <h2>Step 6: Monitor and Optimize</h2>
-          <p>Set up CloudWatch monitoring for your Lambda function to track invocation counts, error rates, and duration. Configure basic alerts for 5xx errors exceeding a threshold. For cost management, monitor the AWS Free Tier limits: 1 million Lambda requests and 1 million API Gateway requests per month. Consider using Cloudflare's caching for GET endpoints that return static or slowly-changing data. Add rate limiting via API Gateway's usage plans if your API is publicly accessible. Use the is-cool-me uptime monitoring tools to track your API availability.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Use environment variables in Lambda for configuration like database connection strings and API keys</li><li>Implement proper error handling with consistent JSON error responses</li><li>Enable AWS X-Ray tracing for debugging performance bottlenecks</li><li>Set API Gateway throttling limits to protect against unexpected traffic spikes</li></ul>
-          <h2>Conclusion</h2>
-          <p>AWS Lambda, API Gateway, and an is-cool-me subdomain form a powerful serverless stack for building and exposing APIs. The Lambda function handles business logic, API Gateway manages HTTP routing and scaling, and your subdomain provides a clean, branded endpoint with professional DNS management.</p>
-          <h2>FAQ</h2>
-          <p><strong>Does this setup work with the AWS Free Tier?</strong></p>
-          <p>Yes, AWS Free Tier includes 1 million Lambda requests and 1 million API Gateway requests per month for the first 12 months. After that, costs remain very low for small to moderate traffic.</p>
-          <p><strong>Can I use this with other cloud providers like Google Cloud Functions or Azure Functions?</strong></p>
-          <p>Yes, the DNS configuration approach is similar for any cloud provider. Instead of API Gateway, you would use Cloud Run, Cloud Functions, or Azure API Management with the same CNAME-based custom domain setup.</p>
-          <p><strong>Why does my API return a 403 error after setting up the custom domain?</strong></p>
-          <p>This usually indicates API Gateway's resource policy or AWS WAF is blocking the request. Check your API's resource policy to ensure it allows requests from the custom domain, and verify that the API Gateway stage is properly mapped to the custom domain path.</p>
+          ## Introduction to Serverless APIs on Subdomains
+          As a developer on the is-cool-me platform, hosting an API endpoint on a subdomain can be a powerful way to expose your application's functionality to external services or clients. With the rise of serverless computing, AWS Lambda has become a popular choice for building scalable and cost-effective APIs. In this guide, we'll walk through the process of hosting an API endpoint on a subdomain like `myproject.is-pro.dev` using AWS Lambda and API Gateway.
+          
+          ## Prerequisites for Hosting on AWS
+          Before you begin, ensure you have the following prerequisites in place:
+          - An AWS account with the necessary permissions to create Lambda functions, API Gateway REST APIs, and IAM roles.
+          - The AWS CLI installed and configured on your machine.
+          - A subdomain on the is-cool-me platform, such as `myproject.is-pro.dev`.
+          - Basic knowledge of AWS services, including Lambda, API Gateway, and IAM.
+          
+          ## Setting Up Your AWS Lambda Function
+          To start, you'll need to create a Lambda function that will serve as the backend for your API endpoint. Here’s how you can do it:
+          1. Log in to the AWS Management Console and navigate to the Lambda dashboard.
+          2. Click on "Create function" and choose "Author from scratch".
+          3. Choose "Node.js" (or your preferred runtime) and give your function a name, such as `myProjectApi`.
+          4. Set the handler to `index.handler` (assuming you have an `index.js` file with an `exports.handler` function).
+          5. Create a new role with the necessary permissions for your Lambda function. For a simple API, the `lambda-execution-role` policy should suffice.
+          6. Set the environment variables if needed, and then click "Create function".
+          
+          Example `index.js` for your Lambda function:
+          ```javascript
+          exports.handler = async (event) => {
+              const response = {
+                  statusCode: 200,
+                  body: JSON.stringify('Hello from myproject.is-pro.dev!'),
+              };
+              return response;
+          };
+          ```
+          
+          ## Configuring API Gateway
+          Next, you'll set up an API Gateway to act as the entry point for your API endpoint:
+          1. Navigate to the API Gateway dashboard and click on "Create API".
+          2. Choose "REST API" and give your API a name, such as `MyProjectAPI`.
+          3. Create a new resource and method (e.g., GET) that points to your Lambda function.
+          4. In the "Integration Request" section, choose "Lambda function" and select your Lambda function.
+          5. Deploy your API to a stage, such as "prod".
+          
+          ## Setting Up Custom Domain in API Gateway
+          To use a custom domain like `myproject.is-pro.dev`, follow these steps:
+          1. In the API Gateway dashboard, navigate to "Custom domain names" and click "Create custom domain name".
+          2. Enter your subdomain (`myproject.is-pro.dev`) and select the certificate you want to use (ACM or CloudFront).
+          3. Create a new domain name and wait for it to be available.
+          4. Map your API to the custom domain by creating a new "Domain name" and selecting your API and stage.
+          
+          ## Common Pitfalls and Solutions
+          - **Lambda Function Not Found**: Ensure your Lambda function is correctly named and the handler is set correctly.
+          - **API Gateway Integration Errors**: Verify that your API Gateway is correctly integrated with your Lambda function, and the Lambda function has the necessary permissions.
+          - **Certificate Issues**: Make sure your SSL/TLS certificate is correctly configured and issued for your custom domain.
+          
+          ## Best Practices for Serverless APIs
+          - **Monitor and Log**: Use services like CloudWatch for logging and monitoring to ensure you can debug issues efficiently.
+          - **Security**: Always validate and sanitize user input to your API to prevent common web vulnerabilities.
+          - **Versioning**: Use versioning in your API to manage changes and ensure backward compatibility.
+          
+          ## Performance Considerations
+          - **Cold Start**: Be aware of the cold start issue in Lambda functions, where the first invocation takes longer. Implementing a warm-up function or using provisioned concurrency can mitigate this.
+          - **Function Size**: Keep your Lambda function small and focused to reduce the invocation time and cost.
+          - **API Gateway Caching**: Use API Gateway caching to reduce the number of invocations to your Lambda function for frequently accessed data.
+          
+          ## Troubleshooting Your API
+          - **Test Your API**: Use tools like Postman to test your API endpoint and verify it's working as expected.
+          - **Check Logs**: Look at the logs for both your Lambda function and API Gateway to diagnose any issues.
+          - **Validate Configuration**: Double-check your configuration, including the custom domain setup, API Gateway integration, and Lambda function permissions.
+          
+          ## Conclusion and Next Steps
+          Hosting an API endpoint on a subdomain with AWS Lambda and API Gateway provides a scalable and cost-effective solution for developers on the is-cool-me platform. By following the steps outlined in this guide, you can set up a secure and performant API endpoint for your application. Next, consider exploring additional features such as authentication, rate limiting, and caching to further enhance your API.
+          
+          ## FAQ
+          1. **Q: How do I secure my API endpoint with authentication?**
+             A: You can use AWS services like Cognito or API Gateway's built-in authentication features to secure your API endpoint.
+          2. **Q: Can I use a custom domain with a subdirectory (e.g., myproject.is-pro.dev/api)?**
+             A: Yes, you can configure API Gateway to use a custom domain with a subdirectory by setting up a base path mapping.
+          3. **Q: How do I handle CORS issues with my API endpoint?**
+             A: You can configure CORS settings in API Gateway to allow cross-origin requests to your API endpoint.
+          4. **Q: What are the limits on the size of my Lambda function deployment package?**
+             A: The deployment package size for a Lambda function is limited to 250MB. For larger packages, consider using an Amazon S3 bucket.
+          
+          ## Further Reading
+          - **AWS Lambda Documentation**: For in-depth information on Lambda functions, including best practices and limits.
+          - **API Gateway Documentation**: Detailed guides on setting up and managing REST APIs with API Gateway.
+          - **AWS SDK for JavaScript**: For developing AWS applications, including Lambda functions and API Gateway integrations, in JavaScript.
+          - **AWS CLI Command Reference**: A comprehensive list of AWS CLI commands for managing AWS services from the command line.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Host%20an%20API%20Endpoint%20on%20a%20Subdomain%20with%20AWS%20Lambda&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fapi-subdomain-with-aws-lambda%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fapi-subdomain-with-aws-lambda%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/subdomain-registry-guide/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">How to Register and Manage Subdomains on is-cool-me</span>
+    </a><a href="/guides/cloudflare-proxy-vs-dns-only/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Cloudflare Proxy vs DNS-Only: When to Use Each Mode</span>
+    </a>
+  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
+              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
+              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
+              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article>
+      </div>
+    </div>
+  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

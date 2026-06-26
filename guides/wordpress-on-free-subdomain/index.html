@@ -170,38 +170,116 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          <h2>Introduction</h2>
-          <p>WordPress powers over 40% of all websites on the internet, making it the most popular content management system in the world. While WordPress itself is free, hosting typically costs money. By combining a free is-cool-me subdomain with free or low-cost PHP hosting, you can run a WordPress site for little to no cost. This guide covers deployment options including free PHP hosting services, VPS setups, and the DNS configuration needed to connect your subdomain to WordPress.</p>
-          <h2>Prerequisites</h2>
-          <ul><li>A WordPress installation ready to deploy (downloaded from wordpress.org)</li><li>A MySQL or MariaDB database for WordPress data storage</li><li>An is-cool-me subdomain registered at dash.is-pro.dev</li><li>Basic knowledge of PHP, MySQL, and web server configuration</li></ul>
-          <h2>Step 1: Choose a Hosting Option</h2>
-          <p>There are several ways to host WordPress on a free or low budget. Option one: use a free PHP hosting provider like 000webhost, InfinityFree, or FreeHosting.com. These platforms offer pre-installed WordPress or manual installation via cPanel and Softaculous. Their free tiers include PHP and MySQL support but come with limitations: limited storage (typically 250MB-1GB), forced ads on some providers, and lower performance. Option two: deploy WordPress on a low-cost VPS ($4-6/month) using a LAMP/LEMP stack installation script. Option three: use WordPress.com's free tier, which gives you a subdomain but limits customization and requires a paid upgrade for custom domains. For maximum control and zero ads, a self-hosted WordPress on a low-cost VPS with an is-cool-me subdomain is the best combination.</p>
-          <h2>Step 2: Install WordPress on Your Server</h2>
-          <p>For a VPS setup, install a LAMP (Linux, Apache, MySQL, PHP) stack. Run: <code>apt install apache2 mysql-server php php-mysql php-curl php-gd php-mbstring php-xml php-zip -y</code>. Create a MySQL database and user for WordPress: <code>mysql -u root -p -e "CREATE DATABASE wordpress; CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost'; FLUSH PRIVILEGES;"</code>. Download WordPress: <code>cd /var/www/html && wget https://wordpress.org/latest.tar.gz && tar xzf latest.tar.gz && mv wordpress/* . && rm -rf wordpress latest.tar.gz</code>. Set permissions: <code>chown -R www-data:www-data /var/www/html</code>. Run the WordPress web installer by visiting your VPS IP address in a browser and following the setup wizard.</p>
-          <h2>Step 3: Configure Nginx or Apache for WordPress</h2>
-          <p>Configure your web server for WordPress. For Nginx, create a server block: <code>server { listen 80; server_name yourname.is-pro.dev; root /var/www/wordpress; index index.php; location / { try_files $uri $uri/ /index.php?$args; } location ~ .php$ { include fastcgi_params; fastcgi_pass unix:/var/run/php/php8.1-fpm.sock; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; } }</code>. Enable the site and reload Nginx. For Apache, the default virtual host configuration usually works after pointing the document root to the WordPress directory. Enable the rewrite module: <code>a2enmod rewrite</code> and restart Apache. WordPress requires the <code>mod_rewrite</code> module for clean permalinks, which are important for SEO.</p>
-          <h2>Step 4: Configure DNS in is-cool-me Dashboard</h2>
-          <p>In the is-cool-me DNS dashboard, add an A record pointing your WordPress subdomain to your server's IP address. If you are using a free PHP hosting provider, use a CNAME record pointing to the provider's server domain. For VPS setups, use proxied mode (orange cloud) to hide your server IP and provide DDoS protection. For free hosting providers, use DNS-only (gray cloud) since the provider manages its own SSL. WordPress expects to receive traffic on standard HTTP/HTTPS ports, so proxied mode works well in most cases.</p>
-          <h2>Step 5: Install SSL Certificate</h2>
-          <p>WordPress sites must use HTTPS to avoid browser security warnings. For VPS setups, use Certbot to install a Let's Encrypt certificate: <code>apt install certbot python3-certbot-nginx -y && certbot --nginx -d yourname.is-pro.dev</code>. For free PHP hosting providers, check if they offer free SSL certificates via AutoSSL or Let's Encrypt integration in cPanel. If you use Cloudflare proxied mode, the edge certificate provides SSL automatically, but configure WordPress to detect HTTPS: install a plugin like "Really Simple SSL" or add <code>define('FORCE_SSL_ADMIN', true);</code> to your <code>wp-config.php</code>. Without proper HTTPS detection, WordPress may load resources over HTTP, triggering mixed content warnings.</p>
-          <h2>Step 6: Optimize and Secure WordPress</h2>
-          <p>After WordPress is installed, optimize it for performance and security. Install caching plugins like W3 Total Cache or WP Super Cache. Configure WordPress permalinks to use a clean structure (e.g., <code>/post-name/</code>). Install a security plugin like Wordfence or Sucuri for firewall protection. Change the default <code>wp_</code> database table prefix. Limit login attempts and enforce strong passwords. Set up automated WordPress core, theme, and plugin updates. Verify your WordPress site is responding correctly on your is-cool-me subdomain, with all internal links using the custom domain URL rather than the server IP address.</p>
-          <h2>Best Practices</h2>
-          <ul><li>Never use the default "admin" username — create a unique administrator username during installation</li><li>Keep WordPress core, themes, and plugins updated to patch security vulnerabilities</li><li>Use a child theme for customizations so updates do not overwrite your changes</li><li>Regularly back up your WordPress files and database — use a plugin like UpdraftPlus for automated backups</li></ul>
-          <h2>Conclusion</h2>
-          <p>Running WordPress on an is-cool-me subdomain gives you a powerful content management system with a professional URL. Whether you choose a free PHP hosting provider or a low-cost VPS, the combination of WordPress and your custom subdomain can support anything from a personal blog to a full-featured website, at minimal cost.</p>
-          <h2>FAQ</h2>
-          <p><strong>Can I use the WordPress.com free plan with a custom is-cool-me subdomain?</strong></p>
-          <p>WordPress.com's free plan does not support custom domains. You need at least the Personal plan ($4/month) to connect a custom subdomain.</p>
-          <p><strong>Is WordPress hosting on free PHP providers reliable?</strong></p>
-          <p>Free PHP hosting providers are adequate for low-traffic personal sites but often have performance limitations, forced ads, and less reliable uptime compared to paid options.</p>
-          <p><strong>How do I migrate an existing WordPress site to my is-cool-me subdomain?</strong></p>
-          <p>Export your existing WordPress content via Tools &rarr; Export in the admin panel. Install WordPress on your new host, then use Tools &rarr; Import to upload the exported file. Update the Site URL in Settings &rarr; General to your is-cool-me subdomain.</p>
+          ## Introduction to Hosting WordPress on is-cool-me
+          Hosting a WordPress site on a free is-cool-me subdomain like myproject.is-pro.dev is an excellent way for developers to test and showcase their projects without incurring significant costs. WordPress, as a Content Management System (CMS), offers flexibility and ease of use, making it a popular choice for blogs, portfolios, and small business websites. By leveraging is-cool-me's free subdomains, developers can quickly set up a WordPress site and share it with the world.
+          
+          ## Prerequisites for Hosting WordPress
+          Before you begin, ensure you have the following prerequisites in place:
+          - An is-cool-me account to create a subdomain (e.g., myproject.is-pro.dev).
+          - Basic knowledge of PHP and MySQL, as WordPress is built on these technologies.
+          - A code editor or IDE for editing configuration files.
+          - An FTP client or familiarity with the command line for uploading files to your subdomain.
+          
+          ## Step-by-Step Instructions for Hosting WordPress
+          1. **Create Your Subdomain**: Log into your is-cool-me account and navigate to the subdomain management section. Create a new subdomain, for example, `myproject.is-pro.dev`.
+          2. **Download WordPress**: Visit the official WordPress website and download the latest version of WordPress. The download will be a zip file.
+          3. **Upload WordPress to Your Subdomain**: Use an FTP client (like FileZilla) to upload the unzipped WordPress files to the root directory of your subdomain (`myproject.is-pro.dev`).
+          4. **Create a Database**: WordPress requires a MySQL database to store its data. Create a new database and user through your is-cool-me control panel or using a tool like phpMyAdmin. Note down the database name, username, password, and host, as you'll need these details for the next step.
+          5. **Configure WordPress**: Navigate to `myproject.is-pro.dev` in your web browser. You'll see the WordPress installation screen. Follow the prompts to select your language and then click "Let's go!".
+          6. **Database Configuration**: Enter the database details you created in step 4 into the WordPress configuration form. The database host is usually `localhost`, but check your is-cool-me documentation if you're unsure.
+          7. **Finish Installation**: Complete the installation by setting up your site title, choosing an admin username and password, and providing your email address.
+          
+          ## Common Pitfalls and Solutions
+          - **Permission Issues**: If you encounter permission errors during the upload or installation process, ensure that the files and directories have the correct permissions. Typically, files should have permissions set to 644, and directories to 755.
+          - **Database Connection Errors**: Double-check your database credentials and host. If you're still having issues, contact is-cool-me support to verify that MySQL is properly configured for your subdomain.
+          - **WordPress Updates**: Regularly update your WordPress core, themes, and plugins to prevent security vulnerabilities and ensure compatibility.
+          
+          ## Best Practices for WordPress on is-cool-me
+          - **Use Strong Passwords**: Always use strong, unique passwords for your WordPress admin account and database user.
+          - **Keep Software Up-to-Date**: Regularly update WordPress, themes, and plugins to maintain security and performance.
+          - **Optimize Images**: Use image compression tools to reduce the file size of images, improving page load times.
+          - **Leverage Caching**: Consider using caching plugins like WP Super Cache or W3 Total Cache to improve performance.
+          
+          ## Performance Considerations
+          - **Optimize Database Queries**: Use plugins like Query Monitor to identify and optimize slow database queries.
+          - **Use a Content Delivery Network (CDN)**: A CDN can significantly reduce page load times by serving static content from edge locations closer to your visitors.
+          - **Monitor Performance**: Regularly check your website's performance using tools like GTmetrix or Pingdom, and address any bottlenecks.
+          
+          ## Troubleshooting WordPress Issues
+          - **White Screen of Death**: This is often due to a PHP error. Check your PHP error logs or enable WP_DEBUG in your wp-config.php file to display error messages.
+          - **Internal Server Error**: This can be caused by a variety of issues, including .htaccess file problems or permission errors. Check your server logs for more information.
+          - **Connection Timed Out**: This might be due to a slow database query or excessive server load. Optimize your database and consider upgrading your hosting plan if necessary.
+          
+          ## Conclusion and Next Steps
+          Hosting WordPress on a free is-cool-me subdomain like myproject.is-pro.dev is a straightforward process that can be completed in a few steps. By following best practices, optimizing performance, and troubleshooting common issues, you can ensure your WordPress site runs smoothly and efficiently. Next, consider exploring advanced topics like SEO optimization, security hardening, and custom theme development to further enhance your WordPress site.
+          
+          ## FAQ
+          1. **Q: Can I use a custom domain with my WordPress site on is-cool-me?**
+             A: Yes, you can use a custom domain. However, this typically requires upgrading to a paid plan that supports custom domains.
+          2. **Q: How do I secure my WordPress site from hackers?**
+             A: Use strong passwords, keep your WordPress core, themes, and plugins updated, and consider using security plugins like Wordfence.
+          3. **Q: Can I use e-commerce plugins like WooCommerce on my WordPress site?**
+             A: Yes, you can use e-commerce plugins. However, ensure that your hosting environment meets the plugin's requirements, and consider the implications of handling sensitive customer data.
+          4. **Q: How do I backup my WordPress site?**
+             A: Use plugins like UpdraftPlus or Duplicator to create regular backups of your WordPress files and database.
+          5. **Q: Are there any limitations to using a free is-cool-me subdomain for my WordPress site?**
+             A: Yes, free subdomains may have limitations such as bandwidth restrictions, limited storage, and ads. Always review the terms of service for the most current information.
+          
+          ## Further Reading
+          - **WordPress Codex**: The official WordPress documentation, covering everything from installation to advanced development topics.
+          - **is-cool-me Documentation**: The official is-cool-me documentation, providing detailed guides on using their platform, including subdomain management and database setup.
+          - **PHP Manual**: The official PHP manual, a comprehensive resource for learning PHP, which is essential for customizing and extending WordPress.
+          - **MySQL Documentation**: The official MySQL documentation, useful for understanding and optimizing your WordPress database.
+          - **WP Beginner**: A popular resource for WordPress tutorials, guides, and news, aimed at beginners and experienced users alike.
         </div>
       </div>
     </div>
   </div>
-</article><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Host%20WordPress%20on%20a%20Free%20is-cool-me%20Subdomain&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fwordpress-on-free-subdomain%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fwordpress-on-free-subdomain%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/shopify-store-subdomain/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Connect Shopify Store to a Custom Subdomain</span>
+    </a><a href="/guides/game-server-subdomain-config/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Configure Subdomains for Game Servers and Multiplayer</span>
+    </a>
+  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
+              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
+              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
+              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article><article class="post-card" data-reveal>
+            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:2rem;">📄</div>
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-tags"><span class="post-card-tag">Deployment</span></div>
+              <h3 class="post-card-title">Free Hosting with GitHub Pages: Complete Setup Guide</h3>
+              <p class="post-card-excerpt">Learn how to host your static website for free using GitHub Pages, configure custom domains with is-cool-me, and set up automatic deployments from your repository.</p>
+              <a href="/guides/free-hosting-with-github-pages/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
+            </div>
+          </article>
+      </div>
+    </div>
+  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">

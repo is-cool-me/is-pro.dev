@@ -252,39 +252,86 @@ async function generateContent(prompt, systemPrompt, maxTokens = 1200) {
   }
 }
 
+const TOPICS_PATH = join(__dirname, "content", "topics.js");
+
+function serializeTopic(t) {
+  const esc = JSON.stringify;
+  return `  {
+    slug: ${esc(t.slug)},
+    title: ${esc(t.title)},
+    category: ${esc(t.category || "Blog")},
+    summary: ${esc(t.summary || "")},
+    keywords: ${JSON.stringify(t.keywords || [t.slug.replace(/-/g, " ")])},
+    tags: ${JSON.stringify(t.tags || ["General"])},
+    relatedSlugs: ${JSON.stringify(t.relatedSlugs || [])},
+  }`;
+}
+
 async function discoverNewTopics() {
   if (!isAiEnabled()) return;
   console.log("[ai] Discovering new topics...");
-  const prompt = `Suggest 3 new blog post topics about subdomains, DNS, hosting, or developer infrastructure that are currently popular but have low competition. Return ONLY a JSON array with no markdown formatting, each object having: title (catchy, SEO-friendly), slug (kebab-case), summary (1-2 sentences), category (one word), keywords (array of 4-6 strings), tags (array of 2-3 strings). The topics must be distinct from: DNS caching, subdomain takeover, free tools for developers, indie SaaS pricing, Let's Encrypt vs Cloudflare SSL, abuse handling, fair use policies, reading DNS logs, TXT records for verification, bootstrapper subdomains, CDN on Cloudflare.`;
 
-  const systemPrompt = "You are an SEO content strategist. Return valid JSON only, no markdown, no explanation.";
+  const existingSlugs = [...BLOG_TOPICS, ...GUIDE_TOPICS].map(t => t.slug);
+  const prompt = `Suggest 3 blog post topics about subdomains, DNS, hosting, or developer infrastructure.
+
+Requirements:
+- HIGH search volume, LOW competition
+- Clear search intent (what would someone type into Google?)
+- Specific enough to rank for long-tail keywords
+- Directly relevant to subdomains, free hosting, DNS, or developer tooling
+
+You must NOT suggest any of these existing slugs:
+${existingSlugs.map(s => `  - ${s}`).join("\n")}
+
+Return ONLY a JSON array, each object having:
+- title: SEO-optimized headline (include numbers, "how to", or "vs" if suitable)
+- slug: kebab-case URL (unique, not in the list above)
+- summary: 1-2 sentences (include the main keyword)
+- category: one word (e.g. DNS, Hosting, Security, Deployment, Tutorial, Performance)
+- keywords: array of 4-6 specific long-tail keywords people would search
+- tags: array of 2-3 topic tags`;
+
+  const systemPrompt = "You are an SEO expert. Return valid JSON only, no markdown, no explanation. Prioritize topics with genuine search demand and low competition.";
 
   try {
-    const raw = await generateWithGroq(prompt, systemPrompt);
+    const raw = await generateWithGroq(prompt, systemPrompt, 2000);
     const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
     const suggestions = JSON.parse(cleaned);
     if (!Array.isArray(suggestions)) return;
 
+    const slugs = new Set(existingSlugs);
     let added = 0;
-    const existingSlugs = new Set([...BLOG_TOPICS, ...GUIDE_TOPICS].map(t => t.slug));
+    const newTopics = [];
+
     for (const s of suggestions) {
-      if (s.title && s.slug && s.summary && !existingSlugs.has(s.slug)) {
-        BLOG_TOPICS.push({
+      if (s.title && s.slug && s.summary && !slugs.has(s.slug)) {
+        const topic = {
           slug: s.slug,
           title: s.title,
-          category: s.category || 'Blog',
+          category: s.category || "Blog",
           summary: s.summary,
-          keywords: s.keywords || [s.slug.replace(/-/g, ' ')],
-          tags: s.tags || ['General'],
+          keywords: s.keywords || [s.slug.replace(/-/g, " ")],
+          tags: s.tags || ["General"],
           relatedSlugs: [],
-        });
-        existingSlugs.add(s.slug);
+        };
+        BLOG_TOPICS.push(topic);
+        newTopics.push(topic);
+        slugs.add(s.slug);
         added++;
         console.log(`  ➕ New topic: ${s.title}`);
       }
     }
+
     if (added > 0) {
       console.log(`[ai] Added ${added} new topic(s)`);
+      const src = readFileSync(TOPICS_PATH, "utf-8");
+      const insert = "\n" + newTopics.map(serializeTopic).join(",\n") + ",";
+      const updated = src.replace(
+        /(\n\];\n\nexport const TUTORIAL_TOPICS)/,
+        insert + "$1",
+      );
+      writeFileSync(TOPICS_PATH, updated, "utf-8");
+      console.log(`[ai] Persisted ${added} topic(s) to topics.js`);
     }
   } catch (err) {
     console.warn("[ai] Topic discovery failed:", err.message);

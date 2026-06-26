@@ -1167,14 +1167,32 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
   const tags = Array.isArray(s.tags) ? s.tags : [];
   let features = Array.isArray(s.features) ? s.features : [];
   const githubUrl = s.github_url || "";
-  const category = s.category || "";
+  let category = s.category || "";
   const screenshotPath = `/showcase/screenshots/${domain.subdomain}.${domain.zone}.jpg`;
 
-  if (isAiEnabled() && !longDescription && (s.title || s.description)) {
-    const prompt = `Write 2-3 sentences describing the project "${projectTitle}". ${description ? `Context: ${description}` : ""} ${technologies.length ? `Tech: ${technologies.join(", ")}` : ""} ${tags.length ? `Tags: ${tags.join(", ")}` : ""}. Focus on what it does and why it matters. Use plain text.`;
-    const systemPrompt = "You write concise developer project descriptions.";
-    const aiContent = await generateContent(prompt, systemPrompt, 500);
-    if (aiContent) longDescription = aiContent;
+  if (isAiEnabled() && (!longDescription || !category)) {
+    const ctx = s.title ? `Context: ${s.title} — ${s.description || ""}` : `Domain: ${host}`;
+    const techCtx = technologies.length ? `Tech: ${technologies.join(", ")}` : "";
+    const tagCtx = tags.length ? `Tags: ${tags.join(", ")}` : "";
+    const prompt = `Analyze the developer project "${projectTitle}". ${ctx} ${techCtx} ${tagCtx}
+Respond with JSON only:
+{
+  "description": "2-3 sentences describing what it does and why it matters",
+  "category": "one word category: portfolio | tools | ai | games | bots | anime | open-source | productivity | personal | blog | utilities | other",
+  "tags": ["3-5 relevant tags"]
+}`;
+    const systemPrompt = "You analyze developer projects and return JSON.";
+    const aiContent = await generateContent(prompt, systemPrompt, 800);
+    if (aiContent) {
+      try {
+        const parsed = JSON.parse(aiContent);
+        if (parsed.description) longDescription = parsed.description;
+        if (parsed.category && !category) category = parsed.category;
+        if (Array.isArray(parsed.tags) && tags.length === 0) tags = parsed.tags;
+      } catch {
+        longDescription = aiContent.replace(/^```[^]*?```/g, "").trim();
+      }
+    }
   }
 
   if (features.length === 0 && technologies.length > 0) {

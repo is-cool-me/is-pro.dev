@@ -16,6 +16,23 @@ const require = createRequire(import.meta.url);
 import { generateWithGroq } from "./lib/groq.js";
 
 const delay = ms => new Promise(r => setTimeout(r, ms));
+const MAX_AGE_DAYS = 7;
+
+function daysSince(pubDateStr) {
+  return (Date.parse(new Date().toISOString().split("T")[0]) - Date.parse(pubDateStr)) / (1000 * 60 * 60 * 24);
+}
+
+function isFresh(filePath) {
+  if (!existsSync(filePath)) return false;
+  try {
+    const html = readFileSync(filePath, "utf-8");
+    const m = html.match(/"datePublished"\s*:\s*"(\d{4}-\d{2}-\d{2})"/);
+    if (!m) return false;
+    return daysSince(m[1]) < MAX_AGE_DAYS;
+  } catch {
+    return false;
+  }
+}
 
 function isAiEnabled() {
   return (
@@ -1704,8 +1721,12 @@ async function main() {
     console.log("Generating guides...");
     for (const topic of GUIDE_TOPICS) {
       try {
-        const html = await generateGuide(topic);
         const outPath = join(OUT_DIR, "guides", topic.slug, "index.html");
+        if (isFresh(outPath)) {
+          console.log(`  ⏭️ ${topic.slug} (fresh)`);
+          continue;
+        }
+        const html = await generateGuide(topic);
         writePage(outPath, html);
         console.log(`  ✅ ${topic.slug}`);
         await delay(1500);
@@ -1719,8 +1740,12 @@ async function main() {
     console.log("\nGenerating blog posts...");
     for (const topic of BLOG_TOPICS) {
       try {
-        const html = await generateBlogPost(topic);
         const outPath = join(OUT_DIR, "blog", topic.slug, "index.html");
+        if (isFresh(outPath)) {
+          console.log(`  ⏭️ ${topic.slug} (fresh)`);
+          continue;
+        }
+        const html = await generateBlogPost(topic);
         writePage(outPath, html);
         console.log(`  ✅ ${topic.slug}`);
         await delay(1500);

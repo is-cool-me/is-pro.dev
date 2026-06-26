@@ -256,10 +256,11 @@ const TOPICS_PATH = join(__dirname, "content", "topics.js");
 
 function serializeTopic(t) {
   const esc = JSON.stringify;
+  const diff = t.difficulty ? `\n    difficulty: ${esc(t.difficulty)},` : "";
   return `  {
     slug: ${esc(t.slug)},
-    title: ${esc(t.title)},
-    category: ${esc(t.category || "Blog")},
+    title: ${esc(t.title)},${diff}
+    category: ${esc(t.category || "General")},
     summary: ${esc(t.summary || "")},
     keywords: ${JSON.stringify(t.keywords || [t.slug.replace(/-/g, " ")])},
     tags: ${JSON.stringify(t.tags || ["General"])},
@@ -272,11 +273,11 @@ async function discoverNewTopics() {
   console.log("[ai] Discovering new topics...");
 
   const existingSlugs = [...BLOG_TOPICS, ...GUIDE_TOPICS].map(t => t.slug);
-  const prompt = `Suggest 3 blog post topics about subdomains, DNS, hosting, or developer infrastructure.
+  const prompt = `Suggest 5 topics about subdomains, DNS, hosting, or developer infrastructure — 2 for step-by-step guides and 3 for opinionated blog posts.
 
 Requirements:
 - HIGH search volume, LOW competition
-- Clear search intent (what would someone type into Google?)
+- Clear search intent
 - Specific enough to rank for long-tail keywords
 - Directly relevant to subdomains, free hosting, DNS, or developer tooling
 
@@ -284,54 +285,74 @@ You must NOT suggest any of these existing slugs:
 ${existingSlugs.map(s => `  - ${s}`).join("\n")}
 
 Return ONLY a JSON array, each object having:
-- title: SEO-optimized headline (include numbers, "how to", or "vs" if suitable)
+- type: "guide" or "blog"
+- title: SEO-optimized headline
 - slug: kebab-case URL (unique, not in the list above)
 - summary: 1-2 sentences (include the main keyword)
 - category: one word (e.g. DNS, Hosting, Security, Deployment, Tutorial, Performance)
 - keywords: array of 4-6 specific long-tail keywords people would search
-- tags: array of 2-3 topic tags`;
+- tags: array of 2-3 topic tags
+- difficulty: one of "Beginner", "Intermediate", "Advanced" (only for type "guide")`;
 
   const systemPrompt = "You are an SEO expert. Return valid JSON only, no markdown, no explanation. Prioritize topics with genuine search demand and low competition.";
 
   try {
-    const raw = await generateWithGroq(prompt, systemPrompt, 2000);
+    const raw = await generateWithGroq(prompt, systemPrompt, 2500);
     const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
     const suggestions = JSON.parse(cleaned);
     if (!Array.isArray(suggestions)) return;
 
     const slugs = new Set(existingSlugs);
     let added = 0;
-    const newTopics = [];
+    const newGuides = [];
+    const newBlogs = [];
 
     for (const s of suggestions) {
-      if (s.title && s.slug && s.summary && !slugs.has(s.slug)) {
-        const topic = {
-          slug: s.slug,
-          title: s.title,
-          category: s.category || "Blog",
-          summary: s.summary,
-          keywords: s.keywords || [s.slug.replace(/-/g, " ")],
-          tags: s.tags || ["General"],
-          relatedSlugs: [],
-        };
+      if (!s.title || !s.slug || !s.summary || slugs.has(s.slug)) continue;
+      slugs.add(s.slug);
+      const topic = {
+        slug: s.slug,
+        title: s.title,
+        category: s.category || "General",
+        summary: s.summary,
+        keywords: s.keywords || [s.slug.replace(/-/g, " ")],
+        tags: s.tags || ["General"],
+        relatedSlugs: [],
+      };
+
+      if (s.type === "guide") {
+        topic.difficulty = s.difficulty || "Beginner";
+        GUIDE_TOPICS.push(topic);
+        newGuides.push(topic);
+      } else {
         BLOG_TOPICS.push(topic);
-        newTopics.push(topic);
-        slugs.add(s.slug);
-        added++;
-        console.log(`  ➕ New topic: ${s.title}`);
+        newBlogs.push(topic);
       }
+      added++;
+      console.log(`  ➕ New ${s.type}: ${s.title}`);
     }
 
     if (added > 0) {
       console.log(`[ai] Added ${added} new topic(s)`);
       const src = readFileSync(TOPICS_PATH, "utf-8");
-      const insert = "\n" + newTopics.map(serializeTopic).join(",\n") + ",";
-      const updated = src.replace(
-        /(\n\];\n\nexport const TUTORIAL_TOPICS)/,
-        insert + "$1",
-      );
+
+      let updated = src;
+      if (newGuides.length > 0) {
+        const insert = "\n" + newGuides.map(serializeTopic).join(",\n") + ",";
+        updated = updated.replace(
+          /(\n\];\n\nexport const BLOG_TOPICS)/,
+          insert + "$1",
+        );
+      }
+      if (newBlogs.length > 0) {
+        const insert = "\n" + newBlogs.map(serializeTopic).join(",\n") + ",";
+        updated = updated.replace(
+          /(\n\];\n\nexport const TUTORIAL_TOPICS)/,
+          insert + "$1",
+        );
+      }
       writeFileSync(TOPICS_PATH, updated, "utf-8");
-      console.log(`[ai] Persisted ${added} topic(s) to topics.js`);
+      console.log(`[ai] Persisted topics to topics.js`);
     }
   } catch (err) {
     console.warn("[ai] Topic discovery failed:", err.message);

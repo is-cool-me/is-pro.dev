@@ -170,95 +170,31 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to Static Site Generators
-          Static Site Generators (SSGs) have become a cornerstone of the JAMStack (JavaScript, APIs, and Markup) ecosystem, allowing developers to build fast, secure, and scalable websites. For developers setting up projects on is-cool-me subdomains like myproject.is-pro.dev, choosing the right SSG can be a crucial decision. In this guide, we'll delve into the world of Hugo, Eleventy, and Astro, exploring their strengths, weaknesses, and use cases.
-          
-          ## Prerequisites
-          Before diving into the world of SSGs, ensure you have the following prerequisites:
-          - Node.js (for Eleventy and Astro) or Go (for Hugo) installed on your machine.
-          - A code editor or IDE of your choice.
-          - Familiarity with Markdown, HTML, CSS, and JavaScript.
-          - An is-cool-me subdomain (e.g., myproject.is-pro.dev) set up for deployment.
-          
-          ## Setting Up Hugo
-          Hugo is a popular SSG written in Go, known for its speed and ease of use. To set up a Hugo project:
-          1. Install Hugo using the command `brew install hugo` (on macOS) or download the binary from the official Hugo website.
-          2. Create a new Hugo site using `hugo new site myproject`.
-          3. Navigate into your project directory with `cd myproject`.
-          4. Initialize a Git repository with `git init`.
-          5. Install a theme (e.g., the Ananke theme) using `git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke`.
-          6. Configure your site in `config.toml`, specifying your base URL as `https://myproject.is-pro.dev`.
-          7. Create content in the `content` directory, using Markdown files for blog posts and pages.
-          8. Build your site with `hugo`, and deploy it to your is-cool-me subdomain.
-          
-          ## Setting Up Eleventy
-          Eleventy is a lightweight, JavaScript-based SSG that's highly customizable. To set up an Eleventy project:
-          1. Install Eleventy using npm with `npm install -g @11ty/eleventy`.
-          2. Create a new Eleventy site using `npx eleventy-new myproject`.
-          3. Navigate into your project directory with `cd myproject`.
-          4. Initialize a Git repository with `git init`.
-          5. Configure your site in `.eleventy.js`, specifying your base URL as `https://myproject.is-pro.dev`.
-          6. Create content in the `src` directory, using Markdown files for blog posts and pages.
-          7. Build your site with `npx eleventy`, and deploy it to your is-cool-me subdomain.
-          
-          ## Setting Up Astro
-          Astro is a modern, JavaScript-based SSG that's designed for performance and ease of use. To set up an Astro project:
-          1. Install Astro using npm with `npm create astro@latest myproject`.
-          2. Navigate into your project directory with `cd myproject`.
-          3. Initialize a Git repository with `git init`.
-          4. Configure your site in `astro.config.js`, specifying your base URL as `https://myproject.is-pro.dev`.
-          5. Create content in the `src` directory, using Markdown files for blog posts and pages.
-          6. Build your site with `npm run build`, and deploy it to your is-cool-me subdomain.
-          
-          ## Common Pitfalls and Solutions
-          When working with SSGs, common pitfalls include:
-          - **Incorrect base URL**: Ensure your base URL is correctly configured in your SSG's configuration file to avoid broken links.
-          - **Missing dependencies**: Verify that all dependencies are installed and up-to-date to avoid build errors.
-          - **Incompatible themes**: Choose a theme compatible with your SSG to avoid layout issues.
-          
-          ## Best Practices
-          To get the most out of your SSG:
-          - **Use a consistent naming convention**: Use a consistent naming convention for your files and directories to simplify maintenance.
-          - **Optimize images**: Optimize images to reduce page load times and improve performance.
-          - **Leverage caching**: Leverage caching mechanisms to reduce the number of requests to your site.
-          
-          ## Performance Considerations
-          To optimize the performance of your SSG:
-          - **Use a fast build process**: Choose an SSG with a fast build process to reduce deployment times.
-          - **Minify and compress files**: Minify and compress files to reduce page load times.
-          - **Leverage CDNs**: Leverage Content Delivery Networks (CDNs) to reduce the distance between your users and your site.
-          
-          ## Troubleshooting
-          When troubleshooting issues with your SSG:
-          - **Check the documentation**: Consult the official documentation for your SSG to identify potential solutions.
-          - **Search online forums**: Search online forums and communities for similar issues and solutions.
-          - **Verify dependencies**: Verify that all dependencies are installed and up-to-date.
-          
-          ## Conclusion and Next Steps
-          In conclusion, Hugo, Eleventy, and Astro are powerful SSGs that can help you build fast, secure, and scalable websites on is-cool-me subdomains like myproject.is-pro.dev. By following the steps outlined in this guide, you can choose the right SSG for your project and start building today. Next steps include:
-          - **Deploying your site**: Deploy your site to your is-cool-me subdomain and verify that it's working correctly.
-          - **Configuring analytics**: Configure analytics tools to track user behavior and optimize your site.
-          - **Creating content**: Create high-quality content to attract and engage your target audience.
-          
-          ## FAQ
-          1. **Q: Can I use multiple SSGs for a single project?**
-          A: While it's technically possible, using multiple SSGs for a single project can add complexity and is generally not recommended.
-          2. **Q: How do I handle dynamic content with an SSG?**
-          A: You can handle dynamic content with an SSG by using APIs or server-side rendering.
-          3. **Q: Can I use an SSG with a headless CMS?**
-          A: Yes, you can use an SSG with a headless CMS to manage content and separate it from your presentation layer.
-          4. **Q: How do I optimize images for web use?**
-          A: You can optimize images for web use by compressing them using tools like ImageOptim or ShortPixel.
-          5. **Q: What are the benefits of using a CDN with an SSG?**
-          A: Using a CDN with an SSG can reduce page load times, improve performance, and increase scalability.
-          
-          ## Further Reading
-          For more information on SSGs and the JAMStack ecosystem, check out the following resources:
-          - **Hugo documentation**: The official Hugo documentation provides a comprehensive guide to getting started with Hugo.
-          - **Eleventy documentation**: The official Eleventy documentation offers a detailed guide to configuring and customizing Eleventy.
-          - **Astro documentation**: The official Astro documentation provides a step-by-step guide to building fast and scalable websites with Astro.
-          - **JAMStack.org**: The official JAMStack website offers a wealth of information on the JAMStack ecosystem, including tutorials, case studies, and community resources.
-          - **Netlify**: Netlify is a popular platform for deploying and managing JAMStack sites, offering a range of features and tools for developers.
+          <h2>Introduction</h2>
+          <p>Static site generators (SSGs) have revolutionized how developers build websites by combining the flexibility of modern development workflows with the speed and security of static HTML. The choice of SSG affects your development experience, build times, hosting options, and long-term maintainability. This guide compares three of the most popular SSGs — Hugo, Eleventy, and Astro — to help you choose the right tool for your is-cool-me subdomain project.</p>
+          <h2>Prerequisites</h2>
+          <ul><li>Basic familiarity with the command line and Git</li><li>A code editor (VS Code, Sublime Text, or similar)</li><li>An is-cool-me subdomain to deploy your site</li><li>Understanding of HTML, CSS, and basic templating concepts</li></ul>
+          <h2>Hugo: Speed Above All</h2>
+          <p>Hugo is the fastest static site generator, capable of building thousands of pages in seconds. Written in Go, it has no runtime dependencies — you download a single binary and start building. Hugo's template system uses Go templates, which have a learning curve but offer powerful features like shortcodes, content adapters, and menu management. Hugo excels at content-heavy sites: documentation projects, blogs with hundreds of posts, and large corporate sites. Its built-in asset pipeline handles SCSS/SASS compilation, image processing, JavaScript bundling, and fingerprinting without third-party tools. The theme ecosystem is mature, with hundreds of free and premium themes. Hugo's content organization is file-based using front matter in Markdown, with taxonomies for categorizing content. The main downside is that Go templates can be verbose, and Hugo's configuration is YAML-based with less community support for non-standard setups.</p>
+          <h2>Eleventy: Simplicity and Flexibility</h2>
+          <p>Eleventy (11ty) prides itself on being a simpler alternative to more complex SSGs. It does not impose a specific template language — you can use Nunjucks, Liquid, Handlebars, EJS, Pug, or plain HTML, even mixing them within the same project. This flexibility makes Eleventy an excellent choice for developers transitioning from different frameworks. Eleventy outputs zero client-side JavaScript by default, keeping your sites lean and fast. Its configuration is JavaScript-based (an <code>.eleventy.js</code> file), giving you full programmatic control over collections, filters, and build processes. Eleventy's ecosystem supports plugins for RSS feeds, sitemaps, image optimization, and syntax highlighting. It handles small to medium-sized sites well, but build times can become noticeable beyond a few thousand pages. Eleventy is ideal for portfolios, simple blogs, and marketing sites where simplicity and output quality matter more than build speed.</p>
+          <h2>Astro: Component-Based Architecture</h2>
+          <p>Astro represents the next generation of static site generators, combining a component-based architecture with zero-JS output by default. You build pages using Astro components (which support JSX-like syntax), and Astro renders them to static HTML at build time. What sets Astro apart is its ability to use components from React, Vue, Svelte, or Solid.js within the same project — you can import a React component alongside a Svelte component, and Astro handles the rendering. This makes Astro perfect for teams migrating from a specific framework or projects that need to reuse existing components. Astro's islands architecture lets you selectively hydrate interactive components on the client while keeping the rest of the page static. It supports Markdown and MDX for content, has built-in image optimization, and provides RSS, sitemap, and SEO integrations. The main trade-off is that Astro is newer, so its plugin ecosystem is smaller than Hugo's or Eleventy's.</p>
+          <h2>Comparison by Use Case</h2>
+          <p>For a documentation-heavy project or blog with hundreds of posts, Hugo's build speed and mature feature set make it the clear winner. For a developer portfolio or simple marketing site where simplicity and output quality are priorities, Eleventy provides the most straightforward path from project start to deployment. For a site that needs interactive components from multiple frameworks (React + Vue together), or a team that already knows a component framework and wants to adopt a static site, Astro offers unique advantages. All three generators produce static HTML that can be hosted on any free platform — GitHub Pages, Vercel, Netlify, or Cloudflare Pages — paired with your is-cool-me subdomain.</p>
+          <h2>Deployment Considerations</h2>
+          <p>All three SSGs deploy the same way: you build the site locally (or via CI), generating an output folder (<code>public</code> for Hugo, <code>_site</code> for Eleventy, <code>dist</code> for Astro), and deploy that folder to your hosting platform. GitHub Actions, Vercel, Netlify, and Cloudflare Pages all support automatic builds triggered by Git pushes. Hugo builds complete in seconds even for large sites, reducing CI wait times. Eleventy and Astro take longer for larger sites but still build in under a minute for most projects. Configure your hosting platform's build command and output directory, connect your is-cool-me subdomain via a CNAME record, and your site is live with automatic SSL.</p>
+          <h2>Best Practices</h2>
+          <ul><li>Choose the SSG that matches your content structure and team skills rather than chasing the newest tool</li><li>Use Git-based content management — all three SSGs work well with headless CMS options like Forestry or Decap CMS</li><li>Optimize images at build time using each SSG's built-in image pipeline for faster page loads</li><li>Configure incremental builds for large sites to reduce build times during development</li></ul>
+          <h2>Conclusion</h2>
+          <p>Hugo, Eleventy, and Astro each excel in different scenarios. Hugo offers unmatched speed for content-heavy sites, Eleventy provides simplicity and template flexibility, and Astro delivers a modern component architecture with multi-framework support. All three pair perfectly with an is-cool-me subdomain and free hosting platforms, giving you a professional web presence without infrastructure costs.</p>
+          <h2>FAQ</h2>
+          <p><strong>Can I switch between SSGs after my site is already built?</strong></p>
+          <p>Yes, since all three output static HTML, you can migrate content and rebuild with a different SSG. The effort depends on how your content is structured — Markdown front matter is broadly compatible.</p>
+          <p><strong>Which SSG has the best image optimization?</strong></p>
+          <p>Astro and Hugo both have excellent built-in image processing. Eleventy requires a plugin (eleventy-img) for image optimization, which is well-maintained and powerful.</p>
+          <p><strong>Do I need to know JavaScript to use these SSGs?</strong></p>
+          <p>Hugo does not require JavaScript — everything is configured with YAML/TOML and Go templates. Eleventy and Astro use JavaScript for configuration but the templates can be HTML-only or use template languages that do not require JS knowledge.</p>
         </div>
       </div>
     </div>

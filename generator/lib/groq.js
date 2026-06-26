@@ -76,6 +76,7 @@ export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 12
     top_p: 0.9
   };
 
+  let rateLimitedCount = 0;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     if (attempt > 0) {
       const backoff = Math.min(1000 * Math.pow(2, attempt - 1), 30000);
@@ -108,10 +109,13 @@ export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 12
       const res = await fetch(`${GROQ_BASE_URL}/chat/completions`, opts);
 
       if (res.status === 429) {
+        if (++rateLimitedCount > MAX_RETRIES) {
+          throw new Error('Rate limited — all retries exhausted');
+        }
         const retryAfter = parseInt(res.headers.get('Retry-After') || '5', 10);
         const body = await res.text().catch(() => '');
         console.warn(`[groq] Rate limited (key ${(keyCursor - 1) % (keys?.length || 1)}, proxy ${(proxyCursor - 1) % (proxies?.length || 1)}) — rotating`);
-        await sleep(retryAfter * 1000);
+        await sleep(Math.min(retryAfter, 10) * 1000);
         continue;
       }
 
@@ -135,4 +139,5 @@ export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 12
       console.warn(`[groq] Attempt ${attempt + 1} failed:`, err.message);
     }
   }
+  throw new Error('All generation retries exhausted');
 }

@@ -170,82 +170,31 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to Building a Developer Portfolio
-          As a developer, having a professional online presence is crucial for showcasing your skills, sharing your projects, and attracting potential employers. A well-crafted portfolio can significantly enhance your personal brand and open up new opportunities. In this guide, we will walk you through the process of building and hosting a developer portfolio for free, using GitHub Pages and a custom subdomain on is-cool-me, such as myproject.is-pro.dev.
-          
-          ## Prerequisites
-          Before you start, ensure you have the following:
-          - A GitHub account (create one if you don't have it already)
-          - Basic knowledge of HTML, CSS, and JavaScript
-          - A code editor or IDE of your choice
-          - A project or a set of projects you want to showcase in your portfolio
-          
-          ## Setting Up Your Portfolio
-          To set up your portfolio, follow these steps:
-          1. **Create a new repository** on GitHub for your portfolio. Name it something like `myproject` to keep it simple.
-          2. **Initialize a Git repository** in your local project folder using `git init`.
-          3. **Create a basic HTML structure** for your portfolio. This can include an index.html file for your homepage, a projects.html file for listing your projects, and a contact.html file for your contact information.
-          4. **Style your portfolio** using CSS. You can use a CSS framework like Bootstrap to make it easier.
-          5. **Add interactivity** with JavaScript if needed. This could be for animations, form submissions, or dynamic content loading.
-          6. **Commit your changes** to your local Git repository using `git add .` and `git commit -m "Initial commit"`.
-          7. **Link your local repository to GitHub** using `git remote add origin https://github.com/yourusername/myproject.git`, replacing `yourusername` with your actual GitHub username.
-          8. **Push your changes to GitHub** using `git push -u origin master`.
-          
-          ## Configuring GitHub Pages
-          To host your portfolio on GitHub Pages:
-          1. **Go to your repository settings** on GitHub.
-          2. **Scroll down to the GitHub Pages section**.
-          3. **Select the branch** you want to use for your GitHub Pages site. Typically, this is the `master` branch.
-          4. **Choose a theme** if you want, or use your custom HTML, CSS, and JavaScript files.
-          5. **Save your changes**. GitHub will now build and deploy your site.
-          
-          ## Setting Up a Custom Subdomain on is-cool-me
-          To set up a custom subdomain like myproject.is-pro.dev:
-          1. **Create an account** on is-cool-me if you haven't already.
-          2. **Follow the instructions** provided by is-cool-me to set up your custom subdomain. This usually involves verifying your domain ownership and configuring DNS settings.
-          3. **Update your GitHub Pages site** to use the custom subdomain. In your repository settings, go to the GitHub Pages section, and under "Custom domain", enter your subdomain (e.g., myproject.is-pro.dev).
-          4. **Save your changes**. It may take some time for the DNS changes to propagate.
-          
-          ## Common Pitfalls and Solutions
-          - **DNS Propagation**: If your site isn't accessible after setting up the custom subdomain, wait for up to 48 hours for DNS changes to propagate.
-          - **GitHub Pages Build Failures**: Check the GitHub Pages build logs for errors. Common issues include invalid HTML or CSS, and missing files.
-          - **SSL Certificate Issues**: Ensure your custom subdomain has an SSL certificate. GitHub Pages automatically provides SSL certificates for custom domains.
-          
-          ## Best Practices
-          - **Keep Your Portfolio Up-to-Date**: Regularly update your portfolio with new projects and skills.
-          - **Optimize for Mobile**: Ensure your portfolio is responsive and looks good on mobile devices.
-          - **Use Clear and Concise Language**: Make sure your portfolio is easy to navigate and understand.
-          
-          ## Performance Considerations
-          - **Use Image Compression**: Compress your images to reduce page load times.
-          - **Minify CSS and JavaScript**: Use tools like Gzip or Brotli to minify your CSS and JavaScript files.
-          - **Leverage Browser Caching**: Use meta tags or HTTP headers to specify how long browsers should cache your site's assets.
-          
-          ## Troubleshooting
-          - **Check GitHub Status**: If you're experiencing issues with GitHub Pages, check the GitHub status page for any outages or maintenance.
-          - **Inspect Browser Console**: For JavaScript errors, inspect the browser console for error messages.
-          - **Validate HTML and CSS**: Use validators like the W3C HTML Validator or CSS Validator to ensure your HTML and CSS are valid.
-          
-          ## Conclusion and Next Steps
-          Building and hosting a developer portfolio for free is a straightforward process using GitHub Pages and a custom subdomain on is-cool-me. By following the steps outlined in this guide, you can create a professional online presence that showcases your skills and projects. Next, focus on regularly updating your portfolio, engaging with the developer community, and continuously improving your skills to enhance your personal brand.
-          
-          ## FAQ
-          1. **Q: Can I use a custom domain instead of a subdomain?**
-             A: Yes, you can use a custom domain (e.g., myproject.dev) instead of a subdomain. The process is similar, but you'll need to configure your DNS settings accordingly.
-          2. **Q: How do I add a blog to my portfolio?**
-             A: You can add a blog to your portfolio by creating a separate section for blog posts. You can use a static site generator like Jekyll or Hugo to make it easier to manage your blog posts.
-          3. **Q: Can I use other free hosting services besides GitHub Pages?**
-             A: Yes, there are other free hosting services like Vercel, Netlify, or 000webhost. Each has its pros and cons, so choose one that fits your needs.
-          4. **Q: How do I protect my portfolio from spam or abuse?**
-             A: Use CAPTCHAs for form submissions, and consider using a service like Google reCAPTCHA. Also, ensure your contact information is not easily scrapable by bots.
-          5. **Q: Can I sell my projects or services through my portfolio?**
-             A: Yes, you can sell your projects or services through your portfolio. Consider using e-commerce integrations or payment gateways like Stripe or PayPal.
-          
-          ## Further Reading
-          - **GitHub Pages Documentation**: For detailed information on using GitHub Pages, including custom domains and themes.
-          - **is-cool-me Documentation**: For instructions on setting up custom subdomains and other features on is-cool-me.
-          - **Web Development Tutorials**: Sites like FreeCodeCamp, W3Schools, and MDN Web Docs offer extensive tutorials and guides on web development.
-          - **Personal Branding for Developers**: Resources like "The Complete Software Developer's Career Guide" by John Sonmez can help you build a strong personal brand as a developer.
+          <h2>Introduction</h2>
+          <p>Your developer portfolio is your digital business card — it is often the first thing potential employers or clients see when they search for you online. A professional portfolio does not need expensive hosting or a premium domain. With free tools like GitHub Pages, Vercel, or Netlify, and a no-cost is-cool-me subdomain, you can build and host a polished portfolio site that showcases your skills, projects, and experience without spending a penny on infrastructure.</p>
+          <h2>Prerequisites</h2>
+          <ul><li>A GitHub account for hosting (or Vercel/Netlify account)</li><li>Basic HTML/CSS knowledge (or use a template)</li><li>An is-cool-me subdomain registered at dash.is-pro.dev</li><li>Portfolio content: projects, skills, work experience, and contact information</li></ul>
+          <h2>Step 1: Choose Your Portfolio Platform</h2>
+          <p>There are several approaches to building a developer portfolio. Option one: hand-code a custom HTML/CSS site for full control and minimal overhead. Option two: use a static site generator like Hugo or Eleventy for templating and content management. Option three: use a pre-built template from HTML5 UP, Start Bootstrap, or similar sites. Option four: deploy a portfolio built with a framework like React or Vue. For most developers, a hand-coded or template-based static site hosted on GitHub Pages offers the best balance of simplicity and customization. Your portfolio should include at minimum: an "About" section, a project showcase with links to live demos and source code, a skills section, work experience timeline, and a contact form or links to your professional profiles.</p>
+          <h2>Step 2: Build or Customize Your Portfolio</h2>
+          <p>Create an <code>index.html</code> file as the entry point. Structure it with semantic HTML5 elements: <code>&lt;header&gt;</code> for navigation, <code>&lt;main&gt;</code> for content sections, and <code>&lt;footer&gt;</code> for contact links. Use CSS Grid or Flexbox for responsive layouts that work on mobile and desktop. Optimize images with tools like Squoosh or TinyPNG to keep page loads fast. Add meta tags for SEO and social sharing: include a descriptive title, meta description, and Open Graph tags with a profile image. Your portfolio should load in under 2 seconds — use Lighthouse in Chrome DevTools to audit performance and fix issues like render-blocking resources or oversized images.</p>
+          <h2>Step 3: Deploy to GitHub Pages</h2>
+          <p>Create a GitHub repository named <code>{username}.github.io</code> for a user site, or a regular name for a project site. Push your portfolio files to the <code>main</code> branch. In the repository settings, go to "Pages" and set the source to "Deploy from branch: main, /root". Your site is immediately live at <code>https://{username}.github.io</code>. If you chose Vercel instead, connect your repository and it auto-deploys with a <code>.vercel.app</code> domain. Verify the deployment loads correctly before adding your custom subdomain.</p>
+          <h2>Step 4: Connect Your is-cool-me Subdomain</h2>
+          <p>In the is-cool-me DNS dashboard, add a CNAME record pointing your portfolio subdomain (e.g., <code>portfolio.is-pro.dev</code> or <code>yourname.is-pro.dev</code>) to your GitHub Pages URL (<code>username.github.io</code>). Save the record. Next, go to your GitHub Pages settings and enter the custom domain: <code>portfolio.is-pro.dev</code>. GitHub will create a CNAME file and provision a Let's Encrypt certificate. For Vercel deployments, add the subdomain in Vercel's Domains settings and follow the DNS instructions provided. SSL is provisioned automatically by both platforms.</p>
+          <h2>Step 5: Add Customizations and Polish</h2>
+          <p>Once the basic portfolio is live, add finishing touches: configure a custom 404 page that matches your design, add a blog or writing section if you write technical articles, set up form handling for your contact form (Netlify Forms works well for static sites), add Google Analytics or a privacy-friendly alternative like Plausible to track visitors, and submit your site to Google Search Console for indexing. Consider adding a dark mode toggle using CSS custom properties and a small JavaScript snippet — it is a subtle touch that impresses technical recruiters.</p>
+          <h2>Best Practices</h2>
+          <ul><li>Keep your portfolio URL simple and memorable — <code>firstname-lastname.is-pro.dev</code> or just <code>yourname.is-pro.dev</code> work well</li><li>Showcase 3-5 best projects with clear descriptions, technologies used, and links to live demos and source code</li><li>Include measurable impact in project descriptions (e.g., "Reduced API response time by 40%" rather than "Improved performance")</li><li>Add a downloadable PDF resume link for recruiters who want a traditional format</li></ul>
+          <h2>Conclusion</h2>
+          <p>A professional developer portfolio on a custom subdomain is achievable with entirely free tools. GitHub Pages or Vercel handle hosting and SSL, while is-cool-me provides the branded URL. The total cost is zero, yet the result is a polished, professional online presence that helps you stand out in the job market.</p>
+          <h2>FAQ</h2>
+          <p><strong>Can I use my own domain instead of an is-cool-me subdomain?</strong></p>
+          <p>Yes, the same techniques work with paid domains. However, an is-cool-me subdomain is completely free and includes Cloudflare DNS management and SSL — saving you $10-15/year on domain registration.</p>
+          <p><strong>How do I add a blog to my portfolio?</strong></p>
+          <p>You can add a blog section by creating individual HTML pages for each post and linking them from a blog index. For a more scalable approach, use a static site generator like Eleventy or Hugo that supports blog-like collections.</p>
+          <p><strong>Does a custom subdomain affect my portfolio's SEO?</strong></p>
+          <p>Using a custom subdomain like <code>yourname.is-pro.dev</code> provides SEO benefits similar to a custom domain. Search engines treat subdomains as distinct entities, so your portfolio can rank independently while benefiting from the parent domain's trust.</p>
         </div>
       </div>
     </div>

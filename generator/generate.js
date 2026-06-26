@@ -510,7 +510,6 @@ Target audience: Developers setting up projects on is-cool-me subdomains.
 Style: Technical but accessible, with practical steps, code examples where relevant, real-world context, and detailed explanations.
 Structure: H2 headings for each section, include an intro with context/motivation, prerequisites, detailed step-by-step instructions, common pitfalls with solutions, best practices, performance considerations, troubleshooting section, and a conclusion with next steps.
 Include a FAQ section at the end with 4-5 questions covering edge cases.
-Include a "Further Reading" section at the end with relevant tools and resources.
 Be specific - include actual commands, configuration examples, and real scenarios.
 Do NOT use placeholder text like "insert your domain here" - use concrete examples like "myproject.is-pro.dev".
 Do NOT repeat the title as a section heading (the H1 is already the title).
@@ -572,7 +571,6 @@ Keywords: ${topic.keywords.join(", ")}
 Style: Thoughtful, well-argued, with personal perspective where appropriate. Should feel like it was written by someone who actually runs a developer platform and has hands-on experience.
 Structure: engaging intro that hooks the reader with a problem/context, body with 3-4 H2 sections with concrete examples and data, practical takeaways, and a strong conclusion with actionable next steps.
 Include a "Key Takeaways" or FAQ section at the end with 3-4 items.
-Include a "Related Resources" section with links to tools and further reading.
 Do NOT use placeholder text. Use real examples with actual subdomains, tools, and services.
 Write with genuine insight - share war stories, gotchas, and things learned the hard way.
 Generate ONLY the article body content, no metadata.`;
@@ -1691,6 +1689,7 @@ async function main() {
   const doSitemap = args.includes("--sitemap");
   const doPreview = args.includes("--preview");
   const doPush = args.includes("--push");
+  const doForce = args.includes("--force");
 
   validateEnv();
 
@@ -1777,7 +1776,7 @@ async function main() {
     for (const topic of GUIDE_TOPICS) {
       try {
         const outPath = join(OUT_DIR, "guides", topic.slug, "index.html");
-        if (pageExists(outPath)) {
+        if (!doForce && pageExists(outPath)) {
           console.log(`  ⏭️ ${topic.slug} (exists)`);
           continue;
         }
@@ -1796,7 +1795,7 @@ async function main() {
     for (const topic of BLOG_TOPICS) {
       try {
         const outPath = join(OUT_DIR, "blog", topic.slug, "index.html");
-        if (pageExists(outPath)) {
+        if (!doForce && pageExists(outPath)) {
           console.log(`  ⏭️ ${topic.slug} (exists)`);
           continue;
         }

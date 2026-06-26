@@ -1,15 +1,33 @@
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
+import fetch from 'node-fetch';
+import { HttpsProxyAgent } from 'https-proxy-agent';
+
+const RAW_KEYS = (process.env.GROQ_API_KEY || '').split(',').map(s => s.trim()).filter(Boolean);
+const RAW_PROXIES = (process.env.GROQ_PROXIES || '').split(',').map(s => s.trim()).filter(Boolean);
+const PROXY_AUTH = process.env.GROQ_PROXY_AUTH || '';
+
+const keys = RAW_KEYS.length > 0 ? RAW_KEYS : null;
+const proxies = RAW_PROXIES.length > 0 ? RAW_PROXIES : null;
+
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
 const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
 const INFERENCE_TIMEOUT = 120000;
-
 const TPM_LIMIT = parseInt(process.env.GROQ_TPM_LIMIT || '12000', 10);
 const MAX_RETRIES = 3;
 
+let keyCursor = 0;
+let proxyCursor = 0;
 const tokenWindow = [];
 
 function sleep(ms) {
   return new Promise(r => setTimeout(r, ms));
+}
+
+function getAgent(spec) {
+  if (!spec) return undefined;
+  const url = spec.includes('@')
+    ? `http://${spec}`
+    : `http://${PROXY_AUTH}@${spec}`;
+  return new HttpsProxyAgent(url);
 }
 
 async function waitForTokenBudget(estimatedTokens) {
@@ -17,7 +35,6 @@ async function waitForTokenBudget(estimatedTokens) {
   while (tokenWindow.length > 0 && tokenWindow[0].ts < now - 60000) {
     tokenWindow.shift();
   }
-
   const used = tokenWindow.reduce((sum, e) => sum + e.tokens, 0);
   if (used + estimatedTokens > TPM_LIMIT) {
     const oldest = tokenWindow[0]?.ts ?? now;
@@ -29,12 +46,16 @@ async function waitForTokenBudget(estimatedTokens) {
 }
 
 export async function isGroqAvailable() {
-  if (!GROQ_API_KEY) return false;
+  const key = keys ? keys[0] : process.env.GROQ_API_KEY;
+  if (!key) return false;
   try {
-    const res = await fetch(`${GROQ_BASE_URL}/models`, {
-      headers: { Authorization: `Bearer ${GROQ_API_KEY}` },
+    const agent = proxies ? getAgent(proxies[0]) : undefined;
+    const opts = {
+      headers: { Authorization: `Bearer ${key}` },
       signal: AbortSignal.timeout(5000)
-    });
+    };
+    if (agent) opts.agent = agent;
+    const res = await fetch(`${GROQ_BASE_URL}/models`, opts);
     return res.ok;
   } catch {
     return false;
@@ -42,10 +63,6 @@ export async function isGroqAvailable() {
 }
 
 export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 1200) {
-  if (!GROQ_API_KEY) {
-    throw new Error('GROQ_API_KEY is not set');
-  }
-
   const messages = [
     ...(systemPrompt ? [{ role: 'system', content: systemPrompt }] : []),
     { role: 'user', content: prompt }
@@ -68,21 +85,32 @@ export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 12
 
     await waitForTokenBudget(maxTokens);
 
+    const currentKey = keys ? keys[keyCursor % keys.length] : process.env.GROQ_API_KEY;
+    const currentProxy = proxies ? proxies[proxyCursor % proxies.length] : null;
+    if (keys) keyCursor++;
+    if (proxies) proxyCursor++;
+
+    if (!currentKey) throw new Error('GROQ_API_KEY is not set');
+
     try {
-      const res = await fetch(`${GROQ_BASE_URL}/chat/completions`, {
+      const agent = currentProxy ? getAgent(currentProxy) : undefined;
+      const opts = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${GROQ_API_KEY}`
+          Authorization: `Bearer ${currentKey}`
         },
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(INFERENCE_TIMEOUT)
-      });
+      };
+      if (agent) opts.agent = agent;
+
+      const res = await fetch(`${GROQ_BASE_URL}/chat/completions`, opts);
 
       if (res.status === 429) {
         const retryAfter = parseInt(res.headers.get('Retry-After') || '5', 10);
         const body = await res.text().catch(() => '');
-        console.warn(`[groq] Rate limited — retrying after ${retryAfter}s`);
+        console.warn(`[groq] Rate limited (key ${(keyCursor - 1) % (keys?.length || 1)}, proxy ${(proxyCursor - 1) % (proxies?.length || 1)}) — rotating`);
         await sleep(retryAfter * 1000);
         continue;
       }

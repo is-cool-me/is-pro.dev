@@ -82,6 +82,8 @@ jobs:
           SHOWCASE_PATH: ${{ github.workspace }}/dash/data/showcase.json
           GH_PAT: ${{ secrets.GH_PAT }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_PROXIES: ${{ secrets.GROQ_PROXIES }}
+          GROQ_PROXY_AUTH: ${{ secrets.GROQ_PROXY_AUTH }}
 
       - name: Install Playwright for screenshots
         run: |

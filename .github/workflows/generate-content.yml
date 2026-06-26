@@ -99,6 +99,7 @@ jobs:
         env:
           SITE_ROOT: ${{ github.workspace }}/is-pro.dev
           SHOWCASE_PATH: ${{ github.workspace }}/dash/data/showcase.json
+          DB_PATH: ${{ github.workspace }}/dash/data/domains.db
 
       - name: Commit and push changes
         run: |

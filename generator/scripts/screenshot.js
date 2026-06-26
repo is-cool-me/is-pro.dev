@@ -1,4 +1,4 @@
-import { readFileSync, existsSync, mkdirSync } from "fs";
+import { readFileSync, existsSync, mkdirSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -8,15 +8,39 @@ const SCREENSHOT_DIR = join(OUT_DIR, "showcase", "screenshots");
 
 async function main() {
   const showcasePath = process.env.SHOWCASE_PATH || join(__dirname, "..", "..", "..", "dash", "data", "showcase.json");
+  const dbPath = process.env.DB_PATH || "";
 
-  if (!existsSync(showcasePath)) {
-    console.error("[screenshot] No showcase data found");
-    process.exit(0);
+  const seen = new Set();
+  const domains = [];
+
+  if (existsSync(showcasePath)) {
+    const enriched = JSON.parse(readFileSync(showcasePath, "utf-8"))
+      .filter((d) => d.subdomain && d.zone)
+      .filter((d) => d.safety_status !== "malicious");
+    for (const d of enriched) {
+      seen.add(`${d.subdomain}:${d.zone}`);
+      domains.push(d);
+    }
+    console.log(`[screenshot] ${enriched.length} enriched entries`);
   }
 
-  const domains = JSON.parse(readFileSync(showcasePath, "utf-8"))
-    .filter((d) => d.subdomain && d.zone)
-    .filter((d) => d.safety_status !== "malicious");
+  // Also screenshot projects from the DB that have showcase pages
+  if (dbPath && existsSync(dbPath)) {
+    const { default: Database } = await import("better-sqlite3");
+    const db = new Database(dbPath);
+    const rows = db.prepare("SELECT subdomain, zone FROM domains WHERE subdomain IS NOT NULL AND zone IS NOT NULL").all();
+    db.close();
+    let added = 0;
+    for (const row of rows) {
+      const key = `${row.subdomain}:${row.zone}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        domains.push({ subdomain: row.subdomain, zone: row.zone, safety_status: "unknown" });
+        added++;
+      }
+    }
+    if (added > 0) console.log(`[screenshot] +${added} from database`);
+  }
 
   if (domains.length === 0) {
     console.log("[screenshot] No domains to screenshot");

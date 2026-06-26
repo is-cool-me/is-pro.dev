@@ -204,6 +204,45 @@
           4. GitHub will provide you with a DNS record to verify your domain ownership.
           5. Add the provided DNS record to your domain settings on is-cool-me.
           
+          ## Step-by-Step: Creating Your First GitHub Pages Site
+          The simplest way to publish with GitHub Pages is through a personal website or project documentation. Here's the complete workflow:
+
+          1. **Create a new repository** on GitHub with a descriptive name like `my-portfolio` or `docs-website`
+          2. **Clone it locally**: `git clone https://github.com/username/repo-name.git`
+          3. **Add your HTML files**: Create an `index.html` with your content
+          4. **Commit and push**: `git add . && git commit -m "Initial commit" && git push`
+          5. **Enable Pages**: Go to repository Settings → Pages → Source → Select `main` branch
+          6. **Wait for deployment**: GitHub typically takes 2-5 minutes to publish your site
+
+          For Jekyll sites, the process differs slightly. After creating your repository:
+          - Add a `Gemfile` with `gem 'github-pages'`
+          - Create `_config.yml` for site configuration
+          - Push and GitHub will automatically build your Jekyll site
+
+          ## Understanding GitHub Pages Branch Structure
+          GitHub Pages can serve from different branches and folders:
+          - **`main` branch root**: Site served from repository root (`/`)
+          - **`gh-pages` branch**: Dedicated branch for publishing
+          - **`/docs` folder**: For project sites, serve from a `docs` folder on `main`
+
+          For `myproject.is-pro.dev`, the recommended approach is:
+          - Use `main` branch root for personal sites
+          - Use `/docs` folder for project documentation
+          - Keep source files in a separate branch or folder to maintain clean repository structure
+
+          ## Configuring DNS for Your Custom Domain
+          Setting up `myproject.is-pro.dev` requires two steps:
+
+          **Step 1: Add CNAME record in is-cool-me dashboard**
+          - Go to your domain settings
+          - Create a CNAME record pointing `myproject` to `yourusername.github.io`
+          - Set TTL to 3600 (1 hour) for faster propagation
+
+          **Step 2: Configure custom domain in GitHub**
+          - In repository Settings → Pages → Custom domain
+          - Enter `myproject.is-pro.dev`
+          - Check "Enforce HTTPS" after DNS propagates (typically 24-48 hours)
+
           ## Deploying Your Static Site
           If you're using a static site generator like Jekyll:
           1. Create a new Jekyll site: `jekyll new myproject`
@@ -216,10 +255,42 @@
           3. Push your changes to GitHub.
           
           ## Common Pitfalls and Solutions
-          - **404 Errors**: Ensure your `index.html` is in the root of your repository or correctly configured in your GitHub Pages settings.
-          - **Custom Domain Issues**: Verify your DNS settings are correct and propagation has completed.
-          - **Build Failures**: Check your repository's GitHub Actions workflow for errors if you're using a static site generator.
-          
+          - **404 Errors**: Ensure your `index.html` is in the root of your repository or correctly configured in your GitHub Pages settings. Check that your default branch matches the configured source in Settings → Pages. If you renamed files, update any hardcoded links.
+          - **Custom Domain Issues**: DNS propagation takes time. Wait at least 30 minutes after making changes, but full propagation can take up to 48 hours. Use `dig myproject.is-pro.dev` to check current DNS state. If GitHub shows "Unavailable" for your custom domain, verify the CNAME record is exactly correct.
+          - **Build Failures**: Check your repository's GitHub Actions workflow for errors if you're using a static site generator. Jekyll build errors appear in the Actions tab. Common issues include missing dependencies in Gemfile or incompatible plugin versions.
+          - **HTTPS Not Working**: GitHub automatically provisions certificates via Let's Encrypt, but this can take up to 24 hours after enabling HTTPS. If after 48 hours HTTPS still shows as untrusted, remove and re-add the custom domain in GitHub settings.
+          - **Branch Deletion**: If you delete the source branch, GitHub Pages will stop serving. Always verify your publishing source is set correctly before deleting branches.
+
+          ## Advanced: GitHub Actions for Automated Deployment
+          For projects requiring custom build processes, use GitHub Actions:
+
+          ```yaml
+          name: Deploy to GitHub Pages
+          on:
+            push:
+              branches: [main]
+          jobs:
+            deploy:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v3
+                - name: Setup Node
+                  uses: actions/setup-node@v3
+                  with:
+                    node-version: '18'
+                - name: Install dependencies
+                  run: npm install
+                - name: Build
+                  run: npm run build
+                - name: Deploy
+                  uses: peaceiris/actions-gh-pages@v3
+                  with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    publish_dir: ./dist
+          ```
+
+          This workflow runs on every push to `main`, builds your site, and deploys to GitHub Pages automatically. For `myproject.is-pro.dev`, this means pushing code automatically publishes updates within 2-3 minutes.
+
           ## Best Practices for GitHub Pages
           - **Use a Consistent Branch**: Choose a branch (e.g., `master` or `main`) and stick to it for your GitHub Pages source.
           - **Automate Deployment**: Use GitHub Actions to automate the build and deployment of your site.
@@ -238,17 +309,49 @@
           ## Conclusion and Next Steps
           You've successfully set up `myproject.is-pro.dev` on GitHub Pages. Next, consider optimizing your site's performance, exploring advanced GitHub Pages features like GitHub Actions for automated deployment, and integrating with other services for enhanced functionality. Remember, GitHub Pages is ideal for static sites, so if your project requires dynamic content, you may need to explore other hosting solutions.
           
-          ## FAQ
-          1. **Q: Can I use GitHub Pages for dynamic sites?**
-             A: GitHub Pages is designed for static sites. For dynamic content, consider other hosting options.
-          2. **Q: How do I secure my GitHub Pages site with HTTPS?**
-             A: GitHub Pages automatically provides HTTPS for your site, including custom domains.
-          3. **Q: Can I use a custom email address with my GitHub Pages site?**
-             A: While GitHub Pages doesn't directly support custom email addresses, you can use external services to achieve this.
-          4. **Q: Are there any bandwidth or storage limits on GitHub Pages?**
-             A: GitHub Pages has generous limits, but excessive use may result in your site being suspended.
-          5. **Q: How do I migrate my existing site to GitHub Pages?**
-             A: Start by creating a new repository, then transfer your site's files and configure GitHub Pages settings accordingly.
+## FAQ
+           1. **Q: Can I use GitHub Pages for dynamic sites?**
+              A: GitHub Pages is designed for static sites only — no server-side code execution, databases, or dynamic content generation. If you need dynamic features, consider Vercel or Netlify for full-stack deployment, or use client-side JavaScript for simple interactivity. For complex applications, Cloudflare Pages with Workers offers serverless capabilities beyond static hosting.
+           2. **Q: How do I secure my GitHub Pages site with HTTPS?**
+              A: GitHub Pages automatically provisions free SSL certificates via Let's Encrypt for all custom domains. Once your DNS is verified and you enable "Enforce HTTPS" in settings, all traffic automatically redirects to HTTPS. The certificate renews automatically — no action needed from you. If HTTPS shows as unavailable, wait 24-48 hours after DNS configuration.
+           3. **Q: Can I use a custom email address with my GitHub Pages site?**
+              A: GitHub Pages doesn't directly support custom email addresses, but you can configure email forwarding through your domain registrar or a service like Cloudflare Email Routing. Point a `MX` record to your email provider to receive emails at `anything@myproject.is-pro.dev`.
+           4. **Q: Are there any bandwidth or storage limits on GitHub Pages?**
+              A: GitHub Pages has soft limits of 1GB storage and 100GB monthly bandwidth for private repositories. Public repositories get 180GB monthly bandwidth. For most personal projects and documentation, these limits are sufficient. If you exceed limits, GitHub will contact you before taking action.
+           5. **Q: How do I migrate my existing site to GitHub Pages?**
+              A: Start by creating a new repository with your site's name. Copy all HTML, CSS, JavaScript, and asset files to the repository root. Update any absolute links to relative paths. Enable GitHub Pages and configure your custom domain. Test thoroughly before decommissioning your old hosting.
+
+          ## Deployment scenario from operations
+          Here's a real-world example of deploying a React documentation site:
+
+          **Project**: `docs.is-pro.dev` for API documentation built with Docusaurus
+
+          **Steps**:
+          1. Create repository `api-docs` on GitHub
+          2. Clone and initialize Docusaurus: `npx create-docusaurus@latest docs classic`
+          3. Configure `docusaurus.config.js` with base URL `/` and organization name
+          4. Add CNAME record in is-cool-me: `docs` → `username.github.io`
+          5. Push to GitHub and enable Pages from `/docs` folder
+          6. Add custom domain `docs.is-pro.dev` in GitHub Pages settings
+          7. Enable HTTPS and wait for certificate provisioning
+
+          **Result**: Fully functional documentation site at `docs.is-pro.dev` with automatic HTTPS, global CDN distribution through Cloudflare, and zero hosting cost.
+
+          ## Common mistakes
+          - **Forgetting the CNAME file**: For project sites (not user sites), you must include a `CNAME` file in your repository with your custom domain
+          - **Using `index.md` vs `index.html`**: GitHub Pages prioritizes `index.html` over `index.md` — ensure your default file is correctly named
+          - **Not waiting for DNS propagation**: Changes can take up to 48 hours to propagate globally
+          - **Publishing from wrong branch**: Double-check your source branch in Settings → Pages
+          - **Breaking links after rename**: Use relative links whenever possible to avoid broken navigation
+
+          ## How to verify it works
+          1. Visit `https://username.github.io/repo-name` (GitHub's temporary URL) to confirm basic deployment
+          2. Test your custom domain `myproject.is-pro.dev` — it should load the same content
+          3. Verify HTTPS is active (lock icon in browser address bar)
+          4. Check that all internal links work by navigating through the site
+          5. Run `dig myproject.is-pro.dev` to confirm DNS points to GitHub's IP addresses
+          6. Test from a different network/browser to rule out local DNS caching issues
+          7. Validate HTML using W3C Markup Validation Service to catch any rendering issues
           
           ## Further Reading
           - **GitHub Pages Documentation**: The official GitHub guide to Pages, covering setup, configuration, and troubleshooting.

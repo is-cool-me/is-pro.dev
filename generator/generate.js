@@ -504,19 +504,31 @@ function buildGuideContent(topic, aiContent) {
 async function generateGuide(topic) {
   topic.body = GUIDE_BODIES[topic.slug] || null;
   console.log(`  Generating guide: ${topic.slug}`);
-  const prompt = `Write a comprehensive, in-depth technical guide (2000-2500 words) about: "${topic.title}".
+  const prompt = `Write a comprehensive, in-depth technical guide — minimum 2500 words, target 3000 words — about: "${topic.title}".
 Keywords: ${topic.keywords.join(", ")}
 Target audience: Developers setting up projects on is-cool-me subdomains.
-Style: Technical but accessible, with practical steps, code examples where relevant, real-world context, and detailed explanations.
-Structure: H2 headings for each section, include an intro with context/motivation, prerequisites, detailed step-by-step instructions, common pitfalls with solutions, best practices, performance considerations, troubleshooting section, and a conclusion with next steps.
-Include a FAQ section at the end with 4-5 questions covering edge cases.
-After the FAQ, include three sections:
-- "Deployment scenario from operations" with a real-world example
-- "Common mistakes" as a bullet list
-- "How to verify it works" with numbered steps
-Be specific - include actual commands, configuration examples, and real scenarios.
-Do NOT use placeholder text like "insert your domain here" - use concrete examples like "myproject.is-pro.dev".
-Do NOT repeat the title as a section heading (the H1 is already the title).
+Style: Technical but accessible, with practical steps, code examples where relevant, real-world context, and detailed explanations. Be thorough and exhaustive — err on the side of over-explaining rather than under-explaining.
+
+Structure (follow this exactly):
+1. Introduction (200+ words): context and motivation for the topic, why it matters
+2. Prerequisites (150+ words): what readers need before starting
+3. Step-by-step instructions (500+ words): detailed walkthrough with numbered steps, include actual commands and configuration examples
+4. Configuration deep-dive (300+ words): explain all config options with real values like "api.myproject.is-pro.dev"
+5. Common pitfalls and solutions (300+ words): at least 5 pitfalls with specific fix instructions
+6. Best practices (200+ words): performance, security, maintainability tips
+7. Troubleshooting section (300+ words): diagnostic steps, how to debug failures
+8. Deployment scenario from operations (300+ words): one complete real-world example with all config values
+9. Common mistakes (bullet list, minimum 5 items with specific details)
+10. How to verify it works (numbered steps, minimum 5 verification checks)
+11. Conclusion with next steps (150+ words)
+12. FAQ (4-5 questions with detailed answers, minimum 100 words each)
+
+CRITICAL requirements:
+- Do NOT use placeholder text like "insert your domain here" — use concrete examples like "myproject.is-pro.dev"
+- Do NOT repeat the title as a section heading (the H1 is already the title)
+- Every section must have substantive content — no one-liners
+- Include at least 3 code examples with complete, runnable commands
+- Include at least 2 tables or lists comparing options/settings
 Generate ONLY the article body content, no metadata, no JSON.`;
 
   const systemPrompt = `You are a senior technical writer for is-cool-me, a free developer platform. Write in a clear, authoritative voice. Use concrete examples with real subdomain examples like "myproject.is-pro.dev". Avoid filler, repetition, and generic intros. Focus on practical value. Each section should teach something useful.`;

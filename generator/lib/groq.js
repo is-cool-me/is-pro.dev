@@ -10,13 +10,17 @@ const proxies = RAW_PROXIES.length > 0 ? RAW_PROXIES : null;
 
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
 const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
-const INFERENCE_TIMEOUT = 120000;
+const INFERENCE_TIMEOUT = 180000;
 const TPM_LIMIT = parseInt(process.env.GROQ_TPM_LIMIT || '12000', 10);
-const MAX_RETRIES = 3;
+const RPM_LIMIT = 25;
+const MIN_REQUEST_INTERVAL = 2500;
+const MAX_RETRIES = 5;
 
 let keyCursor = 0;
 let proxyCursor = 0;
 const tokenWindow = [];
+const requestWindow = [];
+let lastRequestTime = 0;
 
 function sleep(ms) {
   return new Promise(r => setTimeout(r, ms));
@@ -30,18 +34,39 @@ function getAgent(spec) {
   return new HttpsProxyAgent(url);
 }
 
-async function waitForTokenBudget(estimatedTokens) {
+async function waitForRateLimits() {
   const now = Date.now();
+
   while (tokenWindow.length > 0 && tokenWindow[0].ts < now - 60000) {
     tokenWindow.shift();
   }
-  const used = tokenWindow.reduce((sum, e) => sum + e.tokens, 0);
-  if (used + estimatedTokens > TPM_LIMIT) {
+  while (requestWindow.length > 0 && requestWindow[0] < now - 60000) {
+    requestWindow.shift();
+  }
+
+  const tpmUsed = tokenWindow.reduce((sum, e) => sum + e.tokens, 0);
+  const rpmCount = requestWindow.length;
+
+  if (tpmUsed > TPM_LIMIT * 0.9) {
     const oldest = tokenWindow[0]?.ts ?? now;
-    const wait = 60000 - (now - oldest) + 100;
-    console.warn(`[groq] TPM limit (${used}/${TPM_LIMIT}) — waiting ${Math.ceil(wait / 1000)}s`);
+    const wait = 60000 - (now - oldest) + 200;
+    console.warn(`[groq] TPM near limit (${tpmUsed}/${TPM_LIMIT}) — waiting ${Math.ceil(wait / 1000)}s`);
     await sleep(wait);
-    return waitForTokenBudget(estimatedTokens);
+    return waitForRateLimits();
+  }
+
+  if (rpmCount >= RPM_LIMIT * 0.9) {
+    const oldest = requestWindow[0] ?? now;
+    const wait = 60000 - (now - oldest) + 200;
+    console.warn(`[groq] RPM near limit (${rpmCount}/${RPM_LIMIT}) — waiting ${Math.ceil(wait / 1000)}s`);
+    await sleep(wait);
+    return waitForRateLimits();
+  }
+
+  const elapsed = now - lastRequestTime;
+  if (elapsed < MIN_REQUEST_INTERVAL) {
+    const wait = MIN_REQUEST_INTERVAL - elapsed;
+    await sleep(wait);
   }
 }
 
@@ -62,6 +87,25 @@ export async function isGroqAvailable() {
   }
 }
 
+export function getRateLimitStatus() {
+  const now = Date.now();
+  while (tokenWindow.length > 0 && tokenWindow[0].ts < now - 60000) tokenWindow.shift();
+  while (requestWindow.length > 0 && requestWindow[0] < now - 60000) requestWindow.shift();
+
+  const tpmUsed = tokenWindow.reduce((sum, e) => sum + e.tokens, 0);
+  const rpmCount = requestWindow.length;
+  const tpmPct = Math.round((tpmUsed / TPM_LIMIT) * 100);
+  const rpmPct = Math.round((rpmCount / RPM_LIMIT) * 100);
+
+  return {
+    tpm: { used: tpmUsed, limit: TPM_LIMIT, percent: tpmPct },
+    rpm: { used: rpmCount, limit: RPM_LIMIT, percent: rpmPct },
+    windowTokens: tokenWindow.length,
+    windowRequests: requestWindow.length,
+    nextRequestIn: Math.max(0, MIN_REQUEST_INTERVAL - (now - lastRequestTime))
+  };
+}
+
 export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 1200) {
   const messages = [
     ...(systemPrompt ? [{ role: 'system', content: systemPrompt }] : []),
@@ -76,15 +120,14 @@ export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 12
     top_p: 0.9
   };
 
-  let rateLimitedCount = 0;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     if (attempt > 0) {
-      const backoff = Math.min(1000 * Math.pow(2, attempt - 1), 30000);
-      console.warn(`[groq] Retry ${attempt}/${MAX_RETRIES} in ${backoff}ms`);
+      const backoff = Math.min(5000 * Math.pow(1.5, attempt - 1), 60000);
+      console.warn(`[groq] Retry ${attempt}/${MAX_RETRIES} in ${Math.ceil(backoff / 1000)}s`);
       await sleep(backoff);
     }
 
-    await waitForTokenBudget(maxTokens);
+    await waitForRateLimits();
 
     const currentKey = keys ? keys[keyCursor % keys.length] : process.env.GROQ_API_KEY;
     const currentProxy = proxies ? proxies[proxyCursor % proxies.length] : null;
@@ -108,14 +151,17 @@ export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 12
 
       const res = await fetch(`${GROQ_BASE_URL}/chat/completions`, opts);
 
+      const ratelimitLimit = res.headers.get('x-ratelimit-limit-tokens');
+      const ratelimitRemaining = res.headers.get('x-ratelimit-remaining-tokens');
+      const ratelimitReset = res.headers.get('x-ratelimit-reset-tokens');
+      const ratelimitReqLimit = res.headers.get('x-ratelimit-limit-requests');
+      const ratelimitReqRemaining = res.headers.get('x-ratelimit-remaining-requests');
+      const ratelimitReqReset = res.headers.get('x-ratelimit-reset-requests');
+      const retryAfter = res.headers.get('retry-after');
+
       if (res.status === 429) {
-        if (++rateLimitedCount > MAX_RETRIES) {
-          throw new Error('Rate limited — all retries exhausted');
-        }
-        const retryAfter = parseInt(res.headers.get('Retry-After') || '5', 10);
-        const body = await res.text().catch(() => '');
-        console.warn(`[groq] Rate limited (key ${(keyCursor - 1) % (keys?.length || 1)}, proxy ${(proxyCursor - 1) % (proxies?.length || 1)}) — rotating`);
-        await sleep(Math.min(retryAfter, 10) * 1000);
+        console.warn(`[groq] Rate limited! tokens=${ratelimitRemaining}/${ratelimitLimit} reset=${ratelimitReset}ms, req=${ratelimitReqRemaining}/${ratelimitReqLimit} reset=${ratelimitReqReset}s, retry-after=${retryAfter}s`);
+        await sleep(Math.min(parseInt(retryAfter || '10', 10) * 1000, 30000));
         continue;
       }
 
@@ -126,8 +172,17 @@ export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 12
 
       const data = await res.json();
 
-      if (data.usage?.total_tokens) {
-        tokenWindow.push({ ts: Date.now(), tokens: data.usage.total_tokens });
+      const tokensUsed = data.usage?.total_tokens || 0;
+      if (tokensUsed > 0) {
+        tokenWindow.push({ ts: Date.now(), tokens: tokensUsed });
+      }
+      requestWindow.push(Date.now());
+      lastRequestTime = Date.now();
+
+      const tpmPct = Math.round((parseInt(ratelimitRemaining || '0') / parseInt(ratelimitLimit || '1')) * 100);
+      const rpmPct = Math.round((parseInt(ratelimitReqRemaining || '0') / parseInt(ratelimitReqLimit || '1')) * 100);
+      if (tpmPct < 20 || rpmPct < 20) {
+        console.warn(`[groq] Low limits: tokens ${ratelimitRemaining}/${ratelimitLimit} (${tpmPct}%), requests ${ratelimitReqRemaining}/${ratelimitReqLimit} (${rpmPct}%)`);
       }
 
       return data.choices?.[0]?.message?.content || '';

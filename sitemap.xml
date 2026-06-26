@@ -217,6 +217,18 @@
     <lastmod>2026-06-26</lastmod>
   </url>
   <url>
+    <loc>https://is-pro.dev/guides/custom-subdomain-setup-for-blog/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-26</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/dns-configuration-for-static-website/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-26</lastmod>
+  </url>
+  <url>
     <loc>https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
@@ -277,19 +289,19 @@
     <lastmod>2026-06-26</lastmod>
   </url>
   <url>
-    <loc>https://is-pro.dev/blog/subdomain-clustering-for-scalability/</loc>
+    <loc>https://is-pro.dev/blog/subdomains-for-api-security/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-26</lastmod>
   </url>
   <url>
-    <loc>https://is-pro.dev/blog/dns-propagation-in-modern-web-development/</loc>
+    <loc>https://is-pro.dev/blog/future-of-web-development-with-free-hosting/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-26</lastmod>
   </url>
   <url>
-    <loc>https://is-pro.dev/blog/private-networking-for-developer-infrastructure/</loc>
+    <loc>https://is-pro.dev/blog/subdomain-vs-custom-domain/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-26</lastmod>
@@ -511,6 +523,12 @@
     <lastmod>2026-06-26</lastmod>
   </url>
   <url>
+    <loc>https://is-pro.dev/blog/dns-propagation-in-modern-web-development/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-26</lastmod>
+  </url>
+  <url>
     <loc>https://is-pro.dev/blog/edge-computing-for-developers/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
@@ -571,6 +589,12 @@
     <lastmod>2026-06-26</lastmod>
   </url>
   <url>
+    <loc>https://is-pro.dev/blog/private-networking-for-developer-infrastructure/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-26</lastmod>
+  </url>
+  <url>
     <loc>https://is-pro.dev/blog/subdomain-architecture-best-practices/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
@@ -584,6 +608,12 @@
   </url>
   <url>
     <loc>https://is-pro.dev/blog/subdomain-clustering-benefits/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-26</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/subdomain-clustering-for-scalability/</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-26</lastmod>

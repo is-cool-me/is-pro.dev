@@ -400,6 +400,26 @@ export const GUIDE_TOPICS = [
       "cloudflare-dns-setup",
     ],
   },
+  {
+    slug: "custom-subdomain-setup-for-blog",
+    title: "A Step-by-Step Guide to Setting Up a Custom Subdomain for Your Blog",
+    difficulty: "Beginner",
+    category: "Deployment",
+    summary: "Learn how to set up a custom subdomain for your blog with our easy-to-follow guide, covering DNS records and domain configuration. Master the art of custom subdomain setup for your blog.",
+    keywords: ["custom subdomain","blog subdomain","subdomain setup","dns configuration","domain management"],
+    tags: ["blogging","subdomains","dns"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "dns-configuration-for-static-website",
+    title: "How to Configure DNS for a Static Website on a Free Hosting Platform",
+    difficulty: "Intermediate",
+    category: "DNS",
+    summary: "Discover how to configure DNS for a static website on a free hosting platform, ensuring seamless integration and optimal performance. Get expert tips on DNS configuration for static websites.",
+    keywords: ["dns configuration","static website","free hosting","website deployment","dns management"],
+    tags: ["static sites","dns","hosting"],
+    relatedSlugs: [],
+  },
 ];
 
 export const BLOG_TOPICS = [
@@ -537,6 +557,33 @@ export const BLOG_TOPICS = [
       "operations",
       "infrastructure",
     ],
+  },
+  {
+    slug: "subdomains-for-api-security",
+    title: "The Benefits of Using a Subdomain for Your API: Security, Scalability, and More",
+    category: "Security",
+    summary: "Explore the advantages of using a subdomain for your API, including enhanced security, improved scalability, and better organization. Learn why subdomains are a game-changer for API development.",
+    keywords: ["api subdomain","subdomain security","api scalability","api organization","subdomain benefits"],
+    tags: ["api development","subdomains","security"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "future-of-web-development-with-free-hosting",
+    title: "The Future of Web Development: How Free Hosting and Subdomains Are Revolutionizing the Industry",
+    category: "Hosting",
+    summary: "Examine the impact of free hosting and subdomains on the web development industry, including increased accessibility, reduced costs, and new opportunities for innovation. Discover how free hosting and subdomains are shaping the future of web development.",
+    keywords: ["free hosting","subdomains","web development","industry trends","future of web development"],
+    tags: ["web development","hosting","trends"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "subdomain-vs-custom-domain",
+    title: "The Pros and Cons of Using a Subdomain vs a Custom Domain for Your Website or Application",
+    category: "Deployment",
+    summary: "Weigh the advantages and disadvantages of using a subdomain versus a custom domain for your website or application, considering factors such as branding, SEO, and technical complexity. Make an informed decision about subdomains vs custom domains.",
+    keywords: ["subdomain vs custom domain","domain choice","website deployment","application hosting","domain management"],
+    tags: ["domains","hosting","deployment"],
+    relatedSlugs: [],
   },
 ];
 

@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/discord-bot-hosting-guide/"
@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Bots</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Host a Discord Bot 24/7 on a Subdomain Endpoint</h1>
@@ -171,87 +171,90 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Hosting Discord Bots
-          Hosting a Discord bot 24/7 on a subdomain endpoint is a common requirement for many developers, especially those setting up projects on is-cool-me subdomains. Discord bots can enhance the functionality of a Discord server, providing automated tasks, entertainment, and community management. However, to ensure continuous operation, the bot needs to be hosted on a server that can maintain uptime. In this guide, we will walk through the process of hosting a Discord bot on a subdomain endpoint, such as `myproject.is-pro.dev`, to achieve 24/7 uptime.
+          Hosting a Discord bot 24/7 on a subdomain endpoint is a common requirement for developers who want to create interactive Discord experiences. Discord bots can be used to automate tasks, provide information, and engage with users in various ways. However, to ensure that your bot is always available, you need to host it on a reliable platform. In this guide, we will walk you through the process of hosting a Discord bot on a subdomain endpoint, such as `myproject.is-pro.dev`. We will cover the prerequisites, step-by-step instructions, common pitfalls, best practices, performance considerations, and troubleshooting.
           
-          ## Prerequisites for Hosting
-          Before diving into the hosting process, ensure you have the following prerequisites:
-          - A Discord bot account with a token.
-          - A subdomain on is-cool-me (e.g., `myproject.is-pro.dev`).
-          - Basic knowledge of Node.js and Discord.js (for this example).
-          - A code editor or IDE.
-          - A version control system like Git.
+          ## Prerequisites for Hosting a Discord Bot
+          Before you can host a Discord bot, you need to have a few things in place. First, you need to create a Discord bot account and obtain a bot token. You can do this by going to the Discord Developer Portal and creating a new application. Once you have created the application, you can go to the "Bot" tab and click on "Add Bot" to create a new bot. You will then be given a bot token, which you should keep secret. Next, you need to have a subdomain endpoint set up on is-cool-me, such as `myproject.is-pro.dev`. You can do this by going to the is-cool-me dashboard and creating a new project. Finally, you need to have a basic understanding of programming concepts, such as variables, loops, and functions.
           
-          ## Setting Up Your Discord Bot
-          To set up your Discord bot, start by creating a new Discord application on the Discord Developer Portal. Once created, navigate to the "Bot" section and then click "Add Bot". You will receive a token which you should keep secure as it grants control over your bot. Next, invite your bot to the server where it will operate by generating an invite link in the "OAuth2" section.
+          ## Step-by-Step Instructions for Hosting a Discord Bot
+          To host a Discord bot on a subdomain endpoint, you need to follow these steps:
+          1. Set up a new project on is-cool-me and create a subdomain endpoint, such as `myproject.is-pro.dev`.
+          2. Create a new Discord bot account and obtain a bot token.
+          3. Install the Discord.py library by running the command `pip install discord.py` in your terminal.
+          4. Create a new file called `bot.py` and add the following code:
+          ```python
+          import discord
+          from discord.ext import commands
           
-          ## Hosting Your Bot on a Subdomain
-          To host your bot 24/7 on `myproject.is-pro.dev`, you will need to set up a server that can run your bot continuously. For this example, we will use Node.js and Discord.js. First, create a new directory for your project and initialize it with `npm init`. Then, install Discord.js with `npm install discord.js`. Create a file named `index.js` and set up your bot with the following code:
-          ```javascript
-          const Discord = require('discord.js');
-          const client = new Discord.Client();
+          bot = commands.Bot(command_prefix='!')
           
-          client.on('ready', () => {
-            console.log('I am ready!');
-          });
+          @bot.event
+          async def on_ready():
+              print(f'{bot.user} has connected to Discord!')
           
-          client.on('message', (msg) => {
-            if (msg.author.bot) return;
-            if (msg.content === '!hello') {
-              msg.reply('Hello!');
-            }
-          });
+          @bot.command(name='hello')
+          async def hello(ctx):
+              await ctx.send(f'Hello {ctx.author.mention}!')
           
-          client.login('YOUR_DISCORD_BOT_TOKEN');
+          bot.run('YOUR_BOT_TOKEN')
           ```
-          Replace `'YOUR_DISCORD_BOT_TOKEN'` with your actual Discord bot token.
-          
-          ## Deploying Your Bot to is-cool-me
-          To deploy your bot to `myproject.is-pro.dev`, you will need to create a new repository on GitHub or another version control platform and push your project to it. Then, link your repository to your is-cool-me subdomain. is-cool-me will automatically detect your Node.js project and deploy it. Ensure your `package.json` includes a start script that runs your bot, such as `"start": "node index.js"`.
-          
-          ## Setting Up a Webhook for Uptime Monitoring
-          To ensure your bot stays online, you can set up a webhook with a service like Uptime Robot. This involves creating a monitor that sends a request to your bot's endpoint (e.g., `https://myproject.is-pro.dev/`) at regular intervals. If the request fails, Uptime Robot will notify you, allowing you to take corrective action.
+          Replace `YOUR_BOT_TOKEN` with your actual bot token.
+          5. Set up a webhook on your subdomain endpoint to receive requests from Discord. You can do this by going to the is-cool-me dashboard and clicking on the "Webhooks" tab.
+          6. Configure the webhook to send requests to your `bot.py` file. You can do this by adding the following code to your `bot.py` file:
+          ```python
+          @bot.command(name='webhook')
+          async def webhook(ctx):
+              await ctx.send('Webhook received!')
+          ```
+          7. Start the bot by running the command `python bot.py` in your terminal.
           
           ## Common Pitfalls and Solutions
-          One common pitfall is exposing your Discord bot token. Never hard-code your token directly into your scripts or push it to public repositories. Use environment variables instead. Another issue is bot downtime due to server restarts. Use a process manager like PM2 to keep your bot running even after server restarts.
+          One common pitfall when hosting a Discord bot is that the bot may not be able to receive requests from Discord due to a misconfigured webhook. To solve this, make sure that the webhook is configured correctly and that the bot is running. Another common pitfall is that the bot may crash or become unresponsive due to a programming error. To solve this, make sure to test your code thoroughly and use try-except blocks to catch any errors.
           
-          ## Best Practices for Bot Hosting
-          For optimal performance and security, follow these best practices:
-          - Keep your Discord bot token secure.
-          - Regularly update your bot's dependencies.
-          - Monitor your bot's performance and uptime.
-          - Use a version control system to track changes.
-          - Implement logging to diagnose issues.
+          ## Best Practices for Hosting a Discord Bot
+          To ensure that your Discord bot is always available and running smoothly, follow these best practices:
+          * Use a reliable hosting platform, such as is-cool-me, to host your bot.
+          * Use a version control system, such as Git, to manage your code.
+          * Test your code thoroughly before deploying it to production.
+          * Use try-except blocks to catch any errors and prevent the bot from crashing.
+          * Monitor the bot's uptime and performance regularly.
           
           ## Performance Considerations
-          When hosting a Discord bot, consider the performance impact of your bot's activities. High-traffic bots may require more resources. Optimize your bot's code for efficiency, and consider scaling your hosting solution if necessary.
+          When hosting a Discord bot, performance is critical. To ensure that your bot is performing well, follow these tips:
+          * Use a fast and reliable hosting platform, such as is-cool-me.
+          * Optimize your code to reduce latency and improve response times.
+          * Use caching to store frequently accessed data.
+          * Monitor the bot's performance regularly and make adjustments as needed.
           
           ## Troubleshooting
-          If your bot goes offline, check the following:
-          - Server status: Ensure your server is running and accessible.
-          - Bot logs: Check for error messages that might indicate the cause of the issue.
-          - Uptime monitoring: Verify if your uptime monitoring service has detected any downtime.
+          If you encounter any issues with your Discord bot, here are some troubleshooting steps you can follow:
+          * Check the bot's logs to see if there are any error messages.
+          * Check the webhook configuration to make sure it is correct.
+          * Test the bot's commands to see if they are working as expected.
+          * Check the bot's uptime and performance to see if there are any issues.
           
           ## Conclusion and Next Steps
-          Hosting a Discord bot 24/7 on a subdomain endpoint like `myproject.is-pro.dev` requires careful setup and maintenance. By following the steps outlined in this guide, you can ensure your bot stays online and continues to serve your Discord community. Next, consider expanding your bot's functionality with more commands and features.
+          In this guide, we walked you through the process of hosting a Discord bot on a subdomain endpoint, such as `myproject.is-pro.dev`. We covered the prerequisites, step-by-step instructions, common pitfalls, best practices, performance considerations, and troubleshooting. By following these steps and tips, you can create a reliable and high-performance Discord bot that is always available to your users. Next, you can explore more advanced topics, such as using multiple bots, creating custom commands, and integrating with other services.
           
           ## FAQ
-          1. **Q: How do I keep my Discord bot token secure?**
-             A: Use environment variables to store your token, and never hard-code it into your scripts or push it to public repositories.
-          2. **Q: What if my bot requires more resources than my current hosting plan provides?**
-             A: Consider scaling your hosting solution or optimizing your bot's code for better efficiency.
-          3. **Q: Can I host multiple bots on the same subdomain?**
-             A: Yes, but ensure each bot has a unique endpoint or port to avoid conflicts.
-          4. **Q: How often should I update my bot's dependencies?**
-             A: Regularly check for updates and update your dependencies to ensure you have the latest security patches and features.
-          5. **Q: What happens if my server restarts?**
-             A: Use a process manager like PM2 to keep your bot running even after server restarts.
+          Q: How do I handle errors in my Discord bot?
+          A: You can use try-except blocks to catch any errors and prevent the bot from crashing.
+          Q: How do I optimize the performance of my Discord bot?
+          A: You can use caching to store frequently accessed data, optimize your code to reduce latency, and monitor the bot's performance regularly.
+          Q: How do I configure the webhook for my Discord bot?
+          A: You can configure the webhook by going to the is-cool-me dashboard and clicking on the "Webhooks" tab.
+          Q: How do I test my Discord bot's commands?
+          A: You can test the bot's commands by sending a message to the bot and seeing if it responds as expected.
+          Q: How do I monitor the uptime and performance of my Discord bot?
+          A: You can use tools such as Uptime Robot or Pingdom to monitor the bot's uptime and performance.
           
           ## Further Reading
-          - Discord.js Documentation: <https://discord.js.org/#/docs/main/stable/general/welcome>
-          - Uptime Robot: <https://uptimerobot.com/>
-          - Node.js Documentation: <https://nodejs.org/en/docs/>
-          - is-cool-me Documentation: Check the official is-cool-me website for the most current documentation and guides on hosting Node.js projects.
-          - PM2 Documentation: <https://pm2.keymetrics.io/docs/usage/quick-start/>
+          To learn more about hosting a Discord bot, you can check out the following resources:
+          * Discord Developer Portal: This is the official documentation for Discord developers and provides a wealth of information on creating and hosting Discord bots.
+          * is-cool-me Documentation: This provides detailed information on how to use the is-cool-me platform to host your Discord bot.
+          * Discord.py Library: This is a popular Python library for creating Discord bots and provides a lot of functionality out of the box.
+          * Uptime Robot: This is a tool that allows you to monitor the uptime and performance of your Discord bot.
+          * Pingdom: This is a tool that allows you to monitor the performance of your Discord bot and provides detailed analytics.
         </div>
       </div>
     </div>
@@ -306,7 +309,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/custom-email-address-for-domain/"
@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Email</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Set Up a Custom Email Address Using Your Subdomain</h1>
@@ -171,69 +171,69 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Custom Email Addresses
-          As a developer setting up projects on is-cool-me subdomains, having a custom email address can significantly enhance your branding and professional image. Instead of using a generic email address, you can create a custom email address that matches your subdomain, such as `contact@myproject.is-pro.dev`. This not only looks more professional but also helps to establish trust with your users. In this guide, we will walk you through the process of setting up a custom email address using your subdomain on is-cool-me.
+          As a developer setting up projects on is-cool-me subdomains, having a custom email address that matches your domain can significantly enhance your branding and professional image. For instance, instead of using a generic email address like `john.doe@example.com`, you can use `john.doe@myproject.is-pro.dev`. This guide will walk you through the process of setting up a custom email address using your subdomain on is-cool-me.
           
           ## Prerequisites
           Before you start, ensure you have the following:
-          - A subdomain set up on is-cool-me (e.g., `myproject.is-pro.dev`).
-          - Access to your DNS settings. For is-cool-me subdomains, you typically manage DNS records through your is-cool-me dashboard.
-          - An email service provider (ESP) that supports custom domains. Popular choices include Gmail, Outlook, and custom email hosting services like Mailgun or Zoho Mail.
+          - A subdomain set up on is-cool-me, for example, `myproject.is-pro.dev`.
+          - Access to your domain's DNS settings. Since you're using is-cool-me, you'll manage these settings through their control panel.
+          - A mail service provider. For this example, we'll use Mailgun, a popular choice for custom email solutions.
           
           ## Setting Up MX Records
-          To use a custom email address with your subdomain, you need to set up MX (Mail Exchanger) records. These records tell the world which mail server is responsible for receiving emails on your behalf. Here’s how you can do it for `myproject.is-pro.dev`:
-          1. Log into your is-cool-me dashboard and navigate to the DNS settings section for your subdomain.
-          2. Add a new MX record with the following details:
-             - **Name/Host**: Leave this blank or enter `@` to apply the record to your root domain (`myproject.is-pro.dev`).
-             - **Type**: MX
-             - **Value**: The mail server address provided by your ESP. For example, if you’re using Gmail, you might use `mx.google.com`.
-             - **Priority**: Set according to your ESP’s instructions. Gmail, for instance, requires you to set up multiple MX records with different priorities.
-          3. Save your changes. DNS changes can take up to 48 hours to propagate globally, but they usually take effect much sooner.
+          To set up a custom email address, you need to configure MX (Mail Exchanger) records. These records tell the world which mail server is responsible for receiving emails on your behalf. Here’s how to do it on is-cool-me:
+          1. Log into your is-cool-me control panel and navigate to the DNS settings for your subdomain `myproject.is-pro.dev`.
+          2. Add two new MX records with the following details:
+             - **Priority 10**: Point to `mxa.mailgun.org`
+             - **Priority 20**: Point to `mxb.mailgun.org`
+          These records tell mail servers to first try delivering email to Mailgun’s primary server (`mxa.mailgun.org`), and if that fails, to try the secondary server (`mxb.mailgun.org`).
           
           ## Configuring Mail Forwarding
-          If you prefer not to manage a separate email account for your custom email address, you can set up mail forwarding. This way, emails sent to your custom address will be automatically forwarded to your existing email account. The process varies depending on your ESP:
-          - **For Gmail**: Go to the Gmail settings > Forwarding and POP/IMAP > Add a forwarding address. Enter the email address you want to forward messages from, and then follow the verification link sent to that address.
-          - **For Outlook**: Navigate to Outlook settings > Mail > Forwarding. Enter the email address you want to forward messages to, and then save your changes.
+          To actually receive emails at your custom address, you need to set up mail forwarding. This involves telling Mailgun where to forward emails sent to your custom address. Here’s how:
+          1. Log into your Mailgun control panel and navigate to the domain settings for `myproject.is-pro.dev`.
+          2. Go to the "Routes" tab and click on "Create Route".
+          3. Set up a route with the following conditions and actions:
+             - **Condition**: Match Recipient, `john.doe@myproject.is-pro.dev`
+             - **Action**: Forward, `john.doe@example.com` (your actual email address where you want to receive the forwarded emails)
+          4. Save the route. Now, any email sent to `john.doe@myproject.is-pro.dev` will be forwarded to `john.doe@example.com`.
           
           ## Common Pitfalls and Solutions
-          - **DNS Propagation Delays**: If your MX records don’t seem to be working, wait for up to 48 hours for DNS changes to propagate.
-          - **ESP Configuration Issues**: Double-check your ESP’s setup instructions. Incorrectly configured MX records or mail forwarding settings can prevent your custom email from working.
-          - **SPF and DKIM Records**: To prevent spam filters from flagging your emails, consider setting up SPF (Sender Policy Framework) and DKIM (DomainKeys Identified Mail) records. These verify that your emails are coming from an authorized server.
+          - **MX Record Propagation**: Changes to MX records can take up to 48 hours to propagate globally. If your emails aren’t being delivered, wait for this period to pass before troubleshooting further.
+          - **SPF and DKIM Records**: For better deliverability, ensure you have SPF (Sender Policy Framework) and DKIM (DomainKeys Identified Mail) records set up. These records help prevent spam filters from blocking your emails.
+          - **Mailgun Verification**: Mailgun requires you to verify your domain by adding a TXT record to your DNS settings. Follow the instructions provided by Mailgun during the setup process.
           
-          ## Best Practices for Custom Email Addresses
-          - **Use a Consistent Branding**: Ensure your custom email address aligns with your project or company branding.
-          - **Set Up Autoresponders**: For support or contact email addresses, consider setting up autoresponders to immediately acknowledge receipt of emails.
-          - **Monitor Your Email**: Regularly check your custom email address for important messages. If you’ve set up mail forwarding, ensure the destination email account is regularly monitored.
+          ## Best Practices
+          - **Use a Consistent Branding**: Ensure your custom email address matches your project’s branding for a professional look.
+          - **Monitor Your Emails**: Regularly check your custom email address for any issues or undelivered emails.
+          - **Keep Your DNS Settings Organized**: Use clear and descriptive names for your DNS records to avoid confusion.
           
           ## Performance Considerations
-          When setting up custom email addresses, consider the performance implications:
-          - **Email Delivery Speed**: The speed at which emails are delivered can be affected by the configuration of your MX records and the mail servers used by your ESP.
-          - **Uptime and Reliability**: Choose an ESP with a good uptime record to minimize the chance of emails being lost or undeliverable.
+          - **Mail Server Uptime**: The reliability of your mail server can impact email deliverability. Choose a reputable mail service provider.
+          - **Email Volume**: If you expect a high volume of emails, consider upgrading your mail service plan to handle the load efficiently.
           
-          ## Troubleshooting Custom Email Issues
-          If you encounter issues with your custom email address, follow these steps:
-          1. **Verify DNS Records**: Ensure your MX records are correctly set up and have propagated.
-          2. **Check ESP Settings**: Review your ESP’s settings to ensure they are correctly configured for your custom domain.
-          3. **Test Email Delivery**: Send a test email to your custom email address from an external account to check if it’s being delivered correctly.
+          ## Troubleshooting
+          If you encounter issues with email delivery:
+          1. **Check MX Records**: Ensure your MX records are correctly set up and propagated.
+          2. **Verify Domain**: Confirm that your domain is verified with your mail service provider.
+          3. **Inspect Email Headers**: Look at the email headers of undelivered emails for clues about what went wrong.
+          4. **Contact Support**: Reach out to your mail service provider’s support team for assistance.
           
           ## Conclusion and Next Steps
-          Setting up a custom email address using your is-cool-me subdomain enhances your professional image and helps establish trust with your users. By following the steps outlined in this guide, you can create a custom email address that matches your subdomain, such as `contact@myproject.is-pro.dev`. Remember to verify your DNS settings, configure your ESP correctly, and test your email delivery to ensure everything is working as expected. For further customization and integration, consider exploring additional features offered by your ESP.
+          Setting up a custom email address using your is-cool-me subdomain enhances your professional image and reinforces your branding. By following the steps outlined in this guide, you can efficiently configure a custom email solution using Mailgun. Remember to monitor your email deliverability and adjust your settings as necessary. For further learning, explore the resources listed below.
           
-          ## Frequently Asked Questions
-          1. **Q: Can I use my custom email address with multiple projects?**
-             A: Yes, you can use the same custom email address across multiple projects, but it’s often more professional to use a unique address for each project to maintain clear communication channels.
-          2. **Q: How do I handle emails sent to non-existent addresses on my domain?**
-             A: You can set up a catch-all email address with your ESP to receive emails sent to non-existent addresses on your domain, helping you catch any typos or incorrect addresses.
-          3. **Q: Is it possible to set up custom email addresses for sub-subdomains (e.g., `blog.myproject.is-pro.dev`)?**
-             A: Yes, most ESPs support setting up custom email addresses for sub-subdomains. You would need to set up separate MX records for the sub-subdomain.
-          4. **Q: Can I migrate my custom email address to a different ESP?**
-             A: Yes, you can migrate your custom email address to a different ESP by updating your MX records to point to the new ESP’s mail servers. Ensure you follow the new ESP’s setup instructions carefully.
+          ## FAQ
+          - Q: Can I use Gmail or Outlook for my custom email?
+            A: Yes, you can use Gmail or Outlook by setting up mail forwarding or using their respective SMTP settings.
+          - Q: How do I set up SPF and DKIM records?
+            A: You can set up SPF and DKIM records through your DNS settings. The exact process depends on your mail service provider.
+          - Q: What if my emails are being marked as spam?
+            A: Ensure you have SPF and DKIM records set up, and avoid using spammy keywords in your emails.
+          - Q: Can I have multiple custom email addresses?
+            A: Yes, you can set up multiple custom email addresses by repeating the mail forwarding setup process for each address.
           
           ## Further Reading
-          For more information on setting up and managing custom email addresses, consider the following resources:
-          - **Mailgun Documentation**: Detailed guides on setting up custom email addresses with Mailgun.
-          - **Gmail Help Center**: Google’s official support pages for setting up custom email addresses with Gmail.
-          - **Zoho Mail Documentation**: Zoho’s guides on configuring custom email addresses with their service.
-          - **DNS Guide by Cloudflare**: A comprehensive guide to understanding and managing DNS records.
+          - Mailgun Documentation: For detailed guides on setting up and managing your custom email solution.
+          - is-cool-me Documentation: For specific instructions on managing DNS settings on your subdomain.
+          - SPF and DKIM Setup Guides: Provided by your mail service provider or domain registrar, these guides help you set up these crucial records for better email deliverability.
         </div>
       </div>
     </div>
@@ -288,7 +288,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

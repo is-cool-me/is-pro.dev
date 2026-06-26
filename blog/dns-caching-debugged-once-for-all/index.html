@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/blog/dns-caching-debugged-once-for-all/"
@@ -149,33 +149,33 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          As a developer platform, we've encountered our fair share of DNS-related issues over the years. One of the most frustrating problems is DNS caching. You've just updated your DNS records, but for some reason, the changes aren't propagating as expected. You've checked your DNS settings, verified that your updates are correct, and yet, the old records persist. I still remember the time we launched a new feature on our platform, only to have users report that they couldn't access it due to outdated DNS records. It took us hours to debug the issue, and in the end, it boiled down to a simple DNS caching problem.
+          As a developer platform, we've encountered our fair share of DNS-related issues over the years. One of the most frustrating problems is DNS caching. You've made changes to your DNS records, but for some reason, they're not propagating as expected. You've checked your DNS settings, verified that your changes are correct, and yet, your users are still seeing the old records. This is where DNS caching comes in – a crucial aspect of DNS management that can either make or break your application's performance.
           
           ## Understanding DNS Caching
-          To tackle DNS caching, we need to understand how it works. When you request a website or a resource, your device or browser sends a DNS query to a DNS resolver, which then queries the authoritative name server for the domain. The response from the authoritative name server includes a Time To Live (TTL) value, which specifies how long the DNS record can be cached. The problem arises when the TTL value is set too high, causing outdated records to be cached for an extended period. For instance, when we updated the DNS records for our blog subdomain (blog.is-cool-me.com), we set the TTL to 24 hours. However, we soon realized that this was causing issues for users who were trying to access the new blog posts, as their devices were still caching the old records.
+          To tackle DNS caching, we first need to understand how it works. DNS caching is a mechanism that stores DNS records in memory for a specified period, known as the Time To Live (TTL). When a user requests a domain, their device or router checks the cache for the corresponding DNS record. If the record is found, it returns the cached IP address instead of querying the DNS server again. This process reduces the load on DNS servers and improves the overall performance of your application. However, it can also lead to issues when you need to update your DNS records. For instance, when we recently updated the DNS records for our blog subdomain (blog.is-cool-me.com), we noticed that some users were still seeing the old records. After investigating, we realized that the issue was due to DNS caching. The TTL for our DNS records was set to 24 hours, which meant that any changes we made would take up to 24 hours to propagate.
           
           ## Debugging DNS Caching Issues
-          So, how do you debug DNS caching issues? The first step is to use tools like `dig` or `nslookup` to verify that your DNS records are correct. For example, when we were debugging the issue with our blog subdomain, we used `dig` to check the DNS records: `dig +short blog.is-cool-me.com`. This showed us that the records were correct, but we still needed to figure out why they weren't propagating. We then used a tool like `dnsviz` to visualize the DNS delegation chain and identify any potential issues. In our case, we found that one of our upstream DNS providers was caching the old records, which was causing the problem. We were able to resolve the issue by contacting the provider and requesting that they flush their cache. Another useful tool is `dnsflush`, which can be used to flush the DNS cache on your local machine. For example, on macOS, you can use the command `sudo killall -HUP mDNSResponder` to flush the DNS cache.
+          So, how do you debug DNS caching issues? The first step is to check your DNS settings and verify that your changes are correct. You can use tools like dig or nslookup to query your DNS server and check the records. For example, to check the DNS records for our blog subdomain, we can use the following command: `dig +short blog.is-cool-me.com`. This will return the IP address associated with our blog subdomain. If the IP address is incorrect, it may indicate a DNS caching issue. Another useful tool is the DNS propagation checker provided by services like WhatIsMyIP.com or DNSChecker.org. These tools allow you to check the DNS propagation status across different regions and DNS servers. When we used these tools to check the propagation status of our blog subdomain, we noticed that some DNS servers were still caching the old records. To resolve this issue, we used a DNS flush tool to clear the cache and force the DNS servers to update their records.
           
-          ## Practical Strategies for Managing DNS Caching
-          So, what can you do to avoid DNS caching issues in the first place? One strategy is to set a low TTL value for your DNS records, especially when you're making changes. This will ensure that the records are updated quickly, without causing too much disruption. For example, when we're deploying new features on our platform, we set the TTL to 5 minutes to ensure that the records propagate quickly. Another strategy is to use a DNS provider that offers automatic cache flushing, such as Cloudflare or AWS Route 53. These providers can automatically flush their cache when you update your DNS records, which can save you a lot of time and hassle. We've also found it helpful to use a DNS monitoring tool, such as DNSMonitor or Catchpoint, to keep an eye on our DNS records and detect any issues before they become major problems.
+          ## DNS Caching Strategies
+          To avoid DNS caching issues, it's essential to implement a caching strategy that balances performance and propagation. One approach is to use a shorter TTL for your DNS records. This will reduce the caching period and allow changes to propagate faster. However, a shorter TTL can also increase the load on your DNS server, as devices and routers will need to query the server more frequently. Another approach is to use a caching layer, such as a Content Delivery Network (CDN), to cache your content. This will reduce the load on your origin server and improve performance, while also allowing you to update your content without affecting the DNS records. For example, we use a CDN to cache our blog content, which allows us to update our blog posts without affecting the DNS records for our blog subdomain.
           
           ## Best Practices for DNS Caching
-          In addition to the strategies mentioned above, there are several best practices that can help you manage DNS caching effectively. One best practice is to use a consistent naming convention for your DNS records, which can make it easier to manage and debug your records. For example, we use a convention like `subdomain.environment.is-cool-me.com` to keep our records organized. Another best practice is to keep your DNS records up to date, which can help prevent issues like DNS caching. We've found it helpful to schedule regular DNS audits to ensure that our records are current and accurate. Finally, it's a good idea to have a plan in place for handling DNS caching issues, which can help you respond quickly and effectively when problems arise. For example, we have a runbook that outlines the steps to take when a DNS caching issue occurs, which helps us to resolve the issue quickly and minimize downtime.
+          To ensure that DNS caching doesn't become a bottleneck for your application, it's crucial to follow best practices. First, use a reasonable TTL for your DNS records. A TTL of 1-4 hours is a good starting point, as it balances performance and propagation. Second, use a caching layer, such as a CDN, to cache your content. This will reduce the load on your origin server and improve performance. Third, monitor your DNS propagation status using tools like DNSChecker.org or WhatIsMyIP.com. This will help you identify any issues with DNS caching and propagation. Finally, use a DNS flush tool to clear the cache and force DNS servers to update their records when necessary. By following these best practices, you can ensure that DNS caching works in your favor, rather than against you.
           
-          In conclusion, DNS caching can be a frustrating problem, but it's one that can be debugged and managed with the right strategies and tools. By understanding how DNS caching works, using tools like `dig` and `dnsviz` to debug issues, and implementing practical strategies like low TTL values and automatic cache flushing, you can minimize the impact of DNS caching on your applications and services. Remember to always keep your DNS records up to date, use a consistent naming convention, and have a plan in place for handling DNS caching issues.
+          In conclusion, DNS caching is a critical aspect of DNS management that can either improve or hinder your application's performance. By understanding how DNS caching works, debugging DNS caching issues, implementing a caching strategy, and following best practices, you can ensure that DNS caching works in your favor. Whether you're a seasoned developer or just starting out, it's essential to have a solid understanding of DNS caching and how it affects your application.
           
           Key Takeaways:
-          * Set a low TTL value for your DNS records, especially when making changes, to ensure quick propagation.
-          * Use tools like `dig` and `dnsviz` to debug DNS caching issues and identify potential problems.
-          * Consider using a DNS provider that offers automatic cache flushing, such as Cloudflare or AWS Route 53.
-          * Keep your DNS records up to date and use a consistent naming convention to simplify management and debugging.
+          * Use a reasonable TTL for your DNS records to balance performance and propagation.
+          * Implement a caching layer, such as a CDN, to cache your content and reduce the load on your origin server.
+          * Monitor your DNS propagation status using tools like DNSChecker.org or WhatIsMyIP.com.
+          * Use a DNS flush tool to clear the cache and force DNS servers to update their records when necessary.
           
           Related Resources:
-          * `dig`: A command-line tool for querying DNS records (https://www.isc.org/downloads/bind/)
-          * `dnsviz`: A tool for visualizing DNS delegation chains (https://dnsviz.net/)
-          * Cloudflare: A DNS provider that offers automatic cache flushing (https://www.cloudflare.com/)
-          * AWS Route 53: A DNS provider that offers automatic cache flushing (https://aws.amazon.com/route53/)
+          * DNSChecker.org: A tool for checking DNS propagation status across different regions and DNS servers.
+          * WhatIsMyIP.com: A tool for checking DNS propagation status and IP address information.
+          * Cloudflare: A CDN and DNS service that provides caching and DNS management features.
+          * Google Cloud DNS: A DNS service that provides caching and DNS management features.
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
 <p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
@@ -234,7 +234,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

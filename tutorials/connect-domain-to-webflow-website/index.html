@@ -5,17 +5,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
-  <title>Connect Your is-pro.dev Subdomain to a Webflow Site — is-cool-me Tutorials</title>
+  <title>Connect Your is-cool-me Subdomain to a Webflow Site — is-cool-me Tutorials</title>
   <meta name="description" content="Link your free subdomain to a Webflow-published site, configure DNS settings for optimal performance, and enable Webflows automatic SSL certificate provisioning." />
   <meta name="keywords" content="webflow, cms, website builder, tutorial, dns" />
   <link rel="canonical" href="https://is-pro.dev/tutorials/connect-domain-to-webflow-website/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://is-pro.dev/tutorials/connect-domain-to-webflow-website/" />
-  <meta property="og:title" content="Connect Your is-pro.dev Subdomain to a Webflow Site — is-cool-me Tutorials" />
+  <meta property="og:title" content="Connect Your is-cool-me Subdomain to a Webflow Site — is-cool-me Tutorials" />
   <meta property="og:description" content="Link your free subdomain to a Webflow-published site, configure DNS settings for optimal performance, and enable Webflows automatic SSL certificate provisioning." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Connect Your is-pro.dev Subdomain to a Webflow Site — is-cool-me Tutorials" />
+  <meta name="twitter:title" content="Connect Your is-cool-me Subdomain to a Webflow Site — is-cool-me Tutorials" />
   <meta name="twitter:description" content="Link your free subdomain to a Webflow-published site, configure DNS settings for optimal performance, and enable Webflows automatic SSL certificate provisioning." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
@@ -35,7 +35,7 @@
       "@type": "WebSite",
       "@id": "https://is-pro.dev/#website",
       "url": "https://is-pro.dev",
-      "name": "Connect Your is-pro.dev Subdomain to a Webflow Site — is-cool-me Tutorials",
+      "name": "Connect Your is-cool-me Subdomain to a Webflow Site — is-cool-me Tutorials",
       "description": "Link your free subdomain to a Webflow-published site, configure DNS settings for optimal performance, and enable Webflows automatic SSL certificate provisioning.",
       "publisher": {
         "@type": "Organization",
@@ -90,7 +90,7 @@
           <span class="article-category">Tutorial</span>
           <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>15 min read</span>
         </div>
-        <h1>Connect Your is-pro.dev Subdomain to a Webflow Site</h1>
+        <h1>Connect Your is-cool-me Subdomain to a Webflow Site</h1>
         <p class="article-summary">Link your free subdomain to a Webflow-published site, configure DNS settings for optimal performance, and enable Webflows automatic SSL certificate provisioning.</p>
       </div>
     </div>
@@ -106,8 +106,8 @@
           <h2>What You Will Need</h2>
           <ul>
           <li>A Webflow account (free tier works) with a published site</li>
-          <li>An is-pro.dev subdomain (free at dash.is-pro.dev)</li>
-          <li>Access to the is-pro.dev DNS dashboard (Cloudflare-powered)</li>
+          <li>An is-cool-me subdomain (free at dash.is-pro.dev)</li>
+          <li>Access to the is-cool-me DNS dashboard (Cloudflare-powered)</li>
           <li>10 minutes of free time</li>
           </ul>
           
@@ -115,10 +115,10 @@
           <p>In Webflow, publish your site at least once to the default webflow.io staging domain. This generates a working HTTPS endpoint that we will point your subdomain to. Make sure your site design and content are ready before connecting a custom domain.</p>
           
           <h2>Step 2: Add Your Subdomain in Webflow</h2>
-          <p>Go to your Webflow project settings, click the "Publishing" tab, and scroll to "Custom Domains". Click "Add Custom Domain" and enter your is-pro.dev subdomain (e.g., <code>mysite.is-pro.dev</code>). Webflow will display a DNS target — either a CNAME or A record values.</p>
+          <p>Go to your Webflow project settings, click the "Publishing" tab, and scroll to "Custom Domains". Click "Add Custom Domain" and enter your is-cool-me subdomain (e.g., <code>mysite.is-pro.dev</code>). Webflow will display a DNS target — either a CNAME or A record values.</p>
           
-          <h2>Step 3: Configure DNS in the is-pro.dev Dashboard</h2>
-          <p>In your is-pro.dev DNS dashboard, add a CNAME record pointing to Webflow's target domain (e.g., <code>proxy-ssl.webflow.com</code>). If Webflow provides A records instead, add those pointing to Webflow's IP addresses. Set proxying to DNS-only (gray cloud) for Webflow compatibility.</p>
+          <h2>Step 3: Configure DNS in the is-cool-me Dashboard</h2>
+          <p>In your is-cool-me DNS dashboard, add a CNAME record pointing to Webflow's target domain (e.g., <code>proxy-ssl.webflow.com</code>). If Webflow provides A records instead, add those pointing to Webflow's IP addresses. Set proxying to DNS-only (gray cloud) for Webflow compatibility.</p>
           
           <h2>Step 4: Enable SSL in Webflow</h2>
           <p>Back in Webflow, toggle SSL to "Enabled" for your custom domain. Webflow provisions a Let's Encrypt certificate automatically. This process takes 1-5 minutes. Your site will be served over HTTPS once the certificate is active.</p>
@@ -128,7 +128,7 @@
           
           <h2>Troubleshooting</h2>
           <p><strong>Webflow shows "Pending SSL":</strong> SSL provisioning can take up to 15 minutes with Webflow. Ensure your DNS is set to DNS-only (gray cloud) — proxied (orange cloud) can interfere with Webflow's certificate validation.</p>
-          <p><strong>Site not loading on custom domain:</strong> Verify the DNS record is saving correctly and pointing to Webflow's target. Use the DNS Checker tool on is-pro.dev to confirm the record resolves.</p>
+          <p><strong>Site not loading on custom domain:</strong> Verify the DNS record is saving correctly and pointing to Webflow's target. Use the DNS Checker tool on is-cool-me to confirm the record resolves.</p>
           <p><strong>Mixed content warnings:</strong> If your Webflow site loads resources over HTTP, update all asset URLs to use HTTPS or protocol-relative URLs. Webflow usually handles this automatically when SSL is enabled.</p>
 
         </div>

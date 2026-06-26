@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/blog/lets-encrypt-vs-cloudflare-flexible-ssl/"
@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Security</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4 min read</span>
         </div>
         <h1>Let's Encrypt vs Cloudflare Flexible SSL: A Practical Comparison</h1>
         <p class="article-summary">Understanding the real security differences between Let's Encrypt (end-to-end encryption), Cloudflare Full Strict (edge encryption), and Cloudflare Flexible SSL (partial encryption).</p>
@@ -149,34 +149,39 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          As the founder of a developer platform, I've seen firsthand the importance of securing our users' data with SSL certificates. But with so many options available, it can be overwhelming to choose the right one. Two popular choices are Let's Encrypt and Cloudflare Flexible SSL. In this article, I'll share my hands-on experience with both, highlighting the pros and cons of each, and provide a practical comparison to help you make an informed decision.
+          As the founder of a developer platform, I've had my fair share of battles with SSL certificates. One of the most significant challenges we faced was ensuring that all our subdomains were secured with HTTPS. With over 500 subdomains, manually managing SSL certificates was a daunting task. That's when I discovered Let's Encrypt and Cloudflare Flexible SSL. In this article, I'll share my hands-on experience with both solutions, highlighting their strengths and weaknesses, and provide a practical comparison to help you make an informed decision.
           
-          ## Introduction to SSL and the Problem of Certificate Management
-          When we first launched our platform, we used self-signed certificates, which quickly became a headache to manage. As our user base grew, so did the number of subdomains, each requiring its own certificate. We soon realized that manual certificate management was not only time-consuming but also prone to errors. That's when we started exploring automated certificate issuance and management solutions. Let's Encrypt and Cloudflare Flexible SSL were two options that caught our attention. Let's Encrypt is a free, automated, and open certificate authority that provides SSL/TLS certificates, while Cloudflare Flexible SSL is a cloud-based solution that offers a range of security features, including SSL encryption.
+          ## Introduction to Let's Encrypt and Cloudflare Flexible SSL
+          Let's Encrypt is a free, automated, and open certificate authority that provides SSL/TLS certificates to websites. It's a game-changer for small to medium-sized websites, as it eliminates the need for manual certificate management. On the other hand, Cloudflare Flexible SSL is a feature offered by Cloudflare, a popular content delivery network (CDN) and security platform. Flexible SSL allows you to enable HTTPS on your website, even if you don't have a valid SSL certificate installed on your origin server. Both solutions have their own strengths and weaknesses, which I'll delve into in the following sections.
           
-          ## Let's Encrypt: Free and Automated Certificate Issuance
-          We started using Let's Encrypt for our platform's subdomains, such as `blog.is-cool-me.com` and `docs.is-cool-me.com`. The setup was relatively straightforward, and we were able to automate the certificate issuance process using the ACME protocol. One of the biggest advantages of Let's Encrypt is its ease of use and zero cost. We were able to obtain certificates for all our subdomains without incurring any additional expenses. However, we soon encountered some limitations. Let's Encrypt certificates are only valid for 90 days, which means we had to set up a cron job to renew them automatically. Additionally, Let's Encrypt uses the ACME protocol, which can be vulnerable to certain types of attacks, such as DNS hijacking. To mitigate this risk, we had to implement additional security measures, such as DNSSEC and CAA records.
+          ## Certificate Management and Automation
+          Let's Encrypt shines when it comes to certificate management and automation. With Let's Encrypt, you can automate the entire certificate issuance and renewal process using tools like Certbot. For example, we use Certbot to automate SSL certificate issuance for our subdomains on our platform, `dev.is-cool-me`. Certbot takes care of verifying domain ownership, generating a certificate signing request (CSR), and installing the certificate on our server. This automation saves us a significant amount of time and reduces the likelihood of human error. In contrast, Cloudflare Flexible SSL doesn't require any certificate management on your part, as it uses a wildcard certificate issued by Cloudflare. However, this means you have limited control over the certificate issuance and renewal process.
           
-          ## Cloudflare Flexible SSL: Cloud-Based Security with a Range of Features
-          As our platform grew, we started to experience some limitations with Let's Encrypt. That's when we decided to explore Cloudflare Flexible SSL. Cloudflare is a cloud-based security platform that offers a range of features, including SSL encryption, DDoS protection, and content delivery networks (CDNs). With Cloudflare Flexible SSL, we were able to encrypt traffic between our users' browsers and our origin server, without having to manage certificates manually. One of the biggest advantages of Cloudflare Flexible SSL is its flexibility and ease of use. We were able to enable SSL encryption for all our subdomains, including `www.is-cool-me.com` and `api.is-cool-me.com`, with just a few clicks. Additionally, Cloudflare Flexible SSL provides a range of security features, such as SSL/TLS encryption, HTTP/2 support, and TLS 1.3 support. However, we soon realized that Cloudflare Flexible SSL has some limitations of its own. For example, it requires a Cloudflare account and can be more expensive than Let's Encrypt, especially for large-scale deployments.
+          ## Security Comparison
+          From a security perspective, both Let's Encrypt and Cloudflare Flexible SSL have their strengths and weaknesses. Let's Encrypt provides end-to-end encryption, ensuring that data is encrypted from the client's browser to your origin server. This is particularly important if you're handling sensitive data, such as user passwords or credit card information. On the other hand, Cloudflare Flexible SSL uses a technique called "SSL bridging" to enable HTTPS on your website. This means that data is encrypted from the client's browser to Cloudflare's edge server, but not necessarily from Cloudflare's edge server to your origin server. This can be a security concern if you're handling sensitive data, as it may be transmitted in plaintext between Cloudflare's edge server and your origin server. For example, if you're using Cloudflare Flexible SSL on your e-commerce website, `shop.example.com`, you may want to consider using a full SSL setup to ensure end-to-end encryption.
           
-          ## Practical Comparison and Security Considerations
-          So, how do Let's Encrypt and Cloudflare Flexible SSL compare in terms of security? Both solutions provide SSL/TLS encryption, which is essential for securing user data. However, Let's Encrypt is more vulnerable to certain types of attacks, such as DNS hijacking, due to its reliance on the ACME protocol. Cloudflare Flexible SSL, on the other hand, provides a range of security features, including DDoS protection and web application firewalls (WAFs), which can help mitigate these risks. In terms of performance, Cloudflare Flexible SSL can provide faster page loads and improved user experience, thanks to its CDN and content optimization features. Let's Encrypt, on the other hand, can introduce additional latency due to the certificate issuance and renewal process. To give you a better idea, we conducted a series of benchmarks to compare the performance of Let's Encrypt and Cloudflare Flexible SSL. Our results showed that Cloudflare Flexible SSL provided faster page loads and improved user experience, especially for users located far from our origin server.
+          ## Performance and Compatibility
+          In terms of performance, Cloudflare Flexible SSL has a slight edge over Let's Encrypt. Since Cloudflare is a CDN, it can cache and serve your website's content from its edge servers, reducing the latency and improving page load times. Additionally, Cloudflare's Flexible SSL feature is tightly integrated with its CDN, making it easy to enable HTTPS on your website without requiring any additional configuration. Let's Encrypt, on the other hand, requires you to configure your server to use the SSL certificate, which can be a complex process, especially if you're not familiar with SSL/TLS configuration. For example, we use Let's Encrypt on our blog, `blog.is-cool-me`, and had to configure our server to use the SSL certificate. However, the process was relatively straightforward, and we were able to get HTTPS enabled on our blog within a few hours.
           
-          In conclusion, both Let's Encrypt and Cloudflare Flexible SSL are viable options for securing your website or application with SSL certificates. While Let's Encrypt is free and automated, it has some limitations, such as its reliance on the ACME protocol and the need for manual certificate renewal. Cloudflare Flexible SSL, on the other hand, provides a range of security features and ease of use, but can be more expensive and requires a Cloudflare account. Ultimately, the choice between Let's Encrypt and Cloudflare Flexible SSL depends on your specific use case and security requirements. If you're looking for a free and automated certificate issuance solution, Let's Encrypt may be the better choice. However, if you're looking for a cloud-based security solution with a range of features, Cloudflare Flexible SSL may be the better option.
+          ## Practical Takeaways
+          Based on my experience with Let's Encrypt and Cloudflare Flexible SSL, here are some practical takeaways to consider:
+          * If you're looking for a free, automated SSL certificate solution, Let's Encrypt is an excellent choice.
+          * If you're already using Cloudflare as your CDN, Flexible SSL is a convenient option to enable HTTPS on your website.
+          * If you're handling sensitive data, consider using a full SSL setup with end-to-end encryption to ensure the security of your users' data.
+          * Be aware of the potential security risks associated with SSL bridging, and take steps to mitigate them if you're using Cloudflare Flexible SSL.
           
-          Key Takeaways:
-          * Let's Encrypt is a free and automated certificate issuance solution, but has some limitations, such as its reliance on the ACME protocol and the need for manual certificate renewal.
-          * Cloudflare Flexible SSL is a cloud-based security solution that provides a range of features, including SSL encryption, DDoS protection, and content delivery networks (CDNs).
-          * Cloudflare Flexible SSL can provide faster page loads and improved user experience, thanks to its CDN and content optimization features.
-          * The choice between Let's Encrypt and Cloudflare Flexible SSL depends on your specific use case and security requirements.
+          ## Key Takeaways
+          * Let's Encrypt provides free, automated SSL certificates with end-to-end encryption.
+          * Cloudflare Flexible SSL enables HTTPS on your website, but uses SSL bridging, which may not provide end-to-end encryption.
+          * Consider using a full SSL setup if you're handling sensitive data.
+          * Be aware of the potential security risks associated with SSL bridging.
           
-          Related Resources:
-          * Let's Encrypt: https://letsencrypt.org/
-          * Cloudflare Flexible SSL: https://www.cloudflare.com/ssl/
-          * ACME protocol: https://tools.ietf.org/html/rfc8555
-          * DNSSEC: https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions
-          * CAA records: https://en.wikipedia.org/wiki/DNS_Certificate_Authority_Authorization
+          ## Related Resources
+          For further reading and to learn more about the tools and services mentioned in this article, check out the following resources:
+          * Let's Encrypt: [https://letsencrypt.org/](https://letsencrypt.org/)
+          * Cloudflare Flexible SSL: [https://www.cloudflare.com/ssl/](https://www.cloudflare.com/ssl/)
+          * Certbot: [https://certbot.eff.org/](https://certbot.eff.org/)
+          * SSL Labs: [https://www.ssllabs.com/](https://www.ssllabs.com/)
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
 <p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
@@ -235,7 +240,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

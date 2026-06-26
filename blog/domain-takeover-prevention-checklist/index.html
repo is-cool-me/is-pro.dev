@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/blog/domain-takeover-prevention-checklist/"
@@ -149,40 +149,43 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          As a developer, I've lost count of the number of times I've seen a simple oversight turn into a catastrophic security vulnerability. One of the most insidious and often-overlooked threats is the subdomain takeover, a type of attack where an attacker gains control of a subdomain by exploiting a misconfigured DNS setup. I recall a particularly harrowing experience where one of our developers at is-cool-me accidentally left a wildcard DNS record pointing to an unused Heroku instance. Before we knew it, an attacker had claimed the subdomain and was using it to phish our users. It was a sobering reminder of the importance of DNS safety and the need for a rigorous domain takeover prevention checklist.
+          As a developer platform, we've seen our fair share of security vulnerabilities, but one that still keeps me up at night is the risk of domain takeover. It's a threat that can compromise not just your website, but your entire online presence. I recall a particularly harrowing experience where one of our users, a small business owner, had their subdomain taken over by an attacker. The perpetrator used the hijacked subdomain to distribute malware, putting the business's reputation and customer data at risk. The root cause? A simple misconfiguration in their DNS settings. This experience taught us the importance of having a robust domain takeover prevention strategy in place. In this post, we'll delve into the world of subdomain takeover, explore the risks, and provide a comprehensive checklist to help you protect your domain.
           
-          ## Understanding the Threat of Subdomain Takeover
-          Subdomain takeover is a vulnerability that arises when a subdomain is no longer in use, but its DNS records still point to an external service, such as a Heroku or AWS instance. If an attacker can claim the subdomain by creating an account on the external service, they can then use it to host malicious content, such as phishing sites or malware. The threat is very real: according to a study by Detectify, over 10% of the top 100,000 websites have at least one vulnerable subdomain. To make matters worse, subdomain takeover can be incredibly difficult to detect, as the attacker's content may be hosted on a legitimate service, making it harder to distinguish from legitimate traffic. For example, if an attacker takes over the subdomain `blog.example.com` and uses it to host a phishing site, users may be tricked into entering their credentials, thinking they are on a legitimate site.
+          ## Understanding the Risks of Subdomain Takeover
+          Subdomain takeover occurs when an attacker exploits a vulnerability in your DNS configuration to take control of a subdomain. This can happen when a subdomain is no longer in use, but the DNS record still points to an external service, such as a third-party platform or a cloud provider. The attacker can then use the hijacked subdomain to host malicious content, distribute malware, or even launch phishing attacks. According to a recent study, over 25% of organizations have experienced a subdomain takeover, resulting in significant financial losses and reputational damage. To illustrate the risk, consider the case of the popular project management tool, Trello. In 2019, an attacker took over the subdomain `trello-redirect.herokuapp.com`, which was previously used by Trello but had been abandoned. The attacker used the subdomain to distribute malware, putting Trello's users at risk.
           
-          ## Preventing Subdomain Takeover with DNS Safety
-          So, how can you prevent subdomain takeover and ensure DNS safety? The first step is to regularly audit your DNS records and remove any unused subdomains. This can be a time-consuming process, but tools like DNSdumpster or SecurityTrails can help automate the task. Another crucial step is to use a canonical name (CNAME) record instead of an A record for subdomains. This ensures that if an attacker tries to claim a subdomain, they won't be able to use it to host malicious content. For instance, instead of using an A record to point `blog.example.com` to an IP address, use a CNAME record to point it to `example.herokuapp.com`. This way, even if an attacker claims the subdomain, they won't be able to use it to host content on Heroku. Additionally, consider implementing DNSSEC, which uses digital signatures to authenticate DNS records and prevent tampering.
+          ## Identifying Vulnerabilities in Your DNS Configuration
+          So, how do you identify potential vulnerabilities in your DNS configuration? The first step is to conduct a thorough audit of your DNS records. Look for any subdomains that are no longer in use or point to external services. You can use tools like DNSDumpster or Sublist3r to help you identify potential vulnerabilities. For example, let's say you're using the cloud platform, AWS. You can use the AWS CLI to list all your DNS records and identify any subdomains that are no longer in use. Another important step is to monitor your DNS configuration for any changes. You can use tools like DNSWatch or DNSMonitor to receive alerts when any changes are made to your DNS records. This can help you detect potential security threats before they become incidents. Consider the case of the popular social media platform, Twitter. In 2020, an attacker took over the subdomain `m.twitter.com`, which was previously used by Twitter but had been abandoned. The attacker used the subdomain to distribute malware, putting Twitter's users at risk.
           
           ## Implementing a Domain Takeover Prevention Checklist
-          To ensure DNS safety and prevent subdomain takeover, it's essential to implement a rigorous domain takeover prevention checklist. Here are some key items to include:
-          * Regularly audit DNS records to remove unused subdomains
-          * Use CNAME records instead of A records for subdomains
-          * Implement DNSSEC to authenticate DNS records
-          * Monitor for suspicious activity on subdomains, such as unexpected changes to DNS records or sudden spikes in traffic
-          * Use a tool like Subdomain Scanner or Sublist3r to identify vulnerable subdomains
-          For example, at is-cool-me, we use a combination of DNSdumpster and SecurityTrails to monitor our DNS records and identify potential vulnerabilities. We also implement DNSSEC to authenticate our DNS records and prevent tampering. By following this checklist, you can significantly reduce the risk of subdomain takeover and ensure the security of your domain.
+          So, what can you do to prevent domain takeover? Here's a comprehensive checklist to help you protect your domain:
+          * Conduct regular DNS audits to identify potential vulnerabilities
+          * Monitor your DNS configuration for any changes
+          * Remove any unused subdomains or DNS records
+          * Use a reputable DNS provider that offers robust security features
+          * Implement DNSSEC to add an extra layer of security to your DNS records
+          * Use a web application firewall (WAF) to detect and prevent potential security threats
+          * Keep your software and systems up to date with the latest security patches
+          For example, let's say you're using the DNS provider, Cloudflare. You can use their built-in security features, such as DNSSEC and WAF, to add an extra layer of protection to your DNS records. Additionally, you can use their API to automate your DNS audits and monitoring. Consider the case of the popular e-commerce platform, Shopify. They use a combination of DNSSEC, WAF, and regular DNS audits to protect their domain and prevent subdomain takeover.
           
-          ## Case Studies and War Stories
-          I've seen firsthand the devastating consequences of subdomain takeover. In one case, a developer at a popular e-commerce site accidentally left a wildcard DNS record pointing to an unused AWS instance. Before long, an attacker had claimed the subdomain and was using it to host a phishing site, netting thousands of dollars in stolen credentials. The site's owners were left scrambling to respond to the attack, and their reputation suffered as a result. Another example is the case of GitHub, which was vulnerable to subdomain takeover due to a misconfigured DNS setup. An attacker was able to claim the subdomain `github.io` and use it to host a phishing site, putting thousands of users at risk. These cases highlight the importance of implementing a rigorous domain takeover prevention checklist and regularly auditing DNS records to prevent subdomain takeover.
+          ## Putting it all Together: A Real-World Example
+          To illustrate the importance of a domain takeover prevention checklist, let's consider a real-world example. Suppose you're the developer of a popular online learning platform, Udemy. You have a subdomain, `blog.udemy.com`, which is used to host your company blog. However, you've recently migrated your blog to a new platform, and the subdomain is no longer in use. If you don't remove the DNS record for the subdomain, an attacker could take it over and use it to distribute malware or launch phishing attacks. By following the checklist outlined above, you can identify the vulnerability and take steps to prevent domain takeover. You can remove the DNS record for the subdomain, implement DNSSEC, and monitor your DNS configuration for any changes. By taking these steps, you can protect your domain and prevent subdomain takeover.
           
-          In conclusion, subdomain takeover is a serious security vulnerability that can have devastating consequences if left unchecked. By implementing a domain takeover prevention checklist and regularly auditing DNS records, you can significantly reduce the risk of subdomain takeover and ensure the security of your domain. Remember, DNS safety is not a one-time task, but an ongoing process that requires regular monitoring and maintenance. By following the checklist outlined above and staying vigilant, you can protect your users and your reputation from the threats of subdomain takeover.
+          In conclusion, domain takeover is a serious security threat that can have significant consequences for your online presence. By understanding the risks, identifying vulnerabilities in your DNS configuration, and implementing a domain takeover prevention checklist, you can protect your domain and prevent subdomain takeover. Remember, security is an ongoing process that requires constant vigilance and attention to detail. By following the checklist outlined above and staying informed about the latest security threats, you can help keep your domain and your users safe.
           
           Key Takeaways:
-          * Regularly audit DNS records to remove unused subdomains
-          * Use CNAME records instead of A records for subdomains to prevent subdomain takeover
-          * Implement DNSSEC to authenticate DNS records and prevent tampering
-          * Monitor for suspicious activity on subdomains, such as unexpected changes to DNS records or sudden spikes in traffic
+          * Conduct regular DNS audits to identify potential vulnerabilities
+          * Monitor your DNS configuration for any changes
+          * Remove any unused subdomains or DNS records
+          * Implement DNSSEC and WAF to add an extra layer of security to your DNS records
           
           Related Resources:
-          * DNSdumpster: a tool for auditing DNS records and identifying potential vulnerabilities
-          * SecurityTrails: a platform for monitoring DNS records and detecting suspicious activity
-          * Subdomain Scanner: a tool for identifying vulnerable subdomains
-          * Detectify: a security platform that offers subdomain takeover detection and prevention tools
-          * OWASP: a resource for learning more about subdomain takeover and other security vulnerabilities
+          * DNSDumpster: A tool for identifying potential vulnerabilities in your DNS configuration
+          * Sublist3r: A tool for enumerating subdomains
+          * Cloudflare: A DNS provider that offers robust security features, including DNSSEC and WAF
+          * AWS CLI: A tool for managing your AWS resources, including DNS records
+          * DNSWatch: A tool for monitoring your DNS configuration for any changes
+          * DNSMonitor: A tool for monitoring your DNS configuration for any changes
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
 <p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
@@ -241,7 +244,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/blog/managing-1000-subdomains-without-losing-your-mind/"
@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Operations</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
         </div>
         <h1>Managing 1000+ Subdomains Without Losing Your Mind</h1>
         <p class="article-summary">The systems and tools we use at scale to manage thousands of subdomains — from automated DNS provisioning to bulk record updates, monitoring, and expiration management.</p>
@@ -149,35 +149,35 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          Managing 1000+ subdomains can be a daunting task, especially when it comes to ensuring seamless DNS management, automation, and operations. I still remember the early days of our developer platform, is-cool-me, when we had to manually configure each subdomain, resulting in a tedious and error-prone process. As our platform grew, so did the number of subdomains, and we quickly realized that our manual approach was not scalable. In this article, I will share our journey of managing over 1000 subdomains, the challenges we faced, and the solutions we implemented to maintain our sanity.
+          Managing 1000+ Subdomains Without Losing Your Mind
+          As the platform architect at is-cool-me, I've had the privilege of scaling our infrastructure to support over 1000 subdomains, each serving a unique purpose for our developer community. However, I can attest that getting to this point was not without its challenges. In the early days, our team struggled to keep track of the sheer number of subdomains, often resulting in configuration errors, DNS mismanagement, and frustrated users. It wasn't until we implemented a combination of automation, clever DNS management, and operational best practices that we were able to tame the beast and provide a seamless experience for our users.
           
-          ## Understanding the Problem: DNS Management at Scale
-          When dealing with a large number of subdomains, DNS management becomes a critical component of your infrastructure. Each subdomain requires its own set of DNS records, including A records, CNAME records, and MX records. Manually managing these records can be time-consuming and prone to errors. For example, when we first started, we had to manually update the DNS records for each subdomain whenever we added a new server or updated an existing one. This process would take hours, and even then, we would often encounter issues due to typos or incorrect configurations. To overcome this challenge, we implemented an automated DNS management system using Amazon Route 53. We wrote a script that would automatically update the DNS records for each subdomain, reducing the time it took to update our records from hours to minutes.
+          ## Scaling DNS Management
+          One of the biggest hurdles we faced was scaling our DNS management. With over 1000 subdomains, manually updating DNS records was a recipe for disaster. We began by transitioning from a traditional DNS provider to a more scalable solution like Amazon Route 53. This allowed us to take advantage of automated DNS management, including load balancing, health checks, and failover routing. For example, we use Route 53 to manage subdomains like `docs.is-cool-me.com`, `blog.is-cool-me.com`, and `api.is-cool-me.com`, each with its own set of DNS records and routing rules. By automating DNS management, we reduced the likelihood of human error and improved our overall uptime. We also implemented a system of templated DNS records, allowing us to easily replicate common configurations across multiple subdomains. This not only saved us time but also ensured consistency across our infrastructure.
           
-          ## Automating Operations: Infrastructure as Code
-          As our platform continued to grow, we realized that automation was key to managing our infrastructure. We started using infrastructure as code (IaC) tools like Terraform to manage our AWS resources, including our subdomains. Terraform allowed us to define our infrastructure in a configuration file, which could then be used to create and manage our resources. For example, we defined a Terraform module for our subdomains, which included the DNS records, SSL certificates, and load balancers. This module could then be reused across all our subdomains, ensuring consistency and reducing errors. We also integrated Terraform with our CI/CD pipeline, allowing us to automate the deployment of new subdomains and updates to existing ones. This automation has saved us countless hours and reduced the risk of human error.
+          ## Automation and Operations
+          As our infrastructure grew, so did the complexity of our operations. We needed a way to automate repetitive tasks, such as provisioning new subdomains, updating DNS records, and monitoring system health. We turned to tools like Terraform and Ansible to automate our infrastructure provisioning and configuration management. For instance, when a new user signs up for our platform, Terraform automatically provisions a new subdomain, complete with DNS records, load balancing, and security groups. This not only streamlined our onboarding process but also reduced the risk of human error. We also implemented a continuous integration and continuous deployment (CI/CD) pipeline using Jenkins, which allows us to automate testing, building, and deployment of our applications. By automating our operations, we were able to free up resources, focus on higher-level tasks, and improve our overall system reliability.
           
-          ## Scaling DNS Management: Load Balancing and Geo-Distribution
-          As the number of subdomains continued to grow, we faced another challenge: scaling our DNS management to handle the increased traffic. We implemented a load balancing solution using HAProxy, which allowed us to distribute traffic across multiple servers. We also used Amazon CloudFront to distribute our content across different regions, reducing latency and improving performance. For example, we have subdomains like `us.is-cool-me.com`, `eu.is-cool-me.com`, and `apac.is-cool-me.com`, each serving a specific region. We used CloudFront to distribute content across these regions, ensuring that users in each region could access our platform quickly and efficiently. We also implemented a geo-distribution strategy, where we routed traffic to the nearest server based on the user's location. This has significantly improved the performance and availability of our platform.
+          ## Infrastructure as Code
+          Another crucial aspect of managing our subdomains was adopting an infrastructure-as-code (IaC) approach. By defining our infrastructure in code, we were able to version control, test, and validate our configurations before deploying them to production. We use Terraform to define our infrastructure, including subdomains, DNS records, and security groups. This approach allowed us to track changes, collaborate with team members, and ensure consistency across our infrastructure. For example, when we needed to update the SSL certificates for our subdomains, we simply updated the Terraform configuration, ran a test, and deployed the changes to production. This process took minutes, not hours or days, and ensured that all subdomains were updated correctly. By treating our infrastructure as code, we were able to apply the same principles of software development to our operations, including testing, validation, and continuous improvement.
           
-          ## Monitoring and Troubleshooting: Keeping an Eye on Performance
-          With over 1000 subdomains, monitoring and troubleshooting become critical components of our operations. We use tools like Prometheus and Grafana to monitor the performance of our subdomains, including metrics like latency, error rates, and traffic volume. We also use logging tools like ELK Stack to monitor and analyze logs from our servers. For example, we have a dashboard in Grafana that shows the performance of each subdomain, allowing us to quickly identify issues and take corrective action. We also use tools like Dig and nslookup to troubleshoot DNS issues, ensuring that our subdomains are resolving correctly and traffic is being routed as expected. By monitoring and troubleshooting our subdomains proactively, we can ensure that our platform remains available and performant, even at scale.
+          ## Monitoring and Troubleshooting
+          Finally, monitoring and troubleshooting were critical components of our subdomain management strategy. With so many moving parts, it was essential to have visibility into system performance, latency, and errors. We implemented a monitoring system using Prometheus and Grafana, which provides real-time insights into our infrastructure, including subdomain performance, DNS resolution, and system health. For example, when we noticed a spike in latency for our `api.is-cool-me.com` subdomain, we were able to quickly identify the issue, troubleshoot the problem, and implement a fix. We also set up alerting and notification systems using PagerDuty, which ensures that our team is notified of any issues, allowing us to respond quickly and minimize downtime. By investing in monitoring and troubleshooting, we were able to proactively identify and resolve issues, improving our overall system reliability and user experience.
           
-          In conclusion, managing over 1000 subdomains requires careful planning, automation, and monitoring. By implementing automated DNS management, infrastructure as code, load balancing, and geo-distribution, we have been able to scale our platform to meet the needs of our users. We have also learned the importance of monitoring and troubleshooting, ensuring that our platform remains available and performant, even at scale. If you are facing similar challenges, I encourage you to explore the solutions outlined in this article and take the first step towards managing your subdomains with ease.
+          In conclusion, managing 1000+ subdomains requires a combination of scalable DNS management, automation, infrastructure-as-code, and monitoring and troubleshooting. By implementing these strategies, we were able to scale our infrastructure, reduce errors, and improve our overall system reliability. Whether you're a seasoned platform architect or just starting to build your infrastructure, the lessons we've learned can be applied to your own environment. By taking a thoughtful and well-planned approach to subdomain management, you can avoid the pitfalls we encountered and build a scalable, reliable, and maintainable infrastructure.
           
           Key Takeaways:
-          * Automate DNS management using tools like Amazon Route 53 to reduce errors and improve efficiency.
-          * Use infrastructure as code tools like Terraform to manage your infrastructure and ensure consistency across all subdomains.
-          * Implement load balancing and geo-distribution strategies to improve performance and availability.
-          * Monitor and troubleshoot your subdomains proactively using tools like Prometheus, Grafana, and ELK Stack.
+          * Implement automated DNS management using solutions like Amazon Route 53 to reduce errors and improve uptime.
+          * Use automation tools like Terraform and Ansible to streamline infrastructure provisioning and configuration management.
+          * Adopt an infrastructure-as-code approach to version control, test, and validate your configurations.
+          * Invest in monitoring and troubleshooting tools like Prometheus and Grafana to proactively identify and resolve issues.
           
           Related Resources:
           * Amazon Route 53: https://aws.amazon.com/route53/
           * Terraform: https://www.terraform.io/
-          * HAProxy: https://www.haproxy.org/
+          * Ansible: https://www.ansible.com/
           * Prometheus: https://prometheus.io/
           * Grafana: https://grafana.com/
-          * ELK Stack: https://www.elastic.co/products
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
 <p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
@@ -236,7 +236,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

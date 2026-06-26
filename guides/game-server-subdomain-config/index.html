@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/game-server-subdomain-config/"
@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Gaming</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Configure Subdomains for Game Servers and Multiplayer</h1>
@@ -171,78 +171,76 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Subdomain Configuration for Game Servers
-          Configuring subdomains for game servers and multiplayer environments is a crucial step in setting up a robust and scalable online gaming infrastructure. As a developer on the is-cool-me platform, you can leverage subdomains to organize and manage multiple game servers, each with its own unique settings and configurations. For instance, you can set up a subdomain like `minecraft.myproject.is-pro.dev` for your Minecraft server and another subdomain like `cs-go.myproject.is-pro.dev` for your Counter-Strike: Global Offensive server. In this guide, we will walk you through the process of configuring subdomains for game servers and multiplayer environments, using concrete examples and real-world scenarios.
+          Configuring subdomains for game servers and multiplayer environments is a crucial step in setting up a seamless gaming experience. As a developer on the is-cool-me platform, you can leverage subdomains like `myproject.is-pro.dev` to host your game servers. In this guide, we will walk through the process of configuring subdomains, focusing on practical steps and real-world examples, particularly for popular games like Minecraft.
           
           ## Prerequisites for Subdomain Configuration
-          Before you begin configuring subdomains for your game servers, ensure that you have the following prerequisites in place:
-          - A registered domain on the is-cool-me platform, such as `myproject.is-pro.dev`.
-          - A basic understanding of DNS (Domain Name System) records, including A records, CNAME records, and SRV records.
-          - Access to your domain's DNS settings, either through the is-cool-me control panel or a third-party DNS manager.
-          - A game server or multiplayer environment set up and running, such as a Minecraft or CS:GO server.
+          Before diving into the configuration process, ensure you have the following:
+          - A registered domain or subdomain on is-cool-me (e.g., `myproject.is-pro.dev`).
+          - Access to your DNS settings, either through is-cool-me's control panel or an external DNS manager.
+          - Basic understanding of DNS records, specifically SRV records, which are crucial for game server configurations.
+          - Your game server's IP address and port number.
           
-          ## Step-by-Step Subdomain Configuration
-          To configure a subdomain for your game server, follow these step-by-step instructions:
-          1. **Create a new subdomain**: Log in to your is-cool-me control panel and navigate to the DNS settings for your domain (`myproject.is-pro.dev`). Create a new subdomain, such as `minecraft.myproject.is-pro.dev`, by adding a new A record or CNAME record that points to your game server's IP address.
-          2. **Set up SRV records**: SRV (Service) records are used to define the location of a specific service, such as a game server. To set up an SRV record for your Minecraft server, create a new SRV record with the following values:
-             - Service: `_minecraft`
-             - Protocol: `_tcp`
-             - Name: `minecraft.myproject.is-pro.dev`
-             - Target: `minecraft-server.myproject.is-pro.dev` (or the IP address of your Minecraft server)
-             - Port: `25565` (the default Minecraft server port)
-             - Priority: `10`
-             - Weight: `10`
-          3. **Update game server settings**: Update your game server's settings to use the new subdomain. For example, in Minecraft, you can update the `server.properties` file to include the new subdomain:
-             ```
-             server-name=minecraft.myproject.is-pro.dev
-             server-ip=minecraft.myproject.is-pro.dev
-             ```
-          4. **Test the subdomain**: Test the new subdomain by accessing it in your web browser or game client. Ensure that the subdomain resolves correctly to your game server's IP address and that you can connect to the server without any issues.
+          ## Configuring SRV Records for Game Servers
+          SRV (Service) records are used to define the location of services like game servers. To configure an SRV record for your Minecraft server hosted on `myproject.is-pro.dev`, follow these steps:
+          1. Log into your DNS settings control panel.
+          2. Create a new SRV record with the following parameters:
+             - **Service**: `_minecraft` (note the underscore prefix, which is specific to the service, in this case, Minecraft).
+             - **Protocol**: `_tcp` (since Minecraft uses TCP for its connections).
+             - **Name**: `minecraft` (or any subdomain you wish to use for your server, e.g., `mc.myproject.is-pro.dev`).
+             - **Target**: The hostname or IP address of your game server (e.g., `myserver.is-pro.dev` or `192.0.2.1`).
+             - **Port**: The port number your Minecraft server is listening on (default is `25565`).
+             - **Priority** and **Weight**: These can usually be left at their default values unless you're configuring multiple servers for load balancing.
+          
+          Example of an SRV record configuration:
+          ```
+          _service._protocol.name.domain. IN SRV priority weight port target.
+          _minecraft._tcp.minecraft.myproject.is-pro.dev. IN SRV 0 5 25565 myserver.is-pro.dev.
+          ```
+          This SRV record tells clients looking for a Minecraft server at `minecraft.myproject.is-pro.dev` to connect to `myserver.is-pro.dev` on port `25565`.
           
           ## Common Pitfalls and Solutions
-          When configuring subdomains for game servers, you may encounter some common pitfalls. Here are some solutions to help you overcome these issues:
-          - **DNS propagation delays**: DNS changes can take up to 48 hours to propagate globally. If you're experiencing issues with your subdomain, try waiting for a few hours or checking the DNS propagation status using online tools.
-          - **SRV record configuration errors**: Double-check your SRV record configuration to ensure that the service, protocol, name, target, port, priority, and weight values are correct. A single mistake can prevent the SRV record from working correctly.
-          - **Game server configuration errors**: Verify that your game server's settings are updated correctly to use the new subdomain. Check the game server's documentation for specific instructions on configuring the server to use a custom subdomain.
+          - **Propagation Time**: DNS changes can take up to 48 hours to propagate globally. Be patient and use tools like `dig` or online DNS checkers to verify when your records are live.
+          - **Record Formatting**: Ensure that your SRV records are formatted correctly, paying close attention to the underscore prefix for the service and protocol parts.
+          - **Firewall and Port Forwarding**: Make sure your server's firewall allows incoming connections on the specified port and that port forwarding is correctly set up if you're behind a router.
           
           ## Best Practices for Subdomain Configuration
-          To ensure a smooth and scalable subdomain configuration, follow these best practices:
-          - **Use meaningful subdomain names**: Choose subdomain names that are descriptive and easy to remember, such as `minecraft.myproject.is-pro.dev` or `cs-go.myproject.is-pro.dev`.
-          - **Use SRV records**: SRV records provide a flexible and scalable way to define the location of a specific service, such as a game server. Use SRV records instead of A records or CNAME records whenever possible.
-          - **Monitor DNS propagation**: Use online tools to monitor DNS propagation and ensure that your subdomain is resolving correctly to your game server's IP address.
+          - **Use Meaningful Subdomains**: Organize your game servers with descriptive subdomains (e.g., `minecraft.myproject.is-pro.dev`, `forge.myproject.is-pro.dev`).
+          - **Keep DNS Records Organized**: Use comments or notes in your DNS control panel to keep track of what each record is for.
+          - **Regularly Update Records**: If your server's IP address or port changes, update your SRV records promptly to avoid downtime.
           
           ## Performance Considerations
-          When configuring subdomains for game servers, consider the following performance factors:
-          - **DNS query latency**: DNS queries can introduce latency, especially if the DNS server is located far from the game server. Use a DNS server that is located close to your game server to minimize latency.
-          - **Game server load balancing**: If you're running multiple game servers behind a single subdomain, consider using load balancing techniques to distribute traffic evenly across the servers. This can help improve performance and reduce latency.
+          - **Server Location**: Choose a server location close to your target audience to reduce latency.
+          - **Server Resources**: Ensure your server has sufficient resources (CPU, RAM, bandwidth) to handle the expected load.
+          - **Caching and Content Delivery Networks (CDNs)**: For game assets, consider using a CDN to reduce load times and improve overall performance.
           
-          ## Troubleshooting Subdomain Issues
-          If you're experiencing issues with your subdomain, follow these troubleshooting steps:
-          1. **Check DNS propagation**: Verify that the DNS changes have propagated correctly using online tools.
-          2. **Verify SRV record configuration**: Double-check the SRV record configuration to ensure that the service, protocol, name, target, port, priority, and weight values are correct.
-          3. **Check game server settings**: Verify that the game server's settings are updated correctly to use the new subdomain.
-          4. **Test the subdomain**: Test the subdomain using a web browser or game client to ensure that it resolves correctly to the game server's IP address.
+          ## Troubleshooting
+          If you encounter issues with connecting to your game server:
+          1. **Verify DNS Propagation**: Use `dig` or an online DNS propagation checker to ensure your SRV records are live.
+          2. **Check Server Status**: Make sure your server is running and listening on the specified port.
+          3. **Test Connectivity**: Use tools like `telnet` or `nc` (Netcat) to test connectivity to your server's IP address and port.
+          4. **Review Firewall and Port Forwarding Settings**: Ensure that incoming connections are allowed and port forwarding is correctly set up.
           
           ## Conclusion and Next Steps
-          Configuring subdomains for game servers and multiplayer environments is a crucial step in setting up a robust and scalable online gaming infrastructure. By following the step-by-step instructions and best practices outlined in this guide, you can create a seamless and immersive gaming experience for your players. Next, consider exploring advanced topics, such as load balancing, security, and optimization, to further improve your game server's performance and reliability.
+          Configuring subdomains for game servers and multiplayer environments on is-cool-me involves understanding and correctly setting up SRV records, along with considering performance and troubleshooting. With your subdomain and SRV record configured, you're ready to host your game server and invite players to join. Remember to regularly review and update your DNS records as your project evolves.
           
           ## FAQ
-          Q: Can I use a single subdomain for multiple game servers?
-          A: Yes, you can use a single subdomain for multiple game servers, but you'll need to configure load balancing and routing rules to direct traffic to the correct server.
-          Q: How do I configure SRV records for a CS:GO server?
-          A: To configure SRV records for a CS:GO server, create a new SRV record with the following values: Service: `_csgo`, Protocol: `_udp`, Name: `cs-go.myproject.is-pro.dev`, Target: `cs-go-server.myproject.is-pro.dev`, Port: `27015`, Priority: `10`, Weight: `10`.
-          Q: Can I use a CNAME record instead of an SRV record?
-          A: While it's possible to use a CNAME record instead of an SRV record, it's not recommended, as CNAME records can introduce additional latency and complexity.
-          Q: How do I troubleshoot DNS propagation issues?
-          A: You can use online tools, such as DNS propagation checkers, to verify that the DNS changes have propagated correctly.
-          Q: Can I use subdomains with custom ports?
-          A: Yes, you can use subdomains with custom ports, but you'll need to configure the SRV record to include the custom port number.
+          1. **Q: Can I host multiple game servers on the same subdomain?**
+             A: Yes, you can use different SRV records with unique service names or ports to host multiple servers.
+          2. **Q: How do I secure my game server with SSL/TLS?**
+             A: You'll need to obtain an SSL certificate for your subdomain and configure your server software to use it.
+          3. **Q: What if my game server requires a non-standard port?**
+             A: Simply specify the non-standard port in your SRV record and ensure that your server and any firewalls are configured to allow incoming connections on that port.
+          4. **Q: Can I use a CDN for my game server?**
+             A: While CDNs are great for static assets, they're not typically used for real-time game servers. However, you can use a CDN for serving game client files or assets.
+          5. **Q: How often should I update my DNS records?**
+             A: Update your DNS records whenever your server's IP address, port, or any other relevant detail changes.
           
           ## Further Reading
-          For more information on configuring subdomains for game servers and multiplayer environments, check out the following resources:
-          - is-cool-me documentation: [https://is-pro.dev/docs](https://is-pro.dev/docs)
-          - DNS Made Easy: [https://dnsmadeeasy.com](https://dnsmadeeasy.com)
-          - Minecraft Wiki: [https://minecraft.gamepedia.com](https://minecraft.gamepedia.com)
-          - CS:GO Wiki: [https://counterstrike.fandom.com](https://counterstrike.fandom.com)
+          - **is-cool-me Documentation**: For detailed guides on managing DNS records and setting up projects on the platform.
+          - **Minecraft Wiki**: For specific configuration options and best practices for hosting Minecraft servers.
+          - **RFC 2782**: The official specification for SRV records, providing in-depth details on their syntax and usage.
+          - **DNS Checker Tools**: Online tools like WhatIsMyIP.com or IntoDNS to check DNS propagation and record correctness.
+          - **Game Server Hosting Forums**: Communities like Reddit's r/gameservers for discussing game server hosting, troubleshooting, and optimization.
         </div>
       </div>
     </div>
@@ -297,7 +295,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

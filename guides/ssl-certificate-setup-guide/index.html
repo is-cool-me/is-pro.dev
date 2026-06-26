@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/ssl-certificate-setup-guide/"
@@ -170,60 +170,68 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to SSL Certificates
-          Setting up an SSL certificate is a crucial step in securing your web application, especially when deploying projects on custom subdomains like myproject.is-pro.dev. SSL (Secure Sockets Layer) certificates, now commonly referred to under the broader term TLS (Transport Layer Security), enable HTTPS (Hypertext Transfer Protocol Secure) for your website, ensuring that all data exchanged between your site and its users is encrypted. This not only protects sensitive information from eavesdropping and tampering but also boosts your site's credibility and search engine rankings. In this guide, we'll walk through the process of setting up an SSL certificate for your project on is-cool-me, leveraging Cloudflare for enhanced security and performance.
+          ## Introduction to SSL Certificate Setup
+          As a developer setting up projects on is-cool-me subdomains, ensuring the security of your application and its users is paramount. One crucial step in achieving this is setting up an SSL certificate to enable HTTPS (Hypertext Transfer Protocol Secure) for your project. In this guide, we'll walk through the process of obtaining and configuring an SSL certificate for your is-cool-me subdomain, using `myproject.is-pro.dev` as a concrete example. This will not only enhance security but also improve your project's visibility and trustworthiness.
           
-          ## Prerequisites
-          Before diving into the setup process, ensure you have the following:
-          - A project set up on is-cool-me, e.g., myproject.is-pro.dev.
-          - An account with Cloudflare, as we'll be using their services for SSL certificate management and CDN capabilities.
-          - Basic understanding of DNS records and how to manage them.
+          ## Prerequisites for SSL Certificate Setup
+          Before diving into the setup process, ensure you have the following prerequisites in place:
+          - An active project on is-cool-me with a subdomain (e.g., `myproject.is-pro.dev`).
+          - Access to your project's DNS settings, either through is-cool-me's control panel or an external DNS manager.
+          - A basic understanding of command-line interfaces (CLI) and DNS records.
           
-          ## Setting Up SSL with Cloudflare
-          Cloudflare offers a streamlined process for enabling SSL on your custom domains. Here’s how to do it:
-          1. **Add Your Site to Cloudflare**: If you haven’t already, sign up for Cloudflare and add your site (myproject.is-pro.dev) to their platform. You’ll be prompted to change your DNS settings to point to Cloudflare’s nameservers.
-          2. **Configure DNS Settings**: Update your DNS settings as instructed by Cloudflare. This step is crucial for Cloudflare to manage your site’s traffic and enable SSL.
-          3. **Enable SSL/TLS**: In your Cloudflare dashboard, navigate to the SSL/TLS section. You’ll see options for SSL mode: Off, Flexible, Full, Full (Strict), and SSL/TLS encryption mode. For most use cases, selecting “Full (Strict)” under SSL mode is recommended, as it enforces HTTPS for all requests and verifies the authenticity of the SSL certificate.
-          4. **Obtain an SSL Certificate**: Cloudflare can automatically issue and manage SSL certificates for your domain through their Universal SSL feature. This process is usually automatic, but you can check the status in the SSL/TLS section of your Cloudflare dashboard.
+          ## Obtaining an SSL Certificate
+          To obtain an SSL certificate, you can use Let's Encrypt, a free, automated, and open certificate authority. For is-cool-me subdomains, you can leverage the built-in integration with Let's Encrypt or use an external service like Cloudflare for more advanced features. Here, we'll focus on using Cloudflare for its ease of use and additional security benefits.
+          
+          1. **Sign up for Cloudflare**: If you haven't already, create a Cloudflare account and add your site (`myproject.is-pro.dev`) to Cloudflare. This process involves updating your domain's DNS nameservers to point to Cloudflare.
+          2. **Enable SSL/TLS**: In your Cloudflare dashboard, go to the "SSL/TLS" section and select "Full" under the "Encryption Mode" dropdown. This ensures that Cloudflare will handle SSL encryption between the visitor and Cloudflare, and then between Cloudflare and your origin server (in this case, is-cool-me).
+          
+          ## Configuring Your Project for HTTPS
+          After enabling SSL/TLS in Cloudflare, your project should now be accessible over HTTPS. However, to ensure that all traffic is redirected to HTTPS, follow these steps:
+          
+          1. **Update Your Application**: If your application has any hardcoded HTTP URLs, update them to HTTPS to avoid mixed content warnings.
+          2. **Implement HTTP to HTTPS Redirects**: Cloudflare can automatically redirect HTTP traffic to HTTPS. In the Cloudflare dashboard, go to the "Page Rules" section and create a new rule. Set the "If the URL matches" field to `*myproject.is-pro.dev/*` and the "Then" action to "Always use HTTPS". This ensures all requests to your site are redirected to HTTPS.
           
           ## Common Pitfalls and Solutions
-          - **Mixed Content Issues**: After enabling HTTPS, you might encounter mixed content warnings if your site still loads resources over HTTP. Inspect your site’s code and update all URLs to use HTTPS or relative paths.
-          - **Certificate Mismatch**: Ensure your SSL certificate matches your domain name. For subdomains like myproject.is-pro.dev, verify that the certificate is issued for the exact subdomain or includes a wildcard for the domain (e.g., *.is-pro.dev).
-          - **Propagation Delays**: DNS changes and SSL certificate issuance can take time to propagate globally. Be patient, and use tools like Cloudflare’s SSL/TLS diagnostics to troubleshoot issues.
+          - **Mixed Content Warnings**: If your site loads resources (images, scripts, etc.) over HTTP, users may see mixed content warnings. Solve this by updating all resource URLs to HTTPS.
+          - **Certificate Mismatch**: Ensure your SSL certificate matches your domain. If using Cloudflare, their universal SSL certificate should cover your subdomain.
+          - **DNS Propagation Delays**: Changes to DNS settings can take up to 48 hours to propagate globally. Be patient and use tools like `dig` or online DNS checkers to verify propagation.
           
-          ## Best Practices for SSL Management
-          - **Monitor Certificate Expiration**: Keep an eye on your SSL certificate’s expiration date. Cloudflare’s automated certificate management minimizes this concern, but it’s good practice to stay informed.
-          - **Use HTTPS Everywhere**: Ensure all resources (images, scripts, stylesheets) are loaded over HTTPS to avoid mixed content warnings.
-          - **Test Your Configuration**: Use tools like SSL Labs’ SSL Test to analyze your SSL configuration and identify potential vulnerabilities.
+          ## Best Practices for SSL Certificate Management
+          - **Monitor Certificate Expiration**: Let's Encrypt certificates expire every 90 days. If using Cloudflare, they automatically handle renewal.
+          - **Use HSTS (HTTP Strict Transport Security)**: HSTS instructs browsers to only use HTTPS when communicating with your site. Cloudflare can enable HSTS for you.
+          - **Regularly Update Dependencies**: Ensure any libraries or frameworks your project uses are updated to the latest versions to mitigate known security vulnerabilities.
           
           ## Performance Considerations
-          Enabling SSL/TLS can introduce additional latency due to the handshake process. However, this impact is minimal with modern hardware and optimized protocols like TLS 1.3. Cloudflare’s CDN and SSL/TLS optimization features help mitigate performance concerns by reducing the distance between users and your content, thus speeding up the initial handshake.
+          Enabling HTTPS can introduce a slight performance overhead due to the encryption process. However, this impact is minimal with modern hardware and the benefits of HTTPS far outweigh the costs. To minimize overhead:
+          - **Enable HTTP/2**: Cloudflare supports HTTP/2, which can improve performance by allowing multiple requests to be sent over a single connection.
+          - **Optimize Server Configuration**: Ensure your server (or is-cool-me's servers, in this case) is configured for optimal performance, including enabling keep-alive, gzip compression, and leveraging browser caching.
           
-          ## Troubleshooting SSL Issues
-          If you encounter issues with your SSL setup, start by checking the Cloudflare dashboard for any error messages or warnings. Common issues include:
-          - **Certificate Validation Errors**: Verify that your domain’s DNS settings are correctly configured and propagated.
-          - **HTTPS Redirect Issues**: Ensure that your site is correctly configured to redirect HTTP requests to HTTPS, either through Cloudflare’s page rules or your web server’s configuration.
+          ## Troubleshooting SSL Certificate Issues
+          If you encounter issues with your SSL setup, start by checking the following:
+          - **Certificate Status**: Use tools like SSL Labs' SSL Test or Mozilla's Observatory to analyze your site's SSL configuration and identify potential issues.
+          - **DNS Records**: Verify that your DNS records are correctly configured and propagated.
+          - **Cloudflare Configuration**: Review your Cloudflare settings to ensure SSL/TLS is enabled and configured as expected.
           
           ## Conclusion and Next Steps
-          Setting up an SSL certificate for your project on is-cool-me with Cloudflare is a straightforward process that significantly enhances your site’s security and user trust. By following the steps outlined in this guide, you should now have HTTPS enabled for myproject.is-pro.dev. For further optimization and security hardening, consider exploring additional Cloudflare features such as web application firewalls (WAFs) and DDoS protection.
+          Setting up an SSL certificate for your is-cool-me subdomain is a straightforward process, especially when leveraging services like Cloudflare. By following the steps outlined in this guide, you've not only enhanced the security of your project but also improved its visibility and credibility. Next, consider implementing additional security measures such as Content Security Policy (CSP), Cross-Origin Resource Sharing (CORS), and regular security audits to further protect your application and users.
           
           ## FAQ
-          1. **Q: Do I need a dedicated IP for SSL?**
-             A: No, with Cloudflare and SNI (Server Name Indication) support, you can have multiple SSL certificates on a single IP address.
-          2. **Q: Can I use a self-signed certificate?**
-             A: While possible, self-signed certificates are not recommended for production environments as they can cause trust issues with users and may not be supported by all browsers and devices.
-          3. **Q: How long does it take for SSL changes to propagate?**
-             A: DNS and SSL changes can take anywhere from a few minutes to 48 hours to fully propagate globally, depending on various factors including your DNS TTL settings.
-          4. **Q: Does Cloudflare support wildcard SSL certificates?**
-             A: Yes, Cloudflare supports wildcard SSL certificates, which can be useful for securing all subdomains of a domain with a single certificate.
-          5. **Q: Are there any costs associated with using Cloudflare for SSL?**
-             A: Cloudflare offers free SSL certificates through their Universal SSL feature, making it a cost-effective solution for securing your website.
+          1. **Q: Can I use a custom SSL certificate with is-cool-me?**
+             A: Yes, though is-cool-me's built-in Let's Encrypt integration or using Cloudflare's universal SSL certificate is recommended for simplicity and automatic renewal.
+          2. **Q: How do I handle SSL certificate renewal?**
+             A: If using Cloudflare, they handle renewal automatically. For custom certificates, ensure you have a process in place to renew your certificate before it expires.
+          3. **Q: Will enabling HTTPS affect my site's SEO?**
+             A: Google favors HTTPS sites in search rankings, so enabling HTTPS can have a positive impact on your site's SEO.
+          4. **Q: Can I use Cloudflare's SSL features with a custom domain?**
+             A: Yes, Cloudflare supports SSL/TLS encryption for custom domains, including the ability to upload your own SSL certificate or use their universal SSL certificate.
+          5. **Q: How do I troubleshoot mixed content warnings?**
+             A: Use the browser's developer tools to identify resources being loaded over HTTP and update their URLs to HTTPS.
           
           ## Further Reading
-          - **Cloudflare Documentation**: For detailed information on Cloudflare’s features and configuration options.
-          - **SSL Labs’ SSL Test**: A tool for analyzing your SSL configuration and identifying potential vulnerabilities.
-          - **Let’s Encrypt**: An initiative providing free SSL/TLS certificates, useful for understanding certificate issuance and management.
-          - **TLS 1.3 Specification**: For those interested in the technical details of the latest TLS protocol version.
+          - **Let's Encrypt Documentation**: For detailed information on obtaining and renewing SSL certificates with Let's Encrypt.
+          - **Cloudflare SSL/TLS Documentation**: Cloudflare's comprehensive guide to their SSL/TLS features and how to configure them.
+          - **Mozilla's Web Security Guide**: A thorough resource covering web security best practices, including SSL/TLS configuration and security headers.
+          - **SSL Labs' SSL Test**: An online tool for analyzing your site's SSL configuration and identifying potential security issues.
         </div>
       </div>
     </div>
@@ -278,7 +286,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

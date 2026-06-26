@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/anime-website-hosting-guide/"
@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Hosting</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min read</span>
           <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
         </div>
         <h1>Host an Anime Fan Site or Wiki on a Free Subdomain</h1>
@@ -171,133 +171,67 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Hosting Anime Fan Sites
-          For anime enthusiasts, creating a fan site or wiki is an excellent way to share knowledge, discuss favorite shows, and connect with like-minded individuals. With the rise of free hosting platforms like is-cool-me, developers can easily set up and manage their projects without incurring significant costs. In this guide, we will walk through the process of hosting an anime fan site or wiki on a free subdomain, such as myproject.is-pro.dev.
+          The world of anime fandom is vast and diverse, with countless fans around the globe. For developers and enthusiasts, creating a fan site or wiki dedicated to anime can be a rewarding project, allowing them to share knowledge, discuss favorite series, and connect with like-minded individuals. With the rise of free hosting platforms like is-cool-me, it's now easier than ever to host such projects without incurring significant costs. In this guide, we'll explore how to host an anime fan site or wiki on a free subdomain, using myproject.is-pro.dev as our example project.
           
           ## Prerequisites for Hosting
-          Before we dive into the setup process, ensure you have the following prerequisites:
-          - A GitHub account for version control and repository management
-          - Basic knowledge of Git commands and version control principles
-          - Familiarity with Markdown syntax for content creation
-          - A code editor or IDE (Integrated Development Environment) of your choice
+          Before diving into the setup process, ensure you have the following prerequisites:
+          - A basic understanding of HTML, CSS, and possibly JavaScript for customizing your site.
+          - Familiarity with the command line interface (CLI) for tasks like setting up and configuring your site.
+          - An account on is-cool-me to claim your free subdomain (e.g., myproject.is-pro.dev).
+          - A code editor or IDE for editing your site's files.
+          - Optionally, knowledge of a static site generator (SSG) like Hugo or a wiki platform like MediaWiki for more complex sites.
           
-          ## Setting Up Your Anime Fan Site with Hugo
-          For building the anime fan site, we will use Hugo, a popular static site generator. First, create a new Hugo project by running the following command in your terminal:
-          ```bash
-          hugo new site myanimeproject
-          ```
-          Navigate into your project directory:
-          ```bash
-          cd myanimeproject
-          ```
-          Initialize a Git repository:
-          ```bash
-          git init
-          ```
-          Add your GitHub repository as a remote:
-          ```bash
-          git remote add origin https://github.com/yourusername/myanimeproject.git
-          ```
-          Install the Hugo theme of your choice. For this example, let's use the "ananke" theme:
-          ```bash
-          git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke
-          ```
-          Configure your site in `config.toml` to use the "ananke" theme:
-          ```toml
-          theme = "ananke"
-          baseURL = "https://myproject.is-pro.dev/"
-          ```
-          Create your content in the `content` directory using Markdown files. For example, create a file named `index.md` for your homepage:
-          ```markdown
-          ---
-          title: Welcome to My Anime Fan Site
-          ---
+          ## Setting Up Your Anime Fan Site
+          To set up your anime fan site, follow these steps:
+          1. **Claim Your Subdomain**: Log into your is-cool-me account and claim your free subdomain. For this example, let's use myproject.is-pro.dev.
+          2. **Choose Your Platform**: Decide whether you'll use a static site generator like Hugo, a wiki platform like MediaWiki, or a simple HTML/CSS/JS setup. For a wiki, MediaWiki is a popular choice, while Hugo is great for blogs and structured content sites.
+          3. **Install MediaWiki**: If you've chosen MediaWiki, you can install it using the command line. First, clone the MediaWiki repository: `git clone https://gerrit.wikimedia.org/r/mediawiki/core.git`. Then, follow the installation instructions provided in the README file, customizing the `LocalSettings.php` file to suit your needs, including setting the wiki's name and database credentials.
+          4. **Configure Hugo**: For a Hugo site, start by creating a new site: `hugo new site myproject`. Then, add a theme (e.g., `git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke`) and configure your `config.toml` file to include your site's title, base URL (`https://myproject.is-pro.dev/`), and other settings.
           
-          Welcome to my anime fan site, where we discuss the latest anime shows and trends.
-          ```
-          Build your site:
-          ```bash
-          hugo
-          ```
-          Push your changes to GitHub:
-          ```bash
-          git add .
-          git commit -m "Initial commit"
-          git push -u origin main
-          ```
-          
-          ## Setting Up a Wiki with MediaWiki
-          For creating a wiki, we will use MediaWiki, a free and open-source wiki software. First, download the latest version of MediaWiki from the official website and extract it to a directory named `wiki` in your project:
-          ```bash
-          wget https://releases.wikimedia.org/mediawiki/1.38/mediawiki-1.38.4.tar.gz
-          tar -xvzf mediawiki-1.38.4.tar.gz -C wiki
-          ```
-          Configure your wiki by running the installation script:
-          ```bash
-          php wiki/maintenance/install.php --conf wiki/LocalSettings.php --dbtype mysql --dbname mywikidb --dbuser mywikiuser --dbpass mywikipassword --server https://myproject.is-pro.dev/wiki --scriptpath /wiki --lang en --pass AdminPassword
-          ```
-          Edit `wiki/LocalSettings.php` to configure your wiki settings, such as the database connection and administrator account:
-          ```php
-          $wgDBtype = "mysql";
-          $wgDBserver = "localhost";
-          $wgDBname = "mywikidb";
-          $wgDBuser = "mywikiuser";
-          $wgDBpassword = "mywikipassword";
-          ```
-          Push your wiki changes to GitHub:
-          ```bash
-          git add wiki
-          git commit -m "Initial wiki commit"
-          git push origin main
-          ```
+          ## Deploying Your Site
+          Deploying your site to your is-cool-me subdomain involves the following steps:
+          1. **Build Your Site**: If using Hugo, run `hugo` to build your site. For MediaWiki, this step is not necessary as it generates pages dynamically.
+          2. **Upload Files**: Use an FTP client or the command line to upload your site's files to your is-cool-me storage. Ensure that your site's index file (e.g., `index.html` for Hugo sites) is in the root directory.
+          3. **Configure DNS (if necessary)**: Typically, is-cool-me handles DNS configuration for you. However, if you're using a custom domain or have specific DNS needs, you may need to configure DNS records manually.
           
           ## Common Pitfalls and Solutions
-          - **Issue:** Hugo build fails due to missing dependencies.
-            **Solution:** Run `hugo mod tidy` to manage dependencies and `hugo mod get` to fetch required modules.
-          - **Issue:** MediaWiki installation fails due to database connection issues.
-            **Solution:** Verify your database credentials and server settings in `wiki/LocalSettings.php`.
-          - **Issue:** CSS styles are not applied correctly.
-            **Solution:** Check your theme configuration and CSS files for any errors or inconsistencies.
+          - **Permission Issues**: If you encounter permission errors when uploading files, ensure that the FTP user has the correct permissions. You might need to contact is-cool-me support for assistance.
+          - **Broken Links**: After deployment, test all links on your site to ensure they're working correctly. If links are broken, check your base URL configuration in your site's settings.
+          - **MediaWiki Extensions**: When installing MediaWiki extensions, make sure they're compatible with your version of MediaWiki to avoid compatibility issues.
           
           ## Best Practices for Maintenance
-          - Regularly update your Hugo and MediaWiki versions to ensure you have the latest security patches and features.
-          - Use a consistent naming convention for your files and directories.
-          - Implement a backup strategy for your site and database.
-          - Monitor your site's performance and adjust settings as needed.
+          - **Regular Backups**: Use tools like `git` for version control and automate backups of your site's files and database (if applicable) to prevent data loss.
+          - **Security Updates**: Keep your site's software (e.g., MediaWiki, Hugo) and any extensions or themes up to date to protect against security vulnerabilities.
+          - **Content Updates**: Regularly update your site's content to keep visitors engaged and attract return visits.
           
           ## Performance Considerations
-          - Optimize your images and assets to reduce page load times.
-          - Use caching mechanisms, such as Hugo's built-in caching or MediaWiki's caching extensions.
-          - Minify and compress your CSS and JavaScript files.
-          - Use a content delivery network (CDN) to distribute your content across different geographic locations.
+          - **Optimize Images**: Use tools like ImageOptim to reduce the file size of your images without compromising quality, improving page load times.
+          - **Enable Caching**: If your site allows it, enable caching to reduce the load on your server and improve performance for repeat visitors.
+          - **Minify and Compress Files**: Use build tools or plugins to minify CSS and JavaScript files and compress them for faster transfer over the network.
           
           ## Troubleshooting
-          - **Issue:** Site not building or deploying correctly.
-            **Solution:** Check your Git repository and deployment settings. Verify that your site is configured correctly in `config.toml` or `wiki/LocalSettings.php`.
-          - **Issue:** Wiki pages not displaying correctly.
-            **Solution:** Check your wiki configuration and database settings. Ensure that your wiki is installed and configured correctly.
-          - **Issue:** CSS styles not applying correctly.
-            **Solution:** Check your CSS files and theme configuration for any errors or inconsistencies.
+          If you encounter issues with your site, start by checking the is-cool-me status page for any outages or maintenance windows. Then, review your site's logs for error messages that can help diagnose the problem. Common issues include incorrect file permissions, misconfigured DNS settings, and compatibility problems with extensions or themes.
           
           ## Conclusion and Next Steps
-          Hosting an anime fan site or wiki on a free subdomain like myproject.is-pro.dev is a straightforward process using Hugo and MediaWiki. By following the steps outlined in this guide, you can create a robust and feature-rich platform for sharing your passion for anime with others. Next steps include customizing your site's design, creating engaging content, and promoting your site to attract visitors.
+          Hosting an anime fan site or wiki on a free subdomain like myproject.is-pro.dev is a straightforward process that can be completed with basic web development knowledge. By following the steps outlined in this guide, you can create a thriving community hub for anime enthusiasts. Next, consider expanding your site's features, engaging with your audience, and exploring advanced customization options to make your site stand out.
           
           ## FAQ
-          Q: How do I customize my Hugo theme?
-          A: You can customize your Hugo theme by editing the theme's configuration files and CSS styles. Refer to the theme's documentation for specific instructions.
-          Q: Can I use a different wiki software instead of MediaWiki?
-          A: Yes, you can use other wiki software like DokuWiki or Wikidot. However, MediaWiki is a popular and widely-used option.
-          Q: How do I optimize my site's performance?
-          A: You can optimize your site's performance by using caching mechanisms, minifying and compressing CSS and JavaScript files, and optimizing images.
-          Q: Can I use a custom domain instead of a subdomain?
-          A: Yes, you can use a custom domain instead of a subdomain. However, this may require additional configuration and setup.
-          Q: How do I backup my site and database?
-          A: You can backup your site and database using tools like Git and MySQL dump. Regularly backing up your data is essential for ensuring business continuity.
+          1. **Q: Can I use a custom domain with my is-cool-me subdomain?**
+             A: Yes, is-cool-me allows you to use a custom domain. You'll need to configure DNS records to point to your is-cool-me subdomain.
+          2. **Q: How do I handle large file uploads on my wiki?**
+             A: For large file uploads, consider using an external storage service or configuring your wiki to use a more robust upload handler.
+          3. **Q: Are there any limitations on the type of content I can host?**
+             A: is-cool-me has terms of service that prohibit certain types of content. Ensure your anime fan site complies with these terms to avoid account suspension.
+          4. **Q: Can I monetize my anime fan site with ads?**
+             A: Yes, but be sure to comply with is-cool-me's policies on advertising and the terms of service of any ad networks you use.
+          5. **Q: How do I protect my site from spam and vandalism?**
+             A: Use CAPTCHAs, require user registration for editing, and monitor your site regularly to prevent and revert vandalism and spam.
           
           ## Further Reading
-          - Hugo Documentation: <https://gohugo.io/documentation/>
-          - MediaWiki Documentation: <https://www.mediawiki.org/wiki/Documentation>
-          - GitHub Guides: <https://guides.github.com/>
-          - is-cool-me Documentation: <https://is-pro.dev/docs/>
+          - **MediaWiki Documentation**: For in-depth guides on installing, configuring, and extending MediaWiki.
+          - **Hugo Documentation**: The official Hugo documentation provides comprehensive guides on setting up and customizing Hugo sites.
+          - **is-cool-me Documentation**: is-cool-me's official documentation offers detailed information on using their platform, including setting up custom domains and troubleshooting common issues.
+          - **Web Development Resources**: Sites like MDN Web Docs and W3Schools provide valuable resources for learning web development and improving your skills.
         </div>
       </div>
     </div>
@@ -352,7 +286,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

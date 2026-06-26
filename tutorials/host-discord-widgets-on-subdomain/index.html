@@ -6,17 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Host Custom Discord Widgets and Embeds on a Subdomain — is-cool-me Tutorials</title>
-  <meta name="description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website." />
+  <meta name="description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-cool-me subdomain, and embed them on your main website." />
   <meta name="keywords" content="discord, widgets, embeds, tutorial, github pages" />
   <link rel="canonical" href="https://is-pro.dev/tutorials/host-discord-widgets-on-subdomain/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://is-pro.dev/tutorials/host-discord-widgets-on-subdomain/" />
   <meta property="og:title" content="Host Custom Discord Widgets and Embeds on a Subdomain — is-cool-me Tutorials" />
-  <meta property="og:description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website." />
+  <meta property="og:description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-cool-me subdomain, and embed them on your main website." />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Host Custom Discord Widgets and Embeds on a Subdomain — is-cool-me Tutorials" />
-  <meta name="twitter:description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website." />
+  <meta name="twitter:description" content="Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-cool-me subdomain, and embed them on your main website." />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -36,7 +36,7 @@
       "@id": "https://is-pro.dev/#website",
       "url": "https://is-pro.dev",
       "name": "Host Custom Discord Widgets and Embeds on a Subdomain — is-cool-me Tutorials",
-      "description": "Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website.",
+      "description": "Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-cool-me subdomain, and embed them on your main website.",
       "publisher": {
         "@type": "Organization",
         "name": "is-cool-me",
@@ -91,7 +91,7 @@
           <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>15 min read</span>
         </div>
         <h1>Host Custom Discord Widgets and Embeds on a Subdomain</h1>
-        <p class="article-summary">Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website.</p>
+        <p class="article-summary">Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-cool-me subdomain, and embed them on your main website.</p>
       </div>
     </div>
   </header>
@@ -101,13 +101,13 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           <h2>Introduction</h2>
-          <p>Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-pro.dev subdomain, and embed them on your main website.</p>
+          <p>Create custom Discord embed pages for your server, host them on GitHub Pages connected to your is-cool-me subdomain, and embed them on your main website.</p>
           
           <h2>What You Will Need</h2>
           <ul>
           <li>A Discord server with widget settings configured</li>
           <li>A GitHub account for hosting the widget page</li>
-          <li>An is-pro.dev subdomain (free at dash.is-pro.dev)</li>
+          <li>An is-cool-me subdomain (free at dash.is-pro.dev)</li>
           <li>Basic HTML/CSS knowledge</li>
           <li>15-20 minutes of free time</li>
           </ul>
@@ -121,15 +121,15 @@
           <h2>Step 3: Deploy to GitHub Pages</h2>
           <p>Push the HTML page to a GitHub repository. Go to the repository "Settings &rarr; Pages" and enable GitHub Pages from the <code>main</code> branch. Your widget page will be live at <code>https://{username}.github.io/{repository}/</code>. Verify it loads and displays Discord data correctly.</p>
           
-          <h2>Step 4: Connect Your is-pro.dev Subdomain</h2>
-          <p>In your is-pro.dev DNS dashboard, create a CNAME record pointing your subdomain (e.g., <code>discord.yourname.is-pro.dev</code>) to <code>{username}.github.io</code>. GitHub Pages will recognize the custom domain and provision a Let's Encrypt certificate automatically.</p>
+          <h2>Step 4: Connect Your is-cool-me Subdomain</h2>
+          <p>In your is-cool-me DNS dashboard, create a CNAME record pointing your subdomain (e.g., <code>discord.yourname.is-pro.dev</code>) to <code>{username}.github.io</code>. GitHub Pages will recognize the custom domain and provision a Let's Encrypt certificate automatically.</p>
           
           <h2>Step 5: Verify and Embed</h2>
           <p>Visit your subdomain to confirm the Discord widget loads correctly. Use an <code>&lt;iframe&gt;</code> or <code>&lt;embed&gt;</code> tag on your main website to display the widget page. Test that the member count, online status, and invite button all work from the embedded view.</p>
           
           <h2>Troubleshooting</h2>
           <p><strong>CORS errors fetching widget data:</strong> The Discord Widget API does not require authentication. If you see CORS errors, ensure you are using the correct API endpoint and that your widget is enabled in Discord server settings.</p>
-          <p><strong>GitHub Pages not serving custom domain:</strong> Add your is-pro.dev subdomain to the GitHub Pages custom domain field in the repository settings. Also ensure your DNS CNAME record has the trailing dot (<code>{username}.github.io.</code>).</p>
+          <p><strong>GitHub Pages not serving custom domain:</strong> Add your is-cool-me subdomain to the GitHub Pages custom domain field in the repository settings. Also ensure your DNS CNAME record has the trailing dot (<code>{username}.github.io.</code>).</p>
           <p><strong>Widget data not updating:</strong> Discord caches widget data for up to 60 seconds. Your page should use JavaScript to poll the API at regular intervals or on page load to display fresh data.</p>
 
         </div>

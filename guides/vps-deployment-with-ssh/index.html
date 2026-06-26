@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/vps-deployment-with-ssh/"
@@ -137,7 +137,7 @@
       <div class="article-hero-inner">
         <div class="article-meta">
           <span class="article-category">Deployment</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4 min read</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
           <span class="article-meta-item" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Advanced</span>
         </div>
         <h1>Deploy to a VPS Using SSH and a Custom Subdomain</h1>
@@ -170,120 +170,90 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to Deployment on a VPS
-          Deploying a project to a Virtual Private Server (VPS) using SSH and a custom subdomain like myproject.is-pro.dev offers a high degree of control and flexibility. This approach is particularly appealing to developers who want to manage their project's infrastructure without the constraints of traditional shared hosting. By leveraging tools like Nginx, Certbot, and SSH, developers can set up a secure, scalable, and efficient deployment environment.
+          ## Introduction to VPS Deployment
+          Deploying a project to a Virtual Private Server (VPS) using SSH and a custom subdomain offers a high degree of control and flexibility, making it a popular choice among developers. For projects hosted on is-cool-me, such as `myproject.is-pro.dev`, setting up a VPS allows for more advanced configurations and direct management of server resources. This guide will walk through the process of deploying a project to a VPS, configuring Nginx as a reverse proxy, obtaining an SSL certificate with Certbot, and ensuring a secure and efficient deployment.
           
           ## Prerequisites for Deployment
-          Before proceeding, ensure you have the following:
-          - A VPS with a supported Linux distribution (e.g., Ubuntu).
-          - A custom subdomain set up on is-cool-me (e.g., myproject.is-pro.dev).
-          - Basic knowledge of SSH, Linux command line, and Nginx configuration.
-          - Certbot installed on your VPS for SSL certificates.
-          - Your project code ready for deployment.
+          Before starting the deployment process, ensure you have the following:
+          - A VPS from a provider like DigitalOcean or AWS.
+          - A custom subdomain set up through is-cool-me, such as `myproject.is-pro.dev`.
+          - SSH access to your VPS.
+          - Basic knowledge of Linux command line and Nginx configuration.
+          - A project ready for deployment, with considerations for production environments.
           
-          ## Setting Up Your VPS and SSH
-          To start, connect to your VPS using SSH. If your VPS provider gave you a root password, use it to log in:
-          ```bash
-          ssh root@your_vps_ip
-          ```
-          Once logged in, update your package list and upgrade any available packages:
-          ```bash
-          apt update && apt upgrade -y
-          ```
-          Install Nginx:
-          ```bash
-          apt install nginx -y
-          ```
-          Enable and start Nginx:
-          ```bash
-          systemctl enable nginx
-          systemctl start nginx
-          ```
+          ## Step-by-Step Deployment Instructions
+          ### Setting Up the VPS
+          1. **Connect to your VPS** via SSH: `ssh root@your_vps_ip`.
+          2. **Update your VPS**: Run `apt update && apt upgrade -y` to ensure your system is up-to-date.
+          3. **Install Nginx**: Use `apt install nginx -y` to install Nginx.
+          4. **Configure the Firewall**: Allow HTTP and HTTPS traffic using `ufw allow http` and `ufw allow https`, then enable the firewall with `ufw enable`.
           
-          ## Configuring Nginx for Your Subdomain
-          Create a new Nginx configuration file for your subdomain:
-          ```bash
-          nano /etc/nginx/sites-available/myproject.is-pro.dev
-          ```
-          Paste the following configuration, adjusting the `root` and `server_name` as necessary:
+          ### Configuring Nginx as a Reverse Proxy
+          1. **Create a new Nginx configuration file** for your project: `nano /etc/nginx/sites-available/myproject`.
+          2. **Add the following configuration** to the file, adjusting paths and server names as necessary:
           ```nginx
           server {
               listen 80;
               server_name myproject.is-pro.dev;
           
-              root /var/www/myproject;
-              index index.html index.htm;
-          
               location / {
-                  try_files $uri $uri/ =404;
+                  proxy_pass http://localhost:3000;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade $http_upgrade;
+                  proxy_set_header Connection 'upgrade';
+                  proxy_set_header Host $host;
+                  proxy_cache_bypass $http_upgrade;
               }
           }
           ```
-          Create a symbolic link to enable the site:
-          ```bash
-          ln -s /etc/nginx/sites-available/myproject.is-pro.dev /etc/nginx/sites-enabled/
-          ```
-          Test Nginx configuration and reload:
-          ```bash
-          nginx -t
-          systemctl reload nginx
-          ```
+          3. **Create a symbolic link** to enable the configuration: `ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled/`.
+          4. **Test and reload Nginx**: Run `nginx -t` to test the configuration, and `systemctl reload nginx` to apply the changes.
           
-          ## Setting Up SSL with Certbot
-          Install Certbot and its Nginx plugin:
-          ```bash
-          apt install certbot python3-certbot-nginx -y
-          ```
-          Obtain an SSL certificate for your subdomain:
-          ```bash
-          certbot --nginx -d myproject.is-pro.dev
-          ```
-          Follow the prompts to complete the SSL setup. Certbot will automatically configure Nginx to use the SSL certificate.
-          
-          ## Deploying Your Project
-          Clone your project repository to the `/var/www/myproject` directory or upload your project files there. Ensure the Nginx user has read access to these files:
-          ```bash
-          chown -R www-data:www-data /var/www/myproject
-          ```
-          If your project requires a specific environment or build process, execute those commands now.
+          ### Obtaining an SSL Certificate with Certbot
+          1. **Install Certbot**: Run `apt install certbot python3-certbot-nginx -y`.
+          2. **Obtain the SSL certificate**: Use `certbot --nginx -d myproject.is-pro.dev` to get a certificate for your subdomain.
+          3. **Follow the Certbot prompts** to complete the setup, which may include setting up a redirect from HTTP to HTTPS.
           
           ## Common Pitfalls and Solutions
-          - **Nginx Configuration Errors**: Always test your Nginx configuration with `nginx -t` before reloading.
-          - **SSL Certificate Issues**: Ensure your domain's DNS settings are correctly pointing to your VPS and wait for propagation if necessary.
-          - **Permission Errors**: Verify file permissions for your project directory and adjust as needed.
+          - **Nginx Configuration Errors**: Always test your Nginx configuration before reloading. Common issues include syntax errors or incorrect file paths.
+          - **SSL Certificate Issues**: Ensure your domain is properly configured and reachable. Certbot may fail if it cannot verify domain ownership.
+          - **Firewall Configuration**: Double-check that your firewall allows the necessary traffic. Incorrect settings can block access to your site.
           
-          ## Best Practices for Security and Performance
-          - **Regularly Update Packages**: Keep your VPS and installed packages up to date.
-          - **Use Strong Passwords and SSH Keys**: Enhance SSH security with keys and avoid weak passwords.
-          - **Monitor Your Server**: Use tools like `htop` and `nginx` logs to monitor performance and identify bottlenecks.
-          - **Implement Firewall Rules**: Use `ufw` or similar tools to restrict incoming traffic to necessary ports.
+          ## Best Practices for Deployment
+          - **Use Environment Variables**: For sensitive information like database passwords, use environment variables instead of hardcoding them into your scripts.
+          - **Implement Logging and Monitoring**: Tools like Prometheus and Grafana can provide insights into your application's performance and health.
+          - **Regularly Update Dependencies**: Keep your project's dependencies up-to-date to prevent security vulnerabilities.
+          
+          ## Performance Considerations
+          - **Optimize Database Queries**: Efficient database queries can significantly improve your application's performance.
+          - **Use Caching**: Implement caching mechanisms, like Redis, to reduce the load on your server.
+          - **Monitor Resource Usage**: Regularly check CPU, memory, and disk usage to identify potential bottlenecks.
           
           ## Troubleshooting Deployment Issues
-          - **Check Nginx Logs**: Look for errors in `/var/log/nginx/error.log`.
-          - **Verify DNS Propagation**: Use online tools to check if your domain's DNS changes have propagated.
-          - **Test SSH Connection**: Ensure you can connect to your VPS via SSH without issues.
+          - **Check Nginx Logs**: Look for errors in `/var/log/nginx/error.log` to diagnose issues with your reverse proxy setup.
+          - **Verify Firewall Rules**: Ensure that your firewall is not blocking necessary traffic.
+          - **Test SSL Certificate**: Use tools like SSL Labs' SSL Test to verify the integrity of your SSL certificate.
           
           ## Conclusion and Next Steps
-          Deploying your project to a VPS using SSH and a custom subdomain like myproject.is-pro.dev provides a robust and customizable deployment solution. By following the steps outlined above and maintaining your server with best practices, you can ensure a secure, high-performance environment for your projects. Next, consider exploring additional security measures, optimizing your project for better performance, and learning more about advanced Nginx configurations.
+          Successfully deploying your project to a VPS using SSH and a custom subdomain like `myproject.is-pro.dev` involves careful configuration of Nginx, obtaining an SSL certificate with Certbot, and considering performance and security best practices. After completing these steps, your project should be securely and efficiently deployed. For further learning, explore advanced Nginx configurations, security hardening, and performance optimization techniques.
           
           ## FAQ
           1. **Q: How do I renew my SSL certificate?**
           A: Certbot automatically renews certificates. You can also manually renew using `certbot renew`.
-          2. **Q: Can I use this method for multiple subdomains?**
-          A: Yes, create separate Nginx configurations for each subdomain, adjusting the `server_name` and `root` directives accordingly.
-          3. **Q: What if my project requires a database?**
-          A: Install and configure a database server like MySQL or PostgreSQL on your VPS, and ensure your project is configured to connect to it.
-          4. **Q: How do I backup my VPS and project files?**
-          A: Use tools like `rsync` or backup services to regularly backup your VPS files and database to a secure location.
-          5. **Q: Can I automate deployment using CI/CD tools?**
-          A: Yes, tools like GitHub Actions or Jenkins can automate the deployment process to your VPS, integrating with your SSH and project repository.
+          2. **Q: What if my project uses a non-standard port?**
+          A: Adjust the `proxy_pass` directive in your Nginx configuration to point to the correct port.
+          3. **Q: Can I use this setup for multiple projects?**
+          A: Yes, create separate Nginx configurations for each project, ensuring unique server names and proxy pass directives.
+          4. **Q: How do I handle errors and exceptions in my application?**
+          A: Implement logging and error handling mechanisms within your application, and consider using a logging service for centralized monitoring.
+          5. **Q: Are there any limits to the number of custom subdomains I can set up?**
+          A: Check with is-cool-me for specific limitations on custom subdomains, as policies may vary.
           
           ## Further Reading
-          - **Nginx Documentation**: For advanced configurations and troubleshooting, refer to the official Nginx documentation.
-          - **Certbot Documentation**: Learn more about Certbot and SSL certificate management.
-          - **Linux Security Best Practices**: Explore resources on securing your Linux VPS, such as configuring firewalls and managing user permissions.
-          - **CI/CD Tools**: Investigate GitHub Actions, Jenkins, or similar tools for automating your deployment workflow.
-          - **VPS Management**: Look into tools and guides for managing and optimizing your VPS for better performance and security.
+          - **Nginx Documentation**: For in-depth guides on Nginx configuration and optimization.
+          - **Certbot Documentation**: Detailed instructions on obtaining and managing SSL certificates with Certbot.
+          - **DigitalOcean Tutorials**: A wide range of tutorials on VPS setup, security, and deployment strategies.
+          - **is-cool-me Documentation**: Specific guides and FAQs related to setting up and managing projects on is-cool-me subdomains.
         </div>
       </div>
     </div>
@@ -338,7 +308,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

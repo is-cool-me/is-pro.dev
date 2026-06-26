@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/redirect-old-domain-to-new/"
@@ -171,78 +171,69 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Domain Migration
-          When migrating a project from an old domain to a new subdomain on is-cool-me, such as moving from `oldproject.com` to `myproject.is-pro.dev`, it's crucial to handle the transition seamlessly to preserve SEO rankings, avoid broken links, and ensure a smooth user experience. A key part of this process is setting up a permanent redirect from the old domain to the new subdomain. This guide will walk you through the process of configuring a 301 permanent redirect, which is essential for maintaining search engine rankings and redirecting users to the correct location.
+          When setting up a new project on is-cool-me, such as `myproject.is-pro.dev`, you might find yourself in a situation where you need to redirect an old domain to your new subdomain permanently. This could be due to a rebranding effort, a change in project scope, or simply to consolidate your online presence. A permanent redirect, also known as a 301 redirect, is the most SEO-friendly way to redirect users and search engines to your new subdomain, preserving your search engine rankings and minimizing disruption to your visitors.
           
-          ## Prerequisites for Domain Migration
-          Before you start the migration process, ensure you have the following:
-          - Ownership or control over the old domain (`oldproject.com`) and the new subdomain (`myproject.is-pro.dev`).
-          - Access to the DNS settings of the old domain.
-          - A basic understanding of DNS records and HTTP redirects.
-          - If you're using a static site generator or a web framework, ensure you have the necessary tools and configurations set up for your project on `myproject.is-pro.dev`.
+          ## Prerequisites for Domain Redirect
+          Before you begin the process of redirecting your old domain to your new subdomain, ensure you have the following:
+          - Ownership or control over the old domain (e.g., `oldproject.com`).
+          - A new subdomain set up on is-cool-me (e.g., `myproject.is-pro.dev`).
+          - Access to your domain registrar's control panel for the old domain.
+          - Basic understanding of DNS settings and HTTP redirects.
           
-          ## Step-by-Step Redirect Configuration
+          ## Step-by-Step Redirect Setup
           To permanently redirect `oldproject.com` to `myproject.is-pro.dev`, follow these steps:
-          1. **Update DNS Settings**: Log into your DNS provider's control panel for `oldproject.com`. Create a new CNAME record or update an existing one to point to the `myproject.is-pro.dev` subdomain. The exact steps may vary depending on your DNS provider, but you typically need to specify the subdomain (`myproject`) and the domain (`is-cool-me`) it should point to.
-          2. **Configure 301 Redirect**: You can configure the 301 redirect at the DNS level or through your web server configuration. For most use cases, configuring it through your web server is more flexible and easier to manage. If you're using a web server like Apache, you can add the following configuration to your `.htaccess` file:
-             ```
-             RewriteEngine On
-             RewriteCond %{HTTP_HOST} ^oldproject.com$ [NC]
-             RewriteRule ^(.*)$ https://myproject.is-pro.dev/$1 [R=301,L]
-             ```
-             For Nginx, add this to your server block configuration:
-             ```
-             server {
-                 listen 80;
-                 server_name oldproject.com;
-                 return 301 $scheme://myproject.is-pro.dev$request_uri;
-             }
-             ```
-          3. **Test the Redirect**: After configuring the redirect, test it by visiting `oldproject.com` in your web browser. You should be automatically redirected to `myproject.is-pro.dev`. Use the browser's developer tools or online tools like `curl` to verify that the redirect is a 301 permanent redirect:
-             ```
-             curl -I oldproject.com
-             ```
-             Look for `HTTP/1.1 301 Moved Permanently` in the response.
+          1. **Log in to your domain registrar** for `oldproject.com` and navigate to the DNS management section.
+          2. **Create a new DNS record**. You will typically need to add a CNAME record that points to your is-cool-me subdomain. However, for a 301 redirect, you will actually be modifying or adding an A record or using a domain forwarding service provided by your registrar.
+          3. **Use Domain Forwarding**: Many registrars offer a domain forwarding service that allows you to redirect your domain to another URL. Look for this option in your DNS settings, and set the forwarding address to `http://myproject.is-pro.dev`. Ensure that the "Permanent (301)" option is selected if available.
+          4. **Alternatively, use DNS and HTTP Redirect**: If your registrar does not offer a straightforward domain forwarding option, you can set an A record to point to an IP address that you control (or use a third-party redirect service), and then configure your server to issue a 301 redirect to `myproject.is-pro.dev`. For example, if you're using an Apache server, you can add the following to your `.htaccess` file:
+          ```apache
+          Redirect 301 / http://myproject.is-pro.dev/
+          ```
+          5. **Verify the Redirect**: After setting up the redirect, visit `oldproject.com` in your web browser to ensure you are correctly redirected to `myproject.is-pro.dev`. Also, use tools like `curl` from the command line to verify the HTTP status code of the redirect:
+          ```bash
+          curl -I http://oldproject.com
+          ```
+          You should see a `301 Moved Permanently` status code in the response headers.
           
           ## Common Pitfalls and Solutions
-          - **Incorrect DNS Configuration**: Double-check your DNS settings to ensure the CNAME record is correctly pointing to `myproject.is-pro.dev`.
-          - **Redirect Loop**: Be cautious not to create a redirect loop where `oldproject.com` redirects to `myproject.is-pro.dev` and vice versa. Ensure your redirect rules are one-way.
-          - **SEO Impact**: While 301 redirects are SEO-friendly, significant changes to your site's structure or content can impact your rankings. Monitor your SEO performance post-migration.
+          - **Incorrect DNS Setup**: Double-check your DNS settings to ensure records are correctly pointing to your new subdomain or redirect service.
+          - **Temporary vs. Permanent Redirects**: Always use a 301 redirect for permanent changes to preserve SEO rankings.
+          - **Chain Redirects**: Avoid setting up a chain of redirects (e.g., `oldproject.com` -> `anotheroldproject.com` -> `myproject.is-pro.dev`). This can negatively impact SEO and user experience.
           
           ## Best Practices for Domain Migration
-          - **Maintain Consistency**: Ensure that all links, especially internal ones, are updated to point to the new subdomain (`myproject.is-pro.dev`) to avoid chain redirects.
-          - **Monitor Analytics**: Keep an eye on your website analytics to understand the impact of the migration on user traffic and behavior.
-          - **Inform Users and Search Engines**: If applicable, inform your users about the domain change through newsletters or blog posts. Also, submit your new subdomain to search engines like Google through their Search Console tool.
+          - **Plan Ahead**: Schedule your redirect during a period of low traffic to minimize disruption.
+          - **Test Thoroughly**: Verify that all parts of your site are correctly redirected, including subpages and resources.
+          - **Update Internal Links**: Once the redirect is in place, update all internal links on your site to point to the new subdomain to avoid redirect chains.
           
           ## Performance Considerations
-          - **Redirect Overhead**: While 301 redirects are relatively lightweight, having too many redirects in a chain can increase latency. Minimize the number of redirects by directly pointing users and search engines to the final destination.
-          - **Caching**: Be aware of caching mechanisms, both at the browser level and through CDNs or caching layers in your web application. Clear or update caches as necessary to reflect the domain change.
+          - **Redirect Impact on Load Times**: While redirects are generally fast, having too many can increase page load times. Minimize the number of redirects in a chain.
+          - **Caching and Redirects**: Be aware that redirects can sometimes be cached by browsers and intermediaries, potentially causing issues if you need to change the redirect target.
           
           ## Troubleshooting Redirect Issues
-          - **Verify DNS Propagation**: If the redirect doesn't seem to be working, ensure that DNS changes have fully propagated, which can take up to 48 hours.
-          - **Check Web Server Logs**: Look for any errors in your web server logs that might indicate issues with the redirect configuration.
-          - **Test with Different Browsers and Locations**: Sometimes, redirects can behave differently based on the user's location or browser. Test your redirect with various browsers and from different locations.
+          - **Use Browser Developer Tools**: The Network tab in browser developer tools can help diagnose redirect issues by showing the redirect chain and response codes.
+          - **Check Server Logs**: Server logs can provide detailed information about redirects, including any errors that might occur during the redirect process.
+          - **Test from Different Locations**: Sometimes, DNS changes can take time to propagate globally. Test your redirect from different geographic locations to ensure it's working as expected worldwide.
           
           ## Conclusion and Next Steps
-          Migrating a domain to a new subdomain on is-cool-me requires careful planning and execution to preserve SEO rankings and ensure a smooth user experience. By following the steps outlined in this guide, you can successfully redirect your old domain to your new subdomain permanently. Post-migration, focus on monitoring your website's performance, updating internal links, and informing users and search engines about the change.
+          Redirecting an old domain to your new subdomain on is-cool-me is a straightforward process that, when done correctly, can help maintain your online presence and search engine rankings. After setting up your redirect, monitor your website's performance and analytics to ensure a smooth transition for your users. Remember to update any external links to your site and notify search engines of your domain change to expedite the update of their indexes.
           
           ## FAQ
-          1. **Q: How long does it take for search engines to update their indexes after a domain change?**
-             A: It can take several weeks to a few months for search engines to fully update their indexes and reflect the domain change in search results.
-          2. **Q: Can I use a 302 temporary redirect instead of a 301 permanent redirect?**
-             A: While technically possible, using a 302 redirect is not recommended for permanent domain changes, as it may not pass SEO ranking values to the new domain.
-          3. **Q: What if I have multiple subdomains under the old domain that need to be redirected?**
-             A: You can configure separate 301 redirects for each subdomain, ensuring that each one points to its corresponding new location.
-          4. **Q: How do I handle email addresses associated with the old domain?**
-             A: You'll need to set up email forwarding or create new email addresses on the new domain, depending on your email service provider's capabilities and your specific needs.
-          5. **Q: Are there any tools or services that can simplify the domain migration process?**
-             A: Yes, several tools and services can assist with domain migration, including SEO audit tools, website crawlers, and professional migration services offered by web hosting companies.
+          1. **Q: Can I redirect a subdomain of my old domain to my new subdomain?**
+             A: Yes, you can redirect a subdomain (e.g., `blog.oldproject.com`) to your new subdomain (`myproject.is-pro.dev`) using the same methods described, by setting up a CNAME or A record for the subdomain.
+          2. **Q: How long does it take for a 301 redirect to be recognized by search engines?**
+             A: The time it takes for search engines to recognize and update their indexes based on a 301 redirect can vary, but it's typically within a few weeks to a couple of months.
+          3. **Q: Will a 301 redirect preserve my website's backlinks?**
+             A: Yes, a 301 redirect is the best way to preserve backlinks to your old domain. Search engines will transfer the link equity to the new URL.
+          4. **Q: Can I use a 301 redirect for HTTPS to HTTP or vice versa?**
+             A: Yes, but ensure that your target URL (in this case, `myproject.is-pro.dev`) is correctly set up for HTTPS if that's what you're redirecting to, to avoid security warnings.
+          5. **Q: How do I handle email addresses associated with my old domain?**
+             A: You will need to set up email forwarding or migrate your email service to your new domain to continue receiving emails sent to addresses at your old domain.
           
           ## Further Reading
-          For more detailed information on DNS configuration, HTTP redirects, and SEO considerations during domain migration, consider the following resources:
-          - Mozilla Developer Network: [HTTP Redirects](https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections)
-          - Google Search Console Help: [Change of address](https://support.google.com/webmasters/answer/83106)
-          - Apache HTTP Server Documentation: [Rewrite Engine](https://httpd.apache.org/docs/current/mod/mod_rewrite.html)
-          - Nginx Documentation: [HTTP Rewrite Module](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html)
+          - **Is-cool-me Documentation**: For specific details on setting up and managing your subdomain on is-cool-me.
+          - **Apache HTTP Server Documentation**: For detailed information on configuring redirects and other settings on an Apache server.
+          - **Google Search Console Help**: For guidance on managing domain changes and redirects in the context of Google search rankings.
+          - **Mozilla Developer Network (MDN)**: For comprehensive information on HTTP redirects, including 301 and other status codes.
         </div>
       </div>
     </div>
@@ -297,7 +288,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

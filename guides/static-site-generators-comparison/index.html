@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/static-site-generators-comparison/"
@@ -171,93 +171,94 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Static Site Generators
-          As a developer setting up a project on a subdomain like myproject.is-pro.dev, you're likely considering the best approach for building and deploying your site. Static Site Generators (SSGs) have become increasingly popular due to their simplicity, speed, and security. In this guide, we'll compare three leading SSGs: Hugo, Eleventy, and Astro, and explore how to get started with each on the is-cool-me platform.
+          Static Site Generators (SSGs) have become a cornerstone of the JAMStack (JavaScript, APIs, and Markup) ecosystem, allowing developers to build fast, secure, and scalable websites. For developers setting up projects on is-cool-me subdomains like myproject.is-pro.dev, choosing the right SSG can be a crucial decision. In this guide, we'll delve into the world of Hugo, Eleventy, and Astro, exploring their strengths, weaknesses, and use cases.
           
           ## Prerequisites
           Before diving into the world of SSGs, ensure you have the following prerequisites:
-          - A basic understanding of HTML, CSS, and JavaScript
-          - Familiarity with the command line interface (CLI)
-          - A code editor or IDE of your choice
-          - Node.js (for Eleventy and Astro) or Go (for Hugo) installed on your machine
-          - An is-cool-me account with a subdomain set up (e.g., myproject.is-pro.dev)
+          - Node.js (for Eleventy and Astro) or Go (for Hugo) installed on your machine.
+          - A code editor or IDE of your choice.
+          - Familiarity with Markdown, HTML, CSS, and JavaScript.
+          - An is-cool-me subdomain (e.g., myproject.is-pro.dev) set up for deployment.
           
           ## Setting Up Hugo
-          Hugo is a fast and flexible SSG written in Go. To get started with Hugo on myproject.is-pro.dev:
-          1. Install Hugo using the following command: `brew install hugo` (on macOS) or download the binary from the official Hugo website for other platforms.
-          2. Create a new Hugo project: `hugo new site myproject`
-          3. Change into your project directory: `cd myproject`
-          4. Initialize a Git repository: `git init`
-          5. Create a new branch for your site: `git branch -M main`
-          6. Add a theme (optional): `git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke`
-          7. Configure your site in `config.toml` to use your subdomain: `baseURL = "https://myproject.is-pro.dev/"`
-          8. Build your site: `hugo`
-          9. Deploy your site to myproject.is-pro.dev using your preferred method (e.g., Git submodule, rsync, or a CI/CD pipeline)
+          Hugo is a popular SSG written in Go, known for its speed and ease of use. To set up a Hugo project:
+          1. Install Hugo using the command `brew install hugo` (on macOS) or download the binary from the official Hugo website.
+          2. Create a new Hugo site using `hugo new site myproject`.
+          3. Navigate into your project directory with `cd myproject`.
+          4. Initialize a Git repository with `git init`.
+          5. Install a theme (e.g., the Ananke theme) using `git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke`.
+          6. Configure your site in `config.toml`, specifying your base URL as `https://myproject.is-pro.dev`.
+          7. Create content in the `content` directory, using Markdown files for blog posts and pages.
+          8. Build your site with `hugo`, and deploy it to your is-cool-me subdomain.
           
           ## Setting Up Eleventy
-          Eleventy is a simple, fast, and highly configurable SSG built on Node.js. To set up Eleventy on myproject.is-pro.dev:
-          1. Initialize a new Node.js project: `npm init -y`
-          2. Install Eleventy: `npm install @11ty/eleventy`
-          3. Create a new Eleventy configuration file: `touch .eleventy.js`
-          4. Configure Eleventy to use your subdomain in `.eleventy.js`: `module.exports = { pathPrefix: '/myproject' };`
-          5. Create your first page: `mkdir src && touch src/index.md`
-          6. Add content to `src/index.md`
-          7. Build your site: `npx eleventy`
-          8. Deploy your site to myproject.is-pro.dev
+          Eleventy is a lightweight, JavaScript-based SSG that's highly customizable. To set up an Eleventy project:
+          1. Install Eleventy using npm with `npm install -g @11ty/eleventy`.
+          2. Create a new Eleventy site using `npx eleventy-new myproject`.
+          3. Navigate into your project directory with `cd myproject`.
+          4. Initialize a Git repository with `git init`.
+          5. Configure your site in `.eleventy.js`, specifying your base URL as `https://myproject.is-pro.dev`.
+          6. Create content in the `src` directory, using Markdown files for blog posts and pages.
+          7. Build your site with `npx eleventy`, and deploy it to your is-cool-me subdomain.
           
           ## Setting Up Astro
-          Astro is a modern, fast, and highly customizable SSG that allows you to use your favorite UI framework. To get started with Astro on myproject.is-pro.dev:
-          1. Create a new Astro project: `npm create astro@latest`
-          2. Follow the prompts to set up your project
-          3. Change into your project directory: `cd myproject`
-          4. Install dependencies: `npm install`
-          5. Configure Astro to use your subdomain in `astro.config.js`: `export default { pathPrefix: '/myproject' };`
-          6. Create your first page: `touch src/pages/index.astro`
-          7. Add content to `src/pages/index.astro`
-          8. Build your site: `npm run build`
-          9. Deploy your site to myproject.is-pro.dev
+          Astro is a modern, JavaScript-based SSG that's designed for performance and ease of use. To set up an Astro project:
+          1. Install Astro using npm with `npm create astro@latest myproject`.
+          2. Navigate into your project directory with `cd myproject`.
+          3. Initialize a Git repository with `git init`.
+          4. Configure your site in `astro.config.js`, specifying your base URL as `https://myproject.is-pro.dev`.
+          5. Create content in the `src` directory, using Markdown files for blog posts and pages.
+          6. Build your site with `npm run build`, and deploy it to your is-cool-me subdomain.
           
           ## Common Pitfalls and Solutions
-          - **Hugo:** When using Hugo, ensure your `config.toml` is correctly formatted to avoid build errors. If you encounter issues with theme installation, try updating your Hugo version or checking the theme's compatibility.
-          - **Eleventy:** With Eleventy, pay attention to your file structure and naming conventions, as these can affect how your site is generated. If you encounter issues with deployment, verify that your `pathPrefix` is correctly set.
-          - **Astro:** When using Astro, ensure you're using the correct version of your preferred UI framework. If you encounter build errors, check your `astro.config.js` for any misconfigurations.
+          When working with SSGs, common pitfalls include:
+          - **Incorrect base URL**: Ensure your base URL is correctly configured in your SSG's configuration file to avoid broken links.
+          - **Missing dependencies**: Verify that all dependencies are installed and up-to-date to avoid build errors.
+          - **Incompatible themes**: Choose a theme compatible with your SSG to avoid layout issues.
           
           ## Best Practices
-          - **Keep it Simple:** Start with a simple configuration and gradually add complexity as needed.
-          - **Use Version Control:** Always use version control (e.g., Git) to track changes to your site.
-          - **Test Thoroughly:** Regularly test your site on different devices and browsers to ensure compatibility.
-          - **Optimize Images:** Use optimized images to reduce page load times and improve performance.
+          To get the most out of your SSG:
+          - **Use a consistent naming convention**: Use a consistent naming convention for your files and directories to simplify maintenance.
+          - **Optimize images**: Optimize images to reduce page load times and improve performance.
+          - **Leverage caching**: Leverage caching mechanisms to reduce the number of requests to your site.
           
           ## Performance Considerations
-          - **Page Speed:** Use tools like Google PageSpeed Insights to analyze and improve your site's performance.
-          - **Caching:** Implement caching mechanisms (e.g., service workers) to reduce the number of requests made to your site.
-          - **Image Compression:** Compress images to reduce file size and improve load times.
+          To optimize the performance of your SSG:
+          - **Use a fast build process**: Choose an SSG with a fast build process to reduce deployment times.
+          - **Minify and compress files**: Minify and compress files to reduce page load times.
+          - **Leverage CDNs**: Leverage Content Delivery Networks (CDNs) to reduce the distance between your users and your site.
           
           ## Troubleshooting
-          - **Check Logs:** Always check your build and server logs for errors.
-          - **Verify Configuration:** Double-check your configuration files for any misconfigurations.
-          - **Search for Solutions:** Look for solutions online or in the documentation of your chosen SSG.
+          When troubleshooting issues with your SSG:
+          - **Check the documentation**: Consult the official documentation for your SSG to identify potential solutions.
+          - **Search online forums**: Search online forums and communities for similar issues and solutions.
+          - **Verify dependencies**: Verify that all dependencies are installed and up-to-date.
           
           ## Conclusion and Next Steps
-          In conclusion, choosing the right SSG for your project on myproject.is-pro.dev depends on your specific needs and preferences. Hugo, Eleventy, and Astro each offer unique advantages and can help you build fast, secure, and scalable sites. By following the steps outlined in this guide, you'll be well on your way to deploying a successful static site. Next, explore more advanced features of your chosen SSG, such as internationalization, accessibility, and SEO optimization.
+          In conclusion, Hugo, Eleventy, and Astro are powerful SSGs that can help you build fast, secure, and scalable websites on is-cool-me subdomains like myproject.is-pro.dev. By following the steps outlined in this guide, you can choose the right SSG for your project and start building today. Next steps include:
+          - **Deploying your site**: Deploy your site to your is-cool-me subdomain and verify that it's working correctly.
+          - **Configuring analytics**: Configure analytics tools to track user behavior and optimize your site.
+          - **Creating content**: Create high-quality content to attract and engage your target audience.
           
           ## FAQ
-          1. **Q: Can I use multiple SSGs together?**
-          A: While it's technically possible, using multiple SSGs together can add complexity and is generally not recommended.
+          1. **Q: Can I use multiple SSGs for a single project?**
+          A: While it's technically possible, using multiple SSGs for a single project can add complexity and is generally not recommended.
           2. **Q: How do I handle dynamic content with an SSG?**
-          A: You can use APIs or serverless functions to fetch dynamic content and integrate it with your SSG.
-          3. **Q: Are SSGs suitable for large, complex sites?**
-          A: Yes, many large and complex sites use SSGs. However, you may need to implement additional optimizations and caching mechanisms.
-          4. **Q: Can I use an SSG with a headless CMS?**
-          A: Yes, many headless CMS solutions integrate well with SSGs, allowing you to manage content separately from your site's frontend.
-          5. **Q: How often should I update my SSG and its dependencies?**
-          A: Regularly update your SSG and its dependencies to ensure you have the latest security patches and features.
+          A: You can handle dynamic content with an SSG by using APIs or server-side rendering.
+          3. **Q: Can I use an SSG with a headless CMS?**
+          A: Yes, you can use an SSG with a headless CMS to manage content and separate it from your presentation layer.
+          4. **Q: How do I optimize images for web use?**
+          A: You can optimize images for web use by compressing them using tools like ImageOptim or ShortPixel.
+          5. **Q: What are the benefits of using a CDN with an SSG?**
+          A: Using a CDN with an SSG can reduce page load times, improve performance, and increase scalability.
           
           ## Further Reading
-          - **Hugo Documentation:** <https://gohugo.io/documentation/>
-          - **Eleventy Documentation:** <https://www.11ty.dev/docs/>
-          - **Astro Documentation:** <https://docs.astro.build/>
-          - **Jamstack.org:** <https://jamstack.org/>
-          - **Static Site Generators on GitHub:** <https://github.com/topics/static-site-generator>
+          For more information on SSGs and the JAMStack ecosystem, check out the following resources:
+          - **Hugo documentation**: The official Hugo documentation provides a comprehensive guide to getting started with Hugo.
+          - **Eleventy documentation**: The official Eleventy documentation offers a detailed guide to configuring and customizing Eleventy.
+          - **Astro documentation**: The official Astro documentation provides a step-by-step guide to building fast and scalable websites with Astro.
+          - **JAMStack.org**: The official JAMStack website offers a wealth of information on the JAMStack ecosystem, including tutorials, case studies, and community resources.
+          - **Netlify**: Netlify is a popular platform for deploying and managing JAMStack sites, offering a range of features and tools for developers.
         </div>
       </div>
     </div>
@@ -312,7 +313,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

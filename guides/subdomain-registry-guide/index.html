@@ -65,8 +65,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-25",
-      "dateModified": "2026-06-25",
+      "datePublished": "2026-06-26",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/subdomain-registry-guide/"
@@ -171,78 +171,80 @@
       <div class="article-layout-inner">
         <div class="article-content prose">
           ## Introduction to Subdomains on is-cool-me
-          is-cool-me offers a free developer platform that allows users to register and manage subdomains, providing a convenient way to host and manage projects. Registering a subdomain on is-cool-me is a straightforward process that can be completed in a few steps. In this guide, we will walk through the process of registering and managing subdomains on is-cool-me, using myproject.is-pro.dev as an example.
+          is-cool-me offers a free developer platform that includes the ability to register and manage subdomains, providing developers with a convenient way to host and manage their projects. A subdomain is a subset of a larger domain, and on is-cool-me, these subdomains are hosted under the main domains such as is-pro.dev, is-cool.me, etc. For instance, a developer can register a subdomain like myproject.is-pro.dev to host their web application or project. This guide will walk you through the process of registering and managing subdomains on is-cool-me, covering the prerequisites, step-by-step instructions, common pitfalls, best practices, and troubleshooting.
           
-          ## Prerequisites for Registration
-          Before registering a subdomain, ensure you have the following:
-          - A valid email address for verification purposes
-          - A project or application ready to be hosted
-          - Basic knowledge of DNS management and domain registration
+          ## Prerequisites for Subdomain Registration
+          Before you can register a subdomain on is-cool-me, you need to have an account on the platform. If you haven't already, sign up for an account on is-cool-me. The registration process is straightforward and requires basic information such as your name, email address, and a password. Once your account is set up, you can proceed to register your subdomain. Ensure you have a clear idea of the subdomain name you wish to register, as it should be unique and not already in use by another user.
           
           ## Registering a Subdomain
           To register a subdomain, follow these steps:
-          1. Go to the is-cool-me website and click on the "Register" button.
-          2. Fill in the registration form with your email address and choose a unique subdomain name, such as "myproject".
-          3. Verify your email address by clicking on the link sent by is-cool-me.
-          4. Once verified, your subdomain (myproject.is-pro.dev) will be active and ready for use.
+          1. Log in to your is-cool-me account.
+          2. Navigate to the dashboard or control panel where domain management options are available.
+          3. Look for the option to add or register a new subdomain. This is usually represented by a "+" icon or an "Add Subdomain" button.
+          4. Enter your desired subdomain name, for example, "myproject".
+          5. Select the domain under which your subdomain will be hosted, such as "is-pro.dev".
+          6. Click on the "Register" or "Add Subdomain" button to complete the registration process.
+          7. You will receive a confirmation message once your subdomain is successfully registered.
           
-          ## Configuring DNS for Your Subdomain
-          To configure DNS for your subdomain, you will need to update the DNS records. This can be done using the is-cool-me DNS management tool:
-          1. Log in to your is-cool-me account and navigate to the DNS management section.
-          2. Create a new DNS record for your subdomain (myproject.is-pro.dev) by specifying the record type (A, CNAME, etc.), name, and value.
-          3. For example, to point your subdomain to a server with IP address 192.0.2.1, create an A record with the following values:
-             - Record type: A
-             - Name: myproject.is-pro.dev
-             - Value: 192.0.2.1
+          ## DNS Management for Subdomains
+          After registering your subdomain, you may need to configure DNS settings to point to your hosting server or to set up email services. is-cool-me provides a DNS management interface where you can add, edit, or delete DNS records. Common DNS records you might need to configure include:
+          - A records to point your subdomain to an IP address.
+          - CNAME records to point your subdomain to another domain or subdomain.
+          - MX records to set up email services for your subdomain.
+          
+          For example, to point your subdomain "myproject.is-pro.dev" to an IP address "192.0.2.1", you would add an A record with the following details:
+          - Name: myproject
+          - Type: A
+          - Value: 192.0.2.1
+          - TTL: 3600 (or any other suitable TTL value)
           
           ## Common Pitfalls and Solutions
-          One common pitfall when registering and managing subdomains is incorrect DNS configuration. To avoid this, ensure that your DNS records are correctly set up and propagated. If you encounter issues with DNS resolution, check the following:
-          - DNS record types: Ensure you are using the correct record type (A, CNAME, etc.) for your use case.
-          - DNS record values: Verify that the values specified in your DNS records are correct (e.g., IP addresses, domain names).
-          - DNS propagation: Allow sufficient time for DNS changes to propagate globally, which can take up to 48 hours.
+          One common issue developers face is the propagation time for DNS changes. After making changes to your DNS records, it can take up to 48 hours for these changes to propagate globally. If your subdomain is not resolving as expected, wait for the propagation time to pass before troubleshooting further.
+          
+          Another common pitfall is incorrect DNS record configuration. Double-check your DNS records to ensure they are correctly set up. For instance, if you are setting up a CNAME record, make sure the value points to the correct domain or subdomain.
           
           ## Best Practices for Subdomain Management
-          To ensure efficient and secure subdomain management, follow these best practices:
-          - Use meaningful subdomain names: Choose subdomain names that reflect the purpose or content of your project (e.g., blog.myproject.is-pro.dev).
-          - Implement SSL/TLS encryption: Use SSL/TLS certificates to secure communication between your subdomain and users' browsers.
-          - Monitor DNS records: Regularly review and update your DNS records to prevent configuration errors and security vulnerabilities.
+          To effectively manage your subdomains, follow these best practices:
+          - Use meaningful and descriptive subdomain names to help organize your projects.
+          - Regularly review your DNS records to ensure they are up-to-date and correctly configured.
+          - Use a consistent naming convention for your subdomains across all projects.
+          - Document your subdomain and DNS configurations for future reference and troubleshooting.
           
           ## Performance Considerations
-          When managing subdomains, consider the following performance factors:
-          - DNS resolution time: Optimize your DNS configuration to minimize resolution time and improve user experience.
-          - Server resource allocation: Ensure that your server has sufficient resources (e.g., CPU, memory, bandwidth) to handle traffic to your subdomain.
-          - Content delivery networks (CDNs): Consider using CDNs to distribute content and reduce latency for users accessing your subdomain.
+          When hosting applications on subdomains, consider the performance implications. Factors such as the location of your hosting server, the type of content being served, and the configuration of your DNS records can all impact performance. To optimize performance:
+          - Choose a hosting server that is geographically close to your target audience.
+          - Optimize your application and content for faster load times.
+          - Use a content delivery network (CDN) to distribute your content across different geographic locations.
           
           ## Troubleshooting Subdomain Issues
-          If you encounter issues with your subdomain, follow these troubleshooting steps:
-          1. Verify DNS configuration: Check your DNS records for errors or inconsistencies.
-          2. Check server status: Ensure that your server is online and responding to requests.
-          3. Test subdomain resolution: Use tools like `dig` or `nslookup` to test DNS resolution for your subdomain.
-          4. Consult is-cool-me support: If issues persist, contact is-cool-me support for assistance.
+          If you encounter issues with your subdomain, such as it not resolving or loading incorrectly, follow these troubleshooting steps:
+          1. Check your DNS records to ensure they are correctly configured.
+          2. Verify that your subdomain is properly registered and not expired.
+          3. Check for any propagation delays if you have recently made changes to your DNS records.
+          4. Test your subdomain using different browsers and devices to rule out client-side issues.
+          5. Contact is-cool-me support if you are unable to resolve the issue on your own.
           
           ## Conclusion and Next Steps
-          Registering and managing subdomains on is-cool-me is a straightforward process that can be completed in a few steps. By following the guidelines outlined in this guide, you can efficiently manage your subdomains and ensure a smooth user experience. Next steps include:
-          - Deploying your project to your subdomain (myproject.is-pro.dev)
-          - Configuring additional services (e.g., email, SSL/TLS certificates)
-          - Monitoring and optimizing your subdomain's performance
+          Registering and managing subdomains on is-cool-me is a straightforward process that can be completed in a few steps. By following the guidelines and best practices outlined in this guide, you can effectively manage your subdomains and ensure they are properly configured for your projects. For further learning and troubleshooting, refer to the FAQ and Further Reading sections below.
           
-          ## Frequently Asked Questions
-          Q: Can I register multiple subdomains on is-cool-me?
-          A: Yes, you can register multiple subdomains on is-cool-me, each with its own unique name and configuration.
-          Q: How long does DNS propagation take?
-          A: DNS propagation can take up to 48 hours, although it is often completed much sooner.
-          Q: Can I use custom DNS servers with my is-cool-me subdomain?
-          A: Yes, you can use custom DNS servers with your is-cool-me subdomain, although this may require additional configuration.
-          Q: Are SSL/TLS certificates provided by is-cool-me?
-          A: is-cool-me offers free SSL/TLS certificates for registered subdomains, which can be obtained through the is-cool-me control panel.
-          Q: How do I transfer my subdomain to a different registrar?
-          A: To transfer your subdomain to a different registrar, you will need to follow the transfer process outlined by the gaining registrar, which may involve obtaining an authorization code from is-cool-me.
+          ## FAQ
+          1. Q: Can I register multiple subdomains under the same account?
+          A: Yes, you can register multiple subdomains under the same account on is-cool-me.
+          2. Q: How long does it take for DNS changes to propagate?
+          A: DNS changes can take up to 48 hours to propagate globally.
+          3. Q: Can I use a custom domain with is-cool-me?
+          A: Yes, is-cool-me allows you to use custom domains in addition to their provided subdomains.
+          4. Q: How do I set up email services for my subdomain?
+          A: You can set up email services by configuring MX records for your subdomain.
+          5. Q: What is the maximum number of subdomains I can register?
+          A: The maximum number of subdomains you can register may vary depending on your account type and is-cool-me's policies.
           
           ## Further Reading
-          For more information on subdomain management and DNS configuration, consider the following resources:
-          - is-cool-me documentation: The official is-cool-me documentation provides detailed guides and tutorials on subdomain registration and management.
-          - DNS management tools: Tools like Cloudflare DNS and Google Cloud DNS provide advanced DNS management features and tutorials.
-          - SSL/TLS certificate authorities: Organizations like Let's Encrypt offer free SSL/TLS certificates and guidance on certificate installation and management.
+          For more information on DNS management and subdomain configuration, consider the following resources:
+          - is-cool-me Documentation: The official documentation provides detailed guides on managing subdomains and DNS records.
+          - DNS Tutorial by Cloudflare: A comprehensive tutorial on DNS basics and advanced topics.
+          - Subdomain Management Guide by Namecheap: A guide focused on managing subdomains with a registrar.
+          - DNS Records Explained by Google: A resource explaining different types of DNS records and their uses.
         </div>
       </div>
     </div>
@@ -297,7 +299,8 @@
         <div class="footer-migration-note">
           &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
           operating subdomains on <code>is-pro.dev</code> and
-          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
           <code>is-into.tech</code>.
         </div>
         <div class="footer-grid">

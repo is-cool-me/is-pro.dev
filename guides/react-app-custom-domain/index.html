@@ -6,67 +6,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>React App Custom Domain: Deployment Guide — is-cool-me</title>
-  <meta name="description" content="Deploy your React application with a custom is-cool-me subdomain. Covers Vite, Create React App, Netlify, Vercel, and Cloudflare Pages deployment options." />
+  <meta name="description" content="Guide about React App Custom Domain: Deployment Guide" />
   <link rel="canonical" href="https://is-pro.dev/guides/react-app-custom-domain/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/react-app-custom-domain/" />
   <meta property="og:title" content="React App Custom Domain: Deployment Guide — is-cool-me" />
-  <meta property="og:description" content="Deploy your React application with a custom is-cool-me subdomain. Covers Vite, Create React App, Netlify, Vercel, and Cloudflare Pages deployment options." />
+  <meta property="og:description" content="Guide about React App Custom Domain: Deployment Guide" />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="React App Custom Domain: Deployment Guide — is-cool-me" />
-  <meta name="twitter:description" content="Deploy your React application with a custom is-cool-me subdomain. Covers Vite, Create React App, Netlify, Vercel, and Cloudflare Pages deployment options." />
+  <meta name="twitter:description" content="Guide about React App Custom Domain: Deployment Guide" />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https: https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-{
+  <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "TechArticle",
-      "headline": "React App Custom Domain: Deployment Guide",
-      "description": "Deploy your React application with a custom is-cool-me subdomain. Covers Vite, Create React App, Netlify, Vercel, and Cloudflare Pages deployment options.",
-      "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
+      "@type": "WebSite",
+      "@id": "https://is-pro.dev/#website",
+      "url": "https://is-pro.dev",
+      "name": "React App Custom Domain: Deployment Guide — is-cool-me",
+      "description": "Guide about React App Custom Domain: Deployment Guide",
       "publisher": {
         "@type": "Organization",
         "name": "is-cool-me",
         "url": "https://is-pro.dev",
-        "logo": { "@type": "ImageObject", "url": "https://is-pro.dev/dist/images/logo.png" }
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "React App Custom Domain: Deployment Guide",
+      "description": "Guide about React App Custom Domain: Deployment Guide",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
       },
-      "datePublished": "2026-05-01",
-      "dateModified": "2026-05-27",
-      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://is-pro.dev/guides/react-app-custom-domain/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-06-27",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/guides/react-app-custom-domain/"
+      },
       "url": "https://is-pro.dev/guides/react-app-custom-domain/"
     },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://is-pro.dev/" },
-        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://is-pro.dev/guides/" },
-        { "@type": "ListItem", "position": 3, "name": "React App Custom Domain: Deployment Guide", "item": "https://is-pro.dev/guides/react-app-custom-domain/" }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://is-pro.dev/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "React App Custom Domain: Deployment Guide",
+          "item": "https://is-pro.dev/guides/react-app-custom-domain/"
+        }
       ]
     }
   ]
-}
-  </script>
+}</script>
 </head>
 <body>
-
-<a href="#main-content" class="sr-only skip-link">Skip to main content</a>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
 
 <header class="site-header" role="banner">
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -74,6 +113,10 @@
         <a href="/domains/" class="nav-link">Domains</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/showcase/" class="nav-link">Showcase</a>
+        <a href="/trending/" class="nav-link">Trending</a>
+        <a href="/tools/" class="nav-link">Tools</a>
+        <a href="/compare/" class="nav-link">Compare</a>
         <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
         <a href="/terms/" class="nav-link">Terms</a>
@@ -86,112 +129,181 @@
     </div>
   </div>
 </header>
-
-<div class="reading-progress" id="reading-progress"></div>
-
 <main id="main-content">
-  <article>
-    <header class="article-hero">
-      <div class="container">
-        <div class="article-hero-inner">
-          <div class="article-meta">
-            <span class="article-category">Deployment</span>
-            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
-            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
-          </div>
-          <h1>React App Custom Domain: Deployment Guide</h1>
-          <p class="article-summary">Deploy your React application with a custom is-cool-me subdomain. Covers Vite, Create React App, Netlify, Vercel, and Cloudflare Pages deployment options.</p>
+<article>
+  <header class="article-hero">
+    <div class="container">
+      <div class="article-hero-inner">
+        <div class="article-meta">
+          <span class="article-category">Guide</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min read</span>
+          <span class="article-meta-item">Published June 2026</span>
+          <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
+        <h1>React App Custom Domain: Deployment Guide</h1>
+        <p class="article-summary">Guide about React App Custom Domain: Deployment Guide</p>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <section class="author-section" aria-label="Article authorship">
-      <div class="container">
-        <div class="author-card" data-reveal>
-          <div class="author-card-main">
-            <h2 class="author-card-title">Written by Mayank Baswal</h2>
-            <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-            <div class="author-card-links">
-              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-              <a href="/contact/">Contact</a>
-            </div>
-          </div>
-          <div class="author-card-review">
-            <span class="author-card-review-label">Reviewed by</span>
-            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+  <section class="author-section" aria-label="Article authorship">
+    <div class="container">
+      <div class="author-card" data-reveal>
+        <div class="author-card-main">
+          <h2 class="author-card-title">Written by Mayank Baswal</h2>
+          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+          <div class="author-card-links">
+            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+            <a href="/contact/">Contact</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <div class="article-layout-section">
-      <div class="container">
-        <div class="article-layout-inner">
-          <div class="article-content prose">
-<h1>React App Custom Domain: Deployment Guide</h1>
-<p>Deploying a React application is the final step in bringing your project to users. While hosting platforms provide default URLs, a custom domain like <code>app.is-pro.dev</code> gives your React app a professional identity. This guide covers deploying React apps built with Vite or Create React App to various platforms and connecting them to your free is-cool-me subdomain.</p>
-<h2>Why Use a Custom Domain for Your React App?</h2>
-<p>A custom domain does more than look professional — it improves SEO rankings, builds user trust, and provides a consistent URL for sharing. When you use a free is-cool-me subdomain, you get all these benefits without any recurring cost. Your React app will be served over HTTPS with Cloudflare's global CDN.</p>
-<h2>Prerequisites</h2>
-<ul><li>A React application (Vite or Create React App)</li>
-<li>A GitHub repository with your source code</li>
-<li>An account on your preferred hosting platform (Vercel, Netlify, or Cloudflare Pages)</li>
-<li>A registered is-cool-me subdomain</li>
-<h2>Step 1: Build Your React Application</h2>
-<p>Before deploying, create a production build of your React app:</p>
-<p>``<code>bash</p>
-<h1>For Vite projects</h1>
-<p>npm run build</p>
-<h1>For Create React App</h1>
-<p>npm run build</p>
-<p></code>`<code></p>
-<p>This generates a </code>dist<code> or </code>build<code> folder containing optimized static files. Ensure your application uses relative paths or environment variables for API endpoints so it works correctly with your custom domain.</p>
-<h2>Step 2: Choose a Hosting Platform</h2>
-<p><strong>Vercel</strong> is ideal for Next.js and Vite projects. It offers automatic deployment from GitHub and handles server-side rendering if you upgrade to Next.js later. Connect your GitHub repository and Vercel will automatically detect your build settings.</p>
-<p><strong>Netlify</strong> excels at static sites and offers powerful form handling, serverless functions, and deploy previews. It supports both Vite and Create React App with zero-configuration setup.</p>
-<p><strong>Cloudflare Pages</strong> provides unlimited bandwidth and integrates with Cloudflare's global network. If you are already using is-cool-me (which runs on Cloudflare), this is a seamless choice.</p>
-<h2>Step 3: Deploy Your React App</h2>
-<p>Push your code to a GitHub repository. Connect your hosting platform to GitHub and select the repository. The platform will detect your framework and configure the build command automatically:</p>
-<li>Vite: Build command </code>npm run build<code>, output directory </code>dist<code></li>
-<li>Create React App: Build command </code>npm run build<code>, output directory </code>build<code></li>
-<p>After deployment, your app will be available at a platform-assigned URL.</p>
-<h2>Step 4: Point Your Subdomain</h2>
-<p>Register a subdomain at dash.is-pro.dev if you have not already. Then add a CNAME record pointing your subdomain to your hosting platform's domain:</p>
-<li><strong>Vercel:</strong> </code>cname.vercel-dns.com<code></li>
-<li><strong>Netlify:</strong> </code>your-site.netlify.app<code></li>
-<li><strong>Cloudflare Pages:</strong> </code>your-project.pages.dev<code></li>
-<p></ul></p>
-<h2>Step 5: Configure the Custom Domain on Your Platform</h2>
-<p>Go to your platform's settings and add your is-cool-me subdomain as a custom domain. Each platform will verify the DNS configuration automatically. Once verified, enable HTTPS — all three platforms provide free SSL certificates.</p>
-<h2>Single Page Application Routing</h2>
-<p>React SPAs handle routing client-side with React Router. To prevent 404 errors on direct URL access, configure redirect rules on your hosting platform:</p>
-<p></code>`<code></p>
-<h1>Netlify (_redirects)</h1>
-<p>/*    /index.html   200</p>
-<h1>Vercel (vercel.json)</h1>
-<p>{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }</p>
-<h1>Cloudflare Pages</h1>
-<p>Create a </code>_redirects<code> file with: /* /index.html 200</p>
-<p></code>`<code></p>
-<h2>Troubleshooting</h2>
-<p><strong>Blank page after deployment:</strong> Check that your React app builds without errors and that the publicPath or base URL is configured correctly. For Vite, set </code>base: '/' <code> in </code>vite.config.js`.</p>
-<p><strong>Assets not loading:</strong> If CSS, JS, or images return 404, ensure your build output directory is correctly specified in the hosting platform settings.</p>
-<p><strong>API calls failing:</strong> CORS issues may arise if your API is on a different domain. Configure CORS headers on your API server or use a proxy during development.</p>
-<h2>FAQ</h2>
-<p><strong>Q: Can I use environment variables with a custom domain?</strong></p>
-<p>A: Yes, environment variables are configured in your hosting platform's dashboard and are independent of your domain setup.</p>
-<p><strong>Q: Will React Router work with my custom domain?</strong></p>
-<p>A: Yes, but you need the redirect rule mentioned above to handle client-side routing correctly.</p>
-<p><strong>Q: Can I deploy updates without downtime?</strong></p>
-<p>A: Yes, all three platforms support zero-downtime deployments. Push to your repository and the platform handles the rest.</p>
-<h2>Conclusion</h2>
-<p>Deploying your React app with a custom is-cool-me subdomain is straightforward. Build your app, push it to GitHub, connect to a hosting platform, and configure your domain. Your React application will be live with a professional URL, automatic HTTPS, and global CDN — all for free.</p>          </div>
+        <div class="author-card-review">
+          <span class="author-card-review-label">Reviewed by</span>
+          <span class="author-card-reviewer">is-cool-me Technical Review</span>
         </div>
       </div>
     </div>
-  </article>
-</main>      <!-- Native Banner Ad - 4:1 -->
+  </section>
+
+  <div class="article-layout-section">
+    <div class="container">
+      <div class="article-layout-inner">
+        <div class="article-content prose">
+          ## Introduction
+          In the modern web development landscape, having a custom domain for your React application is crucial for establishing a professional online presence. By default, projects hosted on platforms like is-cool-me are assigned a subdomain (e.g., myproject.is-pro.dev), which, while convenient for development and testing, may not be ideal for production environments or public-facing applications. Custom domains offer better branding, SEO benefits, and a more polished user experience. This guide is tailored for developers who have already set up their projects on is-cool-me subdomains and are looking to take the next step by configuring a custom domain for their React app.
+          
+          The process involves understanding DNS settings, configuring your React app for production, and ensuring that all elements, from the frontend to the backend API, are accessible and functioning as expected under the new domain. It requires careful planning and execution to avoid downtime and ensure a seamless transition. This comprehensive guide will walk you through the entire process, from preparation to deployment, highlighting common pitfalls, best practices, and troubleshooting techniques along the way.
+          
+          ## Prerequisites
+          Before diving into the deployment process, ensure you have the following prerequisites in place:
+          - A React application set up and hosted on an is-cool-me subdomain (e.g., myproject.is-pro.dev).
+          - A custom domain purchased from a domain registrar (e.g., myproject.com).
+          - Access to your domain's DNS settings, typically provided by your registrar or a third-party DNS service.
+          - Familiarity with basic DNS concepts, such as A records, CNAME records, and TXT records.
+          - A basic understanding of React and its build process, particularly how to configure environments and build the application for production.
+          
+          Having these elements ready will streamline the process and help you avoid potential roadblocks during setup.
+          
+          ## Step-by-step instructions
+          To deploy your React app with a custom domain, follow these detailed steps:
+          1. **Prepare Your React App for Production**: First, ensure your React app is configured for production. This typically involves setting environment variables and optimizing the build process. For example, you can set a `REACT_APP_DOMAIN` environment variable in your `.env` file to reflect your custom domain:
+             ```
+             REACT_APP_DOMAIN=myproject.com
+             ```
+          2. **Build Your React App**: Run the command to build your React app for production:
+             ```
+             npm run build
+             ```
+             or
+             ```
+             yarn build
+             ```
+          3. **Configure DNS Settings**: Set up the necessary DNS records for your custom domain. You will need to add a CNAME record pointing to your is-cool-me subdomain. For instance, if your is-cool-me subdomain is `myproject.is-pro.dev`, your CNAME record should look something like this:
+             | Type | Name | Value |
+             |------|------|-------|
+             | CNAME | @    | myproject.is-pro.dev |
+          4. **Update is-cool-me Project Settings**: Inform is-cool-me about your custom domain. This step may involve adding your custom domain to your project's settings within the is-cool-me dashboard, ensuring that requests to your custom domain are properly routed to your project.
+          5. **Verify Domain Ownership**: Depending on your setup, you might need to verify domain ownership with is-cool-me or your DNS provider. This is often done through a TXT record or by uploading a specific file to your domain.
+          
+          ## Configuration deep-dive
+          When configuring your React app and DNS settings for a custom domain, understanding the various options and how they interact is crucial. Here’s a breakdown of key configurations:
+          - **Environment Variables**: In your React app, environment variables like `REACT_APP_DOMAIN` can be used to dynamically adjust settings based on the current domain. For example, you might use it to construct API URLs:
+             ```javascript
+             const apiUrl = `https://${process.env.REACT_APP_DOMAIN}/api`;
+             ```
+          - **DNS Records**: The CNAME record is essential for mapping your custom domain to your is-cool-me subdomain. For `myproject.com`, a CNAME record might look like:
+             | Type | Name | Value |
+             |------|------|-------|
+             | CNAME | @    | myproject.is-pro.dev |
+          - **API Domain**: If your application has a backend API, ensure it’s accessible under the custom domain. For example, `api.myproject.com` should point to the API endpoint, which might be hosted on `api.myproject.is-pro.dev`.
+          
+          ## Common pitfalls and solutions
+          Several common issues can arise during the setup process:
+          1. **DNS Propagation Delay**: Changes to DNS records can take time to propagate globally. **Solution**: Wait for up to 48 hours for changes to take effect.
+          2. **Incorrect CNAME Record**: A misconfigured CNAME record can prevent your custom domain from working. **Solution**: Double-check the CNAME record to ensure it points to the correct is-cool-me subdomain.
+          3. **SSL Certificate Issues**: If your custom domain doesn’t have an SSL certificate, users may encounter security warnings. **Solution**: Obtain an SSL certificate for your custom domain or use a service that provides SSL certificates, such as Let’s Encrypt.
+          4. **React App Not Built for Production**: Failing to build your React app for production can result in performance issues and exposed development settings. **Solution**: Always run `npm run build` or `yarn build` before deploying.
+          5. **Domain Verification Failure**: Failure to verify domain ownership can prevent custom domain setup. **Solution**: Ensure all verification steps are completed correctly, whether through TXT records, email verification, or uploading specific files.
+          
+          ## Best practices
+          To ensure your React app with a custom domain is performant, secure, and maintainable:
+          - **Use Environment Variables**: Keep sensitive information and domain-specific settings in environment variables.
+          - **Optimize Builds**: Regularly review and optimize your React app’s build process for better performance.
+          - **Monitor Performance**: Use tools like WebPageTest or Lighthouse to monitor and improve your application’s performance.
+          - **Implement Security Measures**: Enable HTTPS, keep dependencies up to date, and follow best practices for secure coding.
+          
+          ## Troubleshooting section
+          When issues arise, follow these diagnostic steps:
+          1. **Check DNS Records**: Verify that all DNS records are correctly set up and propagated.
+          2. **Inspect Browser Console**: Look for JavaScript errors or warnings that might indicate issues with your React app.
+          3. **Review Server Logs**: Check logs from your server or hosting platform for errors related to your custom domain setup.
+          4. **Test API Endpoints**: Ensure that API endpoints are accessible and functioning correctly under the custom domain.
+          5. **Verify SSL Certificate**: If using HTTPS, confirm that the SSL certificate is valid and correctly configured for your custom domain.
+          
+          ## Deployment scenario from operations
+          Consider a real-world example where you have a React application hosted on `myproject.is-pro.dev` and you want to deploy it under the custom domain `myproject.com`. Your DNS settings might include:
+          | Type | Name | Value |
+          |------|------|-------|
+          | CNAME | @    | myproject.is-pro.dev |
+          | A    | api   | 192.0.2.1            |
+          You would build your React app with the custom domain in mind, set environment variables like `REACT_APP_DOMAIN=myproject.com`, and configure any backend API to be accessible under `api.myproject.com`.
+          
+          ## Common mistakes
+          Avoid these common mistakes:
+          * Incorrectly configuring CNAME records, leading to domain resolution issues.
+          * Failing to build the React app for production, resulting in development settings being exposed.
+          * Not verifying domain ownership, which can prevent custom domain setup.
+          * Neglecting to update environment variables to reflect the custom domain.
+          * Incorrectly setting up SSL certificates, leading to security warnings.
+          
+          ## How to verify it works
+          To verify that your custom domain setup is working correctly:
+          1. **Visit Your Custom Domain**: Navigate to your custom domain in a web browser to ensure your React app loads correctly.
+          2. **Check API Endpoints**: Test API endpoints under the custom domain to ensure they are accessible and functioning.
+          3. **Verify SSL Certificate**: Confirm that HTTPS is working and the SSL certificate is valid.
+          4. **Inspect DNS Records**: Double-check that all DNS records are correctly set up and propagated.
+          5. **Monitor Performance and Logs**: Keep an eye on your application’s performance and server logs for any issues related to the custom domain setup.
+          
+          ## Conclusion with next steps
+          Deploying a React app with a custom domain on is-cool-me involves several steps, from preparing your application for production to configuring DNS settings. By following this guide and avoiding common pitfalls, you can successfully set up your custom domain and enhance your application’s professionalism and user experience. Next steps include monitoring your application’s performance, ensuring security best practices are in place, and exploring advanced features like service workers and PWA capabilities.
+          
+          ## FAQ
+          1. **Q: How long does DNS propagation take?**
+             A: DNS propagation can take anywhere from a few minutes to up to 48 hours. This time frame allows for the global distribution of your new DNS settings across the internet.
+          2. **Q: Do I need an SSL certificate for my custom domain?**
+             A: Yes, having an SSL certificate for your custom domain is highly recommended. It ensures that data transmitted between your website and users is encrypted, enhancing security and trust.
+          3. **Q: Can I use a custom domain with a free plan on is-cool-me?**
+             A: The ability to use a custom domain may depend on your is-cool-me plan. Check your plan’s features to see if custom domains are supported. Upgrading to a paid plan might be necessary for this feature.
+          4. **Q: How do I handle API requests under the custom domain?**
+             A: Ensure that your API endpoints are configured to be accessible under the custom domain. This might involve setting up additional DNS records or configuring your backend to respond to requests from the custom domain.
+          5. **Q: What if I encounter issues after setting up my custom domain?**
+             A: If you encounter issues, start by reviewing your DNS settings and verifying that your React app is built for production. Check for any errors in the browser console or server logs, and ensure that your SSL certificate is valid and correctly configured.
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=React%20App%20Custom%20Domain%3A%20Deployment%20Guide&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Freact-app-custom-domain%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Freact-app-custom-domain%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div>
+
+<section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+      
+      </div>
+    </div>
+  </section>
+</main>
+      <!-- Native Banner Ad - 4:1 -->
       <div style="text-align:center;padding:var(--space-8) 0;">
         <div class="container">
           <script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
@@ -199,35 +311,78 @@
         </div>
       </div>
 
-
-
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo" aria-label="is-cool-me home">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span>is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers.</p>
+      <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-migration-note">
+          &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
+          operating subdomains on <code>is-pro.dev</code> and
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>.
+        </div>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
+            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/showcase/" class="footer-link">Showcase</a>
+              <a href="/trending/" class="footer-link">Trending</a>
+              <a href="/tools/" class="footer-link">Tools</a>
+              <a href="/compare/" class="footer-link">Compare</a>
+              <a href="/tutorials/" class="footer-link">Tutorials</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
       </div>
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="/">Home</a>
-        <a href="/domains/">Domains</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-        <a href="/terms/">Terms</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/abuse-report/">Report Abuse</a>
-      </nav>
-      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
-
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div class="footer-inline-links">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
 <script src="/js/app.js" defer></script>
 </body>
 </html>

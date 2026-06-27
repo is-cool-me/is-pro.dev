@@ -6,17 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Set Up Uptime Monitoring for Your Subdomain Services — is-cool-me</title>
-  <meta name="description" content="Monitor your subdomains for downtime using free tools like UptimeRobot or Better Stack, configure alerting webhooks, and use the data to maintain a reliable service." />
-  <meta name="keywords" content="monitoring, uptime, status page, alerts, devops, health check" />
+  <meta name="description" content="Guide about Set Up Uptime Monitoring for Your Subdomain Services" />
   <link rel="canonical" href="https://is-pro.dev/guides/monitoring-subdomain-health/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/monitoring-subdomain-health/" />
   <meta property="og:title" content="Set Up Uptime Monitoring for Your Subdomain Services — is-cool-me" />
-  <meta property="og:description" content="Monitor your subdomains for downtime using free tools like UptimeRobot or Better Stack, configure alerting webhooks, and use the data to maintain a reliable service." />
+  <meta property="og:description" content="Guide about Set Up Uptime Monitoring for Your Subdomain Services" />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Set Up Uptime Monitoring for Your Subdomain Services — is-cool-me" />
-  <meta name="twitter:description" content="Monitor your subdomains for downtime using free tools like UptimeRobot or Better Stack, configure alerting webhooks, and use the data to maintain a reliable service." />
+  <meta name="twitter:description" content="Guide about Set Up Uptime Monitoring for Your Subdomain Services" />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -36,7 +35,7 @@
       "@id": "https://is-pro.dev/#website",
       "url": "https://is-pro.dev",
       "name": "Set Up Uptime Monitoring for Your Subdomain Services — is-cool-me",
-      "description": "Monitor your subdomains for downtime using free tools like UptimeRobot or Better Stack, configure alerting webhooks, and use the data to maintain a reliable service.",
+      "description": "Guide about Set Up Uptime Monitoring for Your Subdomain Services",
       "publisher": {
         "@type": "Organization",
         "name": "is-cool-me",
@@ -50,7 +49,7 @@
     {
       "@type": "TechArticle",
       "headline": "Set Up Uptime Monitoring for Your Subdomain Services",
-      "description": "Monitor your subdomains for downtime using free tools like UptimeRobot or Better Stack, configure alerting webhooks, and use the data to maintain a reliable service.",
+      "description": "Guide about Set Up Uptime Monitoring for Your Subdomain Services",
       "author": {
         "@type": "Person",
         "name": "Mayank Baswal",
@@ -65,8 +64,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-26",
-      "dateModified": "2026-06-26",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-06-27",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/monitoring-subdomain-health/"
@@ -136,12 +135,13 @@
     <div class="container">
       <div class="article-hero-inner">
         <div class="article-meta">
-          <span class="article-category">DevOps</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
-          <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
+          <span class="article-category">Guide</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
+          <span class="article-meta-item">Published June 2026</span>
+          <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Set Up Uptime Monitoring for Your Subdomain Services</h1>
-        <p class="article-summary">Monitor your subdomains for downtime using free tools like UptimeRobot or Better Stack, configure alerting webhooks, and use the data to maintain a reliable service.</p>
+        <p class="article-summary">Guide about Set Up Uptime Monitoring for Your Subdomain Services</p>
       </div>
     </div>
   </header>
@@ -170,68 +170,137 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to Uptime Monitoring
-          Setting up uptime monitoring for your subdomain services is crucial to ensure high availability and reliability. As a developer on the is-cool-me platform, you can leverage uptime monitoring to detect issues before they affect your users. For instance, if you're hosting a web application on `myproject.is-pro.dev`, you'll want to monitor its uptime to ensure that it's always accessible to your users. In this guide, we'll walk you through the process of setting up uptime monitoring for your subdomain services.
+          ## Introduction
+          Setting up uptime monitoring for subdomain services is crucial for ensuring the reliability and availability of web applications. As a developer on the is-cool-me platform, you understand the importance of maintaining a high level of service quality, especially when your project is hosted on a subdomain like myproject.is-pro.dev. Uptime monitoring involves tracking the health and responsiveness of your subdomain services, allowing you to quickly identify and resolve issues before they impact your users. In this comprehensive guide, we will walk you through the process of setting up uptime monitoring for your subdomain services, covering the prerequisites, step-by-step instructions, configuration options, common pitfalls, and best practices. By the end of this guide, you will have a solid understanding of how to implement effective uptime monitoring for your subdomain services.
           
           ## Prerequisites
-          Before you begin, make sure you have the following prerequisites in place:
-          - A subdomain set up on the is-cool-me platform (e.g., `myproject.is-pro.dev`)
-          - A basic understanding of DevOps practices and monitoring concepts
-          - Access to a monitoring tool or service (e.g., Uptime Robot, Pingdom)
+          Before setting up uptime monitoring for your subdomain services, you need to have a few prerequisites in place. First, you should have a basic understanding of the is-cool-me platform and its subdomain structure. You should also have a project set up on the platform, such as myproject.is-pro.dev, and have access to the project's configuration settings. Additionally, you will need to choose an uptime monitoring tool, such as Uptime Robot or Pingdom, that supports subdomain monitoring. It is also recommended to have a basic understanding of HTTP protocols and response codes, as well as familiarity with command-line interfaces and API interactions. With these prerequisites in place, you can proceed to set up uptime monitoring for your subdomain services.
           
-          ## Setting Up Uptime Monitoring
-          To set up uptime monitoring for your subdomain service, follow these step-by-step instructions:
-          1. **Choose a Monitoring Tool**: Select a monitoring tool that fits your needs. For this example, we'll use Uptime Robot. Create an account and add a new monitor for your subdomain (`myproject.is-pro.dev`).
-          2. **Configure the Monitor**: Set the monitor type to "HTTP(s)" and enter your subdomain URL (`https://myproject.is-pro.dev`). You can also set the monitoring interval (e.g., every 1 minute) and the timeout (e.g., 10 seconds).
-          3. **Set Up Alerts**: Configure alerts to notify you when your subdomain is down. You can set up alerts via email, SMS, or integrations with other tools (e.g., Slack, PagerDuty).
-          4. **Verify the Monitor**: Once you've set up the monitor, verify that it's working correctly. You can do this by temporarily taking your subdomain offline and checking if you receive an alert.
+          ## Step-by-step instructions
+          To set up uptime monitoring for your subdomain services, follow these step-by-step instructions:
+          1. **Create an account with an uptime monitoring tool**: Sign up for an account with Uptime Robot or Pingdom, and create a new monitor for your subdomain, such as myproject.is-pro.dev.
+          2. **Configure the monitor settings**: Set the monitoring interval, timeout, and notification preferences for your monitor. For example, you can set the monitoring interval to 1 minute and the timeout to 30 seconds.
+          3. **Add the monitor to your subdomain**: Use the uptime monitoring tool's API to add the monitor to your subdomain. For example, you can use the Uptime Robot API to create a new monitor with the following command:
+          ```bash
+          curl -X POST \
+            https://api.uptimerobot.com/v2/newMonitor \
+            -H 'Content-Type: application/x-www-form-urlencoded' \
+            -d 'friendlyName=myproject&url=http://myproject.is-pro.dev&monitorType=1&subType=1&port=80&interval=1&timeout=30&notificationSettings=1'
+          ```
+          4. **Verify the monitor**: Verify that the monitor is working correctly by checking the uptime monitoring tool's dashboard or using the API to retrieve the monitor's status.
+          5. **Configure notification settings**: Configure the notification settings for your monitor, such as setting up email or SMS notifications for downtime alerts.
           
-          ## Common Pitfalls and Solutions
-          When setting up uptime monitoring, you may encounter some common pitfalls. Here are some solutions to help you overcome them:
-          - **False Positives**: If you're receiving false positive alerts, check your monitor's configuration and adjust the timeout or monitoring interval as needed.
-          - **False Negatives**: If you're not receiving alerts when your subdomain is down, check your alert configuration and ensure that you've set up the correct notification channels.
-          - **Monitor Overload**: If you're monitoring multiple subdomains, be mindful of the monitoring tool's limits and adjust your configuration to avoid overload.
+          ## Configuration deep-dive
+          When configuring your uptime monitor, you will need to specify several settings, including the monitor type, URL, interval, timeout, and notification settings. The following table summarizes the configuration options for Uptime Robot:
+          | Setting | Description | Example Value |
+          | --- | --- | --- |
+          | friendlyName | The name of the monitor | myproject |
+          | url | The URL of the subdomain to monitor | http://myproject.is-pro.dev |
+          | monitorType | The type of monitor (e.g. HTTP, Ping) | 1 (HTTP) |
+          | subType | The subtype of monitor (e.g. HTTP, HTTPS) | 1 (HTTP) |
+          | port | The port number to use for the monitor | 80 |
+          | interval | The monitoring interval (in minutes) | 1 |
+          | timeout | The timeout value (in seconds) | 30 |
+          | notificationSettings | The notification settings for the monitor | 1 (email notifications) |
           
-          ## Best Practices
-          To get the most out of your uptime monitoring setup, follow these best practices:
-          - **Monitor Multiple Endpoints**: Monitor multiple endpoints (e.g., `/`, `/api`, `/admin`) to ensure that all parts of your application are working correctly.
-          - **Use a Status Page**: Set up a status page (e.g., `https://status.myproject.is-pro.dev`) to provide transparency to your users and stakeholders.
-          - **Integrate with Your DevOps Tools**: Integrate your monitoring tool with your DevOps tools (e.g., GitHub, Jira) to streamline your workflow and improve incident response.
+          For example, to configure a monitor for the subdomain api.myproject.is-pro.dev, you would use the following configuration settings:
+          ```json
+          {
+            "friendlyName": "myproject-api",
+            "url": "http://api.myproject.is-pro.dev",
+            "monitorType": 1,
+            "subType": 1,
+            "port": 80,
+            "interval": 1,
+            "timeout": 30,
+            "notificationSettings": 1
+          }
+          ```
+          You can use the Uptime Robot API to create a new monitor with these configuration settings using the following command:
+          ```bash
+          curl -X POST \
+            https://api.uptimerobot.com/v2/newMonitor \
+            -H 'Content-Type: application/x-www-form-urlencoded' \
+            -d 'friendlyName=myproject-api&url=http://api.myproject.is-pro.dev&monitorType=1&subType=1&port=80&interval=1&timeout=30&notificationSettings=1'
+          ```
           
-          ## Performance Considerations
-          When setting up uptime monitoring, consider the performance implications of your monitoring setup:
-          - **Monitoring Frequency**: Be mindful of the monitoring frequency to avoid overwhelming your subdomain with requests.
-          - **Resource Usage**: Monitor your subdomain's resource usage (e.g., CPU, memory) to ensure that it's not affecting performance.
-          - **Caching and CDNs**: If you're using caching or CDNs, ensure that your monitoring setup takes these into account to avoid false positives or negatives.
+          ## Common pitfalls and solutions
+          When setting up uptime monitoring for your subdomain services, you may encounter several common pitfalls. Here are five common pitfalls and their solutions:
+          1. **Incorrect monitor configuration**: Make sure to double-check your monitor configuration settings, such as the URL, interval, and timeout values. Incorrect settings can result in false positives or false negatives.
+          2. **Insufficient notification settings**: Ensure that you have configured notification settings correctly, such as setting up email or SMS notifications for downtime alerts. Insufficient notification settings can result in delayed or missed notifications.
+          3. **Monitor not running**: Verify that the monitor is running correctly by checking the uptime monitoring tool's dashboard or using the API to retrieve the monitor's status. If the monitor is not running, check the configuration settings and restart the monitor if necessary.
+          4. **False positives**: False positives can occur if the monitor is not configured correctly or if there are issues with the subdomain's DNS resolution. To resolve false positives, check the monitor's configuration settings and verify that the subdomain's DNS resolution is correct.
+          5. **Monitor not scaling**: If you have a large number of subdomains to monitor, you may need to scale your monitor to handle the increased load. To resolve this issue, consider upgrading your uptime monitoring plan or using a load balancer to distribute the traffic.
           
-          ## Troubleshooting
-          If you encounter issues with your uptime monitoring setup, follow these troubleshooting steps:
-          - **Check the Monitor Logs**: Check the monitor logs to identify any issues or errors.
-          - **Verify the Subdomain Configuration**: Verify that your subdomain configuration is correct and that the monitoring tool can access it.
-          - **Test the Alert Configuration**: Test the alert configuration to ensure that notifications are being sent correctly.
+          ## Best practices
+          To ensure optimal performance, security, and maintainability of your uptime monitoring setup, follow these best practices:
+          * **Use a reliable uptime monitoring tool**: Choose a reputable uptime monitoring tool that supports subdomain monitoring and has a proven track record of reliability and accuracy.
+          * **Configure monitors correctly**: Double-check your monitor configuration settings to ensure that they are correct and consistent.
+          * **Use secure protocols**: Use secure protocols, such as HTTPS, to encrypt communication between the uptime monitoring tool and your subdomain.
+          * **Regularly review and update monitors**: Regularly review and update your monitors to ensure that they are still relevant and effective.
+          * **Use load balancing**: Consider using load balancing to distribute traffic to your subdomains and prevent overload.
           
-          ## Conclusion and Next Steps
-          In this guide, we've walked you through the process of setting up uptime monitoring for your subdomain services on the is-cool-me platform. By following these steps and best practices, you can ensure that your subdomain is always available and reliable. Next, consider integrating your monitoring setup with your DevOps tools and exploring advanced monitoring features (e.g., synthetic monitoring, RUM).
+          ## Troubleshooting section
+          If you encounter issues with your uptime monitoring setup, follow these diagnostic steps to troubleshoot the problem:
+          1. **Check the monitor's status**: Verify that the monitor is running correctly by checking the uptime monitoring tool's dashboard or using the API to retrieve the monitor's status.
+          2. **Check the subdomain's DNS resolution**: Verify that the subdomain's DNS resolution is correct and that the subdomain is reachable.
+          3. **Check the monitor's configuration settings**: Double-check the monitor's configuration settings to ensure that they are correct and consistent.
+          4. **Check for false positives**: Verify that the monitor is not producing false positives by checking the monitor's logs and verifying that the subdomain is reachable.
+          5. **Check for scaling issues**: Verify that the monitor is scaling correctly to handle the increased load by checking the uptime monitoring tool's dashboard or using the API to retrieve the monitor's status.
+          
+          ## Deployment scenario from operations
+          Here is a real-world example of deploying uptime monitoring for a subdomain service:
+          Suppose we have a subdomain service hosted on myproject.is-pro.dev, and we want to set up uptime monitoring for the service. We create a new monitor using Uptime Robot and configure the monitor to check the subdomain's HTTP response code every 1 minute. We also configure notification settings to send email notifications when the subdomain is down. To deploy the monitor, we use the Uptime Robot API to create a new monitor with the following configuration settings:
+          ```json
+          {
+            "friendlyName": "myproject",
+            "url": "http://myproject.is-pro.dev",
+            "monitorType": 1,
+            "subType": 1,
+            "port": 80,
+            "interval": 1,
+            "timeout": 30,
+            "notificationSettings": 1
+          }
+          ```
+          We then use the Uptime Robot API to create a new monitor with the following command:
+          ```bash
+          curl -X POST \
+            https://api.uptimerobot.com/v2/newMonitor \
+            -H 'Content-Type: application/x-www-form-urlencoded' \
+            -d 'friendlyName=myproject&url=http://myproject.is-pro.dev&monitorType=1&subType=1&port=80&interval=1&timeout=30&notificationSettings=1'
+          ```
+          Once the monitor is deployed, we verify that it is working correctly by checking the uptime monitoring tool's dashboard or using the API to retrieve the monitor's status.
+          
+          ## Common mistakes
+          Here are five common mistakes to avoid when setting up uptime monitoring for your subdomain services:
+          * **Not configuring monitors correctly**: Failing to double-check monitor configuration settings can result in false positives or false negatives.
+          * **Not using secure protocols**: Failing to use secure protocols, such as HTTPS, can compromise the security of your uptime monitoring setup.
+          * **Not scaling monitors**: Failing to scale monitors to handle increased load can result in monitor overload and false negatives.
+          * **Not reviewing and updating monitors**: Failing to regularly review and update monitors can result in outdated or ineffective monitors.
+          * **Not using load balancing**: Failing to use load balancing can result in overload and false negatives.
+          
+          ## How to verify it works
+          To verify that your uptime monitoring setup is working correctly, follow these steps:
+          1. **Check the monitor's status**: Verify that the monitor is running correctly by checking the uptime monitoring tool's dashboard or using the API to retrieve the monitor's status.
+          2. **Check the subdomain's DNS resolution**: Verify that the subdomain's DNS resolution is correct and that the subdomain is reachable.
+          3. **Check the monitor's logs**: Verify that the monitor is producing accurate logs by checking the monitor's logs and verifying that the subdomain is reachable.
+          4. **Check for false positives**: Verify that the monitor is not producing false positives by checking the monitor's logs and verifying that the subdomain is reachable.
+          5. **Check for scaling issues**: Verify that the monitor is scaling correctly to handle the increased load by checking the uptime monitoring tool's dashboard or using the API to retrieve the monitor's status.
+          
+          ## Conclusion with next steps
+          In conclusion, setting up uptime monitoring for your subdomain services is a critical step in ensuring the reliability and availability of your web applications. By following the step-by-step instructions and best practices outlined in this guide, you can implement effective uptime monitoring for your subdomain services. Next steps include regularly reviewing and updating your monitors to ensure that they are still relevant and effective, and considering the use of load balancing to distribute traffic to your subdomains. Additionally, you may want to explore advanced features, such as custom notification settings and integration with other tools and services.
           
           ## FAQ
-          Q: How often should I monitor my subdomain?
-          A: The monitoring frequency depends on your specific use case. As a general rule, monitor your subdomain every 1-5 minutes.
-          Q: Can I monitor multiple subdomains with a single monitoring tool?
-          A: Yes, most monitoring tools allow you to monitor multiple subdomains. Check the tool's documentation for specific instructions.
-          Q: How do I handle false positives or false negatives?
-          A: Adjust your monitor's configuration (e.g., timeout, monitoring interval) and alert setup to minimize false positives or negatives.
-          Q: Can I use uptime monitoring with a CDN or caching layer?
-          A: Yes, but ensure that your monitoring setup takes these into account to avoid false positives or negatives.
-          Q: What's the difference between uptime monitoring and synthetic monitoring?
-          A: Uptime monitoring checks the availability of your subdomain, while synthetic monitoring simulates user interactions to test the functionality of your application.
-          
-          ## Further Reading
-          For more information on uptime monitoring and related topics, check out the following resources:
-          - Uptime Robot: A popular monitoring tool for uptime and performance monitoring.
-          - Pingdom: A monitoring tool that offers uptime and performance monitoring, as well as synthetic monitoring and RUM.
-          - GitHub: A platform for version control and collaboration that integrates with many monitoring tools.
-          - Prometheus: An open-source monitoring system that offers advanced monitoring features and integrations.
-          - New Relic: A monitoring tool that offers performance monitoring, synthetic monitoring, and RUM, as well as integrations with popular DevOps tools.
+          Here are four frequently asked questions about setting up uptime monitoring for subdomain services:
+          **Q: What is uptime monitoring, and why is it important?**
+          A: Uptime monitoring involves tracking the health and responsiveness of your subdomain services, allowing you to quickly identify and resolve issues before they impact your users. Uptime monitoring is important because it helps ensure the reliability and availability of your web applications, which is critical for maintaining a high level of service quality.
+          **Q: How do I choose an uptime monitoring tool?**
+          A: When choosing an uptime monitoring tool, consider factors such as the tool's reliability, accuracy, and scalability, as well as its ease of use and customization options. You should also consider the tool's support for subdomain monitoring and its integration with other tools and services.
+          **Q: How do I configure my uptime monitor?**
+          A: To configure your uptime monitor, you will need to specify several settings, including the monitor type, URL, interval, timeout, and notification settings. You can use the uptime monitoring tool's API to create a new monitor with the desired configuration settings.
+          **Q: What are some common pitfalls to avoid when setting up uptime monitoring?**
+          A: Common pitfalls to avoid when setting up uptime monitoring include not configuring monitors correctly, not using secure protocols, not scaling monitors, not reviewing and updating monitors, and not using load balancing. By avoiding these pitfalls, you can ensure that your uptime monitoring setup is effective and reliable.
         </div>
       </div>
     </div>
@@ -245,74 +314,13 @@
     <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fmonitoring-subdomain-health%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
     </a>
-  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
-    <a href="/guides/game-server-subdomain-config/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
-      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
-      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Configure Subdomains for Game Servers and Multiplayer</span>
-    </a><a href="/guides/redirect-old-domain-to-new/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
-      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
-      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Redirect an Old Domain to Your New Subdomain Permanently</span>
-    </a>
-  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
-        <article class="post-card" data-reveal>
-            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            </div>
-            <div class="post-card-body">
-              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
-              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
-              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
-              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
-            </div>
-          </article><article class="post-card" data-reveal>
-            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            </div>
-            <div class="post-card-body">
-              <div class="post-card-tags"><span class="post-card-tag">Deployment</span></div>
-              <h3 class="post-card-title">Deploy to a VPS Using SSH and a Custom Subdomain</h3>
-              <p class="post-card-excerpt">Configure a subdomain to point to a VPS server, set up Nginx as a reverse proxy, manage SSL certificates with Certbot, and automate deployments with Git hooks.</p>
-              <a href="/guides/vps-deployment-with-ssh/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
-            </div>
-          </article>
-      </div>
-    </div>
-  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+  </div>
+
+<section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
-        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/trending/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Trending</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-        <li><a href="/tutorials/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Tutorials</a></li>
-      </ul>
-    </div>
+      
       </div>
     </div>
   </section>

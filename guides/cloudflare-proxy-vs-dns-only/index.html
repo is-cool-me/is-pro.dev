@@ -6,17 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me</title>
-  <meta name="description" content="Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
-  <meta name="keywords" content="cloudflare, proxy, dns, cdn, performance, security" />
+  <meta name="description" content="Guide about Cloudflare Proxy vs DNS-Only: When to Use Each Mode" />
   <link rel="canonical" href="https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/" />
   <meta property="og:title" content="Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me" />
-  <meta property="og:description" content="Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
+  <meta property="og:description" content="Guide about Cloudflare Proxy vs DNS-Only: When to Use Each Mode" />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me" />
-  <meta name="twitter:description" content="Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains." />
+  <meta name="twitter:description" content="Guide about Cloudflare Proxy vs DNS-Only: When to Use Each Mode" />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
@@ -36,7 +35,7 @@
       "@id": "https://is-pro.dev/#website",
       "url": "https://is-pro.dev",
       "name": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode — is-cool-me",
-      "description": "Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
+      "description": "Guide about Cloudflare Proxy vs DNS-Only: When to Use Each Mode",
       "publisher": {
         "@type": "Organization",
         "name": "is-cool-me",
@@ -50,7 +49,7 @@
     {
       "@type": "TechArticle",
       "headline": "Cloudflare Proxy vs DNS-Only: When to Use Each Mode",
-      "description": "Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.",
+      "description": "Guide about Cloudflare Proxy vs DNS-Only: When to Use Each Mode",
       "author": {
         "@type": "Person",
         "name": "Mayank Baswal",
@@ -65,8 +64,8 @@
           "url": "https://is-pro.dev/dist/images/logo.png"
         }
       },
-      "datePublished": "2026-06-26",
-      "dateModified": "2026-06-26",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-06-27",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://is-pro.dev/guides/cloudflare-proxy-vs-dns-only/"
@@ -136,12 +135,13 @@
     <div class="container">
       <div class="article-hero-inner">
         <div class="article-meta">
-          <span class="article-category">Security</span>
-          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-category">Guide</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>9 min read</span>
+          <span class="article-meta-item">Published June 2026</span>
           <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
         <h1>Cloudflare Proxy vs DNS-Only: When to Use Each Mode</h1>
-        <p class="article-summary">Understand the practical differences between Cloudflare's proxy (orange cloud) and DNS-only (gray cloud) modes, and learn which to use for different types of subdomains.</p>
+        <p class="article-summary">Guide about Cloudflare Proxy vs DNS-Only: When to Use Each Mode</p>
       </div>
     </div>
   </header>
@@ -170,73 +170,174 @@
     <div class="container">
       <div class="article-layout-inner">
         <div class="article-content prose">
-          ## Introduction to Cloudflare Modes
-          Cloudflare is a popular platform that provides a range of services, including content delivery network (CDN), security, and performance optimization. When setting up a project on is-cool-me subdomains, such as myproject.is-pro.dev, developers often face a crucial decision: whether to use Cloudflare's proxy mode or DNS-only mode. In this guide, we will explore the differences between these two modes, their use cases, and provide step-by-step instructions on how to configure them.
+          ## Introduction
+          As a developer setting up projects on is-cool-me subdomains, understanding the differences between Cloudflare Proxy and DNS-Only modes is crucial for optimizing performance, security, and maintainability. Cloudflare is a popular platform that offers a range of features, including content delivery network (CDN), security, and performance optimization. When setting up a project on a subdomain like myproject.is-pro.dev, choosing the right mode can significantly impact the user experience and the overall success of the project. In this guide, we will delve into the details of Cloudflare Proxy and DNS-Only modes, exploring their characteristics, use cases, and configuration options. By the end of this comprehensive guide, developers will be equipped with the knowledge to make informed decisions about which mode to use for their projects on is-cool-me subdomains.
           
           ## Prerequisites
-          Before diving into the configuration process, ensure you have the following:
-          - A Cloudflare account
-          - A domain or subdomain set up on is-cool-me (e.g., myproject.is-pro.dev)
-          - Basic understanding of DNS records and Cloudflare services
+          Before diving into the details of Cloudflare Proxy and DNS-Only modes, it's essential to have a basic understanding of DNS, CDN, and Cloudflare. Readers should have already set up their project on an is-cool-me subdomain, such as myproject.is-pro.dev, and have a Cloudflare account. Additionally, familiarity with DNS records, such as A, CNAME, and TXT records, is necessary. It's also recommended to have a basic understanding of web development and networking concepts. To get started, ensure that your project is set up on the is-cool-me platform and that you have a Cloudflare account. If you haven't already, create a Cloudflare account and add your domain, myproject.is-pro.dev, to the platform.
           
-          ## Configuring Cloudflare Proxy Mode
-          Proxy mode, also known as "CDN" mode, allows Cloudflare to sit between your origin server and your visitors, caching content, filtering traffic, and applying security rules. To enable proxy mode for your is-cool-me subdomain:
-          1. Log in to your Cloudflare account and go to the "DNS" tab.
-          2. Click "Add a record" and select "A" or "CNAME" depending on your setup.
-          3. Enter the subdomain (e.g., "myproject") and the IP address or target CNAME.
-          4. Toggle the proxy status to "Proxied" (orange cloud icon).
-          5. Save the record.
+          ## Step-by-step instructions
+          To configure Cloudflare for your project on myproject.is-pro.dev, follow these steps:
+          1. Log in to your Cloudflare account and navigate to the "DNS" tab.
+          2. Click on "Add a record" and select "A" as the record type.
+          3. Enter the name of your subdomain, "myproject", and the IP address of your server.
+          4. Set the proxy status to "Proxied" (orange cloud) for Cloudflare Proxy mode or "DNS only" (gray cloud) for DNS-Only mode.
+          5. Repeat steps 2-4 for other record types, such as CNAME and TXT records.
+          6. Configure the page rules for your project by navigating to the "Page Rules" tab.
+          7. Click on "Create Page Rule" and select the URL pattern for your project, such as "http://myproject.is-pro.dev/*".
+          8. Configure the settings for the page rule, such as caching, SSL, and security levels.
+          Here's an example of how to configure a page rule using the Cloudflare API:
+          ```bash
+          curl -X POST \
+            https://api.cloudflare.com/client/v4/zones/zone_id/pagerules \
+            -H 'Content-Type: application/json' \
+            -H 'X-Auth-Email: email@example.com' \
+            -H 'X-Auth-Key: api_key' \
+            -d '{
+                  "actions": [
+                    {
+                      "id": "cache_level",
+                      "value": "cache_everything"
+                    }
+                  ],
+                  "priority": 1,
+                  "targets": [
+                    {
+                      "operator": "EQ",
+                      "target": "url",
+                      "value": "http://myproject.is-pro.dev/*"
+                    }
+                  ]
+                }'
+          ```
+          Replace "zone_id", "email@example.com", and "api_key" with your actual Cloudflare zone ID, email, and API key.
           
-          Example: For myproject.is-pro.dev, you might add a CNAME record pointing to your origin server, with the proxy status set to "Proxied".
+          ## Configuration deep-dive
+          When configuring Cloudflare for your project on myproject.is-pro.dev, there are several options to consider. The following table summarizes the key differences between Cloudflare Proxy and DNS-Only modes:
+          | Mode | Proxy Status | Caching | SSL | Security |
+          | --- | --- | --- | --- | --- |
+          | Cloudflare Proxy | Proxied (orange cloud) | Enabled | Optional | Enhanced |
+          | DNS-Only | DNS only (gray cloud) | Disabled | Optional | Standard |
+          For example, to configure the caching settings for your project, navigate to the "Caching" tab and select the cache level, such as "Cache everything" or "Cache nothing". You can also configure the cache expiration time and the cache headers.
+          To configure the SSL settings for your project, navigate to the "SSL/TLS" tab and select the SSL mode, such as "Flexible" or "Full". You can also configure the SSL certificate and the SSL headers.
+          Here's an example of how to configure the caching settings using the Cloudflare API:
+          ```bash
+          curl -X PATCH \
+            https://api.cloudflare.com/client/v4/zones/zone_id/caching \
+            -H 'Content-Type: application/json' \
+            -H 'X-Auth-Email: email@example.com' \
+            -H 'X-Auth-Key: api_key' \
+            -d '{
+                  "cache_level": "cache_everything"
+                }'
+          ```
+          Replace "zone_id", "email@example.com", and "api_key" with your actual Cloudflare zone ID, email, and API key.
           
-          ## Configuring Cloudflare DNS-Only Mode
-          DNS-only mode allows you to manage your DNS records through Cloudflare without routing traffic through their network. This mode is useful for managing DNS records without affecting existing CDN or security setups. To enable DNS-only mode:
-          1. Follow the same initial steps as for proxy mode.
-          2. When adding the DNS record, ensure the proxy status is set to "DNS only" (gray cloud icon).
-          3. Save the record.
+          ## Common pitfalls and solutions
+          When configuring Cloudflare for your project on myproject.is-pro.dev, there are several common pitfalls to watch out for:
+          1. **Incorrect proxy status**: Ensure that the proxy status is set to "Proxied" (orange cloud) for Cloudflare Proxy mode or "DNS only" (gray cloud) for DNS-Only mode.
+          2. **Inconsistent caching settings**: Ensure that the caching settings are consistent across all page rules and configurations.
+          3. **Incorrect SSL settings**: Ensure that the SSL settings are correct and consistent across all page rules and configurations.
+          4. **Insufficient security settings**: Ensure that the security settings are sufficient and consistent across all page rules and configurations.
+          5. **Incorrect DNS records**: Ensure that the DNS records are correct and consistent across all configurations.
+          To fix these issues, review your Cloudflare configuration and DNS records, and make adjustments as necessary. Here's an example of how to troubleshoot caching issues using the Cloudflare API:
+          ```bash
+          curl -X GET \
+            https://api.cloudflare.com/client/v4/zones/zone_id/caching \
+            -H 'Content-Type: application/json' \
+            -H 'X-Auth-Email: email@example.com' \
+            -H 'X-Auth-Key: api_key'
+          ```
+          Replace "zone_id", "email@example.com", and "api_key" with your actual Cloudflare zone ID, email, and API key.
           
-          Example: If you want to manage DNS records for myproject.is-pro.dev without using Cloudflare's CDN, set the proxy status to "DNS only".
+          ## Best practices
+          To optimize the performance, security, and maintainability of your project on myproject.is-pro.dev, follow these best practices:
+          1. **Use Cloudflare Proxy mode**: Use Cloudflare Proxy mode to enable caching, SSL, and security features.
+          2. **Configure caching settings**: Configure caching settings to optimize performance and reduce latency.
+          3. **Use SSL**: Use SSL to encrypt traffic and protect user data.
+          4. **Configure security settings**: Configure security settings to protect against common web attacks.
+          5. **Monitor performance**: Monitor performance and adjust configurations as necessary.
+          By following these best practices, you can ensure that your project on myproject.is-pro.dev is optimized for performance, security, and maintainability.
           
-          ## Common Pitfalls and Solutions
-          - **Mixed Mode Records**: Avoid mixing proxied and DNS-only records for the same subdomain, as this can lead to inconsistent behavior. Instead, use separate subdomains for different modes.
-          - **Caching Issues**: If you notice caching issues after enabling proxy mode, check your page rules and cache settings to ensure they are configured correctly.
-          - **Security Rules**: Be cautious when applying security rules, as overly restrictive settings can block legitimate traffic. Monitor your traffic logs and adjust rules as necessary.
+          ## Troubleshooting section
+          To troubleshoot issues with your Cloudflare configuration, follow these steps:
+          1. **Review Cloudflare logs**: Review Cloudflare logs to identify errors and issues.
+          2. **Check DNS records**: Check DNS records to ensure that they are correct and consistent.
+          3. **Test caching settings**: Test caching settings to ensure that they are working correctly.
+          4. **Test SSL settings**: Test SSL settings to ensure that they are working correctly.
+          5. **Contact Cloudflare support**: Contact Cloudflare support for assistance with troubleshooting and resolving issues.
+          Here's an example of how to troubleshoot caching issues using the Cloudflare API:
+          ```bash
+          curl -X GET \
+            https://api.cloudflare.com/client/v4/zones/zone_id/caching \
+            -H 'Content-Type: application/json' \
+            -H 'X-Auth-Email: email@example.com' \
+            -H 'X-Auth-Key: api_key'
+          ```
+          Replace "zone_id", "email@example.com", and "api_key" with your actual Cloudflare zone ID, email, and API key.
           
-          ## Best Practices
-          - **Use Proxy Mode for Public Websites**: Proxy mode offers significant performance and security benefits for public-facing websites.
-          - **Use DNS-Only Mode for Private Services**: DNS-only mode is suitable for private services or applications where you only need to manage DNS records without exposing them to the public.
-          - **Regularly Review DNS Records**: Ensure your DNS records are up-to-date and correctly configured to avoid service disruptions.
+          ## Deployment scenario from operations
+          Here's an example of a deployment scenario for a project on myproject.is-pro.dev:
+          * **Step 1**: Set up a new Cloudflare account and add the domain myproject.is-pro.dev.
+          * **Step 2**: Configure the DNS records for myproject.is-pro.dev to point to the Cloudflare nameservers.
+          * **Step 3**: Configure the Cloudflare Proxy mode and caching settings for myproject.is-pro.dev.
+          * **Step 4**: Configure the SSL settings for myproject.is-pro.dev.
+          * **Step 5**: Test the configuration and ensure that it is working correctly.
+          Here's an example of how to configure the Cloudflare Proxy mode and caching settings using the Cloudflare API:
+          ```bash
+          curl -X PATCH \
+            https://api.cloudflare.com/client/v4/zones/zone_id/caching \
+            -H 'Content-Type: application/json' \
+            -H 'X-Auth-Email: email@example.com' \
+            -H 'X-Auth-Key: api_key' \
+            -d '{
+                  "cache_level": "cache_everything"
+                }'
+          ```
+          Replace "zone_id", "email@example.com", and "api_key" with your actual Cloudflare zone ID, email, and API key.
           
-          ## Performance Considerations
-          - **Caching**: Enable caching for static resources to reduce the load on your origin server and improve page load times.
-          - **Content Compression**: Use Cloudflare's content compression features to reduce the size of transferred data.
-          - **Edge Locations**: Take advantage of Cloudflare's global edge network to serve content closer to your users, reducing latency.
+          ## Common mistakes
+          Here are some common mistakes to watch out for when configuring Cloudflare for your project on myproject.is-pro.dev:
+          * **Incorrect proxy status**: Failing to set the proxy status to "Proxied" (orange cloud) for Cloudflare Proxy mode or "DNS only" (gray cloud) for DNS-Only mode.
+          * **Inconsistent caching settings**: Failing to configure consistent caching settings across all page rules and configurations.
+          * **Incorrect SSL settings**: Failing to configure correct SSL settings for your project.
+          * **Insufficient security settings**: Failing to configure sufficient security settings for your project.
+          * **Incorrect DNS records**: Failing to configure correct DNS records for your project.
           
-          ## Troubleshooting
-          - **Origin Server Errors**: If you encounter errors reaching your origin server, check your DNS records, server configuration, and firewall settings.
-          - **Cloudflare Configuration**: Review your Cloudflare configuration, including page rules, cache settings, and security rules, to identify potential issues.
-          - **Traffic Logs**: Analyze traffic logs to diagnose issues with caching, security rules, or other Cloudflare features.
+          ## How to verify it works
+          To verify that your Cloudflare configuration is working correctly, follow these steps:
+          1. **Test caching**: Test caching by accessing your project on myproject.is-pro.dev and verifying that the cache is working correctly.
+          2. **Test SSL**: Test SSL by accessing your project on myproject.is-pro.dev and verifying that the SSL certificate is working correctly.
+          3. **Test security**: Test security by accessing your project on myproject.is-pro.dev and verifying that the security settings are working correctly.
+          4. **Review Cloudflare logs**: Review Cloudflare logs to ensure that there are no errors or issues.
+          5. **Monitor performance**: Monitor performance to ensure that the configuration is optimized for performance.
+          Here's an example of how to test caching using the Cloudflare API:
+          ```bash
+          curl -X GET \
+            https://api.cloudflare.com/client/v4/zones/zone_id/caching \
+            -H 'Content-Type: application/json' \
+            -H 'X-Auth-Email: email@example.com' \
+            -H 'X-Auth-Key: api_key'
+          ```
+          Replace "zone_id", "email@example.com", and "api_key" with your actual Cloudflare zone ID, email, and API key.
           
-          ## Conclusion and Next Steps
-          In conclusion, choosing between Cloudflare's proxy and DNS-only modes depends on your specific needs. By understanding the differences and use cases for each mode, you can optimize your setup for better performance, security, and manageability. For further optimization and customization, explore Cloudflare's advanced features, such as worker scripts and custom page rules. Consider setting up monitoring and analytics tools to track your website's performance and security posture.
+          ## Conclusion with next steps
+          In conclusion, configuring Cloudflare for your project on myproject.is-pro.dev requires careful consideration of the proxy mode, caching settings, SSL settings, and security settings. By following the best practices and troubleshooting steps outlined in this guide, you can ensure that your project is optimized for performance, security, and maintainability. Next steps include:
+          * **Monitoring performance**: Continuously monitor performance to ensure that the configuration is optimized.
+          * **Reviewing Cloudflare logs**: Regularly review Cloudflare logs to identify errors and issues.
+          * **Updating configurations**: Update configurations as necessary to ensure that the project remains optimized.
           
           ## FAQ
-          1. **Q: Can I use both proxy and DNS-only modes for the same domain?**
-             A: While technically possible, it's not recommended due to potential inconsistencies. Instead, use separate subdomains for different modes.
-          2. **Q: How do I enable SSL/TLS encryption with Cloudflare?**
-             A: Cloudflare offers free SSL/TLS certificates. Enable SSL/TLS in the "SSL/TLS" tab of your Cloudflare dashboard and follow the setup instructions.
-          3. **Q: What happens if I change my origin server IP address?**
-             A: Update your DNS records in Cloudflare to reflect the new IP address. Ensure you update all relevant records to avoid service disruptions.
-          4. **Q: Can I use Cloudflare with other CDN services?**
-             A: Yes, but be cautious of potential conflicts. Configure your setup carefully to avoid caching issues or security rule conflicts.
-          5. **Q: How do I troubleshoot caching issues with Cloudflare?**
-             A: Check your cache settings, page rules, and browser cache to identify the source of the issue. Use Cloudflare's caching tools and logs to diagnose and resolve caching problems.
-          
-          ## Further Reading
-          - Cloudflare Documentation: [https://developers.cloudflare.com/](https://developers.cloudflare.com/)
-          - Cloudflare Community Forum: [https://community.cloudflare.com/](https://community.cloudflare.com/)
-          - Is-cool-me Developer Documentation: [https://is-cool-me.dev/docs](https://is-cool-me.dev/docs)
-          - Mozilla Developer Network: Web Performance Optimization: [https://developer.mozilla.org/en-US/docs/Web/Performance](https://developer.mozilla.org/en-US/docs/Web/Performance)
+          **Q: What is the difference between Cloudflare Proxy and DNS-Only modes?**
+          A: Cloudflare Proxy mode enables caching, SSL, and security features, while DNS-Only mode only provides DNS services.
+          **Q: How do I configure caching settings for my project on myproject.is-pro.dev?**
+          A: Configure caching settings by navigating to the "Caching" tab and selecting the cache level, such as "Cache everything" or "Cache nothing".
+          **Q: How do I troubleshoot caching issues for my project on myproject.is-pro.dev?**
+          A: Troubleshoot caching issues by reviewing Cloudflare logs, checking DNS records, and testing caching settings.
+          **Q: What are the best practices for configuring Cloudflare for my project on myproject.is-pro.dev?**
+          A: Best practices include using Cloudflare Proxy mode, configuring caching settings, using SSL, configuring security settings, and monitoring performance.
+          **Q: How do I verify that my Cloudflare configuration is working correctly for my project on myproject.is-pro.dev?**
+          A: Verify that the configuration is working correctly by testing caching, testing SSL, testing security, reviewing Cloudflare logs, and monitoring performance.
         </div>
       </div>
     </div>
@@ -250,64 +351,13 @@
     <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fcloudflare-proxy-vs-dns-only%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
     </a>
-  </div><div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
-    <a href="/guides/api-subdomain-with-aws-lambda/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
-      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
-      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Host an API Endpoint on a Subdomain with AWS Lambda</span>
-    </a><a href="/guides/anime-website-hosting-guide/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
-      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
-      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Host an Anime Fan Site or Wiki on a Free Subdomain</span>
-    </a>
-  </div><section style="padding:var(--space-8) 0;border-top:1px solid var(--color-border-sub);">
-    <div class="container">
-      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Related Articles</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
-        <article class="post-card" data-reveal>
-            <div class="post-card-thumb" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(6,182,212,0.12));display:flex;align-items:center;justify-content:center;">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            </div>
-            <div class="post-card-body">
-              <div class="post-card-tags"><span class="post-card-tag">DNS</span></div>
-              <h3 class="post-card-title">DNS Records Explained: A-Z Guide for Developers</h3>
-              <p class="post-card-excerpt">Understand every DNS record type — A, AAAA, CNAME, MX, TXT, SPF, DKIM, DMARC, SRV, and CAA — with practical examples and common use cases for subdomain configuration.</p>
-              <a href="/guides/dns-records-explained/" class="btn btn-outline btn-sm" style="margin-top:.75rem;align-self:flex-start;">Read More</a>
-            </div>
-          </article>
-      </div>
-    </div>
-  </section><section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+  </div>
+
+<section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
     <div class="container">
       <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
-        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
-        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
-        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
-        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
-        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
-        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
-      </ul>
-    </div>
-    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
-      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
-      <ul style="display:flex;flex-direction:column;gap:.35rem;">
-        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
-        <li><a href="/trending/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Trending</a></li>
-        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
-        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
-        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
-        <li><a href="/tutorials/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Tutorials</a></li>
-      </ul>
-    </div>
+      
       </div>
     </div>
   </section>

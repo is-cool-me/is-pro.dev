@@ -6,67 +6,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <title>Custom Email with Subdomain: Setup Guide — is-cool-me</title>
-  <meta name="description" content="Set up custom email with your is-cool-me subdomain. Configure Cloudflare email routing, MX records, SPF/DKIM/DMARC, and third-party email forwarding." />
+  <meta name="description" content="Guide about Custom Email with Subdomain: Setup Guide" />
   <link rel="canonical" href="https://is-pro.dev/guides/custom-email-with-subdomain/" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://is-pro.dev/guides/custom-email-with-subdomain/" />
   <meta property="og:title" content="Custom Email with Subdomain: Setup Guide — is-cool-me" />
-  <meta property="og:description" content="Set up custom email with your is-cool-me subdomain. Configure Cloudflare email routing, MX records, SPF/DKIM/DMARC, and third-party email forwarding." />
+  <meta property="og:description" content="Guide about Custom Email with Subdomain: Setup Guide" />
   <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Custom Email with Subdomain: Setup Guide — is-cool-me" />
-  <meta name="twitter:description" content="Set up custom email with your is-cool-me subdomain. Configure Cloudflare email routing, MX records, SPF/DKIM/DMARC, and third-party email forwarding." />
+  <meta name="twitter:description" content="Guide about Custom Email with Subdomain: Setup Guide" />
   <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
   <meta name="theme-color" content="#08080f" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https: https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="icon" href="/dist/images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="/css/main.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-{
+  <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "TechArticle",
-      "headline": "Custom Email with Subdomain: Setup Guide",
-      "description": "Set up custom email with your is-cool-me subdomain. Configure Cloudflare email routing, MX records, SPF/DKIM/DMARC, and third-party email forwarding.",
-      "author": { "@type": "Person", "name": "Mayank Baswal", "url": "https://is-pro.dev/about/" },
+      "@type": "WebSite",
+      "@id": "https://is-pro.dev/#website",
+      "url": "https://is-pro.dev",
+      "name": "Custom Email with Subdomain: Setup Guide — is-cool-me",
+      "description": "Guide about Custom Email with Subdomain: Setup Guide",
       "publisher": {
         "@type": "Organization",
         "name": "is-cool-me",
         "url": "https://is-pro.dev",
-        "logo": { "@type": "ImageObject", "url": "https://is-pro.dev/dist/images/logo.png" }
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Custom Email with Subdomain: Setup Guide",
+      "description": "Guide about Custom Email with Subdomain: Setup Guide",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
       },
-      "datePublished": "2026-05-01",
-      "dateModified": "2026-05-27",
-      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://is-pro.dev/guides/custom-email-with-subdomain/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-06-27",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/guides/custom-email-with-subdomain/"
+      },
       "url": "https://is-pro.dev/guides/custom-email-with-subdomain/"
     },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://is-pro.dev/" },
-        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://is-pro.dev/guides/" },
-        { "@type": "ListItem", "position": 3, "name": "Custom Email with Subdomain: Setup Guide", "item": "https://is-pro.dev/guides/custom-email-with-subdomain/" }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://is-pro.dev/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Custom Email with Subdomain: Setup Guide",
+          "item": "https://is-pro.dev/guides/custom-email-with-subdomain/"
+        }
       ]
     }
   ]
-}
-  </script>
+}</script>
 </head>
 <body>
-
-<a href="#main-content" class="sr-only skip-link">Skip to main content</a>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
 
 <header class="site-header" role="banner">
   <div class="container">
     <div class="header-inner">
       <a href="/" class="header-logo" aria-label="is-cool-me home">
-        <img src="/dist/images/logo.png" alt="" width="32" height="32" aria-hidden="true" />
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
         <span class="logo-text">is-cool-me</span>
       </a>
       <nav class="header-nav" id="header-nav" aria-label="Main navigation">
@@ -74,6 +113,10 @@
         <a href="/domains/" class="nav-link">Domains</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/showcase/" class="nav-link">Showcase</a>
+        <a href="/trending/" class="nav-link">Trending</a>
+        <a href="/tools/" class="nav-link">Tools</a>
+        <a href="/compare/" class="nav-link">Compare</a>
         <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
         <a href="/terms/" class="nav-link">Terms</a>
@@ -86,118 +129,192 @@
     </div>
   </div>
 </header>
-
-<div class="reading-progress" id="reading-progress"></div>
-
 <main id="main-content">
-  <article>
-    <header class="article-hero">
-      <div class="container">
-        <div class="article-hero-inner">
-          <div class="article-meta">
-            <span class="article-category">Deployment</span>
-            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
-            <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Beginner Guide</span>
-          </div>
-          <h1>Custom Email with Subdomain: Setup Guide</h1>
-          <p class="article-summary">Set up custom email with your is-cool-me subdomain. Configure Cloudflare email routing, MX records, SPF/DKIM/DMARC, and third-party email forwarding.</p>
+<article>
+  <header class="article-hero">
+    <div class="container">
+      <div class="article-hero-inner">
+        <div class="article-meta">
+          <span class="article-category">Guide</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>9 min read</span>
+          <span class="article-meta-item">Published June 2026</span>
+          <span class="article-meta-item" style="background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.2);color:#eab308;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
         </div>
+        <h1>Custom Email with Subdomain: Setup Guide</h1>
+        <p class="article-summary">Guide about Custom Email with Subdomain: Setup Guide</p>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <section class="author-section" aria-label="Article authorship">
-      <div class="container">
-        <div class="author-card" data-reveal>
-          <div class="author-card-main">
-            <h2 class="author-card-title">Written by Mayank Baswal</h2>
-            <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
-            <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
-            <div class="author-card-links">
-              <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-              <a href="/contact/">Contact</a>
-            </div>
-          </div>
-          <div class="author-card-review">
-            <span class="author-card-review-label">Reviewed by</span>
-            <span class="author-card-reviewer">is-cool-me Technical Review</span>
+  <section class="author-section" aria-label="Article authorship">
+    <div class="container">
+      <div class="author-card" data-reveal>
+        <div class="author-card-main">
+          <h2 class="author-card-title">Written by Mayank Baswal</h2>
+          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+          <div class="author-card-links">
+            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+            <a href="/contact/">Contact</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <div class="article-layout-section">
-      <div class="container">
-        <div class="article-layout-inner">
-          <div class="article-content prose">
-<h1>Custom Email with Subdomain: Setup Guide</h1>
-<p>Having a professional email address like <code>hello@your-subdomain.is-pro.dev</code> adds credibility to your personal brand or project. While is-cool-me provides free subdomains, you can configure email forwarding and sending through Cloudflare's email routing or third-party services. This guide walks through the complete email setup process.</p>
-<h2>Why Custom Email Matters</h2>
-<p>A custom email address signals professionalism. <code>hello@portfolio.is-pro.dev</code> looks significantly better than <code>portfolio@gmail.com</code> or <code>portfolio@outlook.com</code>. It reinforces your brand, builds trust with recipients, and is easy to remember. Best of all, with the right configuration, it costs nothing extra.</p>
-<h2>Cloudflare Email Routing</h2>
-<p>Cloudflare offers free email routing that forwards emails from your custom domain to an existing inbox. Setup takes just a few minutes:</p>
-<li>Go to the Cloudflare dashboard and select the is-cool-me zone</li>
-<li>Navigate to Email → Email Routing</li>
-<li>Click "Get started" and enable Email Routing</li>
-<li>Add your destination email address (e.g., your personal Gmail)</li>
-<li>Verify the destination address by clicking the confirmation link sent to that email</li>
-<p>Cloudflare will automatically add the required MX records to your DNS settings. It also handles email authentication (SPF, DKIM, DMARC) automatically.</p>
-<h2>Manual MX Record Configuration</h2>
-<p>If you prefer a different email provider, configure MX records manually:</p>
-<p><strong>Cloudflare Email Routing MX records:</strong></p>
-<p>``<code></p>
-<p>Priority 10: mx1.cloudflare.net</p>
-<p>Priority 20: mx2.cloudflare.net</p>
-<p></code>`<code></p>
-<p><strong>Google Workspace MX records:</strong></p>
-<p></code>`<code></p>
-<p>Priority 1:  ASPMX.L.GOOGLE.COM</p>
-<p>Priority 5:  ALT1.ASPMX.L.GOOGLE.COM</p>
-<p>Priority 10: ALT2.ASPMX.L.GOOGLE.COM</p>
-<p></code>`<code></p>
-<p><strong>Zoho Mail MX records:</strong></p>
-<p></code>`<code></p>
-<p>Priority 10: mx.zoho.com</p>
-<p>Priority 20: mx2.zoho.com</p>
-<p></code>`<code></p>
-<h2>Email Authentication (SPF, DKIM, DMARC)</h2>
-<p>To ensure your emails reach inboxes and are not marked as spam, configure email authentication:</p>
-<p><strong>SPF</strong> (Sender Policy Framework) specifies which servers can send email from your domain:</p>
-<p></code>`<code></p>
-<p>TXT Record: v=spf1 include:_spf.mx.cloudflare.net ~all</p>
-<p></code>`<code></p>
-<p><strong>DKIM</strong> (DomainKeys Identified Mail) adds a digital signature to your emails:</p>
-<p>Your email provider generates a DKIM key. Add it as a TXT record with the name </code>your-selector._domainkey<code>.</p>
-<p><strong>DMARC</strong> (Domain-based Message Authentication) tells receiving servers how to handle unauthenticated emails:</p>
-<p></code>`<code></p>
-<p>TXT Record: v=DMARC1; p=quarantine; rua=mailto:dmarc@yourdomain.com</p>
-<p></code>`<code></p>
-<h2>Sending Email from Your Subdomain</h2>
-<p>If you want to send email from your subdomain (not just receive forwards), you have several options:</p>
-<p><strong>SendGrid / Mailgun / Amazon SES:</strong> These transactional email services allow sending from custom domains. Add the provided DNS records and verify domain ownership. Most offer a free tier for low-volume sending.</p>
-<p><strong>SMTP2GO:</strong> Provides 1000 free emails per month with simple SMTP configuration. Add their MX records and you are ready to send.</p>
-<p><strong>Resend:</strong> A modern email API with a generous free tier. Supports custom domains with simple DNS verification.</p>
-<h2>Using Email with Your Applications</h2>
-<p><strong>Contact forms:</strong> Use Cloudflare Email Routing to forward form submissions to your personal inbox. Combine with a simple form endpoint for a complete contact solution.</p>
-<p><strong>Transactional emails:</strong> Services like Resend and SendGrid integrate with your application via REST API. Send welcome emails, notifications, and alerts from your custom domain.</p>
-<p><strong>Newsletters:</strong> Use Mailchimp, Buttondown, or ConvertKit with your custom domain for professional newsletters.</p>
-<h2>Troubleshooting</h2>
-<p><strong>Emails going to spam:</strong> Check your SPF, DKIM, and DMARC records. Use online tools like MXToolbox to verify your DNS configuration. Warm up your sending reputation gradually.</p>
-<p><strong>MX records not propagating:</strong> DNS changes can take up to 48 hours, though typically propagate within minutes. Verify with </code>dig your-subdomain.is-pro.dev MX`.</p>
-<p><strong>Cloudflare Email Routing not working:</strong> Ensure Email Routing is enabled in the Cloudflare dashboard. Verify that no conflicting MX records exist in your DNS settings.</p>
-<h2>FAQ</h2>
-<p><strong>Q: Is Cloudflare Email Routing really free?</strong></p>
-<p>A: Yes, Cloudflare Email Routing is free and forwards unlimited emails to your destination address.</p>
-<p><strong>Q: Can I send email from my is-cool-me subdomain?</strong></p>
-<p>A: Yes, use a transactional email service like SendGrid, Resend, or Mailgun for sending. Cloudflare Email Routing handles receiving only.</p>
-<p><strong>Q: How many email addresses can I create?</strong></p>
-<p>A: With Cloudflare Email Routing, you can create catch-all forwarding or set up specific addresses. There is no limit on the number of addresses.</p>
-<h2>Conclusion</h2>
-<p>Setting up custom email with your is-cool-me subdomain is free and straightforward. Cloudflare Email Routing handles incoming email forwarding automatically. For sending, use any transactional email service. With proper SPF, DKIM, and DMARC configuration, your emails will be professional and deliverable.</p>          </div>
+        <div class="author-card-review">
+          <span class="author-card-review-label">Reviewed by</span>
+          <span class="author-card-reviewer">is-cool-me Technical Review</span>
         </div>
       </div>
     </div>
-  </article>
-</main>      <!-- Native Banner Ad - 4:1 -->
+  </section>
+
+  <div class="article-layout-section">
+    <div class="container">
+      <div class="article-layout-inner">
+        <div class="article-content prose">
+          ## Introduction
+          Custom email with subdomain is a crucial aspect of setting up a professional online presence for developers on the is-cool-me platform. Having a custom email address such as `support@myproject.is-pro.dev` not only enhances credibility but also provides a centralized and organized way to manage project-related communications. This comprehensive guide is designed to walk developers through the process of setting up custom email with their subdomain on is-cool-me, ensuring they can leverage the full potential of their project's online identity. The importance of custom email cannot be overstated, as it allows for better communication with team members, clients, and users, all while maintaining a consistent brand image. Moreover, with the rise of phishing and spam, having a custom email address associated with your project's subdomain can significantly improve the deliverability of your emails and reduce the risk of being flagged as spam.
+          
+          ## Prerequisites
+          Before diving into the setup process, there are several prerequisites that developers need to fulfill. First, they must have an active is-cool-me account and have created a subdomain for their project, such as `myproject.is-pro.dev`. Additionally, they should have a basic understanding of DNS management, as setting up custom email involves configuring DNS records. It's also recommended that developers have a mail service provider (MSP) account, such as Mailgun or Sendgrid, which will handle the actual email sending and receiving. For this guide, we'll assume the use of Mailgun as our MSP. Lastly, having a text editor or IDE and access to the terminal/command prompt is necessary for executing commands and configuring settings.
+          
+          ## Step-by-step instructions
+          To set up custom email with your subdomain, follow these detailed steps:
+          1. **Sign up for Mailgun**: If you haven't already, sign up for a Mailgun account. This will provide you with the necessary credentials to send and receive emails via your custom domain.
+          2. **Configure Mailgun DNS**: Log into your Mailgun account and go to the "Domains" section. Click on "Add New Domain" and enter your subdomain, e.g., `myproject.is-pro.dev`. Mailgun will provide you with a set of DNS records that need to be added to your is-cool-me subdomain settings.
+          3. **Add DNS records to is-cool-me**: Log into your is-cool-me account, navigate to your project's subdomain settings, and find the DNS management section. Add the DNS records provided by Mailgun. These typically include a TXT record for SPF (Sender Policy Framework) and a CNAME record for tracking and routing emails.
+          4. **Verify domain ownership**: Mailgun will require you to verify that you own the domain. This is usually done by adding a specific TXT record to your DNS settings or by uploading an HTML file to your domain.
+          5. **Configure email sending**: Once your domain is verified, you can configure email sending. This involves setting up a SMTP server or using Mailgun's API to send emails from your custom email address.
+          
+          Example of adding a TXT record for SPF using the `dig` command:
+          ```bash
+          dig +short TXT _spf.myproject.is-pro.dev
+          ```
+          And an example of using Mailgun's API to send an email using Python:
+          ```python
+          import requests
+          
+          def send_email(subject, body, to):
+              api_key = 'your_mailgun_api_key'
+              domain = 'myproject.is-pro.dev'
+              from_email = 'support@myproject.is-pro.dev'
+              response = requests.post(
+                  f'https://api.mailgun.net/v3/{domain}/messages',
+                  auth=('api', api_key),
+                  data={'from': from_email,
+                        'to': to,
+                        'subject': subject,
+                        'text': body})
+              return response.json()
+          
+          # Example usage
+          send_email('Hello from myproject', 'This is a test email', 'recipient@example.com')
+          ```
+          
+          ## Configuration deep-dive
+          When configuring custom email with your subdomain, there are several options and settings to consider. Here's a breakdown of some key configurations:
+          - **MX Records**: These records are used to route incoming emails to your mail server. For Mailgun, you'll typically set your MX records to point to `mxa.mailgun.org` and `mxb.mailgun.org`.
+          - **TXT Records**: These are used for SPF and DKIM (DomainKeys Identified Mail) configurations. SPF helps prevent spam by specifying which servers are allowed to send emails from your domain, while DKIM is used to verify the authenticity of emails.
+          - **CNAME Records**: These are used to alias one domain name to another. In the context of Mailgun, CNAME records are used for tracking and routing emails.
+          
+          Here's an example configuration for `myproject.is-pro.dev`:
+          | Record Type | Name | Value |
+          |-------------|------|-------|
+          | MX | @ | mxa.mailgun.org |
+          | MX | @ | mxb.mailgun.org |
+          | TXT | @ | v=spf1 include:mailgun.org ~all |
+          | TXT | mailo._domainkey | k=rsa; p=MIGfMA0GCSqGSIb3... |
+          | CNAME | email | mailgun.org |
+          
+          ## Common pitfalls and solutions
+          Several common pitfalls can occur during the setup process:
+          1. **Incorrect DNS Records**: Ensure that your DNS records are correctly set up and propagated. You can use tools like `dig` or online DNS checkers to verify your records.
+          2. **Domain Verification Issues**: If you're having trouble verifying your domain with Mailgun, double-check that your TXT records are correctly set up and try verifying again after a few hours to allow for DNS propagation.
+          3. **Email Delivery Issues**: If your emails are not being delivered, check your SPF and DKIM configurations. Ensure that your mail server is correctly set up to handle emails from your custom domain.
+          4. **Mailgun API Errors**: When using the Mailgun API, make sure your API key is correct and that you're using the correct domain and from email address.
+          5. **Subdomain Configuration**: Ensure that your subdomain is correctly set up on is-cool-me and that you have the necessary permissions to manage its DNS settings.
+          
+          ## Best practices
+          To ensure optimal performance, security, and maintainability:
+          - **Monitor DNS Propagation**: Use tools to monitor DNS propagation and ensure that your records are correctly set up worldwide.
+          - **Regularly Update SPF and DKIM**: Keep your SPF and DKIM records up to date to prevent email delivery issues.
+          - **Use Secure Connections**: Always use secure connections (TLS) when sending and receiving emails.
+          - **Test Email Sending and Receiving**: Regularly test sending and receiving emails from your custom email address to ensure everything is working correctly.
+          
+          ## Troubleshooting section
+          When issues arise, here are some diagnostic steps to follow:
+          1. **Check DNS Records**: Verify that your DNS records are correctly set up and propagated.
+          2. **Mailgun Logs**: Check Mailgun's logs for any errors or issues related to email sending and receiving.
+          3. **Email Client Settings**: If you're using an email client, ensure that your settings are correct, including the SMTP server, port, and authentication details.
+          4. **Test Email Sending**: Use tools like `telnet` or Mailgun's API to test sending emails from your custom email address.
+          5. **Contact Support**: If none of the above steps resolve your issue, contact is-cool-me or Mailgun support for further assistance.
+          
+          ## Deployment scenario from operations
+          Let's consider a real-world deployment scenario for `myproject.is-pro.dev`:
+          - The project requires custom email addresses for support and marketing teams.
+          - Mailgun is chosen as the MSP for its ease of use and reliability.
+          - The development team sets up the necessary DNS records, including MX, TXT, and CNAME records, to route emails through Mailgun.
+          - They configure Mailgun's API to send emails from `support@myproject.is-pro.dev` and `marketing@myproject.is-pro.dev`.
+          - The team tests email sending and receiving to ensure everything is working as expected.
+          - Finally, they monitor DNS propagation and Mailgun logs to catch any issues early on.
+          
+          ## Common mistakes
+          Some common mistakes to avoid:
+          * Incorrectly setting up DNS records, leading to email delivery issues.
+          * Forgetting to verify domain ownership with Mailgun.
+          * Using an incorrect API key or domain when sending emails via Mailgun's API.
+          * Not regularly updating SPF and DKIM records.
+          * Not testing email sending and receiving after setup.
+          
+          ## How to verify it works
+          To verify that your custom email with subdomain is working:
+          1. **Send a Test Email**: Use Mailgun's API or an email client to send an email from your custom email address to an external email address.
+          2. **Check Email Delivery**: Verify that the email is delivered successfully and not marked as spam.
+          3. **Check Email Headers**: Inspect the email headers to ensure that SPF and DKIM checks pass.
+          4. **Test Email Receiving**: Send an email to your custom email address and verify that it's received correctly.
+          5. **Monitor Mailgun Logs**: Keep an eye on Mailgun's logs for any issues or errors related to email sending and receiving.
+          
+          ## Conclusion with next steps
+          Setting up custom email with your subdomain on is-cool-me is a straightforward process that enhances your project's professional image and improves communication with your audience. By following the steps outlined in this guide, you can ensure a smooth setup process. Next steps include monitoring your email setup, regularly testing email sending and receiving, and exploring advanced features offered by your MSP, such as email tracking and analytics.
+          
+          ## FAQ
+          **Q: What is the purpose of SPF and DKIM records?**
+          A: SPF (Sender Policy Framework) and DKIM (DomainKeys Identified Mail) are email authentication techniques used to prevent spam and phishing attacks. SPF specifies which mail servers are allowed to send emails from your domain, while DKIM verifies the authenticity of emails by checking if the email was indeed sent by an authorized server.
+          
+          **Q: How long does DNS propagation take?**
+          A: DNS propagation can take anywhere from a few minutes to 48 hours. It's the time it takes for DNS changes to be updated across the globe. You can use online tools to check the propagation status of your DNS records.
+          
+          **Q: Can I use a custom email address without setting up DNS records?**
+          A: No, setting up the correct DNS records is crucial for custom email to work. These records route emails to your mail server and verify your domain ownership.
+          
+          **Q: What are the benefits of using a custom email address?**
+          A: Custom email addresses enhance your professional image, improve deliverability, and reduce the risk of being flagged as spam. They also provide a centralized way to manage project-related communications.
+          
+          **Q: How do I troubleshoot email delivery issues?**
+          A: Start by checking your DNS records and Mailgun logs for any errors. Then, test sending emails from your custom email address to an external email address. If issues persist, contact your MSP or is-cool-me support for further assistance.
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Custom%20Email%20with%20Subdomain%3A%20Setup%20Guide&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fcustom-email-with-subdomain%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fcustom-email-with-subdomain%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div>
+
+<section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+      
+      </div>
+    </div>
+  </section>
+</main>
+      <!-- Native Banner Ad - 4:1 -->
       <div style="text-align:center;padding:var(--space-8) 0;">
         <div class="container">
           <script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
@@ -205,35 +322,78 @@
         </div>
       </div>
 
-
-
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo" aria-label="is-cool-me home">
-          <img src="/dist/images/logo.png" alt="" width="28" height="28" aria-hidden="true" />
-          <span>is-cool-me</span>
-        </a>
-        <p class="footer-tagline">Free subdomains for developers.</p>
+      <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-migration-note">
+          &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
+          operating subdomains on <code>is-pro.dev</code> and
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>.
+        </div>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
+            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/showcase/" class="footer-link">Showcase</a>
+              <a href="/trending/" class="footer-link">Trending</a>
+              <a href="/tools/" class="footer-link">Tools</a>
+              <a href="/compare/" class="footer-link">Compare</a>
+              <a href="/tutorials/" class="footer-link">Tutorials</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
       </div>
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="/">Home</a>
-        <a href="/domains/">Domains</a>
-        <a href="/blog/">Blog</a>
-        <a href="/guides/">Guides</a>
-        <a href="/tools/">Tools</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-        <a href="/terms/">Terms</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/abuse-report/">Report Abuse</a>
-      </nav>
-      <p class="footer-copyright">&copy; 2026 is-cool-me. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
-
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div class="footer-inline-links">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
 <script src="/js/app.js" defer></script>
 </body>
 </html>

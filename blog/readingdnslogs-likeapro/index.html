@@ -198,9 +198,13 @@
           * Cloudflare DNS: A cloud-based DNS service with built-in logging and analytics, available at <https://www.cloudflare.com/dns/>
           * Splunk: A commercial solution for log analysis and visualization, available at <https://www.splunk.com/>
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. DNS logging tools and your subdomain management dashboard are both accessible at no cost.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. DNS logs from your subdomain can be analyzed with tools like `dnstap`, `dnsdist`, or ELK stack to understand traffic patterns and diagnose issues.</p>
+<p><strong>How do I access DNS logs for my subdomain on is-cool-me?</strong></p>
+<p>DNS logs can be accessed through your account dashboard. Logs show query source IP, record type queried, timestamp, and response code. This data helps you identify unusual traffic spikes, potential DDoS attacks, or misconfigured clients hitting your subdomain.</p>
+<p><strong>What are the most important metrics to track in DNS logs?</strong></p>
+<p>Focus on query volume (baseline vs. anomalies), error rates (NXDOMAIN responses indicate misconfigured clients), query type distribution (A records vs. AAAA vs. MX), and geographic source distribution. Sudden changes in any of these metrics warrant investigation.</p>
         </div>
       </div>
     </div>

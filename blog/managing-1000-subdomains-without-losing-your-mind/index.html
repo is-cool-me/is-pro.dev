@@ -200,9 +200,13 @@
           * Prometheus: https://prometheus.io/
           * Grafana: https://grafana.com/
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. You can create as many subdomains as your projects need without any cost increase.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. For bulk management, all subdomains can be controlled from a single dashboard with consistent DNS settings across all your projects.</p>
+<p><strong>What is the best way to organize hundreds of subdomains?</strong></p>
+<p>Use a naming convention that reflects purpose and environment: api-project.is-pro.dev for APIs, app-project.is-pro.dev for applications, staging-project.is-pro.dev for testing. Document your convention and use automation tools like DNS control panels or API-based management to apply changes consistently across all subdomains.</p>
+<p><strong>How do I manage SSL certificates across thousands of subdomains?</strong></p>
+<p>Use a wildcard certificate for *.is-pro.dev or automate per-subdomain certificates with Let's Encrypt. Most hosting platforms handle this automatically. For self-managed setups, Certbot with DNS challenge authentication can issue and renew certificates for all subdomains programmatically.</p>
         </div>
       </div>
     </div>

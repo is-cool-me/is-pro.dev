@@ -180,9 +180,13 @@
           - is-cool-me's DNS Setup Guide: https://is-cool-me.com/docs/dns-setup
           - RFC 4786: https://tools.ietf.org/html/rfc4786
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. Anycast routing works at the DNS level and is fully supported — traffic is automatically directed to the nearest available server.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. Anycast DNS configuration is straightforward with A records pointing to your anycast IP addresses.</p>
+<p><strong>What is anycast DNS and how does it work?</strong></p>
+<p>Anycast DNS routes traffic to the nearest available server by advertising the same IP address from multiple locations. When a user visits your subdomain, DNS resolves to the anycast IP and network routing delivers the request to the closest data center, reducing latency and improving reliability.</p>
+<p><strong>Do I need special configuration on is-cool-me for anycast?</strong></p>
+<p>No special configuration is needed. Simply create A records pointing to your anycast IP addresses. is-cool-me supports all standard DNS record types and TTL values, making it compatible with any anycast provider like Cloudflare, AWS Global Accelerator, or Google Cloud Load Balancing.</p>
         </div>
       </div>
     </div>

@@ -179,9 +179,13 @@
           * WhatIsMyIPAddress: A tool that allows you to monitor the status of DNS propagation across different regions.
           * MaxCDN: A CDN that can help distribute traffic across multiple edge locations and reduce the load on your server.
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. DNS changes propagate globally just like any other DNS provider — no restrictions on TTL values or record types.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. DNS propagation affects all of these equally, so understanding how TTL works helps you plan deployments and changes effectively.</p>
+<p><strong>How long does DNS propagation actually take?</strong></p>
+<p>Propagation time depends entirely on the TTL (time-to-live) value set on your DNS records. A TTL of 300 seconds propagates within 5 minutes, while a TTL of 86400 seconds (24 hours) can take a full day. is-cool-me allows you to set custom TTL values from 60 seconds to 24 hours, giving you full control over propagation speed.</p>
+<p><strong>Can I test DNS changes without waiting for propagation?</strong></p>
+<p>Yes. Use tools like `dig` with specific nameservers (`dig @ns1.is-pro.dev your-subdomain.is-pro.dev`) to query is-cool-me's authoritative servers directly, bypassing cached results. You can also use `curl --resolve` to test HTTP behavior against a specific IP before propagation completes.</p>
         </div>
       </div>
     </div>

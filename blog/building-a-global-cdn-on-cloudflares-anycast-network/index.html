@@ -198,9 +198,13 @@
           * Cloudflare's Performance Analytics tool: https://www.cloudflare.com/performance-analytics
           * Cloudflare's SSL/TLS certificate manager: https://www.cloudflare.com/ssl/tls
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. All DNS management features including records for CDN configuration are included at no cost.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. For CDN use cases, Cloudflare's free tier works seamlessly with is-cool-me subdomains for caching, DDoS protection, and SSL termination.</p>
+<p><strong>Does Cloudflare's free tier support Anycast?</strong></p>
+<p>Yes. Cloudflare's free plan includes Anycast routing across their global network of edge servers. All traffic to your is-cool-me subdomain is automatically routed through the nearest Cloudflare data center when proxied through their network.</p>
+<p><strong>How do I set up Cloudflare CDN with my is-cool-me subdomain?</strong></p>
+<p>Add your subdomain to Cloudflare, update your nameservers at is-cool-me to point to Cloudflare's, then configure DNS records in Cloudflare's dashboard. Enable the proxy (orange cloud) icon on DNS records you want accelerated through the CDN.</p>
         </div>
       </div>
     </div>

@@ -179,9 +179,13 @@
           * VMware VCO SD-WAN solution: https://www.vmware.com/products/vco.html
           * AWS IoT Core cloud-based management platform: https://aws.amazon.com/iot-core/
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. Edge computing services like Cloudflare Workers pair perfectly with is-cool-me subdomains for serverless compute at the edge.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. For edge computing, your is-cool-me subdomain can point to Cloudflare Workers, AWS Lambda@Edge, or Deno Deploy to run code close to your users.</p>
+<p><strong>How does edge computing benefit my is-cool-me subdomain?</strong></p>
+<p>Edge computing runs your serverless functions at data centers closest to each user, dramatically reducing latency. An API running on Cloudflare Workers at the edge can respond in under 10ms vs. 200ms+ from a centralized server, all while your subdomain points to the edge network.</p>
+<p><strong>What are the best edge computing platforms for free subdomains?</strong></p>
+<p>Cloudflare Workers (100k requests/day free) works directly with your is-cool-me DNS. Deno Deploy offers 100k requests/month. Vercel Edge Functions are included in their free tier. All three support custom subdomains via CNAME records.</p>
         </div>
       </div>
     </div>

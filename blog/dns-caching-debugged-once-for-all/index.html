@@ -198,9 +198,13 @@
           * Cloudflare: A CDN and DNS service that provides caching and DNS management features.
           * Google Cloud DNS: A DNS service that provides caching and DNS management features.
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. DNS caching behavior is standard across all DNS providers — changes to is-cool-me records follow the same propagation rules as any other provider.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. DNS caching affects all hosted projects equally, so understanding cache behavior helps you plan zero-downtime deployments regardless of what you are hosting.</p>
+<p><strong>Why does my DNS change not take effect immediately?</strong></p>
+<p>DNS records are cached at multiple levels: your browser, your operating system, your router, your ISP's DNS resolver, and recursive resolvers like Google DNS or Cloudflare DNS. Each cache respects the TTL you set on your record. Even with a 60-second TTL, total propagation can take minutes due to OS-level caching (often 30-60 seconds) and browser DNS prefetching.</p>
+<p><strong>How can I bypass DNS cache to test changes instantly?</strong></p>
+<p>Use `dig your-subdomain.is-pro.dev @ns1.is-pro.dev` to query authoritative servers directly, bypassing all caches. For HTTP testing, use `curl -H "Host: your-subdomain.is-pro.dev" http://SERVER_IP` to connect directly. You can also flush your OS cache: `sudo systemctl restart systemd-resolved` on Linux or `sudo dscacheutil -flushcache` on macOS.</p>
         </div>
       </div>
     </div>

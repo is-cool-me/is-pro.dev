@@ -204,9 +204,13 @@
           * Certbot: [https://certbot.eff.org/](https://certbot.eff.org/)
           * SSL Labs: [https://www.ssllabs.com/](https://www.ssllabs.com/)
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. There are no tier restrictions — every subdomain comes with full DNS management, SSL support, and access to all record types including A, CNAME, MX, and TXT records.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. For Let's Encrypt specifically, your subdomain works seamlessly with automated certificate issuance as long as your DNS records are correctly configured and propagated.</p>
+<p><strong>Is Let's Encrypt better than Cloudflare Flexible SSL for a free subdomain?</strong></p>
+<p>Let's Encrypt provides end-to-end encryption with certificates installed on your origin server, while Cloudflare Flexible SSL only encrypts traffic between the visitor and Cloudflare's edge. For free subdomains on is-cool-me, Let's Encrypt is generally recommended because it gives you full control over your certificate and works independently of any CDN provider.</p>
+<p><strong>Do I need to manually renew Let's Encrypt certificates on my subdomain?</strong></p>
+<p>No. Most hosting platforms automate renewal via Certbot or ACME clients. GitHub Pages, Vercel, and Netlify all handle Let's Encrypt renewal automatically. If you're running your own server, a cron job with Certbot handles renewal without manual intervention.</p>
         </div>
       </div>
     </div>

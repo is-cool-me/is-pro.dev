@@ -182,9 +182,13 @@
           * New Relic: https://newrelic.com/
           * Datadog: https://www.datadoghq.com/
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. There are no tier restrictions — every subdomain comes with full DNS management, SSL support, and access to all record types including A, CNAME, MX, and TXT records.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. For subdomain clustering specifically, you can split different services across subdomains like api.is-pro.dev, blog.is-pro.dev, and app.is-pro.dev, each pointing to different hosting providers.</p>
+<p><strong>How many subdomains can I create for clustering?</strong></p>
+<p>There is no hard limit on the number of subdomains you can create. The practical constraint is DNS propagation time — managing hundreds of subdomains means each change takes time to propagate globally. Most projects cluster 3-10 subdomains for optimal balance between organization and maintenance overhead.</p>
+<p><strong>Can subdomain clustering work with free hosting tiers?</strong></p>
+<p>Yes. You can point each clustered subdomain to a different free hosting provider — GitHub Pages for documentation, Vercel for your frontend app, Netlify for landing pages, and Cloudflare Workers for API endpoints. This is one of the most cost-effective scalability strategies available.</p>
         </div>
       </div>
     </div>

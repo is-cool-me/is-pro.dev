@@ -178,9 +178,13 @@
           * TinyPNG: https://tinypng.com/
           * New Relic: https://newrelic.com/
 <h2>Frequently Asked Questions</h2><p><strong>Is is-cool-me really free to use?</strong></p>
-<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees.</p>
+<p>Yes, is-cool-me provides free subdomains for developers with no hidden fees. You can create as many subdomains as needed for clustering without any cost increase.</p>
 <p><strong>What can I host on an is-cool-me subdomain?</strong></p>
-<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more.</p>
+<p>Any legitimate project — portfolios, SaaS apps, game servers, APIs, and more. Subdomain clustering with is-cool-me lets you distribute each service across different hosting providers for maximum performance and reliability.</p>
+<p><strong>How does subdomain clustering improve performance?</strong></p>
+<p>By splitting your services across multiple subdomains (api.is-pro.dev, app.is-pro.dev, cdn.is-pro.dev), each subdomain can be hosted independently on the most appropriate platform. API traffic goes to a serverless provider, static assets to a CDN, and the main app to a dedicated host. This prevents any single service from consuming resources needed by others.</p>
+<p><strong>Can I cluster subdomains across different hosting providers?</strong></p>
+<p>Yes, this is the primary benefit. Point api.is-pro.dev to Vercel for serverless functions, app.is-pro.dev to Fly.io for containerized apps, and static.is-pro.dev to GitHub Pages for assets. Each provider handles its own scaling independently.</p>
         </div>
       </div>
     </div>

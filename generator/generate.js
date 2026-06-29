@@ -964,16 +964,18 @@ ${topic.chooseWhen.map((c) => `<p><strong>Choose ${c.platform}</strong> if ${c.t
     .join("\n\n");
 }
 
-async function generateShowcaseIndex(domains) {
-  const featured = domains.slice(0, 6).map((d) =>
-    showcaseCardHTML({
+async function generateShowcaseIndex(domains, showcaseMap) {
+  const featured = domains.slice(0, 6).map((d) => {
+    const key = `${d.subdomain}:${d.zone}`;
+    const s = showcaseMap.get(key);
+    return showcaseCardHTML({
       href: `/showcase/${slugify(d.subdomain)}/`,
-      title: `${d.subdomain}.is-pro.dev`,
-      description: `A ${d.zone} subdomain project by ${d.owner_username || "a developer"}. Explore the project details, screenshots, and links.`,
-      category: "Project",
+      title: s?.title || `${d.subdomain}.${d.zone}`,
+      description: s?.description || `A ${d.zone} subdomain project by ${d.owner_username || "a developer"}. Explore the project details, screenshots, and links.`,
+      category: s?.category || "Project",
       subdomain: d.subdomain,
-    }),
-  );
+    });
+  });
 
   const categoryCards = SHOWCASE_TOPICS.map((t) =>
     postCardHTML({
@@ -1037,15 +1039,17 @@ async function generateShowcaseIndex(domains) {
           domains.length > 0
             ? domains
                 .slice(0, 12)
-                .map((d) =>
-                  showcaseCardHTML({
+                .map((d) => {
+                  const key = `${d.subdomain}:${d.zone}`;
+                  const s = showcaseMap.get(key);
+                  return showcaseCardHTML({
                     href: `/showcase/${slugify(d.subdomain)}/`,
-                    title: `${d.subdomain}.is-pro.dev`,
-                    description: `A ${d.zone} subdomain registered ${relativeTime(d.created_at)} by ${d.owner_username || "a developer"}.`,
-                    category: "Project",
+                    title: s?.title || `${d.subdomain}.${d.zone}`,
+                    description: s?.description || `A ${d.zone} subdomain registered ${relativeTime(d.created_at)} by ${d.owner_username || "a developer"}.`,
+                    category: s?.category || "Project",
                     subdomain: d.subdomain,
-                  }),
-                )
+                  });
+                })
                 .join("\n")
             : '<p style="color:var(--color-text-muted);grid-column:1/-1;">No projects yet. <a href="https://dash.is-pro.dev" style="color:var(--color-accent);">Submit the first one!</a></p>'
         }
@@ -1057,19 +1061,21 @@ async function generateShowcaseIndex(domains) {
   return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
 }
 
-async function generateTrendingPage(domains) {
+async function generateTrendingPage(domains, showcaseMap) {
   const trending = [...domains]
     .sort(() => Math.random() - 0.5)
     .slice(0, 12)
-    .map((d) =>
-      showcaseCardHTML({
+    .map((d) => {
+      const key = `${d.subdomain}:${d.zone}`;
+      const s = showcaseMap.get(key);
+      return showcaseCardHTML({
         href: `/showcase/${slugify(d.subdomain)}/`,
-        title: `${d.subdomain}.is-pro.dev`,
-        description: `Trending ${d.zone} project by ${d.owner_username || "a developer"}`,
+        title: s?.title || `${d.subdomain}.${d.zone}`,
+        description: s?.description || `Trending ${d.zone} project by ${d.owner_username || "a developer"}`,
         category: "Trending",
         subdomain: d.subdomain,
-      }),
-    );
+      });
+    });
 
   const headHtml = htmlHead({
     title: "Trending Projects — is-cool-me",
@@ -1103,16 +1109,18 @@ async function generateTrendingPage(domains) {
   return articlePageHTML({ headHtml, headerHtml, contentHtml, footerHtml });
 }
 
-async function generateNewPage(domains) {
-  const newest = domains.slice(0, 12).map((d) =>
-    showcaseCardHTML({
+async function generateNewPage(domains, showcaseMap) {
+  const newest = domains.slice(0, 12).map((d) => {
+    const key = `${d.subdomain}:${d.zone}`;
+    const s = showcaseMap.get(key);
+    return showcaseCardHTML({
       href: `/showcase/${slugify(d.subdomain)}/`,
-      title: `${d.subdomain}.is-pro.dev`,
-      description: `New ${d.zone} subdomain registered by ${d.owner_username || "a developer"}`,
+      title: s?.title || `${d.subdomain}.${d.zone}`,
+      description: s?.description || `New ${d.zone} subdomain registered by ${d.owner_username || "a developer"}`,
       category: "New",
       subdomain: d.subdomain,
-    }),
-  );
+    });
+  });
 
   const headHtml = htmlHead({
     title: "New Subdomains — is-cool-me",
@@ -1970,21 +1978,20 @@ async function main() {
   if (doAll || types.includes("showcase") || types.length === 0) {
     console.log("\nGenerating showcase pages...");
     console.log(`[showcase] ${showcaseMap.size} enriched entries available`);
-    const enrichedDomains = db.filter(d => showcaseMap.has(`${d.subdomain}:${d.zone}`));
     try {
-      const html = await generateShowcaseIndex(enrichedDomains);
+      const html = await generateShowcaseIndex(db, showcaseMap);
       writePage(join(OUT_DIR, "showcase", "index.html"), html);
       console.log("  ✅ showcase index");
 
-      const trendingHtml = await generateTrendingPage(enrichedDomains);
+      const trendingHtml = await generateTrendingPage(db, showcaseMap);
       writePage(join(OUT_DIR, "trending", "index.html"), trendingHtml);
       console.log("  ✅ trending index");
 
-      const newHtml = await generateNewPage(enrichedDomains);
+      const newHtml = await generateNewPage(db, showcaseMap);
       writePage(join(OUT_DIR, "new", "index.html"), newHtml);
       console.log("  ✅ new index");
 
-      for (const domain of enrichedDomains.slice(0, 50)) {
+      for (const domain of db.slice(0, 50)) {
         try {
           const slug = slugify(domain.subdomain);
           const key = `${domain.subdomain}:${domain.zone}`;
@@ -2000,7 +2007,7 @@ async function main() {
 
       for (const cat of SHOWCASE_CATEGORIES) {
         try {
-          const catHtml = generateShowcaseCategoryPage(cat, enrichedDomains, showcaseMap);
+          const catHtml = generateShowcaseCategoryPage(cat, db, showcaseMap);
           writePage(join(OUT_DIR, "showcase", "category", cat, "index.html"), catHtml);
           console.log(`  ✅ showcase/category/${cat}`);
         } catch (err) {

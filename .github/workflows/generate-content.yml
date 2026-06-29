@@ -62,17 +62,28 @@ jobs:
             echo '[]' > dash/data/showcase.json
           fi
 
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('is-pro.dev/generator/package-lock.json') }}
+
       - name: Install generator dependencies
         run: |
           cd is-pro.dev/generator
-          npm install --prefer-offline 2>/dev/null || npm install
+          npm install
 
       - name: Install Playwright and take showcase screenshots
         continue-on-error: true
         run: |
           cd is-pro.dev/generator
-          npm install playwright 2>/dev/null
-          npx playwright install chromium 2>/dev/null
+          npm install playwright
+          if [ "${{ steps.playwright-cache.outputs.cache-hit }}" != "true" ]; then
+            npx playwright install chromium
+          else
+            echo "[playwright] Using cached Chromium"
+          fi
           node scripts/screenshot.js
         env:
           SITE_ROOT: ${{ github.workspace }}/is-pro.dev
@@ -96,6 +107,7 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GROQ_PROXIES: ${{ secrets.GROQ_PROXIES }}
           GROQ_PROXY_AUTH: ${{ secrets.GROQ_PROXY_AUTH }}
+          GROQ_VISION_MODEL: ${{ secrets.GROQ_VISION_MODEL }}
 
       - name: Commit and push changes
         run: |

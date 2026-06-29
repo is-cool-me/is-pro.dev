@@ -253,6 +253,18 @@
     <lastmod>2026-06-29</lastmod>
   </url>
   <url>
+    <loc>https://is-pro.dev/guides/setting-up-secure-ecommerce-subdomain/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-29</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/configuring-dns-records-for-website-speed/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-29</lastmod>
+  </url>
+  <url>
     <loc>https://is-pro.dev/blog/why-free-subdomains-matter-for-bootstrappers/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
@@ -362,6 +374,24 @@
   </url>
   <url>
     <loc>https://is-pro.dev/blog/future-of-web-development-trends-and-opportunities-in-free-hosting-and-subdomains/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-29</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/benefits-of-custom-subdomain-for-blogging/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-29</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/future-of-web-development-free-hosting-trends/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-29</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/importance-of-subdomain-security-for-api-protection/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-06-29</lastmod>

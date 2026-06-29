@@ -500,6 +500,26 @@ export const GUIDE_TOPICS = [
     tags: ["Static Websites","Free Hosting","Deployment Tutorial"],
     relatedSlugs: [],
   },
+  {
+    slug: "secure-ecommerce-subdomain-setup",
+    title: "A Step-by-Step Guide to Setting Up a Secure Subdomain for E-commerce Websites",
+    difficulty: "Intermediate",
+    category: "Security",
+    summary: "Learn how to set up a secure subdomain for e-commerce websites, including DNS configuration and SSL certificates, to protect your online store from cyber threats. This guide covers the main keyword 'secure ecommerce subdomain'.",
+    keywords: ["secure ecommerce subdomain","subdomain setup for ecommerce","ecommerce website security","dns configuration for ecommerce","ssl certificates for subdomains"],
+    tags: ["E-commerce","Security","Subdomains"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "deploy-static-website-to-free-hosting",
+    title: "Deploying a Static Website to Free Hosting with a Custom Subdomain: A Beginner's Guide",
+    difficulty: "Beginner",
+    category: "Deployment",
+    summary: "This guide covers the process of deploying a static website to free hosting with a custom subdomain, including setting up DNS records and configuring the hosting platform. The main keyword is 'deploy static website to free hosting'.",
+    keywords: ["deploy static website to free hosting","custom subdomain for static website","free hosting for static websites","dns records for static website","static website deployment"],
+    tags: ["Static Websites","Free Hosting","Deployment"],
+    relatedSlugs: [],
+  },
 ];
 
 export const BLOG_TOPICS = [
@@ -762,6 +782,24 @@ export const BLOG_TOPICS = [
     summary: "Learn about the benefits of using subdomains for API security and development, including improved security, better organization, and enhanced scalability, and discover how to implement subdomains for API development.",
     keywords: ["subdomain benefits for API security","API development with subdomains","subdomain implementation for API development","API security best practices","subdomain advantages for API development"],
     tags: ["API Security","Subdomains","API Development"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "subdomains-for-api-development-and-security",
+    title: "The Benefits of Using a Subdomain for API Development and Security",
+    category: "Security",
+    summary: "Using a subdomain for API development and security can provide an additional layer of protection and organization for your APIs, and this blog post explores the benefits of this approach. The main keyword is 'subdomains for api development and security'.",
+    keywords: ["subdomains for api development and security","api security best practices","subdomain benefits for api","api development with subdomains","secure api development"],
+    tags: ["API Development","Security","Subdomains"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "dns-configuration-for-website-performance",
+    title: "The Importance of DNS Configuration for Website Performance and User Experience",
+    category: "Performance",
+    summary: "Proper DNS configuration is crucial for website performance and user experience, and this blog post discusses the importance of DNS configuration and how it can impact your website. The main keyword is 'dns configuration for website performance'.",
+    keywords: ["dns configuration for website performance","dns impact on website speed","website performance optimization","dns records for website performance","user experience and dns"],
+    tags: ["DNS","Performance","User Experience"],
     relatedSlugs: [],
   },
 ];

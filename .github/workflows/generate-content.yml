@@ -67,6 +67,18 @@ jobs:
           cd is-pro.dev/generator
           npm install --prefer-offline 2>/dev/null || npm install
 
+      - name: Install Playwright and take showcase screenshots
+        continue-on-error: true
+        run: |
+          cd is-pro.dev/generator
+          npm install playwright 2>/dev/null
+          npx playwright install chromium 2>/dev/null
+          node scripts/screenshot.js
+        env:
+          SITE_ROOT: ${{ github.workspace }}/is-pro.dev
+          SHOWCASE_PATH: ${{ github.workspace }}/dash/data/showcase.json
+          DB_PATH: ${{ github.workspace }}/dash/data/domains.db
+
       - name: Generate content
         run: |
           cd is-pro.dev/generator
@@ -84,22 +96,6 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GROQ_PROXIES: ${{ secrets.GROQ_PROXIES }}
           GROQ_PROXY_AUTH: ${{ secrets.GROQ_PROXY_AUTH }}
-
-      - name: Install Playwright for screenshots
-        run: |
-          cd is-pro.dev/generator
-          npm install playwright 2>/dev/null
-          npx playwright install chromium 2>/dev/null
-
-      - name: Take showcase screenshots
-        continue-on-error: true
-        run: |
-          cd is-pro.dev/generator
-          node scripts/screenshot.js
-        env:
-          SITE_ROOT: ${{ github.workspace }}/is-pro.dev
-          SHOWCASE_PATH: ${{ github.workspace }}/dash/data/showcase.json
-          DB_PATH: ${{ github.workspace }}/dash/data/domains.db
 
       - name: Commit and push changes
         run: |

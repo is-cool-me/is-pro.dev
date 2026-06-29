@@ -19,7 +19,7 @@
     "push": "node generate.js --push"
   },
   "dependencies": {
-    "better-sqlite3": "^9.4.3",
+    "better-sqlite3": "^12.11.1",
     "https-proxy-agent": "^9.1.0",
     "node-fetch": "^3.3.2",
     "playwright": "^1.61.1"

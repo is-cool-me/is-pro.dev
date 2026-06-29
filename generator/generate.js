@@ -13,7 +13,7 @@ import { execSync } from "child_process";
 import { createRequire } from "module";
 import { lookup } from "dns/promises";
 const require = createRequire(import.meta.url);
-import { generateWithGroq } from "./lib/groq.js";
+import { generateWithGroq, generateWithGroqVision } from "./lib/groq.js";
 
 const delay = ms => new Promise(r => setTimeout(r, ms));
 
@@ -118,6 +118,8 @@ import { BLOG_BODIES } from "./content/blog-bodies.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = process.env.SITE_ROOT || join(__dirname, "..", "is-pro.dev");
 const CONTENT_ROOT = join(OUT_DIR, "..");
+
+const SCREENSHOT_DIR = join(OUT_DIR, "showcase", "screenshots");
 
 function getDbPath() {
   const defaultPath = join(__dirname, "..", "dash", "data", "domains.db");
@@ -1226,34 +1228,64 @@ async function generateShowcaseProjectPage(domain, showcaseData) {
   const description = s.description || `Explore ${host} — a developer project hosted on is-cool-me.`;
   let longDescription = s.long_description || s.ai_summary || "";
   const technologies = Array.isArray(s.technologies) ? s.technologies : [];
-  const tags = Array.isArray(s.tags) ? s.tags : [];
+  let tags = Array.isArray(s.tags) ? s.tags : [];
   let features = Array.isArray(s.features) ? s.features : [];
   const githubUrl = s.github_url || "";
   let category = s.category || "";
   const screenshotPath = `/showcase/screenshots/${domain.subdomain}.${domain.zone}.jpg`;
 
   if (isAiEnabled() && (!longDescription || !category)) {
-    const ctx = s.title ? `Context: ${s.title} — ${s.description || ""}` : `Domain: ${host}`;
-    const techCtx = technologies.length ? `Tech: ${technologies.join(", ")}` : "";
-    const tagCtx = tags.length ? `Tags: ${tags.join(", ")}` : "";
-    const prompt = `Analyze the developer project "${projectTitle}". ${ctx} ${techCtx} ${tagCtx}
+    async function doTextAnalysis() {
+      const ctx = s.title ? `Context: ${s.title} — ${s.description || ""}` : `Domain: ${host}`;
+      const techCtx = technologies.length ? `Tech: ${technologies.join(", ")}` : "";
+      const tagCtx = tags.length ? `Tags: ${tags.join(", ")}` : "";
+      const prompt = `Analyze the developer project "${projectTitle}". ${ctx} ${techCtx} ${tagCtx}
 Respond with JSON only:
 {
   "description": "2-3 sentences describing what it does and why it matters",
   "category": "one word category: portfolio | tools | ai | games | bots | anime | open-source | productivity | personal | blog | utilities | other",
   "tags": ["3-5 relevant tags"]
 }`;
-    const systemPrompt = "You analyze developer projects and return JSON.";
-    const aiContent = await generateContent(prompt, systemPrompt, 800);
-    if (aiContent) {
+      const raw = await generateContent(prompt, "You analyze developer projects and return JSON.", 800);
+      if (!raw) return null;
       try {
-        const parsed = JSON.parse(aiContent);
-        if (parsed.description) longDescription = parsed.description;
-        if (parsed.category && !category) category = parsed.category;
-        if (Array.isArray(parsed.tags) && tags.length === 0) tags = parsed.tags;
+        const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+        return JSON.parse(cleaned);
       } catch {
-        longDescription = aiContent.replace(/^```[^]*?```/g, "").trim();
+        longDescription = raw.replace(/^```[^]*?```/g, "").trim();
+        return null;
       }
+    }
+
+    const screenshotFile = join(SCREENSHOT_DIR, `${domain.subdomain}.${domain.zone}.jpg`);
+    const hasScreenshot = existsSync(screenshotFile);
+
+    let parsed = null;
+    if (hasScreenshot) {
+      try {
+        const b64 = readFileSync(screenshotFile, { encoding: 'base64' });
+        const visionPrompt = `Analyze the developer project "${projectTitle}" at ${host}.
+Look at the screenshot of the site and describe what you see — the purpose of the site, its design, functionality, and content.
+Respond with JSON only:
+{
+  "description": "2-3 sentences describing what the project does based on the screenshot. Include specific details you observe (design style, apparent functionality, content type)",
+  "category": "one word category: portfolio | tools | ai | games | bots | anime | open-source | productivity | personal | blog | utilities | other",
+  "tags": ["3-5 relevant tags based on what you see"]
+}`;
+        const raw = await generateWithGroqVision(visionPrompt, b64, "You are a web reviewer analyzing a project screenshot. Return valid JSON only.", 800);
+        if (raw) {
+          const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+          parsed = JSON.parse(cleaned);
+        }
+      } catch (err) {
+        console.warn(`[vision] Screenshot analysis failed for ${host}, falling back to text:`, err.message);
+      }
+    }
+    parsed = parsed || await doTextAnalysis();
+    if (parsed) {
+      if (parsed.description) longDescription = parsed.description;
+      if (parsed.category && !category) category = parsed.category;
+      if (Array.isArray(parsed.tags) && tags.length === 0) tags = parsed.tags;
     }
   }
 

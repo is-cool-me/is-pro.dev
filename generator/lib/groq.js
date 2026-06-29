@@ -10,6 +10,7 @@ const proxies = RAW_PROXIES.length > 0 ? RAW_PROXIES : null;
 
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
 const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+const VISION_MODEL = process.env.GROQ_VISION_MODEL || 'meta-llama/llama-4-scout-17b-16e-instruct';
 const INFERENCE_TIMEOUT = 180000;
 const TPM_LIMIT = parseInt(process.env.GROQ_TPM_LIMIT || '12000', 10);
 const RPM_LIMIT = 25;
@@ -120,6 +121,33 @@ export async function generateWithGroq(prompt, systemPrompt = '', maxTokens = 12
     top_p: 0.9
   };
 
+  return groqRequest(payload);
+}
+
+export async function generateWithGroqVision(prompt, imageBase64, systemPrompt = '', maxTokens = 1200) {
+  const messages = [
+    ...(systemPrompt ? [{ role: 'system', content: systemPrompt }] : []),
+    {
+      role: 'user',
+      content: [
+        { type: 'text', text: prompt },
+        { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${imageBase64}` } }
+      ]
+    }
+  ];
+
+  const payload = {
+    model: VISION_MODEL,
+    messages,
+    temperature: 0.7,
+    max_tokens: maxTokens,
+    top_p: 0.9
+  };
+
+  return groqRequest(payload);
+}
+
+async function groqRequest(payload) {
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     if (attempt > 0) {
       const backoff = Math.min(5000 * Math.pow(1.5, attempt - 1), 60000);

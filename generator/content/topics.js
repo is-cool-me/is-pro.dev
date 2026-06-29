@@ -480,6 +480,26 @@ export const GUIDE_TOPICS = [
     tags: ["DNS","Performance","Website Speed"],
     relatedSlugs: [],
   },
+  {
+    slug: "setting-up-secure-ecommerce-subdomains",
+    title: "A Step-by-Step Guide to Setting Up a Secure Subdomain for E-commerce Websites",
+    difficulty: "Intermediate",
+    category: "Security",
+    summary: "Learn how to set up a secure subdomain for e-commerce websites to protect customer data and prevent cyber threats, focusing on subdomain security and e-commerce website protection.",
+    keywords: ["secure subdomain setup","e-commerce website security","subdomain protection","cyber threat prevention","online shopping safety"],
+    tags: ["E-commerce","Subdomain Security","Online Safety"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "deploying-static-websites-to-free-hosting",
+    title: "Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial",
+    difficulty: "Beginner",
+    category: "Deployment",
+    summary: "Follow this step-by-step guide to deploy a static website to free hosting with a custom subdomain, covering DNS configuration and website deployment.",
+    keywords: ["static website deployment","free hosting with custom subdomain","DNS configuration for static websites","website deployment tutorial","custom subdomain setup"],
+    tags: ["Static Websites","Free Hosting","Deployment Tutorial"],
+    relatedSlugs: [],
+  },
 ];
 
 export const BLOG_TOPICS = [
@@ -724,6 +744,24 @@ export const BLOG_TOPICS = [
     summary: "Discuss the significance of subdomain security for API development and protection, including the risks of inadequate security measures. This blog post highlights the need for robust subdomain security to safeguard API data and prevent potential threats.",
     keywords: ["subdomain security for api","api protection measures","importance of subdomain security","api security risks","subdomain security best practices","api subdomain protection"],
     tags: ["API Security","Subdomains","Protection"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "future-of-web-development-trends-and-opportunities",
+    title: "The Future of Web Development: Trends and Opportunities in Free Hosting and Subdomains",
+    category: "Hosting",
+    summary: "Explore the latest trends and opportunities in free hosting and subdomains, and how they are shaping the future of web development, including the benefits of subdomains for API development and security.",
+    keywords: ["future of web development","free hosting trends","subdomain opportunities","web development trends","subdomain benefits for API development"],
+    tags: ["Web Development","Free Hosting","Subdomains"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "benefits-of-subdomains-for-api-security-and-development",
+    title: "The Benefits of Using Subdomains for API Security and Development",
+    category: "Security",
+    summary: "Learn about the benefits of using subdomains for API security and development, including improved security, better organization, and enhanced scalability, and discover how to implement subdomains for API development.",
+    keywords: ["subdomain benefits for API security","API development with subdomains","subdomain implementation for API development","API security best practices","subdomain advantages for API development"],
+    tags: ["API Security","Subdomains","API Development"],
     relatedSlugs: [],
   },
 ];

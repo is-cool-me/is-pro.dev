@@ -1818,6 +1818,12 @@ async function main() {
     );
   }
 
+  const showcaseMap = readShowcase();
+  if (db.length === 0 && showcaseMap.size > 0) {
+    db = [...showcaseMap.values()].map(s => ({ subdomain: s.subdomain, zone: s.zone, owner_username: '', created_at: s.created_at || '', updated_at: s.updated_at || '' }));
+    console.log(`[showcase] Using ${db.length} enriched entries as fallback (no database)`);
+  }
+
   if (
     doAll ||
     types.includes("guides") ||
@@ -1963,22 +1969,22 @@ async function main() {
 
   if (doAll || types.includes("showcase") || types.length === 0) {
     console.log("\nGenerating showcase pages...");
-    const showcaseMap = readShowcase();
     console.log(`[showcase] ${showcaseMap.size} enriched entries available`);
+    const enrichedDomains = db.filter(d => showcaseMap.has(`${d.subdomain}:${d.zone}`));
     try {
-      const html = await generateShowcaseIndex(db);
+      const html = await generateShowcaseIndex(enrichedDomains);
       writePage(join(OUT_DIR, "showcase", "index.html"), html);
       console.log("  ✅ showcase index");
 
-      const trendingHtml = await generateTrendingPage(db);
+      const trendingHtml = await generateTrendingPage(enrichedDomains);
       writePage(join(OUT_DIR, "trending", "index.html"), trendingHtml);
       console.log("  ✅ trending index");
 
-      const newHtml = await generateNewPage(db);
+      const newHtml = await generateNewPage(enrichedDomains);
       writePage(join(OUT_DIR, "new", "index.html"), newHtml);
       console.log("  ✅ new index");
 
-      for (const domain of db.slice(0, 50)) {
+      for (const domain of enrichedDomains.slice(0, 50)) {
         try {
           const slug = slugify(domain.subdomain);
           const key = `${domain.subdomain}:${domain.zone}`;
@@ -1994,7 +2000,7 @@ async function main() {
 
       for (const cat of SHOWCASE_CATEGORIES) {
         try {
-          const catHtml = generateShowcaseCategoryPage(cat, db, showcaseMap);
+          const catHtml = generateShowcaseCategoryPage(cat, enrichedDomains, showcaseMap);
           writePage(join(OUT_DIR, "showcase", "category", cat, "index.html"), catHtml);
           console.log(`  ✅ showcase/category/${cat}`);
         } catch (err) {

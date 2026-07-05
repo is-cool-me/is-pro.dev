@@ -520,6 +520,26 @@ export const GUIDE_TOPICS = [
     tags: ["Static Websites","Free Hosting","Deployment"],
     relatedSlugs: [],
   },
+  {
+    slug: "secure-ecommerce-subdomain-configuration",
+    title: "A Step-by-Step Guide to Setting Up a Secure Subdomain for E-commerce Websites",
+    difficulty: "Intermediate",
+    category: "Security",
+    summary: "Learn how to set up a secure subdomain for e-commerce websites to protect customer data and prevent cyber attacks, focusing on DNS configuration and SSL certificates.",
+    keywords: ["secure subdomain setup","ecommerce website security","dns configuration for ecommerce","ssl certificate for subdomain","subdomain security best practices","ecommerce subdomain configuration"],
+    tags: ["E-commerce","Security","Subdomains"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "deploy-static-website-to-free-hosting-tutorial",
+    title: "Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial",
+    difficulty: "Beginner",
+    category: "Deployment",
+    summary: "Follow this step-by-step guide to deploy a static website to free hosting with a custom subdomain, covering DNS setup and website configuration.",
+    keywords: ["free hosting with custom subdomain","static website deployment","dns setup for static website","custom subdomain for static website","free hosting for static website","static website hosting"],
+    tags: ["Static Website","Free Hosting","Deployment"],
+    relatedSlugs: [],
+  },
 ];
 
 export const BLOG_TOPICS = [
@@ -800,6 +820,15 @@ export const BLOG_TOPICS = [
     summary: "Proper DNS configuration is crucial for website performance and user experience, and this blog post discusses the importance of DNS configuration and how it can impact your website. The main keyword is 'dns configuration for website performance'.",
     keywords: ["dns configuration for website performance","dns impact on website speed","website performance optimization","dns records for website performance","user experience and dns"],
     tags: ["DNS","Performance","User Experience"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "future-of-web-development-trends-and-opportunities-in-free-hosting",
+    title: "The Future of Web Development: Trends and Opportunities in Free Hosting and Subdomains",
+    category: "Hosting",
+    summary: "Explore the latest trends and opportunities in free hosting and subdomains, and how they are shaping the future of web development, including the impact on developer tooling and infrastructure.",
+    keywords: ["future of web development","free hosting trends","subdomain opportunities","web development trends","free hosting and subdomains","developer tooling and infrastructure"],
+    tags: ["Web Development","Free Hosting","Trends"],
     relatedSlugs: [],
   },
 ];

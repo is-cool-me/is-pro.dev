@@ -540,6 +540,26 @@ export const GUIDE_TOPICS = [
     tags: ["Static Website","Free Hosting","Deployment"],
     relatedSlugs: [],
   },
+  {
+    slug: "setting-up-secure-ecommerce-subdomain-tutorial",
+    title: "A Step-by-Step Guide to Setting Up a Secure Subdomain for E-commerce Websites",
+    difficulty: "Intermediate",
+    category: "Security",
+    summary: "Learn how to set up a secure subdomain for your e-commerce website, ensuring the protection of sensitive customer data. This guide covers the essential steps for configuring a secure subdomain.",
+    keywords: ["secure subdomain setup","e-commerce subdomain configuration","subdomain security best practices","protecting customer data","secure online transactions"],
+    tags: ["E-commerce","Subdomain Security","Online Transactions"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "deploy-static-website-to-free-hosting-custom-subdomain",
+    title: "Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial",
+    difficulty: "Beginner",
+    category: "Deployment",
+    summary: "Discover how to deploy a static website to free hosting with a custom subdomain, allowing you to showcase your website without incurring significant costs. This tutorial provides a step-by-step guide to achieving this.",
+    keywords: ["free hosting with custom subdomain","deploying static websites","static website deployment tutorial","custom subdomain setup","free website hosting"],
+    tags: ["Static Websites","Free Hosting","Custom Subdomain"],
+    relatedSlugs: [],
+  },
 ];
 
 export const BLOG_TOPICS = [
@@ -829,6 +849,24 @@ export const BLOG_TOPICS = [
     summary: "Explore the latest trends and opportunities in free hosting and subdomains, and how they are shaping the future of web development, including the impact on developer tooling and infrastructure.",
     keywords: ["future of web development","free hosting trends","subdomain opportunities","web development trends","free hosting and subdomains","developer tooling and infrastructure"],
     tags: ["Web Development","Free Hosting","Trends"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "benefits-of-subdomains-for-api-development-and-security",
+    title: "The Benefits of Using Subdomains for API Development and Security",
+    category: "Security",
+    summary: "Understand the advantages of using subdomains for API development and security, including improved organization, enhanced security, and better scalability. This blog post highlights the key benefits of subdomains in API development.",
+    keywords: ["subdomains for API development","API security best practices","subdomain benefits","API organization","API scalability"],
+    tags: ["API Development","Subdomain Security","API Scalability"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "dns-configuration-for-website-performance-and-user-experience",
+    title: "The Importance of DNS Configuration for Website Performance and User Experience",
+    category: "Performance",
+    summary: "Learn about the crucial role of DNS configuration in optimizing website performance and enhancing user experience. This blog post discusses the impact of DNS configuration on website speed and user satisfaction.",
+    keywords: ["DNS configuration for website performance","website speed optimization","DNS and user experience","optimizing website performance","DNS best practices"],
+    tags: ["DNS Configuration","Website Performance","User Experience"],
     relatedSlugs: [],
   },
 ];

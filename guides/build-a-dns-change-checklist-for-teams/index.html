@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://quge5.com/88/tag.min.js" data-zone="251169" async data-cfasync="false"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Build a DNS Change Checklist for Teams — is-cool-me</title>
+  <meta name="description" content="A step-by-step DNS change checklist for engineering teams — covering pre-change audits, staging validation, rollback plans, and post-change monitoring to prevent outages." />
+  <meta name="keywords" content="dns, dns change management, dns checklist, team workflow, dns audit, dns rollback" />
+  <link rel="canonical" href="https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/" />
+  <meta property="og:title" content="Build a DNS Change Checklist for Teams — is-cool-me" />
+  <meta property="og:description" content="A step-by-step DNS change checklist for engineering teams — covering pre-change audits, staging validation, rollback plans, and post-change monitoring to prevent outages." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Build a DNS Change Checklist for Teams — is-cool-me" />
+  <meta name="twitter:description" content="A step-by-step DNS change checklist for engineering teams — covering pre-change audits, staging validation, rollback plans, and post-change monitoring to prevent outages." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
+  <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://is-pro.dev/#website",
+      "url": "https://is-pro.dev",
+      "name": "Build a DNS Change Checklist for Teams — is-cool-me",
+      "description": "A step-by-step DNS change checklist for engineering teams — covering pre-change audits, staging validation, rollback plans, and post-change monitoring to prevent outages.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Build a DNS Change Checklist for Teams",
+      "description": "A step-by-step DNS change checklist for engineering teams — covering pre-change audits, staging validation, rollback plans, and post-change monitoring to prevent outages.",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-07-05",
+      "dateModified": "2026-07-05",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+      },
+      "url": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://is-pro.dev/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Build a DNS Change Checklist for Teams",
+          "item": "https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/"
+        }
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/showcase/" class="nav-link">Showcase</a>
+        <a href="/trending/" class="nav-link">Trending</a>
+        <a href="/tools/" class="nav-link">Tools</a>
+        <a href="/compare/" class="nav-link">Compare</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main id="main-content">
+<article>
+  <header class="article-hero">
+    <div class="container">
+      <div class="article-hero-inner">
+        <div class="article-meta">
+          <span class="article-category">DNS</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min read</span>
+          <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Intermediate</span>
+        </div>
+        <h1>Build a DNS Change Checklist for Teams</h1>
+        <p class="article-summary">A step-by-step DNS change checklist for engineering teams — covering pre-change audits, staging validation, rollback plans, and post-change monitoring to prevent outages.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="author-section" aria-label="Article authorship">
+    <div class="container">
+      <div class="author-card" data-reveal>
+        <div class="author-card-main">
+          <h2 class="author-card-title">Written by Mayank Baswal</h2>
+          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+          <div class="author-card-links">
+            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+        <div class="author-card-review">
+          <span class="author-card-review-label">Reviewed by</span>
+          <span class="author-card-reviewer">is-cool-me Technical Review</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="article-layout-section">
+    <div class="container">
+      <div class="article-layout-inner">
+        <div class="article-content prose">
+
+## Why Teams Need a DNS Change Checklist
+
+DNS changes are among the most impactful yet poorly tracked operations in infrastructure. A single misconfigured A record can take down a production service. A forgotten MX record can silently break email delivery. Without a standardized process, teams rely on tribal knowledge that fails under pressure.
+
+A DNS change checklist eliminates guesswork. It forces the team to document intent, validate assumptions, and prepare for failure before any record goes live. Whether you are adding a CNAME for `api.myproject.is-pro.dev` or migrating MX records, the checklist ensures every change follows the same predictable workflow.
+
+## Pre-Change Audit Steps
+
+Before making any DNS modification, run through a pre-change audit.
+
+**Document the current state.** Capture a snapshot of every record you plan to modify using `dig` or your provider's API. Record exact values for A, AAAA, CNAME, MX, TXT, SRV, and NS records. Store this snapshot where the team can access it.
+
+**Identify all dependencies.** An A record change affects SSL certificates, health checks, load balancers, and monitoring alerts. Before changing the IP behind `api.myproject.is-pro.dev`, verify that every system referencing that subdomain will continue to function.
+
+**Check propagation timing.** Lowering a TTL should happen before the actual IP change. If your current TTL is 86400 seconds, a change today may not fully propagate for 24 hours. Plan TTL reduction at least 48 hours before the primary change.
+
+**Verify zone permissions.** Confirm who has write access to the zone. Document the account or API token that will be used, and ensure it is valid.
+
+**Communicate the change window.** Notify on-call engineers and anyone who might receive alerts. A brief notification at the start prevents confusion when monitoring systems fire.
+
+## Staging and Validation
+
+Never apply DNS changes directly to production without validation. Even simple A record changes can interact with caching layers and certificate systems in unexpected ways.
+
+**Test in a staging zone.** Create a staging zone that mirrors production. Apply changes there and query them with `dig` against a custom nameserver. This catches typos and propagation issues before they affect production.
+
+**Validate record syntax.** A CNAME target must point to a valid hostname, not an IP. An MX record requires a priority value and a valid mail host. TXT records for SPF or DKIM must conform to specific rules. Run each record through a DNS validator before deployment.
+
+**Confirm certificate compatibility.** If you are adding a subdomain that requires HTTPS, verify your SSL certificate covers the new hostname. Wildcard certificates for `*.is-pro.dev` cover all subdomains, but custom domains need explicit coverage.
+
+**Test resolution from multiple locations.** DNS is distributed. A record that resolves from your office may not resolve from a cloud region. Use tools that query from multiple locations to validate consistency.
+
+## Rollback Procedures
+
+Every DNS change must have a rollback plan documented before the change is applied. The plan includes old record values, revert steps, time required, and who is authorized to execute it.
+
+**Save exact pre-change values.** Record the complete set of values for every record you are modifying. If you are changing an A record from `192.0.2.1` to `198.51.100.1`, document both values with the original TTL.
+
+**Define rollback triggers.** Establish criteria for when a rollback should happen. Common triggers: the new record does not resolve after five minutes, dependent services report errors, SSL handshakes fail, or monitoring detects increased error rates.
+
+**Practice rollback procedures.** Run through the rollback at least once in staging. Time how long it takes and identify blockers. Create a script that applies all revert values atomically rather than requiring manual entry under pressure.
+
+**Set a rollback deadline.** Decide how long you will wait for a change to propagate before declaring failure. A 15 to 30 minute window works for most production changes.
+
+## Post-Change Monitoring
+
+DNS changes are not complete when records are updated. They are complete when you have confirmed the new configuration works.
+
+**Verify resolution from external resolvers.** Query the changed record against `8.8.8.8` and `1.1.1.1`. Confirm the response matches the expected value. Stale data indicates the old TTL is still cached.
+
+**Check service health.** Monitor health endpoints, error rates, and response times. DNS breakage shows up as 5xx errors, connection timeouts, or certificate warnings. Set up a 30-minute monitoring window after every change.
+
+**Validate email delivery.** If you modified MX records, send test emails and verify delivery. Check MX resolution using `dig MX yourdomain.com`. Confirm that SPF, DKIM, and DMARC records remain consistent.
+
+**Update documentation.** After the change is confirmed working, update internal DNS documentation with the new values, the date, and the reason.
+
+## Automation and Tooling
+
+Manual DNS changes are error-prone. As infrastructure scales, automate common operations.
+
+**Use Infrastructure as Code.** Define DNS records in Terraform, Pulumi, or similar tools. This provides version control, peer review through pull requests, and automatic documentation.
+
+**Implement automated validation.** CI pipelines can validate DNS record syntax before deployment. Add a pre-deployment step that checks formats, verifies CNAME targets resolve, and confirms certificate coverage.
+
+**Set up continuous monitoring.** Deploy tools that check resolution from multiple locations every few minutes. When a record changes unexpectedly, the team gets alerted immediately.
+
+**Log all changes.** Maintain an audit trail of every DNS modification. Log who made the change, when, what values were set, and what the previous values were.
+
+## Common Mistakes to Avoid
+
+**Changing TTL and IP simultaneously** is the most common error. Reduce TTL first, wait for full propagation, then change the IP. Combining both means you cannot quickly revert because old TTL values remain cached.
+
+**CNAME conflicts** cause silent failures. A CNAME cannot coexist with any other record for the same name. Adding an A record where a CNAME exists will drop the A record or cause resolution failures.
+
+**Ignoring email records** during subdomain changes leads to delivery problems. Even when changing only an A record, verify that MX and TXT records for the root domain remain intact.
+
+**Leaving stale records** creates security risks. Unused records can be hijacked if an attacker gains access to your provider. Audit and remove records that are no longer needed.
+
+## Frequently Asked Questions
+
+**How often should we review DNS records?**
+Review your full zone at least once per quarter. Check for stale records, unnecessary entries, and TTL settings. A quarterly audit takes less than an hour.
+
+**What TTL should I use for frequently changed records?**
+Set a TTL of 300 seconds (5 minutes) for records that change regularly. This allows rapid propagation while keeping query volume manageable. For stable records, 3600 seconds works well.
+
+**Can I make DNS changes during business hours?**
+Yes, if you follow the checklist. The pre-change audit, staging validation, and rollback plan are designed to make safe changes at any time.
+
+**How do I handle DNS changes across multiple providers?**
+Treat each provider as a separate change event. Apply changes sequentially. Complete and verify the change at one provider before starting the next.
+
+**What tools are essential for a DNS change workflow?**
+At minimum, a DNS record validator, a multi-location resolution checker, and a monitoring tool with alerting. `dig` and `nslookup` are on every system. For team workflows, use an IaC tool like Terraform and a shared runbook.
+
+</div>
+      </div>
+    </div>
+  </div>
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Build%20a%20DNS%20Change%20Checklist%20for%20Teams&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fbuild-a-dns-change-checklist-for-teams%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fbuild-a-dns-change-checklist-for-teams%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div>
+  <div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="/guides/configuring-dns-records-for-website-speed/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Configuring DNS Records for Website Speed</span>
+    </a>
+    <a href="/guides/monitoring-subdomain-health/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;text-align:right;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Next</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">Monitoring Subdomain Health</span>
+    </a>
+  </div>
+  <section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
+        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
+        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
+        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
+        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
+        <li><a href="/trending/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Trending</a></li>
+        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
+        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
+        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
+        <li><a href="/tutorials/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Tutorials</a></li>
+      </ul>
+    </div>
+      </div>
+    </div>
+  </section>
+</main>
+      <div style="text-align:center;padding:var(--space-8) 0;">
+        <div class="container">
+          <script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
+          <div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+        </div>
+      </div>
+
+      <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-migration-note">
+          &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
+          operating subdomains on <code>is-pro.dev</code> and
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>.
+        </div>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
+            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/showcase/" class="footer-link">Showcase</a>
+              <a href="/trending/" class="footer-link">Trending</a>
+              <a href="/tools/" class="footer-link">Tools</a>
+              <a href="/compare/" class="footer-link">Compare</a>
+              <a href="/tutorials/" class="footer-link">Tutorials</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div class="footer-inline-links">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+<script src="/js/app.js" defer></script>
+</body>
+</html>

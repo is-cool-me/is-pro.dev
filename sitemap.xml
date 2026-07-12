@@ -858,4 +858,46 @@
     <changefreq>monthly</changefreq>
     <lastmod>2026-07-05</lastmod>
   </url>
+  <url>
+    <loc>https://is-pro.dev/guides/build-a-dns-change-checklist-for-teams/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-05</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/diagnose-ssl-pending-on-new-subdomain/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-05</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/lock-down-caa-for-certificate-control/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-05</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/guides/migrate-subdomain-between-hosting-providers/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-05</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/cloudflare-proxy-vs-dns-only-for-subdomains/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-05</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/fixing-cname-loop-errors-on-static-hosts/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-05</lastmod>
+  </url>
+  <url>
+    <loc>https://is-pro.dev/blog/using-txt-records-for-domain-verification/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-05</lastmod>
+  </url>
 </urlset>

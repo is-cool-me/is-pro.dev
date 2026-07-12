@@ -13,6 +13,11 @@ on:
   repository_dispatch:
     types: [regenerate-content]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -114,6 +119,7 @@ jobs:
           cd is-pro.dev
           git config user.name "is-cool-me Bot"
           git config user.email "bot@is-cool-me"
+          rm -f sitemap-generated.xml
           git add -A
           if git diff --staged --quiet; then
             echo "No changes to push"

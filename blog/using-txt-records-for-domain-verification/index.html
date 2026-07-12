@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script
+      src="https://quge5.com/88/tag.min.js"
+      data-zone="251169"
+      async
+      data-cfasync="false"
+    ></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large"
+    />
+    <title>
+      Using TXT Records for Domain Verification: Complete Guide — is-cool-me
+      Blog
+    </title>
+    <meta
+      name="description"
+      content="Learn how TXT records are used for domain verification across services like Google, GitHub, Let's Encrypt, and Cloudflare — with practical examples for is-pro.dev subdomains."
+    />
+    <meta
+      name="keywords"
+      content="txt record, domain verification, dns verification, google verification, github pages, ssl verification"
+    />
+    <link
+      rel="canonical"
+      href="https://is-pro.dev/blog/using-txt-records-for-domain-verification/"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://is-pro.dev/blog/using-txt-records-for-domain-verification/"
+    />
+    <meta
+      property="og:title"
+      content="Using TXT Records for Domain Verification: Complete Guide — is-cool-me Blog"
+    />
+    <meta
+      property="og:description"
+      content="Learn how TXT records are used for domain verification across services like Google, GitHub, Let's Encrypt, and Cloudflare — with practical examples for is-pro.dev subdomains."
+    />
+    <meta
+      property="og:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Using TXT Records for Domain Verification: Complete Guide — is-cool-me Blog"
+    />
+    <meta
+      name="twitter:description"
+      content="Learn how TXT records are used for domain verification across services like Google, GitHub, Let's Encrypt, and Cloudflare — with practical examples for is-pro.dev subdomains."
+    />
+    <meta
+      name="twitter:image"
+      content="https://is-pro.dev/dist/images/is-pro.dev.png"
+    />
+    <meta name="theme-color" content="#08080f" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta
+      name="referrer"
+      content="strict-origin-when-cross-origin"
+    />
+    <link
+      rel="icon"
+      href="/dist/images/logo.png"
+      type="image/png"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "BlogPosting",
+            "headline": "Using TXT Records for Domain Verification: Complete Guide",
+            "description": "Learn how TXT records are used for domain verification across services like Google, GitHub, Let's Encrypt, and Cloudflare — with practical examples for is-pro.dev subdomains.",
+            "author": {
+              "@type": "Person",
+              "name": "Mayank Baswal",
+              "url": "https://is-pro.dev/about/"
+            },
+            "reviewedBy": {
+              "@type": "Person",
+              "name": "is-cool-me Technical Review"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "is-cool-me",
+              "url": "https://is-pro.dev",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://is-pro.dev/dist/images/logo.png"
+              }
+            },
+            "datePublished": "2026-07-05",
+            "dateModified": "2026-07-05",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://is-pro.dev/blog/using-txt-records-for-domain-verification/"
+            },
+            "url": "https://is-pro.dev/blog/using-txt-records-for-domain-verification/"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://is-pro.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://is-pro.dev/blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Using TXT Records for Domain Verification: Complete Guide",
+                "item": "https://is-pro.dev/blog/using-txt-records-for-domain-verification/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8088216451251964"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only skip-link"
+      >Skip to main content</a
+    >
+
+    <header class="site-header" role="banner">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="header-logo" aria-label="is-cool-me home">
+            <img
+              src="/dist/images/logo.png"
+              alt=""
+              width="32"
+              height="32"
+              aria-hidden="true"
+            />
+            <span class="logo-text">is-cool-me</span>
+          </a>
+          <nav
+            class="header-nav"
+            id="header-nav"
+            aria-label="Main navigation"
+          >
+            <a href="/" class="nav-link">Home</a>
+            <a href="/domains/" class="nav-link">Domains</a>
+            <a href="/blog/" class="nav-link active">Blog</a>
+            <a href="/guides/" class="nav-link">Guides</a>
+            <a href="/showcase/" class="nav-link">Showcase</a
+            ><a href="/trending/" class="nav-link">Trending</a>
+            <a href="/about/" class="nav-link">About</a>
+            <a href="/contact/" class="nav-link">Contact</a>
+            <a href="/terms/" class="nav-link">Terms</a>
+          </nav>
+          <div class="header-actions">
+            <a
+              href="https://discord.gg/N8YzrkJxYy"
+              class="btn btn-ghost btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join Discord"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+                />
+              </svg>
+              Discord
+            </a>
+            <a
+              href="https://dash.is-pro.dev"
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open Dashboard
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="header-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <main id="main-content">
+      <article>
+        <header class="article-hero">
+          <div class="container">
+            <div class="article-hero-inner">
+              <div class="article-meta">
+                <span class="article-category">Technical</span>
+                <span class="article-meta-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  5 min read
+                </span>
+                <span class="article-meta-item">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect
+                      x="3"
+                      y="4"
+                      width="18"
+                      height="18"
+                      rx="2"
+                      ry="2"
+                    />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  Published Jul 2026
+                </span>
+              </div>
+              <h1>
+                Using TXT Records for Domain Verification: Complete Guide
+              </h1>
+              <p class="article-summary">
+                Learn how TXT records are used for domain verification across
+                services like Google, GitHub, Let's Encrypt, and Cloudflare —
+                with practical examples for is-pro.dev subdomains.
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <section class="author-section" aria-label="Article authorship">
+          <div class="container">
+            <div class="author-card" data-reveal>
+              <div class="author-card-main">
+                <h2 class="author-card-title">
+                  Written by Mayank Baswal
+                </h2>
+                <p class="author-card-role">
+                  Founder of is-cool-me · DNS &amp; Platform Infrastructure
+                </p>
+                <p class="author-card-bio">
+                  Mayank Baswal maintains the is-cool-me platform and writes
+                  technical guides focused on DNS configuration, subdomain
+                  infrastructure, SSL troubleshooting, deployment workflows,
+                  and platform reliability.
+                </p>
+                <div class="author-card-links">
+                  <a
+                    href="https://github.com/LightHostingFree"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub Profile</a
+                  >
+                  <a href="/contact/">Contact</a>
+                </div>
+              </div>
+              <div class="author-card-review">
+                <span class="author-card-review-label">Reviewed by</span>
+                <span class="author-card-reviewer"
+                  >is-cool-me Technical Review</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="article-layout-section">
+          <div class="container">
+            <div class="article-layout-inner">
+              <div class="article-content prose">
+                <h2>What Are TXT Records?</h2>
+                <p>
+                  TXT records are a DNS record type that stores arbitrary
+                  text strings associated with a domain. Defined in RFC 1035
+                  and extended by later specifications, TXT records were
+                  originally designed for descriptive text. Today they serve
+                  as the backbone of domain ownership verification, email
+                  authentication, and several other internet protocols.
+                </p>
+                <p>
+                  Unlike A records (which map to IP addresses) or CNAME
+                  records (which alias to other hostnames), TXT records carry
+                  no routing or resolution information. They exist purely as
+                  data that services query and validate. A single domain can
+                  have multiple TXT records, and DNS resolvers return all
+                  matching records for a given name. The querying application
+                  processes only the ones it recognizes by matching the exact
+                  string content.
+                </p>
+
+                <h2>Why Services Use TXT Records for Verification</h2>
+                <p>
+                  When a service asks you to add a TXT record to verify domain
+                  ownership, it is asking you to prove administrative access
+                  to the DNS zone. The service generates a unique token, you
+                  publish it as a TXT record at a specific hostname, and the
+                  service queries DNS to confirm the token exists. If it
+                  matches, ownership is proven.
+                </p>
+                <p>
+                  TXT records are ideal because they do not affect website
+                  traffic, email delivery, or SSL certificates. Adding a TXT
+                  record is non-invasive — it cannot break your site or
+                  redirect your mail. Once verified, you can often delete the
+                  record without losing ownership, though some services
+                  require ongoing presence for periodic re-validation. This
+                  makes TXT-based verification the safest and most universal
+                  approach across the industry.
+                </p>
+
+                <h2>Google Search Console Verification</h2>
+                <p>
+                  Google Search Console uses TXT records to verify domain
+                  ownership before granting access to search data and
+                  indexing controls. When you add a property, Google provides
+                  a verification string:
+                </p>
+                <pre><code>google-site-verification=aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567</code></pre>
+                <p>
+                  Publish this as a TXT record on your subdomain. For an
+                  is-pro.dev subdomain:
+                </p>
+                <pre><code>myproject.is-pro.dev.  TXT  "google-site-verification=aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567"</code></pre>
+                <p>
+                  After propagation, click "Verify" in Search Console. Google
+                  queries the hostname, finds the token, and grants ownership.
+                </p>
+
+                <h2>GitHub Pages Domain Verification</h2>
+                <p>
+                  GitHub uses DNS-based TXT records for domain verification
+                  at the account and organization level. The record uses a
+                  challenge prefix:
+                </p>
+                <pre><code>_github-challenge-myorg.is-pro.dev.  TXT  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</code></pre>
+                <p>
+                  Once added, GitHub queries that hostname and marks the
+                  domain as verified, enabling organization-level domain
+                  association and preventing other GitHub users from claiming
+                  the same domain. This verification is required before you
+                  can enable certain security features like SAML SSO for
+                  enterprise organizations.
+                </p>
+
+                <h2>Let's Encrypt DNS-01 Challenge</h2>
+                <p>
+                  The ACME protocol's DNS-01 challenge is the only method
+                  that supports wildcard certificates. Your ACME client
+                  creates a TXT record at a challenge hostname:
+                </p>
+                <pre><code>_acme-challenge.myproject.is-pro.dev.  TXT  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</code></pre>
+                <p>
+                  Let's Encrypt queries DNS for this record. If the token
+                  matches, the certificate is issued. For automated renewal,
+                  your client must update this record through your DNS
+                  provider's API. The is-pro.dev dashboard supports
+                  API-based record management for this use case.
+                </p>
+
+                <div class="callout">
+                  <p>
+                    <strong>Tip:</strong> DNS-01 is required for wildcard
+                    certificates like
+                    <code>*.yourproject.is-pro.dev</code>. HTTP-01 validation
+                    uses a file served over port 80 instead.
+                  </p>
+                </div>
+
+                <h2>Cloudflare SSL/TLS Verification</h2>
+                <p>
+                  Cloudflare may request a TXT record when you enable SSL/TLS
+                  for a domain proxied through their network. When adding a
+                  new domain, the platform provides several DNS records to
+                  configure, including a TXT verification record for certain
+                  features. The verification ensures Cloudflare can issue and
+                  renew SSL certificates without interruption. The record is
+                  typically one-time, but should remain until the certificate
+                  is active and confirmed in the Cloudflare dashboard.
+                </p>
+
+                <h2>SPF, DKIM, and DMARC as TXT Records</h2>
+                <p>
+                  Beyond ownership verification, TXT records power email
+                  authentication. <strong>SPF</strong> publishes authorized
+                  sending IPs:
+                </p>
+                <pre><code>mail.myproject.is-pro.dev.  TXT  "v=spf1 include:sendgrid.net ~all"</code></pre>
+                <p>
+                  <strong>DKIM</strong> publishes a public key at a selector
+                  subdomain for cryptographic email signing.
+                  <strong>DMARC</strong> publishes a policy at
+                  <code>_dmarc</code> telling receivers how to handle
+                  authentication failures. For a full walkthrough, see our
+                  <a href="/blog/email-on-subdomains-mx-spf-dkim-basics/"
+                    >MX, SPF, and DKIM Basics</a
+                  >
+                  guide.
+                </p>
+
+                <h2>Adding TXT Records via is-pro.dev Dashboard</h2>
+                <p>
+                  Adding a TXT record through the is-pro.dev dashboard:
+                </p>
+                <ol>
+                  <li>
+                    Log in at
+                    <a
+                      href="https://dash.is-pro.dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >dash.is-pro.dev</a
+                    >.
+                  </li>
+                  <li>
+                    Navigate to DNS management for your subdomain.
+                  </li>
+                  <li>
+                    Click "Add Record" and select type <strong>TXT</strong>.
+                  </li>
+                  <li>
+                    Enter the hostname (e.g., <code>@</code> for the subdomain
+                    root, or <code>_acme-challenge</code> for Let's Encrypt).
+                  </li>
+                  <li>
+                    Paste the TXT value and save. Changes propagate within
+                    seconds on the is-cool-me DNS infrastructure.
+                  </li>
+                </ol>
+
+                <h2>Verifying TXT Record Propagation with dig</h2>
+                <p>
+                  After adding a TXT record, confirm it is visible:
+                </p>
+                <pre><code>dig myproject.is-pro.dev TXT +short</code></pre>
+                <p>
+                  This returns all TXT records for the hostname. You should
+                  see the verification token you just added. If multiple TXT
+                  records exist, dig returns all of them. To query a specific
+                  nameserver:
+                </p>
+                <pre><code>dig @ns1.is-pro.dev myproject.is-pro.dev TXT +short</code></pre>
+                <p>
+                  If dig returns the expected value but verification still
+                  fails, the service may be querying a different nameserver
+                  with cached results. Wait a few minutes and retry.
+                </p>
+
+                <h2>Common Issues and Troubleshooting</h2>
+
+                <h3>Verification Fails After Adding the Record</h3>
+                <p>
+                  Even on platforms with fast propagation, verification
+                  services may cache previous results. Wait five minutes and
+                  retry. Most services allow multiple attempts without penalty.
+                </p>
+
+                <h3>Wrong Hostname or Missing Prefix</h3>
+                <p>
+                  The most common mistake is adding the TXT record at the
+                  wrong hostname. If Google asks for
+                  <code>myproject.is-pro.dev</code> and you add it at the
+                  root, verification fails. Always copy the exact hostname
+                  from the verification instructions.
+                </p>
+
+                <h3>Extra Quotes or Whitespace</h3>
+                <p>
+                  Do not add extra spaces, newlines, or additional quotes
+                  beyond what the DNS provider requires. Most dashboards
+                  handle quoting automatically — paste the raw value.
+                </p>
+
+                <h3>TTL Causing Stale Cache</h3>
+                <p>
+                  If you recently changed a TXT record, resolvers may still
+                  serve the old value until the TTL expires. Use
+                  <code>dig +trace</code> to identify stale data, or wait
+                  for the TTL to elapse.
+                </p>
+
+                <h2>Frequently Asked Questions</h2>
+
+                <h3>
+                  Can I verify without a TXT record?
+                </h3>
+                <p>
+                  Some services support HTML file uploads or meta tags, but
+                  TXT record verification is the most universal method. It
+                  does not require changes to your website's content and is
+                  the only option for bare domains without a web server.
+                </p>
+
+                <h3>
+                  Should I keep the TXT record after verification?
+                </h3>
+                <p>
+                  It varies. Google Search Console allows deletion but
+                  requires re-verification if you lose access. Let's Encrypt
+                  challenge records are temporary. Cloudflare may require the
+                  record for ongoing SSL management.
+                </p>
+
+                <h3>
+                  How fast do TXT records propagate on is-pro.dev?
+                </h3>
+                <p>
+                  TXT records added through the is-pro.dev dashboard propagate
+                  almost instantly. External resolvers pick up changes within
+                  one to five minutes.
+                </p>
+
+                <h3>
+                  Can I verify a subdomain I do not own?
+                </h3>
+                <p>
+                  No. Domain verification requires administrative access to
+                  the DNS zone. You must have an active is-pro.dev subdomain
+                  allocated to your account.
+                </p>
+
+                <div class="callout">
+                  <p>
+                    <strong>Need help?</strong> See
+                    <a href="/guides/">Guides</a> for step-by-step tutorials
+                    or join the
+                    <a
+                      href="https://discord.gg/N8YzrkJxYy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Discord community</a
+                    >
+                    for real-time support.
+                  </p>
+                </div>
+              </div>
+              <aside class="toc-sidebar" id="toc-sidebar">
+                <nav
+                  class="toc-nav"
+                  aria-label="Table of Contents"
+                >
+                  <div class="toc-header">On this page</div>
+                  <ul class="toc-list" id="toc-list"></ul>
+                </nav>
+              </aside>
+            </div>
+          </div>
+        </div>
+
+        <div class="container" style="margin: 2rem auto">
+          <div class="ad-container ad-native-banner"></div>
+        </div>
+
+        <div class="container" style="margin: 2rem auto">
+          <div class="ad-container ad-social-bar"></div>
+        </div>
+
+        <div
+          class="container"
+          style="margin: 1.5rem auto"
+          id="ad-300x250-blog-txt"
+        >
+          <div class="ad-container ad-banner-300x250"></div>
+        </div>
+        <div
+          class="container"
+          style="margin: 1.5rem auto"
+          id="ad-728x90-blog-txt"
+        >
+          <div class="ad-container ad-banner-728x90"></div>
+        </div>
+
+        <div class="container">
+          <div class="share-section">
+            <span class="share-label">Share this article</span>
+            <div class="share-links">
+              <a
+                class="share-link"
+                href="https://twitter.com/intent/tweet?text=Using%20TXT%20Records%20for%20Domain%20Verification%3A%20Complete%20Guide&url=https://is-pro.dev/blog/using-txt-records-for-domain-verification/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                  />
+                </svg>
+                Share on X
+              </a>
+              <a
+                class="share-link"
+                href="https://www.linkedin.com/sharing/share-offsite/?url=https://is-pro.dev/blog/using-txt-records-for-domain-verification/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  />
+                </svg>
+                Share on LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-nav-section">
+          <div class="container">
+            <nav class="doc-nav" aria-label="Article navigation">
+              <a
+                class="doc-nav-link"
+                href="/blog/fixing-cname-loop-errors-on-static-hosts/"
+                ><span class="doc-nav-label"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                  Previous</span
+                ><span class="doc-nav-title"
+                  >Fixing CNAME Loop Errors on Static Hosts</span
+                ></a
+              >
+              <a
+                class="doc-nav-link next"
+                href="/blog/email-on-subdomains-mx-spf-dkim-basics/"
+                ><span class="doc-nav-label"
+                  >Next
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" /></svg></span
+                ><span class="doc-nav-title"
+                  >Email on Subdomains: MX, SPF, DKIM Basics</span
+                ></a
+              >
+            </nav>
+          </div>
+        </div>
+
+        <section class="related-section">
+          <div class="container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+              <a
+                href="/blog/email-on-subdomains-mx-spf-dkim-basics/"
+                class="related-card"
+                ><div class="related-card-category">Email DNS</div>
+                <h3>Email on Subdomains: MX, SPF, and DKIM Basics</h3>
+                <p>
+                  A practical intro to reliable email delivery on your
+                  subdomain.
+                </p></a
+              >
+              <a
+                href="/blog/dns-propagation-explained-for-new-users/"
+                class="related-card"
+                ><div class="related-card-category">DNS Basics</div>
+                <h3>DNS Propagation Explained for New Users</h3>
+                <p>
+                  What propagation really means and how to debug delays
+                  without panic.
+                </p></a
+              >
+              <a
+                href="/blog/lets-encrypt-vs-cloudflare-flexible-ssl/"
+                class="related-card"
+                ><div class="related-card-category">SSL &amp; Security</div>
+                <h3>Let's Encrypt vs Cloudflare Flexible SSL</h3>
+                <p>
+                  Understanding the differences between full and flexible SSL
+                  configurations.
+                </p></a
+              >
+            </div>
+          </div>
+        </section>
+
+        <div
+          class="container"
+          style="margin-bottom: 1.5rem"
+          id="blog-post-mobile-ad"
+        >
+          <div class="ad-container ad-banner-320x50"></div>
+        </div>
+      </article>
+    </main>
+
+    <div style="text-align: center; padding: var(--space-8) 0">
+      <div class="container">
+        <script
+          async
+          src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js"
+          data-cfasync="false"
+        ></script>
+        <div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+      </div>
+    </div>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img
+                src="/dist/images/logo.png"
+                alt=""
+                width="28"
+                height="28"
+                aria-hidden="true"
+              />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">
+              Free subdomains for developers with GitHub sign-in and DNS
+              management.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a
+                href="https://dash.is-pro.dev"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Dashboard</a
+              >
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link"
+                >Editorial Standards</a
+              >
+              <a href="/abuse-report/" class="footer-link"
+                >Abuse Report</a
+              >
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <nav class="footer-links" aria-label="Community links">
+              <a
+                href="https://discord.gg/N8YzrkJxYy"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Discord Server</a
+              >
+              <a
+                href="https://github.com/is-cool-me"
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
+            </nav>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div style="display: flex; gap: 1.5rem">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/app.js" defer></script>
+    <script
+      async
+      src="https://analytics.is-pro.dev/js/pa-26xhwp9zFFveclGA1bYN8.js"
+    ></script>
+    <script>
+      ((window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {};
+          }));
+      plausible.init();
+    </script>
+  </body>
+</html>

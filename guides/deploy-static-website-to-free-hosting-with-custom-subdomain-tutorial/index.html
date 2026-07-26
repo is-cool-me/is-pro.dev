@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://quge5.com/88/tag.min.js" data-zone="251169" async data-cfasync="false"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial — is-cool-me</title>
+  <meta name="description" content="Follow this step-by-step tutorial to deploy a static website to free hosting with a custom subdomain. Learn how to configure DNS records and set up a secure subdomain for your static website." />
+  <meta name="keywords" content="deploy static website to free hosting, custom subdomain for static website, free hosting with subdomain, static website deployment, dns configuration for static website" />
+  <link rel="canonical" href="https://is-pro.dev/guides/deploy-static-website-to-free-hosting-with-custom-subdomain-tutorial/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://is-pro.dev/guides/deploy-static-website-to-free-hosting-with-custom-subdomain-tutorial/" />
+  <meta property="og:title" content="Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial — is-cool-me" />
+  <meta property="og:description" content="Follow this step-by-step tutorial to deploy a static website to free hosting with a custom subdomain. Learn how to configure DNS records and set up a secure subdomain for your static website." />
+  <meta property="og:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial — is-cool-me" />
+  <meta name="twitter:description" content="Follow this step-by-step tutorial to deploy a static website to free hosting with a custom subdomain. Learn how to configure DNS records and set up a secure subdomain for your static website." />
+  <meta name="twitter:image" content="https://is-pro.dev/dist/images/is-pro.dev.png" />
+  <meta name="theme-color" content="#08080f" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://quge5.com https://analytics.is-pro.dev https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://quge5.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="icon" href="/dist/images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
+  <link rel="stylesheet" href="/css/main.css" />
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://is-pro.dev/#website",
+      "url": "https://is-pro.dev",
+      "name": "Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial — is-cool-me",
+      "description": "Follow this step-by-step tutorial to deploy a static website to free hosting with a custom subdomain. Learn how to configure DNS records and set up a secure subdomain for your static website.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial",
+      "description": "Follow this step-by-step tutorial to deploy a static website to free hosting with a custom subdomain. Learn how to configure DNS records and set up a secure subdomain for your static website.",
+      "author": {
+        "@type": "Person",
+        "name": "Mayank Baswal",
+        "url": "https://is-pro.dev/about/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "is-cool-me",
+        "url": "https://is-pro.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://is-pro.dev/dist/images/logo.png"
+        }
+      },
+      "datePublished": "2026-07-26",
+      "dateModified": "2026-07-26",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://is-pro.dev/guides/deploy-static-website-to-free-hosting-with-custom-subdomain-tutorial/"
+      },
+      "url": "https://is-pro.dev/guides/deploy-static-website-to-free-hosting-with-custom-subdomain-tutorial/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://is-pro.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://is-pro.dev/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial",
+          "item": "https://is-pro.dev/guides/deploy-static-website-to-free-hosting-with-custom-subdomain-tutorial/"
+        }
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--color-accent);color:#fff;padding:.5rem 1rem;border-radius:var(--radius-md);transform:translateY(-200%);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-200%)'">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="is-cool-me home">
+        <img src="/dist/images/logo.png" alt="is-cool-me logo" width="32" height="32" />
+        <span class="logo-text">is-cool-me</span>
+      </a>
+      <nav class="header-nav" id="header-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/domains/" class="nav-link">Domains</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/guides/" class="nav-link active">Guides</a>
+        <a href="/showcase/" class="nav-link">Showcase</a>
+        <a href="/trending/" class="nav-link">Trending</a>
+        <a href="/tools/" class="nav-link">Tools</a>
+        <a href="/compare/" class="nav-link">Compare</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
+        <a href="/terms/" class="nav-link">Terms</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer" aria-label="Join Discord">Discord</a>
+        <a href="https://dash.is-pro.dev" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Open Dashboard <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main id="main-content">
+<article>
+  <header class="article-hero">
+    <div class="container">
+      <div class="article-hero-inner">
+        <div class="article-meta">
+          <span class="article-category">Deployment</span>
+          <span class="article-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>7 min read</span>
+          <span class="article-meta-item">Published July 2026</span>
+          <span class="article-meta-item" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:#4ade80;;padding:.2rem .6rem;border-radius:var(--radius-full);font-size:.8rem;">Beginner</span>
+        </div>
+        <h1>Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial</h1>
+        <p class="article-summary">Follow this step-by-step tutorial to deploy a static website to free hosting with a custom subdomain. Learn how to configure DNS records and set up a secure subdomain for your static website.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="author-section" aria-label="Article authorship">
+    <div class="container">
+      <div class="author-card" data-reveal>
+        <div class="author-card-main">
+          <h2 class="author-card-title">Written by Mayank Baswal</h2>
+          <p class="author-card-role">Founder of is-cool-me · DNS & Platform Infrastructure</p>
+          <p class="author-card-bio">Mayank Baswal maintains the is-cool-me platform and writes technical guides focused on DNS configuration, subdomain infrastructure, SSL troubleshooting, deployment workflows, and platform reliability.</p>
+          <div class="author-card-links">
+            <a href="https://github.com/LightHostingFree" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+        <div class="author-card-review">
+          <span class="author-card-review-label">Reviewed by</span>
+          <span class="author-card-reviewer">is-cool-me Technical Review</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="article-layout-section">
+    <div class="container">
+      <div class="article-layout-inner">
+        <div class="article-content prose">
+          ## Introduction
+          Deploying a static website to free hosting with a custom subdomain is an essential skill for developers looking to showcase their projects or prototypes without incurring significant costs. Static websites, which do not require server-side rendering or database interactions, can be efficiently hosted on free platforms that offer custom subdomains. This approach allows developers to maintain a professional online presence and share their work with others, including potential employers, clients, or collaborators. The is-cool-me platform, with its free developer subdomains like "myproject.is-pro.dev", provides an ideal environment for such deployments. Understanding how to leverage these resources effectively can significantly enhance a developer's ability to share, collaborate, and innovate. In this comprehensive guide, we will walk through the process of deploying a static website to free hosting with a custom subdomain, covering the necessary prerequisites, step-by-step instructions, and providing deep dives into configuration options, common pitfalls, best practices, and troubleshooting techniques.
+          
+          ## Prerequisites
+          Before diving into the deployment process, it's crucial to have a few prerequisites in place. First, ensure you have a static website ready for deployment. This could be a simple HTML, CSS, and JavaScript project, or a more complex static site generated by tools like Jekyll, Hugo, or Gatsby. Next, create an account on the is-cool-me platform to obtain your custom subdomain, such as "myproject.is-pro.dev". Familiarize yourself with the Git version control system, as it will be used to push your website code to the hosting platform. Additionally, having a basic understanding of DNS configuration and how it applies to custom subdomains will be beneficial. Lastly, ensure you have Git and a code editor or IDE installed on your computer. With these prerequisites met, you're ready to proceed with the deployment process.
+          
+          ## Step-by-step instructions
+          1. **Initialize a Git repository** for your static website by running `git init` in your project's root directory.
+          2. **Add all files** to the Git repository using `git add .`.
+          3. **Commit changes** with a meaningful message, such as `git commit -m "Initial commit of my static website"`.
+          4. **Create a new repository** on the is-cool-me platform for your project, and link it to your custom subdomain "myproject.is-pro.dev".
+          5. **Link your local repository** to the remote repository on is-cool-me using `git remote add origin https://git.is-pro.dev/myproject/myproject.git`.
+          6. **Push your changes** to the remote repository with `git push -u origin master`.
+          7. **Configure your DNS settings** to point to the is-cool-me servers. This typically involves setting a CNAME record for your custom subdomain "myproject.is-pro.dev" to point to "cdn.is-pro.dev".
+          8. **Verify DNS propagation** using tools like `dig` or online DNS checkers to ensure your subdomain resolves correctly.
+          
+          ## Configuration deep-dive
+          Configuring your static website for deployment involves understanding several key settings. For instance, when setting up your custom subdomain "api.myproject.is-pro.dev" for an API gateway, you might configure environment variables in your `.env` file like so:
+          ```makefile
+          VITE_API_URL=https://api.myproject.is-pro.dev
+          ```
+          And in your `vite.config.js`:
+          ```javascript
+          import { defineConfig } from 'vite'
+          export default defineConfig({
+            base: 'https://myproject.is-pro.dev/',
+          })
+          ```
+          Understanding how to manipulate these configurations can significantly impact your website's functionality and performance.
+          
+          ## Common pitfalls and solutions
+          1. **Incorrect DNS Configuration**: Ensure your CNAME records are correctly set up to point to the is-cool-me CDN.
+             - **Solution**: Verify DNS records using `dig +short CNAME myproject.is-pro.dev`.
+          2. **Git Repository Not Linked**: Failing to link your local Git repository to the remote repository on is-cool-me.
+             - **Solution**: Use `git remote -v` to check if the origin is correctly set.
+          3. **Static Site Generation Issues**: Problems with building your static site, leading to deployment failures.
+             - **Solution**: Check your build scripts and ensure dependencies are up-to-date.
+          4. **Custom Subdomain Not Available**: Finding that your desired custom subdomain is already in use.
+             - **Solution**: Contact is-cool-me support for assistance in acquiring the subdomain.
+          5. **SSL Certificate Issues**: Encountering problems with SSL certificates, affecting HTTPS access to your site.
+             - **Solution**: Ensure SSL is properly configured through the is-cool-me dashboard.
+          
+          ## Best practices
+          For optimal performance, security, and maintainability, consider the following best practices:
+          - **Use Version Control**: Always manage your codebase with Git.
+          - **Optimize Images**: Compress images to reduce load times.
+          - **Leverage Browser Caching**: Implement caching to minimize repeat requests to your server.
+          - **Monitor Performance**: Use analytics tools to identify and address bottlenecks.
+          - **Keep Dependencies Updated**: Regularly update your project dependencies to ensure you have the latest security patches.
+          
+          ## Troubleshooting section
+          When issues arise, start by checking the is-cool-me dashboard for error messages or warnings related to your deployment. Next, inspect your Git repository for any inconsistencies or uncommitted changes. Use the browser's developer tools to diagnose frontend issues, and consider using `curl` or Postman for backend troubleshooting. For DNS-related problems, utilize tools like `dig` or online DNS propagation checkers. Lastly, consult the is-cool-me community forums or support channels for guidance on platform-specific issues.
+          
+          ## Deployment scenario from operations
+          Consider a real-world example where a developer wants to deploy a personal blog built with Hugo to "blog.myproject.is-pro.dev". The process involves initializing a Git repository in the blog's root directory, committing all files, and then pushing the changes to a newly created repository on is-cool-me linked to "blog.myproject.is-pro.dev". The developer then configures the Hugo site to build and deploy automatically on push events, ensuring the blog remains up-to-date. DNS settings are adjusted to point "blog.myproject.is-pro.dev" to the is-cool-me CDN, and after verifying DNS propagation, the blog is accessible via the custom subdomain.
+          
+          ## Common mistakes
+          * Failing to commit all necessary files before pushing to the remote repository.
+          * Incorrectly configuring the CNAME record for the custom subdomain.
+          * Not updating the `base` URL in the website's configuration to match the custom subdomain.
+          * Overlooking the importance of optimizing static assets for web performance.
+          * Neglecting to monitor the website's performance and address any issues promptly.
+          
+          ## How to verify it works
+          1. **Access Your Website**: Navigate to your custom subdomain in a web browser to ensure it loads correctly.
+          2. **Check for HTTPS**: Verify that your site is served over HTTPS by looking for the padlock icon in the browser's address bar.
+          3. **Test Links and Assets**: Click through your website's links and verify that all static assets (images, CSS, JavaScript files) are loading as expected.
+          4. **Inspect Browser Console**: Open the browser's developer tools to check for any frontend errors.
+          5. **Validate DNS Configuration**: Use `dig` or an online tool to confirm your DNS settings are correctly propagating.
+          
+          ## Conclusion with next steps
+          Deploying a static website to free hosting with a custom subdomain is a straightforward process that can significantly enhance your online presence. By following the steps and best practices outlined in this guide, you can ensure a smooth and successful deployment. Next, consider exploring advanced topics such as automated deployment scripts, performance optimization techniques, and integrating your static site with dynamic backend services. Remember, the key to a successful deployment is thorough preparation, attention to detail, and a willingness to troubleshoot and learn from any issues that arise.
+          
+          ## FAQ
+          1. **Q: How long does DNS propagation take?**
+             A: DNS propagation can take anywhere from a few minutes to 48 hours, depending on your DNS provider and the location of your users. You can use online tools to check the status of DNS propagation across different regions.
+          2. **Q: Can I use a custom domain instead of a subdomain?**
+             A: Yes, many free hosting platforms allow you to use a custom domain. This typically involves setting an A record or CNAME record for your domain to point to the hosting platform's servers. Consult your hosting provider's documentation for specific instructions.
+          3. **Q: What if my static website requires backend services?**
+             A: For static websites that need to interact with backend services, consider using serverless functions or a headless CMS. These solutions can provide the necessary backend functionality without requiring a full server setup.
+          4. **Q: How do I handle SSL certificates for my custom subdomain?**
+             A: Most free hosting platforms offer automatic SSL certificate generation for custom subdomains. If this is not available, you may need to obtain an SSL certificate from a certificate authority and manually configure it for your subdomain.
+          5. **Q: Are there any limitations to using free hosting for my static website?**
+             A: Yes, free hosting plans often come with limitations such as bandwidth caps, storage limits, and restrictions on custom domains or SSL certificates. Be sure to review the terms of service for your hosting provider to understand any limitations that may apply to your use case.
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+<div style="display:flex;gap:.75rem;align-items:center;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);margin-top:2rem;">
+    <span style="font-size:.9rem;color:var(--color-text-muted);font-weight:600;">Share this article</span>
+    <a href="https://twitter.com/intent/tweet?text=Deploying%20a%20Static%20Website%20to%20Free%20Hosting%20with%20a%20Custom%20Subdomain%3A%20A%20Tutorial&url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fdeploy-static-website-to-free-hosting-with-custom-subdomain-tutorial%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fis-pro.dev%2Fguides%2Fdeploy-static-website-to-free-hosting-with-custom-subdomain-tutorial%2F" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:var(--radius-full);border:1px solid var(--color-border);font-size:.85rem;text-decoration:none;color:var(--color-text);transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Share on LinkedIn
+    </a>
+  </div>
+<div style="display:flex;gap:1rem;padding:1.5rem 0;border-top:1px solid var(--color-border-sub);">
+    <a href="https://is-pro.dev/guides/custom-subdomain-for-ecommerce-setup/" style="display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;flex:1;transition:all .2s;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+      <span style="font-size:.75rem;color:var(--color-text-muted);">Previous</span>
+      <span style="font-size:.9rem;color:var(--color-accent-light);font-weight:500;">A Step-by-Step Guide to Setting Up a Custom Subdomain for E-commerce Websites</span>
+    </a>
+  </div>
+<section style="padding:var(--space-12) 0;border-top:1px solid var(--color-border-sub);">
+    <div class="container">
+      <h2 style="font-size:1.5rem;margin-bottom:1.5rem;">Explore More</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Deployment Guides</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/free-hosting-with-github-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">GitHub Pages Hosting</a></li>
+        <li><a href="/guides/deploy-react-app-to-vercel/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Deploy to Vercel</a></li>
+        <li><a href="/guides/netlify-custom-domain-setup/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Netlify Setup</a></li>
+        <li><a href="/guides/nextjs-hosting-on-cloudflare-pages/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Cloudflare Pages</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">DNS & Security</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/guides/dns-records-explained/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">DNS Records Guide</a></li>
+        <li><a href="/guides/ssl-certificate-setup-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">SSL Setup</a></li>
+        <li><a href="/guides/subdomain-registry-guide/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Subdomain Registry</a></li>
+        <li><a href="/guides/redirect-old-domain-to-new/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Domain Redirects</a></li>
+      </ul>
+    </div>
+    <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;">
+      <h4 style="color:var(--color-accent-light);font-size:.9rem;margin-bottom:.5rem;">Platform Resources</h4>
+      <ul style="display:flex;flex-direction:column;gap:.35rem;">
+        <li><a href="/showcase/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Project Showcase</a></li>
+        <li><a href="/trending/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Trending</a></li>
+        <li><a href="/blog/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Blog</a></li>
+        <li><a href="/tools/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Free Tools</a></li>
+        <li><a href="/compare/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Compare Hosting</a></li>
+        <li><a href="/tutorials/" style="color:var(--color-text-muted);font-size:.9rem;transition:color .2s;" onmouseover="this.style.color='var(--color-accent-light)'" onmouseout="this.style.color='var(--color-text-muted)'">Tutorials</a></li>
+      </ul>
+    </div>
+      </div>
+    </div>
+  </section>
+</main>
+      <!-- Native Banner Ad - 4:1 -->
+      <div style="text-align:center;padding:var(--space-8) 0;">
+        <div class="container">
+          <script async src="https://behavecurlescalator.com/4ca1e991eb7b08bcad5807536453d0cd/invoke.js" data-cfasync="false"></script>
+          <div id="container-4ca1e991eb7b08bcad5807536453d0cd"></div>
+        </div>
+      </div>
+
+      <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-migration-note">
+          &#x1F504; <strong>Migration note:</strong> is-cool-me is the project
+          operating subdomains on <code>is-pro.dev</code> and
+          <code>is-into.tech</code>. <code>is-cool.me</code> subdomains migrated
+          to <code>is-pro.dev</code>, and <code>is-app.tech</code> migrated to
+          <code>is-into.tech</code>.
+        </div>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="footer-logo-link">
+              <img src="/dist/images/logo.png" alt="is-cool-me logo" width="28" height="28" />
+              <span class="mono">is-cool-me</span>
+            </a>
+            <p class="footer-tagline">Free subdomains for developers with GitHub sign-in, DNS management, and community support.</p>
+            <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Discord</a>
+          </div>
+          <div class="footer-col">
+            <h4>Service</h4>
+            <nav class="footer-links" aria-label="Service links">
+              <a href="https://dash.is-pro.dev" class="footer-link" target="_blank" rel="noopener noreferrer">Dashboard</a>
+              <a href="/domains/" class="footer-link">Domains</a>
+              <a href="/blog/" class="footer-link">Blog</a>
+              <a href="/guides/" class="footer-link">Guides</a>
+              <a href="/showcase/" class="footer-link">Showcase</a>
+              <a href="/trending/" class="footer-link">Trending</a>
+              <a href="/tools/" class="footer-link">Tools</a>
+              <a href="/compare/" class="footer-link">Compare</a>
+              <a href="/tutorials/" class="footer-link">Tutorials</a>
+              <a href="/about/" class="footer-link">About</a>
+              <a href="/contact/" class="footer-link">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <nav class="footer-links" aria-label="Legal links">
+              <a href="/terms/" class="footer-link">Terms of Service</a>
+              <a href="/privacy/" class="footer-link">Privacy Policy</a>
+              <a href="/editorial-standards/" class="footer-link">Editorial Standards</a>
+              <a href="/abuse-report/" class="footer-link">Abuse Report</a>
+            </nav>
+          </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <nav class="footer-links" aria-label="Community links">
+          <a href="https://discord.gg/N8YzrkJxYy" class="footer-link" target="_blank" rel="noopener noreferrer">Discord Server</a>
+          <a href="https://github.com/is-cool-me" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Updated</h4>
+        <p style="font-size:.85rem;color:var(--color-text-muted);margin-bottom:.75rem;">Get notified about new guides, blog posts, and platform updates.</p>
+        <a href="https://discord.gg/N8YzrkJxYy" class="btn btn-outline btn-sm btn-fit" target="_blank" rel="noopener noreferrer">Join Newsletter on Discord</a>
+      </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 is-cool-me. All rights reserved.</span>
+          <div class="footer-inline-links">
+            <a href="/about/">About</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/editorial-standards/">Editorial Standards</a>
+            <a href="/abuse-report/">Abuse Report</a>
+            <a href="/blog/">Blog</a>
+            <a href="/guides/">Guides</a>
+            <a href="/tools/">Tools</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+<script src="/js/app.js" defer></script>
+</body>
+</html>

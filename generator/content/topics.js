@@ -620,6 +620,26 @@ export const GUIDE_TOPICS = [
     tags: ["Static Websites","Free Hosting","Deployment"],
     relatedSlugs: [],
   },
+  {
+    slug: "setting-up-secure-ecommerce-subdomain-for-websites",
+    title: "A Step-by-Step Guide to Setting Up a Secure Subdomain for E-commerce Websites",
+    difficulty: "Intermediate",
+    category: "Security",
+    summary: "Learn how to set up a secure subdomain for your e-commerce website to protect customer data and prevent cyber attacks. This guide covers the importance of subdomain security for e-commerce websites.",
+    keywords: ["secure subdomain setup","e-commerce website security","subdomain configuration for e-commerce","protecting customer data","preventing cyber attacks"],
+    tags: ["E-commerce","Security","Subdomains"],
+    relatedSlugs: [],
+  },
+  {
+    slug: "deploying-static-website-to-free-hosting-with-custom-subdomain",
+    title: "Deploying a Static Website to Free Hosting with a Custom Subdomain: A Tutorial",
+    difficulty: "Beginner",
+    category: "Deployment",
+    summary: "Follow this step-by-step tutorial to deploy a static website to free hosting with a custom subdomain. Learn how to configure DNS records and set up a custom subdomain for your static website.",
+    keywords: ["free hosting for static websites","custom subdomain setup","deploying static website to free hosting","configuring DNS records","static website deployment"],
+    tags: ["Static Websites","Free Hosting","Deployment"],
+    relatedSlugs: [],
+  },
 ];
 
 export const BLOG_TOPICS = [

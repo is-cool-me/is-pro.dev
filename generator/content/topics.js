@@ -640,6 +640,16 @@ export const GUIDE_TOPICS = [
     tags: ["Static Websites","Free Hosting","Deployment"],
     relatedSlugs: [],
   },
+  {
+    slug: "secure-ecommerce-subdomain-configuration-tutorial",
+    title: "A Step-by-Step Guide to Setting Up a Secure Subdomain for E-commerce Websites",
+    difficulty: "Intermediate",
+    category: "Security",
+    summary: "Learn how to set up a secure subdomain for your e-commerce website, including DNS configuration and SSL certificate setup, to ensure a safe and trustworthy online shopping experience. This guide covers the importance of subdomain security for e-commerce websites.",
+    keywords: ["secure subdomain setup","ecommerce subdomain configuration","ssl certificate for subdomain","dns configuration for ecommerce","subdomain security best practices","ecommerce website security"],
+    tags: ["E-commerce","Subdomain Security","SSL Certificate"],
+    relatedSlugs: [],
+  },
 ];
 
 export const BLOG_TOPICS = [

@@ -1452,6 +1452,7 @@ function generateToolsPage() {
     description:
       "Free browser-based developer tools: DNS checker, SSL checker, robots.txt generator, sitemap validator, OpenGraph preview, meta tag generator, and more.",
     canonical: `${BASE_URL}/tools/`,
+    keywords: "developer tools, dns checker, ssl checker, robots.txt generator, sitemap validator, opengraph preview, meta tag generator",
   });
 
   const headerHtml = headerHTML("/tools/");
@@ -1482,6 +1483,18 @@ function generateToolPage(tool) {
     title: `${tool.name} — is-cool-me Tools`,
     description: tool.description,
     canonical: `${BASE_URL}/tools/${tool.slug}/`,
+    keywords: tool.keywords || `${tool.name}, ${tool.category || "tool"}, developer tool`,
+    article: {
+      headline: `${tool.name} — is-cool-me Tools`,
+      description: tool.description,
+      datePublished: new Date().toISOString().split("T")[0],
+      dateModified: new Date().toISOString().split("T")[0],
+      breadcrumbs: [
+        { name: "Home", href: BASE_URL + "/" },
+        { name: "Tools", href: BASE_URL + "/tools/" },
+        { name: tool.name, href: BASE_URL + `/tools/${tool.slug}/` },
+      ],
+    },
   });
 
   const headerHtml = headerHTML("/tools/");
@@ -1521,6 +1534,7 @@ function generateTutorialsPage() {
     description:
       "Step-by-step tutorials for deploying projects, configuring DNS, and building on is-cool-me subdomains.",
     canonical: `${BASE_URL}/tutorials/`,
+    keywords: "tutorials, step-by-step guides, dns setup, deployment, subdomain configuration, is-cool-me",
   });
 
   const headerHtml = headerHTML("/tutorials/");
@@ -1561,6 +1575,7 @@ function generateComparePage() {
     description:
       "Compare free hosting platforms, domain providers, DNS services, and developer tools side by side.",
     canonical: `${BASE_URL}/compare/`,
+    keywords: "compare, hosting, tools, dns, free hosting, platform comparison, developer tools",
   });
 
   const headerHtml = headerHTML("/compare/");
@@ -1612,6 +1627,7 @@ function generateGuidesPage() {
     description:
       "Technical guides for DNS configuration, subdomain management, SSL setup, deployment, and more.",
     canonical: `${BASE_URL}/guides/`,
+    keywords: "guides, dns configuration, subdomain management, ssl setup, deployment, technical tutorials",
   });
 
   const headerHtml = headerHTML("/guides/");
@@ -1663,6 +1679,7 @@ function generateBlogPage() {
     description:
       "Articles about free subdomains, DNS management, security, deployment, and developer platform insights.",
     canonical: `${BASE_URL}/blog/`,
+    keywords: "blog, free subdomains, dns management, security, deployment, developer infrastructure",
   });
 
   const headerHtml = headerHTML("/blog/");
@@ -1932,12 +1949,23 @@ async function main() {
     for (const topic of TUTORIAL_TOPICS) {
       try {
         const today = new Date().toISOString().split("T")[0];
-        const headHtml = htmlHead({
-          title: `${topic.title} — is-cool-me Tutorials`,
-          description: topic.summary,
-          canonical: `${BASE_URL}/tutorials/${topic.slug}/`,
-          keywords: topic.keywords?.join(", "),
-        });
+         const headHtml = htmlHead({
+           title: `${topic.title} — is-cool-me Tutorials`,
+           description: topic.summary,
+           canonical: `${BASE_URL}/tutorials/${topic.slug}/`,
+           keywords: topic.keywords?.join(", "),
+           article: {
+             headline: topic.title,
+             description: topic.summary,
+             datePublished: today,
+             dateModified: today,
+             breadcrumbs: [
+               { name: "Home", href: BASE_URL + "/" },
+               { name: "Tutorials", href: BASE_URL + "/tutorials/" },
+               { name: topic.title, href: BASE_URL + `/tutorials/${topic.slug}/` },
+             ],
+           },
+         });
         const headerHtml = headerHTML("/tutorials/");
         const contentHtml =
           blogPostContentHTML({
@@ -1972,12 +2000,23 @@ async function main() {
     for (const topic of COMPARE_TOPICS) {
       try {
         const today = new Date().toISOString().split("T")[0];
-        const headHtml = htmlHead({
-          title: `${topic.title} — is-cool-me`,
-          description: topic.summary,
-          canonical: `${BASE_URL}/compare/${topic.slug}/`,
-          keywords: topic.keywords?.join(", "),
-        });
+         const headHtml = htmlHead({
+           title: `${topic.title} — is-cool-me`,
+           description: topic.summary,
+           canonical: `${BASE_URL}/compare/${topic.slug}/`,
+           keywords: topic.keywords?.join(", "),
+           article: {
+             headline: topic.title,
+             description: topic.summary,
+             datePublished: today,
+             dateModified: today,
+             breadcrumbs: [
+               { name: "Home", href: BASE_URL + "/" },
+               { name: "Compare", href: BASE_URL + "/compare/" },
+               { name: topic.title, href: BASE_URL + `/compare/${topic.slug}/` },
+             ],
+           },
+         });
         const headerHtml = headerHTML("/compare/");
         const contentHtml =
           blogPostContentHTML({

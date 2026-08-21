@@ -74,7 +74,7 @@ This document provides an overview of the is-pro.dev static site for AI agents a
 The `generator/` directory generates site content programmatically:
 
 - **Topic definitions**: `topics.js` defines guides, blog posts, tutorials, comparisons with title, summary, keywords, category
-- **AI generation**: Uses Groq API (`llama-3.3-70b-versatile`) when `AI_ENABLED=true` and `GROQ_API_KEY` is set
+- **AI generation**: Uses Groq API (`gpt-oss-120b`) when `AI_ENABLED=true` and `GROQ_API_KEY` is set
 - **Fallback**: Template-based content when AI is unavailable (never fails)
 - **Run**: `cd generator && node generate.js --all` to regenerate everything
 - **Section-specific**: `--type=guides`, `--type=blog`, etc.
@@ -108,7 +108,7 @@ Then open `http://localhost:8000`.
 ## Notes
 
 - `js/app.js` expects elements like `.site-header`, `.nav-toggle`, and optional TOC containers
-- Ad scripts (`quge5.com`, AdSense) and analytics (Plausible) are embedded in HTML
+- Ad scripts (Google AdSense, Adsterra native banner) and analytics (Plausible) are embedded in HTML
 - Service worker (`sw.js`) is intentionally disabled (security)
 - Google Fonts uses preload pattern to avoid render blocking
 - All content pages include `<meta name="keywords">` from topic definitions

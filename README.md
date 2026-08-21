@@ -93,7 +93,7 @@ GH_PAT=your_token node generate.js --all --push
 |----------|-------------|
 | `AI_ENABLED` | Set to `"true"` to enable Groq AI generation |
 | `GROQ_API_KEY` | Groq API key for AI content generation |
-| `GROQ_MODEL` | Groq model (default: `llama-3.3-70b-versatile`) |
+| `GROQ_MODEL` | Groq model (default: `gpt-oss-120b`) |
 | `SITE_ROOT` | Output directory root (default: `../is-pro.dev`) |
 | `GH_PAT` | GitHub personal access token for `--push` |
 

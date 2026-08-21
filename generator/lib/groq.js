@@ -9,7 +9,7 @@ const keys = RAW_KEYS.length > 0 ? RAW_KEYS : null;
 const proxies = RAW_PROXIES.length > 0 ? RAW_PROXIES : null;
 
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
-const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+const MODEL = process.env.GROQ_MODEL || 'gpt-oss-120b';
 const VISION_MODEL = process.env.GROQ_VISION_MODEL || 'meta-llama/llama-4-scout-17b-16e-instruct';
 const INFERENCE_TIMEOUT = 180000;
 const TPM_LIMIT = parseInt(process.env.GROQ_TPM_LIMIT || '12000', 10);

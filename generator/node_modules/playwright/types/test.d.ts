@@ -136,6 +136,40 @@ interface TestProject<TestArgs = {}, WorkerArgs = {}> {
    */
   use?: UseOptions<TestArgs, WorkerArgs>;
   /**
+   * Whether the project runs when no `--project` command line option is passed. Defaults to `true`.
+   *
+   * To run a project with `default: false`, select it with the `--project` command line option.
+   *
+   * A project with `default: false` still runs when another running project lists it in
+   * [testProject.dependencies](https://playwright.dev/docs/api/class-testproject#test-project-dependencies) or
+   * [testProject.teardown](https://playwright.dev/docs/api/class-testproject#test-project-teardown).
+   *
+   * **Usage**
+   *
+   * ```js
+   * // playwright.config.ts
+   * import { defineConfig } from '@playwright/test';
+   *
+   * export default defineConfig({
+   *   projects: [
+   *     {
+   *       name: 'chromium',
+   *       use: devices['Desktop Chrome'],
+   *     },
+   *     {
+   *       name: 'slow',
+   *       testDir: './slow-tests',
+   *       default: false,
+   *     },
+   *   ],
+   * });
+   * ```
+   *
+   * Now `npx playwright test` only runs `chromium`, while `npx playwright test --project=slow` runs `slow`.
+   */
+  default?: boolean;
+
+  /**
    * List of projects that need to run before any test in this project runs. Dependencies can be useful for configuring
    * the global setup actions in a way that every action is in a form of a test. Passing `--no-deps` argument ignores
    * the dependencies and behaves as if they were not specified.
@@ -203,13 +237,14 @@ interface TestProject<TestArgs = {}, WorkerArgs = {}> {
       threshold?: number;
 
       /**
-       * an acceptable amount of pixels that could be different, unset by default.
+       * an acceptable amount of pixels that could be different, unset by default. Note that `threshold` defines which
+       * pixels are considered different.
        */
       maxDiffPixels?: number;
 
       /**
        * an acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1` , unset by
-       * default.
+       * default. Note that `threshold` defines which pixels are considered different.
        */
       maxDiffPixelRatio?: number;
 
@@ -236,6 +271,12 @@ interface TestProject<TestArgs = {}, WorkerArgs = {}> {
        * [page.screenshot([options])](https://playwright.dev/docs/api/class-page#page-screenshot).
        */
       stylePath?: string|Array<string>;
+
+      /**
+       * Format of the screenshots taken when the snapshot name is omitted, defaults to `"png"`. Snapshots with an explicit
+       * name use the format matching their `.png` or `.webp` extension.
+       */
+      type?: "png"|"webp";
 
       /**
        * A template controlling location of the screenshots. See
@@ -287,13 +328,14 @@ interface TestProject<TestArgs = {}, WorkerArgs = {}> {
       threshold?: number;
 
       /**
-       * an acceptable amount of pixels that could be different, unset by default.
+       * an acceptable amount of pixels that could be different, unset by default. Note that `threshold` defines which
+       * pixels are considered different.
        */
       maxDiffPixels?: number;
 
       /**
        * an acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1` , unset by
-       * default.
+       * default. Note that `threshold` defines which pixels are considered different.
        */
       maxDiffPixelRatio?: number;
     };
@@ -919,7 +961,7 @@ interface TestConfig<TestArgs = {}, WorkerArgs = {}> {
    * ```
    *
    */
-  reporter?: LiteralUnion<'list'|'dot'|'line'|'github'|'json'|'junit'|'null'|'html'|'perfetto', string> | ReporterDescription[];
+  reporter?: LiteralUnion<'list'|'dot'|'line'|'github'|'json'|'junit'|'null'|'html'|'blob'|'perfetto', string> | ReporterDescription[];
   /**
    * Global options for all tests, for example
    * [testOptions.browserName](https://playwright.dev/docs/api/class-testoptions#test-options-browser-name). Learn more
@@ -1155,13 +1197,14 @@ interface TestConfig<TestArgs = {}, WorkerArgs = {}> {
       caret?: "hide"|"initial";
 
       /**
-       * An acceptable amount of pixels that could be different, unset by default.
+       * An acceptable amount of pixels that could be different, unset by default. Note that `threshold` defines which
+       * pixels are considered different.
        */
       maxDiffPixels?: number;
 
       /**
        * An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1` , unset by
-       * default.
+       * default. Note that `threshold` defines which pixels are considered different.
        */
       maxDiffPixelRatio?: number;
 
@@ -1183,6 +1226,12 @@ interface TestConfig<TestArgs = {}, WorkerArgs = {}> {
        * [YIQ color space](https://en.wikipedia.org/wiki/YIQ) and defaults `threshold` value to `0.2`.
        */
       threshold?: number;
+
+      /**
+       * Format of the screenshots taken when the snapshot name is omitted, defaults to `"png"`. Snapshots with an explicit
+       * name use the format matching their `.png` or `.webp` extension.
+       */
+      type?: "png"|"webp";
 
       /**
        * A template controlling location of the screenshots. See
@@ -1220,13 +1269,14 @@ interface TestConfig<TestArgs = {}, WorkerArgs = {}> {
      */
     toMatchSnapshot?: {
       /**
-       * An acceptable amount of pixels that could be different, unset by default.
+       * An acceptable amount of pixels that could be different, unset by default. Note that `threshold` defines which
+       * pixels are considered different.
        */
       maxDiffPixels?: number;
 
       /**
        * An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1` , unset by
-       * default.
+       * default. Note that `threshold` defines which pixels are considered different.
        */
       maxDiffPixelRatio?: number;
 
@@ -1967,13 +2017,15 @@ interface TestConfig<TestArgs = {}, WorkerArgs = {}> {
   tsconfig?: string;
 
   /**
-   * Whether to update expected snapshots with the actual results produced by the test run. Defaults to `'missing'`.
+   * Whether to update expected snapshots with the actual results produced by the test run. Defaults to `'default'`.
    * - `'all'` - All tests that are executed will update snapshots.
    * - `'changed'` - All tests that are executed will update snapshots that did not match. Matching snapshots will not
    *   be updated. Also creates missing snapshots.
    * - `'missing'` - Missing snapshots are created, for example when authoring a new test and running it for the first
-   *   time. This is the default.
+   *   time. Tests that only create missing snapshots pass.
    * - `'none'` - No snapshots are updated.
+   * - `'default'` - Missing snapshots are created, but the tests that create them fail, so that the run does not
+   *   silently pass in CI. This is the default.
    *
    * Learn more about [snapshots](https://playwright.dev/docs/test-snapshots).
    *
@@ -1984,12 +2036,12 @@ interface TestConfig<TestArgs = {}, WorkerArgs = {}> {
    * import { defineConfig } from '@playwright/test';
    *
    * export default defineConfig({
-   *   updateSnapshots: 'missing',
+   *   updateSnapshots: 'default',
    * });
    * ```
    *
    */
-  updateSnapshots?: "all"|"changed"|"missing"|"none";
+  updateSnapshots?: "all"|"changed"|"missing"|"none"|"default";
 
   /**
    * Defines how to update snapshots in the source code.
@@ -2067,6 +2119,13 @@ export interface FullConfig<TestArgs = {}, WorkerArgs = {}> {
    * [testConfig.failOnFlakyTests](https://playwright.dev/docs/api/class-testconfig#test-config-fail-on-flaky-tests).
    */
   failOnFlakyTests: boolean;
+
+  /**
+   * List of projects that were selected to run, after applying the `--project` command line filter. When no filter is
+   * specified, this is the same as
+   * [fullConfig.projects](https://playwright.dev/docs/api/class-fullconfig#full-config-projects).
+   */
+  filteredProjects: Array<FullProject>;
 
   /**
    * See [testConfig.forbidOnly](https://playwright.dev/docs/api/class-testconfig#test-config-forbid-only).
@@ -2166,7 +2225,7 @@ export interface FullConfig<TestArgs = {}, WorkerArgs = {}> {
   /**
    * See [testConfig.updateSnapshots](https://playwright.dev/docs/api/class-testconfig#test-config-update-snapshots).
    */
-  updateSnapshots: "all"|"changed"|"missing"|"none";
+  updateSnapshots: "all"|"changed"|"missing"|"none"|"default";
 
   /**
    * See
@@ -4371,6 +4430,14 @@ export interface TestType<TestArgs extends {}, WorkerArgs extends {}> {
      *   test('runs second', async ({ page }) => {});
      *   ```
      *
+     * - Declaring locks for all tests in a scope.
+     *
+     *   ```js
+     *   test.describe.configure({ lock: 'user-settings' });
+     *   test('update user settings', async ({ page }) => {});
+     *   test('reset user settings', async ({ page }) => {});
+     *   ```
+     *
      * - Run multiple describes in parallel, but tests inside each describe in order.
      *
      *   ```js
@@ -4391,7 +4458,7 @@ export interface TestType<TestArgs extends {}, WorkerArgs extends {}> {
      *
      * @param options
      */
-    configure: (options: { mode?: 'default' | 'parallel' | 'serial', retries?: number, timeout?: number }) => void;
+    configure: (options: { mode?: 'default' | 'parallel' | 'serial', retries?: number, timeout?: number, lock?: string | string[] }) => void;
   };
 
   /**
@@ -7076,9 +7143,7 @@ export interface PlaywrightWorkerOptions {
    * [fixtures.browser](https://playwright.dev/docs/api/class-fixtures#fixtures-browser),
    * [fixtures.context](https://playwright.dev/docs/api/class-fixtures#fixtures-context) and
    * [fixtures.page](https://playwright.dev/docs/api/class-fixtures#fixtures-page) use the remote browser instead of
-   * launching a browser locally, and any launch options like
-   * [testOptions.headless](https://playwright.dev/docs/api/class-testoptions#test-options-headless) or
-   * [testOptions.channel](https://playwright.dev/docs/api/class-testoptions#test-options-channel) are ignored.
+   * launching a browser locally.
    */
   connectOptions: ConnectOptions | undefined;
   /**
@@ -7216,9 +7281,13 @@ export interface PlaywrightWorkerOptions {
    * down to fit into 800x800. If `viewport` is not configured explicitly the video size defaults to 800x450. Actual
    * picture of each page will be scaled down if necessary to fit the specified size.
    *
-   * To annotate actions in the video, pass `show` with `action` and/or `test` sub-options. The `action` option controls
-   * visual highlights on interacted elements with an optional `delay` in milliseconds (defaults to `500`). The `test`
-   * option controls which test information is displayed as a status overlay.
+   * To record smoother video of animations and scrolling, pass `fps`, for example `{ mode: 'on', size: { width: 1920,
+   * height: 1080 }, fps: 60 }`. Higher frame rates and sizes use more CPU for encoding. Firefox and WebKit currently
+   * capture up to 25 frames per second.
+   *
+   * To annotate actions in the video, pass `show` with `actions` and/or `test` sub-options. The `actions` option
+   * controls visual highlights on interacted elements, each shown for an optional `duration` in milliseconds (defaults
+   * to `500`). The `test` option controls which test information is displayed as a status overlay.
    *
    * **Usage**
    *
@@ -7235,7 +7304,7 @@ export interface PlaywrightWorkerOptions {
    *
    * Learn more about [recording video](https://playwright.dev/docs/test-use-options#recording-options).
    */
-  video: VideoMode | /** deprecated */ 'retry-with-video' | { mode: VideoMode, size?: ViewportSize, show?: { actions?: { duration?: number, position?: 'top-left' | 'top' | 'top-right' | 'bottom-left' | 'bottom' | 'bottom-right', fontSize?: number, cursor?: 'none' | 'pointer' }, test?: { level?: 'file' | 'title' | 'step', position?: 'top-left' | 'top' | 'top-right' | 'bottom-left' | 'bottom' | 'bottom-right', fontSize?: number } } };
+  video: VideoMode | /** deprecated */ 'retry-with-video' | { mode: VideoMode, size?: ViewportSize, fps?: number, show?: { actions?: { duration?: number, position?: 'top-left' | 'top' | 'top-right' | 'bottom-left' | 'bottom' | 'bottom-right', /** @deprecated Use `style.title` instead. */ fontSize?: number, cursor?: 'none' | 'pointer', style?: { point?: string, highlight?: string, title?: string } }, test?: { level?: 'file' | 'title' | 'step', position?: 'top-left' | 'top' | 'top-right' | 'bottom-left' | 'bottom' | 'bottom-right', fontSize?: number } } };
 }
 
 export type ScreenshotMode = 'off' | 'on' | 'only-on-failure' | 'on-first-failure';
@@ -7513,6 +7582,19 @@ export interface PlaywrightTestOptions {
    * });
    * ```
    *
+   * When passing an array of credentials to [test.use(options)](https://playwright.dev/docs/api/class-test#test-use),
+   * wrap it into an extra array, see [fixture options](https://playwright.dev/docs/test-fixtures#fixtures-options).
+   *
+   * ```js
+   * // example.spec.ts
+   * test.use({
+   *   httpCredentials: [[
+   *     { username: 'alice', password: 'alice-pass', origin: 'https://a.example.com' },
+   *     { username: 'bob', password: 'bob-pass', origin: 'https://b.example.com' },
+   *   ], { scope: 'test' }],
+   * });
+   * ```
+   *
    */
   httpCredentials: HTTPCredentials | HTTPCredentials[] | undefined;
   /**
@@ -7535,8 +7617,8 @@ export interface PlaywrightTestOptions {
   ignoreHTTPSErrors: boolean;
   /**
    * Whether the `meta viewport` tag is taken into account and touch events are enabled. isMobile is a part of device,
-   * so you don't actually need to set it manually. Defaults to `false` and is not supported in Firefox. Learn more
-   * about [mobile emulation](https://playwright.dev/docs/emulation#ismobile).
+   * so you don't actually need to set it manually. Defaults to `false`. Learn more about
+   * [mobile emulation](https://playwright.dev/docs/emulation#ismobile).
    *
    * **Usage**
    *
@@ -7672,6 +7754,26 @@ export interface PlaywrightTestOptions {
    *
    */
   reducedMotion: ReducedMotion;
+  /**
+   * Emulates consistent window screen size available inside web page via `window.screen`. Is only used when the
+   * [testOptions.viewport](https://playwright.dev/docs/api/class-testoptions#test-options-viewport) is set.
+   *
+   * **Usage**
+   *
+   * ```js
+   * // playwright.config.ts
+   * import { defineConfig } from '@playwright/test';
+   *
+   * export default defineConfig({
+   *   use: {
+   *     viewport: { width: 390, height: 664 },
+   *     screen: { width: 390, height: 844 },
+   *   },
+   * });
+   * ```
+   *
+   */
+  screen: ViewportSize | undefined;
   /**
    * Learn more about [storage state and auth](https://playwright.dev/docs/auth).
    *
@@ -9903,13 +10005,16 @@ interface LocatorAssertions {
 
     /**
      * An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is
-     * configurable with `TestConfig.expect`. Unset by default.
+     * configurable with `TestConfig.expect`. Note that
+     * [`threshold`](https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-have-screenshot-1-option-threshold)
+     * defines which pixels are considered different.
      */
     maxDiffPixelRatio?: number;
 
     /**
-     * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by
-     * default.
+     * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Note that
+     * [`threshold`](https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-have-screenshot-1-option-threshold)
+     * defines which pixels are considered different.
      */
     maxDiffPixels?: number;
 
@@ -10006,13 +10111,16 @@ interface LocatorAssertions {
 
     /**
      * An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is
-     * configurable with `TestConfig.expect`. Unset by default.
+     * configurable with `TestConfig.expect`. Note that
+     * [`threshold`](https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-have-screenshot-2-option-threshold)
+     * defines which pixels are considered different.
      */
     maxDiffPixelRatio?: number;
 
     /**
-     * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by
-     * default.
+     * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Note that
+     * [`threshold`](https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-have-screenshot-2-option-threshold)
+     * defines which pixels are considered different.
      */
     maxDiffPixels?: number;
 
@@ -10540,13 +10648,16 @@ interface SnapshotAssertions {
   toMatchSnapshot(name: string|ReadonlyArray<string>, options?: {
     /**
      * An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is
-     * configurable with `TestConfig.expect`. Unset by default.
+     * configurable with `TestConfig.expect`. Note that
+     * [`threshold`](https://playwright.dev/docs/api/class-snapshotassertions#snapshot-assertions-to-match-snapshot-1-option-threshold)
+     * defines which pixels are considered different.
      */
     maxDiffPixelRatio?: number;
 
     /**
-     * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by
-     * default.
+     * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Note that
+     * [`threshold`](https://playwright.dev/docs/api/class-snapshotassertions#snapshot-assertions-to-match-snapshot-1-option-threshold)
+     * defines which pixels are considered different.
      */
     maxDiffPixels?: number;
 
@@ -10592,13 +10703,16 @@ interface SnapshotAssertions {
   toMatchSnapshot(options?: {
     /**
      * An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is
-     * configurable with `TestConfig.expect`. Unset by default.
+     * configurable with `TestConfig.expect`. Note that
+     * [`threshold`](https://playwright.dev/docs/api/class-snapshotassertions#snapshot-assertions-to-match-snapshot-2-option-threshold)
+     * defines which pixels are considered different.
      */
     maxDiffPixelRatio?: number;
 
     /**
-     * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by
-     * default.
+     * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Note that
+     * [`threshold`](https://playwright.dev/docs/api/class-snapshotassertions#snapshot-assertions-to-match-snapshot-2-option-threshold)
+     * defines which pixels are considered different.
      */
     maxDiffPixels?: number;
 
@@ -10924,13 +11038,16 @@ export interface PageAssertionsToHaveScreenshotOptions {
 
   /**
    * An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is
-   * configurable with `TestConfig.expect`. Unset by default.
+   * configurable with `TestConfig.expect`. Note that
+   * [`threshold`](https://playwright.dev/docs/api/class-pageassertions#page-assertions-to-have-screenshot-1-option-threshold)
+   * defines which pixels are considered different.
    */
   maxDiffPixelRatio?: number;
 
   /**
-   * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by
-   * default.
+   * An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Note that
+   * [`threshold`](https://playwright.dev/docs/api/class-pageassertions#page-assertions-to-have-screenshot-1-option-threshold)
+   * defines which pixels are considered different.
    */
   maxDiffPixels?: number;
 
